@@ -1,0 +1,24 @@
+{
+  "pid": 125379,
+  "starttime": "39531989",
+  "stat_before": "125379 (systemd-run) S 120012 125379 125379 0 -1 4194304 655 0 0 0 0 0 0 0 20 0 1 0 39531989 10248192 1327 18446744073709551615 187650427650048 187650427740952 281474541211424 0 0 0 0 0 0 1 0 0 17 3 0 0 0 0 0 187650427843728 187650427851248 187651261988864 281474541215759 281474541216168 281474541216168 281474541219811 0\n",
+  "stat_after": "125379 (systemd-run) S 120012 125379 125379 0 -1 4194304 656 0 0 0 0 0 0 0 20 0 1 0 39531989 10248192 1327 18446744073709551615 187650427650048 187650427740952 281474541211424 0 0 0 0 0 0 1 0 0 17 5 0 0 0 0 0 187650427843728 187650427851248 187651261988864 281474541215759 281474541216168 281474541216168 281474541219811 0\n",
+  "cmdline": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-source16-first-original-error-d3cc00ec2aa145898b0dadc5e58ec5c0.scope",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/receiver.py",
+    "child"
+  ],
+  "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-org.chromium.Chromium-465196.scope\n",
+  "resolved_executable": "/usr/bin/systemd-run",
+  "executed_file_sha256": "b540a415eab4452328905f9443652f69b0ec357917218c21c0327c5e147bc35f",
+  "limits": "Limit                     Soft Limit           Hard Limit           Units     \nMax cpu time              unlimited            unlimited            seconds   \nMax file size             unlimited            unlimited            bytes     \nMax data size             unlimited            unlimited            bytes     \nMax stack size            8388608              unlimited            bytes     \nMax core file size        0                    0                    bytes     \nMax resident set          unlimited            unlimited            bytes     \nMax processes             128053               128053               processes \nMax open files            524288               524288               files     \nMax locked memory         67108864             67108864             bytes     \nMax address space         unlimited            unlimited            bytes     \nMax file locks            unlimited            unlimited            locks     \nMax pending signals       128053               128053               signals   \nMax msgqueue size         819200               819200               bytes     \nMax nice priority         0                    0                    \nMax realtime priority     0                    0                    \nMax realtime timeout      200000               200000               us        \n"
+}

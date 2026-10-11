@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/usr/bin/systemctl",
+    "--user",
+    "show",
+    "codex-worldline-source15-causal-observation-03e092b7c6854b8e964d19e05c2c5feb.scope",
+    "-p",
+    "ActiveState",
+    "-p",
+    "SubState",
+    "-p",
+    "ControlGroup",
+    "-p",
+    "MainPID"
+  ],
+  "stdout": "ActiveState=inactive\nSubState=dead\nControlGroup=\n",
+  "stderr": "",
+  "returncode": 0
+}

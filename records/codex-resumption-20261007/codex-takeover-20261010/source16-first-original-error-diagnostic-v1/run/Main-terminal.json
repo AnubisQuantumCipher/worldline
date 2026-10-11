@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-11T08:10:36.176789+00:00",
+  "scope_wait": 1,
+  "child_wait": {
+    "at": "2026-10-11T08:09:32.390722+00:00",
+    "pid": 126371,
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/observe_first_error.py",
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/observation"
+    ],
+    "returncode": 1,
+    "actual_wait": true,
+    "campaign_credit": false
+  },
+  "inputs_unchanged": true,
+  "errors": [],
+  "campaign_credit": false,
+  "cause_established": false,
+  "Main_deadline_seconds": 1000,
+  "raw_stream_end_if_interrupted": "UNKNOWN",
+  "raw_streams": {
+    "scope.stdout": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/scope.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 384
+    },
+    "scope.stderr": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/scope.stderr",
+      "sha256": "44d6ecf35d3e23a85f5e98ab00b2bda53aa901a21b87358b0b01bce94121a39e",
+      "bytes": 151,
+      "mode": 384
+    },
+    "child.stdout": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/child.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 384
+    },
+    "child.stderr": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/child.stderr",
+      "sha256": "31bf812b802292335025734ecca5431bcf9c75b6c2798f12b14f951dedfa5717",
+      "bytes": 4707,
+      "mode": 384
+    }
+  }
+}

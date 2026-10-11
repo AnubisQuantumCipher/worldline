@@ -1,0 +1,14 @@
+with "../core/worldline_core.gpr";
+project Recovery_Epoch_Tests is
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/recovery-epoch-tests";
+   for Exec_Dir use "../bin";
+   for Main use ("test_epochs.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+   package Linker is
+      for Default_Switches ("Ada") use ("-Wl,-rpath,$ORIGIN/../lib");
+   end Linker;
+end Recovery_Epoch_Tests;

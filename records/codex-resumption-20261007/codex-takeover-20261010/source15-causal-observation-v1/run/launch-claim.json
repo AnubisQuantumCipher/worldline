@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-11T05:20:42.963215+00:00",
+  "unit": "codex-worldline-source15-causal-observation-03e092b7c6854b8e964d19e05c2c5feb.scope",
+  "scope_argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-source15-causal-observation-03e092b7c6854b8e964d19e05c2c5feb.scope",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/receiver-final.py",
+    "child"
+  ],
+  "window_preimage": {
+    "path": "/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json",
+    "sha256": "c443c606122213d7d3f9463cfcd17f3c1bc5ba06f58062d8380e7ac85481b0be",
+    "bytes": 398026,
+    "mode": 420
+  },
+  "diagnostic_identity": "309831d451364f13be4b33ac33fea246",
+  "campaign_credit": false
+}

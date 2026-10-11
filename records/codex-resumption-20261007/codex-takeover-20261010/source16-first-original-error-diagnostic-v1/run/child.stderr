@@ -1,0 +1,47 @@
+test_a_failed_revalidation_does_not_speak (test_revalidation_binding.OneCoherentEvaluation.test_a_failed_revalidation_does_not_speak) ... ERROR
+
+======================================================================
+ERROR: test_a_failed_revalidation_does_not_speak (test_revalidation_binding.OneCoherentEvaluation.test_a_failed_revalidation_does_not_speak)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/tests/test_revalidation_binding.py", line 465, in test_a_failed_revalidation_does_not_speak
+    world = self._candidate()
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/tests/test_revalidation_binding.py", line 141, in _candidate
+    finalized = self.evaluation.runner.run(
+        world.alias, GenericAdapter(command), world.cause, project)
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/runtime/worldline/runner.py", line 620, in run
+    return self._run(world_value, adapter, mission, project, progress=progress,
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        low_priority=low_priority, timeout=timeout,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        _finalization_writer=writer, _frozen_requirement=requirement)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/runtime/worldline/runner.py", line 637, in _run
+    result = self._run_owned(world_value, adapter, mission, project,
+        progress=progress, low_priority=low_priority, timeout=timeout,
+        _finalization_writer=_finalization_writer,
+        _frozen_requirement=_frozen_requirement, _owned_agent=owned)
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/runtime/worldline/runner.py", line 1215, in _run_owned
+    finalized = self.finalizer.finalize(
+        world.instance_id,
+    ...<21 lines>...
+        _finalization_writer=_finalization_writer,
+    )
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/runtime/worldline/finalize.py", line 593, in finalize
+    _finalization_writer.finish_capture(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        context=context, results=check_results, post_snapshot=post_snapshot)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/runtime/worldline/finalization_writer.py", line 277, in finish_capture
+    plan = capture_plan(self.core, rows=rows, invocations=self.invocation_order,
+        returns=self.actual_returns, expected_requirement=bytes_value(self.start.policy),
+        context=context)
+  File "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/runtime/worldline/evaluation_policy.py", line 87, in capture_plan
+    raise WorldlineError(value['status'], 'the native ordered original return relation refused capture')
+worldline.errors.WorldlineError: FINALIZATION_RETURN_PREFIX_CHANGED: the native ordered original return relation refused capture
+
+----------------------------------------------------------------------
+Ran 1 test in 72.088s
+
+FAILED (errors=1)
+WORLDLINE_DIAGNOSTIC {"site":"diagnostic-terminal","values":{"type":"dict","items":[["observer_refusals",{"type":"list","items":[]}],["successful_tests",false]]}}

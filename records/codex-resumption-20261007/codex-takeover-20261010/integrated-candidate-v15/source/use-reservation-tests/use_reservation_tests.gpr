@@ -1,0 +1,9 @@
+project Use_Reservation_Tests is
+   for Source_Dirs use ("../cosmogony-use-component/src", ".");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("use_reservation_tests.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022", "-gnata", "-gnatVa", "-gnatf");
+   end Compiler;
+end Use_Reservation_Tests;

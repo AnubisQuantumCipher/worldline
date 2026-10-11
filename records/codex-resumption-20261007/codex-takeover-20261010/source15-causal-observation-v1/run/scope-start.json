@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-11T05:20:42.991403+00:00",
+  "pid": 3880593,
+  "pgid": 3880593,
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-source15-causal-observation-03e092b7c6854b8e964d19e05c2c5feb.scope",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/receiver-final.py",
+    "child"
+  ],
+  "unit": "codex-worldline-source15-causal-observation-03e092b7c6854b8e964d19e05c2c5feb.scope"
+}

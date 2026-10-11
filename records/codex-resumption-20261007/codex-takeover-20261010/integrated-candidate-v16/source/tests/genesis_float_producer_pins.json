@@ -1,0 +1,92 @@
+{
+  "python_version": [
+    3,
+    14,
+    7
+  ],
+  "files": [
+    {
+      "path": "/usr/bin/python3.14",
+      "sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947"
+    },
+    {
+      "path": "/usr/lib/libpython3.14.so.1.0",
+      "sha256": "7e88cb35da4d8fc0fd4c3f595483f98765ee59e23ef43d9eb3ebd1e1c5432c65"
+    },
+    {
+      "path": "/usr/lib/python3.14/lib-dynload/_json.cpython-314-aarch64-linux-gnu.so",
+      "sha256": "3fd36aaaca5d85ff51a1f492b5e7f16b495795b0284b59c781f7f21da3c3238d"
+    },
+    {
+      "path": "/usr/include/python3.14/pyconfig.h",
+      "sha256": "eab6a80b2397de60b0abda40a77046ac417d00d5a0f5e21b3a4f635cc6612842"
+    },
+    {
+      "path": "/usr/lib/python3.14/json/decoder.py",
+      "sha256": "dc98d3e677612ea7311303f06a144cec6b91ebadc7ec037d1777501647578a07"
+    },
+    {
+      "path": "/usr/lib/python3.14/json/scanner.py",
+      "sha256": "572958017eae8842eeddd0e3d18d3c56cc0a197348224915e1d87ce937841764"
+    },
+    {
+      "path": "/usr/lib/python3.14/json/encoder.py",
+      "sha256": "d68a4d04d2cfd95897498307f29349058b42c3f48ea6aa6739714a09200a7d01"
+    }
+  ],
+  "functions": [
+    {
+      "module": "worldline.protected_startup",
+      "name": "canonical",
+      "ast_sha256": "164bb3ca9f2da5fe88572a21e191382a2df51cddc5d6c5d266a0f71f19e8e613",
+      "original_file_sha256": "3c227e1aac98c56fa48e0e4f92918d6acb708802ffb15a14f02842679ba9abd3",
+      "source": "def canonical(value):\n    return json.dumps(value, sort_keys=True, separators=(',', ':'),\n                      ensure_ascii=False, allow_nan=False).encode('utf-8')"
+    },
+    {
+      "module": "worldline.protected_startup",
+      "name": "exact_json",
+      "ast_sha256": "caf34fb7c2d104b5a192ef53d9114719d991c36817f81e4d2259b5e9d0fc7644",
+      "original_file_sha256": "3c227e1aac98c56fa48e0e4f92918d6acb708802ffb15a14f02842679ba9abd3",
+      "source": "def exact_json(raw, *, canonical_required=True):\n    def pairs(items):\n        result = {}\n        for key, value in items:\n            require(key not in result, 'STARTUP_DUPLICATE_JSON_KEY')\n            result[key] = value\n        return result\n    result = json.loads(raw, object_pairs_hook=pairs,\n        parse_constant=lambda value: (_ for _ in ()).throw(StartupRefusal('STARTUP_NONFINITE_JSON')))\n    if canonical_required:\n        require(raw in (canonical(result), canonical(result) + b'\\n'), 'STARTUP_NONCANONICAL_JSON')\n    return result"
+    },
+    {
+      "module": "worldline.resource_scoped_run_ledger",
+      "name": "record",
+      "ast_sha256": "a590a4cb402afe0678966b5bb0c461b8331b88b182bc20d93ead1e2ec9b90fac",
+      "original_file_sha256": "e506348f1efb6615151114a21ef238aca4dd0e81592aad7f1bb64b184ddd8076",
+      "source": "def record(value):\n    kind=type(value)\n    if kind in _KNOWN.values():\n        return {'type':kind.__name__,'fields':{field.name:record(getattr(value,field.name)) for field in fields(value)}}\n    if kind is bytes:return {'type':'bytes','value':value.hex()}\n    if kind is float:\n        import struct\n        return {'type':'float','bits':struct.pack('!d',value).hex()}\n    if kind is int:\n        magnitude=abs(value)\n        return {'type':'integer','negative':value<0,\n            'magnitude':magnitude.to_bytes((magnitude.bit_length()+7)//8,'little').hex()}\n    if kind in (str,bool) or value is None:return {'type':kind.__name__,'value':value}\n    if kind in (tuple,list):return {'type':kind.__name__,'items':[record(item) for item in value]}\n    if kind is dict:\n        if any(type(key) is not str for key in value):raise ValueError('scoped record keys must be exact strings')\n        return {'type':'dict','fields':{key:record(item) for key,item in value.items()}}\n    raise ValueError('complete declared scoped source record required')"
+    },
+    {
+      "module": "worldline.root_worker_codec",
+      "name": "archive",
+      "ast_sha256": "654007e8f11749c68d5513b6eb1c75a6c9cce913ac2ae921eb25ed59ac58fb94",
+      "original_file_sha256": "f2bc319b69f3491b9b16fde710fde122d94203ab2d5cfb94fb348d7c79d65793",
+      "source": "def archive(value):\n    return original_archive(_schema().record(value))"
+    },
+    {
+      "module": "worldline.operation_capture",
+      "name": "archive",
+      "ast_sha256": "e64de8742893f5767a169308c50e170334d221a4ce1fc68f22505ce952be75c2",
+      "original_file_sha256": "d133785f88a76f09f816f484a58a85d4cd75052a96424b12a52c5434121afb05",
+      "source": "def archive(value):\n    \"\"\"Explicit DTO tags retain bytes, tuple/list shape and every record field.\"\"\"\n    def lift(item):\n        kind = type(item)\n        if kind in _RECORDS:\n            return ['record', kind.__module__, kind.__name__,\n                    [[field.name, lift(getattr(item, field.name))] for field in fields(kind)]]\n        if kind is WorldState:\n            return ['world-state', item.value]\n        if kind is dict:\n            if any(type(key) not in (str, bytes) for key in item):\n                raise WorldlineError('RECOVERY_PACKET_KEY', 'a full capture key has no original grammar')\n            return ['object', [[lift(key), lift(val)] for key, val in item.items()]]\n        if kind is tuple:\n            return ['tuple', [lift(val) for val in item]]\n        if kind is list:\n            return ['list', [lift(val) for val in item]]\n        if kind is int:\n            magnitude=abs(item)\n            return ['integer-magnitude',item<0,magnitude.to_bytes((magnitude.bit_length()+7)//8,'little')]\n        if item is None or kind in (bytes, bool, float, str):\n            return ['atom', item]\n        raise WorldlineError('RECOVERY_PACKET_TYPE', 'a full capture value has no original DTO grammar',\n                            {'type': kind.__name__})\n    return encode(lift(value))"
+    },
+    {
+      "module": "worldline.finalization_journal",
+      "name": "encode",
+      "ast_sha256": "119c0beaddb29fb69ce0448e8c9955cfd2c148266f9d06b2af2bef776348f019",
+      "original_file_sha256": "bf5472672be296d4b37c5cae113407a733625611b79b34c46316da729e1df8d7",
+      "source": "def encode(value):\n    \"\"\"Lossless full-value encoding; neither JSON projection nor digest shortening.\"\"\"\n    def lift(item):\n        if type(item) is bytes:\n            return ['bytes', base64.b64encode(item).decode('ascii')]\n        if isinstance(item, list):\n            return ['list', [lift(x) for x in item]]\n        if isinstance(item, tuple):\n            return ['tuple', [lift(x) for x in item]]\n        if isinstance(item, dict):\n            if any(not isinstance(key, str) for key in item):\n                _refuse('FINALIZATION_OBJECT_KEY_INVALID')\n            return ['object', [[key, lift(val)] for key, val in item.items()]]\n        if item is None or type(item) in (bool, int, float) or isinstance(item, str):\n            return ['scalar', item]\n        _refuse('FINALIZATION_VALUE_UNSUPPORTED')\n    return value_bytes(lift(value))"
+    },
+    {
+      "module": "worldline.evaluation_terminal",
+      "name": "value_bytes",
+      "ast_sha256": "b35630dc9f1a7a2a9b23499dd7fbdf4548d1abb928d170d52265f7c3f31a9c5e",
+      "original_file_sha256": "9f5e97446797f09633008c3d8c1f7d6759b674122681887e73a7a6e78db53033",
+      "source": "def value_bytes(value) -> bytes:\n    def encode(item):\n        if item is None: return ['null']\n        if type(item) is bool: return ['bool', item]\n        if isinstance(item, str): return ['str', _b64(identity(item))]\n        if type(item) is int:\n            value = abs(item)\n            return ['int', item < 0, _b64(value.to_bytes((value.bit_length() + 7) // 8, 'little'))]\n        if type(item) is float: return ['float', _b64(struct.pack('!d', item))]\n        if isinstance(item, (list, tuple)): return ['array', [encode(x) for x in item]]\n        if isinstance(item, dict):\n            if any(not isinstance(key, str) for key in item):\n                raise TerminalRefused('CAPTURE_OBJECT_KEY_INVALID')\n            return ['object', [[_b64(identity(key)), encode(val)] for key, val in item.items()]]\n        raise TerminalRefused('CAPTURE_VALUE_UNSUPPORTED')\n    return canonical(encode(value))"
+    }
+  ],
+  "nonclaims": [
+    "File/version identity is not proof of CPython source-to-binary compilation correspondence. The parent must retain package/build provenance or equivalent matching-source evidence.",
+    "Only runtime differential controls import and invoke producer/native target code; all controls in this donor are unrun."
+  ]
+}

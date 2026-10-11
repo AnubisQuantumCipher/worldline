@@ -1,0 +1,16 @@
+{
+  "pid": 3881221,
+  "starttime": "38528282",
+  "stat_before": "3881221 (python3) R 3880593 3880593 3880593 0 -1 4194304 678 0 0 0 0 0 0 0 20 0 1 0 38528282 17944576 2076 18446744073709551615 187650252537856 187650252540728 281474074908016 0 0 0 0 0 0 0 0 0 17 6 0 0 0 0 0 187650252668296 187650252668944 187651058991104 281474074912391 281474074912845 281474074912845 281474074918887 0\n",
+  "stat_after": "3881221 (python3) R 3880593 3880593 3880593 0 -1 4194304 717 0 0 0 0 0 0 0 20 0 1 0 38528282 18993152 2140 18446744073709551615 187650252537856 187650252540728 281474074908016 0 0 0 0 0 0 0 0 0 17 6 0 0 0 0 0 187650252668296 187650252668944 187651058991104 281474074912391 281474074912845 281474074912845 281474074918887 0\n",
+  "cmdline": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observe_causal-corrected.py",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation"
+  ],
+  "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/codex-worldline-source15-causal-observation-03e092b7c6854b8e964d19e05c2c5feb.scope\n",
+  "resolved_executable": "/usr/bin/python3.14",
+  "executed_file_sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+  "limits": "Limit                     Soft Limit           Hard Limit           Units     \nMax cpu time              unlimited            unlimited            seconds   \nMax file size             unlimited            unlimited            bytes     \nMax data size             unlimited            unlimited            bytes     \nMax stack size            8388608              unlimited            bytes     \nMax core file size        0                    0                    bytes     \nMax resident set          unlimited            unlimited            bytes     \nMax processes             128053               128053               processes \nMax open files            524288               524288               files     \nMax locked memory         67108864             67108864             bytes     \nMax address space         unlimited            unlimited            bytes     \nMax file locks            unlimited            unlimited            locks     \nMax pending signals       128053               128053               signals   \nMax msgqueue size         819200               819200               bytes     \nMax nice priority         0                    0                    \nMax realtime priority     0                    0                    \nMax realtime timeout      200000               200000               us        \n"
+}

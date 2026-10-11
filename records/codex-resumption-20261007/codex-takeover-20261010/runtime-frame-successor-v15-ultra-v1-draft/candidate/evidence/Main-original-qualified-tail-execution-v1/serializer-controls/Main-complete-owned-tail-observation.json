@@ -1,0 +1,43 @@
+{
+  "Main_observation_seconds": 1000,
+  "actual_completed_outer_waits": [
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/outer_capture.py",
+        "serializer-controls",
+        "7aefd363b0ef3084a9c9784e1e5f8a40cca072bd8a48327607e59dd35cfcaa8f"
+      ],
+      "actual_outer_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/review/root-outer-capture-v1/cf97727e0b7d4019a8aebef6fe1aed75",
+      "actual_outer_pid": 3631329,
+      "at": "2026-10-11T04:01:15.821945+00:00",
+      "elapsed_seconds_since_Main_start": 208.0476595570217,
+      "mode": "serializer-controls",
+      "responded_original_challenges": [
+        "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/review/root-live-lane-v1/attempts/serializer-controls/d546df7d21b4492eb06bd43a4391616c/challenge-bf23c407a0864d5a94a8d8a57504625a/challenge.json"
+      ]
+    }
+  ],
+  "actual_elapsed_seconds": 208.05183084798045,
+  "at": "2026-10-11T04:01:15.826120+00:00",
+  "errors": [],
+  "no_domain_limit_or_gate_changed": true,
+  "original_proposal": {
+    "bytes": 539376,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/reviewed-launch-proposal.json",
+    "sha256": "ede208b21058bd061f88a145d0f729395279f42764676003d1b59ef1b15b5322"
+  },
+  "phase_acceptance": false,
+  "prior_mutable_adoption": {
+    "bytes": 8311,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/review/root-source-binding-adoption-v1/adoption.json",
+    "sha256": "6adb2998909d0a7dede8b6088583d002cf74a466ce4fbba5f37a90e92034ad34"
+  },
+  "requested_qualified_original_tail": [
+    "serializer-controls"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "Main_observation_seconds": 1000,
+  "actual_completed_outer_waits": [],
+  "actual_elapsed_seconds": 1000.0635540929507,
+  "at": "2026-10-11T04:18:11.485877+00:00",
+  "errors": [
+    {
+      "at": "2026-10-11T04:18:11.458665+00:00",
+      "message": "Main finite tail observation deadline, not a domain limit",
+      "type": "TimeoutError"
+    },
+    {
+      "actual_stderr": "",
+      "actual_stdout": "",
+      "actual_stop_returncode": 0,
+      "cleanup_owned_unit": "codex-worldline-codex-takeover-runtime-v15-acquisition-regression-tests-v1.scope"
+    },
+    {
+      "actual_cleanup_Popen_wait": -15,
+      "cleanup_owned_outer_pid": 3646257,
+      "unknown_or_failed_target_not_promoted": true
+    }
+  ],
+  "no_domain_limit_or_gate_changed": true,
+  "original_proposal": {
+    "bytes": 539376,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/reviewed-launch-proposal.json",
+    "sha256": "ede208b21058bd061f88a145d0f729395279f42764676003d1b59ef1b15b5322"
+  },
+  "phase_acceptance": false,
+  "prior_mutable_adoption": {
+    "bytes": 8829,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/review/root-source-binding-adoption-v1/adoption.json",
+    "sha256": "cd93a4f83f9d19522f80a8a59b43f9273dbc5171aa45ca21f0173c33190059e8"
+  },
+  "requested_qualified_original_tail": [
+    "acquisition-regression-tests"
+  ]
+}

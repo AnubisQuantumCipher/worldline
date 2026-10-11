@@ -1,0 +1,552 @@
+{
+  "actual_Main1000_deadline_and_scope_stop0_outer_cleanup_minus15_remain_distinct": true,
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:ultra",
+  "actual_pass_modes_separate": [
+    "native-build",
+    "native-component-tests",
+    "pending-build",
+    "build",
+    "entry-component-tests",
+    "serializer-controls"
+  ],
+  "all_required_actual_pass": false,
+  "cause": "UNESTABLISHED",
+  "complete_current_frame_source_private_shared_generated_retained_inventory_checked": {
+    "bytes": 981845,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/original-full-frame-source-private-generated-readback.json",
+    "sha256": "309355cb462ce595c762550ed3959f7c2e41ec77b7100159616f4b5cb1d42841"
+  },
+  "complete_missing_result_modes_unchanged": [
+    "acquisition-regression-tests",
+    "completion-build",
+    "completion-tests",
+    "pending-v2-tests",
+    "transition-direct-build",
+    "transition-direct-tests",
+    "tests",
+    "admission-tests",
+    "evaluation-tests",
+    "pending-tests",
+    "direct-build",
+    "direct-tests",
+    "legacy-direct-build",
+    "legacy-direct-tests",
+    "resource-direct-build",
+    "resource-direct-tests",
+    "terminal-tests",
+    "roster-d2-python-tests",
+    "roster-d2-build",
+    "roster-d2-tests",
+    "raw-observation-tests",
+    "report-facts-build",
+    "report-facts-tests",
+    "core-all-source-build",
+    "proof-source-tests",
+    "wire-build",
+    "wire-tests",
+    "authority-build",
+    "authority-tests",
+    "default-tests",
+    "metadata-tests",
+    "staged-tests",
+    "core-abi-tests",
+    "store-tests",
+    "revalidation-tests",
+    "transaction-tests",
+    "finalization-tests",
+    "finalization-kernel-tests",
+    "finalization-producer-tests",
+    "artifact-build",
+    "artifact-tests",
+    "recovery-integration-tests",
+    "resource-runtime-controls",
+    "recovery-domain-controls",
+    "recovery-epoch-build",
+    "recovery-epoch-tests",
+    "root-custody-context-build",
+    "root-custody-context-controls",
+    "capability-native-binding-simulation-controls",
+    "archive-leaf-build",
+    "archive-leaf-controls",
+    "root-custody-replay-build",
+    "root-custody-replay-controls",
+    "root-custody-abandon-build",
+    "root-custody-abandon-controls",
+    "chain-bounds-tests-test-bounds-build",
+    "chain-bounds-tests-test-bounds",
+    "decision-correspondence-tests-test-completion-correspondence-build",
+    "decision-correspondence-tests-test-completion-correspondence",
+    "decision-correspondence-tests-test-transition-correspondence-build",
+    "decision-correspondence-tests-test-transition-correspondence",
+    "decision-correspondence-tests-test-history-correspondence-build",
+    "decision-correspondence-tests-test-history-correspondence",
+    "decision-correspondence-tests-test-raw-roster-correspondence-build",
+    "decision-correspondence-tests-test-raw-roster-correspondence",
+    "decision-correspondence-tests-test-run-metadata-correspondence-build",
+    "decision-correspondence-tests-test-run-metadata-correspondence",
+    "epoch-correspondence-core-test-epoch-correspondence-build",
+    "epoch-correspondence-core-test-epoch-correspondence",
+    "epoch-correspondence-pending-test-epoch-correspondence-build",
+    "epoch-correspondence-pending-test-epoch-correspondence",
+    "explicit-recovery-marker-tests-test-explicit-recovery-markers-build",
+    "explicit-recovery-marker-tests-test-explicit-recovery-markers",
+    "finalization-value-controls-test-finalization-values-build",
+    "finalization-value-controls-test-finalization-values",
+    "finalization-value-controls-test-finalization-parent-values-build",
+    "finalization-value-controls-test-finalization-parent-values",
+    "finalization-value-controls-test-finalization-projection-build",
+    "finalization-value-controls-test-finalization-projection",
+    "protocol-adapter-tests-test-protocol-adapter-build",
+    "protocol-adapter-tests-test-protocol-adapter",
+    "recovery-protocol-tests-test-protocol-build",
+    "recovery-protocol-tests-test-protocol",
+    "request-abandon-controls-request-abandon-controls-build",
+    "request-abandon-controls-request-abandon-controls",
+    "resource-ledger-correspondence-tests-test-resource-ledger-correspondence-build",
+    "resource-ledger-correspondence-tests-test-resource-ledger-correspondence",
+    "resources-prefix-correspondence-tests-test-resources-prefix-correspondence-build",
+    "resources-prefix-correspondence-tests-test-resources-prefix-correspondence",
+    "tests-resource-policy-smoke-build",
+    "tests-resource-policy-smoke",
+    "tests-worldline-core-tests-build",
+    "tests-worldline-core-tests",
+    "tests-worldline-core-fuzz-build",
+    "tests-worldline-core-fuzz",
+    "use-reservation-tests-use-reservation-tests-build",
+    "use-reservation-tests-use-reservation-tests",
+    "wire-initialization-tests-test-wire-initialization-build",
+    "wire-initialization-tests-test-wire-initialization",
+    "test-context-cast-lifetime-controls",
+    "test-finalization-cast-lifetime-controls",
+    "test-finalization-agent-binding-controls",
+    "test-finalization-agent-binding-additional-controls",
+    "test-finalization-agent-binding-producer-controls",
+    "test-custody-foreign-key-capture-controls",
+    "test-custody-provision-kernel-controls",
+    "test-custody-subject-primitives-controls",
+    "test-custody-v2-explicit-provision-controls",
+    "test-custody-v2-sql-capture-controls",
+    "test-root-worker-codec-lossless-controls",
+    "freshness-json-object-order-additional-controls",
+    "execution-evidence-boundary-additional-controls",
+    "original-physical-semantic-build",
+    "original-physical-semantic-controls",
+    "original-canonical-exchange-semantic-build",
+    "original-canonical-exchange-semantic-controls",
+    "original-canonical-owner-semantic-build",
+    "original-canonical-owner-semantic-controls",
+    "original-physical-predecessor-python-controls",
+    "original-physical-canonical-python-controls",
+    "original-full-physical-disposable-namespace-controls"
+  ],
+  "complete_original127_scopes_and_known_processes_terminal_nonlive_retained": true,
+  "current_window": {
+    "bytes": 397290,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json",
+    "sha256": "8a87ef6b9e6c4a15b9b0f867110dae8cccba9c84bf16e157c79cc7eac8adf5bd"
+  },
+  "current_window_relation": "EXACT_CURRENT_RELEASED_SNAPSHOT",
+  "custody_release": {
+    "bytes": 2086,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/coordination-custody-only-release.json",
+    "sha256": "e0530aaf2a239781f15897192aa23c96435e0a0adbf83e145fe62eccaecd5ceb"
+  },
+  "custody_terminal": {
+    "bytes": 219384,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/custody-only-partial-ownership-collection.json",
+    "sha256": "014b4d321a573acc1ed02daf94c0f52b10f278a30c6f038603fa26d902fce82a"
+  },
+  "fresh_bounded_known_PID_absence": [
+    3652717,
+    3651780,
+    3649510,
+    3487564,
+    3500357,
+    3530316,
+    3539263,
+    3556504,
+    3641487,
+    3534114,
+    3533061,
+    3537243,
+    3523145,
+    3521876,
+    3526913,
+    3552662,
+    3551791,
+    3554515,
+    3481525,
+    3480389,
+    3484703,
+    3646857,
+    3646257,
+    3493944,
+    3492690,
+    3498043,
+    3632316,
+    3631329,
+    3637733,
+    3646257
+  ],
+  "fresh_goal_clock_native_composition_limit": "Root native tool-composition request obtains actual g/clock and serializes them directly; only clock/status summary is printed in the outer result. No separately printed full inner MCP response is invented.",
+  "genuine_Root_actual_tool_composition_assembler_launch_terminal_verified": {
+    "19f2a8": {
+      "actual_result": {
+        "chunk_id": "19f2a8",
+        "exit_code": 0,
+        "original_token_count": 238,
+        "output": "{\"custody_collection\": {\"path\": \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/custody-only-partial-ownership-collection.json\", \"sha256\": \"014b4d321a573acc1ed02daf94c0f52b10f278a30c6f038603fa26d902fce82a\", \"bytes\": 219384, \"mode\": 384}, \"release\": {\"path\": \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/coordination-custody-only-release.json\", \"sha256\": \"e0530aaf2a239781f15897192aa23c96435e0a0adbf83e145fe62eccaecd5ceb\", \"bytes\": 2086, \"mode\": 384}, \"lost_original_handshake_Popen_wait\": null, \"phase_acceptance\": false}\n",
+        "wall_time_seconds": 3.0208e-05
+      },
+      "physical_line": 21155,
+      "raw_sha256": "74f549243007c1b3903aa474198389e030f0cbae438d2de69d42a2199c114da9",
+      "request": {
+        "event": {
+          "ordinal": 21152,
+          "payload": {
+            "call_id": "call_76e2b825a49f436085e6588eedd0016b",
+            "id": "ctc_0c0d4980ce76473b016acb150bf420819da4dea4539244ecac",
+            "input": "text(await tools.write_stdin({session_id:30073,chars:\"\",yield_time_ms:1000,max_output_tokens:2200}));\n",
+            "internal_chat_message_metadata_passthrough": {
+              "create_time": 1791694091.9573803,
+              "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+            },
+            "name": "exec",
+            "status": "completed",
+            "type": "custom_tool_call"
+          },
+          "timestamp": "2026-10-11T04:48:12.369Z",
+          "type": "response_item"
+        },
+        "physical_line": 21153,
+        "raw_sha256": "1e15abcae366ed17f99fb7315cef0fc74f2a004c453f791bf3315168b11bfac8"
+      },
+      "response": {
+        "metadata": {
+          "client_authored": false,
+          "fallback_token_limit_override": 12000
+        },
+        "ordinal": 21154,
+        "payload": {
+          "call_id": "call_76e2b825a49f436085e6588eedd0016b",
+          "id": "ctco_01a1294a-38a2-79a3-a083-4279e964102a",
+          "internal_chat_message_metadata_passthrough": {
+            "create_time": 1791694092.450988,
+            "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+          },
+          "output": [
+            {
+              "text": "Script completed\nWall time 0.0 seconds\nOutput:\n",
+              "type": "input_text"
+            },
+            {
+              "text": "{\"chunk_id\":\"19f2a8\",\"wall_time_seconds\":0.000030208,\"exit_code\":0,\"original_token_count\":238,\"output\":\"{\\\"custody_collection\\\": {\\\"path\\\": \\\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/custody-only-partial-ownership-collection.json\\\", \\\"sha256\\\": \\\"014b4d321a573acc1ed02daf94c0f52b10f278a30c6f038603fa26d902fce82a\\\", \\\"bytes\\\": 219384, \\\"mode\\\": 384}, \\\"release\\\": {\\\"path\\\": \\\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/coordination-custody-only-release.json\\\", \\\"sha256\\\": \\\"e0530aaf2a239781f15897192aa23c96435e0a0adbf83e145fe62eccaecd5ceb\\\", \\\"bytes\\\": 2086, \\\"mode\\\": 384}, \\\"lost_original_handshake_Popen_wait\\\": null, \\\"phase_acceptance\\\": false}\\n\"}",
+              "type": "input_text"
+            }
+          ],
+          "type": "custom_tool_call_output"
+        },
+        "timestamp": "2026-10-11T04:48:12.451Z",
+        "type": "response_item"
+      }
+    },
+    "4b57fc": {
+      "actual_result": {
+        "chunk_id": "4b57fc",
+        "original_token_count": 0,
+        "output": "",
+        "session_id": 30073,
+        "wall_time_seconds": 1.003315061
+      },
+      "physical_line": 21133,
+      "raw_sha256": "9103e44fa4ac339e5464103e1d046ad3218c8ecaba86df95d96f6735f7b4b8f4",
+      "request": {
+        "event": {
+          "ordinal": 21130,
+          "payload": {
+            "call_id": "call_l3jVd1Nj6A2QOsEaVviUE05h",
+            "id": "ctc_0c0d4980ce76473b016acb14a22568819dab4969872047a26d",
+            "input": "const T=\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010\";\ntext(await tools.exec_command({cmd:\"/usr/bin/python3 -B \"+T+\"/source15-terminal-custody-recovery-v1/recover_partial_ownership.py \"+T+\"/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/selected-inputs.json bb31aabfd864db1d4f47a38e3758cc3a75f316a2a0a0bd4eedfb8afd5c0e060f actual-root-custody-collection-v1\",\"yield_time_ms\":1000,\"max_output_tokens\":2000}));\n",
+            "internal_chat_message_metadata_passthrough": {
+              "create_time": 1791693984.848704,
+              "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+            },
+            "name": "exec",
+            "status": "completed",
+            "type": "custom_tool_call"
+          },
+          "timestamp": "2026-10-11T04:46:28.869Z",
+          "type": "response_item"
+        },
+        "physical_line": 21131,
+        "raw_sha256": "e40c14a5e38da788798c45d39c6b71121550532a3ab75bd3cf2f872861e66334"
+      },
+      "response": {
+        "metadata": {
+          "client_authored": false,
+          "fallback_token_limit_override": 12000
+        },
+        "ordinal": 21132,
+        "payload": {
+          "call_id": "call_l3jVd1Nj6A2QOsEaVviUE05h",
+          "id": "ctco_01a12948-a8a4-7023-83da-a7bdd67000a5",
+          "internal_chat_message_metadata_passthrough": {
+            "create_time": 1791693990.0520654,
+            "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+          },
+          "output": [
+            {
+              "text": "Script completed\nWall time 1.2 seconds\nOutput:\n",
+              "type": "input_text"
+            },
+            {
+              "text": "{\"chunk_id\":\"4b57fc\",\"wall_time_seconds\":1.003315061,\"session_id\":30073,\"original_token_count\":0,\"output\":\"\"}",
+              "type": "input_text"
+            }
+          ],
+          "type": "custom_tool_call_output"
+        },
+        "timestamp": "2026-10-11T04:46:30.052Z",
+        "type": "response_item"
+      }
+    },
+    "ec4fc9": {
+      "actual_result": {
+        "chunk_id": "ec4fc9",
+        "exit_code": 0,
+        "original_token_count": 324,
+        "output": "{\"selected_inputs\": {\"path\": \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/selected-inputs.json\", \"sha256\": \"bb31aabfd864db1d4f47a38e3758cc3a75f316a2a0a0bd4eedfb8afd5c0e060f\", \"bytes\": 2798, \"mode\": 384}, \"genuine_goal_copy\": {\"path\": \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/actual-Main-goal.json\", \"sha256\": \"528c94ccc30f3381f6a780257d0d4f165b57e25184ba113a860ed3df27f4ae3c\", \"bytes\": 908, \"mode\": 384}, \"genuine_clock_copy\": {\"path\": \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/actual-Main-clock.json\", \"sha256\": \"29497a7e1c050a8fbe8c36f5e1b979b00c30acd860a17c51a081791252c58164\", \"bytes\": 48, \"mode\": 384}, \"target_execution\": false, \"window_mutation\": false, \"phase_acceptance\": false}\n",
+        "wall_time_seconds": 1.075e-05
+      },
+      "physical_line": 21127,
+      "raw_sha256": "88fc1490ccddf594f9a0037f44050dc3e843660a8e4b270b1630acf9d971cf91",
+      "request": {
+        "event": {
+          "ordinal": 21123,
+          "payload": {
+            "call_id": "call_TqS32q98MiPaUJ9gpFPiCB7l",
+            "id": "ctc_0c0d4980ce76473b016acb149e12e0819d8bcae4d14cf60331",
+            "input": "const T=\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010\";\ntext(await tools.exec_command({cmd:\"/usr/bin/python3 -B \"+T+\"/source15-terminal-custody-recovery-v1/prepare_main_inputs.py \"+T+\"/frame-review-draft/source15-terminal-custody-recovery-independent-source-review.json \"+load(\"K15_fresh_goal\")+\" \"+load(\"K15_fresh_clock\")+\" actual-root-terminal-v1\",\"yield_time_ms\":1000,\"max_output_tokens\":1200}));\n",
+            "internal_chat_message_metadata_passthrough": {
+              "create_time": 1791693979.761605,
+              "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+            },
+            "name": "exec",
+            "status": "completed",
+            "type": "custom_tool_call"
+          },
+          "timestamp": "2026-10-11T04:46:24.411Z",
+          "type": "response_item"
+        },
+        "physical_line": 21124,
+        "raw_sha256": "276bc501ea451617b7cc08b65d0fc447c9cd8484615e75cd9d1d35041420f639"
+      },
+      "response": {
+        "metadata": {
+          "client_authored": false,
+          "fallback_token_limit_override": 12000
+        },
+        "ordinal": 21126,
+        "payload": {
+          "call_id": "call_TqS32q98MiPaUJ9gpFPiCB7l",
+          "id": "ctco_01a12948-9310-77a3-add8-cf9f74f7fbea",
+          "internal_chat_message_metadata_passthrough": {
+            "create_time": 1791693984.5289652,
+            "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+          },
+          "output": [
+            {
+              "text": "Script completed\nWall time 0.1 seconds\nOutput:\n",
+              "type": "input_text"
+            },
+            {
+              "text": "{\"chunk_id\":\"ec4fc9\",\"wall_time_seconds\":0.00001075,\"exit_code\":0,\"original_token_count\":324,\"output\":\"{\\\"selected_inputs\\\": {\\\"path\\\": \\\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/selected-inputs.json\\\", \\\"sha256\\\": \\\"bb31aabfd864db1d4f47a38e3758cc3a75f316a2a0a0bd4eedfb8afd5c0e060f\\\", \\\"bytes\\\": 2798, \\\"mode\\\": 384}, \\\"genuine_goal_copy\\\": {\\\"path\\\": \\\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/actual-Main-goal.json\\\", \\\"sha256\\\": \\\"528c94ccc30f3381f6a780257d0d4f165b57e25184ba113a860ed3df27f4ae3c\\\", \\\"bytes\\\": 908, \\\"mode\\\": 384}, \\\"genuine_clock_copy\\\": {\\\"path\\\": \\\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/actual-Main-clock.json\\\", \\\"sha256\\\": \\\"29497a7e1c050a8fbe8c36f5e1b979b00c30acd860a17c51a081791252c58164\\\", \\\"bytes\\\": 48, \\\"mode\\\": 384}, \\\"target_execution\\\": false, \\\"window_mutation\\\": false, \\\"phase_acceptance\\\": false}\\n\"}",
+              "type": "input_text"
+            }
+          ],
+          "type": "custom_tool_call_output"
+        },
+        "timestamp": "2026-10-11T04:46:24.529Z",
+        "type": "response_item"
+      }
+    },
+    "fresh_tools": {
+      "actual_result": {
+        "clock": "2026-10-11 04:46:19 UTC",
+        "fresh_receipts": [
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/incoming-root-v1/actual-root-goal.json",
+          "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/incoming-root-v1/actual-root-clock.json"
+        ],
+        "goal_status": "active",
+        "target_execution": false
+      },
+      "physical_line": 21120,
+      "raw_sha256": "f8b158255178b49f4b79fe56f056d7bad85b50304e24fb1309397aa2dda0eff5",
+      "request": {
+        "event": {
+          "ordinal": 21114,
+          "payload": {
+            "call_id": "call_P7F4EdhrAK7ldyicwXzO6qqw",
+            "id": "ctc_0c0d4980ce76473b016acb14930450819dacedf9332f982309",
+            "input": "const g=await tools.get_goal({});const c=await tools.clock__curr_time({});\nconst base=\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs\";\ntext(await tools.exec_command({cmd:\"python3 - <<'PY'\\nfrom pathlib import Path\\np=Path('\"+base+\"')\\np.mkdir(mode=0o700,exist_ok=False)\\np.joinpath('incoming-root-v1').mkdir(mode=0o700,exist_ok=False)\\nPY\",\"max_output_tokens\":250}));\nconst obs={source_tool:\"functions.get_goal\",arguments:{},actual_response:g,scope:\"Genuine current Root native goal for terminal recovery of runtime-frame-successor-v15-ultra-v1-draft/candidate; custody only, no target or acceptance.\",clock_source_tool:\"clock.curr_time\",actual_clock_response:c,recorded_at:c.current_time};\nconst files=[[base+\"/incoming-root-v1/actual-root-goal.json\",obs],[base+\"/incoming-root-v1/actual-root-clock.json\",c]];\nfor(const [p,v]of files){text(await tools.apply_patch(\"*** Begin Patch\\n*** Add File: \"+p+\"\\n\"+(JSON.stringify(v,null,2)+\"\\n\").split(\"\\n\").filter((s,i,a)=>i<a.length-1).map(s=>\"+\"+s).join(\"\\n\")+\"\\n*** End Patch\"));}\nstore(\"K15_fresh_goal\",files[0][0]);store(\"K15_fresh_clock\",files[1][0]);\ntext({clock:c.current_time,goal_status:g.goal.status,fresh_receipts:files.map(x=>x[0]),target_execution:false});\n",
+            "internal_chat_message_metadata_passthrough": {
+              "create_time": 1791693969.701731,
+              "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+            },
+            "name": "exec",
+            "status": "completed",
+            "type": "custom_tool_call"
+          },
+          "timestamp": "2026-10-11T04:46:18.355Z",
+          "type": "response_item"
+        },
+        "physical_line": 21115,
+        "raw_sha256": "7ddea61e0ddb3044ef9679ccddf745c143e467d8c550c97ed9b9aa2aa35d866f"
+      },
+      "response": {
+        "metadata": {
+          "client_authored": false,
+          "fallback_token_limit_override": 12000
+        },
+        "ordinal": 21119,
+        "payload": {
+          "call_id": "call_P7F4EdhrAK7ldyicwXzO6qqw",
+          "id": "ctco_01a12948-7f11-7682-8555-de93452273ba",
+          "internal_chat_message_metadata_passthrough": {
+            "create_time": 1791693979.4092028,
+            "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+          },
+          "output": [
+            {
+              "text": "Script completed\nWall time 1.0 seconds\nOutput:\n",
+              "type": "input_text"
+            },
+            {
+              "text": "{\"chunk_id\":\"6d1f24\",\"wall_time_seconds\":0.000035583,\"exit_code\":0,\"original_token_count\":0,\"output\":\"\"}",
+              "type": "input_text"
+            },
+            {
+              "text": "{}",
+              "type": "input_text"
+            },
+            {
+              "text": "{}",
+              "type": "input_text"
+            },
+            {
+              "text": "{\"clock\":\"2026-10-11 04:46:19 UTC\",\"goal_status\":\"active\",\"fresh_receipts\":[\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/incoming-root-v1/actual-root-goal.json\",\"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/incoming-root-v1/actual-root-clock.json\"],\"target_execution\":false}",
+              "type": "input_text"
+            }
+          ],
+          "type": "custom_tool_call_output"
+        },
+        "timestamp": "2026-10-11T04:46:19.409Z",
+        "type": "response_item"
+      }
+    }
+  },
+  "genuine_Root_goal_clock_original_and_private_copies_match": {
+    "exact_unchanged_raw_bytes": true,
+    "origin_clock_observation": {
+      "bytes": 48,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/incoming-root-v1/actual-root-clock.json",
+      "sha256": "29497a7e1c050a8fbe8c36f5e1b979b00c30acd860a17c51a081791252c58164"
+    },
+    "origin_goal_observation": {
+      "bytes": 908,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/incoming-root-v1/actual-root-goal.json",
+      "sha256": "528c94ccc30f3381f6a780257d0d4f165b57e25184ba113a860ed3df27f4ae3c"
+    },
+    "phase_acceptance": false,
+    "retained_clock_observation": {
+      "bytes": 48,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/actual-Main-clock.json",
+      "sha256": "29497a7e1c050a8fbe8c36f5e1b979b00c30acd860a17c51a081791252c58164"
+    },
+    "retained_goal_observation": {
+      "bytes": 908,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-inputs/actual-root-terminal-v1/actual-Main-goal.json",
+      "sha256": "528c94ccc30f3381f6a780257d0d4f165b57e25184ba113a860ed3df27f4ae3c"
+    },
+    "target_execution": false,
+    "tool_payload_or_timestamps_relabelled": false
+  },
+  "missing_acquisition_child_scope_launcher_handshake_wait_result_UNKNOWN": true,
+  "model_provenance": {
+    "bytes": 6780,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance_ultra-actual-launch-provenance.json",
+    "sha256": "e3e26497b1aa84d8d4483b75b847977094b522ed93a0c525633041c0f2434057"
+  },
+  "non_claims": [
+    "Custody-only successful recovery and release does not make the original collector successful or supply missing waits.",
+    "Known PID absence and enrolled scope emptiness are bounded observations, not universal process absence or protected descendant authority.",
+    "Five prefix actions and serializer remain separate actual passes. Acquisition target unfinished; observer deadline is not a child600/product-domain limit. All later original actions and matching-source proof/runtime/fixture/owner/actor/final acceptance remain OPEN.",
+    "No diagnostic replay, product import/native call, source edit/successor, privilege/actor/installation or window action occurred in this review."
+  ],
+  "original_collector_refusal_not_reclassified": true,
+  "original_results_and_unknowns": {
+    "bytes": 91257,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/original-real-outcomes-and-explicit-unknowns.json",
+    "sha256": "d518e60b7c511c3a4ef3f0d5bde8b6195046435593502ab770cdb113c4038a69"
+  },
+  "original_unknown_labels_unchanged": [
+    "acquisition-regression-tests:admitted-launcher-wait-missing",
+    "acquisition-regression-tests:outer-wait-or-retention-not-success"
+  ],
+  "phase_acceptance": false,
+  "proof_acceptance": false,
+  "readback_program": {
+    "bytes": 16632,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/review_source15_actual_terminal_custody_collection_v3.py",
+    "sha256": "8ddb1444a88131c1f86ba65deeeb20364f5537a69e37a821334bf7335f9c6684"
+  },
+  "receiver_or_target_execution_by_reviewer": false,
+  "receiver_source_review": {
+    "bytes": 136817,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/frame-review-draft/source15-terminal-custody-recovery-independent-source-review.json",
+    "sha256": "5480ce095d37227f1ea9bf32cff82323184a03d724e451f19f2e5d50f9bd38be"
+  },
+  "retained_complete_current_closures_initial_and_before_commit_match_every_original_baseline": {
+    "commit": {
+      "bytes": 3994,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/complete-current-tool-data-ELF-runtime-closure-commit.json",
+      "sha256": "ba73bcc019a021d7508406f8b9cdf5830de581c6e3234227bfd51e33c47e0009"
+    },
+    "initial": {
+      "bytes": 4002,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/complete-current-tool-data-ELF-runtime-closure-initial.json",
+      "sha256": "0de91d27a995e6cebdd375827575bd0dca57863fcf6762c4706d052741a1094c"
+    }
+  },
+  "reviewed_at": "2026-10-11T04:54:46.750969+00:00",
+  "reviewer": "/root/acceptance_ultra",
+  "runtime_acceptance": false,
+  "schema": "worldline-source15-actual-terminal-custody-release-independent-observation-v1",
+  "whole_actual_original_retained_inventory_rehashed_matches": {
+    "bytes": 4774179,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/complete-original-retained-files-dirs-types-modes-sha-headers.json",
+    "sha256": "d8e664e78fc7aed019b722344ae64f0192fedf89ba326505d953ec06767b39f2"
+  },
+  "whole_prior_raw_and_unmodified_history_plus_only_original_release_fields_verified": {
+    "bytes": 2088053,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-terminal-custody-recovery-v1/Main-owned-collections/actual-root-custody-collection-v1/complete-window-before-after-and-inverse.json",
+    "sha256": "b773c98d14555271eceba19153b5e14b8c8514f05cde7887d4f7e2f036354d88"
+  },
+  "window_mutation_by_reviewer": false
+}

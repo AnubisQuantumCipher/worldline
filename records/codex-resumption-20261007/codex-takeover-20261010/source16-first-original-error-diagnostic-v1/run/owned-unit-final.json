@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/usr/bin/systemctl",
+    "--user",
+    "show",
+    "codex-worldline-source16-first-original-error-d3cc00ec2aa145898b0dadc5e58ec5c0.scope",
+    "-p",
+    "ActiveState",
+    "-p",
+    "SubState",
+    "-p",
+    "ControlGroup",
+    "-p",
+    "MainPID"
+  ],
+  "stdout": "ActiveState=inactive\nSubState=dead\nControlGroup=\n",
+  "stderr": "",
+  "returncode": 0
+}

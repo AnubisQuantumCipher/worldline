@@ -1,0 +1,348 @@
+Setup
+   [mkdir]        object directory for project SPARKlib
+   [mkdir]        library directory for project SPARKlib
+   [mkdir]        object directory for project Worldline_Attest_SHA256
+   [mkdir]        object directory for project Worldline_Core_Sources
+   [mkdir]        object directory for project Full_Physical_Sources
+   [mkdir]        object directory for project Worldline_Core
+Compile
+   [C]            native_diagnostic_periphery.c
+   [Ada]          worldline-producer_bytes.adb
+   [Ada]          evaluation_finalization.adb
+   [Ada]          evaluation_epoch.adb
+   [Ada]          worldline-recovery_packet.adb
+   [Ada]          worldline-recovery_authorization_wire.adb
+   [Ada]          worldline-root_custody_row_views.adb
+   [Ada]          worldline-retained_v1_migration.adb
+   [Ada]          worldline-resources_c_api.adb
+   [Ada]          worldline-canonical_operation_wire.ads
+   [Ada]          worldline.ads
+   [Ada]          resource_run_ledger_c_api.adb
+   [Ada]          worldline-raw_json.adb
+   [Ada]          worldline-actuation_full_wire.ads
+   [Ada]          worldline-evaluation_agent_native.adb
+   [Ada]          worldline-evaluation_report_facts.adb
+   [Ada]          worldline-root_custody_descriptor.adb
+   [Ada]          worldline-producer_render.adb
+   [Ada]          worldline-confinement_filter.adb
+   [Ada]          resource_reservation_transition.adb
+   [Ada]          worldline-resource_actor_execution.adb
+   [Ada]          worldline-custody_v2_closed_state.adb
+   [Ada]          worldline-startup_source_custody.adb
+   [Ada]          exact_decimal.adb
+   [Ada]          decimal_binary64.adb
+   [Ada]          worldline-retained_custody_chain.adb
+   [Ada]          worldline-receipts.adb
+   [Ada]          worldline-canonical_exchange_wire.ads
+   [Ada]          worldline-policy_syntax.adb
+   [Ada]          worldline-root_custody_model.adb
+   [Ada]          worldline-retained_source_layout.adb
+   [Ada]          worldline-scoped_capture_namespace_projection.adb
+   [Ada]          worldline-resource_ledger_c_api.adb
+   [Ada]          worldline-operation_result_view.adb
+   [Ada]          worldline-custody_v2_fold_engine.adb
+   [Ada]          worldline-policy_source.adb
+   [Ada]          evaluation_pending_c.adb
+   [Ada]          worldline-recovery_authorization_v3_wire.adb
+   [Ada]          worldline-chain_authority.adb
+   [Ada]          resource_observation_classification.adb
+   [Ada]          worldline-runner_lifecycle.adb
+   [Ada]          worldline-recovery_syntax.adb
+   [Ada]          worldline-root_custody_request_abandon.adb
+   [Ada]          worldline-owner_transitions.adb
+   [Ada]          worldline-recovery_c_api.adb
+   [Ada]          worldline-archive_base64.adb
+   [Ada]          worldline-custody_v2_mutation_decision.adb
+   [Ada]          worldline-resource_policy_c_api.adb
+   [Ada]          worldline-startup_admission.adb
+   [Ada]          evaluation_completion.adb
+   [Ada]          worldline-recovery_archive.adb
+   [Ada]          resource_run_ledger.adb
+   [Ada]          worldline-startup_issuer_source.adb
+   [Ada]          worldline-custody_hmac.adb
+   [Ada]          worldline-runner_outcome_bytes.adb
+   [Ada]          cosmogony-governed_capabilities.adb
+   [Ada]          worldline-scoped_capture_projection.adb
+   [Ada]          worldline-scoped_capture_evolution_projection.adb
+   [Ada]          worldline-recovery_authorization_v3_c_api.adb
+   [Ada]          evaluation_raw_roster.adb
+   [Ada]          worldline-owner_retry_audit.adb
+   [Ada]          worldline-lifetime_values.adb
+   [Ada]          worldline-emitter_allocation_capture.adb
+   [Ada]          worldline-root_custody_row_schema.adb
+   [Ada]          worldline-custody_v2_requester_join.adb
+   [Ada]          worldline-identities.ads
+   [Ada]          worldline-source_syntax_reference.adb
+   [Ada]          worldline-canonical_exchange.adb
+   [Ada]          worldline-operation_result_relations.adb
+   [Ada]          worldline-ancestry.adb
+   [Ada]          resource_scoped_run_ledger_wire.adb
+   [Ada]          worldline-root_custody_context.adb
+   [Ada]          worldline-chain_authority_wire.adb
+   [Ada]          worldline-native_execution_views.adb
+   [Ada]          worldline-archive_envelope.adb
+   [Ada]          worldline-journal_witness.adb
+   [Ada]          worldline-sqlite_parameter_source.adb
+   [Ada]          worldline-custody_v2_k4_resource_ack.adb
+   [Ada]          worldline-transaction_archive_json.adb
+   [Ada]          worldline-report_custody_native.adb
+   [Ada]          worldline-custody_v2_closed_v1.adb
+   [Ada]          worldline-producer_unicode.ads
+   [Ada]          worldline-resources.adb
+   [Ada]          worldline-recovery_material_replay.adb
+   [Ada]          worldline-excluded_source_owner.adb
+   [Ada]          worldline-owner_conjunction.adb
+   [Ada]          worldline-runner_acquisition_bytes.adb
+   [Ada]          worldline-c_api.adb
+   [Ada]          worldline-custody_v2_delta_encoding.adb
+   [Ada]          worldline-chain_authority_c_api.adb
+   [Ada]          worldline-source_audit_native.adb
+   [Ada]          worldline-emitter_ordinal.adb
+   [Ada]          worldline-evaluation.adb
+   [Ada]          worldline-ordinary_receipt_policy.adb
+   [Ada]          worldline-root_custody_phase_values.adb
+   [Ada]          worldline-custody_v2_empty_seed.adb
+   [Ada]          worldline-custody_v2_delta_grammar.adb
+   [Ada]          worldline-operation_authority_wire.adb
+   [Ada]          resource_quantities.adb
+   [Ada]          worldline-world.adb
+   [Ada]          worldline-custody_v2_machine_evidence.adb
+   [Ada]          worldline-actuation.adb
+   [Ada]          worldline-canonical_owner_completion.adb
+   [Ada]          worldline-evaluation_report_wire.adb
+   [Ada]          worldline-runner_lifecycle_bytes.adb
+   [Ada]          worldline-actor_archive_replay.adb
+   [Ada]          worldline-root_custody_archive_join.ads
+   [Ada]          worldline-resource_child_execution.adb
+   [Ada]          cosmogony-capabilities.adb
+   [Ada]          worldline-custody_v2_archive_chain.adb
+   [Ada]          worldline-evaluation_history_c_api.adb
+   [Ada]          worldline-custody_v2_archive_projection.adb
+   [Ada]          evaluation_pending_v2.adb
+   [Ada]          worldline-owner_subject_projection.adb
+   [Ada]          worldline-custody_v2_owner_canonical.adb
+   [Ada]          evaluation_finalization_c.adb
+   [Ada]          worldline-custody_v2_prepared_wire.adb
+   [Ada]          evaluation_pending_v2_c.adb
+   [Ada]          worldline-reservation_lifecycle_c_api.adb
+   [Ada]          worldline-source_syntax.adb
+   [Ada]          worldline-custody_v2_owner_correspondence.adb
+   [Ada]          worldline-root_output_sequence.adb
+   [Ada]          worldline-operation_authority.adb
+   [Ada]          worldline-custody_v2_root_values.adb
+   [Ada]          resource_actor_admission.adb
+   [Ada]          worldline-runner_outcome.adb
+   [Ada]          worldline-manager_resource_lifecycle.adb
+   [Ada]          worldline-causal_graph.adb
+   [Ada]          worldline-recovery_owner_replay.adb
+   [Ada]          worldline-resource_actor_execution_wire.adb
+   [Ada]          worldline-ordinary_reservation_lifecycle.adb
+   [Ada]          worldline-source_syntax_provider.adb
+   [Ada]          worldline-scoped_capture_history_projection.adb
+   [Ada]          evaluation_finalization-values.adb
+   [Ada]          worldline-canonical_owner_completion_wire.ads
+   [Ada]          worldline-evaluation_producer.adb
+   [Ada]          worldline-custody_v2_event_joins.adb
+   [Ada]          worldline-custody_v2_fold_rows.adb
+   [Ada]          worldline-recovery_protocol_abi.adb
+   [Ada]          worldline-custody_v2_prepared.adb
+   [Ada]          resource_reservation_lifecycle.adb
+   [Ada]          worldline-collapse.adb
+   [Ada]          worldline-report_parser.adb
+   [Ada]          worldline-evaluation_policy.adb
+   [Ada]          worldline-custody_v2_load_input.adb
+   [Ada]          worldline-root_custody_replay.adb
+   [Ada]          worldline-evaluation_wire.adb
+   [Ada]          native_diagnostic_trace.adb
+   [Ada]          worldline-custody_v2_root_evidence.adb
+   [Ada]          worldline-startup_installation.adb
+   [Ada]          cosmogony.ads
+   [Ada]          worldline-recovery_protocol_wire.adb
+   [Ada]          worldline-recovery_authorization.adb
+   [Ada]          resource_run_ledger_wire.adb
+   [Ada]          worldline-recovery.adb
+   [Ada]          worldline-protected_paths.adb
+   [Ada]          evaluation_completion_c.adb
+   [Ada]          worldline-owner_conjunction_wire.adb
+   [Ada]          worldline-custody_v2_typed_step.adb
+   [Ada]          worldline-evaluation_v2.adb
+   [Ada]          worldline-custody_v2_s0_abandon.adb
+   [Ada]          genesis_float_domain_controls.adb
+   [Ada]          worldline-retained_evidence_replay.adb
+   [Ada]          worldline-retained_raw_decode.adb
+   [Ada]          evaluation_pending.adb
+   [Ada]          worldline-evaluation_role_native.adb
+   [Ada]          canonical_artifacts.adb
+   [Ada]          worldline-custody_v2_request_step.adb
+   [Ada]          evaluation_completion_roster.adb
+   [Ada]          worldline-operation_archive.adb
+   [Ada]          worldline-evaluation_authority.adb
+   [Ada]          worldline-recovery_protocol.adb
+   [Ada]          worldline-startup_admission_owned.adb
+   [Ada]          worldline-custody_v2_history.adb
+   [Ada]          worldline-custody_v2_schema_correspondence.adb
+   [Ada]          worldline-emitter_channel_evidence.adb
+   [Ada]          worldline-archive_text.adb
+   [Ada]          cosmogony-universes.adb
+   [Ada]          worldline-custody_v2_raw_next.adb
+   [Ada]          worldline-custody_v2_values.adb
+   [Ada]          resource_observation_classification_wire.adb
+   [Ada]          worldline-recovery_authorization_v3.adb
+   [Ada]          worldline-transaction_relations.adb
+   [Ada]          resource_scoped_run_ledger.adb
+   [Ada]          worldline-custody_v2_domain_hmac.adb
+   [Ada]          worldline-recovery_authorization_c_api.adb
+   [Ada]          worldline-scoped_record_source.adb
+   [Ada]          worldline-custody_v2_subject_evidence.adb
+   [Ada]          resource_admission.adb
+   [Ada]          worldline-scoped_capture_owner_projection.adb
+   [Ada]          worldline-native_lifetime_observation.adb
+   [Ada]          worldline-custody_v2_operation_journal.adb
+   [Ada]          worldline-custody_v2_provision.adb
+   [Ada]          worldline-resource_wire.adb
+   [Ada]          worldline-resource_child_execution_wire.adb
+   [Ada]          worldline-producer_values.adb
+   [Ada]          cosmogony-genesis.adb
+   [Ada]          worldline-root_custody_raw_operands.ads
+   [Ada]          worldline-scoped_archive.adb
+   [Ada]          worldline-root_custody_abandon.adb
+   [Ada]          worldline-owner_retry_audit_wire.adb
+   [Ada]          worldline-root_custody_mutation_roles.adb
+   [Ada]          cosmogony-revocable_capabilities.adb
+   [Ada]          worldline-transitions.adb
+   [Ada]          worldline-recovery_protocol_c_api.adb
+   [Ada]          resource_actor_admission_wire.adb
+   [Ada]          worldline-collapse_wire.adb
+   [Ada]          evaluation_history.adb
+   [Ada]          worldline-owner_transitions_wire.adb
+   [Ada]          worldline-canonical_operation.adb
+   [Ada]          resource_ledger.adb
+   [Ada]          worldline-native_execution_capture.adb
+   [Ada]          attest-sha256.adb
+   [Ada]          attest-custody_sha256.adb
+   [Ada]          attest.ads
+   [C]            worldline_actuator.c
+   [C]            full_physical_actuator.c
+   [Ada]          spark-containers-formal-unbounded_vectors.adb
+   [Ada]          spark-containers-formal-unbounded_hashed_maps.adb
+   [Ada]          spark-containers-formal-unbounded_hashed_sets.adb
+   [Ada]          spark-containers-formal-ordered_maps.adb
+   [Ada]          spark-containers-formal-vectors.adb
+   [Ada]          spark-containers-types.ads
+   [Ada]          spark-big_reals.ads
+   [Ada]          spark-containers-formal-unbounded_ordered_maps.adb
+   [Ada]          spark-big_intervals.ads
+   [Ada]          spark-containers-hash.adb
+   [Ada]          spark-containers-formal-unbounded_ordered_sets.adb
+   [Ada]          spark-big_integers.ads
+   [Ada]          spark.ads
+   [Ada]          spark-containers-formal-unbounded_doubly_linked_lists.adb
+   [Ada]          spark-containers-formal-holders.adb
+   [Ada]          spark-containers-formal-ordered_sets.adb
+   [Ada]          spark-containers-functional-trees.adb
+   [Ada]          spark-containers-formal-hash_tables-prime_numbers.adb
+   [Ada]          spark-containers-formal-hash_tables.ads
+   [Ada]          spark-c-strings.adb
+   [Ada]          spark-tests-array_lemmas.adb
+   [Ada]          spark-lemmas-unconstrained_array.adb
+   [Ada]          spark-cut_operations.adb
+   [Ada]          spark-pointers.ads
+   [Ada]          spark-lemmas-mod_arithmetic.adb
+   [Ada]          spark-tests.ads
+   [Ada]          spark-containers-formal-hashed_maps.adb
+   [Ada]          spark-containers-functional-sets-higher_order.adb
+   [Ada]          spark-lemmas-fixed_point_arithmetic.adb
+   [Ada]          spark-containers-functional-maps-higher_order.adb
+   [Ada]          spark-conversions.ads
+   [Ada]          spark-containers-functional-base.adb
+   [Ada]          spark-containers-formal-doubly_linked_lists.adb
+   [Ada]          spark-containers-functional-infinite_sequences.adb
+   [Ada]          spark-containers-formal-hash_tables-generic_keys.adb
+   [Ada]          spark-pointers-abstract_maps.ads
+   [Ada]          spark-higher_order-fold.adb
+   [Ada]          spark-lemmas-floating_point_arithmetic.adb
+   [Ada]          spark-lemmas-mod64_arithmetic.ads
+   [Ada]          spark-lemmas-constrained_array.adb
+   [Ada]          spark-conversions-float_conversions.ads
+   [Ada]          spark-containers-functional-infinite_sequences-higher_order.adb
+   [Ada]          spark-containers-functional-maps.adb
+   [Ada]          spark-containers-functional-multisets.adb
+   [Ada]          spark-lemmas-float_arithmetic.ads
+   [Ada]          spark-higher_order.adb
+   [Ada]          spark-containers-stable_sorting.adb
+   [Ada]          spark-conversions-long_float_conversions.ads
+   [Ada]          spark-c.ads
+   [Ada]          spark-containers-formal-hashed_sets.adb
+   [Ada]          spark-lemmas.ads
+   [Ada]          spark-containers-functional-vectors-higher_order.adb
+   [Ada]          spark-containers-functional-vectors.adb
+   [Ada]          spark-containers-functional-holder.adb
+   [Ada]          spark-lemmas-long_float_arithmetic.ads
+   [Ada]          spark-lemmas-mod32_arithmetic.ads
+   [Ada]          spark-pointers-abstract_sets.adb
+   [Ada]          spark-pointers-pointers_with_aliasing_separate_memory.adb
+   [Ada]          spark-lemmas-long_integer_arithmetic.ads
+   [Ada]          spark-containers.ads
+   [Ada]          spark-containers-functional-sets.adb
+   [Ada]          spark-containers-functional.ads
+   [Ada]          spark-containers-formal.ads
+   [Ada]          spark-lemmas-arithmetic.adb
+   [Ada]          spark-containers-parameter_checks.adb
+   [Ada]          spark-c-constant_strings.adb
+   [Ada]          spark-conversions-long_integer_conversions.ads
+   [Ada]          spark-pointers-pointers_with_aliasing.adb
+   [Ada]          spark-containers-formal-hash_tables-generic_operations.adb
+   [Ada]          spark-lemmas-integer_arithmetic.ads
+Build Libraries
+   [gprlib]       sparklib.lexch
+   [archive]      libsparklib.a
+Warning: In library project "Worldline_Core"
+         Unit "Worldline.canonical_Operation" is not in the interface set
+         but it is needed by the spec of "Worldline.canonical_Exchange"
+         Unit "Worldline.archive_Base64" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.archive_Text" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.canonical_Operation_Wire" is not in the interface set
+         but it is needed by "Worldline.canonical_Exchange_Wire"
+   [index]        libsparklib.a
+         Unit "Worldline.scoped_Archive" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Evidence_Replay"
+         Unit "Worldline.custody_V2_Load_Input" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Raw_Next" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+         Unit "Worldline.custody_V2_Typed_Step" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Raw_Next"
+         Unit "Worldline.custody_V2_Archive_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.custody_V2_Empty_Seed" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.retained_Custody_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Empty_Seed"
+         Unit "Attest.custody_Sha256" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Custody_Chain"
+         Unit "Worldline.root_Custody_Archive_Join" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Custody_Chain"
+         Unit "Worldline.root_Custody_Row_Schema" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.root_Custody_Model" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Row_Schema"
+         Unit "Worldline.custody_V2_Fold_Rows" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Request_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Request_Abandon"
+         Unit "Worldline.root_Custody_Replay" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Abandon"
+         Unit "Worldline.root_Custody_Phase_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Replay"
+         Unit "Worldline.root_Custody_Context" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Phase_Values"
+         Unit "Worldline.custody_V2_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+   [gprlib]       worldline_core.lexch
+   [bind SAL]     worldline_core
+   [Ada]          b__worldline_core.adb
+   [link library] libworldline_core.so

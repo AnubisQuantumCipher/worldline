@@ -1,0 +1,172 @@
+{
+  "schema": "worldline-source16-executed-blocker-diagnosis-and-single-successor-decision-v1",
+  "observer": "Main",
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:ultra",
+  "recorded_at": "2026-10-11 08:28:01 UTC",
+  "clock_source_tool": "clock.curr_time",
+  "actual_clock_response": {
+    "current_time": "2026-10-11 08:28:01 UTC"
+  },
+  "source15_immutable": true,
+  "source16_immutable": true,
+  "current_frozen_source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v16/source",
+  "predecessor_selection": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v16/source-selection.json",
+    "sha256": "801da68986d48ae07c5933df9d29b7ffe69e3281ad62480654e32d04e94fbc8e",
+    "bytes": 21680,
+    "mode": 420
+  },
+  "predecessor_stable_source_inventory": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v16/stable-source-inventory.json",
+    "sha256": "a216c66983e06c96f6d9326122b190bbf84bd351084ca106a7119a229f750ea8",
+    "bytes": 231104,
+    "mode": 420
+  },
+  "actual_original_acquisition_Main": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/evidence/Main-original-qualified-tail-execution-v1/acquisition-regression-tests/Main-complete-owned-tail-observation.json",
+    "sha256": "674345916f5792673abb25a00984ccb27dad9e5808cdbe149531911bae33cbbd",
+    "bytes": 1716,
+    "mode": 384
+  },
+  "actual_isolated_first_original_error": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-executed-first-original-error-observation-v1.json",
+    "sha256": "f4825360547c3f8e9c7deb23e32f5afb9c85cf756b94254e270ef797afe7c717",
+    "bytes": 3470,
+    "mode": 420
+  },
+  "independent_actual_diagnostic_custody_and_cause_assessment": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/source16-first-original-error-actual-diagnostic-independent-observation-v1.json",
+    "sha256": "3d5021a3d9ce3af1d3fd05c43a944ba321ce47da75203f2e3386a22dde8c04d6",
+    "bytes": 63791,
+    "mode": 420
+  },
+  "actual_isolated_terminal": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/Main-terminal.json",
+    "sha256": "4d07e9c1dd0dd45d5328f78ea6fceaaaa12e425661b561d655560e104d38d111",
+    "bytes": 2533,
+    "mode": 384
+  },
+  "actual_isolated_traceback": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/child.stderr",
+    "sha256": "31bf812b802292335025734ecca5431bcf9c75b6c2798f12b14f951dedfa5717",
+    "bytes": 4707,
+    "mode": 384
+  },
+  "actual_diagnostic_collection": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/collection.json",
+    "sha256": "2f195de5c744b7bafaf7f35de426d23b9b91f2b92308846270a82de9523dfb3c",
+    "bytes": 124373,
+    "mode": 384
+  },
+  "current_released_window_at_decision": {
+    "path": "/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json",
+    "sha256": "afc89fef1e825845871a2269a48196cae05e2189d12e5d425050bae1fa754ae8",
+    "bytes": 403952,
+    "mode": 420
+  },
+  "why_current_candidate_cannot_proceed": "The original complete acquisition actually terminated at Main deadline after ordinary errors. The first original failing method independently reproduces FINALIZATION_RETURN_PREFIX_CHANGED during candidate finalization, before revalidation. The exact frozen source and compiled library contain a finite-numeric full-token-consumption defect that can reject unchanged numeric members of the native ordered original-return prefix. This candidate has not passed the required campaign and cannot receive Phase One completion credit.",
+  "first_demonstrated_diagnostic_blocking_defect": "Native ordered return-prefix refusal during _candidate finalization; exact status FINALIZATION_RETURN_PREFIX_CHANGED.",
+  "concrete_compiled_source_defect": {
+    "actual_ordinary_numeric_input": {
+      "actor": "ordinary-revalidation",
+      "exitCode": 0,
+      "mode": 9,
+      "packet": {
+        "bytes": 14319,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/observation/native-before-80-395377620983566/packet.typed.json",
+        "sha256": "95a2230832a5dbbc2d943f77a412dea0005dcb3c75ef7006905fd21cd7fe4cfa"
+      },
+      "payload_kind": "agent-invocation-result",
+      "same_complete_payload_in_actual_current_row": true,
+      "schemaVersion": 1,
+      "scope": "Genuine returned ordinary append postflight input; not direct capture_plan row/return operands",
+      "worldInstance": "ef1b6e59-c891-4b58-a495-40fc260d70ef"
+    },
+    "evidence_class": "INDEPENDENT_SOURCE_AND_OFFLINE_COMPILED_CORRESPONDENCE; not an actual captured failing member",
+    "finding": "JSON_Number compares the consumed complete V.Slice parse extent against the inclusive endpoint subtraction instead of the complete token extent; this can classify valid finite numeric leaves Not_Numeric and refuse unchanged numeric equality.",
+    "guard_line": 176,
+    "independent_actual_offline_compiled_reads": {
+      "actual_DWARF_mapping": "worldline-raw_json.adb:176 discriminators 8/12",
+      "actual_exit_codes": [
+        0,
+        0
+      ],
+      "addr2line_tool_chunk": "43f95b",
+      "current_same_library": {
+        "bytes": 64422960,
+        "mode": 493,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/lib/libworldline_core.so",
+        "sha256": "4dfb2d2a103281a93ee45641760464115813fd9353b158f6156b4d4fb57953a7"
+      },
+      "instructions_observed": [
+        "d0c49c subs x22,x22,w27,sxtw",
+        "d0c4ac cmp x0,x22",
+        "d0c4b0 b.ne d0c5f8"
+      ],
+      "objdump_tool_chunk": "10c33b",
+      "offline_only_no_ELF_execution": true
+    },
+    "jackal_exact": "1",
+    "jackal_formal": false,
+    "jackal_non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "exact rational arithmetic does not prove parser or code correctness"
+    ],
+    "jackal_parsed": "1-(1-1)",
+    "jackal_singleton_extent_example": {
+      "bytes": 1390,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/source16-json-number-inclusive-span-jackal-exact-receipt-v1.json",
+      "sha256": "88b55b4d98872607b33f8ebcf69c8c5a228b56b17034ef020246864f8bc3b3d3"
+    },
+    "jackal_status": "exact",
+    "native_number_parse_line": 136,
+    "same_body_complete_token_guard_line": 373,
+    "source": {
+      "bytes": 35652,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v16-ultra-v1-draft/candidate/source/core/worldline-raw_json.adb",
+      "sha256": "95914725b43d2d23c0f277a4561394e211c18a603bf225dba9f3b6ce45224aa7"
+    }
+  },
+  "causal_limits": {
+    "direct_capture_plan_operands_retained": false,
+    "first_rejected_member": "UNOBSERVED",
+    "unfinished_original_full_suite_traceback": "NOT_RETAINED",
+    "isolated_exception_transferred_to_original_full_suite": false,
+    "additional_row_return_discrepancies_excluded": false,
+    "repair_efficacy": "UNVERIFIED_UNTIL_MATCHING_NEW_SOURCE_EXECUTION"
+  },
+  "smallest_authorized_product_correction": {
+    "path": "core/worldline-raw_json.adb",
+    "function": "JSON_Number",
+    "old": "if N.After /= P.Count (Item.Last - Item.First) then return Result; end if;",
+    "new": "if N.After /= P.Count (Item.Last - Item.First + 1) then return Result; end if;",
+    "public_spec_contracts_ABI_unchanged": true,
+    "ordered_every_original_member_relation_and_metadata_exemptions_unchanged": true,
+    "complete_finite_numeric_domain_and_bool_nonfinite_branches_preserved": true,
+    "required_binding_refresh_only": [
+      "existing normalized CONTRACT_PINS core/worldline-raw_json.adb entry through original refresh_contract_pins.py",
+      "truthful new source_registration provenance and current required proof_manifest mapping; historical Source16 binding remains historical"
+    ],
+    "unrelated_select_or_private_changes_authorized": false
+  },
+  "sole_authorized_successor": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v17/source",
+  "successor_source_author": "/root/protected_ultra",
+  "parallel_successor_candidates": false,
+  "overwrite_or_rebind_prior_sources_frames_evidence": false,
+  "successor_requires_independent_GPT_6_1_ultra_current_source_review_before_freeze_or_target": true,
+  "required_matching_source_execution": "Rerun the entire original required set through existing authorized paths in dependency order: full build and original failure reproduction, full strict proof, complete original runtime plus all additions, authentic protected/native/world fixtures and ownership/reclamation, independent final acceptance, accepted publication. Every unlaunched campaign remains UNRUN.",
+  "proof_scope_contracts_rosters_floors_accepted_cases_controls_resource_limits_unchanged": true,
+  "historical_passes_transfer": false,
+  "unlaunched_campaigns_count_as_failure_or_pass": false,
+  "operator_only_prerequisite": "NONE_DEMONSTRATED_FOR_CURRENT_ORDINARY_LANE",
+  "successor_target_execution": false,
+  "strict_proof_acceptance": false,
+  "complete_runtime_acceptance": false,
+  "independent_final_acceptance": false,
+  "accepted_publication": false,
+  "phase_acceptance": false,
+  "phase_complete": false
+}

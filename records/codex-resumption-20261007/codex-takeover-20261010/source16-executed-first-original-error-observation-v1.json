@@ -1,0 +1,62 @@
+{
+  "schema": "worldline-actual-source16-first-original-error-diagnostic-observation-v1",
+  "observer": "Main",
+  "recorded_at": "2026-10-11 08:16:07 UTC",
+  "clock_source_tool": "clock.curr_time",
+  "actual_clock_response": {
+    "current_time": "2026-10-11 08:16:07 UTC"
+  },
+  "source15_immutable": true,
+  "sole_frozen_product_source": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v16/source",
+  "source17_exists_or_prepared": false,
+  "diagnostic_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1",
+  "actual_ready": {
+    "launch_chunk": "c619bc",
+    "session_id": 60475,
+    "terminal_chunk": "dd9d6e",
+    "exit_code": 0
+  },
+  "actual_reserve": {
+    "launch_chunk": "974510",
+    "session_id": 6775,
+    "terminal_chunk": "a631a3",
+    "exit_code": 0,
+    "window_sha256": "54727105118c96b7a4047f61373fac1a34bcf699d440701da0e38731a8e84e91"
+  },
+  "actual_diagnostic": {
+    "launch_chunk": "78ee4e",
+    "session_id": 21529,
+    "terminal_chunk": "2e3f91",
+    "exit_code": 1,
+    "original_method": "test_revalidation_binding.OneCoherentEvaluation.test_a_failed_revalidation_does_not_speak",
+    "actual_test_result": "ERROR",
+    "actual_exception": "FINALIZATION_RETURN_PREFIX_CHANGED",
+    "actual_failure_stage": "_candidate finalization before the first revalidation",
+    "traceback_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/run/child.stderr",
+    "scope_wait": 1,
+    "child_wait": 1,
+    "observer_errors": [],
+    "inputs_unchanged": true
+  },
+  "actual_collection": {
+    "launch_chunk": "5088e4",
+    "session_id": 91946,
+    "terminal_chunk": "c42e51",
+    "exit_code": 0,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/collection.json",
+    "window_status": "released",
+    "window_sha256": "afc89fef1e825845871a2269a48196cae05e2189d12e5d425050bae1fa754ae8"
+  },
+  "first_original_full_suite_traceback": "NOT_RETAINED_BEFORE_MAIN_DEADLINE",
+  "isolated_reproduction_does_not_supply_original_full_suite_traceback": true,
+  "first_failed_capture_plan_member": "UNOBSERVED",
+  "diagnosis_status": "independent causal assessment in progress; concrete compiled numeric-token extent defect reported; no correction authorized or composed",
+  "current_product_cannot_proceed": "Source16 original acquisition terminated at Main deadline after errors; its first failing method now independently reproduces a native original-return-prefix refusal during candidate creation. Full required set cannot be credited on this source.",
+  "required_full_strict_proof": "UNRUN_ON_SOURCE16",
+  "complete_original_runtime_plus_additions": "NOT_PASSED_ON_SOURCE16",
+  "authentic_protected_fixtures": "UNRUN_ON_SOURCE16",
+  "independent_final_acceptance": false,
+  "accepted_publication": false,
+  "phase_complete": false,
+  "operator_only_prerequisite": "NONE_DEMONSTRATED_FOR_CURRENT_ORDINARY_DIAGNOSTIC"
+}

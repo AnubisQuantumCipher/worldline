@@ -1,0 +1,15 @@
+with "../pending-component/pending.gpr";
+project Epoch_Correspondence_Pending_Tests is
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/epoch-correspondence-pending-tests";
+   for Exec_Dir use "../bin/epoch-correspondence-pending";
+   for Main use ("test_epoch_correspondence.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+   package Linker is
+      for Default_Switches ("Ada") use
+        ("-Wl,-rpath,$ORIGIN/../../lib", "-Wl,-rpath,$ORIGIN/../../pending-component/lib");
+   end Linker;
+end Epoch_Correspondence_Pending_Tests;

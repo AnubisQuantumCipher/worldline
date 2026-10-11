@@ -1,0 +1,135 @@
+{
+  "schema": "worldline.source15-external-causal-observation-author-packet-v1",
+  "author": "CodexSource15CausalDiagnosticAuthor",
+  "author_agent": "/root/proof_ultra",
+  "author_model": "openai-codex/gpt-6.1-sol:ultra",
+  "author_provenance": {
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/proof_ultra-actual-launch-provenance.json",
+    "sha256": "de6ccd4d8663133f7967ae97f75e90ceb23a61226272da1acf584fdf70fe195f",
+    "bytes": 6105,
+    "mode": 420
+  },
+  "diagnostic_directory": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1",
+  "source_candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate",
+  "requested_disposition": "QUALIFIED_EXACT_SOURCE15_EXTERNAL_CAUSAL_OBSERVATION_ONLY",
+  "requested_review_path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/independent-source-review.json",
+  "artifacts": {
+    "INTERFACE.md": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/INTERFACE.md",
+      "sha256": "64d1f03eb92a537dc822ac64964a4f99dc38d970cf0c9ce0b4fc2bcb88c413c6",
+      "bytes": 4380,
+      "mode": 420
+    },
+    "observe_causal.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observe_causal.py",
+      "sha256": "3daf002ff5b49cfe93d3b09d157f33a84aa8db246c2bf8cd37e9044143f4a838",
+      "bytes": 10247,
+      "mode": 420
+    },
+    "profile.json": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/profile.json",
+      "sha256": "5e60d1c07135ff9eb1d48b0ccadc68f4ae54265cd85dca5aa41c2af4aed526e3",
+      "bytes": 76011,
+      "mode": 420
+    },
+    "receiver.py": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/receiver.py",
+      "sha256": "058742ab4e70be7ca60f4a24e433fa6038dc65bab4c86ac224590706f01f0b60",
+      "bytes": 31901,
+      "mode": 420
+    }
+  },
+  "complete_initial_physical_keyset": [
+    "INTERFACE.md",
+    "observe_causal.py",
+    "profile.json",
+    "receiver.py",
+    "AUTHOR-PACKET.json"
+  ],
+  "preimages": {
+    "receiver.py": "ABSENT",
+    "observe_causal.py": "ABSENT",
+    "INTERFACE.md": "ABSENT",
+    "profile.json": "ABSENT"
+  },
+  "source_guard_correspondence": {
+    "ready_reserve": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/review/root-source-binding-adoption-v1/root_ready.py",
+      "sha256": "6935a5477503ca1e688e2447fddc0215ffe0f5bbfb5ee111630d69eb14f1e92f",
+      "bytes": 4925,
+      "mode": 420
+    },
+    "live": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/review/root-live-lane-v1/live_check.py",
+      "sha256": "9f57da08bc57eba12230588cb792f64d1cc69362bc8b2499cdad49c7c35e0f4c",
+      "bytes": 10314,
+      "mode": 420
+    },
+    "original_runner": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/run_checks.py",
+      "sha256": "fd55dcc7074ff0c5d133bfbe8d9f1e9c0644e767c22601417a4c602781eb914b",
+      "bytes": 39883,
+      "mode": 420
+    },
+    "JACKAL_handshake": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/review/root-live-lane-v1/handshake.py",
+      "sha256": "b88c11b32647c5a281e6967fc4dd462a0622492b54753fd6d1f32bd92d40e5b7",
+      "bytes": 14462,
+      "mode": 420
+    },
+    "original_guard_clarification": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-diagnostic-original-guard-clarification-v1.json",
+      "sha256": "bc15365efadbbf12b6a91dd3c087bd0c971bbae2133b5fa3dd8269883fcc43bb",
+      "bytes": 1107,
+      "mode": 420
+    }
+  },
+  "boundary_AST": {
+    "policy": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/runtime/worldline/ordinary_receipt_policy.py",
+      "sha256": "30415e96b1a37d4555b6e1503fa06656bdf405ea5642b9d5fc238a44a315f2fa",
+      "bytes": 21773,
+      "mode": 420
+    },
+    "before_native_line": 48,
+    "before_native_statement": "result = int(decide(owned, count, mode))",
+    "after_native_line": 49,
+    "all_modes_captured": true
+  },
+  "original_module_command": [
+    "/usr/bin/python3",
+    "-m",
+    "revalidation_diagnostic",
+    "-v",
+    "test_raw_process_ownership",
+    "test_agent_acquisition_ownership",
+    "test_causal",
+    "test_netguard",
+    "test_systemd",
+    "test_revalidation_binding",
+    "test_causal_root_coverage",
+    "test_examiner_audit",
+    "test_kernel_role_observer",
+    "test_namespace_lifetime"
+  ],
+  "external_driver_argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observe_causal.py",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation"
+  ],
+  "Root_only_future_actions": [
+    "ready",
+    "reserve",
+    "run",
+    "collect"
+  ],
+  "future_stage_records": null,
+  "future_independent_opinion": null,
+  "future_window_reservation": null,
+  "target_execution": false,
+  "phase_acceptance": false,
+  "campaign_credit": false,
+  "cause_established": false,
+  "validation": "All external Python files AST parsed only. No receiver/driver/product import, fixture, policy call, ptrace, campaign or diagnostic executed."
+}

@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-11T05:37:13.626709+00:00",
+  "scope_wait": -15,
+  "child_wait": "UNKNOWN",
+  "inputs_unchanged": true,
+  "errors": [
+    {
+      "at": "2026-10-11T05:36:26.263408+00:00",
+      "type": "TimeoutError",
+      "message": "Original Main 1000 second observation deadline",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/receiver-final.py\", line 464, in run\n    remaining()\n    ~~~~~~~~~^^\n  File \"/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/receiver-final.py\", line 42, in remaining\n    raise TimeoutError('Original Main 1000 second observation deadline')\nTimeoutError: Original Main 1000 second observation deadline\n"
+    }
+  ],
+  "campaign_credit": false,
+  "cause_established": false,
+  "Main_deadline_seconds": 1000,
+  "raw_stream_end_if_interrupted": "UNKNOWN",
+  "raw_streams": {
+    "scope.stdout": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/scope.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 384
+    },
+    "scope.stderr": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/scope.stderr",
+      "sha256": "3516bd360e629e7f6c1711e7923888993faf90cd90e3ee6d64f87b754423d813",
+      "bytes": 149,
+      "mode": 384
+    },
+    "child.stdout": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/child.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 384
+    },
+    "child.stderr": {
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/child.stderr",
+      "sha256": "2207d93df7a0a27cb8120a9714b2bd928b280db229fb560d145ed40c953f4bed",
+      "bytes": 3990,
+      "mode": 384
+    }
+  }
+}

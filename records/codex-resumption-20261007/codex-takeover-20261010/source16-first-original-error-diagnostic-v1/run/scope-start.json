@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-11T08:08:09.168769+00:00",
+  "pid": 125379,
+  "pgid": 125379,
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-source16-first-original-error-d3cc00ec2aa145898b0dadc5e58ec5c0.scope",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source16-first-original-error-diagnostic-v1/receiver.py",
+    "child"
+  ],
+  "unit": "codex-worldline-source16-first-original-error-d3cc00ec2aa145898b0dadc5e58ec5c0.scope"
+}

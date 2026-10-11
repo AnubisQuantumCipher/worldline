@@ -1,0 +1,115 @@
+{
+  "accepted_publication": "OPEN",
+  "at": "2026-10-11T04:26:57.957858+00:00",
+  "authentic_protected_fixtures_world_actors": "UNRUN",
+  "current_native_frame": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate",
+  "first_demonstrated_blocker": {
+    "Main_observation_state": "FAILED_ORIGINAL_1000_SECOND_OBSERVATION_DEADLINE",
+    "actual_Main_API_terminal": {
+      "bytes": 1879,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-acquisition-Main-terminal-actual-native-api-event-v1.jsonl",
+      "sha256": "a8e66b979e27d73cc393a26954be693cdadce2c6d9cc8998d1b760acf82d1083"
+    },
+    "actual_Main_terminal": {
+      "bytes": 1716,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/evidence/Main-original-qualified-tail-execution-v1/acquisition-regression-tests/Main-complete-owned-tail-observation.json",
+      "sha256": "dcf4a1eb7285e7348d7cf83ab844638f8189716182eeddfb9b020906fe9d0af2"
+    },
+    "campaign": "acquisition-regression-tests",
+    "cause": "NOT_YET_EXCLUSIVELY_IDENTIFIED",
+    "child_result": "UNKNOWN",
+    "child_wait": "UNKNOWN",
+    "cleanup_owned_scope_return": 0,
+    "execution_state": "LAUNCHED_INTERRUPTED_NO_CHILD_TERMINAL_RESULT",
+    "last_raw_test_entry": "test_why_walks_agent_mission_file_and_prime (test_causal.CausalTests.test_why_walks_agent_mission_file_and_prime) ... ",
+    "no_test_assertion_failure_claim": true,
+    "outer_owned_cleanup_wait": -15,
+    "retained_original_inputs": {
+      "bytes": 220384,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/evidence/acquisition-regression-tests-v1/inputs-before.json",
+      "sha256": "fbbe80ce2cd3feebe4af46f4ade3dafb484482c0405bd480371894913c57f9ee"
+    },
+    "source_order_inference": "Gamma canonical event and real SQL INSERT are durable; gamma line range absent. Interrupted interval includes append_postflight, subsequent ranges computation and add_line_ranges; no active frame captured."
+  },
+  "full_strict_proof": "UNRUN",
+  "guarantees_caps_rosters_controls_unchanged": true,
+  "immutable_integrated_source_inventory": {
+    "bytes": 208139,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v15/source-inventory.json",
+    "sha256": "863a90f86fc33aea88ff33b4615622a410f6a3d79b58a21a216f1951c11795f4"
+  },
+  "independent_final_acceptance": "OPEN",
+  "independent_fixture_observation": {
+    "bytes": 395949,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/source15-acquisition-main-deadline-and-preserved-fixture-independent-observation-v3.json",
+    "sha256": "95578c8259a9efbf39179b59ca9ff73169524d013af593766e4607cac2c82039"
+  },
+  "observed_owned_scope": {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "codex-worldline-codex-takeover-runtime-v15-acquisition-regression-tests-v1.scope",
+      "-p",
+      "LoadState",
+      "-p",
+      "ActiveState",
+      "-p",
+      "SubState",
+      "-p",
+      "ControlGroup",
+      "-p",
+      "Result"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "LoadState=not-found\nActiveState=inactive\nSubState=dead\nResult=success\nControlGroup=\n"
+  },
+  "owned_pids_absent": {
+    "3646257": true,
+    "3649510": true,
+    "3651780": true,
+    "3652717": true
+  },
+  "ownership_reclamation_acceptance": "OPEN",
+  "phase_acceptance": false,
+  "required_later_campaigns": "UNRUN_DEPENDENCY_BLOCKED",
+  "schema": "worldline-source15-first-demonstrated-blocker-root-record-v1",
+  "separate_terminal_collector_refusal": {
+    "actual_API_terminal": {
+      "bytes": 2449,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-collector-terminal-actual-native-api-event-v1.jsonl",
+      "sha256": "431b9f060cb7830f712fccd58db62b43321c9022256f5eb5527c192e2439936d"
+    },
+    "cause": "The retained genuine collect observation expired before terminal collection; unchanged gate refused it. No replacement or fabricated observation used.",
+    "first_assertion": "Original fresh clock gate failed",
+    "release_state": "NOT_RELEASED",
+    "source_location": "portable_goal.py:167",
+    "state": "ACTUALLY_INVOKED_EXIT_1"
+  },
+  "source_inventory_current_readback_mismatches": [],
+  "source_selection": {
+    "bytes": 20514,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v15/source-selection.json",
+    "sha256": "4e7ebdfd7427e42f44e8860c2f43ea4b73ca157898b106040b437f2c2a49b3ee"
+  },
+  "successor_created": false,
+  "window": {
+    "no_release_claim": true,
+    "observed_candidate": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate",
+    "observed_status": "reserved",
+    "pin": {
+      "bytes": 395201,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json",
+      "sha256": "579c0907144323fa68f95b3b6217b8dd47dcbd3415964cc6b755147648f9a8ad"
+    }
+  }
+}

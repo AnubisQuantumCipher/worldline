@@ -1,0 +1,16 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # The same full assurance a release requires, on the exact commit under test.
+  assurance:
+    uses: ./.github/workflows/assurance.yml
+    with:
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}

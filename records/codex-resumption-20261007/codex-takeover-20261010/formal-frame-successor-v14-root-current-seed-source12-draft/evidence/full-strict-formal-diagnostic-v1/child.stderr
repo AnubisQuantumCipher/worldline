@@ -1,0 +1,3256 @@
+ info: implicit aspect Always_Terminates on "Ch" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:28:13
+
+ info: implicit aspect Always_Terminates on "Maj" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:31:13
+
+ info: implicit aspect Always_Terminates on "Sigma0" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:34:13
+
+ info: implicit aspect Always_Terminates on "Sigma1" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:37:13
+
+ info: implicit aspect Always_Terminates on "Theta0" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:40:13
+
+ info: implicit aspect Always_Terminates on "Theta1" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:43:13
+
+ info: implicit aspect Always_Terminates on "Low_Byte" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:46:13
+
+ info: range check proved
+--> attest-custody_sha256.adb:47:36
+
+ info: aspect Always_Terminates on "Compress" has been proved, subprogram will terminate
+--> attest-custody_sha256.adb:54:14
+
+ info: data dependencies proved
+--> attest-custody_sha256.adb:55:11
+
+ info: flow dependencies proved
+--> attest-custody_sha256.adb:56:11
+
+ info: initialization of "A" proved
+--> attest-custody_sha256.adb:60:07
+
+ info: initialization of "Bb" proved
+--> attest-custody_sha256.adb:60:10
+
+ info: initialization of "Cc" proved
+--> attest-custody_sha256.adb:60:14
+
+ info: initialization of "D" proved
+--> attest-custody_sha256.adb:60:18
+
+ info: initialization of "E" proved
+--> attest-custody_sha256.adb:60:21
+
+ info: initialization of "F" proved
+--> attest-custody_sha256.adb:60:24
+
+ info: initialization of "G" proved
+--> attest-custody_sha256.adb:60:27
+
+ info: initialization of "Hh" proved
+--> attest-custody_sha256.adb:60:30
+
+ info: initialization of "T1" proved
+--> attest-custody_sha256.adb:60:34
+
+ info: initialization of "T2" proved
+--> attest-custody_sha256.adb:60:38
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:66:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:66:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:67:34
+
+ info: index check proved
+--> attest-custody_sha256.adb:68:16
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:68:52
+
+ info: index check proved
+--> attest-custody_sha256.adb:68:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:69:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:69:56
+
+ info: index check proved
+--> attest-custody_sha256.adb:69:56
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:70:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:70:56
+
+ info: index check proved
+--> attest-custody_sha256.adb:70:56
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:71:52
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:71:56
+
+ info: index check proved
+--> attest-custody_sha256.adb:71:56
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:72:20
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:80:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:80:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:81:34
+
+ info: index check proved
+--> attest-custody_sha256.adb:82:16
+
+ info: index check proved
+--> attest-custody_sha256.adb:82:37
+
+ info: index check proved
+--> attest-custody_sha256.adb:82:50
+
+ info: index check proved
+--> attest-custody_sha256.adb:83:36
+
+ info: index check proved
+--> attest-custody_sha256.adb:83:51
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:84:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> attest-custody_sha256.adb:91:31
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:118:33
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:118:33
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-custody_sha256.adb:124:24
+
+ info: range check proved
+--> attest-custody_sha256.adb:128:30
+
+ info: range check proved
+--> attest-custody_sha256.adb:132:46
+
+ info: index check proved
+--> attest-custody_sha256.adb:146:14
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:147:14
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:151:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:151:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:152:34
+
+ info: index check proved
+--> attest-custody_sha256.adb:153:20
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:154:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-custody_sha256.adb:156:21
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:161:33
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:161:33
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:162:31
+
+ info: index check proved
+--> attest-custody_sha256.adb:163:17
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:164:17
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:171:36
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:171:36
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:172:34
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:173:36
+
+ info: index check proved
+--> attest-custody_sha256.adb:173:36
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:174:42
+
+ info: range check proved
+--> attest-custody_sha256.adb:174:42
+
+ info: range check proved
+--> attest-custody_sha256.adb:174:53
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:175:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-custody_sha256.adb:179:18
+
+ info: loop invariant initialization proved
+--> attest-custody_sha256.adb:186:16
+
+ info: loop invariant preservation proved
+--> attest-custody_sha256.adb:186:16
+
+ info: loop variant proved
+--> attest-custody_sha256.adb:187:34
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:188:18
+
+ info: index check proved
+--> attest-custody_sha256.adb:188:18
+
+ info: precondition proved
+--> attest-custody_sha256.adb:188:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:188:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:189:18
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:189:22
+
+ info: index check proved
+--> attest-custody_sha256.adb:189:22
+
+ info: precondition proved
+--> attest-custody_sha256.adb:189:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:189:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:190:18
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:190:22
+
+ info: index check proved
+--> attest-custody_sha256.adb:190:22
+
+ info: precondition proved
+--> attest-custody_sha256.adb:190:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:190:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:191:18
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:191:22
+
+ info: index check proved
+--> attest-custody_sha256.adb:191:22
+
+ info: precondition proved
+--> attest-custody_sha256.adb:191:30
+
+ info: index check proved
+--> attest-custody_sha256.adb:191:45
+
+ info: overflow check proved
+--> attest-custody_sha256.adb:192:20
+
+ info: implicit aspect Always_Terminates on "Bit_Length" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:24:13
+
+ info: implicit aspect Always_Terminates on "Absorbed" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:29:13
+
+ info: implicit aspect Always_Terminates on "Initial" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:32:13
+
+ info: postcondition proved
+--> attest-custody_sha256.ads:33:19
+
+ info: postcondition proved
+--> attest-custody_sha256.ads:36:19
+
+ info: range check proved
+--> attest-custody_sha256.ads:36:71
+
+ info: implicit aspect Always_Terminates on "Final" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:38:13
+
+ info: implicit aspect Always_Terminates on "Hash" has been proved, subprogram will terminate
+--> attest-custody_sha256.ads:42:13
+ info: implicit aspect Always_Terminates on "Ch" has been proved, subprogram will terminate
+--> attest-sha256.adb:27:13
+
+ info: implicit aspect Always_Terminates on "Maj" has been proved, subprogram will terminate
+--> attest-sha256.adb:30:13
+
+ info: implicit aspect Always_Terminates on "Sigma0" has been proved, subprogram will terminate
+--> attest-sha256.adb:33:13
+
+ info: implicit aspect Always_Terminates on "Sigma1" has been proved, subprogram will terminate
+--> attest-sha256.adb:36:13
+
+ info: implicit aspect Always_Terminates on "Theta0" has been proved, subprogram will terminate
+--> attest-sha256.adb:39:13
+
+ info: implicit aspect Always_Terminates on "Theta1" has been proved, subprogram will terminate
+--> attest-sha256.adb:42:13
+
+ info: implicit aspect Always_Terminates on "Low_Byte" has been proved, subprogram will terminate
+--> attest-sha256.adb:45:13
+
+ info: range check proved
+--> attest-sha256.adb:46:36
+
+ info: aspect Always_Terminates on "Compress" has been proved, subprogram will terminate
+--> attest-sha256.adb:53:14
+
+ info: data dependencies proved
+--> attest-sha256.adb:54:11
+
+ info: flow dependencies proved
+--> attest-sha256.adb:55:11
+
+ info: initialization of "A" proved
+--> attest-sha256.adb:59:07
+
+ info: initialization of "Bb" proved
+--> attest-sha256.adb:59:10
+
+ info: initialization of "Cc" proved
+--> attest-sha256.adb:59:14
+
+ info: initialization of "D" proved
+--> attest-sha256.adb:59:18
+
+ info: initialization of "E" proved
+--> attest-sha256.adb:59:21
+
+ info: initialization of "F" proved
+--> attest-sha256.adb:59:24
+
+ info: initialization of "G" proved
+--> attest-sha256.adb:59:27
+
+ info: initialization of "Hh" proved
+--> attest-sha256.adb:59:30
+
+ info: initialization of "T1" proved
+--> attest-sha256.adb:59:34
+
+ info: initialization of "T2" proved
+--> attest-sha256.adb:59:38
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:65:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:65:36
+
+ info: loop variant proved
+--> attest-sha256.adb:66:34
+
+ info: index check proved
+--> attest-sha256.adb:67:16
+
+ info: overflow check proved
+--> attest-sha256.adb:67:52
+
+ info: index check proved
+--> attest-sha256.adb:67:52
+
+ info: overflow check proved
+--> attest-sha256.adb:68:52
+
+ info: overflow check proved
+--> attest-sha256.adb:68:56
+
+ info: index check proved
+--> attest-sha256.adb:68:56
+
+ info: overflow check proved
+--> attest-sha256.adb:69:52
+
+ info: overflow check proved
+--> attest-sha256.adb:69:56
+
+ info: index check proved
+--> attest-sha256.adb:69:56
+
+ info: overflow check proved
+--> attest-sha256.adb:70:52
+
+ info: overflow check proved
+--> attest-sha256.adb:70:56
+
+ info: index check proved
+--> attest-sha256.adb:70:56
+
+ info: overflow check proved
+--> attest-sha256.adb:71:20
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:79:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:79:36
+
+ info: loop variant proved
+--> attest-sha256.adb:80:34
+
+ info: index check proved
+--> attest-sha256.adb:81:16
+
+ info: index check proved
+--> attest-sha256.adb:81:37
+
+ info: index check proved
+--> attest-sha256.adb:81:50
+
+ info: index check proved
+--> attest-sha256.adb:82:36
+
+ info: index check proved
+--> attest-sha256.adb:82:51
+
+ info: overflow check proved
+--> attest-sha256.adb:83:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> attest-sha256.adb:90:31
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:117:33
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:117:33
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-sha256.adb:123:24
+
+ info: range check proved
+--> attest-sha256.adb:127:30
+
+ info: range check proved
+--> attest-sha256.adb:131:46
+
+ info: index check proved
+--> attest-sha256.adb:145:14
+
+ info: overflow check proved
+--> attest-sha256.adb:146:14
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:150:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:150:36
+
+ info: loop variant proved
+--> attest-sha256.adb:151:34
+
+ info: index check proved
+--> attest-sha256.adb:152:20
+
+ info: overflow check proved
+--> attest-sha256.adb:153:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-sha256.adb:155:21
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:160:33
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:160:33
+
+ info: loop variant proved
+--> attest-sha256.adb:161:31
+
+ info: index check proved
+--> attest-sha256.adb:162:17
+
+ info: overflow check proved
+--> attest-sha256.adb:163:17
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:170:36
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:170:36
+
+ info: loop variant proved
+--> attest-sha256.adb:171:34
+
+ info: overflow check proved
+--> attest-sha256.adb:172:36
+
+ info: index check proved
+--> attest-sha256.adb:172:36
+
+ info: overflow check proved
+--> attest-sha256.adb:173:42
+
+ info: range check proved
+--> attest-sha256.adb:173:42
+
+ info: range check proved
+--> attest-sha256.adb:173:53
+
+ info: overflow check proved
+--> attest-sha256.adb:174:20
+
+ info: non-aliasing of formal parameters "H" and "B" proved
+--> attest-sha256.adb:178:18
+
+ info: loop invariant initialization proved
+--> attest-sha256.adb:185:16
+
+ info: loop invariant preservation proved
+--> attest-sha256.adb:185:16
+
+ info: loop variant proved
+--> attest-sha256.adb:186:34
+
+ info: overflow check proved
+--> attest-sha256.adb:187:18
+
+ info: index check proved
+--> attest-sha256.adb:187:18
+
+ info: precondition proved
+--> attest-sha256.adb:187:30
+
+ info: index check proved
+--> attest-sha256.adb:187:45
+
+ info: overflow check proved
+--> attest-sha256.adb:188:18
+
+ info: overflow check proved
+--> attest-sha256.adb:188:22
+
+ info: index check proved
+--> attest-sha256.adb:188:22
+
+ info: precondition proved
+--> attest-sha256.adb:188:30
+
+ info: index check proved
+--> attest-sha256.adb:188:45
+
+ info: overflow check proved
+--> attest-sha256.adb:189:18
+
+ info: overflow check proved
+--> attest-sha256.adb:189:22
+
+ info: index check proved
+--> attest-sha256.adb:189:22
+
+ info: precondition proved
+--> attest-sha256.adb:189:30
+
+ info: index check proved
+--> attest-sha256.adb:189:45
+
+ info: overflow check proved
+--> attest-sha256.adb:190:18
+
+ info: overflow check proved
+--> attest-sha256.adb:190:22
+
+ info: index check proved
+--> attest-sha256.adb:190:22
+
+ info: precondition proved
+--> attest-sha256.adb:190:30
+
+ info: index check proved
+--> attest-sha256.adb:190:45
+
+ info: overflow check proved
+--> attest-sha256.adb:191:20
+
+ info: precondition proved
+--> attest-sha256.adb:205:07
+
+ info: implicit aspect Always_Terminates on "Absorbed" has been proved, subprogram will terminate
+--> attest-sha256.ads:26:13
+
+ info: implicit aspect Always_Terminates on "Initial" has been proved, subprogram will terminate
+--> attest-sha256.ads:29:13
+
+ info: postcondition proved
+--> attest-sha256.ads:30:19
+
+ info: range check proved
+--> attest-sha256.ads:33:73
+
+ info: postcondition proved
+--> attest-sha256.ads:34:19
+
+ info: range check proved
+--> attest-sha256.ads:34:71
+
+ info: implicit aspect Always_Terminates on "Final" has been proved, subprogram will terminate
+--> attest-sha256.ads:36:13
+
+ info: implicit aspect Always_Terminates on "Hash" has been proved, subprogram will terminate
+--> attest-sha256.ads:40:13
+
+ info: range check proved
+--> attest-sha256.ads:41:36
+ info: implicit aspect Always_Terminates on "Sextet" has been proved, subprogram will terminate
+--> worldline-producer_bytes.adb:9:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:10:49
+
+ info: range check proved
+--> worldline-producer_bytes.adb:11:76
+
+ info: range check proved
+--> worldline-producer_bytes.adb:12:76
+
+ info: initialization of "Size" proved
+--> worldline-producer_bytes.adb:18:64
+
+ info: data dependencies proved
+--> worldline-producer_bytes.adb:20:06
+
+ info: postcondition proved
+--> worldline-producer_bytes.adb:23:14
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:32:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:32:33
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:32:43
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:33:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:33:33
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:33:46
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:34:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:34:33
+
+ info: range check proved
+--> worldline-producer_bytes.adb:34:62
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:35:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:35:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:36:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:36:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:37:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:37:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:39:13
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:39:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:40:15
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:40:52
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:47:32
+
+ info: range check proved
+--> worldline-producer_bytes.adb:57:61
+
+ info: range check proved
+--> worldline-producer_bytes.adb:57:70
+
+ info: range check proved
+--> worldline-producer_bytes.adb:65:41
+
+ info: division check proved
+--> worldline-producer_bytes.adb:71:67
+
+ info: division check proved
+--> worldline-producer_bytes.adb:72:71
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:75:41
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:76:49
+
+ info: index check proved
+--> worldline-producer_bytes.adb:76:49
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:80:38
+
+ info: division check proved
+--> worldline-producer_bytes.adb:85:55
+
+ info: division check proved
+--> worldline-producer_bytes.adb:88:55
+
+ info: range check proved
+--> worldline-producer_bytes.adb:103:40
+
+ info: length check proved
+--> worldline-producer_bytes.adb:105:17
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:108:25
+
+ info: initialization of "Empty" proved
+--> worldline-producer_bytes.adb:114:07
+
+ info: initialization of "Size" proved
+--> worldline-producer_bytes.adb:115:07
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:117:07
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:117:36
+      + in value of subprogram parameter after the call at worldline-producer_bytes.adb:117
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:118:22
+
+ info: initialization of "Size" proved
+--> worldline-producer_bytes.adb:125:07
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:127:07
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:127:35
+      + in value of subprogram parameter after the call at worldline-producer_bytes.adb:127
+
+ info: initialization of "Output" proved
+--> worldline-producer_bytes.adb:133:07
+
+ info: range check proved
+--> worldline-producer_bytes.adb:133:07
+
+ info: initialization of "Rendered" proved
+--> worldline-producer_bytes.adb:134:07
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:137:07
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:137:35
+      + in value of subprogram parameter after the call at worldline-producer_bytes.adb:137
+
+ info: length check proved
+--> worldline-producer_bytes.adb:138:44
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:150:13
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:150:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:151:43
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:153:13
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:153:13
+
+ info: overflow check proved
+--> worldline-producer_bytes.adb:154:41
+
+ info: range check proved
+--> worldline-producer_bytes.adb:154:41
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:156:13
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:156:13
+
+ info: range check proved
+--> worldline-producer_bytes.adb:156:30
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:159:28
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:160:26
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:160:42
+
+ info: range check proved
+--> worldline-producer_bytes.adb:160:42
+
+ info: range check proved
+--> worldline-producer_bytes.adb:163:26
+
+ info: precondition proved
+--> worldline-producer_bytes.adb:167:23
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:167:39
+
+ info: range check proved
+--> worldline-producer_bytes.adb:167:39
+
+ info: division check proved
+--> worldline-producer_bytes.adb:173:63
+
+ info: division check proved
+--> worldline-producer_bytes.adb:174:63
+
+ info: range check proved
+--> worldline-producer_bytes.adb:176:16
+
+ info: loop invariant initialization proved
+--> worldline-producer_bytes.adb:176:16
+
+ info: loop invariant preservation proved
+--> worldline-producer_bytes.adb:176:16
+
+ info: assertion proved
+--> worldline-producer_bytes.adb:179:22
+
+ info: initialization check proved
+--> worldline-producer_bytes.adb:180:14
+
+ info: range check proved
+--> worldline-producer_bytes.adb:180:14
+
+ info: range check proved
+--> worldline-producer_bytes.ads:4:07
+
+ info: implicit aspect Always_Terminates on "Base64_Extent" has been proved, subprogram will terminate
+--> worldline-producer_bytes.ads:10:13
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:10:65
+
+ info: initialization of "Output" proved
+--> worldline-producer_bytes.ads:11:47
+
+ info: initialization of "Valid" proved
+--> worldline-producer_bytes.ads:11:68
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:11:94
+
+ info: implicit aspect Always_Terminates on "Base64" has been proved, subprogram will terminate
+--> worldline-producer_bytes.ads:12:13
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:12:59
+
+ info: implicit aspect Always_Terminates on "Digest" has been proved, subprogram will terminate
+--> worldline-producer_bytes.ads:13:13
+
+ info: data dependencies proved
+--> worldline-producer_bytes.ads:13:55
+
+ info: postcondition proved
+--> worldline-producer_bytes.ads:14:15
+ info: range check proved
+--> evaluation_finalization.adb:40:07
+
+ info: loop invariant initialization proved
+--> evaluation_finalization.adb:45:13
+
+ info: loop invariant preservation proved
+--> evaluation_finalization.adb:45:13
+
+ info: index check proved
+--> evaluation_finalization.adb:45:53
+
+ info: loop invariant initialization proved
+--> evaluation_finalization.adb:47:13
+
+ info: loop invariant preservation proved
+--> evaluation_finalization.adb:47:13
+
+ info: initialization check proved
+--> evaluation_finalization.adb:48:15
+
+ info: index check proved
+--> evaluation_finalization.adb:48:23
+
+ info: index check proved
+--> evaluation_finalization.adb:48:56
+
+ info: assertion proved
+--> evaluation_finalization.adb:50:22
+
+ info: initialization check proved
+--> evaluation_finalization.adb:51:14
+
+ info: range check proved
+--> evaluation_finalization.adb:51:14
+
+ info: range check proved
+--> evaluation_finalization.adb:78:23
+
+ info: overflow check proved
+--> evaluation_finalization.adb:84:30
+
+ info: index check proved
+--> evaluation_finalization.adb:84:30
+
+ info: loop invariant initialization proved
+--> evaluation_finalization.adb:90:13
+
+ info: loop invariant preservation proved
+--> evaluation_finalization.adb:90:13
+
+ info: overflow check proved
+--> evaluation_finalization.adb:91:31
+
+ info: index check proved
+--> evaluation_finalization.adb:91:31
+
+ info: index check proved
+--> evaluation_finalization.adb:92:47
+
+ info: overflow check proved
+--> evaluation_finalization.adb:95:31
+
+ info: overflow check proved
+--> evaluation_finalization.adb:95:48
+
+ info: index check proved
+--> evaluation_finalization.adb:95:48
+
+ info: division check proved
+--> evaluation_finalization.adb:96:61
+
+ info: overflow check proved
+--> evaluation_finalization.adb:98:31
+
+ info: overflow check proved
+--> evaluation_finalization.adb:98:48
+
+ info: overflow check proved
+--> evaluation_finalization.adb:98:82
+
+ info: index check proved
+--> evaluation_finalization.adb:98:82
+
+ info: division check proved
+--> evaluation_finalization.adb:99:61
+
+ info: loop invariant initialization proved
+--> evaluation_finalization.adb:104:13
+
+ info: loop invariant preservation proved
+--> evaluation_finalization.adb:104:13
+
+ info: overflow check proved
+--> evaluation_finalization.adb:105:32
+
+ info: overflow check proved
+--> evaluation_finalization.adb:105:49
+
+ info: index check proved
+--> evaluation_finalization.adb:105:49
+
+ info: overflow check proved
+--> evaluation_finalization.adb:105:62
+
+ info: index check proved
+--> evaluation_finalization.adb:106:61
+
+ info: division check proved
+--> evaluation_finalization.adb:106:65
+
+ info: overflow check proved
+--> evaluation_finalization.adb:108:33
+
+ info: overflow check proved
+--> evaluation_finalization.adb:108:50
+
+ info: overflow check proved
+--> evaluation_finalization.adb:108:63
+
+ info: overflow check proved
+--> evaluation_finalization.adb:108:84
+
+ info: index check proved
+--> evaluation_finalization.adb:108:84
+
+ info: index check proved
+--> evaluation_finalization.adb:109:61
+
+ info: division check proved
+--> evaluation_finalization.adb:109:65
+
+ info: range check proved
+--> evaluation_finalization.adb:115:07
+
+ info: loop invariant initialization proved
+--> evaluation_finalization.adb:120:13
+
+ info: loop invariant preservation proved
+--> evaluation_finalization.adb:120:13
+
+ info: index check proved
+--> evaluation_finalization.adb:120:53
+
+ info: loop invariant initialization proved
+--> evaluation_finalization.adb:122:13
+
+ info: loop invariant preservation proved
+--> evaluation_finalization.adb:122:13
+
+ info: initialization check proved
+--> evaluation_finalization.adb:122:45
+
+ info: index check proved
+--> evaluation_finalization.adb:122:53
+
+ info: index check proved
+--> evaluation_finalization.adb:122:72
+
+ info: assertion proved
+--> evaluation_finalization.adb:124:22
+
+ info: initialization check proved
+--> evaluation_finalization.adb:125:14
+
+ info: range check proved
+--> evaluation_finalization.adb:125:14
+
+ info: initialization of "Classified" proved
+--> evaluation_finalization.adb:135:07
+
+ info: index check proved
+--> evaluation_finalization.adb:154:71
+
+ info: data dependencies proved
+--> evaluation_finalization.adb:167:18
+
+ info: index check proved
+--> evaluation_finalization.adb:169:47
+
+ info: index check proved
+--> evaluation_finalization.adb:169:67
+
+ info: postcondition proved
+--> evaluation_finalization.adb:170:16
+
+ info: assertion proved
+--> evaluation_finalization.adb:178:10
+
+ info: range check proved
+--> evaluation_finalization.adb:178:34
+
+ info: index check proved
+--> evaluation_finalization.adb:178:49
+
+ info: assertion proved
+--> evaluation_finalization.adb:180:10
+
+ info: range check proved
+--> evaluation_finalization.adb:180:34
+
+ info: index check proved
+--> evaluation_finalization.adb:180:48
+
+ info: aspect Always_Terminates on "Lemma_Content_Rows" has been proved, subprogram will terminate
+--> evaluation_finalization.adb:189:14
+
+ info: data dependencies proved
+--> evaluation_finalization.adb:192:18
+
+ info: index check proved
+--> evaluation_finalization.adb:195:16
+
+ info: index check proved
+--> evaluation_finalization.adb:195:50
+
+ info: index check proved
+--> evaluation_finalization.adb:196:25
+
+ info: index check proved
+--> evaluation_finalization.adb:196:45
+
+ info: index check proved
+--> evaluation_finalization.adb:197:25
+
+ info: index check proved
+--> evaluation_finalization.adb:197:46
+
+ info: index check proved
+--> evaluation_finalization.adb:198:25
+
+ info: index check proved
+--> evaluation_finalization.adb:198:49
+
+ info: index check proved
+--> evaluation_finalization.adb:199:25
+
+ info: index check proved
+--> evaluation_finalization.adb:199:48
+
+ info: index check proved
+--> evaluation_finalization.adb:200:25
+
+ info: index check proved
+--> evaluation_finalization.adb:200:45
+
+ info: index check proved
+--> evaluation_finalization.adb:201:25
+
+ info: index check proved
+--> evaluation_finalization.adb:201:47
+
+ info: index check proved
+--> evaluation_finalization.adb:202:25
+
+ info: index check proved
+--> evaluation_finalization.adb:202:47
+
+ info: index check proved
+--> evaluation_finalization.adb:203:25
+
+ info: index check proved
+--> evaluation_finalization.adb:203:38
+
+ info: index check proved
+--> evaluation_finalization.adb:204:25
+
+ info: index check proved
+--> evaluation_finalization.adb:204:46
+
+ info: index check proved
+--> evaluation_finalization.adb:205:25
+
+ info: index check proved
+--> evaluation_finalization.adb:205:43
+
+ info: postcondition proved
+--> evaluation_finalization.adb:207:16
+
+ info: index check proved
+--> evaluation_finalization.adb:208:32
+
+ info: index check proved
+--> evaluation_finalization.adb:208:62
+
+ info: index check proved
+--> evaluation_finalization.adb:210:42
+
+ info: index check proved
+--> evaluation_finalization.adb:210:78
+
+ info: assertion proved
+--> evaluation_finalization.adb:217:10
+
+ info: index check proved
+--> evaluation_finalization.adb:218:32
+
+ info: index check proved
+--> evaluation_finalization.adb:218:62
+
+ info: assertion proved
+--> evaluation_finalization.adb:220:10
+
+ info: index check proved
+--> evaluation_finalization.adb:221:42
+
+ info: index check proved
+--> evaluation_finalization.adb:221:78
+
+ info: aspect Always_Terminates on "Lemma_Content_Completion" has been proved, subprogram will terminate
+--> evaluation_finalization.adb:224:14
+
+ info: data dependencies proved
+--> evaluation_finalization.adb:228:18
+
+ info: index check proved
+--> evaluation_finalization.adb:231:16
+
+ info: index check proved
+--> evaluation_finalization.adb:231:50
+
+ info: index check proved
+--> evaluation_finalization.adb:232:25
+
+ info: index check proved
+--> evaluation_finalization.adb:232:45
+
+ info: index check proved
+--> evaluation_finalization.adb:233:25
+
+ info: index check proved
+--> evaluation_finalization.adb:233:46
+
+ info: index check proved
+--> evaluation_finalization.adb:234:25
+
+ info: index check proved
+--> evaluation_finalization.adb:234:49
+
+ info: index check proved
+--> evaluation_finalization.adb:235:25
+
+ info: index check proved
+--> evaluation_finalization.adb:235:48
+
+ info: index check proved
+--> evaluation_finalization.adb:236:25
+
+ info: index check proved
+--> evaluation_finalization.adb:236:45
+
+ info: index check proved
+--> evaluation_finalization.adb:237:25
+
+ info: index check proved
+--> evaluation_finalization.adb:237:47
+
+ info: index check proved
+--> evaluation_finalization.adb:238:25
+
+ info: index check proved
+--> evaluation_finalization.adb:238:47
+
+ info: index check proved
+--> evaluation_finalization.adb:239:25
+
+ info: index check proved
+--> evaluation_finalization.adb:239:38
+
+ info: index check proved
+--> evaluation_finalization.adb:240:25
+
+ info: index check proved
+--> evaluation_finalization.adb:240:46
+
+ info: index check proved
+--> evaluation_finalization.adb:241:25
+
+ info: index check proved
+--> evaluation_finalization.adb:241:43
+
+ info: index check proved
+--> evaluation_finalization.adb:243:32
+
+ info: index check proved
+--> evaluation_finalization.adb:243:62
+
+ info: postcondition proved
+--> evaluation_finalization.adb:245:16
+
+ info: assertion proved
+--> evaluation_finalization.adb:254:10
+
+ info: aspect Always_Terminates on "Lemma_Content_Failure" has been proved, subprogram will terminate
+--> evaluation_finalization.adb:258:14
+
+ info: data dependencies proved
+--> evaluation_finalization.adb:262:18
+
+ info: index check proved
+--> evaluation_finalization.adb:265:16
+
+ info: index check proved
+--> evaluation_finalization.adb:265:50
+
+ info: index check proved
+--> evaluation_finalization.adb:266:25
+
+ info: index check proved
+--> evaluation_finalization.adb:266:45
+
+ info: index check proved
+--> evaluation_finalization.adb:267:25
+
+ info: index check proved
+--> evaluation_finalization.adb:267:46
+
+ info: index check proved
+--> evaluation_finalization.adb:268:25
+
+ info: index check proved
+--> evaluation_finalization.adb:268:49
+
+ info: index check proved
+--> evaluation_finalization.adb:269:25
+
+ info: index check proved
+--> evaluation_finalization.adb:269:48
+
+ info: index check proved
+--> evaluation_finalization.adb:270:25
+
+ info: index check proved
+--> evaluation_finalization.adb:270:45
+
+ info: index check proved
+--> evaluation_finalization.adb:271:25
+
+ info: index check proved
+--> evaluation_finalization.adb:271:47
+
+ info: index check proved
+--> evaluation_finalization.adb:272:25
+
+ info: index check proved
+--> evaluation_finalization.adb:272:47
+
+ info: index check proved
+--> evaluation_finalization.adb:273:25
+
+ info: index check proved
+--> evaluation_finalization.adb:273:38
+
+ info: index check proved
+--> evaluation_finalization.adb:274:25
+
+ info: index check proved
+--> evaluation_finalization.adb:274:46
+
+ info: index check proved
+--> evaluation_finalization.adb:275:25
+
+ info: index check proved
+--> evaluation_finalization.adb:275:43
+
+ info: index check proved
+--> evaluation_finalization.adb:277:32
+
+ info: index check proved
+--> evaluation_finalization.adb:277:62
+
+ info: postcondition proved
+--> evaluation_finalization.adb:280:16
+
+ info: index check proved
+--> evaluation_finalization.adb:281:59
+
+ info: index check proved
+--> evaluation_finalization.adb:282:61
+
+ info: assertion proved
+--> evaluation_finalization.adb:292:10
+
+ info: index check proved
+--> evaluation_finalization.adb:293:59
+
+ info: index check proved
+--> evaluation_finalization.adb:294:61
+
+ info: assertion proved
+--> evaluation_finalization.adb:296:10
+
+ info: aspect Always_Terminates on "Lemma_Content_Promotion" has been proved, subprogram will terminate
+--> evaluation_finalization.adb:300:14
+
+ info: data dependencies proved
+--> evaluation_finalization.adb:304:18
+
+ info: index check proved
+--> evaluation_finalization.adb:307:16
+
+ info: index check proved
+--> evaluation_finalization.adb:307:50
+
+ info: index check proved
+--> evaluation_finalization.adb:308:25
+
+ info: index check proved
+--> evaluation_finalization.adb:308:45
+
+ info: index check proved
+--> evaluation_finalization.adb:309:25
+
+ info: index check proved
+--> evaluation_finalization.adb:309:46
+
+ info: index check proved
+--> evaluation_finalization.adb:310:25
+
+ info: index check proved
+--> evaluation_finalization.adb:310:49
+
+ info: index check proved
+--> evaluation_finalization.adb:311:25
+
+ info: index check proved
+--> evaluation_finalization.adb:311:48
+
+ info: index check proved
+--> evaluation_finalization.adb:312:25
+
+ info: index check proved
+--> evaluation_finalization.adb:312:45
+
+ info: index check proved
+--> evaluation_finalization.adb:313:25
+
+ info: index check proved
+--> evaluation_finalization.adb:313:47
+
+ info: index check proved
+--> evaluation_finalization.adb:314:25
+
+ info: index check proved
+--> evaluation_finalization.adb:314:47
+
+ info: index check proved
+--> evaluation_finalization.adb:315:25
+
+ info: index check proved
+--> evaluation_finalization.adb:315:38
+
+ info: index check proved
+--> evaluation_finalization.adb:316:25
+
+ info: index check proved
+--> evaluation_finalization.adb:316:46
+
+ info: index check proved
+--> evaluation_finalization.adb:317:25
+
+ info: index check proved
+--> evaluation_finalization.adb:317:43
+
+ info: index check proved
+--> evaluation_finalization.adb:319:32
+
+ info: index check proved
+--> evaluation_finalization.adb:319:62
+
+ info: index check proved
+--> evaluation_finalization.adb:321:42
+
+ info: index check proved
+--> evaluation_finalization.adb:321:78
+
+ info: index check proved
+--> evaluation_finalization.adb:325:37
+
+ info: index check proved
+--> evaluation_finalization.adb:327:24
+
+ info: index check proved
+--> evaluation_finalization.adb:327:47
+
+ info: index check proved
+--> evaluation_finalization.adb:327:64
+
+ info: index check proved
+--> evaluation_finalization.adb:328:39
+
+ info: index check proved
+--> evaluation_finalization.adb:330:24
+
+ info: index check proved
+--> evaluation_finalization.adb:330:47
+
+ info: index check proved
+--> evaluation_finalization.adb:330:64
+
+ info: postcondition proved
+--> evaluation_finalization.adb:331:16
+
+ info: assertion proved
+--> evaluation_finalization.adb:340:10
+
+ info: data dependencies proved
+--> evaluation_finalization.adb:349:18
+
+ info: range check proved
+--> evaluation_finalization.adb:350:24
+
+ info: postcondition proved
+--> evaluation_finalization.adb:351:16
+
+ info: assertion proved
+--> evaluation_finalization.adb:373:22
+
+ info: range check proved
+--> evaluation_finalization.adb:373:30
+
+ info: assertion proved
+--> evaluation_finalization.adb:374:22
+
+ info: range check proved
+--> evaluation_finalization.adb:374:30
+
+ info: assertion proved
+--> evaluation_finalization.adb:375:22
+
+ info: assertion proved
+--> evaluation_finalization.adb:376:22
+
+ info: assertion proved
+--> evaluation_finalization.adb:378:10
+
+ info: index check proved
+--> evaluation_finalization.adb:379:16
+
+ info: index check proved
+--> evaluation_finalization.adb:379:50
+
+ info: index check proved
+--> evaluation_finalization.adb:380:25
+
+ info: index check proved
+--> evaluation_finalization.adb:380:45
+
+ info: index check proved
+--> evaluation_finalization.adb:381:25
+
+ info: index check proved
+--> evaluation_finalization.adb:381:46
+
+ info: index check proved
+--> evaluation_finalization.adb:382:25
+
+ info: index check proved
+--> evaluation_finalization.adb:382:49
+
+ info: index check proved
+--> evaluation_finalization.adb:383:25
+
+ info: index check proved
+--> evaluation_finalization.adb:383:48
+
+ info: index check proved
+--> evaluation_finalization.adb:384:25
+
+ info: index check proved
+--> evaluation_finalization.adb:384:45
+
+ info: index check proved
+--> evaluation_finalization.adb:385:25
+
+ info: index check proved
+--> evaluation_finalization.adb:385:47
+
+ info: index check proved
+--> evaluation_finalization.adb:386:25
+
+ info: index check proved
+--> evaluation_finalization.adb:386:47
+
+ info: index check proved
+--> evaluation_finalization.adb:387:25
+
+ info: index check proved
+--> evaluation_finalization.adb:387:38
+
+ info: index check proved
+--> evaluation_finalization.adb:388:25
+
+ info: index check proved
+--> evaluation_finalization.adb:388:46
+
+ info: index check proved
+--> evaluation_finalization.adb:389:25
+
+ info: index check proved
+--> evaluation_finalization.adb:389:43
+
+ info: precondition proved
+--> evaluation_finalization.adb:390:07
+
+ info: assertion proved
+--> evaluation_finalization.adb:392:10
+
+ info: precondition proved
+--> evaluation_finalization.adb:393:07
+
+ info: precondition proved
+--> evaluation_finalization.adb:394:07
+
+ info: precondition proved
+--> evaluation_finalization.adb:396:10
+
+ info: index check proved
+--> evaluation_finalization.adb:396:47
+
+ info: loop invariant initialization proved
+--> evaluation_finalization.adb:398:13
+
+ info: loop invariant preservation proved
+--> evaluation_finalization.adb:398:13
+
+ info: index check proved
+--> evaluation_finalization.adb:399:39
+
+ info: index check proved
+--> evaluation_finalization.adb:399:75
+
+ info: assertion proved
+--> evaluation_finalization.adb:402:10
+
+ info: index check proved
+--> evaluation_finalization.adb:403:37
+
+ info: index check proved
+--> evaluation_finalization.adb:405:24
+
+ info: index check proved
+--> evaluation_finalization.adb:405:47
+
+ info: index check proved
+--> evaluation_finalization.adb:405:64
+
+ info: index check proved
+--> evaluation_finalization.adb:406:39
+
+ info: index check proved
+--> evaluation_finalization.adb:408:24
+
+ info: index check proved
+--> evaluation_finalization.adb:408:47
+
+ info: index check proved
+--> evaluation_finalization.adb:408:64
+
+ info: precondition proved
+--> evaluation_finalization.adb:409:07
+
+ info: initialization of "Classified" proved
+--> evaluation_finalization.adb:420:07
+
+ info: assertion proved
+--> evaluation_finalization.adb:436:13
+
+ info: precondition proved
+--> evaluation_finalization.adb:439:10
+
+ info: assertion proved
+--> evaluation_finalization.adb:442:13
+
+ info: index check proved
+--> evaluation_finalization.adb:449:71
+
+ info: implicit aspect Always_Terminates on "Plan_Valid" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:74:13
+
+ info: range check proved
+--> evaluation_finalization.ads:77:17
+
+ info: range check proved
+--> evaluation_finalization.ads:78:19
+
+ info: overflow check proved
+--> evaluation_finalization.ads:78:48
+
+ info: index check proved
+--> evaluation_finalization.ads:78:48
+
+ info: range check proved
+--> evaluation_finalization.ads:79:19
+
+ info: overflow check proved
+--> evaluation_finalization.ads:79:48
+
+ info: index check proved
+--> evaluation_finalization.ads:79:48
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:79:71
+
+ info: implicit aspect Always_Terminates on "Same_Plan" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:80:13
+
+ info: range check proved
+--> evaluation_finalization.ads:84:17
+
+ info: range check proved
+--> evaluation_finalization.ads:85:18
+
+ info: overflow check proved
+--> evaluation_finalization.ads:85:44
+
+ info: index check proved
+--> evaluation_finalization.ads:85:44
+
+ info: overflow check proved
+--> evaluation_finalization.ads:86:45
+
+ info: index check proved
+--> evaluation_finalization.ads:86:45
+
+ info: range check proved
+--> evaluation_finalization.ads:87:18
+
+ info: overflow check proved
+--> evaluation_finalization.ads:87:44
+
+ info: index check proved
+--> evaluation_finalization.ads:87:44
+
+ info: overflow check proved
+--> evaluation_finalization.ads:88:45
+
+ info: index check proved
+--> evaluation_finalization.ads:88:45
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:88:68
+
+ info: implicit aspect Always_Terminates on "Requirements" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:89:13
+
+ info: range check proved
+--> evaluation_finalization.ads:92:25
+
+ info: range check proved
+--> evaluation_finalization.ads:92:26
+
+ info: range check proved
+--> evaluation_finalization.ads:93:12
+
+ info: overflow check proved
+--> evaluation_finalization.ads:93:56
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:94:11
+
+ info: implicit aspect Always_Terminates on "Start_Valid" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:95:13
+
+ info: range check proved
+--> evaluation_finalization.ads:97:16
+
+ info: range check proved
+--> evaluation_finalization.ads:98:25
+
+ info: range check proved
+--> evaluation_finalization.ads:99:25
+
+ info: range check proved
+--> evaluation_finalization.ads:100:30
+
+ info: range check proved
+--> evaluation_finalization.ads:102:18
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:102:42
+
+ info: range check proved
+--> evaluation_finalization.ads:103:25
+
+ info: range check proved
+--> evaluation_finalization.ads:104:25
+
+ info: range check proved
+--> evaluation_finalization.ads:105:25
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:106:56
+
+ info: implicit aspect Always_Terminates on "Same_Start" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:107:13
+
+ info: range check proved
+--> evaluation_finalization.ads:109:24
+
+ info: range check proved
+--> evaluation_finalization.ads:110:24
+
+ info: range check proved
+--> evaluation_finalization.ads:111:24
+
+ info: range check proved
+--> evaluation_finalization.ads:112:30
+
+ info: range check proved
+--> evaluation_finalization.ads:114:24
+
+ info: range check proved
+--> evaluation_finalization.ads:115:24
+
+ info: range check proved
+--> evaluation_finalization.ads:116:24
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:120:68
+
+ info: implicit aspect Always_Terminates on "Input_Valid" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:121:13
+
+ info: range check proved
+--> evaluation_finalization.ads:124:25
+
+ info: range check proved
+--> evaluation_finalization.ads:125:25
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:125:56
+
+ info: implicit aspect Always_Terminates on "Same_Input" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:126:13
+
+ info: range check proved
+--> evaluation_finalization.ads:129:24
+
+ info: range check proved
+--> evaluation_finalization.ads:130:24
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:132:81
+
+ info: implicit aspect Always_Terminates on "Start_Reference" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:147:13
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:152:37
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:153:27
+
+ info: implicit aspect Always_Terminates on "Record_Start" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:154:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:157:11
+
+ info: postcondition proved
+--> evaluation_finalization.ads:158:16
+
+ info: implicit aspect Always_Terminates on "Input_Reference" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:162:13
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:167:37
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:168:27
+
+ info: implicit aspect Always_Terminates on "Record_Input" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:169:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:172:11
+
+ info: postcondition proved
+--> evaluation_finalization.ads:173:16
+
+ info: implicit aspect Always_Terminates on "Row_Valid" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:182:13
+
+ info: range check proved
+--> evaluation_finalization.ads:185:25
+
+ info: range check proved
+--> evaluation_finalization.ads:186:25
+
+ info: range check proved
+--> evaluation_finalization.ads:188:18
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:188:42
+
+ info: range check proved
+--> evaluation_finalization.ads:190:18
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:190:41
+
+ info: range check proved
+--> evaluation_finalization.ads:191:25
+
+ info: range check proved
+--> evaluation_finalization.ads:192:25
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:193:11
+
+ info: implicit aspect Always_Terminates on "Capture_Valid" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:194:13
+
+ info: range check proved
+--> evaluation_finalization.ads:199:25
+
+ info: range check proved
+--> evaluation_finalization.ads:200:25
+
+ info: index check proved
+--> evaluation_finalization.ads:201:67
+
+ info: range check proved
+--> evaluation_finalization.ads:202:25
+
+ info: range check proved
+--> evaluation_finalization.ads:203:25
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:203:64
+
+ info: implicit aspect Always_Terminates on "Input_Unchanged" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:207:13
+
+ info: range check proved
+--> evaluation_finalization.ads:210:15
+
+ info: range check proved
+--> evaluation_finalization.ads:211:24
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:212:11
+
+ info: implicit aspect Always_Terminates on "Bound_To" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:214:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:217:66
+
+ info: implicit aspect Always_Terminates on "Bind_Row" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:218:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:224:11
+
+ info: implicit aspect Always_Terminates on "Bind_Rows" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:227:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:229:11
+
+ info: postcondition proved
+--> evaluation_finalization.ads:230:16
+
+ info: index check proved
+--> evaluation_finalization.ads:233:30
+
+ info: index check proved
+--> evaluation_finalization.ads:233:63
+
+ info: implicit aspect Always_Terminates on "Capture_Reference" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:245:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:258:11
+
+ info: implicit aspect Always_Terminates on "Classify_Capture" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:259:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:264:11
+
+ info: postcondition proved
+--> evaluation_finalization.ads:265:16
+
+ info: implicit aspect Always_Terminates on "Final_Identity" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:271:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:275:60
+
+ info: implicit aspect Always_Terminates on "Content_Reference" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:278:13
+
+ info: range check proved
+--> evaluation_finalization.ads:281:16
+
+ info: overflow check proved
+--> evaluation_finalization.ads:284:26
+
+ info: index check proved
+--> evaluation_finalization.ads:284:26
+
+ info: overflow check proved
+--> evaluation_finalization.ads:287:27
+
+ info: overflow check proved
+--> evaluation_finalization.ads:287:49
+
+ info: index check proved
+--> evaluation_finalization.ads:287:49
+
+ info: division check proved
+--> evaluation_finalization.ads:288:67
+
+ info: overflow check proved
+--> evaluation_finalization.ads:289:37
+
+ info: overflow check proved
+--> evaluation_finalization.ads:289:59
+
+ info: overflow check proved
+--> evaluation_finalization.ads:289:93
+
+ info: index check proved
+--> evaluation_finalization.ads:289:93
+
+ info: division check proved
+--> evaluation_finalization.ads:290:67
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:291:11
+
+ info: implicit aspect Always_Terminates on "Content_Matches" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:292:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:294:27
+
+ info: postcondition proved
+--> evaluation_finalization.ads:295:17
+
+ info: implicit aspect Always_Terminates on "Artifacts_Valid" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:299:13
+
+ info: range check proved
+--> evaluation_finalization.ads:301:16
+
+ info: range check proved
+--> evaluation_finalization.ads:302:25
+
+ info: range check proved
+--> evaluation_finalization.ads:303:25
+
+ info: range check proved
+--> evaluation_finalization.ads:304:25
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:304:66
+
+ info: implicit aspect Always_Terminates on "History_Projection" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:312:13
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:318:56
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:319:57
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:325:44
+
+ info: implicit aspect Always_Terminates on "Payload_Spans" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:326:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:327:11
+
+ info: postcondition proved
+--> evaluation_finalization.ads:328:16
+
+ info: index check proved
+--> evaluation_finalization.ads:331:34
+
+ info: index check proved
+--> evaluation_finalization.ads:331:53
+
+ info: implicit aspect Always_Terminates on "Artifact_Binding" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:332:13
+
+ info: range check proved
+--> evaluation_finalization.ads:337:10
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:339:61
+
+ info: implicit aspect Always_Terminates on "Seal_Classification_Equation" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:343:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:352:43
+
+ info: implicit aspect Always_Terminates on "Seal_Equation" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:353:13
+
+ info: index check proved
+--> evaluation_finalization.ads:368:80
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:375:18
+
+ info: implicit aspect Always_Terminates on "Seal_Reference" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:377:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:383:11
+
+ info: postcondition proved
+--> evaluation_finalization.ads:384:16
+
+ info: implicit aspect Always_Terminates on "Seal" has been proved, subprogram will terminate
+--> evaluation_finalization.ads:387:13
+
+ info: data dependencies proved
+--> evaluation_finalization.ads:393:11
+
+ info: postcondition proved
+--> evaluation_finalization.ads:394:16
+
+ info: discriminant check proved
+--> evaluation_finalization.ads:406:45
+ info: implicit aspect Always_Terminates on "Nonnegative_Valid" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:2:13
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:3:09
+
+ info: postcondition proved
+--> evaluation_epoch.adb:4:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:5:58
+
+ info: implicit aspect Always_Terminates on "Scale_Column" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:14:13
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:17:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:18:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:19:35
+
+ info: predicate check proved
+--> evaluation_epoch.adb:19:65
+
+ info: loop invariant initialization proved
+--> evaluation_epoch.adb:25:33
+
+ info: loop invariant preservation proved
+--> evaluation_epoch.adb:25:33
+
+ info: loop invariant initialization proved
+--> evaluation_epoch.adb:27:13
+
+ info: loop invariant preservation proved
+--> evaluation_epoch.adb:27:13
+
+ info: loop invariant initialization proved
+--> evaluation_epoch.adb:28:33
+
+ info: loop invariant preservation proved
+--> evaluation_epoch.adb:28:33
+
+ info: predicate check proved
+--> evaluation_epoch.adb:28:50
+
+ info: predicate check proved
+--> evaluation_epoch.adb:28:67
+
+ info: loop variant proved
+--> evaluation_epoch.adb:29:31
+
+ info: overflow check proved
+--> evaluation_epoch.adb:29:51
+
+ info: overflow check proved
+--> evaluation_epoch.adb:31:23
+
+ info: aspect Always_Terminates on "Column_Bounds" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:36:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:38:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:39:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:39:26
+
+ info: predicate check proved
+--> evaluation_epoch.adb:39:44
+
+ info: predicate check proved
+--> evaluation_epoch.adb:41:54
+
+ info: predicate check proved
+--> evaluation_epoch.adb:46:19
+
+ info: predicate check proved
+--> evaluation_epoch.adb:46:35
+
+ info: range check proved
+--> evaluation_epoch.adb:54:30
+
+ info: assertion proved
+--> evaluation_epoch.adb:57:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:57:41
+
+ info: predicate check proved
+--> evaluation_epoch.adb:57:62
+
+ info: assertion proved
+--> evaluation_epoch.adb:58:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:58:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:60:13
+
+ info: assertion proved
+--> evaluation_epoch.adb:62:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:62:47
+
+ info: assertion proved
+--> evaluation_epoch.adb:63:25
+
+ info: aspect Always_Terminates on "Prefix_Step" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:67:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:69:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:70:14
+
+ info: overflow check proved
+--> evaluation_epoch.adb:71:27
+
+ info: overflow check proved
+--> evaluation_epoch.adb:72:46
+
+ info: assertion proved
+--> evaluation_epoch.adb:79:13
+
+ info: overflow check proved
+--> evaluation_epoch.adb:79:36
+
+ info: assertion proved
+--> evaluation_epoch.adb:82:13
+
+ info: overflow check proved
+--> evaluation_epoch.adb:82:46
+
+ info: assertion proved
+--> evaluation_epoch.adb:86:25
+
+ info: assertion proved
+--> evaluation_epoch.adb:88:13
+
+ info: assertion proved
+--> evaluation_epoch.adb:90:13
+
+ info: overflow check proved
+--> evaluation_epoch.adb:90:32
+
+ info: assertion proved
+--> evaluation_epoch.adb:93:13
+
+ info: overflow check proved
+--> evaluation_epoch.adb:93:42
+
+ info: aspect Always_Terminates on "Prefix_Bounds" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:99:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:101:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:103:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:103:47
+
+ info: subprogram variant proved
+--> evaluation_epoch.adb:108:10
+
+ info: range check proved
+--> evaluation_epoch.adb:108:40
+
+ info: range check proved
+--> evaluation_epoch.adb:109:38
+
+ info: range check proved
+--> evaluation_epoch.adb:111:42
+
+ info: range check proved
+--> evaluation_epoch.adb:111:67
+
+ info: range check proved
+--> evaluation_epoch.adb:112:35
+
+ info: assertion proved
+--> evaluation_epoch.adb:114:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:114:57
+
+ info: assertion proved
+--> evaluation_epoch.adb:115:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:115:47
+
+ info: aspect Always_Terminates on "Prefix_Padding" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:119:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:121:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:123:14
+
+ info: subprogram variant proved
+--> evaluation_epoch.adb:131:10
+
+ info: range check proved
+--> evaluation_epoch.adb:131:41
+
+ info: range check proved
+--> evaluation_epoch.adb:132:38
+
+ info: assertion proved
+--> evaluation_epoch.adb:133:25
+
+ info: range check proved
+--> evaluation_epoch.adb:133:47
+
+ info: assertion proved
+--> evaluation_epoch.adb:135:13
+
+ info: range check proved
+--> evaluation_epoch.adb:135:74
+
+ info: assertion proved
+--> evaluation_epoch.adb:137:25
+
+ info: implicit aspect Always_Terminates on "Power_Factor" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:141:13
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:142:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:144:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:144:37
+
+ info: subprogram variant proved
+--> evaluation_epoch.adb:153:48
+
+ info: range check proved
+--> evaluation_epoch.adb:153:72
+
+ info: assertion proved
+--> evaluation_epoch.adb:156:13
+
+ info: range check proved
+--> evaluation_epoch.adb:156:75
+
+ info: assertion proved
+--> evaluation_epoch.adb:157:25
+
+ info: range check proved
+--> evaluation_epoch.adb:157:43
+
+ info: implicit aspect Always_Terminates on "Prefix_Tail" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:162:13
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:165:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:167:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:167:36
+
+ info: subprogram variant proved
+--> evaluation_epoch.adb:176:48
+
+ info: range check proved
+--> evaluation_epoch.adb:176:80
+
+ info: range check proved
+--> evaluation_epoch.adb:177:75
+
+ info: range check proved
+--> evaluation_epoch.adb:179:47
+
+ info: range check proved
+--> evaluation_epoch.adb:181:37
+
+ info: assertion proved
+--> evaluation_epoch.adb:183:13
+
+ info: range check proved
+--> evaluation_epoch.adb:183:41
+
+ info: assertion proved
+--> evaluation_epoch.adb:185:25
+
+ info: range check proved
+--> evaluation_epoch.adb:185:43
+
+ info: assertion proved
+--> evaluation_epoch.adb:187:13
+
+ info: aspect Always_Terminates on "Positive_Multiple" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:196:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:198:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:199:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:199:26
+
+ info: predicate check proved
+--> evaluation_epoch.adb:199:51
+
+ info: predicate check proved
+--> evaluation_epoch.adb:203:19
+
+ info: predicate check proved
+--> evaluation_epoch.adb:203:42
+
+ info: predicate check proved
+--> evaluation_epoch.adb:207:62
+
+ info: assertion proved
+--> evaluation_epoch.adb:210:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:210:35
+
+ info: assertion proved
+--> evaluation_epoch.adb:211:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:211:41
+
+ info: assertion proved
+--> evaluation_epoch.adb:212:25
+
+ info: assertion proved
+--> evaluation_epoch.adb:213:25
+
+ info: aspect Always_Terminates on "Distinct_Columns" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:221:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:223:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:224:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:224:26
+
+ info: predicate check proved
+--> evaluation_epoch.adb:229:19
+
+ info: overflow check proved
+--> evaluation_epoch.adb:240:61
+
+ info: range check proved
+--> evaluation_epoch.adb:240:61
+
+ info: assertion proved
+--> evaluation_epoch.adb:244:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:246:19
+
+ info: assertion proved
+--> evaluation_epoch.adb:248:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:250:31
+
+ info: predicate check proved
+--> evaluation_epoch.adb:250:59
+
+ info: assertion proved
+--> evaluation_epoch.adb:251:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:252:31
+
+ info: overflow check proved
+--> evaluation_epoch.adb:256:60
+
+ info: range check proved
+--> evaluation_epoch.adb:256:60
+
+ info: assertion proved
+--> evaluation_epoch.adb:260:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:262:19
+
+ info: assertion proved
+--> evaluation_epoch.adb:264:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:266:31
+
+ info: predicate check proved
+--> evaluation_epoch.adb:266:59
+
+ info: assertion proved
+--> evaluation_epoch.adb:267:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:268:31
+
+ info: assertion proved
+--> evaluation_epoch.adb:271:25
+
+ info: aspect Always_Terminates on "Quotient_Below_Contradiction" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:279:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:281:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:282:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:282:27
+
+ info: predicate check proved
+--> evaluation_epoch.adb:282:45
+
+ info: predicate check proved
+--> evaluation_epoch.adb:283:41
+
+ info: predicate check proved
+--> evaluation_epoch.adb:288:18
+
+ info: predicate check proved
+--> evaluation_epoch.adb:288:36
+
+ info: assertion proved
+--> evaluation_epoch.adb:295:28
+
+ info: predicate check proved
+--> evaluation_epoch.adb:295:42
+
+ info: assertion proved
+--> evaluation_epoch.adb:298:16
+
+ info: assertion proved
+--> evaluation_epoch.adb:299:28
+
+ info: assertion proved
+--> evaluation_epoch.adb:300:28
+
+ info: aspect Always_Terminates on "Quotient_Above_Contradiction" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:305:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:307:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:308:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:308:27
+
+ info: predicate check proved
+--> evaluation_epoch.adb:308:45
+
+ info: predicate check proved
+--> evaluation_epoch.adb:309:41
+
+ info: predicate check proved
+--> evaluation_epoch.adb:314:18
+
+ info: predicate check proved
+--> evaluation_epoch.adb:314:42
+
+ info: assertion proved
+--> evaluation_epoch.adb:321:28
+
+ info: predicate check proved
+--> evaluation_epoch.adb:321:42
+
+ info: assertion proved
+--> evaluation_epoch.adb:324:16
+
+ info: assertion proved
+--> evaluation_epoch.adb:325:28
+
+ info: assertion proved
+--> evaluation_epoch.adb:326:28
+
+ info: aspect Always_Terminates on "Remainder_From_Witness" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:331:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:333:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:334:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:334:26
+
+ info: predicate check proved
+--> evaluation_epoch.adb:334:44
+
+ info: predicate check proved
+--> evaluation_epoch.adb:335:36
+
+ info: division check proved
+--> evaluation_epoch.adb:336:29
+
+ info: division check proved
+--> evaluation_epoch.adb:337:29
+
+ info: predicate check proved
+--> evaluation_epoch.adb:340:19
+
+ info: predicate check proved
+--> evaluation_epoch.adb:340:35
+
+ info: predicate check proved
+--> evaluation_epoch.adb:340:73
+
+ info: division check proved
+--> evaluation_epoch.adb:345:57
+
+ info: division check proved
+--> evaluation_epoch.adb:346:58
+
+ info: assertion proved
+--> evaluation_epoch.adb:348:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:348:34
+
+ info: assertion proved
+--> evaluation_epoch.adb:349:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:349:37
+
+ info: assertion proved
+--> evaluation_epoch.adb:350:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:350:38
+
+ info: assertion proved
+--> evaluation_epoch.adb:351:25
+
+ info: assertion proved
+--> evaluation_epoch.adb:352:25
+
+ info: assertion proved
+--> evaluation_epoch.adb:355:25
+
+ info: assertion proved
+--> evaluation_epoch.adb:356:25
+
+ info: assertion proved
+--> evaluation_epoch.adb:357:25
+
+ info: aspect Always_Terminates on "Prefix_Modulus" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:361:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:363:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:364:14
+
+ info: division check proved
+--> evaluation_epoch.adb:365:37
+
+ info: assertion proved
+--> evaluation_epoch.adb:377:13
+
+ info: assertion proved
+--> evaluation_epoch.adb:382:13
+
+ info: division check proved
+--> evaluation_epoch.adb:382:42
+
+ info: aspect Always_Terminates on "Magnitude_Modulus" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:387:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:389:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:390:14
+
+ info: division check proved
+--> evaluation_epoch.adb:391:28
+
+ info: assertion proved
+--> evaluation_epoch.adb:404:13
+
+ info: assertion proved
+--> evaluation_epoch.adb:407:10
+
+ info: division check proved
+--> evaluation_epoch.adb:407:30
+
+ info: aspect Always_Terminates on "Unsigned_Value" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:411:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:412:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:413:14
+
+ info: assertion proved
+--> evaluation_epoch.adb:419:28
+
+ info: assertion proved
+--> evaluation_epoch.adb:420:28
+
+ info: predicate check proved
+--> evaluation_epoch.adb:420:50
+
+ info: assertion proved
+--> evaluation_epoch.adb:422:25
+
+ info: implicit aspect Always_Terminates on "Carry_Input" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:426:13
+
+ info: predicate check proved
+--> evaluation_epoch.adb:432:51
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:433:16
+
+ info: aspect Always_Terminates on "Column_Division" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:435:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:436:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:437:14
+
+ info: division check proved
+--> evaluation_epoch.adb:438:15
+
+ info: division check proved
+--> evaluation_epoch.adb:438:42
+
+ info: division check proved
+--> evaluation_epoch.adb:439:57
+
+ info: division check proved
+--> evaluation_epoch.adb:440:56
+
+ info: assertion proved
+--> evaluation_epoch.adb:444:25
+
+ info: division check proved
+--> evaluation_epoch.adb:444:41
+
+ info: overflow check proved
+--> evaluation_epoch.adb:444:49
+
+ info: division check proved
+--> evaluation_epoch.adb:444:65
+
+ info: assertion proved
+--> evaluation_epoch.adb:446:13
+
+ info: division check proved
+--> evaluation_epoch.adb:446:62
+
+ info: division check proved
+--> evaluation_epoch.adb:447:61
+
+ info: aspect Always_Terminates on "Matching_Column" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:451:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:454:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:455:14
+
+ info: overflow check proved
+--> evaluation_epoch.adb:457:40
+
+ info: division check proved
+--> evaluation_epoch.adb:457:49
+
+ info: overflow check proved
+--> evaluation_epoch.adb:458:42
+
+ info: overflow check proved
+--> evaluation_epoch.adb:459:56
+
+ info: division check proved
+--> evaluation_epoch.adb:459:65
+
+ info: overflow check proved
+--> evaluation_epoch.adb:460:32
+
+ info: overflow check proved
+--> evaluation_epoch.adb:461:49
+
+ info: predicate check proved
+--> evaluation_epoch.adb:461:56
+
+ info: overflow check proved
+--> evaluation_epoch.adb:468:39
+
+ info: division check proved
+--> evaluation_epoch.adb:468:48
+
+ info: overflow check proved
+--> evaluation_epoch.adb:473:53
+
+ info: assertion proved
+--> evaluation_epoch.adb:475:10
+
+ info: overflow check proved
+--> evaluation_epoch.adb:475:55
+
+ info: assertion proved
+--> evaluation_epoch.adb:478:10
+
+ info: overflow check proved
+--> evaluation_epoch.adb:478:44
+
+ info: overflow check proved
+--> evaluation_epoch.adb:479:58
+
+ info: division check proved
+--> evaluation_epoch.adb:479:67
+
+ info: overflow check proved
+--> evaluation_epoch.adb:480:34
+
+ info: overflow check proved
+--> evaluation_epoch.adb:481:51
+
+ info: predicate check proved
+--> evaluation_epoch.adb:481:58
+
+ info: aspect Always_Terminates on "Increment_Modulus" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:484:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:485:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:486:14
+
+ info: predicate check proved
+--> evaluation_epoch.adb:486:27
+
+ info: predicate check proved
+--> evaluation_epoch.adb:486:46
+
+ info: predicate check proved
+--> evaluation_epoch.adb:487:17
+
+ info: division check proved
+--> evaluation_epoch.adb:487:20
+
+ info: division check proved
+--> evaluation_epoch.adb:487:40
+
+ info: predicate check proved
+--> evaluation_epoch.adb:487:53
+
+ info: division check proved
+--> evaluation_epoch.adb:487:56
+
+ info: predicate check proved
+--> evaluation_epoch.adb:490:18
+
+ info: predicate check proved
+--> evaluation_epoch.adb:490:37
+
+ info: assertion proved
+--> evaluation_epoch.adb:493:22
+
+ info: division check proved
+--> evaluation_epoch.adb:493:45
+
+ info: division check proved
+--> evaluation_epoch.adb:493:62
+
+ info: assertion proved
+--> evaluation_epoch.adb:495:10
+
+ info: predicate check proved
+--> evaluation_epoch.adb:495:19
+
+ info: division check proved
+--> evaluation_epoch.adb:495:22
+
+ info: division check proved
+--> evaluation_epoch.adb:495:42
+
+ info: predicate check proved
+--> evaluation_epoch.adb:495:55
+
+ info: division check proved
+--> evaluation_epoch.adb:495:58
+
+ info: aspect Always_Terminates on "Mismatching_Column" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:498:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:501:16
+
+ info: postcondition proved
+--> evaluation_epoch.adb:502:14
+
+ info: overflow check proved
+--> evaluation_epoch.adb:505:40
+
+ info: division check proved
+--> evaluation_epoch.adb:505:49
+
+ info: predicate check proved
+--> evaluation_epoch.adb:506:62
+
+ info: overflow check proved
+--> evaluation_epoch.adb:514:39
+
+ info: division check proved
+--> evaluation_epoch.adb:514:48
+
+ info: overflow check proved
+--> evaluation_epoch.adb:520:53
+
+ info: overflow check proved
+--> evaluation_epoch.adb:521:47
+
+ info: overflow check proved
+--> evaluation_epoch.adb:522:46
+
+ info: overflow check proved
+--> evaluation_epoch.adb:523:72
+
+ info: overflow check proved
+--> evaluation_epoch.adb:527:68
+
+ info: range check proved
+--> evaluation_epoch.adb:527:68
+
+ info: division check proved
+--> evaluation_epoch.adb:529:41
+
+ info: division check proved
+--> evaluation_epoch.adb:531:44
+
+ info: assertion proved
+--> evaluation_epoch.adb:532:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:532:35
+
+ info: overflow check proved
+--> evaluation_epoch.adb:532:75
+
+ info: assertion proved
+--> evaluation_epoch.adb:534:13
+
+ info: overflow check proved
+--> evaluation_epoch.adb:534:48
+
+ info: predicate check proved
+--> evaluation_epoch.adb:534:55
+
+ info: division check proved
+--> evaluation_epoch.adb:535:47
+
+ info: overflow check proved
+--> evaluation_epoch.adb:535:76
+
+ info: assertion proved
+--> evaluation_epoch.adb:537:13
+
+ info: overflow check proved
+--> evaluation_epoch.adb:537:49
+
+ info: predicate check proved
+--> evaluation_epoch.adb:537:56
+
+ info: division check proved
+--> evaluation_epoch.adb:538:15
+
+ info: overflow check proved
+--> evaluation_epoch.adb:538:39
+
+ info: assertion proved
+--> evaluation_epoch.adb:540:13
+
+ info: predicate check proved
+--> evaluation_epoch.adb:540:41
+
+ info: division check proved
+--> evaluation_epoch.adb:540:44
+
+ info: overflow check proved
+--> evaluation_epoch.adb:540:68
+
+ info: division check proved
+--> evaluation_epoch.adb:542:61
+
+ info: assertion proved
+--> evaluation_epoch.adb:544:13
+
+ info: overflow check proved
+--> evaluation_epoch.adb:544:47
+
+ info: assertion proved
+--> evaluation_epoch.adb:546:25
+
+ info: overflow check proved
+--> evaluation_epoch.adb:546:59
+
+ info: assertion proved
+--> evaluation_epoch.adb:547:25
+
+ info: predicate check proved
+--> evaluation_epoch.adb:547:79
+
+ info: aspect Always_Terminates on "Equal_Prefix_Reference" has been proved, subprogram will terminate
+--> evaluation_epoch.adb:555:14
+
+ info: data dependencies proved
+--> evaluation_epoch.adb:557:16
+
+ info: range check proved
+--> evaluation_epoch.adb:560:17
+
+ info: postcondition proved
+--> evaluation_epoch.adb:562:14
+
+ info: precondition proved
+--> evaluation_epoch.adb:567:10
+
+ info: subprogram variant proved
+--> evaluation_epoch.adb:567:10
+
+ info: range check proved
+--> evaluation_epoch.adb:567:59
+
+ info: assertion proved
+--> evaluation_epoch.adb:569:13
+
+ info: range check proved
+--> evaluation_epoch.adb:570:51
+
+ info: range check proved
+--> evaluation_epoch.adb:571:58
+
+ info: range check proved
+--> evaluation_epoch.adb:572:42
+
+ info: assertion proved
+--> evaluation_epoch.adb:574:13
+
+ info: range check proved
+--> evaluation_epoch.adb:575:52
+
+ info: range check proved
+--> evaluation_epoch.adb:576:59
+
+ info: range check proved
+--> evaluation_epoch.adb:577:42
+
+ info: range check proved
+--> evaluation_epoch.adb:591:17
+
+ info: loop invariant initialization proved
+--> evaluation_epoch.adb:597:19
+
+ info: loop invariant preservation proved
+--> evaluation_epoch.adb:597:19
+
+ info: range check proved
+--> evaluation_epoch.adb:597:27
+
+ info: precondition proved
+--> evaluation_epoch.adb:601:10
+
+ info: assertion proved
+--> evaluation_epoch.adb:605:13
+
+ info: assertion proved
+--> evaluation_epoch.adb:607:13
+
+ info: assertion proved
+--> evaluation_epoch.adb:608:25
+
+ info: range check proved
+--> evaluation_epoch.adb:619:48
+
+ info: initialization of "Column" proved
+--> evaluation_epoch.adb:622:07
+
+ info: loop invariant preservation proved
+--> evaluation_epoch.adb:634:33
+
+ info: loop invariant initialization proved
+--> evaluation_epoch.adb:634:33
+
+ info: loop invariant initialization proved
+--> evaluation_epoch.adb:636:13
+
+ info: loop invariant preservation proved
+--> evaluation_epoch.adb:636:13
+
+ info: predicate check proved
+--> evaluation_epoch.adb:637:76
+
+ info: loop variant proved
+--> evaluation_epoch.adb:638:31
+
+ info: overflow check proved
+--> evaluation_epoch.adb:638:50
+
+ info: overflow check proved
+--> evaluation_epoch.adb:639:49
+
+ info: division check proved
+--> evaluation_epoch.adb:640:51
+
+ info: assertion proved
+--> evaluation_epoch.adb:642:28
+
+ info: predicate check proved
+--> evaluation_epoch.adb:642:74
+
+ info: division check proved
+--> evaluation_epoch.adb:646:26
+
+ info: range check proved
+--> evaluation_epoch.adb:646:26
+
+ info: overflow check proved
+--> evaluation_epoch.adb:647:27
+
+ info: assertion proved
+--> evaluation_epoch.adb:649:22
+
+ info: assertion proved
+--> evaluation_epoch.adb:651:10
+
+ info: assertion proved
+--> evaluation_epoch.adb:653:10
+
+ info: assertion proved
+--> evaluation_epoch.adb:655:10
+
+ info: predicate check proved
+--> evaluation_epoch.adb:656:35
+
+ info: assertion proved
+--> evaluation_epoch.adb:658:10
+
+ info: predicate check proved
+--> evaluation_epoch.adb:658:70
+
+ info: implicit aspect Always_Terminates on "Same_Value" has been proved, subprogram will terminate
+--> evaluation_epoch.ads:7:13
+
+ info: data dependencies proved
+--> evaluation_epoch.ads:8:11
+
+ info: postcondition proved
+--> evaluation_epoch.ads:9:19
+
+ info: predicate check proved
+--> evaluation_epoch.ads:11:45
+
+ info: predicate check proved
+--> evaluation_epoch.ads:11:79
+
+ info: implicit aspect Always_Terminates on "Is_Successor" has been proved, subprogram will terminate
+--> evaluation_epoch.ads:16:13
+
+ info: data dependencies proved
+--> evaluation_epoch.ads:18:11
+
+ info: postcondition proved
+--> evaluation_epoch.ads:19:19
+
+ info: predicate check proved
+--> evaluation_epoch.ads:21:47
+
+ info: predicate check proved
+--> evaluation_epoch.ads:21:81
+
+ info: predicate check proved
+--> evaluation_epoch.ads:22:68

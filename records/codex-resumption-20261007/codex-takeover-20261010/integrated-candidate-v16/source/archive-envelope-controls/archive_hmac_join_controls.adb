@@ -1,0 +1,59 @@
+with Worldline.Root_Custody_Archive_Join;
+with Worldline.Custody_Hmac;
+with Attest;
+with Attest.SHA256;
+procedure Archive_Hmac_Join_Controls is
+   package J renames Worldline.Root_Custody_Archive_Join;
+   package E renames J.E;
+   package H renames Worldline.Custody_Hmac;
+   use type E.Count;
+   use type E.Bytes;
+   use type Attest.Byte_Array;
+   function Raw (Text : String) return E.Bytes is
+      R : E.Bytes (1 .. E.Count (Text'Length));
+   begin
+      for I in Text'Range loop R (E.Count (I - Text'First) + 1) := Character'Pos (Text (I)); end loop;
+      return R;
+   end Raw;
+   function SHA_Raw (Text : String) return Attest.Byte_Array is
+      R : Attest.Byte_Array (1 .. Text'Length);
+   begin
+      for I in Text'Range loop R (I - Text'First + 1) := Character'Pos (Text (I)); end loop;
+      return R;
+   end SHA_Raw;
+   function Nibble (C : Character) return Attest.Byte is
+     (if C in '0' .. '9' then Character'Pos (C) - Character'Pos ('0')
+      else Character'Pos (C) - Character'Pos ('a') + 10);
+   function Hex (Text : String) return Attest.Byte_Array is
+      R : Attest.Byte_Array (1 .. Text'Length / 2);
+      use type Attest.Byte;
+   begin
+      for I in R'Range loop R (I) := Nibble (Text (Text'First + (I - 1) * 2)) * 16
+        + Nibble (Text (Text'First + (I - 1) * 2 + 1)); end loop;
+      return R;
+   end Hex;
+   Base_Text : constant String := "[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""ZGljdA==""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""ZmllbGRz""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""cHJldmlvdXM=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""c3Ry""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dmFsdWU=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""cHJpb3I=""]]]]]]]]]]]]]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""b3BlcmF0aW9u""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""c3Ry""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dmFsdWU=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""b3BlcmF0aW9u""]]]]]]]]]]]]]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""a2luZA==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""c3Ry""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dmFsdWU=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""UFJFUEFSRUQ=""]]]]]]]]]]]]]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""cmVjb3Jk""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""ZGljdA==""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""ZmllbGRz""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""b3JpZ2luYWw=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""Ynl0ZXM=""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dmFsdWU=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""MDBmZg==""]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]";
+   Record_Text : constant String := "[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""ZGljdA==""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""ZmllbGRz""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""b3JpZ2luYWw=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""b2JqZWN0""]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dHlwZQ==""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""Ynl0ZXM=""]]]]]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""dmFsdWU=""]]]]]]],[""array"",[[""str"",""bGlzdA==""],[""array"",[[""array"",[[""str"",""c2NhbGFy""],[""str"",""YXRvbQ==""]]],[""array"",[[""str"",""c2NhbGFy""],[""str"",""MDBmZg==""]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]";
+   Base : constant E.Bytes := Raw (Base_Text);
+   Previous : constant E.Bytes := Raw ("prior");
+   Operation : constant E.Bytes := Raw ("operation");
+   Kind : constant E.Bytes := Raw ("PREPARED");
+   Record_Bytes : constant E.Bytes := Raw (Record_Text);
+   Wrong : constant E.Bytes := Raw ("wrong");
+   Data : constant E.Bytes := Base & Previous & Operation & Kind & Record_Bytes & Wrong;
+   B : constant E.Span := (Data'First, Base'Length);
+   P : constant E.Span := (B.First + B.Length, Previous'Length);
+   O : constant E.Span := (P.First + P.Length, Operation'Length);
+   K : constant E.Span := (O.First + O.Length, Kind'Length);
+   R : constant E.Span := (K.First + K.Length, Record_Bytes'Length);
+   W : constant E.Span := (R.First + R.Length, Wrong'Length);
+begin
+   pragma Assert (J.V1_Base_Matches (Data, B, P, O, K, R));
+   pragma Assert (not J.V1_Base_Matches (Data, B, W, O, K, R));
+   pragma Assert (not J.V1_Base_Matches (Data, B, P, W, K, R));
+   pragma Assert (not J.V1_Base_Matches (Data, B, P, O, W, R));
+   pragma Assert (not J.V1_Base_Matches (Data, B, P, O, K, W));
+   pragma Assert (H.Mac (Hex ("666978747572652d6b6579"), Hex ("776f726c646c696e652e70726f7465637465642d726f6f742d637573746f64792d763100" ) & SHA_Raw (Base_Text)) =
+      Hex ("5f03d5d1e42db9cd604e007b4c76f21b1b66980d240f1ca19a5aec739e333b53"));
+   pragma Assert (Attest.SHA256.Hash (SHA_Raw (Base_Text)) = Hex ("2f8cd34e139bd1c3905f08932e7af04585ebc92e34e0ab92e760498e8d402517"));
+end Archive_Hmac_Join_Controls;

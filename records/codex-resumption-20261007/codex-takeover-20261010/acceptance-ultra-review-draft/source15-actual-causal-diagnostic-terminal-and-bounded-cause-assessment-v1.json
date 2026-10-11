@@ -1,0 +1,1030 @@
+{
+  "actual_Root_native_terminal_and_collection": {
+    "1f57ea": {
+      "actual_result": {
+        "chunk_id": "1f57ea",
+        "exit_code": 0,
+        "original_token_count": 71,
+        "output": "{\"action\": \"collect\", \"window\": {\"path\": \"/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json\", \"sha256\": \"d26371a7310c30bb2a1bf971980d9d2af1ef89bedee9d11bfa015fe5bed98387\", \"bytes\": 399085, \"mode\": 420}, \"campaign_credit\": false}\n",
+        "wall_time_seconds": 7e-06
+      },
+      "request": {
+        "event": {
+          "ordinal": 22338,
+          "payload": {
+            "call_id": "call_4f1593a213ba4fa68c03c7011d07ef12",
+            "id": "ctc_0c0d4980ce76473b016acb20e43748819dbe75db452052867c",
+            "input": "text(await tools.write_stdin({session_id:38243,chars:\"\",yield_time_ms:1000,max_output_tokens:2600}));\ntext(await tools.exec_command({cmd:\"sed -n '1,210p' prepare_source15_producer_frontdoor_donor_v2.py\",workdir:load(\"T\"),max_output_tokens:5200}));\n",
+            "internal_chat_message_metadata_passthrough": {
+              "create_time": 1791697124.2196858,
+              "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+            },
+            "name": "exec",
+            "status": "completed",
+            "type": "custom_tool_call"
+          },
+          "timestamp": "2026-10-11T05:38:45.422Z",
+          "type": "response_item"
+        },
+        "physical_line": 22339,
+        "raw_line_sha256": "d8768bef40848f53adcbe66499d2d728014a41e98e771b6b95a0603ac0e4fb93"
+      },
+      "response_metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      },
+      "response_physical_line": 22342,
+      "response_raw_line_sha256": "f5a5cc5a712ffa6c87ac564ebfc0054c9ced7fb291be258be857dd2616508d69"
+    },
+    "40b0b3": {
+      "actual_result": {
+        "chunk_id": "40b0b3",
+        "exit_code": 1,
+        "original_token_count": 0,
+        "output": "",
+        "wall_time_seconds": 2.3458e-05
+      },
+      "request": {
+        "event": {
+          "ordinal": 22284,
+          "payload": {
+            "call_id": "call_d8c5bcf60cc5490895fa0bacae9c01c1",
+            "id": "ctc_0c0d4980ce76473b016acb208e48e0819da42304dc0fd8cee2",
+            "input": "const r=await tools.write_stdin({session_id:60349,chars:\"\",yield_time_ms:1000,max_output_tokens:2600});store(\"source15_diag_latest_wait\",r);text(r);\ntext(await tools.exec_command({cmd:\"python3 -B - <<'PY'\\nfrom pathlib import Path\\nimport hashlib\\nf=Path('run/Main-terminal.json')\\nif f.exists():\\n b=f.read_bytes();print(len(b),hashlib.sha256(b).hexdigest());print(b.decode())\\nelse:print('MAIN_TERMINAL_NOT_YET_PUBLISHED')\\nPY\",\"workdir\":load(\"source15_diag_D\"),max_output_tokens:3400}));\n",
+            "internal_chat_message_metadata_passthrough": {
+              "create_time": 1791697038.3121147,
+              "turn_id": "01a126dd-7faf-7c42-97bd-7beea5740d45"
+            },
+            "name": "exec",
+            "status": "completed",
+            "type": "custom_tool_call"
+          },
+          "timestamp": "2026-10-11T05:37:20.893Z",
+          "type": "response_item"
+        },
+        "physical_line": 22285,
+        "raw_line_sha256": "d955a6c66a1421baf79d655db9c1bf52da577d2ea9f30528a64fa3f7c098e617"
+      },
+      "response_metadata": {
+        "client_authored": false,
+        "fallback_token_limit_override": 12000
+      },
+      "response_physical_line": 22288,
+      "response_raw_line_sha256": "2688519367ed66a8cdb279c83b1e9fd603219ad439c836e0bed7c29a0b59ddb8"
+    }
+  },
+  "actual_collection": {
+    "bytes": 123715,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/collection.json",
+    "sha256": "42c30f8a6f2b5a3d572c3a06e9a7f4355e00e046fbe7dbe880f74ef13929163d"
+  },
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:ultra",
+  "actual_owned_cleanup": {
+    "limits": {
+      "core_soft_hard": [
+        0,
+        0
+      ],
+      "membership": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/codex-worldline-source15-causal-observation-03e092b7c6854b8e964d19e05c2c5feb.scope\n",
+      "memory.max": "8589934592",
+      "memory.swap.max": "0",
+      "pid": 3880593
+    },
+    "observed_known_PIDs_absent": [
+      3880593,
+      3881221
+    ],
+    "quiet": {
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0": {
+        "bytes": 374,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/owned-unit-final.json",
+        "sha256": "ee7726e9e55e90411ff12309750c9965b7e9f1afa9b677aeb34812430caf6dba"
+      },
+      "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run": {
+        "bytes": 374,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/owned-unit-final.json",
+        "sha256": "ee7726e9e55e90411ff12309750c9965b7e9f1afa9b677aeb34812430caf6dba"
+      }
+    },
+    "stop": {
+      "bytes": 220,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/scope-stop.json",
+      "sha256": "da8f89f9b319ebf2b928713e85e127f6328afa85f35925f505e61a23490edff5"
+    },
+    "wait": {
+      "bytes": 109,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/scope-cleanup-wait.json",
+      "sha256": "3ecd54276af0cb9c3271f2beab8e6bf846c11ac56a7030b2e572ccdc268d256f"
+    }
+  },
+  "actual_terminal": {
+    "bytes": 2695,
+    "mode": 384,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/Main-terminal.json",
+    "sha256": "f6e43529e84de5c3931bb85bd203aceb2beb0f865e6134190fb02eb8280405f0"
+  },
+  "all_original_guarantees": "OPEN_UNCHANGED",
+  "arithmetic_non_claims": [
+    "JACKAL exact rational arithmetic, outside the Lean certificate chain; not formal-bounded.",
+    "Boundary timestamp differences include tracing, scheduling and capture effects; not native CPU timing or unmodified campaign measurements."
+  ],
+  "campaign_credit": false,
+  "chronological_actual_all_mode_native_boundaries": [
+    {
+      "at": "2026-10-11T05:21:05.153098+00:00",
+      "capture": "native-before-5-385295876658554",
+      "mode": 2,
+      "returned": {
+        "at": "2026-10-11T05:21:05.332117+00:00",
+        "mode": 2,
+        "result": 13
+      },
+      "test_lines": [
+        87
+      ]
+    },
+    {
+      "at": "2026-10-11T05:21:05.346747+00:00",
+      "capture": "native-before-11-385296071370863",
+      "mode": 1,
+      "returned": {
+        "at": "2026-10-11T05:21:05.386823+00:00",
+        "mode": 1,
+        "result": 14
+      },
+      "test_lines": [
+        87
+      ]
+    },
+    {
+      "at": "2026-10-11T05:21:05.405076+00:00",
+      "capture": "native-before-17-385296128720697",
+      "mode": 1,
+      "returned": {
+        "at": "2026-10-11T05:21:05.484207+00:00",
+        "mode": 1,
+        "result": 0
+      },
+      "test_lines": [
+        87
+      ]
+    },
+    {
+      "at": "2026-10-11T05:21:05.617822+00:00",
+      "capture": "native-before-26-385296340726019",
+      "mode": 4,
+      "returned": {
+        "at": "2026-10-11T05:21:23.998860+00:00",
+        "mode": 4,
+        "result": 0
+      },
+      "test_lines": [
+        87
+      ]
+    },
+    {
+      "at": "2026-10-11T05:21:24.035957+00:00",
+      "capture": "native-before-36-385314758062115",
+      "mode": 9,
+      "returned": {
+        "at": "2026-10-11T05:23:17.941721+00:00",
+        "mode": 9,
+        "result": 0
+      },
+      "test_lines": [
+        87
+      ]
+    },
+    {
+      "at": "2026-10-11T05:23:17.979519+00:00",
+      "capture": "native-before-46-385428702952008",
+      "mode": 2,
+      "returned": {
+        "at": "2026-10-11T05:23:18.137974+00:00",
+        "mode": 2,
+        "result": 22
+      },
+      "test_lines": [
+        101
+      ]
+    },
+    {
+      "at": "2026-10-11T05:23:18.171225+00:00",
+      "capture": "native-before-55-385428888545492",
+      "mode": 4,
+      "returned": {
+        "at": "2026-10-11T05:25:11.280451+00:00",
+        "mode": 4,
+        "result": 0
+      },
+      "test_lines": [
+        101
+      ]
+    },
+    {
+      "at": "2026-10-11T05:25:11.330713+00:00",
+      "capture": "native-before-65-385542051288681",
+      "mode": 9,
+      "returned": {
+        "at": "2026-10-11T05:31:33.990176+00:00",
+        "mode": 9,
+        "result": 0
+      },
+      "test_lines": [
+        101
+      ]
+    },
+    {
+      "at": "2026-10-11T05:31:34.062429+00:00",
+      "capture": "native-before-84-385924782612347",
+      "mode": 2,
+      "returned": {
+        "at": "2026-10-11T05:31:34.252822+00:00",
+        "mode": 2,
+        "result": 22
+      },
+      "test_lines": [
+        133
+      ]
+    },
+    {
+      "at": "2026-10-11T05:31:34.278264+00:00",
+      "capture": "native-before-93-385925001042636",
+      "mode": 4,
+      "returned": {
+        "at": "2026-10-11T05:34:26.041001+00:00",
+        "mode": 4,
+        "result": 0
+      },
+      "test_lines": [
+        133
+      ]
+    },
+    {
+      "at": "2026-10-11T05:34:26.120435+00:00",
+      "capture": "native-before-103-386096842904070",
+      "mode": 9,
+      "returned": "UNOBSERVED",
+      "test_lines": [
+        133
+      ]
+    }
+  ],
+  "compiled_source_opinion": {
+    "bytes": 20480,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/frame-review-draft/native-runtime-v15-compiled-continuation-independent-review.json",
+    "sha256": "73135fa648cfeaae5d4b98bc2eba07c774201bd0113597d7faf955a4f02f4d26"
+  },
+  "complete_current_frozen_source_private_and_collect_closures": {
+    "complete_before_after_fresh_collect_baselines_equal": true,
+    "frame_snapshot_sha256": "5b9911959e66707c6f2a5f1baae0688b9bfda177c108808c8fb649978aeff379",
+    "fresh_collect_document_pins": {
+      "full-tools.json": {
+        "bytes": 135232,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/full-tools.json",
+        "sha256": "6dba36650bab56c6f9cf74f26d9e7f4af5b368776808fa3bcb659608eefc2666"
+      },
+      "input-readback.json": {
+        "bytes": 873801,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/input-readback.json",
+        "sha256": "62de0098663c7bd28448708fbf66639015091a30870bd83e5632c5682b247fba"
+      },
+      "manager-environment-command.json": {
+        "bytes": 8256,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/manager-environment-command.json",
+        "sha256": "8b26010ec0ac05697ebfed4dbcb220d61cd6a05cda71a931fef9463bb0801e2b"
+      },
+      "manager-environment.json": {
+        "bytes": 1172,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/manager-environment.json",
+        "sha256": "2c8c631591b411a87dc8edeaaa7e9d855166413353d88bee9e6c662c36e03514"
+      },
+      "native-inputs.json": {
+        "bytes": 11664227,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/native-inputs.json",
+        "sha256": "9d71cf6f43574191c368dc54804690f43cb52f57fe88c05f14337253ea30f3ed"
+      },
+      "original-generated-output-inventory.json": {
+        "bytes": 291772,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/original-generated-output-inventory.json",
+        "sha256": "95cd448a64675a479acf4902cb1e13aa4ade2290b930d8b054eb4c844f0b987e"
+      },
+      "private-retained-readback.json": {
+        "bytes": 293829,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/private-retained-readback.json",
+        "sha256": "d0e71ffa83eebc6ea877f5506c93136c2d7eb2952f3858aed6495792d2026569"
+      },
+      "private-source-dependency-readback.json": {
+        "bytes": 277171,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/private-source-dependency-readback.json",
+        "sha256": "552d274222aae596f1d112be1ed06637b91d20e1602c78ec3018c86b31ce286e"
+      },
+      "prospective-runtime-readback.json": {
+        "bytes": 25492545,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/observations-collect-8cd70b60d9994ae5b955cba6def0e9d0/collect-closure/prospective-runtime-readback.json",
+        "sha256": "9378eb1611325245edaee346232de6197520427ab8082bbefb4e5025c1118083"
+      }
+    },
+    "private_source_equal_original_full_dependency": true,
+    "source_keyset_and_modes_equal_frozen_selected_entries": true,
+    "source_snapshot_sha256": "62e3494bdf961bfbee23ab6a35abc730250390a670f57e4aa5a9c2e1adc1608d"
+  },
+  "complete_partial_observation_custody": {
+    "all_event_files_and_raw_fragments_read": true,
+    "missing_driver_completion": "UNKNOWN",
+    "physical_entries_observed": 182,
+    "self_faulthandler": {
+      "bytes": 89168,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/self-faulthandler.raw",
+      "sha256": "7a9c69dbaaf2cc2eaa159c3130c50cf2af5456f14a393e056bed7f598d2201e2"
+    },
+    "snapshot_sha256": "a81448c4eb1131363a114cf46a8b2851771f0af778c685b659f3cc2f2945ab3f"
+  },
+  "complete_root_cause_or_dominance_established": false,
+  "diagnosis_extent": [
+    "Original campaign was interrupted at its Main tail observation deadline, not a demonstrated child assertion or native refusal. That original gamma native frame/input was not captured.",
+    "This separately admitted instrumented diagnostic reached the same original test133 gamma SQL-write-to-native-postflight source interval and captured the actual full new fixture packet/raw/owned buffer before its own Main deadline. Gamma rowid3/ordinal2 was observed after successful mode4 preflight. No postflight return marker or child completion exists.",
+    "Earlier tool-event mode9, beta file-delta mode4 and beta file-delta mode9 calls actually returned0. Long boundary gaps and the exact source/compiled checked-invariant sample establish a concrete repeated-validation evaluation-cost mechanism; they do not establish a percentage of time, a unique active leaf in gamma, nontermination or the original ephemeral stack.",
+    "These observations justify investigating the smallest decoder body evaluation-cost correction. A whole-array aggregate preserving the complete public specification is an engineering candidate only; complete semantic/prefix equivalence, initialization, null/nondefault/last-index/alias legality, termination, negative controls and actual performance remain unproved until authored source review and matching-source full checks.",
+    "No deadline, compiler/assertion policy, public contract, native accepted domain, original control or proof roster may be weakened. No proposed correction has acceptance credit."
+  ],
+  "diagnostic_source_review": {
+    "bytes": 18349,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/independent-source-review.json",
+    "sha256": "07dcb14f7769f9ed2673bcfb518f2ceec713df96c4b2cdd95290b7dc73141516"
+  },
+  "instrumented_boundary_timestamp_arithmetic": [
+    {
+      "approx": "113.905764",
+      "exact": "28476441/250000",
+      "formal": false,
+      "parsed": "23*60+17.941721-(21*60+24.035957)",
+      "status": "exact"
+    },
+    {
+      "approx": "113.109226",
+      "exact": "56554613/500000",
+      "formal": false,
+      "parsed": "25*60+11.280451-(23*60+18.171225)",
+      "status": "exact"
+    },
+    {
+      "approx": "382.659463",
+      "exact": "382659463/1000000",
+      "formal": false,
+      "parsed": "31*60+33.990176-(25*60+11.330713)",
+      "status": "exact"
+    }
+  ],
+  "model_provenance": [
+    {
+      "bytes": 6780,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance_ultra-actual-launch-provenance.json",
+      "sha256": "e3e26497b1aa84d8d4483b75b847977094b522ed93a0c525633041c0f2434057"
+    }
+  ],
+  "open_obligations": [
+    "One smallest fully reviewed source correction and ONE frozen successor only after the demonstrated blocker/cause assessment; original full set rerun required.",
+    "All later original ordinary actions, complete matching-source strict proof, authentic protected fixtures/owner/actor/runtime and final Phase One acceptance remain OPEN/UNRUN.",
+    "Single known-PID absence and owned scope inactivity are bounded custody observations, not universal process absence or protected authority.",
+    "No original campaign pass, missing wait, completed diagnostic test result, source16, new target or receiver was authored by this review."
+  ],
+  "original_first_blocker_record": {
+    "bytes": 6275,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-first-demonstrated-blocker-root-record-v1.json",
+    "sha256": "cbbc9ab80061f3cc673db97435758863ba0fe41b7422ffe36bcc2f282c63dd30"
+  },
+  "original_preserved_fixture_independent_readback": {
+    "bytes": 395949,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/source15-acquisition-main-deadline-and-preserved-fixture-independent-observation-v3.json",
+    "sha256": "95578c8259a9efbf39179b59ca9ff73169524d013af593766e4607cac2c82039"
+  },
+  "original_source_opinion": {
+    "bytes": 18838,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/frame-review-draft/integrated-v15-independent-source-review.json",
+    "sha256": "8716996e5c7b4dc221b8db4abbbf2e7571a5290684b682173dfc30c82a2077f5"
+  },
+  "outcome": {
+    "Main": "ACTUAL_OBSERVATION_DEADLINE_FAILURE",
+    "child_wait": "UNKNOWN",
+    "inputs_unchanged": true,
+    "missing_scope_terminal_wait": "UNKNOWN",
+    "raw_stream_end_if_interrupted": "UNKNOWN",
+    "scope_cleanup_wait": -15,
+    "window_release": "ACTUAL_CUSTODY_ONLY_RELEASE"
+  },
+  "phase_acceptance": false,
+  "preserved_reader_preimages": [
+    {
+      "bytes": 18627,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/review_source15_causal_diagnostic_actual_outcome_v1.py",
+      "sha256": "1ddcc72e0cdf9a4a6f1fe5f5f2a66b120b89c6fc7268d5fe5f6ff7774fb63398"
+    },
+    {
+      "bytes": 19558,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/review_source15_causal_diagnostic_actual_outcome_v2.py",
+      "sha256": "a21aad98ec627a2a48c3cd10de94b9d0708268ee7bb1109486a2107977a05d25"
+    }
+  ],
+  "product_import_native_ptrace_or_SQL_by_reviewer": false,
+  "proof_acceptance": false,
+  "readback_program": {
+    "bytes": 19796,
+    "mode": 420,
+    "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/acceptance-ultra-review-draft/review_source15_causal_diagnostic_actual_outcome_v3.py",
+    "sha256": "7f4302f47e57c996908950bb18e589bb6c9f2d749a4c66483f4507e18096ad8d"
+  },
+  "reader_path_resolution_correction": "Original Root CLI relative stage pins are resolved under original D working directory, preserving declared bytes/mode/SHA. First reader739865 refused before output; no receiver/source mutation.",
+  "reviewed_at": "2026-10-11T05:44:05.295135+00:00",
+  "reviewer_agent": "/root/acceptance_ultra",
+  "runtime_acceptance": false,
+  "schema": "worldline-source15-actual-external-causal-observation-terminal-cause-assessment-v1",
+  "selected_causal_native_boundaries": [
+    {
+      "capture": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115",
+      "files": {
+        "context.typed.json": {
+          "bytes": 819,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115/context.typed.json",
+          "sha256": "5b0ac61506578c16c15da7b5db122270f42eb94f8918ccb55b75c6bb44c4623f"
+        },
+        "owned.bin": {
+          "bytes": 100363,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115/owned.bin",
+          "sha256": "3e699401b0d696de9661697b6d2626aecbce8a0bedf31a6eeb377842e3736646"
+        },
+        "packet.typed.json": {
+          "bytes": 8156,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115/packet.typed.json",
+          "sha256": "5a47575602543be133442f8c8023d1b5f70ee15be65d1c873a74ddeb34b83aa3"
+        },
+        "pending-call.json": {
+          "bytes": 927,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115/pending-call.json",
+          "sha256": "8739e8aa6515bf4fc1e39ce9f9399a09bb2e41e9a4db08941a3950dda7807af9"
+        },
+        "raw.bin": {
+          "bytes": 100363,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115/raw.bin",
+          "sha256": "3e699401b0d696de9661697b6d2626aecbce8a0bedf31a6eeb377842e3736646"
+        },
+        "returned-call.json": {
+          "bytes": 67,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115/returned-call.json",
+          "sha256": "353e2452d5bceb22536766c67103ddf9d12b22f092fac3f8d7ad902821b4c3c3"
+        }
+      },
+      "packet_summary": {
+        "current": [
+          {
+            "event_id": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "kind": "tool-event",
+            "ordinal": 0,
+            "rowid": 1,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          }
+        ],
+        "kind": "events",
+        "old": [],
+        "payload": {
+          "actor": "fixture",
+          "kind": "tool-event",
+          "lineEnd": 1,
+          "lineStart": 1,
+          "pathB64": "Y29kZS50eHQ=",
+          "pathDisplay": "code.txt",
+          "reason": "make behavior deterministic",
+          "rootKey": "f4c8ed9d615f1f7d0a6f6a6864c15ef05778cce44cff71498281181bdf2855a7",
+          "schemaVersion": 1,
+          "worldInstance": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+        },
+        "sqlite_write": {
+          "connection_identity": 281473027023360,
+          "cursor": {
+            "class": "Cursor",
+            "identity": 281473023579200,
+            "module": "sqlite3"
+          },
+          "lastrowid": 1,
+          "rowid": 1,
+          "sql": {
+            "actor": "fixture",
+            "canonical_path": "/home/sicarii/.cache/workflow-tmp/worldline-causal-plfs8mu_/state/worldline/events/a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02.json",
+            "chain_hash": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "created_at": "2026-10-11T05:21:24.007104Z",
+            "event_id": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "event_root": "sha256:03d2526c596e6dca3fc211c469b0e20862f2e92419ec8d6260598dc9f9b10570",
+            "kind": "tool-event",
+            "line_end": 1,
+            "line_start": 1,
+            "ordinal": 0,
+            "path_b64": "Y29kZS50eHQ=",
+            "path_display": "code.txt",
+            "predecessor": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+            "reason": "make behavior deterministic",
+            "tool": null,
+            "world_instance": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          },
+          "store_identity": 281473027007424
+        }
+      },
+      "pending": {
+        "at": "2026-10-11T05:21:24.035957+00:00",
+        "meaning": "Full before-call capture; absence of return alone does not identify a hot frame",
+        "mode": 9,
+        "monotonic_ns": 385314765701967,
+        "monotonic_seconds": 385314.765702258,
+        "pid": 3881221,
+        "site": {
+          "filename": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/runtime/worldline/ordinary_receipt_policy.py",
+          "first_line": 32,
+          "function": "_decide",
+          "line": 48
+        },
+        "tests": [
+          {
+            "filename": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/tests/test_causal.py",
+            "function": "test_why_walks_agent_mission_file_and_prime",
+            "line": 87
+          }
+        ]
+      },
+      "returned": {
+        "at": "2026-10-11T05:23:17.941721+00:00",
+        "mode": 9,
+        "result": 0
+      }
+    },
+    {
+      "capture": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-65-385542051288681",
+      "files": {
+        "context.typed.json": {
+          "bytes": 819,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-65-385542051288681/context.typed.json",
+          "sha256": "5c08e5bcfa740245399296bdbc210625b9146e819b1c328a0d4f018de1c26dc0"
+        },
+        "owned.bin": {
+          "bytes": 130422,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-65-385542051288681/owned.bin",
+          "sha256": "4b29d71774991bdd9a34f593e33007da2830e6cd2b813afa2a2a474d5aa5b731"
+        },
+        "packet.typed.json": {
+          "bytes": 12771,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-65-385542051288681/packet.typed.json",
+          "sha256": "a91123e40bd155b3419a07d988bb2c827ea1369bae492dc19051a42a752f7021"
+        },
+        "pending-call.json": {
+          "bytes": 928,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-65-385542051288681/pending-call.json",
+          "sha256": "01759a1a93032767e7466603f86e50cacc101817f43331330c7523747ba3f5ac"
+        },
+        "raw.bin": {
+          "bytes": 130422,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-65-385542051288681/raw.bin",
+          "sha256": "4b29d71774991bdd9a34f593e33007da2830e6cd2b813afa2a2a474d5aa5b731"
+        },
+        "returned-call.json": {
+          "bytes": 67,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-65-385542051288681/returned-call.json",
+          "sha256": "4bb60027e66a91b0307ee802724c755657ff4ee0fb526236dfcb708566883351"
+        }
+      },
+      "packet_summary": {
+        "current": [
+          {
+            "event_id": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "kind": "tool-event",
+            "ordinal": 0,
+            "rowid": 1,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          },
+          {
+            "event_id": "sha256:130537789fe438573ecd56a38984c3fa0a9120116020443abb15f181688d0cbc",
+            "kind": "file-delta",
+            "ordinal": 1,
+            "rowid": 2,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          }
+        ],
+        "kind": "events",
+        "old": [
+          {
+            "event_id": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "kind": "tool-event",
+            "ordinal": 0,
+            "rowid": 1,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          }
+        ],
+        "payload": {
+          "actor": "fixture",
+          "evidence": [
+            {
+              "covers": [
+                "*.txt"
+              ],
+              "id": "fixture-test",
+              "kind": "tests",
+              "required": true,
+              "status": "PASS"
+            }
+          ],
+          "kind": "file-delta",
+          "operation": "MODIFY",
+          "origin": "worldline",
+          "pathB64": "Y29kZS50eHQ=",
+          "pathDisplay": "code.txt",
+          "reason": "make behavior deterministic",
+          "rootKey": "f4c8ed9d615f1f7d0a6f6a6864c15ef05778cce44cff71498281181bdf2855a7",
+          "schemaVersion": 1,
+          "sourceEvent": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+          "tool": null,
+          "worldInstance": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+        },
+        "sqlite_write": {
+          "connection_identity": 281473027023360,
+          "cursor": {
+            "class": "Cursor",
+            "identity": 281473023583552,
+            "module": "sqlite3"
+          },
+          "lastrowid": 2,
+          "rowid": 2,
+          "sql": {
+            "actor": "fixture",
+            "canonical_path": "/home/sicarii/.cache/workflow-tmp/worldline-causal-plfs8mu_/state/worldline/events/130537789fe438573ecd56a38984c3fa0a9120116020443abb15f181688d0cbc.json",
+            "chain_hash": "sha256:130537789fe438573ecd56a38984c3fa0a9120116020443abb15f181688d0cbc",
+            "created_at": "2026-10-11T05:25:11.295390Z",
+            "event_id": "sha256:130537789fe438573ecd56a38984c3fa0a9120116020443abb15f181688d0cbc",
+            "event_root": "sha256:a693370a19ad8e693aad09a5f80bc30358ddf259373222e5462c2c66245a53b4",
+            "kind": "file-delta",
+            "line_end": null,
+            "line_start": null,
+            "ordinal": 1,
+            "path_b64": "Y29kZS50eHQ=",
+            "path_display": "code.txt",
+            "predecessor": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "reason": "make behavior deterministic",
+            "tool": null,
+            "world_instance": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          },
+          "store_identity": 281473027007424
+        }
+      },
+      "pending": {
+        "at": "2026-10-11T05:25:11.330713+00:00",
+        "meaning": "Full before-call capture; absence of return alone does not identify a hot frame",
+        "mode": 9,
+        "monotonic_ns": 385542060462411,
+        "monotonic_seconds": 385542.060462744,
+        "pid": 3881221,
+        "site": {
+          "filename": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/runtime/worldline/ordinary_receipt_policy.py",
+          "first_line": 32,
+          "function": "_decide",
+          "line": 48
+        },
+        "tests": [
+          {
+            "filename": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/tests/test_causal.py",
+            "function": "test_why_walks_agent_mission_file_and_prime",
+            "line": 101
+          }
+        ]
+      },
+      "returned": {
+        "at": "2026-10-11T05:31:33.990176+00:00",
+        "mode": 9,
+        "result": 0
+      }
+    },
+    {
+      "capture": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-103-386096842904070",
+      "files": {
+        "context.typed.json": {
+          "bytes": 819,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-103-386096842904070/context.typed.json",
+          "sha256": "7bf8c0c8102c6f7cc0117ae62ad4acf7f8d71b46923c149fa6b827346bcc2cc3"
+        },
+        "owned.bin": {
+          "bytes": 155656,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-103-386096842904070/owned.bin",
+          "sha256": "5590e18bbf4021fc432e8f6d4fe652ec3cad72bb0a1d8755890f699df57b07dd"
+        },
+        "packet.typed.json": {
+          "bytes": 16379,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-103-386096842904070/packet.typed.json",
+          "sha256": "ea21160bb6056bd8e425b7702d736e0591ba11283af4d2d4fbfeaee785a93897"
+        },
+        "pending-call.json": {
+          "bytes": 928,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-103-386096842904070/pending-call.json",
+          "sha256": "cdbe303a938f7460aac6706531c897500e8a57dfbcda4627613ebe8f67b28b77"
+        },
+        "raw.bin": {
+          "bytes": 155656,
+          "mode": 384,
+          "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-103-386096842904070/raw.bin",
+          "sha256": "5590e18bbf4021fc432e8f6d4fe652ec3cad72bb0a1d8755890f699df57b07dd"
+        }
+      },
+      "packet_summary": {
+        "current": [
+          {
+            "event_id": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "kind": "tool-event",
+            "ordinal": 0,
+            "rowid": 1,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          },
+          {
+            "event_id": "sha256:130537789fe438573ecd56a38984c3fa0a9120116020443abb15f181688d0cbc",
+            "kind": "file-delta",
+            "ordinal": 1,
+            "rowid": 2,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          },
+          {
+            "event_id": "sha256:bd9fc57a8b6d8ae0f2530d693305e18dbff5a928ffdcd994ca616162c0d217c4",
+            "kind": "file-delta",
+            "ordinal": 2,
+            "rowid": 3,
+            "world": "b1fbadb6-3fa7-48d6-8349-db2f420489ac"
+          }
+        ],
+        "kind": "events",
+        "old": [
+          {
+            "event_id": "sha256:a4221e070b347c9202808f0637d04c5f92e3079bfb8f8cbcd6a20e3d23af6f02",
+            "kind": "tool-event",
+            "ordinal": 0,
+            "rowid": 1,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          },
+          {
+            "event_id": "sha256:130537789fe438573ecd56a38984c3fa0a9120116020443abb15f181688d0cbc",
+            "kind": "file-delta",
+            "ordinal": 1,
+            "rowid": 2,
+            "world": "fff7ad84-4217-45f6-a96b-40a316d6023d"
+          }
+        ],
+        "payload": {
+          "actor": "fixture",
+          "evidence": [],
+          "kind": "file-delta",
+          "operation": "MODIFY",
+          "origin": "worldline",
+          "pathB64": "Y29kZS50eHQ=",
+          "pathDisplay": "code.txt",
+          "reason": null,
+          "rootKey": "f4c8ed9d615f1f7d0a6f6a6864c15ef05778cce44cff71498281181bdf2855a7",
+          "schemaVersion": 1,
+          "sourceEvent": null,
+          "tool": null,
+          "worldInstance": "b1fbadb6-3fa7-48d6-8349-db2f420489ac"
+        },
+        "sqlite_write": {
+          "connection_identity": 281473027023360,
+          "cursor": {
+            "class": "Cursor",
+            "identity": 281473023589184,
+            "module": "sqlite3"
+          },
+          "lastrowid": 3,
+          "rowid": 3,
+          "sql": {
+            "actor": "fixture",
+            "canonical_path": "/home/sicarii/.cache/workflow-tmp/worldline-causal-plfs8mu_/state/worldline/events/bd9fc57a8b6d8ae0f2530d693305e18dbff5a928ffdcd994ca616162c0d217c4.json",
+            "chain_hash": "sha256:bd9fc57a8b6d8ae0f2530d693305e18dbff5a928ffdcd994ca616162c0d217c4",
+            "created_at": "2026-10-11T05:34:26.081719Z",
+            "event_id": "sha256:bd9fc57a8b6d8ae0f2530d693305e18dbff5a928ffdcd994ca616162c0d217c4",
+            "event_root": "sha256:bf5188ecf9f1fac2b598393dadb89430ff1f643175bef7c8a876de6a33f2e90e",
+            "kind": "file-delta",
+            "line_end": null,
+            "line_start": null,
+            "ordinal": 2,
+            "path_b64": "Y29kZS50eHQ=",
+            "path_display": "code.txt",
+            "predecessor": "sha256:130537789fe438573ecd56a38984c3fa0a9120116020443abb15f181688d0cbc",
+            "reason": null,
+            "tool": null,
+            "world_instance": "b1fbadb6-3fa7-48d6-8349-db2f420489ac"
+          },
+          "store_identity": 281473027007424
+        }
+      },
+      "pending": {
+        "at": "2026-10-11T05:34:26.120435+00:00",
+        "meaning": "Full before-call capture; absence of return alone does not identify a hot frame",
+        "mode": 9,
+        "monotonic_ns": 386096850178653,
+        "monotonic_seconds": 386096.850178861,
+        "pid": 3881221,
+        "site": {
+          "filename": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/runtime/worldline/ordinary_receipt_policy.py",
+          "first_line": 32,
+          "function": "_decide",
+          "line": 48
+        },
+        "tests": [
+          {
+            "filename": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/tests/test_causal.py",
+            "function": "test_why_walks_agent_mission_file_and_prime",
+            "line": 133
+          }
+        ]
+      },
+      "returned": "UNOBSERVED"
+    }
+  ],
+  "single_earlier_native_register_sample": {
+    "actual_seize_stop_registers_detach_success": true,
+    "belongs_to_capture": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/observation/native-before-36-385314758062115",
+    "campaign_credit": false,
+    "cause_dominance": false,
+    "pins": {
+      "actual-observations.json": {
+        "bytes": 15681,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/late-native-register-sample/actual-observations.json",
+        "sha256": "527ab68000556921c260c87c54e2ece6af425fd7eda5117cbe2e46fd67664c98"
+      },
+      "before.json": {
+        "bytes": 5705,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/late-native-register-sample/before.json",
+        "sha256": "3fd5288236577f46cfcb6ae08f1167a7cff2952a8678680bc0a007560bbde7a3"
+      },
+      "maps.raw": {
+        "bytes": 28299,
+        "mode": 384,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/run/late-native-register-sample/maps.raw",
+        "sha256": "e2c85c9634a8dafcce95b684330b4db132761ecd397cf1fe7b92f62c5767c370"
+      }
+    }
+  },
+  "source_and_compiled_mechanism": {
+    "actual_sample_interpretation": "Protected passive exact mapped ELF/DWARF and preceding BL correspondence: current PC points to Padding wrapped statements; saved LR corresponds to Canonical/Decoded_Length/Decoded_Byte inside Decode checked prefix invariant. This is one retained sample at the first tool-event mode9 call, which later returned0.",
+    "directly_reviewed_runtime_mechanism": "Decode assignment calls Decoded_Byte; each checked prefix-invariant element calls it again. Decoded_Byte Pre validates whole Canonical span and calls Decoded_Length whose Pre validates Canonical again. Decode full Post also projects every result byte. OperationArchive.Field/Valid and ArchiveEnvelope materialization repeat validation. GPR checks remain enabled.",
+    "retained_interpretation_tool_chunks": [
+      "9fa2f2",
+      "014203",
+      "7a25e4",
+      "72d85b",
+      "b75cba",
+      "a877c1",
+      "059be6"
+    ],
+    "sourcefiles": {
+      "core/worldline-archive_base64.adb": {
+        "bytes": 578,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/core/worldline-archive_base64.adb",
+        "sha256": "5ea0ce6bf227c84df163e360afe833bcbc8c50835ff6a07d4ebfcf1bddb23392"
+      },
+      "core/worldline-archive_base64.ads": {
+        "bytes": 4697,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/core/worldline-archive_base64.ads",
+        "sha256": "5bd87f0072595414960a778262da81ed7c4dcd32ba5974a2b36823ce54ba82a0"
+      },
+      "core/worldline-archive_envelope.adb": {
+        "bytes": 14727,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/core/worldline-archive_envelope.adb",
+        "sha256": "a8a6c7e6fde840dad48fa8b7a431d969fe002c261896cee807f29ab04ea64eef"
+      },
+      "core/worldline-archive_envelope.ads": {
+        "bytes": 2824,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/core/worldline-archive_envelope.ads",
+        "sha256": "aced97c3ca716ef9f38ac69e138eaaeb68d2770be7024016217f6a7ddd8135dc"
+      },
+      "core/worldline-operation_archive.adb": {
+        "bytes": 36248,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/core/worldline-operation_archive.adb",
+        "sha256": "fae3b9fc0c32a76b8b36906d74b79c9ade27db401100220c58e7e8e5847110cd"
+      },
+      "core/worldline-operation_archive.ads": {
+        "bytes": 1201,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/core/worldline-operation_archive.ads",
+        "sha256": "0ce7e425ee69401e6d9b448370ed7cb6a5c924f85a74bb643a49f8753150341c"
+      },
+      "runtime/worldline/causal.py": {
+        "bytes": 17274,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/runtime/worldline/causal.py",
+        "sha256": "739de7a87fe6486538faa89de37a87593004eae0541729a98a3667ccb4de9de0"
+      },
+      "runtime/worldline/ordinary_receipt_policy.py": {
+        "bytes": 21773,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/runtime/worldline/ordinary_receipt_policy.py",
+        "sha256": "30415e96b1a37d4555b6e1503fa06656bdf405ea5642b9d5fc238a44a315f2fa"
+      },
+      "runtime/worldline/store.py": {
+        "bytes": 59126,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/runtime/worldline/store.py",
+        "sha256": "377dba3db8727d4b26742ac29dc09e5b93597607c3774a298148e893c042ccd0"
+      },
+      "tests/test_causal.py": {
+        "bytes": 8436,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/tests/test_causal.py",
+        "sha256": "95b6d05c0cfc80e93fdafe88e6b10d36fffad04045385ddf707c43cb82487365"
+      }
+    },
+    "verified_compiled_library": {
+      "native-artifacts/build.json": {
+        "bytes": 473,
+        "mode": 420,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/native-artifacts/build.json",
+        "sha256": "3c7d4672c7de4a87a7761a9753b6f8cf5476053bf1755ac41421b91525752967"
+      },
+      "native-artifacts/libworldline_examiner_guard.so": {
+        "bytes": 149864,
+        "mode": 493,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/native-artifacts/libworldline_examiner_guard.so",
+        "sha256": "cdab55226b84d7276aca1209c339cde6e376ff927fcd455e36c03842100fa06b"
+      },
+      "source/lib/libworldline_core.so": {
+        "bytes": 64426864,
+        "mode": 493,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/lib/libworldline_core.so",
+        "sha256": "964e9e57edb623649168278d975ef20d61f52f9023ae8f946cbf28ad8d4ecacb"
+      },
+      "source/lib/pending-standalone/libevaluation_pending.so": {
+        "bytes": 1983728,
+        "mode": 493,
+        "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v15-ultra-v1-draft/candidate/source/lib/pending-standalone/libevaluation_pending.so",
+        "sha256": "5ac00893f59078d8c5fc4b1c1038219ba5522f990ee303e2eba84c72561c5166"
+      }
+    }
+  },
+  "source_or_window_mutation_by_reviewer": false,
+  "target_execution_by_reviewer": false,
+  "window": {
+    "complete_original_fields_and_history_preserved": true,
+    "current": {
+      "bytes": 399085,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json",
+      "sha256": "d26371a7310c30bb2a1bf971980d9d2af1ef89bedee9d11bfa015fe5bed98387"
+    },
+    "prior": {
+      "bytes": 398026,
+      "mode": 420,
+      "path": "/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json",
+      "sha256": "c443c606122213d7d3f9463cfcd17f3c1bc5ba06f58062d8380e7ac85481b0be"
+    },
+    "reservation": {
+      "bytes": 2208,
+      "mode": 384,
+      "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/source15-causal-observation-v1/reservation.json",
+      "sha256": "c1e3862ac2839b12ba5f98c72d966dbe11178f1fc44f994f88a536965b4af0d3"
+    }
+  }
+}
