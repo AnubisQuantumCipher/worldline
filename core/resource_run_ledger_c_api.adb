@@ -128,21 +128,21 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
       case Kind is
          when 1 =>
             case Field is
-               when 0 => return W.Raw_Id'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Id'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Id'Alignment;
                when 2 => return 0; when 3 => return 8; when 4 => return 16;
                when others => return -1;
             end case;
          when 2 =>
             case Field is
-               when 0 => return W.Raw_Quantity'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Quantity'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Quantity'Alignment;
                when 2 => return 0; when 3 => return 8; when 4 => return 16;
                when others => return -1;
             end case;
          when 3 =>
             case Field is
-               when 0 => return W.Raw_Epoch'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Epoch'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Epoch'Alignment;
                when 2 => return 0; when 3 => return 8;
                when others => return -1;
@@ -150,7 +150,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 4 =>
             case Field is
-               when 0 => return W.Raw_Context'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Context'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Context'Alignment;
                when 2 => return 0; when 3 => return 24; when 4 => return 48;
                when 5 => return 72; when 6 => return 96; when 7 => return 120;
@@ -159,7 +159,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 5 =>
             case Field is
-               when 0 => return W.Raw_Binding'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Binding'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Binding'Alignment;
                when 2 => return 0; when 3 => return 24; when 4 => return 48;
                when 5 => return 72; when 6 => return 96; when 7 => return 120;
@@ -169,7 +169,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 6 =>
             case Field is
-               when 0 => return W.Raw_Row'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Row'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Row'Alignment;
                when 2 => return 0; when 3 => return 224; when 4 => return 472;
                when 5 => return 496; when 6 => return 497; when 7 => return 504;
@@ -179,7 +179,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 7 =>
             case Field is
-               when 0 => return W.Raw_State'Size / System.Storage_Unit;
+               when 0 => return W.Raw_State'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_State'Alignment;
                when 2 => return 0; when 3 => return 224; when 4 => return 256;
                when 5 => return 280; when 6 => return 304; when 7 => return 328;
@@ -188,7 +188,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 8 =>
             case Field is
-               when 0 => return W.Raw_Native'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Native'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Native'Alignment;
                when 2 => return 0; when 3 => return 224; when 4 => return 256;
                when 5 => return 504; when 6 => return 528; when 7 => return 552;
@@ -197,7 +197,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 9 =>
             case Field is
-               when 0 => return W.Raw_Request'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Request'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Request'Alignment;
                when 2 => return 0; when 3 => return 8; when 4 => return 232;
                when 5 => return 264; when 6 => return 288; when 7 => return 312;
@@ -207,7 +207,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 10 =>
             case Field is
-               when 0 => return W.Raw_Packet'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Packet'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Packet'Alignment;
                when 2 => return 0; when 3 => return 8; when 4 => return 384;
                when 5 => return 760;
@@ -215,7 +215,7 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
             end case;
          when 11 =>
             case Field is
-               when 0 => return W.Raw_Result'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Result'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Result'Alignment;
                when 2 => return 0;
                when others => return -1;

@@ -58,14 +58,14 @@ package body Worldline.Chain_Authority_C_API with SPARK_Mode => On is
       pragma Compile_Time_Error (O.Accepted_Count'Position /= 40, "Result.Accepted");
       case Kind is
          when 1 => case Field is
-            when 0 => return W.Raw_Digest'Size / System.Storage_Unit;
+            when 0 => return W.Raw_Digest'Object_Size / System.Storage_Unit;
             when 1 => return W.Raw_Digest'Alignment;
             when 2 => return 0;
             when 3 => return 1;
             when others => return -1;
          end case;
          when 2 => case Field is
-            when 0 => return W.Raw_Row'Size / System.Storage_Unit;
+            when 0 => return W.Raw_Row'Object_Size / System.Storage_Unit;
             when 1 => return W.Raw_Row'Alignment;
             when 2 => return 0;
             when 3 => return 33;
@@ -74,7 +74,7 @@ package body Worldline.Chain_Authority_C_API with SPARK_Mode => On is
             when others => return -1;
          end case;
          when 3 => case Field is
-            when 0 => return W.Raw_Anchors'Size / System.Storage_Unit;
+            when 0 => return W.Raw_Anchors'Object_Size / System.Storage_Unit;
             when 1 => return W.Raw_Anchors'Alignment;
             when 2 => return 0;
             when 3 => return 1;
@@ -83,7 +83,7 @@ package body Worldline.Chain_Authority_C_API with SPARK_Mode => On is
             when others => return -1;
          end case;
          when 4 => case Field is
-            when 0 => return W.Raw_Result'Size / System.Storage_Unit;
+            when 0 => return W.Raw_Result'Object_Size / System.Storage_Unit;
             when 1 => return W.Raw_Result'Alignment;
             when 2 => return 0;
             when 3 => return 1;
@@ -102,10 +102,10 @@ package body Worldline.Chain_Authority_C_API with SPARK_Mode => On is
       Rows : System.Address; Rows_Count, Rows_Length : Interfaces.C.size_t;
       Output : System.Address; Output_Length : Interfaces.C.size_t)
       return Boolean is
-      Stride : constant Interfaces.C.size_t := W.Raw_Row'Size / System.Storage_Unit;
+      Stride : constant Interfaces.C.size_t := W.Raw_Row'Object_Size / System.Storage_Unit;
    begin
-      return not (Anchors_Length /= W.Raw_Anchors'Size / System.Storage_Unit
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+      return not (Anchors_Length /= W.Raw_Anchors'Object_Size / System.Storage_Unit
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Shape (Anchors, Anchors_Length) or else not Shape (Output, Output_Length)
         or else To_Integer (Anchors) mod W.Raw_Anchors'Alignment /= 0
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0

@@ -1050,12 +1050,12 @@ package body Worldline.C_API with SPARK_Mode => Off is
       pragma Unreferenced (Native_Call);
    begin
       case Selector is
-         when 0 => return C_Collapse_Request'Size / 8;
-         when 1 => return C_Evaluation_Observations'Size / 8;
-         when 2 => return C_Evaluation_Classification'Size / 8;
-         when 3 => return C_Evidence_Presence'Size / 8;
-         when 4 => return Collapse_Wire.Raw_Optional_Hash'Size / 8;
-         when 5 => return Collapse_Wire.Raw_Optional_Counter'Size / 8;
+         when 0 => return C_Collapse_Request'Object_Size / 8;
+         when 1 => return C_Evaluation_Observations'Object_Size / 8;
+         when 2 => return C_Evaluation_Classification'Object_Size / 8;
+         when 3 => return C_Evidence_Presence'Object_Size / 8;
+         when 4 => return Collapse_Wire.Raw_Optional_Hash'Object_Size / 8;
+         when 5 => return Collapse_Wire.Raw_Optional_Counter'Object_Size / 8;
          when others => return 0;
       end case;
       end;
@@ -2873,11 +2873,11 @@ package body Worldline.C_API with SPARK_Mode => Off is
       declare
       Native_Call : Native_Call_Guard;
       pragma Unreferenced (Native_Call);
-      Row_Size : constant Size := W.Raw_Row'Size / System.Storage_Unit;
-      Native_Size : constant Size := W.Raw_Native'Size / System.Storage_Unit;
+      Row_Size : constant Size := W.Raw_Row'Object_Size / System.Storage_Unit;
+      Native_Size : constant Size := W.Raw_Native'Object_Size / System.Storage_Unit;
    begin
-      if Input_Length /= W.Raw_Packet'Size / System.Storage_Unit
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+      if Input_Length /= W.Raw_Packet'Object_Size / System.Storage_Unit
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Shape (Input, Input_Length) or else not Shape (Output, Output_Length)
         or else To_Integer (Input) mod W.Raw_Packet'Alignment /= 0
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0
@@ -4478,7 +4478,7 @@ function Operation_Authority_Version return Interfaces.Unsigned_32 is
    use type Interfaces.Unsigned_8; use type A.Q.Byte_Count;
    begin case Kind is
 when 1 => declare V : W.Raw_Quantity; begin case Field is
-when 0 => return W.Raw_Quantity'Size / System.Storage_Unit;
+when 0 => return W.Raw_Quantity'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_Quantity'Alignment;
 when 2 => return V.Present'Position;
 when 3 => return V.Negative'Position;
@@ -4486,13 +4486,13 @@ when 4 => return V.First'Position;
 when 5 => return V.Length'Position;
 when others => return -1; end case; end;
 when 2 => declare V : W.Raw_UID; begin case Field is
-when 0 => return W.Raw_UID'Size / System.Storage_Unit;
+when 0 => return W.Raw_UID'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_UID'Alignment;
 when 2 => return V.Present'Position;
 when 3 => return V.Value'Position;
 when others => return -1; end case; end;
 when 3 => declare V : W.Raw_Binding; begin case Field is
-when 0 => return W.Raw_Binding'Size / System.Storage_Unit;
+when 0 => return W.Raw_Binding'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_Binding'Alignment;
 when 2 => return V.Action'Position;
 when 3 => return V.Id'Position;
@@ -4504,7 +4504,7 @@ when 8 => return V.Policy_Epoch'Position;
 when 9 => return V.Resource_Epoch'Position;
 when others => return -1; end case; end;
 when 4 => declare V : W.Raw_Grant; begin case Field is
-when 0 => return W.Raw_Grant'Size / System.Storage_Unit;
+when 0 => return W.Raw_Grant'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_Grant'Alignment;
 when 2 => return V.Id'Position;
 when 3 => return V.Parent'Position;
@@ -4522,13 +4522,13 @@ when 14 => return V.Issued_At'Position;
 when 15 => return V.Expires_At'Position;
 when others => return -1; end case; end;
 when 5 => declare V : W.Raw_Use; begin case Field is
-when 0 => return W.Raw_Use'Size / System.Storage_Unit;
+when 0 => return W.Raw_Use'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_Use'Alignment;
 when 2 => return V.Bound'Position;
 when 3 => return V.State'Position;
 when others => return -1; end case; end;
 when 6 => declare V : W.Raw_Evidence; begin case Field is
-when 0 => return W.Raw_Evidence'Size / System.Storage_Unit;
+when 0 => return W.Raw_Evidence'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_Evidence'Alignment;
 when 2 => return V.Effect_Binding'Position;
 when 3 => return V.Actual_Receipt_Root'Position;
@@ -4544,7 +4544,7 @@ when 12 => return V.Effect_Material_First'Position;
 when 13 => return V.Effect_Material_Length'Position;
 when others => return -1; end case; end;
 when 7 => declare V : W.Raw_Input; begin case Field is
-when 0 => return W.Raw_Input'Size / System.Storage_Unit;
+when 0 => return W.Raw_Input'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_Input'Alignment;
 when 2 => return V.Schema'Position;
 when 3 => return V.Mode'Position;
@@ -4553,7 +4553,7 @@ when 5 => return V.Now'Position;
 when 6 => return V.Facts'Position;
 when others => return -1; end case; end;
 when 8 => declare V : W.Raw_Result; begin case Field is
-when 0 => return W.Raw_Result'Size / System.Storage_Unit;
+when 0 => return W.Raw_Result'Object_Size / System.Storage_Unit;
 when 1 => return W.Raw_Result'Alignment;
 when 2 => return V.Disposition'Position;
 when others => return -1; end case; end;
@@ -4623,7 +4623,7 @@ when others => return -1; end case; end;
       case Kind is
          when 0 =>
             case Field is
-               when 0 => return N.Raw_State'Size / System.Storage_Unit;
+               when 0 => return N.Raw_State'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_State'Alignment;
                when 2 => return V_State.Current'Position;
                when 3 => return V_State.Resource_Epoch'Position;
@@ -4635,7 +4635,7 @@ when others => return -1; end case; end;
             end case;
          when 1 =>
             case Field is
-               when 0 => return N.Raw_Scope_Frame'Size / System.Storage_Unit;
+               when 0 => return N.Raw_Scope_Frame'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_Scope_Frame'Alignment;
                when 2 => return V_Scope_Frame.Scope'Position;
                when 3 => return V_Scope_Frame.First_Epoch'Position;
@@ -4656,7 +4656,7 @@ when others => return -1; end case; end;
             end case;
          when 2 =>
             case Field is
-               when 0 => return N.Raw_Physical_Key'Size / System.Storage_Unit;
+               when 0 => return N.Raw_Physical_Key'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_Physical_Key'Alignment;
                when 2 => return V_Physical_Key.Machine'Position;
                when 3 => return V_Physical_Key.Resource'Position;
@@ -4665,7 +4665,7 @@ when others => return -1; end case; end;
             end case;
          when 3 =>
             case Field is
-               when 0 => return N.Raw_Bucket'Size / System.Storage_Unit;
+               when 0 => return N.Raw_Bucket'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_Bucket'Alignment;
                when 2 => return V_Bucket.Key'Position;
                when 3 => return V_Bucket.Capacity'Position;
@@ -4678,7 +4678,7 @@ when others => return -1; end case; end;
             end case;
          when 4 =>
             case Field is
-               when 0 => return N.Raw_Projection'Size / System.Storage_Unit;
+               when 0 => return N.Raw_Projection'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_Projection'Alignment;
                when 2 => return V_Projection.Key'Position;
                when 3 => return V_Projection.Bound'Position;
@@ -4691,7 +4691,7 @@ when others => return -1; end case; end;
             end case;
          when 5 =>
             case Field is
-               when 0 => return N.Raw_Current_Observation'Size / System.Storage_Unit;
+               when 0 => return N.Raw_Current_Observation'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_Current_Observation'Alignment;
                when 2 => return V_Current_Observation.Scope'Position;
                when 3 => return V_Current_Observation.Resource_Epoch'Position;
@@ -4713,7 +4713,7 @@ when others => return -1; end case; end;
             end case;
          when 6 =>
             case Field is
-               when 0 => return N.Raw_Intent'Size / System.Storage_Unit;
+               when 0 => return N.Raw_Intent'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_Intent'Alignment;
                when 2 => return V_Intent.Kind'Position;
                when 3 => return V_Intent.Original'Position;
@@ -4727,7 +4727,7 @@ when others => return -1; end case; end;
             end case;
          when 7 =>
             case Field is
-               when 0 => return N.Raw_Packet'Size / System.Storage_Unit;
+               when 0 => return N.Raw_Packet'Object_Size / System.Storage_Unit;
                when 1 => return N.Raw_Packet'Alignment;
                when 2 => return V_Packet.Schema_Version'Position;
                when 3 => return V_Packet.Before_State'Position;
@@ -4738,7 +4738,7 @@ when others => return -1; end case; end;
             end case;
          when 8 =>
             case Field is
-               when 0 => return W.Raw_Result'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Result'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Result'Alignment;
                when 2 => return V_Result.Status'Position;
                when others => return -1;
@@ -4800,22 +4800,22 @@ when others => return -1; end case; end;
       package Raw_Pointers is new System.Address_To_Access_Conversions (N.Raw_Packet);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= N.Raw_Packet'Size / System.Storage_Unit
+      if Input_Length /= N.Raw_Packet'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod N.Raw_Packet'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Size / System.Storage_Unit, W.Raw_Native'Alignment)
-        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Size / System.Storage_Unit, O.Raw_Facts'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Object_Size / System.Storage_Unit, W.Raw_Native'Alignment)
+        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Object_Size / System.Storage_Unit, O.Raw_Facts'Alignment)
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -4933,22 +4933,22 @@ when others => return -1; end case; end;
       package Raw_Pointers is new System.Address_To_Access_Conversions (N.Raw_Packet);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= N.Raw_Packet'Size / System.Storage_Unit
+      if Input_Length /= N.Raw_Packet'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod N.Raw_Packet'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Size / System.Storage_Unit, W.Raw_Native'Alignment)
-        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Size / System.Storage_Unit, O.Raw_Facts'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Object_Size / System.Storage_Unit, W.Raw_Native'Alignment)
+        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Object_Size / System.Storage_Unit, O.Raw_Facts'Alignment)
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -5066,22 +5066,22 @@ when others => return -1; end case; end;
       package Raw_Pointers is new System.Address_To_Access_Conversions (N.Raw_Packet);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= N.Raw_Packet'Size / System.Storage_Unit
+      if Input_Length /= N.Raw_Packet'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod N.Raw_Packet'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Size / System.Storage_Unit, W.Raw_Native'Alignment)
-        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Size / System.Storage_Unit, O.Raw_Facts'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Object_Size / System.Storage_Unit, W.Raw_Native'Alignment)
+        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Object_Size / System.Storage_Unit, O.Raw_Facts'Alignment)
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -5172,7 +5172,7 @@ when others => return -1; end case; end;
       case Kind is
          when 1 =>
             case Field is
-               when 0 => return OW.Raw_Facts'Size / System.Storage_Unit;
+               when 0 => return OW.Raw_Facts'Object_Size / System.Storage_Unit;
                when 1 => return OW.Raw_Facts'Alignment;
                when 2 => return F.Current'Position;
                when 3 => return F.Current_Epoch'Position;
@@ -5217,7 +5217,7 @@ when others => return -1; end case; end;
             end case;
          when 2 =>
             case Field is
-               when 0 => return OW.Raw_Input'Size / System.Storage_Unit;
+               when 0 => return OW.Raw_Input'Object_Size / System.Storage_Unit;
                when 1 => return OW.Raw_Input'Alignment;
                when 2 => return P.State'Position;
                when 3 => return P.Item'Position;
@@ -5259,11 +5259,11 @@ when others => return -1; end case; end;
       package Raw_Pointers is new System.Address_To_Access_Conversions (O.Raw_Input);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= O.Raw_Input'Size / System.Storage_Unit
+      if Input_Length /= O.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod O.Raw_Input'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -5315,11 +5315,11 @@ when others => return -1; end case; end;
       package Raw_Pointers is new System.Address_To_Access_Conversions (O.Raw_Input);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= O.Raw_Input'Size / System.Storage_Unit
+      if Input_Length /= O.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod O.Raw_Input'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -5371,11 +5371,11 @@ when others => return -1; end case; end;
       package Raw_Pointers is new System.Address_To_Access_Conversions (O.Raw_Input);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= O.Raw_Input'Size / System.Storage_Unit
+      if Input_Length /= O.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod O.Raw_Input'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -5435,7 +5435,7 @@ when others => return -1; end case; end;
       case Kind is
          when 0 =>
             case Field is
-               when 0 => return D.Raw_Observation'Size / System.Storage_Unit;
+               when 0 => return D.Raw_Observation'Object_Size / System.Storage_Unit;
                when 1 => return D.Raw_Observation'Alignment;
                when 2 => return O.Bound'Position;
                when 3 => return O.Raw_Frame'Position;
@@ -5511,7 +5511,7 @@ when others => return -1; end case; end;
             end case;
          when 1 =>
             case Field is
-               when 0 => return D.Raw_Capability'Size / System.Storage_Unit;
+               when 0 => return D.Raw_Capability'Object_Size / System.Storage_Unit;
                when 1 => return D.Raw_Capability'Alignment;
                when 2 => return C.Index'Position;
                when 3 => return C.Bounding'Position;
@@ -5520,7 +5520,7 @@ when others => return -1; end case; end;
             end case;
          when 2 =>
             case Field is
-               when 0 => return D.Raw_Packet'Size / System.Storage_Unit;
+               when 0 => return D.Raw_Packet'Object_Size / System.Storage_Unit;
                when 1 => return D.Raw_Packet'Alignment;
                when 2 => return R.Ledger'Position;
                when 3 => return R.Captured'Position;
@@ -5589,25 +5589,25 @@ when others => return -1; end case; end;
       package Raw_Pointers is new System.Address_To_Access_Conversions (D.Raw_Packet);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= D.Raw_Packet'Size / System.Storage_Unit
+      if Input_Length /= D.Raw_Packet'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod D.Raw_Packet'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Size / System.Storage_Unit, W.Raw_Native'Alignment)
-        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Size / System.Storage_Unit, O.Raw_Facts'Alignment)
-        or else not Native_Execution_Array_Shape (Capabilities, Capabilities_Count, D.Raw_Capability'Size / System.Storage_Unit, D.Raw_Capability'Alignment)
-        or else not Native_Execution_Array_Shape (Groups, Groups_Count, W.Raw_Quantity'Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
-        or else not Native_Execution_Array_Shape (Proc_Groups, Proc_Groups_Count, W.Raw_Quantity'Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Object_Size / System.Storage_Unit, W.Raw_Native'Alignment)
+        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Object_Size / System.Storage_Unit, O.Raw_Facts'Alignment)
+        or else not Native_Execution_Array_Shape (Capabilities, Capabilities_Count, D.Raw_Capability'Object_Size / System.Storage_Unit, D.Raw_Capability'Alignment)
+        or else not Native_Execution_Array_Shape (Groups, Groups_Count, W.Raw_Quantity'Object_Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
+        or else not Native_Execution_Array_Shape (Proc_Groups, Proc_Groups_Count, W.Raw_Quantity'Object_Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -5724,7 +5724,7 @@ when others => return -1; end case; end;
       case Kind is
          when 0 =>
             case Field is
-               when 0 => return D.Raw_Observation'Size / System.Storage_Unit;
+               when 0 => return D.Raw_Observation'Object_Size / System.Storage_Unit;
                when 1 => return D.Raw_Observation'Alignment;
                when 2 => return O.Bound'Position;
                when 3 => return O.Raw_Frame'Position;
@@ -5800,7 +5800,7 @@ when others => return -1; end case; end;
             end case;
          when 1 =>
             case Field is
-               when 0 => return D.Raw_Capability'Size / System.Storage_Unit;
+               when 0 => return D.Raw_Capability'Object_Size / System.Storage_Unit;
                when 1 => return D.Raw_Capability'Alignment;
                when 2 => return C.Index'Position;
                when 3 => return C.Bounding'Position;
@@ -5809,7 +5809,7 @@ when others => return -1; end case; end;
             end case;
          when 2 =>
             case Field is
-               when 0 => return D.Raw_Packet'Size / System.Storage_Unit;
+               when 0 => return D.Raw_Packet'Object_Size / System.Storage_Unit;
                when 1 => return D.Raw_Packet'Alignment;
                when 2 => return R.Ledger'Position;
                when 3 => return R.Captured'Position;
@@ -5817,7 +5817,7 @@ when others => return -1; end case; end;
             end case;
          when 3 =>
             case Field is
-               when 0 => return X.Raw_Crosswalk'Size / System.Storage_Unit;
+               when 0 => return X.Raw_Crosswalk'Object_Size / System.Storage_Unit;
                when 1 => return X.Raw_Crosswalk'Alignment;
                when 2 => return Cw.Resource_Current'Position;
                when 3 => return Cw.Operation_Policy'Position;
@@ -5915,36 +5915,36 @@ when others => return -1; end case; end;
       package Crosswalk_Pointers is new System.Address_To_Access_Conversions (X.Raw_Crosswalk);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= D.Raw_Packet'Size / System.Storage_Unit
+      if Input_Length /= D.Raw_Packet'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod D.Raw_Packet'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Size / System.Storage_Unit, W.Raw_Native'Alignment)
-        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Size / System.Storage_Unit, O.Raw_Facts'Alignment)
-        or else not Native_Execution_Array_Shape (Capabilities, Capabilities_Count, D.Raw_Capability'Size / System.Storage_Unit, D.Raw_Capability'Alignment)
-        or else not Native_Execution_Array_Shape (Groups, Groups_Count, W.Raw_Quantity'Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
-        or else not Native_Execution_Array_Shape (Proc_Groups, Proc_Groups_Count, W.Raw_Quantity'Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
-        or else Authority_Input_Length /= T.Raw_Input'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Object_Size / System.Storage_Unit, W.Raw_Native'Alignment)
+        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Object_Size / System.Storage_Unit, O.Raw_Facts'Alignment)
+        or else not Native_Execution_Array_Shape (Capabilities, Capabilities_Count, D.Raw_Capability'Object_Size / System.Storage_Unit, D.Raw_Capability'Alignment)
+        or else not Native_Execution_Array_Shape (Groups, Groups_Count, W.Raw_Quantity'Object_Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
+        or else not Native_Execution_Array_Shape (Proc_Groups, Proc_Groups_Count, W.Raw_Quantity'Object_Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
+        or else Authority_Input_Length /= T.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Authority_Input, Authority_Input_Length)
         or else To_Integer (Authority_Input) mod T.Raw_Input'Alignment /= 0
         or else not Native_Execution_Array_Shape (Authority_Arena, Authority_Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Grants, Authority_Grants_Count, T.Raw_Grant'Size / System.Storage_Unit, T.Raw_Grant'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Uses, Authority_Uses_Count, T.Raw_Use'Size / System.Storage_Unit, T.Raw_Use'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Receipts, Authority_Receipts_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Events, Authority_Events_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else Crosswalk_Length /= X.Raw_Crosswalk'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (Authority_Grants, Authority_Grants_Count, T.Raw_Grant'Object_Size / System.Storage_Unit, T.Raw_Grant'Alignment)
+        or else not Native_Execution_Array_Shape (Authority_Uses, Authority_Uses_Count, T.Raw_Use'Object_Size / System.Storage_Unit, T.Raw_Use'Alignment)
+        or else not Native_Execution_Array_Shape (Authority_Receipts, Authority_Receipts_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Authority_Events, Authority_Events_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else Crosswalk_Length /= X.Raw_Crosswalk'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Crosswalk, Crosswalk_Length)
         or else To_Integer (Crosswalk) mod X.Raw_Crosswalk'Alignment /= 0
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -6160,7 +6160,7 @@ when others => return -1; end case; end;
          when D_Raw_Observation =>
             if Field > D_Raw_Observation_Field'Pos (D_Raw_Observation_Field'Last) then return -1; end if;
             case D_Raw_Observation_Field'Val (Field) is
-               when Size => return D.Raw_Observation'Size / System.Storage_Unit;
+               when Size => return D.Raw_Observation'Object_Size / System.Storage_Unit;
                when Alignment => return D.Raw_Observation'Alignment;
                when F_Bound => return V_D_Raw_Observation.Bound'Position;
                when F_Raw_Frame => return V_D_Raw_Observation.Raw_Frame'Position;
@@ -6236,7 +6236,7 @@ when others => return -1; end case; end;
          when D_Raw_Capability =>
             if Field > D_Raw_Capability_Field'Pos (D_Raw_Capability_Field'Last) then return -1; end if;
             case D_Raw_Capability_Field'Val (Field) is
-               when Size => return D.Raw_Capability'Size / System.Storage_Unit;
+               when Size => return D.Raw_Capability'Object_Size / System.Storage_Unit;
                when Alignment => return D.Raw_Capability'Alignment;
                when F_Index => return V_D_Raw_Capability.Index'Position;
                when F_Bounding => return V_D_Raw_Capability.Bounding'Position;
@@ -6245,7 +6245,7 @@ when others => return -1; end case; end;
          when D_Raw_Packet =>
             if Field > D_Raw_Packet_Field'Pos (D_Raw_Packet_Field'Last) then return -1; end if;
             case D_Raw_Packet_Field'Val (Field) is
-               when Size => return D.Raw_Packet'Size / System.Storage_Unit;
+               when Size => return D.Raw_Packet'Object_Size / System.Storage_Unit;
                when Alignment => return D.Raw_Packet'Alignment;
                when F_Ledger => return V_D_Raw_Packet.Ledger'Position;
                when F_Captured => return V_D_Raw_Packet.Captured'Position;
@@ -6253,7 +6253,7 @@ when others => return -1; end case; end;
          when X_Raw_Crosswalk =>
             if Field > X_Raw_Crosswalk_Field'Pos (X_Raw_Crosswalk_Field'Last) then return -1; end if;
             case X_Raw_Crosswalk_Field'Val (Field) is
-               when Size => return X.Raw_Crosswalk'Size / System.Storage_Unit;
+               when Size => return X.Raw_Crosswalk'Object_Size / System.Storage_Unit;
                when Alignment => return X.Raw_Crosswalk'Alignment;
                when F_Resource_Current => return V_X_Raw_Crosswalk.Resource_Current'Position;
                when F_Operation_Policy => return V_X_Raw_Crosswalk.Operation_Policy'Position;
@@ -6274,7 +6274,7 @@ when others => return -1; end case; end;
          when W_Raw_Id =>
             if Field > W_Raw_Id_Field'Pos (W_Raw_Id_Field'Last) then return -1; end if;
             case W_Raw_Id_Field'Val (Field) is
-               when Size => return W.Raw_Id'Size / System.Storage_Unit;
+               when Size => return W.Raw_Id'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Id'Alignment;
                when F_Present => return V_W_Raw_Id.Present'Position;
                when F_First => return V_W_Raw_Id.First'Position;
@@ -6283,7 +6283,7 @@ when others => return -1; end case; end;
          when W_Raw_Quantity =>
             if Field > W_Raw_Quantity_Field'Pos (W_Raw_Quantity_Field'Last) then return -1; end if;
             case W_Raw_Quantity_Field'Val (Field) is
-               when Size => return W.Raw_Quantity'Size / System.Storage_Unit;
+               when Size => return W.Raw_Quantity'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Quantity'Alignment;
                when F_Negative => return V_W_Raw_Quantity.Negative'Position;
                when F_First => return V_W_Raw_Quantity.First'Position;
@@ -6292,7 +6292,7 @@ when others => return -1; end case; end;
          when W_Raw_Epoch =>
             if Field > W_Raw_Epoch_Field'Pos (W_Raw_Epoch_Field'Last) then return -1; end if;
             case W_Raw_Epoch_Field'Val (Field) is
-               when Size => return W.Raw_Epoch'Size / System.Storage_Unit;
+               when Size => return W.Raw_Epoch'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Epoch'Alignment;
                when F_Present => return V_W_Raw_Epoch.Present'Position;
                when F_Value => return V_W_Raw_Epoch.Value'Position;
@@ -6300,7 +6300,7 @@ when others => return -1; end case; end;
          when W_Raw_Context =>
             if Field > W_Raw_Context_Field'Pos (W_Raw_Context_Field'Last) then return -1; end if;
             case W_Raw_Context_Field'Val (Field) is
-               when Size => return W.Raw_Context'Size / System.Storage_Unit;
+               when Size => return W.Raw_Context'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Context'Alignment;
                when F_Universe => return V_W_Raw_Context.Universe'Position;
                when F_Policy => return V_W_Raw_Context.Policy'Position;
@@ -6315,7 +6315,7 @@ when others => return -1; end case; end;
          when W_Raw_Binding =>
             if Field > W_Raw_Binding_Field'Pos (W_Raw_Binding_Field'Last) then return -1; end if;
             case W_Raw_Binding_Field'Val (Field) is
-               when Size => return W.Raw_Binding'Size / System.Storage_Unit;
+               when Size => return W.Raw_Binding'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Binding'Alignment;
                when F_Reservation => return V_W_Raw_Binding.Reservation'Position;
                when F_Operation => return V_W_Raw_Binding.Operation'Position;
@@ -6331,7 +6331,7 @@ when others => return -1; end case; end;
          when W_Raw_Row =>
             if Field > W_Raw_Row_Field'Pos (W_Raw_Row_Field'Last) then return -1; end if;
             case W_Raw_Row_Field'Val (Field) is
-               when Size => return W.Raw_Row'Size / System.Storage_Unit;
+               when Size => return W.Raw_Row'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Row'Alignment;
                when F_Scope => return V_W_Raw_Row.Scope'Position;
                when F_Bound => return V_W_Raw_Row.Bound'Position;
@@ -6348,7 +6348,7 @@ when others => return -1; end case; end;
          when W_Raw_State =>
             if Field > W_Raw_State_Field'Pos (W_Raw_State_Field'Last) then return -1; end if;
             case W_Raw_State_Field'Val (Field) is
-               when Size => return W.Raw_State'Size / System.Storage_Unit;
+               when Size => return W.Raw_State'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_State'Alignment;
                when F_Scope => return V_W_Raw_State.Scope'Position;
                when F_Resource_Epoch => return V_W_Raw_State.Resource_Epoch'Position;
@@ -6361,7 +6361,7 @@ when others => return -1; end case; end;
          when W_Raw_Native =>
             if Field > W_Raw_Native_Field'Pos (W_Raw_Native_Field'Last) then return -1; end if;
             case W_Raw_Native_Field'Val (Field) is
-               when Size => return W.Raw_Native'Size / System.Storage_Unit;
+               when Size => return W.Raw_Native'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Native'Alignment;
                when F_Scope => return V_W_Raw_Native.Scope'Position;
                when F_Resource_Epoch => return V_W_Raw_Native.Resource_Epoch'Position;
@@ -6375,7 +6375,7 @@ when others => return -1; end case; end;
          when W_Raw_Request =>
             if Field > W_Raw_Request_Field'Pos (W_Raw_Request_Field'Last) then return -1; end if;
             case W_Raw_Request_Field'Val (Field) is
-               when Size => return W.Raw_Request'Size / System.Storage_Unit;
+               when Size => return W.Raw_Request'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Request'Alignment;
                when F_Kind => return V_W_Raw_Request.Kind'Position;
                when F_Scope => return V_W_Raw_Request.Scope'Position;
@@ -6391,7 +6391,7 @@ when others => return -1; end case; end;
          when W_Raw_Packet =>
             if Field > W_Raw_Packet_Field'Pos (W_Raw_Packet_Field'Last) then return -1; end if;
             case W_Raw_Packet_Field'Val (Field) is
-               when Size => return W.Raw_Packet'Size / System.Storage_Unit;
+               when Size => return W.Raw_Packet'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Packet'Alignment;
                when F_Schema_Version => return V_W_Raw_Packet.Schema_Version'Position;
                when F_Before_State => return V_W_Raw_Packet.Before_State'Position;
@@ -6401,14 +6401,14 @@ when others => return -1; end case; end;
          when W_Raw_Result =>
             if Field > W_Raw_Result_Field'Pos (W_Raw_Result_Field'Last) then return -1; end if;
             case W_Raw_Result_Field'Val (Field) is
-               when Size => return W.Raw_Result'Size / System.Storage_Unit;
+               when Size => return W.Raw_Result'Object_Size / System.Storage_Unit;
                when Alignment => return W.Raw_Result'Alignment;
                when F_Status => return V_W_Raw_Result.Status'Position;
             end case;
          when N_Raw_State =>
             if Field > N_Raw_State_Field'Pos (N_Raw_State_Field'Last) then return -1; end if;
             case N_Raw_State_Field'Val (Field) is
-               when Size => return N.Raw_State'Size / System.Storage_Unit;
+               when Size => return N.Raw_State'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_State'Alignment;
                when F_Current => return V_N_Raw_State.Current'Position;
                when F_Resource_Epoch => return V_N_Raw_State.Resource_Epoch'Position;
@@ -6420,7 +6420,7 @@ when others => return -1; end case; end;
          when N_Raw_Scope_Frame =>
             if Field > N_Raw_Scope_Frame_Field'Pos (N_Raw_Scope_Frame_Field'Last) then return -1; end if;
             case N_Raw_Scope_Frame_Field'Val (Field) is
-               when Size => return N.Raw_Scope_Frame'Size / System.Storage_Unit;
+               when Size => return N.Raw_Scope_Frame'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_Scope_Frame'Alignment;
                when F_Scope => return V_N_Raw_Scope_Frame.Scope'Position;
                when F_First_Epoch => return V_N_Raw_Scope_Frame.First_Epoch'Position;
@@ -6441,7 +6441,7 @@ when others => return -1; end case; end;
          when N_Raw_Physical_Key =>
             if Field > N_Raw_Physical_Key_Field'Pos (N_Raw_Physical_Key_Field'Last) then return -1; end if;
             case N_Raw_Physical_Key_Field'Val (Field) is
-               when Size => return N.Raw_Physical_Key'Size / System.Storage_Unit;
+               when Size => return N.Raw_Physical_Key'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_Physical_Key'Alignment;
                when F_Machine => return V_N_Raw_Physical_Key.Machine'Position;
                when F_Resource => return V_N_Raw_Physical_Key.Resource'Position;
@@ -6450,7 +6450,7 @@ when others => return -1; end case; end;
          when N_Raw_Bucket =>
             if Field > N_Raw_Bucket_Field'Pos (N_Raw_Bucket_Field'Last) then return -1; end if;
             case N_Raw_Bucket_Field'Val (Field) is
-               when Size => return N.Raw_Bucket'Size / System.Storage_Unit;
+               when Size => return N.Raw_Bucket'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_Bucket'Alignment;
                when F_Key => return V_N_Raw_Bucket.Key'Position;
                when F_Capacity => return V_N_Raw_Bucket.Capacity'Position;
@@ -6463,7 +6463,7 @@ when others => return -1; end case; end;
          when N_Raw_Projection =>
             if Field > N_Raw_Projection_Field'Pos (N_Raw_Projection_Field'Last) then return -1; end if;
             case N_Raw_Projection_Field'Val (Field) is
-               when Size => return N.Raw_Projection'Size / System.Storage_Unit;
+               when Size => return N.Raw_Projection'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_Projection'Alignment;
                when F_Key => return V_N_Raw_Projection.Key'Position;
                when F_Bound => return V_N_Raw_Projection.Bound'Position;
@@ -6476,7 +6476,7 @@ when others => return -1; end case; end;
          when N_Raw_Current_Observation =>
             if Field > N_Raw_Current_Observation_Field'Pos (N_Raw_Current_Observation_Field'Last) then return -1; end if;
             case N_Raw_Current_Observation_Field'Val (Field) is
-               when Size => return N.Raw_Current_Observation'Size / System.Storage_Unit;
+               when Size => return N.Raw_Current_Observation'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_Current_Observation'Alignment;
                when F_Scope => return V_N_Raw_Current_Observation.Scope'Position;
                when F_Resource_Epoch => return V_N_Raw_Current_Observation.Resource_Epoch'Position;
@@ -6498,7 +6498,7 @@ when others => return -1; end case; end;
          when N_Raw_Intent =>
             if Field > N_Raw_Intent_Field'Pos (N_Raw_Intent_Field'Last) then return -1; end if;
             case N_Raw_Intent_Field'Val (Field) is
-               when Size => return N.Raw_Intent'Size / System.Storage_Unit;
+               when Size => return N.Raw_Intent'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_Intent'Alignment;
                when F_Kind => return V_N_Raw_Intent.Kind'Position;
                when F_Original => return V_N_Raw_Intent.Original'Position;
@@ -6512,7 +6512,7 @@ when others => return -1; end case; end;
          when N_Raw_Packet =>
             if Field > N_Raw_Packet_Field'Pos (N_Raw_Packet_Field'Last) then return -1; end if;
             case N_Raw_Packet_Field'Val (Field) is
-               when Size => return N.Raw_Packet'Size / System.Storage_Unit;
+               when Size => return N.Raw_Packet'Object_Size / System.Storage_Unit;
                when Alignment => return N.Raw_Packet'Alignment;
                when F_Schema_Version => return V_N_Raw_Packet.Schema_Version'Position;
                when F_Before_State => return V_N_Raw_Packet.Before_State'Position;
@@ -6523,7 +6523,7 @@ when others => return -1; end case; end;
          when O_Raw_Facts =>
             if Field > O_Raw_Facts_Field'Pos (O_Raw_Facts_Field'Last) then return -1; end if;
             case O_Raw_Facts_Field'Val (Field) is
-               when Size => return O.Raw_Facts'Size / System.Storage_Unit;
+               when Size => return O.Raw_Facts'Object_Size / System.Storage_Unit;
                when Alignment => return O.Raw_Facts'Alignment;
                when F_Current => return V_O_Raw_Facts.Current'Position;
                when F_Current_Epoch => return V_O_Raw_Facts.Current_Epoch'Position;
@@ -6568,7 +6568,7 @@ when others => return -1; end case; end;
          when O_Raw_Input =>
             if Field > O_Raw_Input_Field'Pos (O_Raw_Input_Field'Last) then return -1; end if;
             case O_Raw_Input_Field'Val (Field) is
-               when Size => return O.Raw_Input'Size / System.Storage_Unit;
+               when Size => return O.Raw_Input'Object_Size / System.Storage_Unit;
                when Alignment => return O.Raw_Input'Alignment;
                when F_State => return V_O_Raw_Input.State'Position;
                when F_Item => return V_O_Raw_Input.Item'Position;
@@ -6577,7 +6577,7 @@ when others => return -1; end case; end;
          when T_Raw_Quantity =>
             if Field > T_Raw_Quantity_Field'Pos (T_Raw_Quantity_Field'Last) then return -1; end if;
             case T_Raw_Quantity_Field'Val (Field) is
-               when Size => return T.Raw_Quantity'Size / System.Storage_Unit;
+               when Size => return T.Raw_Quantity'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_Quantity'Alignment;
                when F_Present => return V_T_Raw_Quantity.Present'Position;
                when F_Negative => return V_T_Raw_Quantity.Negative'Position;
@@ -6587,7 +6587,7 @@ when others => return -1; end case; end;
          when T_Raw_UID =>
             if Field > T_Raw_UID_Field'Pos (T_Raw_UID_Field'Last) then return -1; end if;
             case T_Raw_UID_Field'Val (Field) is
-               when Size => return T.Raw_UID'Size / System.Storage_Unit;
+               when Size => return T.Raw_UID'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_UID'Alignment;
                when F_Present => return V_T_Raw_UID.Present'Position;
                when F_Value => return V_T_Raw_UID.Value'Position;
@@ -6595,7 +6595,7 @@ when others => return -1; end case; end;
          when T_Raw_Binding =>
             if Field > T_Raw_Binding_Field'Pos (T_Raw_Binding_Field'Last) then return -1; end if;
             case T_Raw_Binding_Field'Val (Field) is
-               when Size => return T.Raw_Binding'Size / System.Storage_Unit;
+               when Size => return T.Raw_Binding'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_Binding'Alignment;
                when F_Action => return V_T_Raw_Binding.Action'Position;
                when F_Id => return V_T_Raw_Binding.Id'Position;
@@ -6609,7 +6609,7 @@ when others => return -1; end case; end;
          when T_Raw_Grant =>
             if Field > T_Raw_Grant_Field'Pos (T_Raw_Grant_Field'Last) then return -1; end if;
             case T_Raw_Grant_Field'Val (Field) is
-               when Size => return T.Raw_Grant'Size / System.Storage_Unit;
+               when Size => return T.Raw_Grant'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_Grant'Alignment;
                when F_Id => return V_T_Raw_Grant.Id'Position;
                when F_Parent => return V_T_Raw_Grant.Parent'Position;
@@ -6629,7 +6629,7 @@ when others => return -1; end case; end;
          when T_Raw_Use =>
             if Field > T_Raw_Use_Field'Pos (T_Raw_Use_Field'Last) then return -1; end if;
             case T_Raw_Use_Field'Val (Field) is
-               when Size => return T.Raw_Use'Size / System.Storage_Unit;
+               when Size => return T.Raw_Use'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_Use'Alignment;
                when F_Bound => return V_T_Raw_Use.Bound'Position;
                when F_State => return V_T_Raw_Use.State'Position;
@@ -6637,7 +6637,7 @@ when others => return -1; end case; end;
          when T_Raw_Evidence =>
             if Field > T_Raw_Evidence_Field'Pos (T_Raw_Evidence_Field'Last) then return -1; end if;
             case T_Raw_Evidence_Field'Val (Field) is
-               when Size => return T.Raw_Evidence'Size / System.Storage_Unit;
+               when Size => return T.Raw_Evidence'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_Evidence'Alignment;
                when F_Effect_Binding => return V_T_Raw_Evidence.Effect_Binding'Position;
                when F_Actual_Receipt_Root => return V_T_Raw_Evidence.Actual_Receipt_Root'Position;
@@ -6655,7 +6655,7 @@ when others => return -1; end case; end;
          when T_Raw_Input =>
             if Field > T_Raw_Input_Field'Pos (T_Raw_Input_Field'Last) then return -1; end if;
             case T_Raw_Input_Field'Val (Field) is
-               when Size => return T.Raw_Input'Size / System.Storage_Unit;
+               when Size => return T.Raw_Input'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_Input'Alignment;
                when F_Schema => return V_T_Raw_Input.Schema'Position;
                when F_Mode => return V_T_Raw_Input.Mode'Position;
@@ -6666,14 +6666,14 @@ when others => return -1; end case; end;
          when T_Raw_Result =>
             if Field > T_Raw_Result_Field'Pos (T_Raw_Result_Field'Last) then return -1; end if;
             case T_Raw_Result_Field'Val (Field) is
-               when Size => return T.Raw_Result'Size / System.Storage_Unit;
+               when Size => return T.Raw_Result'Object_Size / System.Storage_Unit;
                when Alignment => return T.Raw_Result'Alignment;
                when F_Disposition => return V_T_Raw_Result.Disposition'Position;
             end case;
          when TC_Raw_Digest =>
             if Field > TC_Raw_Digest_Field'Pos (TC_Raw_Digest_Field'Last) then return -1; end if;
             case TC_Raw_Digest_Field'Val (Field) is
-               when Size => return T.C.Raw_Digest'Size / System.Storage_Unit;
+               when Size => return T.C.Raw_Digest'Object_Size / System.Storage_Unit;
                when Alignment => return T.C.Raw_Digest'Alignment;
                when F_Present => return V_TC_Raw_Digest.Present'Position;
                when F_Value => return V_TC_Raw_Digest.Value'Position;
@@ -6681,7 +6681,7 @@ when others => return -1; end case; end;
          when TC_Raw_Row =>
             if Field > TC_Raw_Row_Field'Pos (TC_Raw_Row_Field'Last) then return -1; end if;
             case TC_Raw_Row_Field'Val (Field) is
-               when Size => return T.C.Raw_Row'Size / System.Storage_Unit;
+               when Size => return T.C.Raw_Row'Object_Size / System.Storage_Unit;
                when Alignment => return T.C.Raw_Row'Alignment;
                when F_Previous => return V_TC_Raw_Row.Previous'Position;
                when F_Actual_Payload_Root => return V_TC_Raw_Row.Actual_Payload_Root'Position;
@@ -6691,7 +6691,7 @@ when others => return -1; end case; end;
          when TC_Raw_Anchors =>
             if Field > TC_Raw_Anchors_Field'Pos (TC_Raw_Anchors_Field'Last) then return -1; end if;
             case TC_Raw_Anchors_Field'Val (Field) is
-               when Size => return T.C.Raw_Anchors'Size / System.Storage_Unit;
+               when Size => return T.C.Raw_Anchors'Object_Size / System.Storage_Unit;
                when Alignment => return T.C.Raw_Anchors'Alignment;
                when F_Kind => return V_TC_Raw_Anchors.Kind'Position;
                when F_Observed_Genesis => return V_TC_Raw_Anchors.Observed_Genesis'Position;
@@ -6701,7 +6701,7 @@ when others => return -1; end case; end;
          when TC_Raw_Result =>
             if Field > TC_Raw_Result_Field'Pos (TC_Raw_Result_Field'Last) then return -1; end if;
             case TC_Raw_Result_Field'Val (Field) is
-               when Size => return T.C.Raw_Result'Size / System.Storage_Unit;
+               when Size => return T.C.Raw_Result'Object_Size / System.Storage_Unit;
                when Alignment => return T.C.Raw_Result'Alignment;
                when F_Disposition => return V_TC_Raw_Result.Disposition'Position;
                when F_Head => return V_TC_Raw_Result.Head'Position;
@@ -6710,7 +6710,7 @@ when others => return -1; end case; end;
          when Y_Raw_Process =>
             if Field > Y_Raw_Process_Field'Pos (Y_Raw_Process_Field'Last) then return -1; end if;
             case Y_Raw_Process_Field'Val (Field) is
-               when Size => return Y.Raw_Process'Size / System.Storage_Unit;
+               when Size => return Y.Raw_Process'Object_Size / System.Storage_Unit;
                when Alignment => return Y.Raw_Process'Alignment;
                when F_raw_status => return V_Y_Raw_Process.raw_status'Position;
                when F_raw_stat => return V_Y_Raw_Process.raw_stat'Position;
@@ -6738,7 +6738,7 @@ when others => return -1; end case; end;
          when Y_Raw_Controller =>
             if Field > Y_Raw_Controller_Field'Pos (Y_Raw_Controller_Field'Last) then return -1; end if;
             case Y_Raw_Controller_Field'Val (Field) is
-               when Size => return Y.Raw_Controller'Size / System.Storage_Unit;
+               when Size => return Y.Raw_Controller'Object_Size / System.Storage_Unit;
                when Alignment => return Y.Raw_Controller'Alignment;
                when F_Bound => return V_Y_Raw_Controller.Bound'Position;
                when F_Process => return V_Y_Raw_Controller.Process'Position;
@@ -6766,7 +6766,7 @@ when others => return -1; end case; end;
          when Y_Raw_Task =>
             if Field > Y_Raw_Task_Field'Pos (Y_Raw_Task_Field'Last) then return -1; end if;
             case Y_Raw_Task_Field'Val (Field) is
-               when Size => return Y.Raw_Task'Size / System.Storage_Unit;
+               when Size => return Y.Raw_Task'Object_Size / System.Storage_Unit;
                when Alignment => return Y.Raw_Task'Alignment;
                when F_Action => return V_Y_Raw_Task.Action'Position;
                when F_Root => return V_Y_Raw_Task.Root'Position;
@@ -6805,7 +6805,7 @@ when others => return -1; end case; end;
          when Y_Raw_Namespace =>
             if Field > Y_Raw_Namespace_Field'Pos (Y_Raw_Namespace_Field'Last) then return -1; end if;
             case Y_Raw_Namespace_Field'Val (Field) is
-               when Size => return Y.Raw_Namespace'Size / System.Storage_Unit;
+               when Size => return Y.Raw_Namespace'Object_Size / System.Storage_Unit;
                when Alignment => return Y.Raw_Namespace'Alignment;
                when F_identity => return V_Y_Raw_Namespace.identity'Position;
                when F_parent => return V_Y_Raw_Namespace.parent'Position;
@@ -6816,7 +6816,7 @@ when others => return -1; end case; end;
          when Y_Raw_Input =>
             if Field > Y_Raw_Input_Field'Pos (Y_Raw_Input_Field'Last) then return -1; end if;
             case Y_Raw_Input_Field'Val (Field) is
-               when Size => return Y.Raw_Input'Size / System.Storage_Unit;
+               when Size => return Y.Raw_Input'Object_Size / System.Storage_Unit;
                when Alignment => return Y.Raw_Input'Alignment;
                when F_Mode => return V_Y_Raw_Input.Mode'Position;
                when F_Controller => return V_Y_Raw_Input.Controller'Position;
@@ -6909,42 +6909,42 @@ when others => return -1; end case; end;
       package Child_Pointers is new System.Address_To_Access_Conversions (Y.Raw_Input);
       package Output_Pointers is new System.Address_To_Access_Conversions (W.Raw_Result);
    begin
-      if Input_Length /= D.Raw_Packet'Size / System.Storage_Unit
+      if Input_Length /= D.Raw_Packet'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod D.Raw_Packet'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
-        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Size / System.Storage_Unit, W.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Size / System.Storage_Unit, N.Raw_Projection'Alignment)
-        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
-        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Size / System.Storage_Unit, W.Raw_Native'Alignment)
-        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Size / System.Storage_Unit, O.Raw_Facts'Alignment)
-        or else not Native_Execution_Array_Shape (Capabilities, Capabilities_Count, D.Raw_Capability'Size / System.Storage_Unit, D.Raw_Capability'Alignment)
-        or else not Native_Execution_Array_Shape (Groups, Groups_Count, W.Raw_Quantity'Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
-        or else not Native_Execution_Array_Shape (Proc_Groups, Proc_Groups_Count, W.Raw_Quantity'Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
-        or else Authority_Input_Length /= T.Raw_Input'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (History, History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_History, Proposed_History_Count, N.Raw_Scope_Frame'Object_Size / System.Storage_Unit, N.Raw_Scope_Frame'Alignment)
+        or else not Native_Execution_Array_Shape (Rows, Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Rows, Proposed_Rows_Count, W.Raw_Row'Object_Size / System.Storage_Unit, W.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Projection, Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Projection, Proposed_Projection_Count, N.Raw_Projection'Object_Size / System.Storage_Unit, N.Raw_Projection'Alignment)
+        or else not Native_Execution_Array_Shape (Buckets, Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Proposed_Buckets, Proposed_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Actual_Buckets, Actual_Buckets_Count, N.Raw_Bucket'Object_Size / System.Storage_Unit, N.Raw_Bucket'Alignment)
+        or else not Native_Execution_Array_Shape (Observed, Observed_Count, W.Raw_Native'Object_Size / System.Storage_Unit, W.Raw_Native'Alignment)
+        or else not Native_Execution_Array_Shape (Facts, Facts_Count, O.Raw_Facts'Object_Size / System.Storage_Unit, O.Raw_Facts'Alignment)
+        or else not Native_Execution_Array_Shape (Capabilities, Capabilities_Count, D.Raw_Capability'Object_Size / System.Storage_Unit, D.Raw_Capability'Alignment)
+        or else not Native_Execution_Array_Shape (Groups, Groups_Count, W.Raw_Quantity'Object_Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
+        or else not Native_Execution_Array_Shape (Proc_Groups, Proc_Groups_Count, W.Raw_Quantity'Object_Size / System.Storage_Unit, W.Raw_Quantity'Alignment)
+        or else Authority_Input_Length /= T.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Authority_Input, Authority_Input_Length)
         or else To_Integer (Authority_Input) mod T.Raw_Input'Alignment /= 0
         or else not Native_Execution_Array_Shape (Authority_Arena, Authority_Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Grants, Authority_Grants_Count, T.Raw_Grant'Size / System.Storage_Unit, T.Raw_Grant'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Uses, Authority_Uses_Count, T.Raw_Use'Size / System.Storage_Unit, T.Raw_Use'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Receipts, Authority_Receipts_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else not Native_Execution_Array_Shape (Authority_Events, Authority_Events_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else Crosswalk_Length /= X.Raw_Crosswalk'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (Authority_Grants, Authority_Grants_Count, T.Raw_Grant'Object_Size / System.Storage_Unit, T.Raw_Grant'Alignment)
+        or else not Native_Execution_Array_Shape (Authority_Uses, Authority_Uses_Count, T.Raw_Use'Object_Size / System.Storage_Unit, T.Raw_Use'Alignment)
+        or else not Native_Execution_Array_Shape (Authority_Receipts, Authority_Receipts_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else not Native_Execution_Array_Shape (Authority_Events, Authority_Events_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else Crosswalk_Length /= X.Raw_Crosswalk'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Crosswalk, Crosswalk_Length)
         or else To_Integer (Crosswalk) mod X.Raw_Crosswalk'Alignment /= 0
-        or else Child_Input_Length /= Y.Raw_Input'Size / System.Storage_Unit
+        or else Child_Input_Length /= Y.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Child_Input, Child_Input_Length)
         or else To_Integer (Child_Input) mod Y.Raw_Input'Alignment /= 0
-        or else not Native_Execution_Array_Shape (Tasks, Tasks_Count, Y.Raw_Task'Size / System.Storage_Unit, Y.Raw_Task'Alignment)
-        or else not Native_Execution_Array_Shape (Processes, Processes_Count, Y.Raw_Process'Size / System.Storage_Unit, Y.Raw_Process'Alignment)
-        or else not Native_Execution_Array_Shape (Namespaces, Namespaces_Count, Y.Raw_Namespace'Size / System.Storage_Unit, Y.Raw_Namespace'Alignment)
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (Tasks, Tasks_Count, Y.Raw_Task'Object_Size / System.Storage_Unit, Y.Raw_Task'Alignment)
+        or else not Native_Execution_Array_Shape (Processes, Processes_Count, Y.Raw_Process'Object_Size / System.Storage_Unit, Y.Raw_Process'Alignment)
+        or else not Native_Execution_Array_Shape (Namespaces, Namespaces_Count, Y.Raw_Namespace'Object_Size / System.Storage_Unit, Y.Raw_Namespace'Alignment)
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -7097,19 +7097,19 @@ when others => return -1; end case; end;
       package Input_Pointers is new System.Address_To_Access_Conversions (T.Raw_Input);
       package Output_Pointers is new System.Address_To_Access_Conversions (T.Raw_Result);
    begin
-      if Input_Length /= T.Raw_Input'Size / System.Storage_Unit
+      if Input_Length /= T.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod T.Raw_Input'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (Grants, Grant_Count, T.Raw_Grant'Size / System.Storage_Unit, T.Raw_Grant'Alignment)
-        or else Grant_Length /= Grant_Count * (T.Raw_Grant'Size / System.Storage_Unit)
-        or else not Native_Execution_Array_Shape (Uses, Use_Count, T.Raw_Use'Size / System.Storage_Unit, T.Raw_Use'Alignment)
-        or else Use_Length /= Use_Count * (T.Raw_Use'Size / System.Storage_Unit)
-        or else not Native_Execution_Array_Shape (Receipts, Receipt_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else Receipt_Length /= Receipt_Count * (T.C.Raw_Row'Size / System.Storage_Unit)
-        or else not Native_Execution_Array_Shape (Events, Event_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else Event_Length /= Event_Count * (T.C.Raw_Row'Size / System.Storage_Unit)
-        or else Output_Length /= T.Raw_Result'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (Grants, Grant_Count, T.Raw_Grant'Object_Size / System.Storage_Unit, T.Raw_Grant'Alignment)
+        or else Grant_Length /= Grant_Count * (T.Raw_Grant'Object_Size / System.Storage_Unit)
+        or else not Native_Execution_Array_Shape (Uses, Use_Count, T.Raw_Use'Object_Size / System.Storage_Unit, T.Raw_Use'Alignment)
+        or else Use_Length /= Use_Count * (T.Raw_Use'Object_Size / System.Storage_Unit)
+        or else not Native_Execution_Array_Shape (Receipts, Receipt_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else Receipt_Length /= Receipt_Count * (T.C.Raw_Row'Object_Size / System.Storage_Unit)
+        or else not Native_Execution_Array_Shape (Events, Event_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else Event_Length /= Event_Count * (T.C.Raw_Row'Object_Size / System.Storage_Unit)
+        or else Output_Length /= T.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod T.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -7171,7 +7171,7 @@ function Canonical_Operation_Version return Interfaces.Unsigned_32 is
    use type Interfaces.C.size_t; use type Interfaces.C.long; use type Interfaces.C.int;
    begin case Kind is
 when 1 => declare V:W.Raw_Input; begin case Field is
-when 0 => return W.Raw_Input'Size/System.Storage_Unit;
+when 0 => return W.Raw_Input'Object_Size/System.Storage_Unit;
 when 1 => return W.Raw_Input'Alignment;
 when 2 => return V.Authority'Position;
 when 3 => return V.State'Position;
@@ -7181,7 +7181,7 @@ when 6 => return V.Peer'Position;
 when 7 => return V.Collapse'Position;
 when others=>return -1; end case; end;
 when 2 => declare V:W.Raw_Result; begin case Field is
-when 0 => return W.Raw_Result'Size/System.Storage_Unit;
+when 0 => return W.Raw_Result'Object_Size/System.Storage_Unit;
 when 1 => return W.Raw_Result'Alignment;
 when 2 => return V.Disposition'Position;
 when others=>return -1; end case; end;
@@ -7224,13 +7224,13 @@ when others=>return -1; end case; end;
    function H_At is new Ada.Unchecked_Conversion(System.Address,Use_Access);
    function R_At is new Ada.Unchecked_Conversion(System.Address,Row_Access);
    function N_At is new Ada.Unchecked_Conversion(System.Address,Native_Access);
-      GS:constant Interfaces.C.size_t:=W.W.Raw_Grant'Size/System.Storage_Unit;
-      HS:constant Interfaces.C.size_t:=W.W.Raw_Use'Size/System.Storage_Unit;
-      RS:constant Interfaces.C.size_t:=L.Raw_Row'Size/System.Storage_Unit;
-      NS:constant Interfaces.C.size_t:=L.Raw_Native'Size/System.Storage_Unit;
+      GS:constant Interfaces.C.size_t:=W.W.Raw_Grant'Object_Size/System.Storage_Unit;
+      HS:constant Interfaces.C.size_t:=W.W.Raw_Use'Object_Size/System.Storage_Unit;
+      RS:constant Interfaces.C.size_t:=L.Raw_Row'Object_Size/System.Storage_Unit;
+      NS:constant Interfaces.C.size_t:=L.Raw_Native'Object_Size/System.Storage_Unit;
    begin
-      if not Shape(Input,1,Input_Length,W.Raw_Input'Size/System.Storage_Unit,W.Raw_Input'Alignment)
-       or else not Shape(Output,1,Output_Length,W.Raw_Result'Size/System.Storage_Unit,W.Raw_Result'Alignment)
+      if not Shape(Input,1,Input_Length,W.Raw_Input'Object_Size/System.Storage_Unit,W.Raw_Input'Alignment)
+       or else not Shape(Output,1,Output_Length,W.Raw_Result'Object_Size/System.Storage_Unit,W.Raw_Result'Alignment)
        or else not Shape(Arena,Arena_Length,Arena_Length,1,1)
        or else not Shape(Grants,Grant_Count,Grant_Length,GS,W.W.Raw_Grant'Alignment)
        or else not Shape(Uses,Use_Count,Use_Length,HS,W.W.Raw_Use'Alignment)
@@ -7287,7 +7287,7 @@ when others=>return -1; end case; end;
    use type X.A.Q.Byte_Count;
    begin case Kind is
 when 1 => declare T:V.Raw_Material; begin case Field is
-when 0=>return V.Raw_Material'Size/System.Storage_Unit;
+when 0=>return V.Raw_Material'Object_Size/System.Storage_Unit;
 when 1=>return V.Raw_Material'Alignment;
 when 2=>return T.Worker_Issued'Position;
 when 3=>return T.Worker_Recovered'Position;
@@ -7304,7 +7304,7 @@ when 13=>return T.Worker_Causal_Head'Position;
 when 14=>return T.Quarantine_Head'Position;
 when others=>return -1; end case; end;
 when 2 => declare T:V.Raw_Input; begin case Field is
-when 0=>return V.Raw_Input'Size/System.Storage_Unit;
+when 0=>return V.Raw_Input'Object_Size/System.Storage_Unit;
 when 1=>return V.Raw_Input'Alignment;
 when 2=>return T.Operation_Input'Position;
 when 3=>return T.Material'Position;
@@ -7312,7 +7312,7 @@ when 4=>return T.Before'Position;
 when 5=>return T.Mode'Position;
 when others=>return -1; end case; end;
 when 3 => declare T:V.Raw_Result; begin case Field is
-when 0=>return V.Raw_Result'Size/System.Storage_Unit;
+when 0=>return V.Raw_Result'Object_Size/System.Storage_Unit;
 when 1=>return V.Raw_Result'Alignment;
 when 2=>return T.Disposition'Position;
 when others=>return -1; end case; end;
@@ -7365,17 +7365,17 @@ when others=>return -1; end case;
    type Chain_Access is access all W.W.C.Raw_Row;
    function Chain_At is new Ada.Unchecked_Conversion(System.Address,Chain_Access);
    begin
-      if not Shape(Input,1,Input_Length,V.Raw_Input'Size/System.Storage_Unit,V.Raw_Input'Alignment)
-        or else not Shape(Output,1,Output_Length,V.Raw_Result'Size/System.Storage_Unit,V.Raw_Result'Alignment)
+      if not Shape(Input,1,Input_Length,V.Raw_Input'Object_Size/System.Storage_Unit,V.Raw_Input'Alignment)
+        or else not Shape(Output,1,Output_Length,V.Raw_Result'Object_Size/System.Storage_Unit,V.Raw_Result'Alignment)
         or else not Shape(Arena,Arena_Length,Arena_Length,1,1)
-        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
-        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
-        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
-        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
-        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Object_Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Object_Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Object_Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
+        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Object_Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
+        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
       then return -1; end if;
       declare
          Raw:constant V.Raw_Input:=In_At(Input).all;
@@ -7391,21 +7391,21 @@ when others=>return -1; end case;
       begin
          for I in Data'Range loop Data(I):=Byte_At(Arena+Storage_Offset(I-1)).all; end loop;
          if not V.Well_Formed(Data,Raw) then return -1; end if;
-         for I in G'Range loop declare T:constant W.W.Raw_Grant:=Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+         for I in G'Range loop declare T:constant W.W.Raw_Grant:=Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Object_Size/System.Storage_Unit))).all;
          begin if not W.W.Well_Formed(T) then return -1; end if; G(I):=W.W.Decode(T); end; end loop;
-         for I in H'Range loop declare T:constant W.W.Raw_Use:=Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+         for I in H'Range loop declare T:constant W.W.Raw_Use:=Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Object_Size/System.Storage_Unit))).all;
          begin if not W.W.Well_Formed(T) then return -1; end if; H(I):=W.W.Decode(T); end; end loop;
-         for I in R'Range loop declare T:constant W.L.Raw_Row:=Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in R'Range loop declare T:constant W.L.Raw_Row:=Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Object_Size/System.Storage_Unit))).all;
          begin if not W.L.Well_Formed(Data,T) then return -1; end if; R(I):=W.L.Decode(Data,T); end; end loop;
-         for I in N'Range loop declare T:constant W.L.Raw_Native:=Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Size/System.Storage_Unit))).all;
+         for I in N'Range loop declare T:constant W.L.Raw_Native:=Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Object_Size/System.Storage_Unit))).all;
          begin if not W.L.Well_Formed(Data,T) then return -1; end if; N(I):=W.L.Decode(Data,T); end; end loop;
-         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
          begin if not W.W.C.Well_Formed(T) then return -1; end if; WR(I):=W.W.C.Decode(T); end; end loop;
-         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
          begin if not W.W.C.Well_Formed(T) then return -1; end if; WE(I):=W.W.C.Decode(T); end; end loop;
-         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
          begin if not W.W.C.Well_Formed(T) then return -1; end if; ER(I):=W.W.C.Decode(T); end; end loop;
-         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=Chain_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
          begin if not W.W.C.Well_Formed(T) then return -1; end if; EE(I):=W.W.C.Decode(T); end; end loop;
          -- Every selected input/arena/complete roster has been copied before
          -- any aliased output is touched. Raw address validity remains OPEN.
@@ -7451,13 +7451,13 @@ when others=>return -1; end case;
    use type X.A.Q.Byte_Count;
    begin case Kind is
       when 1=>declare T:V.Raw_Input; begin case Field is
-         when 0=>return V.Raw_Input'Size/System.Storage_Unit;
+         when 0=>return V.Raw_Input'Object_Size/System.Storage_Unit;
          when 1=>return V.Raw_Input'Alignment;
          when 2=>return T.Historical'Position;
          when 3=>return T.Current'Position;
          when others=>return -1; end case; end;
       when 2=>declare T:V.Raw_Result; begin case Field is
-         when 0=>return V.Raw_Result'Size/System.Storage_Unit;
+         when 0=>return V.Raw_Result'Object_Size/System.Storage_Unit;
          when 1=>return V.Raw_Result'Alignment;
          when 2=>return T.Disposition'Position;
          when others=>return -1; end case; end;
@@ -7517,21 +7517,21 @@ when others=>return -1; end case;
    type W_W_C_Raw_Row_Access is access all W.W.C.Raw_Row;
    function W_W_C_Raw_Row_At is new Ada.Unchecked_Conversion(System.Address,W_W_C_Raw_Row_Access);
    begin
-      if not Shape(Input,1,Input_Length,V.Raw_Input'Size/System.Storage_Unit,V.Raw_Input'Alignment)
-        or else not Shape(Output,1,Output_Length,V.Raw_Result'Size/System.Storage_Unit,V.Raw_Result'Alignment)
+      if not Shape(Input,1,Input_Length,V.Raw_Input'Object_Size/System.Storage_Unit,V.Raw_Input'Alignment)
+        or else not Shape(Output,1,Output_Length,V.Raw_Result'Object_Size/System.Storage_Unit,V.Raw_Result'Alignment)
         or else not Shape(Arena,Arena_Length,Arena_Length,1,1)
-        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
-        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
-        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
-        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
-        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Current_Grants,Current_Grants_Count,Current_Grants_Length,W.W.Raw_Grant'Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
-        or else not Shape(Current_Uses,Current_Uses_Count,Current_Uses_Length,W.W.Raw_Use'Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
-        or else not Shape(Current_Receipts,Current_Receipts_Count,Current_Receipts_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
-        or else not Shape(Current_Events,Current_Events_Count,Current_Events_Length,W.W.C.Raw_Row'Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Grants,Grants_Count,Grants_Length,W.W.Raw_Grant'Object_Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+        or else not Shape(Uses,Uses_Count,Uses_Length,W.W.Raw_Use'Object_Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+        or else not Shape(Rows,Rows_Count,Rows_Length,W.L.Raw_Row'Object_Size/System.Storage_Unit,W.L.Raw_Row'Alignment)
+        or else not Shape(Observed,Observed_Count,Observed_Length,W.L.Raw_Native'Object_Size/System.Storage_Unit,W.L.Raw_Native'Alignment)
+        or else not Shape(Worker_Receipts,Worker_Receipts_Count,Worker_Receipts_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Worker_Events,Worker_Events_Count,Worker_Events_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Receipts,Effect_Receipts_Count,Effect_Receipts_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Effect_Events,Effect_Events_Count,Effect_Events_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Current_Grants,Current_Grants_Count,Current_Grants_Length,W.W.Raw_Grant'Object_Size/System.Storage_Unit,W.W.Raw_Grant'Alignment)
+        or else not Shape(Current_Uses,Current_Uses_Count,Current_Uses_Length,W.W.Raw_Use'Object_Size/System.Storage_Unit,W.W.Raw_Use'Alignment)
+        or else not Shape(Current_Receipts,Current_Receipts_Count,Current_Receipts_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
+        or else not Shape(Current_Events,Current_Events_Count,Current_Events_Length,W.W.C.Raw_Row'Object_Size/System.Storage_Unit,W.W.C.Raw_Row'Alignment)
       then return -1; end if;
       declare
          Raw:constant V.Raw_Input:=In_At(Input).all;
@@ -7551,29 +7551,29 @@ when others=>return -1; end case;
       begin
          for I in Data'Range loop Data(I):=Byte_At(Arena+Storage_Offset(I-1)).all; end loop;
          if not V.Well_Formed(Data,Raw) then return -1; end if;
-         for I in G'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+         for I in G'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.Well_Formed(T) then return -1; end if; G(I):=W.W.Decode(T); end; end loop;
-         for I in H'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+         for I in H'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.Well_Formed(T) then return -1; end if; H(I):=W.W.Decode(T); end; end loop;
-         for I in R'Range loop declare T:constant W.L.Raw_Row:=W_L_Raw_Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in R'Range loop declare T:constant W.L.Raw_Row:=W_L_Raw_Row_At(Rows+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Row'Object_Size/System.Storage_Unit))).all;
             begin if not W.L.Well_Formed(Data,T) then return -1; end if; R(I):=W.L.Decode(Data,T); end; end loop;
-         for I in N'Range loop declare T:constant W.L.Raw_Native:=W_L_Raw_Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Size/System.Storage_Unit))).all;
+         for I in N'Range loop declare T:constant W.L.Raw_Native:=W_L_Raw_Native_At(Observed+Storage_Offset(Interfaces.C.size_t(I-1)*(W.L.Raw_Native'Object_Size/System.Storage_Unit))).all;
             begin if not W.L.Well_Formed(Data,T) then return -1; end if; N(I):=W.L.Decode(Data,T); end; end loop;
-         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in WR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.C.Well_Formed(T) then return -1; end if; WR(I):=W.W.C.Decode(T); end; end loop;
-         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in WE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Worker_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.C.Well_Formed(T) then return -1; end if; WE(I):=W.W.C.Decode(T); end; end loop;
-         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in ER'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.C.Well_Formed(T) then return -1; end if; ER(I):=W.W.C.Decode(T); end; end loop;
-         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in EE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Effect_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.C.Well_Formed(T) then return -1; end if; EE(I):=W.W.C.Decode(T); end; end loop;
-         for I in CG'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Current_Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Size/System.Storage_Unit))).all;
+         for I in CG'Range loop declare T:constant W.W.Raw_Grant:=W_W_Raw_Grant_At(Current_Grants+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Grant'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.Well_Formed(T) then return -1; end if; CG(I):=W.W.Decode(T); end; end loop;
-         for I in CH'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Current_Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Size/System.Storage_Unit))).all;
+         for I in CH'Range loop declare T:constant W.W.Raw_Use:=W_W_Raw_Use_At(Current_Uses+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.Raw_Use'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.Well_Formed(T) then return -1; end if; CH(I):=W.W.Decode(T); end; end loop;
-         for I in CR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in CR'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Receipts+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.C.Well_Formed(T) then return -1; end if; CR(I):=W.W.C.Decode(T); end; end loop;
-         for I in CE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Size/System.Storage_Unit))).all;
+         for I in CE'Range loop declare T:constant W.W.C.Raw_Row:=W_W_C_Raw_Row_At(Current_Events+Storage_Offset(Interfaces.C.size_t(I-1)*(W.W.C.Raw_Row'Object_Size/System.Storage_Unit))).all;
             begin if not W.W.C.Well_Formed(T) then return -1; end if; CE(I):=W.W.C.Decode(T); end; end loop;
          -- Every input/arena/complete roster is detached before output alias.
          declare P:constant W.Raw_Input:=Raw.Historical.Operation_Input;
@@ -7630,19 +7630,19 @@ when others=>return -1; end case;
       package Input_Pointers is new System.Address_To_Access_Conversions (T.Raw_Input);
       package Output_Pointers is new System.Address_To_Access_Conversions (T.Raw_Result);
    begin
-      if Input_Length /= T.Raw_Input'Size / System.Storage_Unit
+      if Input_Length /= T.Raw_Input'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Input, Input_Length)
         or else To_Integer (Input) mod T.Raw_Input'Alignment /= 0
         or else not Native_Execution_Array_Shape (Arena, Arena_Length, Q.Byte'Size / System.Storage_Unit, Q.Byte'Alignment)
-        or else not Native_Execution_Array_Shape (Grants, Grant_Count, T.Raw_Grant'Size / System.Storage_Unit, T.Raw_Grant'Alignment)
-        or else Grant_Length /= Grant_Count * (T.Raw_Grant'Size / System.Storage_Unit)
-        or else not Native_Execution_Array_Shape (Uses, Use_Count, T.Raw_Use'Size / System.Storage_Unit, T.Raw_Use'Alignment)
-        or else Use_Length /= Use_Count * (T.Raw_Use'Size / System.Storage_Unit)
-        or else not Native_Execution_Array_Shape (Receipts, Receipt_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else Receipt_Length /= Receipt_Count * (T.C.Raw_Row'Size / System.Storage_Unit)
-        or else not Native_Execution_Array_Shape (Events, Event_Count, T.C.Raw_Row'Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
-        or else Event_Length /= Event_Count * (T.C.Raw_Row'Size / System.Storage_Unit)
-        or else Output_Length /= T.Raw_Result'Size / System.Storage_Unit
+        or else not Native_Execution_Array_Shape (Grants, Grant_Count, T.Raw_Grant'Object_Size / System.Storage_Unit, T.Raw_Grant'Alignment)
+        or else Grant_Length /= Grant_Count * (T.Raw_Grant'Object_Size / System.Storage_Unit)
+        or else not Native_Execution_Array_Shape (Uses, Use_Count, T.Raw_Use'Object_Size / System.Storage_Unit, T.Raw_Use'Alignment)
+        or else Use_Length /= Use_Count * (T.Raw_Use'Object_Size / System.Storage_Unit)
+        or else not Native_Execution_Array_Shape (Receipts, Receipt_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else Receipt_Length /= Receipt_Count * (T.C.Raw_Row'Object_Size / System.Storage_Unit)
+        or else not Native_Execution_Array_Shape (Events, Event_Count, T.C.Raw_Row'Object_Size / System.Storage_Unit, T.C.Raw_Row'Alignment)
+        or else Event_Length /= Event_Count * (T.C.Raw_Row'Object_Size / System.Storage_Unit)
+        or else Output_Length /= T.Raw_Result'Object_Size / System.Storage_Unit
         or else not Native_Execution_Shape (Output, Output_Length)
         or else To_Integer (Output) mod T.Raw_Result'Alignment /= 0 then return -1; end if;
       declare
@@ -9799,7 +9799,7 @@ end Transaction_Relation_V1;
    function Convert is new Ada.Unchecked_Conversion(System.Address,Pointer);
    begin
       if P=System.Null_Address or else To_Integer(P) mod W.Raw_Request'Alignment/=0
-        or else To_Integer(P)>Integer_Address'Last-W.Raw_Request'Size/System.Storage_Unit
+        or else To_Integer(P)>Integer_Address'Last-W.Raw_Request'Object_Size/System.Storage_Unit
       then return 255; end if;
       declare Value:constant W.Raw_Request:=Convert(P).all;
       begin

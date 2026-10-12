@@ -40,7 +40,7 @@ package body Worldline.Recovery_Protocol_C_API with SPARK_Mode => On is
       case Kind is
          when 1 =>
             case Field is
-               when 0 => return W.Raw_Request'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Request'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Request'Alignment;
                when 2 => return 0;
                when 3 => return 1;
@@ -48,7 +48,7 @@ package body Worldline.Recovery_Protocol_C_API with SPARK_Mode => On is
             end case;
          when 2 =>
             case Field is
-               when 0 => return W.Raw_Result'Size / System.Storage_Unit;
+               when 0 => return W.Raw_Result'Object_Size / System.Storage_Unit;
                when 1 => return W.Raw_Result'Alignment;
                when 2 => return 0;
                when others => return -1;
@@ -64,8 +64,8 @@ package body Worldline.Recovery_Protocol_C_API with SPARK_Mode => On is
      (Input : System.Address; Input_Length : Interfaces.C.size_t;
       Output : System.Address; Output_Length : Interfaces.C.size_t)
       return Boolean is
-     (not (Input_Length /= W.Raw_Request'Size / System.Storage_Unit
-        or else Output_Length /= W.Raw_Result'Size / System.Storage_Unit
+     (not (Input_Length /= W.Raw_Request'Object_Size / System.Storage_Unit
+        or else Output_Length /= W.Raw_Result'Object_Size / System.Storage_Unit
         or else not Shape (Input, Input_Length) or else not Shape (Output, Output_Length)
         or else To_Integer (Input) mod W.Raw_Request'Alignment /= 0
         or else To_Integer (Output) mod W.Raw_Result'Alignment /= 0));
