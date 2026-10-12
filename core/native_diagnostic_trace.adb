@@ -23,14 +23,18 @@ is
    begin
       Items := null;
       --  Reverse the owned stack without copying any runtime message or
-      --  allocating another runtime buffer. The structural variant proves
+      --  allocating another runtime buffer. The length variant proves
       --  progress only; the invariant below independently conserves the
       --  complete chronological sequence across both disjoint owning chains.
       while Head /= null loop
          pragma Loop_Invariant
            (Split_Contents
               (Original, Stack_Contents (Head), Contents (Items)));
-         pragma Loop_Variant (Structural => Head);
+         pragma Loop_Variant
+           (Decreases => Line_Sequences.Length (Stack_Contents (Head)));
+         pragma Assert
+           (Stack_Contents (Head)
+              = Line_Sequences.Add (Stack_Contents (Head.Next), Head.Text));
          declare
             --  Value snapshots precede moves: no observer survives a move or
             --  mutation. These are specification values, not pointer aliases.
@@ -50,11 +54,63 @@ is
             pragma Assert (Stack_Contents (Head) = Remaining);
             pragma Assert
               (Contents (Items) = Line_Sequences.Add (Returned, 1, Text));
+            --  Step the conservation relation across the one moved node: the
+            --  moved Text is the next original line after the remaining prefix,
+            --  and every already returned line shifts by one position.
+            pragma Assert
+              (Line_Sequences.Length (Original)
+                 = Line_Sequences.Length (Remaining)
+                   + Line_Sequences.Length (Returned) + 1);
+            pragma Assert (Remaining <= Original);
+            pragma Assert
+              (Line_Sequences.Length (Line_Sequences.Add (Remaining, Text))
+                 = Line_Sequences.Length (Remaining) + 1);
+            pragma Assert
+              (Line_Sequences.Get
+                 (Line_Sequences.Add (Remaining, Text),
+                  Line_Sequences.Length (Remaining) + 1) = Text);
+            pragma Assert (Line_Sequences.Add (Remaining, Text) <= Original);
+            pragma Assert
+              (Line_Sequences.Get
+                 (Original, Line_Sequences.Length (Remaining) + 1) = Text);
+            pragma Assert
+              (for all J in Returned =>
+                 Line_Sequences.Get (Returned, J)
+                   = Line_Sequences.Get
+                       (Original, Line_Sequences.Length (Remaining) + 1 + J));
+            declare
+               --  Bound once: checked builds evaluate these quantifiers.
+               Now : constant Line_Sequences.Sequence := Contents (Items)
+                 with Ghost;
+            begin
+               pragma Assert (Line_Sequences.Get (Now, 1) = Text);
+               pragma Assert
+                 (for all J in Now =>
+                    (if J >= 2 then
+                       Line_Sequences.Get (Now, J)
+                         = Line_Sequences.Get (Returned, J - 1)));
+               pragma Assert
+                 (for all J in Now =>
+                    Line_Sequences.Get (Now, J)
+                      = Line_Sequences.Get
+                          (Original, Line_Sequences.Length (Remaining) + J));
+            end;
             pragma Assert
               (Split_Contents
                  (Original, Stack_Contents (Head), Contents (Items)));
          end;
       end loop;
+      pragma Assert (Line_Sequences.Length (Stack_Contents (Head)) = 0);
+      declare
+         Final : constant Line_Sequences.Sequence := Contents (Items)
+           with Ghost;
+      begin
+         pragma Assert
+           (Line_Sequences.Length (Final) = Line_Sequences.Length (Original));
+         pragma Assert
+           (for all J in Final =>
+              Line_Sequences.Get (Final, J) = Line_Sequences.Get (Original, J));
+      end;
       pragma Assert (Contents (Items) = Original);
    end Take_All;
 

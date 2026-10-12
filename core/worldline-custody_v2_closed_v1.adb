@@ -72,12 +72,13 @@ package body Worldline.Custody_V2_Closed_V1 with SPARK_Mode is
    function JSON_String_Is (Data : E.Bytes; Item : E.Span; Word : String) return Boolean is
      (E.C.P.Valid (Data, Item) and then Item.Length = Word'Length + 2 and then
       Data (Item.First) = Character'Pos ('"') and then
+      Item.First <= E.Count'Last - Item.Length and then
       Data (Item.First + Item.Length - 1) = Character'Pos ('"') and then
       (for all I in Word'Range => Data (Item.First + 1 + E.Count (I - Word'First)) = Character'Pos (Word (I))));
    -- Fixed encoder member names, not a field/count or archive-domain bound.
    Names_Text : constant String := "previousoperationkindrecordheadgenesis";
    function Names_Bytes return E.Bytes is
-      Answer : E.Bytes (1 .. Names_Text'Length);
+      Answer : E.Bytes (1 .. Names_Text'Length) := (others => 0);
    begin
       for I in Names_Text'Range loop Answer (E.Count (I)) := Character'Pos (Names_Text (I)); end loop;
       return Answer;
@@ -130,7 +131,7 @@ package body Worldline.Custody_V2_Closed_V1 with SPARK_Mode is
       Auth : constant E.Span := F (Data, Database, "authenticated_root_events");
       Auth_Head : constant E.Span := F (Data, Database, "authenticated_root_head");
       Gen_Table, Events_Table, Head_Table : E.Span := (1, 0);
-      Gen_Rows, Event_Rows, Head_Rows : E.Span := (1, 0);
+      Gen_Rows, Event_Rows, Head_Rows : E.Span;
       Size : D.Length_Result := (Base_Fixed.Valid and then Head_Fixed.Valid, Names'Length);
       Gen_Row, Head_Row : E.Span;
       Previous_Id : Big_Integer := To_Big_Integer (0);
@@ -192,13 +193,19 @@ package body Worldline.Custody_V2_Closed_V1 with SPARK_Mode is
          end;
       end loop;
       if not Size.Valid then return False; end if;
+      -- Refusals with exactly the original's raising conditions: an arena of
+      -- E.Count'Last bytes cannot be allocated (Storage_Error), and an arena
+      -- shorter than the fixed names failed the first slice copy below.
+      if Size.Needed = E.Count'Last or else Size.Needed < Names'Length then return False; end if;
       declare
-         Arena : E.Bytes (1 .. Size.Needed);
-         Used : E.Count := 0;
-         Key, Head_Message : E.Span := (1, 0);
-         Genesis : R.Genesis_Rows (1 .. 1);
-         Rows : R.Event_Rows (1 .. O.Count (Data, Event_Rows));
-         Heads : R.Head_Rows (1 .. 1);
+         Arena_Size : constant E.Count := Size.Needed;
+         Event_Count : constant E.Count := O.Count (Data, Event_Rows);
+         Arena : E.Bytes (1 .. Arena_Size) := (others => 0);
+         Used : E.Count;
+         Key, Head_Message : E.Span;
+         Genesis : R.Genesis_Rows (1 .. 1) := (others => (others => (1, 0)));
+         Rows : R.Event_Rows (1 .. Event_Count) := (others => (others => (1, 0)));
+         Heads : R.Head_Rows (1 .. 1) := (others => (others => (1, 0)));
          Valid : Boolean := True;
          procedure Put_View (Item : E.Byte_View; Into : out E.Span) is
             N : constant E.Count := AP.Byte_Length (Data, Item);
@@ -223,9 +230,18 @@ package body Worldline.Custody_V2_Closed_V1 with SPARK_Mode is
             Into := (Arena'First + Used, Needed.Needed);
             -- Encoder reads only the occupied immutable prefix; its output is
             -- the disjoint exact next slice, not a second copied source arena.
-            D.Encode_Dictionary (Arena (Arena'First .. Arena'First + Used - 1), Fields,
-              Arena (Into.First .. Into.First + Into.Length - 1), Written, Complete);
-            if not Complete or else Written /= Needed then Valid := False; return; end if;
+            -- SPARK cannot separate two dynamic slices of one array passed as
+            -- in and out, so the output is encoded into an exact-size buffer
+            -- and placed into that slice: the copy is O(output), never a copy
+            -- of the source prefix.
+            declare
+               Encoded : E.Bytes (1 .. Needed.Needed);
+            begin
+               D.Encode_Dictionary (Arena (Arena'First .. Arena'First + Used - 1), Fields,
+                 Encoded, Written, Complete);
+               if not Complete or else Written /= Needed then Valid := False; return; end if;
+               Arena (Into.First .. Into.First + Into.Length - 1) := Encoded;
+            end;
             Used := Used + Into.Length;
          end Dictionary;
          function Genesis_Context return Boolean is

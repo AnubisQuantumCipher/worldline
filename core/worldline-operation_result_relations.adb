@@ -124,7 +124,7 @@ package body Worldline.Operation_Result_Relations with SPARK_Mode is
       then return (1 .. 0 => 0); end if;
       declare
          Text : constant E.Bytes := E.Materialize (Data, View.Payload);
-         Raw : E.Bytes (1 .. Text'Length / 2);
+         Raw : E.Bytes (1 .. Text'Length / 2) := (others => 0);
       begin
          if Text'Length mod 2 /= 0 then return (1 .. 0 => 0); end if;
          if Raw'Length > 0 then
@@ -209,7 +209,7 @@ package body Worldline.Operation_Result_Relations with SPARK_Mode is
    begin
       if not Id.Present then return Null_Value (Data, Value); end if;
       declare
-         Raw : E.Bytes (1 .. E.Count (Id.Value'Length));
+         Raw : E.Bytes (1 .. E.Count (Id.Value'Length)) := (others => 0);
       begin
          for I in Id.Value'Range loop Raw (1 + E.Count (I - Id.Value'First)) := Q.Byte (Id.Value (I)); end loop;
          return Hex (Data, Value, Raw);
@@ -655,6 +655,7 @@ package body Worldline.Operation_Result_Relations with SPARK_Mode is
         or else E.Array_Length (Data, Historical.Children) /= Receipts'Length - 1
       then return False; end if;
       for I in E.Count range 0 .. Receipts'Length - 1 loop
+         pragma Loop_Invariant (Historical_Index = (if Selected then I - 1 else I));
          declare
             Receipt : constant E.Bytes := Bytes_Value (Data, E.Array_Element (Data, Receipt_View.Children, I));
             Event : constant E.Bytes := Bytes_Value (Data, E.Array_Element (Data, Event_View.Children, I));
@@ -690,7 +691,7 @@ package body Worldline.Operation_Result_Relations with SPARK_Mode is
                end loop;
             end if;
             declare
-               Head : E.Bytes (1 .. 32);
+               Head : E.Bytes (1 .. 32) := (others => 0);
             begin
                for K in RR.Stored_Head.Value'Range loop Head (1 + E.Count (K - RR.Stored_Head.Value'First)) := Q.Byte (RR.Stored_Head.Value (K)); end loop;
                if not RR.Stored_Head.Present or else not JSON_Hex (Event, JSON_Field (Event, ES, "receipt_head"), Head, Whole (Head)) then return False; end if;
@@ -699,7 +700,7 @@ package body Worldline.Operation_Result_Relations with SPARK_Mode is
             -- old exact result after another operation appended is not last-row
             -- authority and must not charge or append a second capability use.
             declare
-               Id : E.Bytes (1 .. 32);
+               Id : E.Bytes (1 .. 32) := (others => 0);
             begin
                for K in Bound.Id (A.Operation_Id).Value'Range loop Id (1 + E.Count (K - Bound.Id (A.Operation_Id).Value'First)) := Q.Byte (Bound.Id (A.Operation_Id).Value (K)); end loop;
                if JSON_Hex (Receipt, Operation, Id, Whole (Id)) then
@@ -756,7 +757,6 @@ package body Worldline.Operation_Result_Relations with SPARK_Mode is
                end if;
             end;
          end;
-         pragma Loop_Invariant (Historical_Index = (if Selected then I else I + 1));
       end loop;
       return Selected and then Historical_Index = E.Array_Length (Data, Historical.Children);
    end Payloads_Reference;
