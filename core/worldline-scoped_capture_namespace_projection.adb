@@ -15,6 +15,11 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
      (Worldline.Recovery_Archive.Ordered_Source_Value_Matches
        (Data, Data, Left, Right, False, False));
    function Num (Data : E.Bytes; Item : E.Span) return Valid_Big_Integer renames P.Number;
+   -- One entity per field name shared by a validity guard and its later read
+   -- (the prover treats two equal literals as distinct terms).
+   Raw_Name : constant String := "raw";
+   Stat_Name : constant String := "stat";
+   Status_Name : constant String := "status";
    function Field_Same (Data : E.Bytes; A, B : E.Span; Name : String) return Boolean is
      (Same (Data, F (Data, A, Name), F (Data, B, Name)));
    function Bytes_Is (Data : E.Bytes; Item : E.Span; Value : String) return Boolean is
@@ -80,18 +85,29 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
      (Field_Same (Data, A, B, "link") and then Identity_Same (Data, F (Data, A, "identity"), F (Data, B, "identity")));
    function Node (Data : E.Bytes; Source : E.Span; Name : String) return E.Span is
      (F (Data, F (Data, Source, "namespaces"), Name));
-   function Stable_Proc (Data : E.Bytes; Before, After : E.Span) return Boolean is
+   function Stable_Proc (Data : E.Bytes; Before, After : E.Span) return Boolean
+     with Global => null,
+       Post => (if Stable_Proc'Result then
+         R.Archive_Bytes_Valid (Data, F (Data, Before, Stat_Name)) and then
+         R.Archive_Bytes_Valid (Data, F (Data, After, Stat_Name)) and then
+         R.Archive_Bytes_Valid (Data, F (Data, Before, Status_Name)) and then
+         R.Archive_Bytes_Valid (Data, F (Data, After, Status_Name)))
+   is
+      Before_Stat : constant E.Span := F (Data, Before, Stat_Name);
+      After_Stat : constant E.Span := F (Data, After, Stat_Name);
+      Before_Status : constant E.Span := F (Data, Before, Status_Name);
+      After_Status : constant E.Span := F (Data, After, Status_Name);
    begin
-      if not R.Archive_Bytes_Valid (Data, F (Data, Before, "stat"))
-        or else not R.Archive_Bytes_Valid (Data, F (Data, After, "stat"))
-        or else not R.Archive_Bytes_Valid (Data, F (Data, Before, "status"))
-        or else not R.Archive_Bytes_Valid (Data, F (Data, After, "status"))
+      if not R.Archive_Bytes_Valid (Data, Before_Stat)
+        or else not R.Archive_Bytes_Valid (Data, After_Stat)
+        or else not R.Archive_Bytes_Valid (Data, Before_Status)
+        or else not R.Archive_Bytes_Valid (Data, After_Status)
       then return False; end if;
       declare
-         A : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Before, "status"));
-         B : constant E.Bytes := R.Archive_Bytes (Data, F (Data, After, "status"));
-         SA_Raw : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Before, "stat"));
-         SB_Raw : constant E.Bytes := R.Archive_Bytes (Data, F (Data, After, "stat"));
+         A : constant E.Bytes := R.Archive_Bytes (Data, Before_Status);
+         B : constant E.Bytes := R.Archive_Bytes (Data, After_Status);
+         SA_Raw : constant E.Bytes := R.Archive_Bytes (Data, Before_Stat);
+         SB_Raw : constant E.Bytes := R.Archive_Bytes (Data, After_Stat);
          PA : constant Big_Integer := P.Stat_Number (SA_Raw, 1);
          PP : constant Big_Integer := P.Stat_Number (SA_Raw, 4);
          Start : constant Big_Integer := P.Stat_Number (SA_Raw, 22);
@@ -135,7 +151,7 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
         or else not Field_Same (Data, Actor, F (Data, Source, "actor"), "start_tick")
         or else not Field_Same (Data, Actor, F (Data, Source, "actor"), "credentials")
         or else not Same (Data, F (Data, Actor, "boot"), F (Data, Source, "boot"))
-        or else not R.Archive_Bytes_Valid (Data, F (Data, Actor, "stat"))
+        or else not R.Archive_Bytes_Valid (Data, F (Data, Actor, Stat_Name))
         or else not R.Archive_Bytes_Valid (Data, F (Data, Raw, "uid_map"))
         or else not R.Archive_Bytes_Valid (Data, F (Data, Raw, "gid_map"))
         or else not Stable_Proc (Data, Raw, After)
@@ -149,9 +165,9 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
           (not Node_Same (Data, Node (Data, Actor, "pid"), Node (Data, Source, "pid"))
            or else not Node_Same (Data, Node (Data, Actor, "user"), Node (Data, Source, "user"))))
       then return False; end if;
-      declare Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, "stat"));
-              Original_Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Actor, "stat"));
-              Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, "status")); begin
+      declare Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, Stat_Name));
+              Original_Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Actor, Stat_Name));
+              Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, Status_Name)); begin
          return Num (Data, F (Data, Actor, "pid")) = P.Stat_Number (Stat, 1)
            and then Num (Data, F (Data, Actor, "start_tick")) = P.Stat_Number (Stat, 22)
            and then P.Stat_Number (Original_Stat, 1) = P.Stat_Number (Stat, 1)
@@ -163,18 +179,44 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
    end Actor_Source;
    -- Linux uid_map/gid_map: complete newline-separated triples, with disjoint
    -- inside and outside intervals. The only bounds are the actual uint32 UAPI.
-   function Map_Line_End (Raw : E.Bytes; Start : E.Count) return E.Count is
+   function Map_Line_End (Raw : E.Bytes; Start : E.Count) return E.Count
+     with Global => null,
+       Pre => Start >= Raw'First and then Raw'Last < E.Count'Last,
+       Post => Map_Line_End'Result >= Start and then
+         (if Start <= Raw'Last then Map_Line_End'Result <= Raw'Last + 1
+          else Map_Line_End'Result = Start) and then
+         (if Map_Line_End'Result <= Raw'Last then Raw (Map_Line_End'Result) = 10) and then
+         (for all K in Start .. Map_Line_End'Result - 1 => Raw (K) /= 10)
+   is
       Finish : E.Count := Start;
    begin
-      while Finish <= Raw'Last and then Raw (Finish) /= 10 loop pragma Loop_Variant (Increases => Finish); Finish := Finish + 1; end loop;
+      while Finish <= Raw'Last and then Raw (Finish) /= 10 loop
+         pragma Loop_Invariant (Finish in Start .. Raw'Last);
+         pragma Loop_Invariant (for all K in Start .. Finish - 1 => Raw (K) /= 10);
+         pragma Loop_Variant (Increases => Finish);
+         Finish := Finish + 1;
+      end loop;
       return Finish;
    end Map_Line_End;
-   function Map_Valid (Raw : E.Bytes) return Boolean is
-      Start : E.Count := Raw'First;
+   function Map_Valid (Raw : E.Bytes) return Boolean
+     with Global => null,
+       Post => (if Map_Valid'Result then Raw'First >= 0 and then Raw'Last < E.Count'Last
+         and then (Raw'Length = 0 or else Raw (Raw'Last) = 10))
+   is
+      Start : E.Count;
       Limit : constant Big_Integer := To_Big_Integer (2) ** 32 - To_Big_Integer (1);
    begin
+      -- Totalized: an empty map whose lower bound lies below E.Count raised at
+      -- the original Start initialization; a map ending at E.Count'Last was
+      -- either refused or raised (Finish + 1). Both now refuse; every other
+      -- input takes the original path unchanged.
+      if Raw'Length = 0 then return Raw'First >= 0; end if;
+      if Raw'Last = E.Count'Last then return False; end if;
+      Start := Raw'First;
       while Start <= Raw'Last loop
          pragma Loop_Variant (Increases => Start);
+         pragma Loop_Invariant (Start >= Raw'First);
+         pragma Loop_Invariant (Start = Raw'First or else Raw (Start - 1) = 10);
          declare Finish : constant E.Count := Map_Line_End (Raw, Start);
                  Line : constant E.Span := (Start, Finish - Start);
                  A : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Line, 1));
@@ -186,12 +228,15 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
               or else P.Word (Raw, Line, 4).Length /= 0 then return False; end if;
             while Prior < Start loop
                pragma Loop_Variant (Increases => Prior);
+               pragma Loop_Invariant (Prior >= Raw'First);
                declare Stop : constant E.Count := Map_Line_End (Raw, Prior);
                        Other : constant E.Span := (Prior, Stop - Prior);
                        C : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Other, 1));
                        D : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Other, 2));
                        M : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Other, 3)); begin
                   if (A < C + M and then C < A + N) or else (B < D + M and then D < B + N) then return False; end if;
+                  pragma Assert (Raw (Start - 1) = 10);
+                  pragma Assert (Stop < Start);
                   Prior := Stop + 1;
                end;
             end loop;
@@ -200,11 +245,15 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
       end loop;
       return True;
    end Map_Valid;
-   function Map_Value (Raw : E.Bytes; Value, Overflow : Valid_Big_Integer) return Valid_Big_Integer is
+   function Map_Value (Raw : E.Bytes; Value, Overflow : Valid_Big_Integer) return Valid_Big_Integer
+     with Global => null, Pre => Raw'First >= 0 and then Raw'Last < E.Count'Last
+       and then (Raw'Length = 0 or else Raw (Raw'Last) = 10)
+   is
       Start : E.Count := Raw'First;
    begin
       while Start <= Raw'Last loop
          pragma Loop_Variant (Increases => Start);
+         pragma Loop_Invariant (Start >= Raw'First);
          declare Finish : constant E.Count := Map_Line_End (Raw, Start);
                  Line : constant E.Span := (Start, Finish - Start);
                  A : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Line, 1));
@@ -220,21 +269,23 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
                         Map_Name, Overflow_Name : String; Part : Positive) return Boolean is
       Map_Item : constant E.Span := F (Data, F (Data, View, "raw"), Map_Name);
       Overflow_Item : constant E.Span := F (Data, Receiver, Overflow_Name);
+      Sender_Status : constant E.Span := F (Data, F (Data, Sender, Raw_Name), Status_Name);
+      View_Status_Item : constant E.Span := F (Data, F (Data, View, Raw_Name), Status_Name);
       A : constant Big_Integer := Credential (Data, Sent, Part);
       B : constant Big_Integer := Credential (Data, Received, Part);
    begin
       if A < To_Big_Integer (0) or else B < To_Big_Integer (0)
         or else not R.Archive_Bytes_Valid (Data, Map_Item)
-        or else not R.Archive_Bytes_Valid (Data, F (Data, F (Data, Sender, "raw"), "status"))
-        or else not R.Archive_Bytes_Valid (Data, F (Data, F (Data, View, "raw"), "status"))
+        or else not R.Archive_Bytes_Valid (Data, Sender_Status)
+        or else not R.Archive_Bytes_Valid (Data, View_Status_Item)
         or else not Field_Same (Data, F (Data, View, "raw"), F (Data, View, "after"), Map_Name)
         or else not Node_Same (Data, Node (Data, Sender, "user"), Node (Data, View, "user"))
         or else not Node_Same (Data, Node (Data, Receiver, "user"), F (Data, View, "reader_user_namespace"))
       then return False; end if;
       declare
          Map_Raw : constant E.Bytes := R.Archive_Bytes (Data, Map_Item);
-         Original_Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, F (Data, Sender, "raw"), "status"));
-         View_Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, F (Data, View, "raw"), "status"));
+         Original_Status : constant E.Bytes := R.Archive_Bytes (Data, Sender_Status);
+         View_Status : constant E.Bytes := R.Archive_Bytes (Data, View_Status_Item);
          Name : constant String := (if Part = 2 then "Uid" else "Gid");
          Identity_Map : constant Boolean := Node_Same (Data, Node (Data, Sender, "user"), Node (Data, Receiver, "user"));
          Overflow : Big_Integer := To_Big_Integer (-1);
@@ -244,10 +295,13 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
             if A /= B or else not Same (Data, Map_Item, F (Data, F (Data, Sender, "raw"), Map_Name)) then return False; end if;
          else
             if not R.Archive_Bytes_Valid (Data, Overflow_Item) then return False; end if;
-            declare Raw : constant E.Bytes := R.Archive_Bytes (Data, Overflow_Item); begin
-               Overflow := P.Decimal (Raw, P.Word (Raw, (Raw'First, Raw'Length), 1));
+            declare Raw : constant E.Bytes := R.Archive_Bytes (Data, Overflow_Item);
+                    -- An empty operand reads as the empty word either way; this
+                    -- form is also defined when its lower bound is outside E.Count.
+                    Whole : constant E.Span := (if Raw'Length = 0 then (1, 0) else (Raw'First, Raw'Length)); begin
+               Overflow := P.Decimal (Raw, P.Word (Raw, Whole, 1));
                if Overflow < To_Big_Integer (0) or else Overflow >= To_Big_Integer (2) ** 32
-                 or else P.Word (Raw, (Raw'First, Raw'Length), 2).Length /= 0
+                 or else P.Word (Raw, Whole, 2).Length /= 0
                  or else B /= Map_Value (Map_Raw, A, Overflow)
                then return False; end if;
             end;
@@ -273,9 +327,15 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
       if not E.C.P.Valid (Raw, Item) then return Last; end if;
       while Position < Item.Length loop
          pragma Loop_Variant (Increases => Position);
-         while Position < Item.Length and then Raw (Item.First + Position) in 9 | 32 loop pragma Loop_Variant (Increases => Position); Position := Position + 1; end loop;
+         while Position < Item.Length and then Raw (Item.First + Position) in 9 | 32 loop
+            pragma Loop_Invariant (Position in Position'Loop_Entry .. Item.Length); pragma Loop_Variant (Increases => Position);
+            Position := Position + 1;
+         end loop;
          declare Start : constant E.Count := Position; begin
-            while Position < Item.Length and then Raw (Item.First + Position) not in 9 | 32 loop pragma Loop_Variant (Increases => Position); Position := Position + 1; end loop;
+            while Position < Item.Length and then Raw (Item.First + Position) not in 9 | 32 loop
+               pragma Loop_Invariant (Position in Start .. Item.Length); pragma Loop_Variant (Increases => Position);
+               Position := Position + 1;
+            end loop;
             if Position > Start then
                Last := P.Decimal (Raw, (Item.First + Start, Position - Start));
                if Last <= To_Big_Integer (0) then return To_Big_Integer (-1); end if;
@@ -344,8 +404,8 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
         or else not Same (Data, F (Data, Process, "raw_cmdline"), F (Data, Raw, "cmdline"))
         or else not Bytes_Is (Data, F (Data, Process, "pidfd_wait"), "PIDFD_LIVE")
       then return False; end if;
-      declare Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, "status"));
-              Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, "stat")); begin
+      declare Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, Status_Name));
+              Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, Stat_Name)); begin
          if Last_PID (Status) /= Local or else P.Stat_Number (Stat, 1) /= Host
            or else P.Stat_Number (Stat, 22) /= Num (Data, F (Data, Process, "start_tick"))
            or else P.Decimal (Status, P.Word (Status, P.Line (Status, "NSpid", 58), 1)) /= Host
@@ -402,7 +462,7 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
         or else not Same (Data, F (Data, OriginalActor, "boot"), F (Data, CurrentActor, "boot"))
         or else not Same (Data, Sent, F (Data, OriginalActor, "credentials"))
         or else Credential (Data, Received, 1) < To_Big_Integer (0)
-        or else not Stable_Proc (Data, F (Data, View, "raw"), F (Data, View, "after"))
+        or else not Stable_Proc (Data, F (Data, View, Raw_Name), F (Data, View, "after"))
         or else not Namespace_Node (Data, Node (Data, View, "pid"), "pid")
         or else not Namespace_Node (Data, Node (Data, View, "user"), "user")
         or else not Node_Same (Data, Node (Data, View, "pid"), Node (Data, Sender, "pid"))
@@ -410,9 +470,9 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
         or else not ID_Matches (Data, Sent, Received, Sender, Receiver, View, "gid_map", "overflow_gid", 3)
       then return False; end if;
       declare
-         Raw : constant E.Span := F (Data, View, "raw");
-         Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, "status"));
-         Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, "stat"));
+         Raw : constant E.Span := F (Data, View, Raw_Name);
+         Status : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, Status_Name));
+         Stat : constant E.Bytes := R.Archive_Bytes (Data, F (Data, Raw, Stat_Name));
       begin
          if Last_PID (Status) /= Num (Data, F (Data, OriginalActor, "pid"))
            or else P.Stat_Number (Stat, 22) /= Num (Data, F (Data, OriginalActor, "start_tick"))
