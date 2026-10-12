@@ -515,7 +515,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                        (Data, Capture_Data, F (Data, Event, "operation"),
                         F (Capture_Data, (Capture_Data'First, Capture_Data'Length), "operation")) then return False; end if;
                   if not O.Authenticated
-                    (Owner_Context, Capture_Data, (Capture_Data'First, Capture_Data'Length)) then return False; end if;
+                    (Owner_Context, Data, Capture_Data, (Capture_Data'First, Capture_Data'Length)) then return False; end if;
                end;
             else
                Item := Native_Item (Data, Items, Event);
@@ -572,7 +572,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                               Native.Historical_Status, Native.Roster_Entry = R.Historical_Completion_Entry) then return False;
                      end if;
                      if Native.Roster_Entry = R.Historical_Completion_Entry and then
-                        not K.Authenticated (Resource_Context, Event, Old_Event) then return False; end if;
+                        not K.Authenticated (Resource_Context, Data, Event, Old_Event) then return False; end if;
                   end if;
                   if not Is_ACK then
                      declare
@@ -1071,7 +1071,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             Initial : constant E.Span := F (Data, Policies, Name (Kind));
             Genesis : constant C.Optional_Digest := Hex_Id (Data, F (Data, Initial, "genesis"));
             Witness : E.Span := F (Data, Initial, "head");
-            Rows : C.Retained_Rows (1 .. Total);
+            Final_Total : constant E.Count := Total;
+            Rows : C.Retained_Rows (1 .. Final_Total);
             Count : E.Count := 0;
             Chain : constant C.Chain_Kind := (if Kind in Receipts | Operation_Receipts then C.Receipt_Chain else C.Causal_Chain);
          begin
@@ -1312,13 +1313,13 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Raw_Current_Authenticated (Value.Arena, Value.Owner_Roster,
          Owner_Context, Resource_Context, Require_Head => True));
    function Current_Authenticated (Value : L.Parsed_Input) return Boolean is
-      Facts : aliased constant E.Bytes := O.Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
-      Owner_Context : O.Prepared_History (null, Facts'Access, Value'Access);
-      Resource_Context : K.Prepared_History (null, Value'Access);
+      Facts : constant E.Bytes := O.Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
+      Owner_Context : O.Prepared_History;
+      Resource_Context : K.Prepared_History;
    begin
       if Value.Status /= L.Parsed then return False; end if;
-      O.Establish_History (Owner_Context, Value.Owner_Roster);
-      K.Establish_History (Resource_Context, Value.Owner_Roster);
+      O.Establish_History (Owner_Context, Value.Arena, Facts, Value.Owner_Roster);
+      K.Establish_History (Resource_Context, Value.Arena, Value.Owner_Roster);
       return Current_Authenticated (Value, Owner_Context, Resource_Context);
    end Current_Authenticated;
    function Head_Fact (Value : L.Parsed_Input) return Head_Disposition is
@@ -1551,14 +1552,14 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Proof.State := Original_Current_Replayed;
    end Establish;
    procedure Establish (Value : L.Parsed_Input; Proof : out Journal_Proof) is
-      Facts : aliased constant E.Bytes := O.Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
-      Owner_Context : O.Prepared_History (null, Facts'Access, Value'Access);
-      Resource_Context : K.Prepared_History (null, Value'Access);
+      Facts : constant E.Bytes := O.Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
+      Owner_Context : O.Prepared_History;
+      Resource_Context : K.Prepared_History;
    begin
       Proof := (others => <>);
       if Value.Status /= L.Parsed then return; end if;
-      O.Establish_History (Owner_Context, Value.Owner_Roster);
-      K.Establish_History (Resource_Context, Value.Owner_Roster);
+      O.Establish_History (Owner_Context, Value.Arena, Facts, Value.Owner_Roster);
+      K.Establish_History (Resource_Context, Value.Arena, Value.Owner_Roster);
       Establish (Value, Owner_Context, Resource_Context, Proof);
    end Establish;
    function Established (Value : L.Parsed_Input; Proof : Journal_Proof) return Boolean is
@@ -1611,13 +1612,13 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Current_Events : constant E.Span := F (Data, Before, "events");
       Key_Item : constant E.Span := Issuer_Key (Value);
       Raw_Item : constant E.Span := F (Data, Candidate, "raw");
-      Facts : aliased constant E.Bytes := O.Extract_Replay_Capsules (Data, Value.Owner_Roster);
-      Owner_Context : O.Prepared_History (null, Facts'Access, Value'Access);
-      Resource_Context : K.Prepared_History (null, Value'Access);
+      Facts : constant E.Bytes := O.Extract_Replay_Capsules (Data, Value.Owner_Roster);
+      Owner_Context : O.Prepared_History;
+      Resource_Context : K.Prepared_History;
    begin
       if Value.Status /= L.Parsed then return False; end if;
-      O.Establish_History (Owner_Context, Value.Owner_Roster);
-      K.Establish_History (Resource_Context, Value.Owner_Roster);
+      O.Establish_History (Owner_Context, Value.Arena, Facts, Value.Owner_Roster);
+      K.Establish_History (Resource_Context, Value.Arena, Value.Owner_Roster);
       if not Current_Authenticated (Value, Owner_Context, Resource_Context) or else not V.Valid_Bytes (Data, Raw_Item) or else
          not V.Is_Sequence (Data, Events) or else
          V.Count (Data, Events) = 0 or else V.Count (Data, Events) - 1 /= V.Count (Data, Current_Events) then return False; end if;
@@ -1912,14 +1913,20 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    function Proc_Word (Data : E.Bytes; Blob : E.Span; Name : String; Part : Positive;
                        Radix : U64 := 10) return Native_Number is
       Value : constant Scalar_Bytes := Scalar (Data, Blob);
-      Offset, Start, Stop, Word : E.Count := 0;
+      Offset : E.Count := 0;
+      Start, Stop, Word : E.Count;
       Found : Boolean := False;
       Result : Native_Number;
    begin
       if not V.Type_Is (Data, Blob, "bytes") or else not Value.Valid then return Result; end if;
       while Offset < Value.Length loop
+         pragma Loop_Variant (Increases => Offset);
          Start := Offset;
-         while Offset < Value.Length and then Byte_At (Data, Value, Offset) /= 10 loop Offset := Offset + 1; end loop;
+         while Offset < Value.Length and then Byte_At (Data, Value, Offset) /= 10 loop
+            pragma Loop_Invariant (Offset >= Start and then Offset <= Value.Length);
+            pragma Loop_Variant (Increases => Offset);
+            Offset := Offset + 1;
+         end loop;
          Stop := Offset;
          if E.Count (Name'Length) + 1 <= Stop - Start and then
             (for all I in Name'Range => Byte_At (Data, Value, Start + E.Count (I - Name'First)) = Character'Pos (Name (I))) and then
@@ -1927,9 +1934,18 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             if Found then return (others => <>); end if;
             Found := True; Start := Start + E.Count (Name'Length) + 1; Word := 0;
             while Start < Stop loop
-               while Start < Stop and then Space (Byte_At (Data, Value, Start)) loop Start := Start + 1; end loop;
+               pragma Loop_Variant (Increases => Start);
+               while Start < Stop and then Space (Byte_At (Data, Value, Start)) loop
+                  pragma Loop_Invariant (Start >= Start'Loop_Entry and then Start <= Stop);
+                  pragma Loop_Variant (Increases => Start);
+                  Start := Start + 1;
+               end loop;
                Offset := Start;
-               while Start < Stop and then not Space (Byte_At (Data, Value, Start)) loop Start := Start + 1; end loop;
+               while Start < Stop and then not Space (Byte_At (Data, Value, Start)) loop
+                  pragma Loop_Invariant (Start >= Offset and then Start <= Stop);
+                  pragma Loop_Variant (Increases => Start);
+                  Start := Start + 1;
+               end loop;
                if Start > Offset then Word := Word + 1; end if;
                if Word = E.Count (Part) and then Start > Offset then Result := Decimal (Data, Value, Offset, Start, Radix); end if;
             end loop;
@@ -1944,7 +1960,10 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Stop : E.Count := 0;
    begin
       if not V.Type_Is (Data, Blob, "bytes") or else not Value.Valid then return (others => <>); end if;
-      while Stop < Value.Length and then not Space (Byte_At (Data, Value, Stop)) loop Stop := Stop + 1; end loop;
+      while Stop < Value.Length and then not Space (Byte_At (Data, Value, Stop)) loop
+         pragma Loop_Variant (Increases => Stop);
+         Stop := Stop + 1;
+      end loop;
       return Decimal (Data, Value, 0, Stop);
    end Stat_PID;
    function Bytes_Text (Data : E.Bytes; Bytes_Item, Text_Item : E.Span) return Boolean is
@@ -2058,7 +2077,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          V.Is_Null (Data, F (Data, Artifact, "read_error")) and then V.Is_Null (Data, F (Data, Artifact, "database_error"));
    end Artifact_Present;
    function Bootstrap_Frame_Corresponds
-     (Data : aliased E.Bytes; Frame : E.Span; Caller_PID, Caller_EUID : Interfaces.Unsigned_32) return Boolean is
+     (Data : E.Bytes; Frame : E.Span; Caller_PID, Caller_EUID : Interfaces.Unsigned_32) return Boolean is
       Roster : constant E.Span := F (Data, Frame, "owner_roster");
       Boot : constant E.Span := F (Data, Frame, "bootstrap");
       Current : constant E.Span := F (Data, Roster, "current");
@@ -2070,9 +2089,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Pid : constant Native_Number := Proc_Word (Data, F (Data, Actor, "status"), "Pid", 1);
       Euid : constant Native_Number := Proc_Word (Data, F (Data, Actor, "status"), "Uid", 2);
       Stat : constant Native_Number := Stat_PID (Data, F (Data, Actor, "stat"));
-      Facts : aliased constant E.Bytes := O.Extract_Replay_Capsules (Data, Roster);
-      Owner_Context : O.Prepared_History (Data'Access, Facts'Access, null);
-      Resource_Context : K.Prepared_History (Data'Access, null);
+      Facts : constant E.Bytes := O.Extract_Replay_Capsules (Data, Roster);
+      Owner_Context : O.Prepared_History;
+      Resource_Context : K.Prepared_History;
       Compiled : Boolean := False;
    begin
       if not S.Valid (Data, Frame) or else not S.Text_Is (Data, F (Data, Frame, "schema"), "worldline.operation-head-bootstrap-v1") or else
@@ -2094,7 +2113,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          end;
       end loop;
       if not Compiled then return False; end if;
-      O.Establish_History (Owner_Context, Roster); K.Establish_History (Resource_Context, Roster);
+      O.Establish_History (Owner_Context, Data, Facts, Roster); K.Establish_History (Resource_Context, Data, Roster);
       return Raw_Current_Authenticated (Data, Roster, Owner_Context, Resource_Context, Require_Head => False);
    end Bootstrap_Frame_Corresponds;
    function Bootstrap_Path (Data : E.Bytes; Paths, Target : E.Span) return E.Span is

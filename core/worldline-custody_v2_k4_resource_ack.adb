@@ -17,6 +17,7 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
    use type E.Count;
    use type E.Value_Kind;
    use type E.Bytes;
+   use type H.C.SHA.Digest;
    use type E.Q.Byte;
    use type J.JSON_Kind;
    use type J.Genesis_Correspondence;
@@ -205,7 +206,7 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
               Config_Raw : constant E.Bytes := Bytes_Of(Data,Config);
               Start : E.Count := 1;
               type File_Fields is array (E.Count range 1 .. 5) of E.Span;
-              Fields : File_Fields;
+              Fields : File_Fields := (others => (1, 0));
               Field_Count : E.Count;
               First : E.Count;
               Last : E.Count;
@@ -280,7 +281,7 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
    -- Complete original DTO decoding feeds the unchanged whole-ledger native
    -- policy. Magnitudes/epochs remain arbitrary-length little-endian bytes.
    function Original_Ready (Data : E.Bytes; Event : E.Span) return Boolean is
-      Arena : E.Bytes (1 .. Event.Length);
+      Arena : E.Bytes (1 .. Event.Length) := (others => 0);
       Used : E.Count := 0;
       Good : Boolean := J.Canonical_JSON_Valid (Data, Event);
       function Null_Is (Item : E.Span) return Boolean is
@@ -448,18 +449,27 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
       Before_JSON : constant E.Span := JF (Data, Event, "before_rows");
       After_JSON : constant E.Span := JF (Data, Event, "proposed_rows");
       Native_JSON : constant E.Span := JF (Data, Event, "observed");
-      Before_Rows : W.Raw_Row_Array (1 .. JC (Data, Before_JSON));
-      After_Rows : W.Raw_Row_Array (1 .. JC (Data, After_JSON));
-      Native_Rows : W.Raw_Native_Array (1 .. JC (Data, Native_JSON));
+      Before_Rows : W.Raw_Row_Array (1 .. JC (Data, Before_JSON)) with Relaxed_Initialization;
+      After_Rows : W.Raw_Row_Array (1 .. JC (Data, After_JSON)) with Relaxed_Initialization;
+      Native_Rows : W.Raw_Native_Array (1 .. JC (Data, Native_JSON)) with Relaxed_Initialization;
       Packet : W.Raw_Packet;
    begin
       Packet.Schema_Version := 1;
       State (JF (Data, Event, "before"), Packet.Before_State);
       State (JF (Data, Event, "proposed"), Packet.Proposed_State);
       Request (JF (Data, Event, "request"), Packet.Intent);
-      for I in Before_Rows'Range loop Row (JA (Data, Before_JSON, I - 1), Before_Rows (I)); end loop;
-      for I in After_Rows'Range loop Row (JA (Data, After_JSON, I - 1), After_Rows (I)); end loop;
-      for I in Native_Rows'Range loop Native (JA (Data, Native_JSON, I - 1), Native_Rows (I)); end loop;
+      for I in Before_Rows'Range loop
+         pragma Loop_Invariant (for all J in Before_Rows'First .. I - 1 => Before_Rows (J)'Initialized);
+         Row (JA (Data, Before_JSON, I - 1), Before_Rows (I));
+      end loop;
+      for I in After_Rows'Range loop
+         pragma Loop_Invariant (for all J in After_Rows'First .. I - 1 => After_Rows (J)'Initialized);
+         Row (JA (Data, After_JSON, I - 1), After_Rows (I));
+      end loop;
+      for I in Native_Rows'Range loop
+         pragma Loop_Invariant (for all J in Native_Rows'First .. I - 1 => Native_Rows (J)'Initialized);
+         Native (JA (Data, Native_JSON, I - 1), Native_Rows (I));
+      end loop;
       return Good and then
          J.JSON_Prefix (Data, Before_JSON, 0).Form = J.Array_JSON_Value and then
          J.JSON_Prefix (Data, After_JSON, 0).Form = J.Array_JSON_Value and then
@@ -647,7 +657,7 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
    begin
       if not V.Valid_Text (Data, Item) and then not Payload_OK (Data, Item, E.Text_Value) then return False; end if;
       declare Actual : constant E.Bytes := (if V.Valid_Text (Data, Item) then V.Text_Value (Data, Item) else E.Materialize (Data, View.Payload));
-              Encoded : E.Bytes (1 .. Actual'Length + 2); begin
+              Encoded : E.Bytes (1 .. Actual'Length + 2) := (others => 0); begin
          Encoded (1) := Character'Pos ('"'); Encoded (Encoded'Last) := Character'Pos ('"');
          Encoded (2 .. Encoded'Last - 1) := Actual;
          return Digest_Matches (Encoded, (1, Encoded'Length), Sum);
@@ -1069,40 +1079,28 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
       end;
    end Establish_From_Data;
    procedure Establish_History
-     (Context : in out Prepared_History; Roster : E.Span) is
+     (Context : out Prepared_History; Data : E.Bytes; Roster : E.Span) is
    begin
-      if (Context.Data = null) = (Context.Parsed_Data = null) then
-         Context.State := Unestablished;
-         Context.Roster := (1, 0);
-         Context.Events := (1, 0);
-         Context.Replays := (1, 0);
-         return;
-      end if;
-      -- Only disjoint scalar metadata is mutable beside the observed source;
-      -- the whole deep context is never a second in-out helper actual.
-      if Context.Parsed_Data /= null then
-         Establish_From_Data
-           (Context.Parsed_Data.Arena, Roster, Context.State,
-            Context.Roster, Context.Events, Context.Replays);
-      else
-         Establish_From_Data
-           (Context.Data.all, Roster, Context.State,
-            Context.Roster, Context.Events, Context.Replays);
-      end if;
+      -- The observer binds to this exact arena: extent and whole-bytes digest.
+      -- Only disjoint scalar metadata is mutable beside the observed source.
+      Context.Arena_First := Data'First;
+      Context.Arena_Length := Data'Length;
+      Context.Arena_Digest := H.C.G.Hash (Data, (Data'First, Data'Length));
+      Establish_From_Data
+        (Data, Roster, Context.State, Context.Roster, Context.Events, Context.Replays);
    end Establish_History;
+   function Bound (Context : Prepared_History; Data : E.Bytes) return Boolean is
+     (Context.Arena_First = Data'First and then Context.Arena_Length = Data'Length);
    function Current_Matches (Context : Prepared_History) return Boolean is
-     ((Context.Data = null) /= (Context.Parsed_Data = null) and then
-      Context.State /= Unestablished);
+     (Context.State /= Unestablished);
    function Source_Matches
      (Context : Prepared_History; Data : E.Bytes; Roster : E.Span)
       return Boolean is
      (Current_Matches (Context) and then
       Context.Roster.First = Roster.First and then
       Context.Roster.Length = Roster.Length and then
-      (if Context.Parsed_Data /= null then
-         Context.Parsed_Data.Arena'First = Data'First and then
-         Context.Parsed_Data.Arena = Data
-       else Context.Data.all'First = Data'First and then Context.Data.all = Data));
+      Bound (Context, Data) and then
+      Context.Arena_Digest = H.C.G.Hash (Data, (Data'First, Data'Length)));
    function Dispatch
      (Context : Prepared_History; Data, Capture_Data, Ack_Data : E.Bytes;
       Capture, Ack : E.Span) return Boolean is
@@ -1124,32 +1122,26 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
    function Current_Authenticated (Value : L.Parsed_Input) return Boolean is
    begin
       if not OC.Owner_Corresponds (Value) then return False; end if;
-      declare Context : Prepared_History (null, Value'Access); begin
-         Establish_History (Context, Value.Owner_Roster);
+      declare Context : Prepared_History; begin
+         Establish_History (Context, Value.Arena, Value.Owner_Roster);
          return Current_Matches (Context);
       end;
    end Current_Authenticated;
    function Direct_Authenticated
-     (Context : Prepared_History; Input_Data : E.Bytes;
+     (Context : Prepared_History; Data, Input_Data : E.Bytes;
       Capture, Acknowledgement : E.Span) return Boolean is
    begin
-      if not Current_Matches (Context) then return False; end if;
-      if Context.Parsed_Data /= null then
-         return Dispatch
-           (Context, Context.Parsed_Data.Arena, Input_Data, Input_Data,
-            Capture, Acknowledgement);
-      end if;
-      return Dispatch
-        (Context, Context.Data.all, Input_Data, Input_Data, Capture, Acknowledgement);
+      if not Current_Matches (Context) or else not Bound (Context, Data) then return False; end if;
+      return Dispatch (Context, Data, Input_Data, Input_Data, Capture, Acknowledgement);
    end Direct_Authenticated;
    function Direct_Authenticated
      (Value : L.Parsed_Input; Input_Data : E.Bytes;
       Capture, Acknowledgement : E.Span) return Boolean is
    begin
       if not OC.Owner_Corresponds (Value) then return False; end if;
-      declare Context : Prepared_History (null, Value'Access); begin
-         Establish_History (Context, Value.Owner_Roster);
-         return Direct_Authenticated (Context, Input_Data, Capture, Acknowledgement);
+      declare Context : Prepared_History; begin
+         Establish_History (Context, Value.Arena, Value.Owner_Roster);
+         return Direct_Authenticated (Context, Value.Arena, Input_Data, Capture, Acknowledgement);
       end;
    end Direct_Authenticated;
    function Authenticated_From_Data
@@ -1204,23 +1196,19 @@ package body Worldline.Custody_V2_K4_Resource_Ack with SPARK_Mode is
       end;
    end Authenticated_From_Data;
    function Authenticated
-     (Context : Prepared_History; Event, Prior_Event : E.Span) return Boolean is
+     (Context : Prepared_History; Data : E.Bytes; Event, Prior_Event : E.Span)
+      return Boolean is
    begin
-      if (Context.Data = null) = (Context.Parsed_Data = null) then return False; end if;
-      if Context.Parsed_Data /= null then
-         return Authenticated_From_Data
-           (Context, Context.Parsed_Data.Arena, Event, Prior_Event);
-      end if;
-      return Authenticated_From_Data
-        (Context, Context.Data.all, Event, Prior_Event);
+      if not Bound (Context, Data) then return False; end if;
+      return Authenticated_From_Data (Context, Data, Event, Prior_Event);
    end Authenticated;
    function Authenticated
      (Value : L.Parsed_Input; Event, Prior_Event : E.Span) return Boolean is
    begin
       if not OC.Owner_Corresponds (Value) then return False; end if;
-      declare Context : Prepared_History (null, Value'Access); begin
-         Establish_History (Context, Value.Owner_Roster);
-         return Authenticated (Context, Event, Prior_Event);
+      declare Context : Prepared_History; begin
+         Establish_History (Context, Value.Arena, Value.Owner_Roster);
+         return Authenticated (Context, Value.Arena, Event, Prior_Event);
       end;
    end Authenticated;
 end Worldline.Custody_V2_K4_Resource_Ack;

@@ -72,7 +72,7 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
 
    function Hex (Digest : M.Digest) return String is
       Hex_Digits : constant String := "0123456789abcdef";
-      Text : String (1 .. 64);
+      Text : String (1 .. 64) := (others => ' ');
    begin
       for B in Digest'Range loop
          pragma Loop_Variant (Increases => B);
@@ -486,7 +486,7 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       Result : out Observation; Initial_Proof : OJ.Journal_Proof)
       with Subprogram_Variant => (Decreases => Value.Source_Input.Length, Decreases => 7)
    is
-      Origin : M.Digest := Worldline.Zero_Hash;
+      Origin : M.Digest;
    begin
       Result := (Fold_Refused, Input_Malformed, 0);
       Proof := Initial_Proof;

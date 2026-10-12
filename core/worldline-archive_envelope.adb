@@ -111,7 +111,10 @@ package body Worldline.Archive_Envelope with SPARK_Mode is
        (for all I in Text'Range =>
           Data (Item.First + Count (I - Text'First)) = Character'Pos (Text (I))));
 
-   function String_Payload (Data : Bytes; Item : Span) return Span is
+   function String_Payload (Data : Bytes; Item : Span) return Span
+     with Post => String_Payload'Result.Length = 0 or else
+       String_Payload'Result.Length < Item.Length
+   is
       N : constant C.Node := C.Prefix (Data, Item, 0);
    begin
       if not N.Valid or else N.Form /= C.String_Value or else

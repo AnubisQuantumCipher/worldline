@@ -85,7 +85,12 @@ package Worldline.Archive_Envelope with SPARK_Mode is
        Subprogram_Variant => (Decreases => Layer'Pos (At_Layer)),
        Post => Decode'Result.Raw = Encoded and then
          Decode'Result.At_Layer = At_Layer and then
-         Decode'Result.Children.Length <= Encoded.Length;
+         Decode'Result.Children.Length <= Encoded.Length and then
+         --  A payload is a strict sub-span of its envelope (the header and the
+         --  string quotes are never part of it), so recursion through a
+         --  materialized payload terminates.
+         (Decode'Result.Payload.Encoded.Length = 0 or else
+          Decode'Result.Payload.Encoded.Length < Encoded.Length);
    function Text_Is (Data : Bytes; Item : View; Text : String) return Boolean
      with Global => null;
 end Worldline.Archive_Envelope;

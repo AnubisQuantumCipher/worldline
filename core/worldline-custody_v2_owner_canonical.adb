@@ -40,6 +40,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    use type E.Value_Kind;
    use type E.Q.Byte;
    use type E.Bytes;
+   use type H.C.SHA.Digest;
    use type P.Value_Kind;
    use type K.Decision;
    use type C.Decision;
@@ -47,7 +48,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       Ada.Characters.Latin_1.NUL;
    Empty : constant E.Span := (1, 0);
    function Bytes (Text : String) return E.Bytes is
-      Result : E.Bytes (1 .. Text'Length);
+      Result : E.Bytes (1 .. Text'Length) := (others => 0);
    begin
       for I in Text'Range loop
          Result (E.Count (I - Text'First + 1)) := Character'Pos (Text (I));
@@ -55,7 +56,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       return Result;
    end Bytes;
    function Text (Data : E.Bytes) return String is
-      Result : String (1 .. Data'Length);
+      Result : String (1 .. Data'Length) := (others => ' ');
    begin
       for I in Data'Range loop
          Result (Integer (I - Data'First + 1)) := Character'Val (Data (I));
@@ -95,7 +96,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    end Archive_Text;
    function Hex (Sum : H.SHA.Digest) return E.Bytes is
       Hex_Digits : constant String := "0123456789abcdef";
-      Result : E.Bytes (1 .. Sum'Length * 2);
+      Result : E.Bytes (1 .. Sum'Length * 2) := (others => 0);
    begin
       for I in Sum'Range loop
          Result (E.Count (I - Sum'First) * 2 + 1) := Character'Pos (Hex_Digits (Integer (Sum (I) / 16) + 1));
@@ -828,44 +829,35 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       end;
    end Current_History_Core;
    procedure Establish_History
-     (Context : in out Prepared_History; Roster : E.Span) is
+     (Context : in out Prepared_History; Data, Facts_Data : E.Bytes; Roster : E.Span) is
    begin
       if Context.View.State /= Unestablished then return; end if;
-      Context.View.State := Rejected;
-      if (Context.Data = null) = (Context.Parsed_Data = null)
-        or else Context.Facts_Data = null then return; end if;
-      if Context.Parsed_Data /= null then
-         Context.View := Current_History_Core
-           (Context.Parsed_Data.Arena, Roster, Context.Facts_Data.all,
-            Whole (Context.Facts_Data.all));
-      else
-         Context.View := Current_History_Core
-           (Context.Data.all, Roster, Context.Facts_Data.all,
-            Whole (Context.Facts_Data.all));
-      end if;
+      -- The observer binds to this exact arena: extent and whole-bytes digest.
+      Context.Arena_First := Data'First;
+      Context.Arena_Length := Data'Length;
+      Context.Arena_Digest := H.C.G.Hash (Data, Whole (Data));
+      Context.View := Current_History_Core (Data, Roster, Facts_Data, Whole (Facts_Data));
    end Establish_History;
+   function Bound (Context : Prepared_History; Data : E.Bytes) return Boolean is
+     (Context.Arena_First = Data'First and then Context.Arena_Length = Data'Length);
    function Current_Matches (Context : Prepared_History) return Boolean is
-     (Context.View.State = Verified and then
-      (Context.Data = null) /= (Context.Parsed_Data = null) and then
-      Context.Facts_Data /= null);
+     (Context.View.State = Verified);
    function Source_Matches
      (Context : Prepared_History; Data : E.Bytes; Roster : E.Span) return Boolean is
      (Current_Matches (Context) and then
       Context.View.Roster.First = Roster.First and then
       Context.View.Roster.Length = Roster.Length and then
-      (if Context.Parsed_Data /= null then
-         Context.Parsed_Data.Arena'First = Data'First and then
-         Context.Parsed_Data.Arena = Data
-       else Context.Data.all'First = Data'First and then Context.Data.all = Data));
+      Bound (Context, Data) and then
+      Context.Arena_Digest = H.C.G.Hash (Data, Whole (Data)));
    function Current_History_Authenticated (Value : L.Parsed_Input) return Boolean is
    begin
       if Value.Status /= L.Parsed or else
          not Worldline.Custody_V2_Owner_Correspondence.Owner_Corresponds (Value) then return False; end if;
       declare
-         RawFacts : aliased constant E.Bytes := Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
-         Context : Prepared_History (null, RawFacts'Access, Value'Access);
+         RawFacts : constant E.Bytes := Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
+         Context : Prepared_History;
       begin
-         Establish_History (Context, Value.Owner_Roster);
+         Establish_History (Context, Value.Arena, RawFacts, Value.Owner_Roster);
          return Current_Matches (Context);
       end;
    end Current_History_Authenticated;
@@ -891,7 +883,8 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
             Count := Count + 1; Offset := Offset + 2;
          end if;
       end loop;
-      declare Result : E.Bytes (1 .. Count); Index : E.Count := 0; begin
+      declare Final_Count : constant E.Count := Count;
+              Result : E.Bytes (1 .. Final_Count) := (others => 0); Index : E.Count := 0; begin
          Offset := 0;
          while Offset < Value'Length loop
             pragma Loop_Variant (Decreases => Value'Length - Offset);
@@ -1000,16 +993,11 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       end;
    end Authenticated_From_Data;
    function Authenticated
-     (Context : Prepared_History; Capture_Data : E.Bytes; Witness : E.Span)
+     (Context : Prepared_History; Data, Capture_Data : E.Bytes; Witness : E.Span)
       return Boolean is
    begin
-      if not Current_Matches (Context) then return False; end if;
-      if Context.Parsed_Data /= null then
-         return Authenticated_From_Data
-           (Context, Context.Parsed_Data.Arena, Capture_Data, Witness);
-      end if;
-      return Authenticated_From_Data
-        (Context, Context.Data.all, Capture_Data, Witness);
+      if not Current_Matches (Context) or else not Bound (Context, Data) then return False; end if;
+      return Authenticated_From_Data (Context, Data, Capture_Data, Witness);
    end Authenticated;
    function Authenticated
      (Value : L.Parsed_Input; Capture_Data : E.Bytes; Witness : E.Span)
@@ -1018,11 +1006,11 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       if Value.Status /= L.Parsed or else
          not Worldline.Custody_V2_Owner_Correspondence.Owner_Corresponds (Value) then return False; end if;
       declare
-         RawFacts : aliased constant E.Bytes := Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
-         Context : Prepared_History (null, RawFacts'Access, Value'Access);
+         RawFacts : constant E.Bytes := Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
+         Context : Prepared_History;
       begin
-         Establish_History (Context, Value.Owner_Roster);
-         return Authenticated (Context, Capture_Data, Witness);
+         Establish_History (Context, Value.Arena, RawFacts, Value.Owner_Roster);
+         return Authenticated (Context, Value.Arena, Capture_Data, Witness);
       end;
    end Authenticated;
 end Worldline.Custody_V2_Owner_Canonical;
