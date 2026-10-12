@@ -28,14 +28,38 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
    use type C.Check_Reason;
    Zero : constant String (1 .. 64) := (others => '0');
    Authority : constant String := "LOCAL_ROOT_ANCHORED_CAPABILITY_VALUE_ONLY";
+   --  SPARK: field names read by both a validity predicate and its decoder are one
+   --  term each (two occurrences of a literal are distinct terms for the prover).
+   Worlds_Name : constant String := "worlds";
+   Evaluations_Name : constant String := "evaluations";
+   Ceiling_Name : constant String := "ceiling";
+   Budget_Name : constant String := "budget";
+   Agents_Name : constant String := "agents";
+   World_Limit_Name : constant String := "world_limit";
+   Worlds_Reserved_Name : constant String := "worlds_reserved";
+   Evaluation_Limit_Name : constant String := "evaluation_limit";
+   Evaluations_Reserved_Name : constant String := "evaluations_reserved";
+   Running_Worlds_Name : constant String := "running_worlds";
+   Outstanding_Name : constant String := "outstanding_reservations";
+   Unresolved_Name : constant String := "unresolved_transactions";
    function F (D : E.Bytes; X : E.Span; Name : String) return E.Span renames S.Field;
-   function Text (B : E.Bytes) return String is
-      Result : String (1 .. Natural (B'Length));
+   function Text (B : E.Bytes) return String
+     with Post => Text'Result'First = 1 and then Text'Result'Length <= B'Length
+   is
    begin
-      for I in Result'Range loop Result (I) := Character'Val (B (B'First + E.Count (I - 1))); end loop;
-      return Result;
+      --  SPARK: refusal ("", the callers' absent text) exactly where the original
+      --  raised Constraint_Error converting B'Length to Natural.
+      if B'Length > E.Count (Natural'Last) then return ""; end if;
+      declare
+         Result : String (1 .. Natural (B'Length));
+      begin
+         for I in Result'Range loop Result (I) := Character'Val (B (B'First + E.Count (I - 1))); end loop;
+         return Result;
+      end;
    end Text;
-   function Bytes (T : String) return E.Bytes is
+   function Bytes (T : String) return E.Bytes
+     with Post => Bytes'Result'First = 1 and then Bytes'Result'Length = E.Count (T'Length)
+   is
       Result : E.Bytes (1 .. E.Count (T'Length)) with Relaxed_Initialization;
    begin
       for I in T'Range loop
@@ -50,11 +74,14 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
      (if V.Valid_Bytes (D, X) then V.Bytes_Value (D, X) else E.Bytes'(1 .. 0 => 0));
    function PF (D : String; X : P.Node; Name : String) return P.Node renames P.Field;
    -- Exact keys, not merely the presence of a favorable subset.
-   function Keys (D : String; X : P.Node; Names : String; Count : Natural) return Boolean is
+   function Keys (D : String; X : P.Node; Names : String; Count : Natural) return Boolean
+     with Pre => Names'Length > 0 and then Names'Last < Positive'Last
+   is
       Start : Positive := Names'First;
    begin
       if X.Form /= P.Object_Value or else P.Count (D, X) /= Count then return False; end if;
       for I in Names'Range loop
+         pragma Loop_Invariant (Start in Names'First .. I);
          if Names (I) = ',' then
             if not P.Present (PF (D, X, Names (Start .. I - 1))) then return False; end if;
             Start := I + 1;
@@ -62,35 +89,45 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       end loop;
       return P.Present (PF (D, X, Names (Start .. Names'Last)));
    end Keys;
+   --  SPARK: the one decimal scan that Number and Integer_Valid each performed,
+   --  shared so that a validated bound is visibly the bound of the number used.
+   type Decimal_Scan is record
+      Ok : Boolean;
+      Value : U64;
+   end record;
+   function Scan_Decimal (T : String) return Decimal_Scan
+     with Post => (if Scan_Decimal'Result.Ok then (for all Ch of T => Ch in '0' .. '9'))
+   is
+      Result : U64 := 0;
+   begin
+      for I in T'Range loop
+         pragma Loop_Invariant (for all J in T'First .. I - 1 => T (J) in '0' .. '9');
+         declare Ch : constant Character := T (I); begin
+            if Ch not in '0' .. '9' or else Result > (U64'Last - U64 (Character'Pos (Ch) - 48)) / 10 then return (False, 0); end if;
+            Result := Result * 10 + U64 (Character'Pos (Ch) - 48);
+         end;
+      end loop;
+      return (True, Result);
+   end Scan_Decimal;
    function Number (D : String; X : P.Node) return U64 is
-      Result : U64 := 0;
-      T : constant String := P.Slice (D, X);
-   begin
-      if X.Form /= P.Integer_Value or else T'Length = 0 then return 0; end if;
-      for Ch of T loop
-         if Ch not in '0' .. '9' or else Result > (U64'Last - U64 (Character'Pos (Ch) - 48)) / 10 then return 0; end if;
-         Result := Result * 10 + U64 (Character'Pos (Ch) - 48);
-      end loop;
-      return Result;
-   end Number;
+     (declare
+         T : constant String := P.Slice (D, X);
+      begin
+        (if X.Form /= P.Integer_Value or else T'Length = 0 or else not Scan_Decimal (T).Ok then 0
+         else Scan_Decimal (T).Value));
    function Integer_Valid (D : String; X : P.Node; Maximum : U64 := U64'Last) return Boolean is
-      Result : U64 := 0;
-      T : constant String := P.Slice (D, X);
-   begin
-      if X.Form /= P.Integer_Value or else T'Length = 0 then return False; end if;
-      if T = "-0" then return True; end if;
-      for Ch of T loop
-         if Ch not in '0' .. '9' or else Result > (U64'Last - U64 (Character'Pos (Ch) - 48)) / 10 then return False; end if;
-         Result := Result * 10 + U64 (Character'Pos (Ch) - 48);
-      end loop;
-      return Result <= Maximum;
-   end Integer_Valid;
+     (declare
+         T : constant String := P.Slice (D, X);
+      begin
+         X.Form = P.Integer_Value and then T'Length > 0 and then
+         (T = "-0" or else (Scan_Decimal (T).Ok and then Scan_Decimal (T).Value <= Maximum)));
    function Hex (T : String) return Boolean is
      (T'Length = 64 and then (for all Ch of T => Ch in '0' .. '9' | 'a' .. 'f'));
    function Digest_Valid (D : String; X : P.Node) return Boolean is
      (X.Form = P.String_Value and then Hex (P.Text (D, X)));
    function Nibble (Ch : Character) return U64 is
-     (if Ch in '0' .. '9' then U64 (Character'Pos (Ch) - 48) else U64 (Character'Pos (Ch) - 87));
+     (if Ch in '0' .. '9' then U64 (Character'Pos (Ch) - 48) else U64 (Character'Pos (Ch) - 87))
+     with Pre => Ch in '0' .. '9' | 'a' .. 'f';
    function Digest (D : String; X : P.Node) return G.Digest is
       T : constant String := P.Text (D, X);
       Result : G.Digest := G.Zero_Digest;
@@ -102,10 +139,13 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       end loop;
       return Result;
    end Digest;
-   function Digests (D : String; X : P.Node; Names : String) return Boolean is
+   function Digests (D : String; X : P.Node; Names : String) return Boolean
+     with Pre => Names'Length > 0 and then Names'Last < Positive'Last
+   is
       Start : Positive := Names'First;
    begin
       for I in Names'Range loop
+         pragma Loop_Invariant (Start in Names'First .. I);
          if Names (I) = ',' then
             if not Digest_Valid (D, PF (D, X, Names (Start .. I - 1))) then return False; end if;
             Start := I + 1;
@@ -129,9 +169,11 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
      (for some A in G.Operation => P.Is_Text (D, X, Action_Name (A)));
    function Counter_Valid (D : String; X : P.Node; Maximum : U64) return Boolean is
      (Keys (D, X, "worlds,evaluations", 2) and then
-      Integer_Valid (D, PF (D, X, "worlds"), Maximum) and then
-      Integer_Valid (D, PF (D, X, "evaluations"), Maximum));
-   function Capability_Valid (D : String; X : P.Node) return Boolean is
+      Integer_Valid (D, PF (D, X, Worlds_Name), Maximum) and then
+      Integer_Valid (D, PF (D, X, Evaluations_Name), Maximum));
+   function Capability_Valid (D : String; X : P.Node) return Boolean
+     with Post => (if Capability_Valid'Result then Counter_Valid (D, PF (D, X, Ceiling_Name), U64 (U32'Last)))
+   is
       Actions : constant P.Node := PF (D, X, "granted");
       Scope : constant P.Node := PF (D, X, "applies_to");
    begin
@@ -144,7 +186,7 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
          not Keys (D, Scope, "kind,world_id", 2) or else
          not (P.Is_Text (D, PF (D, Scope, "kind"), "universe") or else P.Is_Text (D, PF (D, Scope, "kind"), "world")) or else
          not Digest_Valid (D, PF (D, Scope, "world_id")) or else
-         not Counter_Valid (D, PF (D, X, "ceiling"), U64 (U32'Last)) then return False; end if;
+         not Counter_Valid (D, PF (D, X, Ceiling_Name), U64 (U32'Last)) then return False; end if;
       for I in 1 .. P.Count (D, Actions) loop
          if not Action_Valid (D, P.Element (D, Actions, I)) then return False; end if;
          for K in 1 .. I - 1 loop
@@ -153,11 +195,13 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       end loop;
       return True;
    end Capability_Valid;
-   function Capability (D : String; X : P.Node) return C.Capability is
+   function Capability (D : String; X : P.Node) return C.Capability
+     with Pre => Capability_Valid (D, X)
+   is
       Result : C.Capability := C.Null_Capability;
       Actions : constant P.Node := PF (D, X, "granted");
       Scope : constant P.Node := PF (D, X, "applies_to");
-      Ceiling : constant P.Node := PF (D, X, "ceiling");
+      Ceiling : constant P.Node := PF (D, X, Ceiling_Name);
    begin
       Result.Capability_Id := Digest (D, PF (D, X, "capability_id"));
       Result.Parent_Id := Digest (D, PF (D, X, "parent_id"));
@@ -180,21 +224,28 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
          end loop;
       end loop;
       Result.Applies_To := (Kind => (if P.Is_Text (D, PF (D, Scope, "kind"), "universe") then C.Universe_Scope else C.World_Scope), World_Id => Digest (D, PF (D, Scope, "world_id")));
-      Result.Ceiling := (Worlds => U32 (Number (D, PF (D, Ceiling, "worlds"))), Evaluations => U32 (Number (D, PF (D, Ceiling, "evaluations"))));
+      Result.Ceiling := (Worlds => U32 (Number (D, PF (D, Ceiling, Worlds_Name))), Evaluations => U32 (Number (D, PF (D, Ceiling, Evaluations_Name))));
       return Result;
    end Capability;
-   function Genesis_Valid (D : String; X : P.Node) return Boolean is
-      Budget : constant P.Node := PF (D, X, "budget");
-      Agents : constant P.Node := PF (D, X, "agents");
+   function Genesis_Valid (D : String; X : P.Node) return Boolean
+     with Post => (if Genesis_Valid'Result then
+        Integer_Valid (D, PF (D, PF (D, X, Budget_Name), World_Limit_Name), U64 (U32'Last)) and then
+        Integer_Valid (D, PF (D, PF (D, X, Budget_Name), Worlds_Reserved_Name), U64 (U32'Last)) and then
+        Integer_Valid (D, PF (D, PF (D, X, Budget_Name), Evaluation_Limit_Name), U64 (U32'Last)) and then
+        Integer_Valid (D, PF (D, PF (D, X, Budget_Name), Evaluations_Reserved_Name), U64 (U32'Last)) and then
+        P.Count (D, PF (D, X, Agents_Name)) <= 8)
+   is
+      Budget : constant P.Node := PF (D, X, Budget_Name);
+      Agents : constant P.Node := PF (D, X, Agents_Name);
    begin
       if not Keys (D, X, "universe_id,mission_id,policy_id,policy_owner_mission,worldline_instance_id,root_set_id,prime_id,policy_epoch,budget,agents", 10) or else
          not Digests (D, X, "universe_id,mission_id,policy_id,policy_owner_mission,worldline_instance_id,root_set_id,prime_id") or else
          not Integer_Valid (D, PF (D, X, "policy_epoch")) or else
          not Keys (D, Budget, "world_limit,worlds_reserved,evaluation_limit,evaluations_reserved", 4) or else
-         not Integer_Valid (D, PF (D, Budget, "world_limit"), U64 (U32'Last)) or else
-         not Integer_Valid (D, PF (D, Budget, "worlds_reserved"), U64 (U32'Last)) or else
-         not Integer_Valid (D, PF (D, Budget, "evaluation_limit"), U64 (U32'Last)) or else
-         not Integer_Valid (D, PF (D, Budget, "evaluations_reserved"), U64 (U32'Last)) or else
+         not Integer_Valid (D, PF (D, Budget, World_Limit_Name), U64 (U32'Last)) or else
+         not Integer_Valid (D, PF (D, Budget, Worlds_Reserved_Name), U64 (U32'Last)) or else
+         not Integer_Valid (D, PF (D, Budget, Evaluation_Limit_Name), U64 (U32'Last)) or else
+         not Integer_Valid (D, PF (D, Budget, Evaluations_Reserved_Name), U64 (U32'Last)) or else
          Agents.Form /= P.Array_Value or else P.Count (D, Agents) > 8 then return False; end if;
       for I in 1 .. P.Count (D, Agents) loop
          declare A : constant P.Node := P.Element (D, Agents, I); begin
@@ -204,9 +255,11 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       end loop;
       return True;
    end Genesis_Valid;
-   function Genesis (D : String; X : P.Node) return G.Universe_State is
-      Agents : constant P.Node := PF (D, X, "agents");
-      Budget : constant P.Node := PF (D, X, "budget");
+   function Genesis (D : String; X : P.Node) return G.Universe_State
+     with Pre => Genesis_Valid (D, X)
+   is
+      Agents : constant P.Node := PF (D, X, Agents_Name);
+      Budget : constant P.Node := PF (D, X, Budget_Name);
       Result : G.Universe_State;
    begin
       Result.Universe_Id := Digest (D, PF (D, X, "universe_id"));
@@ -217,7 +270,7 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       Result.Root_Set_Id := Digest (D, PF (D, X, "root_set_id"));
       Result.Prime_Id := Digest (D, PF (D, X, "prime_id"));
       Result.Policy_Epoch := Number (D, PF (D, X, "policy_epoch"));
-      Result.Budget := (World_Limit => U32 (Number (D, PF (D, Budget, "world_limit"))), Worlds_Reserved => U32 (Number (D, PF (D, Budget, "worlds_reserved"))), Evaluation_Limit => U32 (Number (D, PF (D, Budget, "evaluation_limit"))), Evaluations_Reserved => U32 (Number (D, PF (D, Budget, "evaluations_reserved"))));
+      Result.Budget := (World_Limit => U32 (Number (D, PF (D, Budget, World_Limit_Name))), Worlds_Reserved => U32 (Number (D, PF (D, Budget, Worlds_Reserved_Name))), Evaluation_Limit => U32 (Number (D, PF (D, Budget, Evaluation_Limit_Name))), Evaluations_Reserved => U32 (Number (D, PF (D, Budget, Evaluations_Reserved_Name))));
       Result.Roster_Count := G.Agent_Count (P.Count (D, Agents));
       Result.Roster := (others => (Identity => G.Zero_Digest, Role => G.Builder, Enabled => False));
       for I in 1 .. P.Count (D, Agents) loop
@@ -239,13 +292,15 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
         Keys (D, Policy, "mission_id,authority_id,resource_id,network_id,provider_id,evaluator_id,root_set_id,evidence_id,roster_id,worldline_set_id", 10) and then
         Digests (D, Policy, "mission_id,authority_id,resource_id,network_id,provider_id,evaluator_id,root_set_id,evidence_id,roster_id,worldline_set_id") and then
         Integer_Valid (D, PF (D, X, "policy_epoch")) and then Integer_Valid (D, PF (D, X, "prime_generation")) and then
-        Integer_Valid (D, PF (D, X, "running_worlds"), U64 (U32'Last)) and then
-        Integer_Valid (D, PF (D, X, "outstanding_reservations"), U64 (U32'Last)) and then
-        Integer_Valid (D, PF (D, X, "unresolved_transactions"), U64 (U32'Last)) and then
+        Integer_Valid (D, PF (D, X, Running_Worlds_Name), U64 (U32'Last)) and then
+        Integer_Valid (D, PF (D, X, Outstanding_Name), U64 (U32'Last)) and then
+        Integer_Valid (D, PF (D, X, Unresolved_Name), U64 (U32'Last)) and then
         PF (D, X, "snapshot_complete").Form = P.Boolean_Value and then
         (for some Life in U.Lifecycle_State => P.Is_Text (D, PF (D, X, "life"), Life_Name (Life)));
    end Record_Valid;
-   function Universe_Record (D : String; X : P.Node) return U.Universe_Record is
+   function Universe_Record (D : String; X : P.Node) return U.Universe_Record
+     with Pre => Record_Valid (D, X)
+   is
       Policy : constant P.Node := PF (D, X, "policy");
       Result : U.Universe_Record;
    begin
@@ -261,18 +316,21 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       for Life in U.Lifecycle_State loop
          if P.Is_Text (D, PF (D, X, "life"), Life_Name (Life)) then Result.Life := Life; end if;
       end loop;
-      Result.Running_Worlds := U32 (Number (D, PF (D, X, "running_worlds")));
-      Result.Outstanding_Reservations := U32 (Number (D, PF (D, X, "outstanding_reservations")));
-      Result.Unresolved_Transactions := U32 (Number (D, PF (D, X, "unresolved_transactions")));
+      Result.Running_Worlds := U32 (Number (D, PF (D, X, Running_Worlds_Name)));
+      Result.Outstanding_Reservations := U32 (Number (D, PF (D, X, Outstanding_Name)));
+      Result.Unresolved_Transactions := U32 (Number (D, PF (D, X, Unresolved_Name)));
       Result.Evidence_Snapshot_Id := Digest (D, PF (D, X, "evidence_snapshot_id"));
       Result.Snapshot_Complete := P.Is_True (D, PF (D, X, "snapshot_complete"));
       return Result;
    end Universe_Record;
-   function Hex_Image (Sum : H.SHA.Digest) return String is
+   function Hex_Image (Sum : H.SHA.Digest) return String
+     with Post => Hex (Hex_Image'Result)
+   is
       Hex_Characters : constant String := "0123456789abcdef";
       Result : String (1 .. 64) := [others => '0'];
    begin
       for I in Sum'Range loop
+         pragma Loop_Invariant (for all Ch of Result => Ch in '0' .. '9' | 'a' .. 'f');
          Result (1 + (I - Sum'First) * 2) := Hex_Characters (Integer (Sum (I) / 16) + 1);
          Result (2 + (I - Sum'First) * 2) := Hex_Characters (Integer (Sum (I) mod 16) + 1);
       end loop;
@@ -284,12 +342,14 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       for Byte of B loop H.SHA.Update (Context, Attest.Byte_Array'(0 => Byte)); end loop;
       return Hex_Image (H.SHA.Final (Context));
    end Hash;
-   function Event_Hash (Previous, Event_JSON : String) return String is
+   function Event_Hash (Previous, Event_JSON : String) return String
+     with Pre => Hex (Previous), Post => Hex (Event_Hash'Result)
+   is
       Context : H.SHA.Context := H.SHA.Initial;
       Domain : constant String := "COSMOGONY-CAPABILITY-EVENT-v1" & Character'Val (0);
    begin
       for Ch of Domain loop H.SHA.Update (Context, Attest.Byte_Array'(0 => Character'Pos (Ch))); end loop;
-      for I in 0 .. 31 loop H.SHA.Update (Context, Attest.Byte_Array'(0 => Attest.Byte (Nibble (Previous (Previous'First + I * 2)) * 16 + Nibble (Previous (Previous'First + I * 2 + 1))))); end loop;
+      for I in 0 .. 31 loop H.SHA.Update (Context, Attest.Byte_Array'(0 => Attest.Byte (Nibble (Previous (Previous'First + I * 2)) * 16 + Nibble (Previous (Previous'First + (I * 2 + 1)))))); end loop;
       for Ch of Event_JSON loop H.SHA.Update (Context, Attest.Byte_Array'(0 => Character'Pos (Ch))); end loop;
       return Hex_Image (H.SHA.Final (Context));
    end Event_Hash;
@@ -330,7 +390,10 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       Uses : array (E.Count range 1 .. V.Count (D, Rows)) of G.Digest := (others => G.Zero_Digest);
       Use_Count : E.Count := 0;
       Previous : String (1 .. 64) := Zero;
-      function Find (Identity : G.Digest) return E.Count is
+      function Find (Identity : G.Digest) return E.Count
+        with Global => (Input => (Grants, Grant_Count)),
+          Pre => Grant_Count <= Grants'Last, Post => Find'Result <= Grant_Count
+      is
       begin
          for I in E.Count range 1 .. Grant_Count loop
             if Grants (I).Capability_Id = Identity then return I; end if;
@@ -340,6 +403,8 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
    begin
       if not V.Is_Sequence (D, Rows) or else Sequence /= U64 (V.Count (D, Rows)) or else not Hex (Head) then return False; end if;
       for Position in E.Count range 1 .. V.Count (D, Rows) loop
+         --  Each row adds at most one grant or one use; the chained head is hex.
+         pragma Loop_Invariant (Grant_Count < Position and then Use_Count < Position and then Hex (Previous));
          declare Row : constant E.Span := V.Element (D, Rows, Position - 1);
                  Seq : constant V.Count_Result := V.Nonnegative_Count (D, V.Element (D, Row, 1));
                  Event_JSON : constant String := Word (D, V.Element (D, Row, 3));
@@ -376,6 +441,7 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
                      Grants (Grant_Count) := Grant;
                      Index := Grant_Count;
                      while Index /= 0 loop
+                        pragma Loop_Invariant (Index <= Grant_Count);
                         pragma Loop_Variant (Increases => Count);
                         if Count = 8 then return False; end if;
                         Count := Count + 1;
@@ -442,16 +508,31 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       Paths : constant E.Span := F (Data, Current, "paths");
       Spec : constant E.Span := F (Data, Current, "installation");
       Root_Path : constant String := Word (Data, F (Data, F (Data, Spec, "paths"), "authority_root"));
-      State_Path : constant String := Root_Path & "/authority/issuer/state/";
-      Key_Field : constant E.Span := F (Data, Selected_Path (Data, Paths, State_Path & "issuer-key.bin"), "raw");
-      Policy_Field : constant E.Span := F (Data, Selected_Path (Data, Paths, State_Path & "policy.json"), "raw");
-      Head_Field : constant E.Span := F (Data, Selected_Path (Data, Paths, State_Path & "head.json"), "raw");
-      Table : constant E.Span := Events_Table (Data, F (Data, Selected_Path (Data, Paths, State_Path & "capabilities.sqlite"), "logical_database"));
+      State_Suffix : constant String := "/authority/issuer/state/";
+      Key_Name : constant String := "issuer-key.bin";
+      Policy_Name : constant String := "policy.json";
+      Head_Name : constant String := "head.json";
+      Capabilities_Name : constant String := "capabilities.sqlite";
+   begin
+      --  SPARK: refusal exactly where the original raised Constraint_Error while
+      --  elaborating the path concatenations below (a length past Natural'Last).
+      if Root_Path'Length > Natural'Last - State_Suffix'Length or else
+         Root_Path'Length + State_Suffix'Length > Natural'Last - Key_Name'Length or else
+         Root_Path'Length + State_Suffix'Length > Natural'Last - Policy_Name'Length or else
+         Root_Path'Length + State_Suffix'Length > Natural'Last - Head_Name'Length or else
+         Root_Path'Length + State_Suffix'Length > Natural'Last - Capabilities_Name'Length
+      then return False; end if;
+      declare
+      State_Path : constant String := Root_Path & State_Suffix;
+      Key_Field : constant E.Span := F (Data, Selected_Path (Data, Paths, State_Path & Key_Name), "raw");
+      Policy_Field : constant E.Span := F (Data, Selected_Path (Data, Paths, State_Path & Policy_Name), "raw");
+      Head_Field : constant E.Span := F (Data, Selected_Path (Data, Paths, State_Path & Head_Name), "raw");
+      Table : constant E.Span := Events_Table (Data, F (Data, Selected_Path (Data, Paths, State_Path & Capabilities_Name), "logical_database"));
       Intent : constant E.Span := F (Data, Profile, "issuer_intent");
       Temporaries : constant E.Span := F (Data, Profile, "issuer_head_temporaries");
       Projected : constant E.Span := F (Data, Profile, "issuer_head");
       Projection_Field : constant E.Span := F (Data, Profile, "issuer_head_raw");
-   begin
+      begin
       if Data'Length > E.Count (Natural'Last) or else Root_Path'Length = 0 or else
          not V.Is_Sequence (Data, Paths) or else not V.Valid_Bytes (Data, Key_Field) or else
          not V.Valid_Bytes (Data, Policy_Field) or else not V.Valid_Bytes (Data, Head_Field) or else
@@ -502,15 +583,39 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
                Issuer /= Grant.Authority_Id or else Grant.Parent_Id /= G.Zero_Digest then return False; end if;
          end;
          declare Schema : constant String := (if Schema_Node.Form = P.Boolean_Value then "true" else P.Number_Image (Head, Schema_Node));
-                 Base : constant E.Bytes := Bytes
-                   ("{""event_head"":" & J.Canonical_ASCII_Quote (P.Text (Head, Event_Node)) &
-                    ",""policy_sha256"":" & J.Canonical_ASCII_Quote (P.Text (Head, Hash_Node)) &
-                    ",""schema"":" & Schema & ",""sequence"":" & P.Number_Image (Head, Seq_Node) & "}");
+                 Event_Quote : constant String := J.Canonical_ASCII_Quote (P.Text (Head, Event_Node));
+                 Hash_Quote : constant String := J.Canonical_ASCII_Quote (P.Text (Head, Hash_Node));
+                 Mac_Quote : constant String := J.Canonical_ASCII_Quote (P.Text (Head, Mac_Node));
+                 Authority_Quote : constant String := J.Canonical_ASCII_Quote (Authority);
+                 Sequence_Image : constant String := P.Number_Image (Head, Seq_Node);
+                 Event_Key : constant String := "{""event_head"":";
+                 Hash_Key : constant String := ",""policy_sha256"":";
+                 Schema_Key : constant String := ",""schema"":";
+                 Sequence_Key : constant String := ",""sequence"":";
+                 Close : constant String := "}";
+                 Authority_Key : constant String := "{""authority"":";
+                 Projected_Event_Key : constant String := ",""event_head"":";
+                 Mac_Key : constant String := ",""head_mac"":";
+                 subtype Total is Long_Long_Integer;
+         begin
+            --  SPARK: refusal exactly where the original raised Constraint_Error while
+            --  elaborating Base or Projected_JSON (a concatenation past Natural'Last).
+            if Total (Event_Key'Length) + Total (Event_Quote'Length) + Total (Hash_Key'Length) +
+               Total (Hash_Quote'Length) + Total (Schema_Key'Length) + Total (Schema'Length) +
+               Total (Sequence_Key'Length) + Total (Sequence_Image'Length) + Total (Close'Length) > Total (Natural'Last) or else
+               Total (Authority_Key'Length) + Total (Authority_Quote'Length) + Total (Projected_Event_Key'Length) +
+               Total (Event_Quote'Length) + Total (Mac_Key'Length) + Total (Mac_Quote'Length) +
+               Total (Sequence_Key'Length) + Total (Sequence_Image'Length) + Total (Close'Length) > Total (Natural'Last)
+            then return False; end if;
+         declare Base : constant E.Bytes := Bytes
+                   (Event_Key & Event_Quote &
+                    Hash_Key & Hash_Quote &
+                    Schema_Key & Schema & Sequence_Key & Sequence_Image & Close);
                  Projected_JSON : constant E.Bytes := Bytes
-                   ("{""authority"":" & J.Canonical_ASCII_Quote (Authority) &
-                    ",""event_head"":" & J.Canonical_ASCII_Quote (P.Text (Head, Event_Node)) &
-                    ",""head_mac"":" & J.Canonical_ASCII_Quote (P.Text (Head, Mac_Node)) &
-                    ",""sequence"":" & P.Number_Image (Head, Seq_Node) & "}");
+                   (Authority_Key & Authority_Quote &
+                    Projected_Event_Key & Event_Quote &
+                    Mac_Key & Mac_Quote &
+                    Sequence_Key & Sequence_Image & Close);
                  Captured : constant E.Bytes := Raw (Data, Projection_Field); begin
             return P.Text (Head, Mac_Node) = Hex_Image (H.Mac (Key, Base, (Key'First, Key'Length), (Base'First, Base'Length), "COSMOGONY-PROTECTED-ISSUER-HEAD-v1" & Character'Val (0))) and then
               Captured = Projected_JSON and then
@@ -522,6 +627,8 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
               J.Raw_JSON_Scoped_Equal (Projected_JSON, Data, (Projected_JSON'First, Projected_JSON'Length), Projected) and then
               Replay (Data, F (Data, Table, "rows"), Number (Head, Seq_Node), P.Text (Head, Event_Node));
          end;
+         end;
+      end;
       end;
    end Corresponds;
 end Worldline.Startup_Issuer_Source;

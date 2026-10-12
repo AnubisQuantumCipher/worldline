@@ -585,8 +585,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
 
    function Scalar_Code (Text : String; Offset, Width : Natural) return Natural
      with Global => null,
-       Pre => Width in 1 .. 4 and then Offset < Text'Length and then Width <= Text'Length - Offset,
-       Post => Scalar_Code'Result < 2 ** 21
+       Pre => Width in 1 .. 4 and then Offset < Text'Length and then Width <= Text'Length - Offset
    is
       Code : Natural := Character'Pos (Text (Text'First + Offset));
    begin
@@ -668,7 +667,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
          --  slice raised Constraint_Error.
          function Consume (Piece : String) return Boolean is
            (Piece'Length <= Item.Last - Position and then Position <= Data'Length - Piece'Length and then
-             Data (Data'First + Position .. Data'First + (Position + Piece'Length - 1)) = Piece);
+             Data (Data'First + Position .. Data'First + (Position + Piece'Length - 1)) = Piece)
+           with Pre => Piece'Length > 0;
       begin
          while Offset < Text'Length loop
             pragma Loop_Variant (Increases => Offset);

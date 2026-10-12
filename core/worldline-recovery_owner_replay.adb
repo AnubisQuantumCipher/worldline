@@ -372,9 +372,8 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
       end if;
    end Replay_Retry;
 
-   function Arena_Last (Data : E.Bytes; Owner : E.Span; Retry : Boolean)
-      return E.Count with Global => null, Pre => Data'First >= 1,
-        Post => Arena_Last'Result >= Data'Last is
+   function Arena_Needed (Data : E.Bytes; Owner : E.Span; Retry : Boolean)
+      return E.Count with Global => null, Post => Arena_Needed'Result >= Data'Length is
       Needed : E.Count := E.Count'Max
         (Data'Length, M.Arena_Length (Data, RA.Field (Data, Owner, "before_material")));
    begin
@@ -382,6 +381,23 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
          Needed := E.Count'Max (Needed,
            M.Arena_Length (Data, RA.Field (Data, Owner, "after_material")));
       end if;
+      return Needed;
+   end Arena_Needed;
+   --  SPARK: exactly the inputs on which Arena_Last and the Arena declarations that
+   --  use it do not raise Constraint_Error (a null Data may have bounds outside
+   --  E.Count and Byte_Index).
+   function Arena_Representable (Data : E.Bytes; Owner : E.Span; Retry : Boolean)
+      return Boolean is
+     (Data'First >= 1 and then
+      (Data'Last >= 0 or else
+       (Arena_Needed (Data, Owner, Retry) /= 0 and then
+        Arena_Needed (Data, Owner, Retry) - 1 <= E.Count'Last - Data'First)))
+     with Global => null;
+   function Arena_Last (Data : E.Bytes; Owner : E.Span; Retry : Boolean)
+      return E.Count with Global => null, Pre => Arena_Representable (Data, Owner, Retry),
+        Post => Arena_Last'Result >= Data'Last is
+      Needed : constant E.Count := Arena_Needed (Data, Owner, Retry);
+   begin
       --  This is an index-representation check, not an epoch/roster limit.
       --  A material arena which cannot be represented stays undersized and
       --  Classify_All returns its native material refusal.
@@ -408,9 +424,9 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
                RA.Field (Data, Primary, "authorityMaterial"))
            or else not RA.Equal (Data, Data, RA.Field (Data, Owner, "prepared"), Prepared)
          then return False; end if;
-         --  SPARK: refusal exactly where the original raised Constraint_Error: a null
-         --  Data whose bounds lie outside the index subtype (Arena_Last or this Arena).
-         if Data'First < 1 then return False; end if;
+         --  SPARK: refusal exactly where the original raised Constraint_Error (Arena_Last
+         --  or the Arena declaration, for a null Data with out-of-subtype bounds).
+         if not Arena_Representable (Data, Owner, True) then return False; end if;
          declare
             Arena : E.Bytes (Data'First .. Arena_Last (Data, Owner, True)) := (others => 0);
             Before : H.History (1 .. M.Row_Count (Data, RA.Field (Data, Owner, "before_material")));
@@ -476,9 +492,9 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
          or else not Original.Present or else not Same_Operands (Original.Raw, Derived)
          or else not CW.Well_Formed (Derived) then return Malformed; end if;
       if Text_Is (Data, RA.Field (Data, Owner, "mode"), "RETRY_EVALUATION") then
-         --  SPARK: refusal exactly where the original raised Constraint_Error: a null
-         --  Data whose bounds lie outside the index subtype (Arena_Last or this Arena).
-         if Data'First < 1 then return Malformed; end if;
+         --  SPARK: refusal exactly where the original raised Constraint_Error (Arena_Last
+         --  or the Arena declaration, for a null Data with out-of-subtype bounds).
+         if not Arena_Representable (Data, Owner, True) then return Malformed; end if;
          declare
             Arena : E.Bytes (Data'First .. Arena_Last (Data, Owner, True)) := (others => 0);
             Before : H.History (1 .. M.Row_Count (Data, RA.Field (Data, Owner, "before_material")));
@@ -503,13 +519,13 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
          end;
       elsif Text_Is (Data, RA.Field (Data, Owner, "mode"), "ADOPT_REQUIREMENT")
          or else Text_Is (Data, RA.Field (Data, Owner, "mode"), "CHECKPOINT_EQUAL") then
-         --  SPARK: refusal exactly where the original raised Constraint_Error: a null
-         --  Data whose bounds lie outside the index subtype (Arena_Last or this Arena).
-         if Data'First < 1 and then Text_Is (Data, RA.Field (Data, Owner, "mode"), "ADOPT_REQUIREMENT") then
-            return Malformed;
-         end if;
          declare
             Adopt : constant Boolean := Text_Is (Data, RA.Field (Data, Owner, "mode"), "ADOPT_REQUIREMENT");
+         begin
+         --  SPARK: refusal exactly where the original raised Constraint_Error (Arena_Last
+         --  or the Arena declaration, for a null Data with out-of-subtype bounds).
+         if Adopt and then not Arena_Representable (Data, Owner, False) then return Malformed; end if;
+         declare
             Count : constant E.Count := (if Adopt then M.Row_Count
               (Data, RA.Field (Data, Owner, "before_material")) else 0);
             Arena : E.Bytes (Data'First ..
@@ -541,6 +557,7 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
             if not CW.Hash_Well_Formed (Resulting) then return Input_Invalid; end if;
             return Join_Status (C.Authorize_Checkpoint
               (Arena, Rows, Finalization, CW.Decode (Derived), CW.Requirement (Resulting), Scope, Optional_Adopt));
+         end;
          end;
       else return Malformed;
       end if;
