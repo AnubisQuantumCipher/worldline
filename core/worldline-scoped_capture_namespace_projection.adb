@@ -166,7 +166,7 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
    function Map_Line_End (Raw : E.Bytes; Start : E.Count) return E.Count is
       Finish : E.Count := Start;
    begin
-      while Finish <= Raw'Last and then Raw (Finish) /= 10 loop Finish := Finish + 1; end loop;
+      while Finish <= Raw'Last and then Raw (Finish) /= 10 loop pragma Loop_Variant (Increases => Finish); Finish := Finish + 1; end loop;
       return Finish;
    end Map_Line_End;
    function Map_Valid (Raw : E.Bytes) return Boolean is
@@ -174,6 +174,7 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
       Limit : constant Big_Integer := To_Big_Integer (2) ** 32 - To_Big_Integer (1);
    begin
       while Start <= Raw'Last loop
+         pragma Loop_Variant (Increases => Start);
          declare Finish : constant E.Count := Map_Line_End (Raw, Start);
                  Line : constant E.Span := (Start, Finish - Start);
                  A : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Line, 1));
@@ -184,6 +185,7 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
               or else N <= To_Big_Integer (0) or else A + N > Limit or else B + N > Limit
               or else P.Word (Raw, Line, 4).Length /= 0 then return False; end if;
             while Prior < Start loop
+               pragma Loop_Variant (Increases => Prior);
                declare Stop : constant E.Count := Map_Line_End (Raw, Prior);
                        Other : constant E.Span := (Prior, Stop - Prior);
                        C : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Other, 1));
@@ -202,6 +204,7 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
       Start : E.Count := Raw'First;
    begin
       while Start <= Raw'Last loop
+         pragma Loop_Variant (Increases => Start);
          declare Finish : constant E.Count := Map_Line_End (Raw, Start);
                  Line : constant E.Span := (Start, Finish - Start);
                  A : constant Big_Integer := P.Decimal (Raw, P.Word (Raw, Line, 1));
@@ -269,9 +272,10 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
    begin
       if not E.C.P.Valid (Raw, Item) then return Last; end if;
       while Position < Item.Length loop
-         while Position < Item.Length and then Raw (Item.First + Position) in 9 | 32 loop Position := Position + 1; end loop;
+         pragma Loop_Variant (Increases => Position);
+         while Position < Item.Length and then Raw (Item.First + Position) in 9 | 32 loop pragma Loop_Variant (Increases => Position); Position := Position + 1; end loop;
          declare Start : constant E.Count := Position; begin
-            while Position < Item.Length and then Raw (Item.First + Position) not in 9 | 32 loop Position := Position + 1; end loop;
+            while Position < Item.Length and then Raw (Item.First + Position) not in 9 | 32 loop pragma Loop_Variant (Increases => Position); Position := Position + 1; end loop;
             if Position > Start then
                Last := P.Decimal (Raw, (Item.First + Start, Position - Start));
                if Last <= To_Big_Integer (0) then return To_Big_Integer (-1); end if;
@@ -297,7 +301,7 @@ package body Worldline.Scoped_Capture_Namespace_Projection with SPARK_Mode is
       Local : constant Big_Integer := Num (Data, F (Data, Measured, "namespace_pid"));
       S_Node : constant E.Span := Node (Data, Sender, "pid");
       R_Node : constant E.Span := Node (Data, Receiver, "pid");
-      Worker : E.Span := (1, 0);
+      Worker : E.Span;
    begin
       if not R.Archive_Record_Is (Data, Process, "ProcessObservation")
         or else not R.Archive_Record_Is (Data, Original, "ProcessObservation")

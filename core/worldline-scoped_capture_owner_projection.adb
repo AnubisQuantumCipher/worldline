@@ -84,6 +84,7 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       Place : Big_Integer := To_Big_Integer (1);
    begin
       while Remaining > 0 loop
+         pragma Loop_Variant (Decreases => Remaining);
          Expected := Expected + To_Big_Integer (Integer (Remaining mod 256)) * Place;
          Place := Place * To_Big_Integer (256); Remaining := Remaining / 256;
       end loop;
@@ -824,6 +825,7 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
                declare Parent : E.Span := Cell (Data, Worlds, Element (Data, World_Rows, I - 1), "parent_instance");
                        Steps : E.Count := 0; begin
                   while not Is_None (Data, Parent) loop
+                     pragma Loop_Variant (Increases => Steps);
                      if Steps >= Len (Data, World_Rows) then return False; end if;
                      Steps := Steps + 1;
                      if Same (Data, Parent, Target) then Total := Total + 1; exit; end if;

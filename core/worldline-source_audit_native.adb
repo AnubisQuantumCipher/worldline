@@ -113,8 +113,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
          if Path'Length = 0 or else Path (Path'First) = '/' or else
             (for some C of Path => C = Character'Val (0)) then return False; end if;
          while First < Path'Length loop
+            pragma Loop_Variant (Increases => First);
             Last := First;
-            while Last < Path'Length and then Path (Path'First + Last) /= '/' loop Last := Last + 1; end loop;
+            while Last < Path'Length and then Path (Path'First + Last) /= '/' loop pragma Loop_Variant (Increases => Last); Last := Last + 1; end loop;
             if Last = First or else Path (Path'First + First .. Path'First + Last - 1) in "." | ".." then return False; end if;
             exit when Last = Path'Length;
             First := Last + 1;
@@ -323,7 +324,8 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                function A (Item : V.Node; Name : String) return V.Node is (F (F (Item, "fields"), Name));
                function AS (Item : V.Node; Name : String) return String is (V.Text (Data, A (Item, Name)));
                function K (Item : V.Node) return String is (S (Item, "kind"));
-               function Alias (Name, Active : String) return Boolean is
+               function Alias (Name, Active : String) return Boolean
+                 with Subprogram_Variant => (Increases => Active'Length) is
                begin
                   if Name = "__all__" then return True; end if;
                   if Contains (Active, "|" & Name & "|") then return False; end if;

@@ -39,12 +39,13 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
          Component : Natural := Start;
       begin
          for K in Start .. Group'Last loop
+            pragma Loop_Invariant (Component in Start .. K);
             if Group (K) = '/' then
-               if K = Component or else Group (Component .. K - 1) in "." | ".." then return False; end if;
+               if K = Component or else Group (Component .. K - 1) = "." or else Group (Component .. K - 1) = ".." then return False; end if;
                Component := K + 1;
             end if;
          end loop;
-         return Component <= Group'Last and then Group (Component .. Group'Last) not in "." | "..";
+         return Component <= Group'Last and then Group (Component .. Group'Last) /= "." and then Group (Component .. Group'Last) /= "..";
       end;
    end Identity_Valid;
    function Space (C : Character) return Boolean is
@@ -52,7 +53,8 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
    function Break (C : Character) return Boolean is
      (Character'Pos (C) in 10 .. 13 | 28 .. 30);
    function Events_State (Events : String) return Natural is
-      P : Natural := Events'First;
+      -- Total for an empty Events of any bounds; equal to Events'First otherwise.
+      P : Natural := Natural'Max (1, Events'First);
       Populated : Boolean := False;
       Empty_Group : Boolean := False;
    begin
@@ -60,12 +62,20 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
       for C of Events loop
          if Character'Pos (C) > 127 then return 0; end if;
       end loop;
+      -- The original raised Constraint_Error (P + 1) on every such text that reached
+      -- its last line; every other such text already returned 0. Refuse exactly those.
+      if Events'Last = Natural'Last then return 0; end if;
       while P <= Events'Last loop
+         pragma Loop_Variant (Increases => P);
+         pragma Loop_Invariant (P >= Events'First);
          declare
             Line_Start : constant Natural := P;
             Line_End, Key_Start, Key_End, Value_Start, Value_End : Natural;
          begin
-            while P <= Events'Last and then not Break (Events (P)) loop P := P + 1; end loop;
+            while P <= Events'Last and then not Break (Events (P)) loop
+               pragma Loop_Invariant (P in Line_Start .. Events'Last); pragma Loop_Variant (Increases => P);
+               P := P + 1;
+            end loop;
             Line_End := P;
             if P <= Events'Last then
                P := P + 1;
@@ -73,13 +83,23 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
                  and then Events (P) = Character'Val (10) then P := P + 1; end if;
             end if;
             Key_Start := Line_Start;
-            while Key_Start < Line_End and then Space (Events (Key_Start)) loop Key_Start := Key_Start + 1; end loop;
+            while Key_Start < Line_End and then Space (Events (Key_Start)) loop
+               pragma Loop_Invariant (Key_Start in Line_Start .. Line_End); pragma Loop_Variant (Increases => Key_Start);
+               Key_Start := Key_Start + 1;
+            end loop;
             Key_End := Key_Start;
-            while Key_End < Line_End and then not Space (Events (Key_End)) loop Key_End := Key_End + 1; end loop;
+            while Key_End < Line_End and then not Space (Events (Key_End)) loop
+               pragma Loop_Invariant (Key_End in Key_Start .. Line_End); pragma Loop_Variant (Increases => Key_End);
+               Key_End := Key_End + 1;
+            end loop;
             Value_Start := Key_End;
-            while Value_Start < Line_End and then Space (Events (Value_Start)) loop Value_Start := Value_Start + 1; end loop;
+            while Value_Start < Line_End and then Space (Events (Value_Start)) loop
+               pragma Loop_Invariant (Value_Start in Key_End .. Line_End); pragma Loop_Variant (Increases => Value_Start);
+               Value_Start := Value_Start + 1;
+            end loop;
             Value_End := Value_Start;
             while Value_End < Line_End and then not Space (Events (Value_End)) loop
+               pragma Loop_Invariant (Value_End in Value_Start .. Line_End); pragma Loop_Variant (Increases => Value_End);
                if Events (Value_End) not in '0' .. '9' then return 0; end if;
                Value_End := Value_End + 1;
             end loop;
@@ -87,7 +107,10 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
             declare
                Q : Natural := Value_End;
             begin
-               while Q < Line_End and then Space (Events (Q)) loop Q := Q + 1; end loop;
+               while Q < Line_End and then Space (Events (Q)) loop
+                  pragma Loop_Invariant (Q in Value_End .. Line_End); pragma Loop_Variant (Increases => Q);
+                  Q := Q + 1;
+               end loop;
                if Q /= Line_End then return 0; end if;
             end;
             -- Compare keys against earlier complete lines, not a bounded map.
@@ -95,14 +118,25 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
                Q : Natural := Events'First;
             begin
                while Q < Line_Start loop
-                  while Q < Line_Start and then Space (Events (Q)) loop Q := Q + 1; end loop;
+                  pragma Loop_Variant (Increases => Q);
+                  pragma Loop_Invariant (Q in Events'First .. Line_Start);
+                  while Q < Line_Start and then Space (Events (Q)) loop
+                     pragma Loop_Invariant (Q in Q'Loop_Entry .. Line_Start); pragma Loop_Variant (Increases => Q);
+                     Q := Q + 1;
+                  end loop;
                   declare
                      A : constant Natural := Q;
                   begin
-                     while Q < Line_Start and then not Space (Events (Q)) loop Q := Q + 1; end loop;
+                     while Q < Line_Start and then not Space (Events (Q)) loop
+                        pragma Loop_Invariant (Q in A .. Line_Start); pragma Loop_Variant (Increases => Q);
+                        Q := Q + 1;
+                     end loop;
                      if Q > A and then Events (A .. Q - 1) = Events (Key_Start .. Key_End - 1) then return 0; end if;
                   end;
-                  while Q < Line_Start and then not Break (Events (Q)) loop Q := Q + 1; end loop;
+                  while Q < Line_Start and then not Break (Events (Q)) loop
+                     pragma Loop_Invariant (Q in Q'Loop_Entry .. Line_Start); pragma Loop_Variant (Increases => Q);
+                     Q := Q + 1;
+                  end loop;
                   if Q < Line_Start then Q := Q + 1; end if;
                end loop;
             end;
@@ -169,7 +203,8 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
             if P (Name).Form /= V.Boolean_Value or else V.Is_True (Capture, P (Name)) /= Expected then return "unowned"; end if;
             return "continue";
          end Gate;
-         function One_Gate (Name, Action : String) return String is
+         function One_Gate (Name, Action : String) return String
+           with Pre => Name'Length <= Natural'Last - 9 and then Action'Length <= Natural'Last - 8 is
             N : constant V.Node := P (Name);
          begin
             if not V.Present (N) then return Action; end if;
@@ -240,6 +275,7 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
                   if not V.Equal (Capture, V.Element (Capture, Args, 1), Capture, F ("systemdRun"))
                     or else V.Count (Capture, Options) /= Stop - 1 then return "unowned"; end if;
                   for K in 1 .. V.Count (Capture, Options) loop
+                     pragma Loop_Invariant (Units < K and then Prefixes < K and then Pipes < K);
                      if not V.Equal (Capture, V.Element (Capture, Args, K + 1), Capture, V.Element (Capture, Options, K)) then return "unowned"; end if;
                      declare A : constant String := V.Text (Capture, V.Element (Capture, Options, K));
                      begin
