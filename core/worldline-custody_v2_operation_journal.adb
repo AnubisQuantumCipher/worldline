@@ -41,6 +41,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    use type Interfaces.Unsigned_32;
    Domain : constant String := "worldline-protected-canonical-operations-v1" &
       Ada.Characters.Latin_1.NUL;
+   -- GNATprove 16.1 treats two occurrences of one string literal as distinct
+   -- terms; one shared field name lets each guard discharge its precondition.
+   Value_Field : constant String := "value";
    function F (Data : E.Bytes; Item : E.Span; Name : String) return E.Span
      renames R.Archive_Field;
    function Same (Data : E.Bytes; Left, Right : E.Span) return Boolean is
@@ -51,17 +54,21 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
      (J.P.Valid (Left_Data, Left) and then J.P.Valid (Right_Data, Right) and then
       Left.Length = Right.Length and then
       (for all I in E.Count range 1 .. Left.Length =>
-         Left_Data (Left.First + I - 1) = Right_Data (Right.First + I - 1)));
+         Left_Data (Left.First + (I - 1)) = Right_Data (Right.First + (I - 1))));
    function JF (Data : E.Bytes; Item : E.Span; Name : String) return E.Span is
      (J.Canonical_JSON_Field (Data, Item, Name));
-   function JSON (Data : E.Bytes; Item : E.Span) return E.Span is
+   function JSON (Data : E.Bytes; Item : E.Span) return E.Span
+     with Global => null
+   is
    begin
       if not J.P.Valid (Data, Item) or else Item.Length = 0 then return (1, 0); end if;
-      if Data (Item.First + Item.Length - 1) = Character'Pos (Ada.Characters.Latin_1.LF)
+      if Data (Item.First + (Item.Length - 1)) = Character'Pos (Ada.Characters.Latin_1.LF)
       then return J.Part (Item, 0, Item.Length - 1); end if;
       return Item;
    end JSON;
-   function JSON_Count (Data : E.Bytes; Item : E.Span) return E.Count is
+   function JSON_Count (Data : E.Bytes; Item : E.Span) return E.Count
+     with Global => null
+   is
       Node : constant J.JSON_Node := J.JSON_Prefix (Data, Item, 0);
       Offset : E.Count := 1;
       Found : E.Count := 0;
@@ -70,6 +77,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       if not Node.Valid or else Node.After /= Item.Length or else
          Node.Form not in J.Object_JSON_Value | J.Array_JSON_Value then return 0; end if;
       while Offset < Item.Length - 1 loop
+         pragma Loop_Invariant (Found < Offset);
          pragma Loop_Variant (Decreases => Item.Length - Offset);
          if Node.Form = J.Object_JSON_Value then
             Key := J.JSON_Prefix (Data, Item, Offset);
@@ -84,7 +92,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Found;
    end JSON_Count;
-   function JA (Data : E.Bytes; Item : E.Span; Ordinal : E.Count) return E.Span is
+   function JA (Data : E.Bytes; Item : E.Span; Ordinal : E.Count) return E.Span
+     with Global => null
+   is
       Node : constant J.JSON_Node := J.JSON_Prefix (Data, Item, 0);
       Offset : E.Count := 1;
       Index : E.Count := 0;
@@ -93,6 +103,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       if not Node.Valid or else Node.After /= Item.Length or else
          Node.Form /= J.Array_JSON_Value then return (1, 0); end if;
       while Offset < Item.Length - 1 loop
+         pragma Loop_Invariant (Index < Offset);
          pragma Loop_Variant (Decreases => Item.Length - Offset);
          Child := J.JSON_Prefix (Data, Item, Offset);
          if not Child.Valid or else Child.After <= Offset then return (1, 0); end if;
@@ -103,13 +114,19 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return (1, 0);
    end JA;
+   -- Names is always a non-empty literal roster; the bound lets the comma
+   -- scan prove its string arithmetic. A True result has checked Item's span.
    function JSON_Keys (Data : E.Bytes; Item : E.Span; Names : String;
-                       Count : E.Count) return Boolean is
+                       Count : E.Count) return Boolean
+     with Global => null, Pre => Names'Length > 0 and then Names'Last < Positive'Last,
+       Post => (if JSON_Keys'Result then J.P.Valid (Data, Item))
+   is
       Start : Positive := Names'First;
    begin
       if not J.Canonical_JSON_Valid (Data, Item) or else JSON_Count (Data, Item) /= Count or else
          J.JSON_Prefix (Data, Item, 0).Form /= J.Object_JSON_Value then return False; end if;
       for I in Names'Range loop
+         pragma Loop_Invariant (Start in Names'First .. I);
          pragma Loop_Variant (Increases => I);
          if Names (I) = ',' then
             if I = Start or else JF (Data, Item, Names (Start .. I - 1)).Length = 0 then return False; end if;
@@ -124,7 +141,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                          JSON_Value, Encoded : E.Span) return Boolean is
      (J.Scoped_Archive_JSON_Matches (JSON_Data, Archive_Data, JSON_Value, Encoded) =
          J.Typed_Tree_Matches_Source_Custody_Open);
-   function Hex_Matches (Text : E.Bytes; Sum : H.SHA.Digest) return Boolean is
+   function Hex_Matches (Text : E.Bytes; Sum : H.SHA.Digest) return Boolean
+     with Global => null
+   is
       Hex_Digits : constant String := "0123456789abcdef";
    begin
       return Text'Length = Sum'Length * 2 and then
@@ -138,12 +157,14 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       return Boolean is
      (V.Valid_Text (Data, Item) and then Hex_Matches (V.Text_Value (Data, Item), Sum));
    function Digest_JSON (Data : E.Bytes; Item : E.Span; Sum : H.SHA.Digest)
-      return Boolean is
+      return Boolean
+     with Global => null
+   is
    begin
       if not J.P.Valid (Data, Item) or else Item.Length /= Sum'Length * 2 + 2 or else
          Data (Item.First) /= Character'Pos ('"') or else
-         Data (Item.First + Item.Length - 1) /= Character'Pos ('"') then return False; end if;
-      return Hex_Matches (Data (Item.First + 1 .. Item.First + Item.Length - 2), Sum);
+         Data (Item.First + (Item.Length - 1)) /= Character'Pos ('"') then return False; end if;
+      return Hex_Matches (Data (Item.First + 1 .. Item.First + (Item.Length - 2)), Sum);
    end Digest_JSON;
    function Envelope_Authenticated
      (Key_Data, JSON_Data : E.Bytes; Key, Envelope : E.Span;
@@ -177,7 +198,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          when Absent => return False;
       end case;
    end Transition_Allowed;
-   function Cause (Data : E.Bytes; Event : E.Span) return Journal_State is
+   function Cause (Data : E.Bytes; Event : E.Span) return Journal_State
+     with Global => null
+   is
       Name : constant E.Span := F (Data, Event, "cause");
    begin
       for State in Reserved .. Resolved_No_Effect loop
@@ -194,10 +217,31 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          when Released | Resolved_No_Effect => E.Text_Is (Data, E.Decode (Data, Item, E.Operation), "RELEASED"),
          when Quarantined => E.Text_Is (Data, E.Decode (Data, Item, E.Operation), "QUARANTINED"),
          when Absent => False);
-   function Raw_Hex (Data : E.Bytes; Item : E.Span) return E.Bytes is
-     (V.Hex_Value (Data, Item, "value"))
-     with Pre => V.Valid_Text (Data, Item) and then V.Valid_Hex_Field (Data, Item, "value");
-   function Sequence_Count (Data : E.Bytes; Item : E.Span) return E.Count is
+   -- Hex_Value already returns a 1-based array; the slide publishes that
+   -- bound so (First, Length) spans over the result are provably well formed.
+   function Raw_Hex (Data : E.Bytes; Item : E.Span) return E.Bytes
+     with Global => null,
+       Pre => V.Valid_Text (Data, Item) and then V.Valid_Hex_Field (Data, Item, Value_Field),
+       Post => Raw_Hex'Result'First = 1
+   is
+      Raw : constant E.Bytes := V.Hex_Value (Data, Item, Value_Field);
+      Slid : constant E.Bytes (1 .. Raw'Length) := Raw;
+   begin
+      return Slid;
+   end Raw_Hex;
+   -- V.Bytes_Value (Hex_Value) likewise returns a 1-based array.
+   function Bytes_Of (Data : E.Bytes; Item : E.Span) return E.Bytes
+     with Global => null, Pre => V.Valid_Bytes (Data, Item),
+       Post => Bytes_Of'Result'First = 1
+   is
+      Raw : constant E.Bytes := V.Bytes_Value (Data, Item);
+      Slid : constant E.Bytes (1 .. Raw'Length) := Raw;
+   begin
+      return Slid;
+   end Bytes_Of;
+   function Sequence_Count (Data : E.Bytes; Item : E.Span) return E.Count
+     with Global => null
+   is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if S.Valid (Data, Item) then return V.Count (Data, Item); end if;
@@ -205,7 +249,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          return E.Array_Length (Data, View.Children); end if;
       return 0;
    end Sequence_Count;
-   function Element (Data : E.Bytes; Item : E.Span; Ordinal : E.Count) return E.Span is
+   function Element (Data : E.Bytes; Item : E.Span; Ordinal : E.Count) return E.Span
+     with Global => null
+   is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if S.Valid (Data, Item) then return V.Element (Data, Item, Ordinal); end if;
@@ -213,7 +259,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          return E.Array_Element (Data, View.Children, Ordinal); end if;
       return (1, 0);
    end Element;
-   function Path_Entry (Data : E.Bytes; Paths, Word : E.Span) return E.Span is
+   function Path_Entry (Data : E.Bytes; Paths, Word : E.Span) return E.Span
+     with Global => null
+   is
       Found : E.Span := (1, 0);
    begin
       for I in E.Count range 1 .. V.Count (Data, Paths) loop
@@ -227,17 +275,21 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Found;
    end Path_Entry;
-   function Joined (Data : E.Bytes; Word, Base : E.Span; Suffix : String) return Boolean is
+   function Joined (Data : E.Bytes; Word, Base : E.Span; Suffix : String) return Boolean
+     with Global => null
+   is
    begin
       if not V.Valid_Text (Data, Word) or else not V.Valid_Text (Data, Base) then return False; end if;
       declare W : constant E.Bytes := V.Text_Value (Data, Word);
               B : constant E.Bytes := V.Text_Value (Data, Base); begin
          return W'Length >= B'Length and then W'Length - B'Length = Suffix'Length and then
-           (for all I in E.Count range 1 .. B'Length => W (W'First + I - 1) = B (B'First + I - 1)) and then
+           (for all I in E.Count range 1 .. B'Length => W (W'First + (I - 1)) = B (B'First + (I - 1))) and then
            (for all I in Suffix'Range => W (W'First + B'Length + E.Count (I - Suffix'First)) = Character'Pos (Suffix (I)));
       end;
    end Joined;
-   function Suffix_Entry (Data : E.Bytes; Paths, Base : E.Span; Suffix : String) return E.Span is
+   function Suffix_Entry (Data : E.Bytes; Paths, Base : E.Span; Suffix : String) return E.Span
+     with Global => null
+   is
       Found : E.Span := (1, 0);
    begin
       for I in E.Count range 1 .. V.Count (Data, Paths) loop
@@ -251,10 +303,14 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Found;
    end Suffix_Entry;
-   function Internal_Table_Name (Data : E.Bytes; Item : E.Span) return Boolean;
+   function Internal_Table_Name (Data : E.Bytes; Item : E.Span) return Boolean
+     with Global => null;
    type Column_Visibility is (Malformed_Column, Visible_Column, Hidden_Column);
-   function Visibility (Data : E.Bytes; Column : E.Span) return Column_Visibility;
-   function Row_Value (Data : E.Bytes; Row : E.Span; Ordinal, Width : E.Count) return E.Span is
+   function Visibility (Data : E.Bytes; Column : E.Span) return Column_Visibility
+     with Global => null;
+   function Row_Value (Data : E.Bytes; Row : E.Span; Ordinal, Width : E.Count) return E.Span
+     with Global => null
+   is
    begin
       if V.Is_Sequence (Data, Row) and then V.Count (Data, Row) = Width - 1 and then
          Ordinal in 2 .. Width
@@ -264,8 +320,12 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          return (1, 0);
       end if;
    end Row_Value;
+   -- Columns is always a non-empty literal roster; the bound lets the comma
+   -- scan prove its string arithmetic.
    function Table_Row (Data : E.Bytes; Database : E.Span; Name, Columns : String;
-                       Column_Count : E.Count) return E.Span is
+                       Column_Count : E.Count) return E.Span
+     with Global => null, Pre => Columns'Length > 0 and then Columns'Last < Positive'Last
+   is
       Tables : constant E.Span := F (Data, Database, "tables");
       Selection : constant E.Span := F (Data, F (Data, Database, "operation_named_rows"),
          (if Name = "canonical_operation_head" then "head" else "admission"));
@@ -287,6 +347,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          not V.Is_Sequence (Data, Arguments) or else V.Count (Data, Arguments) /= 1 or else
          not S.Text_Is (Data, V.Element (Data, Arguments, 0), "worldline-operations") then return (1, 0); end if;
       for I in E.Count range 1 .. V.Count (Data, Tables) loop
+         pragma Loop_Invariant (for all P of Positions => P < E.Count'Last);
          declare Item : constant E.Span := V.Element (Data, Tables, I - 1);
                  Cols : constant E.Span := F (Data, Item, "columns");
                  Rows : constant E.Span := F (Data, Item, "rows"); begin
@@ -300,6 +361,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                   not V.Is_Sequence (Data, Rows) then return (1, 0); end if;
                Table_Found := True; Visible := 0;
                for K in E.Count range 1 .. V.Count (Data, Cols) loop
+                  pragma Loop_Invariant (for all P of Positions => P < E.Count'Last);
+                  pragma Loop_Invariant (Visible <= Column_Count);
                   case Visibility (Data, V.Element (Data, Cols, K - 1)) is
                      when Malformed_Column => return (1, 0);
                      when Hidden_Column => null;
@@ -311,12 +374,18 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                if Visible /= Column_Count then return (1, 0); end if;
                Start := Columns'First; Visible := 1;
                for K in Columns'Range loop
+                  pragma Loop_Invariant (Start in Columns'First .. K);
+                  pragma Loop_Invariant (Visible in 1 .. E.Count (K - Columns'First) + 1);
                   if Columns (K) = ',' then
+                     -- A roster with more names than Column_Count has no
+                     -- position to read: refused where indexing raised.
+                     if Visible > Column_Count then return (1, 0); end if;
                      if not S.Text_Is (Data, V.Element (Data, V.Element (Data, Cols, Positions (Visible)), 1),
                         Columns (Start .. K - 1)) then return (1, 0); end if;
                      Start := K + 1; Visible := Visible + 1;
                   end if;
                end loop;
+               if Visible > Column_Count then return (1, 0); end if;
                if not S.Text_Is (Data, V.Element (Data, V.Element (Data, Cols, Positions (Visible)), 1),
                   Columns (Start .. Columns'Last)) then return (1, 0); end if;
                -- The original table_info excludes generated/hidden columns.
@@ -327,6 +396,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                -- collation; do not replace that recorded query by byte equality.
                -- Its exact projected result must occur in the full source rows.
                for K in E.Count range 1 .. V.Count (Data, Rows) loop
+                  -- Width + 1 below overflowed exactly when Width = Count'Last.
+                  if V.Count (Data, Cols) = E.Count'Last then return (1, 0); end if;
                   declare
                      Row : constant E.Span := V.Element (Data, Rows, K - 1);
                      Width : constant E.Count := V.Count (Data, Cols);
@@ -350,13 +421,19 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end if;
    end Table_Row;
    function Row_Bytes (Data : E.Bytes; Row : E.Span; Ordinal, Width : E.Count;
-                       Raw : E.Bytes) return Boolean is
+                       Raw : E.Bytes) return Boolean
+     with Global => null
+   is
       Item : constant E.Span := Row_Value (Data, Row, Ordinal, Width);
    begin
-      return V.Valid_Bytes (Data, Item) and then V.Bytes_Value (Data, Item) = Raw;
+      return V.Valid_Bytes (Data, Item) and then Bytes_Of (Data, Item) = Raw;
    end Row_Bytes;
+   -- Both callers pass Bytes_Of results, which are 1-based.
    function Head_Corresponds (Data, Key, Current_Raw, Owner_Raw : E.Bytes;
-                             Database, Installation, Policy, Context : E.Span) return Boolean is
+                             Database, Installation, Policy, Context : E.Span) return Boolean
+     with Global => null,
+       Pre => Key'First = 1 and then Current_Raw'First = 1 and then Owner_Raw'First = 1
+   is
       Head : constant E.Span := Table_Row (Data, Database, "canonical_operation_head",
          "name,installation,genesis,head,state,prior_envelope,next_envelope", 7);
       Admission : constant E.Span := Table_Row (Data, Database, "canonical_operation_admission",
@@ -371,10 +448,12 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          not Same (Data, Row_Value (Data, Admission, 3, 6), Genesis) or else
          not S.Text_Is (Data, Row_Value (Data, Admission, 6, 6), "CONSUMED") or else
          not Row_Bytes (Data, Admission, 4, 6, Owner_Raw) or else not V.Valid_Bytes (Data, Initial) or else
-         not V.Valid_Hex_Field (Data, Row_Value (Data, Admission, 5, 6), "value")
+         not V.Valid_Hex_Field (Data, Row_Value (Data, Admission, 5, 6), Value_Field) or else
+         -- Raw_Hex's precondition: refused where the original raised.
+         not V.Valid_Text (Data, Row_Value (Data, Admission, 5, 6))
       then return False; end if;
       declare
-         Original_Initial : constant E.Bytes := V.Bytes_Value (Data, Initial);
+         Original_Initial : constant E.Bytes := Bytes_Of (Data, Initial);
          Owner_Body : constant E.Span := JF (Owner_Raw, JSON (Owner_Raw, (Owner_Raw'First, Owner_Raw'Length)), "body");
       begin
          if Raw_Hex (Data, Row_Value (Data, Admission, 5, 6)) /= Original_Initial or else
@@ -388,7 +467,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       elsif S.Text_Is (Data, Row_Value (Data, Head, 5, 7), "INTENT") and then
          V.Valid_Bytes (Data, Row_Value (Data, Head, 6, 7)) and then
          Row_Bytes (Data, Head, 7, 7, Current_Raw) then
-         declare Prior : constant E.Bytes := V.Bytes_Value (Data, Row_Value (Data, Head, 6, 7)); begin
+         declare Prior : constant E.Bytes := Bytes_Of (Data, Row_Value (Data, Head, 6, 7)); begin
             -- The exact surviving NEXT file is the original lost-ACK case.
             -- The retained PRIOR is authenticated; nothing regenerates a file.
             return Envelope_Authenticated (Key, Prior, (Key'First, Key'Length),
@@ -401,7 +480,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end if;
       return False;
    end Head_Corresponds;
-   function Native_Item (Data : E.Bytes; Items, Event : E.Span) return E.Span is
+   function Native_Item (Data : E.Bytes; Items, Event : E.Span) return E.Span
+     with Global => null
+   is
       Found : E.Span := (1, 0);
    begin
       for I in E.Count range 1 .. V.Count (Data, Items) loop
@@ -417,7 +498,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Native_Item;
    type Index_Array is array (Q.Byte_Index range <>) of E.Count;
    type State_Array is array (Q.Byte_Index range <>) of Journal_State;
-   function Native_Identity_Corresponds (Data : E.Bytes; Capture : E.Span) return Boolean is
+   function Native_Identity_Corresponds (Data : E.Bytes; Capture : E.Span) return Boolean
+     with Global => null
+   is
       Native : constant E.Span := F (Data, Capture, "native");
       Id : constant E.Span := F (Data, F (Data, Capture, "binding"), "id");
       function Digest_Field (Name : String; Sum : H.SHA.Digest) return Boolean is
@@ -438,13 +521,17 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       return OA.Valid (Data, Native) and then
          Payload_Digest ("build_bytes", "kernel_build") and then
          Payload_Digest ("library_bytes", "kernel_library") and then
+         -- Hash's precondition: refused where the original raised.
+         J.P.Valid (Data, Native) and then
          Digest_Field ("kernel_mapping", H.C.G.Hash (Data, Native));
    end Native_Identity_Corresponds;
    function History_Corresponds (Data, Raw : E.Bytes; Body_JSON, Events, Items,
                                 Current_Events, Context, Policy : E.Span;
                                 Owner_Context : O.Prepared_History;
                                 Resource_Context : K.Prepared_History;
-                                Already_Through : E.Count := 0) return Boolean is
+                                Already_Through : E.Count := 0) return Boolean
+     with Global => null
+   is
       Extent : constant E.Count := V.Count (Data, Events);
       Latest : Index_Array (1 .. Extent) := (others => 0);
       States : State_Array (1 .. Extent) := (others => Absent);
@@ -457,6 +544,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          Extent > V.Count (Data, Current_Events) or else
          not JSON_Matches (Raw, Data, JSON_Events, Events) then return False; end if;
       for I in E.Count range 1 .. Extent loop
+         pragma Loop_Invariant (Used < I and then Native_Count < I);
+         pragma Loop_Invariant (for all K in 1 .. Used => Latest (K) in 1 .. I - 1);
+         pragma Loop_Invariant (J.P.Valid (Raw, Prior_JSON));
          pragma Loop_Variant (Increases => I);
          declare
             Event : constant E.Span := V.Element (Data, Events, I - 1);
@@ -467,6 +557,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             Native : R.Operation_Replay_Result;
             Item, Observation, Material : E.Span;
             After : constant Journal_State := Cause (Data, Event);
+            Capture_Item : constant E.Span := F (Data, Event, "capture");
+            Snapshot_Item : constant E.Span := F (Data, Event, "snapshot");
          begin
             if not Same (Data, Event, V.Element (Data, Current_Events, I - 1)) or else
                not JSON_Keys (Raw, Event_JSON, "prior,operation,cause,capture,snapshot,native,boundaries", 7) then return False; end if;
@@ -476,6 +568,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             end if;
             Prior_JSON := Event_JSON;
             for K in E.Count range 1 .. Used loop
+               pragma Loop_Invariant (Position < K);
                pragma Loop_Variant (Increases => K);
                if Same (Data, F (Data, Event, "operation"),
                         F (Data, V.Element (Data, Events, Latest (K) - 1), "operation")) then
@@ -496,9 +589,11 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             elsif S.Text_Is (Data, F (Data, Event, "cause"), "PREPARATION") then
                if Position /= 0 or else not V.Is_Null (Data, F (Data, Event, "native")) or else
                   not V.Is_Null (Data, F (Data, Event, "snapshot")) then return False; end if;
-               if not V.Valid_Hex_Field (Data, F (Data, Event, "capture"), "value") then return False; end if;
+               -- Raw_Hex's precondition: refused where the original raised.
+               if not V.Valid_Hex_Field (Data, Capture_Item, Value_Field) or else
+                  not V.Valid_Text (Data, Capture_Item) then return False; end if;
                declare
-                  Capture_Data : constant E.Bytes := Raw_Hex (Data, F (Data, Event, "capture"));
+                  Capture_Data : constant E.Bytes := Raw_Hex (Data, Capture_Item);
                begin
                   if not OA.Valid (Capture_Data, (Capture_Data'First, Capture_Data'Length)) or else
                      not Worldline.Custody_V2_Archive_Projection.Scoped_Archive_Operation_Matches
@@ -508,8 +603,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             elsif S.Text_Is (Data, F (Data, Event, "cause"), "OWNER_CANONICAL") then
                if not V.Is_Null (Data, F (Data, Event, "native")) or else
                   not V.Is_Null (Data, F (Data, Event, "snapshot")) or else
-                  not V.Valid_Hex_Field (Data, F (Data, Event, "capture"), "value") then return False; end if;
-               declare Capture_Data : constant E.Bytes := Raw_Hex (Data, F (Data, Event, "capture")); begin
+                  not V.Valid_Hex_Field (Data, Capture_Item, Value_Field) or else
+                  not V.Valid_Text (Data, Capture_Item) then return False; end if;
+               declare Capture_Data : constant E.Bytes := Raw_Hex (Data, Capture_Item); begin
                   if not OA.Valid (Capture_Data, (Capture_Data'First, Capture_Data'Length)) or else
                      not Worldline.Custody_V2_Archive_Projection.Scoped_Archive_Operation_Matches
                        (Data, Capture_Data, F (Data, Event, "operation"),
@@ -527,8 +623,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                   (Native.Roster_Entry = R.Authority_Entry and then Native.Native_Status = A.Refused) or else
                   (Native.Roster_Entry = R.Historical_Completion_Entry and then Native.Historical_Status = R.H.Refused) or else
                   not R.Operation_Capture_Matches (Data, Observation, Material, Event) or else
-                  not V.Valid_Hex_Field (Data, F (Data, Event, "snapshot"), "value") or else
-                  not V.Valid_Hex_Field (Data, F (Data, Event, "capture"), "value") then return False; end if;
+                  not V.Valid_Hex_Field (Data, Snapshot_Item, Value_Field) or else
+                  not V.Valid_Hex_Field (Data, Capture_Item, Value_Field) then return False; end if;
                if Position > 0 then
                   if not Same (Data, F (Data, Event, "capture"), F (Data, Old_Event, "capture")) or else
                      V.Count (Data, F (Data, Event, "boundaries")) < V.Count (Data, F (Data, Old_Event, "boundaries")) then return False; end if;
@@ -538,8 +634,10 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                                   V.Element (Data, F (Data, Old_Event, "boundaries"), K - 1)) then return False; end if;
                   end loop;
                end if;
+               -- Raw_Hex's precondition: refused where the original raised.
+               if not V.Valid_Text (Data, Snapshot_Item) then return False; end if;
                declare
-                  Snapshot_Data : constant E.Bytes := Raw_Hex (Data, F (Data, Event, "snapshot"));
+                  Snapshot_Data : constant E.Bytes := Raw_Hex (Data, Snapshot_Item);
                   Snapshot : constant E.Span := (Snapshot_Data'First, Snapshot_Data'Length);
                   Uses : constant E.Span := F (Snapshot_Data, Snapshot, "uses");
                   Is_ACK : constant Boolean := S.Text_Is (Data, F (Data, Event, "cause"), "ACK");
@@ -555,12 +653,19 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                         pragma Loop_Variant (Increases => K);
                         declare
                            Old : constant E.Span := V.Element (Data, Events, Latest (K) - 1);
-                           Capture_Data : constant E.Bytes := Raw_Hex (Data, F (Data, Old, "capture"));
-                           Use_Row : constant E.Span := Element (Snapshot_Data, Uses, K - 1);
+                           Old_Capture : constant E.Span := F (Data, Old, "capture");
                         begin
-                           if not State_Is (Snapshot_Data, F (Snapshot_Data, Use_Row, "state"), States (K)) or else
-                              not Raw_Same (Snapshot_Data, Capture_Data, F (Snapshot_Data, Use_Row, "bound"),
-                                 F (Capture_Data, (Capture_Data'First, Capture_Data'Length), "binding")) then return False; end if;
+                           -- Raw_Hex's precondition: refused where the original raised.
+                           if not V.Valid_Text (Data, Old_Capture) or else
+                              not V.Valid_Hex_Field (Data, Old_Capture, Value_Field) then return False; end if;
+                           declare
+                              Capture_Data : constant E.Bytes := Raw_Hex (Data, Old_Capture);
+                              Use_Row : constant E.Span := Element (Snapshot_Data, Uses, K - 1);
+                           begin
+                              if not State_Is (Snapshot_Data, F (Snapshot_Data, Use_Row, "state"), States (K)) or else
+                                 not Raw_Same (Snapshot_Data, Capture_Data, F (Snapshot_Data, Use_Row, "bound"),
+                                    F (Capture_Data, (Capture_Data'First, Capture_Data'Length), "binding")) then return False; end if;
+                           end;
                         end;
                      end loop;
                      if Is_ACK then
@@ -575,13 +680,15 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                         not K.Authenticated (Resource_Context, Data, Event, Old_Event) then return False; end if;
                   end if;
                   if not Is_ACK then
+                     -- Raw_Hex's precondition: refused where the original raised.
+                     if not V.Valid_Text (Data, Capture_Item) then return False; end if;
                      declare
-                        Capture_Data : constant E.Bytes := Raw_Hex (Data, F (Data, Event, "capture"));
+                        Capture_Data : constant E.Bytes := Raw_Hex (Data, Capture_Item);
                         Actual_Native : constant E.Span := F (Data, Context, "native_context");
                      begin
                         if not V.Valid_Bytes (Data, Actual_Native) then return False; end if;
                         declare
-                           Native_Data : constant E.Bytes := V.Bytes_Value (Data, Actual_Native);
+                           Native_Data : constant E.Bytes := Bytes_Of (Data, Actual_Native);
                            Captured : constant E.Span := F (Capture_Data, (Capture_Data'First, Capture_Data'Length), "native");
                         begin
                            -- Historical addresses/process identities are retained,
@@ -607,7 +714,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Native_Count = V.Count (Data, Items);
    end History_Corresponds;
-   function Hash_Value (Sum : H.SHA.Digest) return Worldline.Hash is
+   function Hash_Value (Sum : H.SHA.Digest) return Worldline.Hash
+     with Global => null
+   is
       Result : Worldline.Hash;
    begin
       for I in Result'Range loop
@@ -616,7 +725,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Result;
    end Hash_Value;
-   function Original_Text (Data : E.Bytes; Item : E.Span) return E.Bytes is
+   function Original_Text (Data : E.Bytes; Item : E.Span) return E.Bytes
+     with Global => null
+   is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if V.Valid_Text (Data, Item) then return V.Text_Value (Data, Item); end if;
@@ -630,7 +741,11 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
      with Pre => Byte in Character'Pos ('0') .. Character'Pos ('9') |
                          Character'Pos ('a') .. Character'Pos ('f');
    function Hex_Id (Data : E.Bytes; Item : E.Span; Prefixed : Boolean := False)
-      return C.Optional_Digest is
+      return C.Optional_Digest
+     with Global => null,
+       Post => (if Hex_Id'Result.Present then
+          Original_Text (Data, Item)'Length = (if Prefixed then 71 else 64))
+   is
       Raw : constant E.Bytes := Original_Text (Data, Item);
       Offset : constant E.Count := (if Prefixed then 7 else 0);
       Prefix : constant String := "sha256:";
@@ -648,19 +763,23 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Result;
    end Hex_Id;
-   function Domain_Hash (Data : E.Bytes; Item : E.Span; Domain : String) return Worldline.Hash is
+   function Domain_Hash (Data : E.Bytes; Item : E.Span; Domain : String) return Worldline.Hash
+     with Global => null
+   is
       Context : H.SHA.Context := H.SHA.Initial;
    begin
       for B of Domain loop H.SHA.Update (Context, Attest.Byte_Array'(0 => Character'Pos (B))); end loop;
       if J.P.Valid (Data, Item) then
          for I in E.Count range 1 .. Item.Length loop
             pragma Loop_Variant (Increases => I);
-            H.SHA.Update (Context, Attest.Byte_Array'(0 => Data (Item.First + I - 1)));
+            H.SHA.Update (Context, Attest.Byte_Array'(0 => Data (Item.First + (I - 1))));
          end loop;
       end if;
       return Hash_Value (H.SHA.Final (Context));
    end Domain_Hash;
-   function Boundaries_Correspond (Data : E.Bytes; Events, Context : E.Span) return Boolean is
+   function Boundaries_Correspond (Data : E.Bytes; Events, Context : E.Span) return Boolean
+     with Global => null
+   is
       package B renames Worldline.Actor_Archive_Replay;
    begin
       for I in E.Count range 1 .. V.Count (Data, Events) loop
@@ -685,7 +804,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return True;
    end Boundaries_Correspond;
-   function Original_Bytes (Data : E.Bytes; Item : E.Span) return E.Bytes is
+   function Original_Bytes (Data : E.Bytes; Item : E.Span) return E.Bytes
+     with Global => null, Post => Original_Bytes'Result'First >= 1
+   is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if View.Form /= E.Bytes_Value or else not E.Bytes_Valid (Data, View.Payload) then
@@ -693,7 +814,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       return E.Materialize (Data, View.Payload);
    end Original_Bytes;
    function Source_Canonical_Rows (Data, Material_Data : E.Bytes; Context, Material : E.Span;
-                                  Receipts : Boolean; Complete : Boolean := True) return Boolean is
+                                  Receipts : Boolean; Complete : Boolean := True) return Boolean
+     with Global => null
+   is
       package P renames Worldline.Custody_V2_Archive_Projection;
       Current : constant E.Span := F (Data, Context, "current");
       State : constant E.Span := F (Data, F (Data, F (Data, Current, "installation"), "paths"), "state");
@@ -726,12 +849,14 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             Actual : constant E.Span := V.Element (Data, F (Data, Table, "rows"), I - 1);
             Columns : constant E.Span := F (Data, Table, "columns");
             Found : E.Count := 0;
-            Hash_Text : constant E.Bytes := Original_Text (Material_Data, F (Material_Data, SQL, "chain_hash"));
+            Chain_Hash_Item : constant E.Span := F (Material_Data, SQL, "chain_hash");
+            Hash_Text : constant E.Bytes := Original_Text (Material_Data, Chain_Hash_Item);
          begin
+            -- Count - 1 /= Width is Count /= Width + 1 without the overflow.
             if Sequence_Count (Material_Data, Pair) /= 2 or else SQL_View.Form /= E.Object_Value or else
                E.Array_Length (Material_Data, SQL_View.Children) /= V.Count (Data, Columns) or else
-               V.Count (Data, Actual) /= V.Count (Data, Columns) + 1 or else
-               not Hex_Id (Material_Data, F (Material_Data, SQL, "chain_hash"), True).Present then return False; end if;
+               V.Count (Data, Actual) - 1 /= V.Count (Data, Columns) or else
+               not Hex_Id (Material_Data, Chain_Hash_Item, True).Present then return False; end if;
             for K in E.Count range 1 .. V.Count (Data, Columns) loop
                pragma Loop_Variant (Increases => K);
                declare KV : constant E.View := E.Decode (Material_Data,
@@ -744,15 +869,17 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                end;
             end loop;
             for K in E.Count range 1 .. V.Count (Data, Files) loop
+               pragma Loop_Invariant (Found < K);
                pragma Loop_Variant (Increases => K);
                declare File : constant E.Span := V.Element (Data, Files, K - 1);
-                       Identity : constant E.Span := F (Data, File, "identity"); begin
+                       Identity : constant E.Span := F (Data, File, "identity");
+                       File_Raw : constant E.Span := F (Data, File, "raw"); begin
                   if S.Text_Is (Data, F (Data, File, "kind"), Kind) and then
                      P.Scoped_Archive_Operation_Matches (Data, Material_Data,
                         F (Data, File, "canonical_path"), F (Material_Data, SQL, "canonical_path")) then
                      Found := Found + 1;
-                     if not V.Valid_Bytes (Data, F (Data, File, "raw")) or else
-                        V.Bytes_Value (Data, F (Data, File, "raw")) /= Original_Bytes (Material_Data, Element (Material_Data, Pair, 1)) or else
+                     if not V.Valid_Bytes (Data, File_Raw) or else
+                        Bytes_Of (Data, File_Raw) /= Original_Bytes (Material_Data, Element (Material_Data, Pair, 1)) or else
                         not Same (Data, F (Data, File, "path"), F (Data, File, "canonical_path")) or else
                         not V.Is_Integer (Data, F (Data, Identity, "device")) or else
                         not V.Is_Integer (Data, F (Data, Identity, "inode")) or else
@@ -775,12 +902,14 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                                         Genesis, Witness : C.Optional_Digest;
                                         Appending : Boolean := False;
                                         Added : C.Chain_Row := (others => (False, Worldline.Zero_Hash)))
-      return Boolean is
+      return Boolean
+     with Global => null
+   is
       Raw_Item : constant E.Span := F (Data, F (Data, Context, "operation_context"), "current_chain_material");
    begin
       if not V.Valid_Bytes (Data, Raw_Item) or else not Genesis.Present or else not Witness.Present then return False; end if;
       declare
-         Raw : constant E.Bytes := V.Bytes_Value (Data, Raw_Item);
+         Raw : constant E.Bytes := Bytes_Of (Data, Raw_Item);
          Material : constant E.Span := (Raw'First, Raw'Length);
          Items : constant E.Span := F (Raw, Material, (if Receipts then "receipts" else "events"));
          Extent : constant E.Count := Sequence_Count (Raw, Items);
@@ -794,6 +923,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          if Capacity = 0 or else not OA.Valid (Raw, Material) or else
             not Source_Canonical_Rows (Data, Raw, Context, Material, Receipts) then return False; end if;
          for I in E.Count range 1 .. Extent loop
+            pragma Loop_Invariant (Count < I);
             pragma Loop_Variant (Increases => I);
             declare Pair : constant E.Span := Element (Raw, Items, I - 1);
                     SQL : constant E.Span := Element (Raw, Pair, 0);
@@ -840,7 +970,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end;
    end Canonical_Chain_Corresponds;
    function Chain_Witness_Matches
-     (Data, Raw : E.Bytes; Chain_JSON, Initial, Witness : E.Span) return Boolean is
+     (Data, Raw : E.Bytes; Chain_JSON, Initial, Witness : E.Span) return Boolean
+     with Global => null
+   is
       Fields : constant E.Span := S.A.Field (Data, Initial, "fields");
       View : constant E.View := E.Decode (Data, Fields, E.Operation);
       Offset : E.Count := 1;
@@ -879,7 +1011,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       return True;
    end Chain_Witness_Matches;
    function Prefix_Chains_Correspond
-     (Data, Raw : E.Bytes; Body_JSON, Events, Policy, Archives : E.Span) return Boolean is
+     (Data, Raw : E.Bytes; Body_JSON, Events, Policy, Archives : E.Span) return Boolean
+     with Global => null
+   is
       Chains_JSON : constant E.Span := JF (Raw, Body_JSON, "chains");
       type Chain_Name is (Receipts, Events_Chain, Operation_Receipts, Operation_Events);
       function Name (Kind : Chain_Name) return String is
@@ -932,7 +1066,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Prefix_Chains_Correspond;
    function Chains_Correspond
      (Data, Raw : E.Bytes; Body_JSON, Events, Context, Policy, Archives : E.Span)
-      return Boolean is
+      return Boolean
+     with Global => null
+   is
       Policies : constant E.Span := F (Data, Policy, "chains");
       Chains_JSON : constant E.Span := JF (Raw, Body_JSON, "chains");
       JSON_Events : constant E.Span := JF (Raw, Body_JSON, "events");
@@ -957,13 +1093,17 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       function Canonical_Intent_Valid (Intent : E.Span; Kind : Chain_Name) return Boolean is
          Initial : constant E.Span := F (Data, Policies, Name (Kind));
          Genesis : constant C.Optional_Digest := Hex_Id (Data, F (Data, Initial, "genesis"));
+         Old_Item : constant E.Span := F (Data, Intent, "old_material");
+         Payload_Item : constant E.Span := F (Data, Intent, "payload");
       begin
          if Kind not in Receipts | Events_Chain or else
-            not V.Valid_Hex_Field (Data, F (Data, Intent, "old_material"), "value") or else
-            not V.Valid_Hex_Field (Data, F (Data, Intent, "payload"), "value") then return False; end if;
+            not V.Valid_Hex_Field (Data, Old_Item, Value_Field) or else
+            not V.Valid_Hex_Field (Data, Payload_Item, Value_Field) or else
+            -- Raw_Hex's precondition: refused where the original raised.
+            not V.Valid_Text (Data, Old_Item) or else not V.Valid_Text (Data, Payload_Item) then return False; end if;
          declare
-            Old : constant E.Bytes := Raw_Hex (Data, F (Data, Intent, "old_material"));
-            Payload : constant E.Bytes := Raw_Hex (Data, F (Data, Intent, "payload"));
+            Old : constant E.Bytes := Raw_Hex (Data, Old_Item);
+            Payload : constant E.Bytes := Raw_Hex (Data, Payload_Item);
             Root : constant Worldline.Hash := Domain_Hash (Payload, (Payload'First, Payload'Length),
                (if Kind = Receipts then "worldline-receipt-record-v1" else "worldline-event-v1"));
             Row : constant C.Chain_Row := (Hex_Id (Data, F (Data, Intent, "previous")),
@@ -979,8 +1119,11 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                Canonical_Chain_Corresponds (Data, Context, Kind = Receipts, Genesis, Row.Previous, True, Row);
          end;
       end Canonical_Intent_Valid;
+      -- Local helper: called with the (1-based) event and boundary ordinals.
       function Ack_Intent (Event_Ordinal, Boundary_Ordinal : E.Count;
-                           Ack : E.Span; Kind : Chain_Name) return Boolean is
+                           Ack : E.Span; Kind : Chain_Name) return Boolean
+        with Pre => Event_Ordinal >= 1 and then Boundary_Ordinal >= 1
+      is
          Found : E.Span := (1, 0);
          Operation : constant E.Span := F (Data, V.Element (Data, Events, Event_Ordinal - 1), "operation");
       begin
@@ -998,7 +1141,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                            (S.Text_Is (Data, F (Data, Bound, "name"), "CANONICAL_INTENT") or else
                             S.Text_Is (Data, F (Data, Bound, "name"), "OWNER_CANONICAL_INTENT") or else
                             S.Text_Is (Data, F (Data, Bound, "name"), "OPERATION_CHAIN_INTENT")) then
-                           declare Original : constant E.Bytes := V.Bytes_Value (Data, Archive); begin
+                           -- Bytes_Of's precondition: refused where the original raised.
+                           if not V.Valid_Bytes (Data, Archive) then return False; end if;
+                           declare Original : constant E.Bytes := Bytes_Of (Data, Archive); begin
                               if Digest_Text (Data, F (Data, Ack, "intent"), H.C.G.Hash (Original, (Original'First, Original'Length))) then
                                  if Found.Length > 0 then return False; end if;
                                  Found := Bound;
@@ -1019,11 +1164,24 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                Same (Data, F (Data, Ack, "previous"), F (Data, Found, "previous")) and then
                Same (Data, F (Data, Ack, "root"), F (Data, Found, "root"));
          end if;
-         if not Canonical_Intent_Valid (Found, Kind) or else
-            not V.Valid_Hex_Field (Data, F (Data, Ack, "full_material"), "value") then return False; end if;
          declare
-            Before : constant E.Bytes := Raw_Hex (Data, F (Data, Found, "old_material"));
-            Actual : constant E.Bytes := Raw_Hex (Data, F (Data, Ack, "full_material"));
+            Found_Old : constant E.Span := F (Data, Found, "old_material");
+            Found_Payload : constant E.Span := F (Data, Found, "payload");
+            Full_Item : constant E.Span := F (Data, Ack, "full_material");
+         begin
+         -- Canonical_Intent_Valid already requires the intent's old material
+         -- and payload to be str hex; restating it here exposes that to the
+         -- prover. The full material is refused where Raw_Hex's precondition
+         -- would have raised.
+         if not Canonical_Intent_Valid (Found, Kind) or else
+            not V.Valid_Hex_Field (Data, Full_Item, Value_Field) or else
+            not V.Valid_Text (Data, Full_Item) or else
+            not V.Valid_Text (Data, Found_Old) or else not V.Valid_Hex_Field (Data, Found_Old, Value_Field) or else
+            not V.Valid_Text (Data, Found_Payload) or else not V.Valid_Hex_Field (Data, Found_Payload, Value_Field)
+         then return False; end if;
+         declare
+            Before : constant E.Bytes := Raw_Hex (Data, Found_Old);
+            Actual : constant E.Bytes := Raw_Hex (Data, Full_Item);
             Old_Rows : constant E.Span := F (Before, (Before'First, Before'Length), Name (Kind));
             Rows : constant E.Span := F (Actual, (Actual'First, Actual'Length), Name (Kind));
             Extent : constant E.Count := Sequence_Count (Actual, Rows);
@@ -1036,9 +1194,10 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                if not Raw_Same (Before, Actual, Element (Before, Old_Rows, I - 1), Element (Actual, Rows, I - 1)) then return False; end if;
             end loop;
             return Original_Bytes (Actual, Element (Actual, Element (Actual, Rows, Extent - 1), 1)) =
-               Raw_Hex (Data, F (Data, Found, "payload")) and then
+               Raw_Hex (Data, Found_Payload) and then
                Hex_Id (Actual, F (Actual, Element (Actual, Element (Actual, Rows, Extent - 1), 0), "chain_hash"), True) =
                Hex_Id (Data, F (Data, Ack, "head"));
+         end;
          end;
       end Ack_Intent;
       Total : E.Count := 0;
@@ -1057,7 +1216,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                pragma Loop_Variant (Increases => K);
                declare Archive : constant E.Span := V.Element (Data, Group, K - 1); begin
                   if not V.Valid_Bytes (Data, Archive) then return False; end if;
-                  declare Original : constant E.Bytes := V.Bytes_Value (Data, Archive); begin
+                  declare Original : constant E.Bytes := Bytes_Of (Data, Archive); begin
                      if not J.Operation_Archive_JSON_Matches (Raw, Original, JA (Raw, JSON_Bounds, K - 1),
                         (Original'First, Original'Length)) then return False; end if;
                   end;
@@ -1077,13 +1236,16 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             Chain : constant C.Chain_Kind := (if Kind in Receipts | Operation_Receipts then C.Receipt_Chain else C.Causal_Chain);
          begin
             for I in E.Count range 1 .. V.Count (Data, Events) loop
+               pragma Loop_Invariant (Count <= Rows'Length);
                pragma Loop_Variant (Increases => I);
                declare Bounds : constant E.Span := F (Data, V.Element (Data, Events, I - 1), "boundaries");
                        Group : constant E.Span := V.Element (Data, Archives, I - 1); begin
                   for K in E.Count range 1 .. V.Count (Data, Bounds) loop
+                     pragma Loop_Invariant (Count <= Rows'Length);
                      pragma Loop_Variant (Increases => K);
                      declare Bound : constant E.Span := V.Element (Data, Bounds, K - 1);
-                             Archive : constant E.Span := V.Element (Data, Group, K - 1); begin
+                             Archive : constant E.Span := V.Element (Data, Group, K - 1);
+                             Bound_Payload : constant E.Span := F (Data, Bound, "payload"); begin
                         if Unique (I, K, Archive) and then S.Text_Is (Data, F (Data, Bound, "kind"), Name (Kind)) then
                            if S.Text_Is (Data, F (Data, Bound, "name"), "CANONICAL_INTENT") or else
                               S.Text_Is (Data, F (Data, Bound, "name"), "OWNER_CANONICAL_INTENT") then
@@ -1093,14 +1255,19 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                               Witness := F (Data, Bound, "head");
                            elsif S.Text_Is (Data, F (Data, Bound, "name"), "OPERATION_CHAIN_INTENT") then
                               if Kind not in Operation_Receipts | Operation_Events or else
-                                 not V.Valid_Hex_Field (Data, F (Data, Bound, "payload"), "value") then return False; end if;
+                                 not V.Valid_Hex_Field (Data, Bound_Payload, Value_Field) or else
+                                 -- Raw_Hex's precondition: refused where the original raised.
+                                 not V.Valid_Text (Data, Bound_Payload) then return False; end if;
                               declare
-                                 Payload : constant E.Bytes := Raw_Hex (Data, F (Data, Bound, "payload"));
+                                 Payload : constant E.Bytes := Raw_Hex (Data, Bound_Payload);
                                  Root : constant Worldline.Hash := Domain_Hash (Payload, (Payload'First, Payload'Length),
                                     (if Kind = Operation_Receipts then "worldline-operation-use-receipt-v1" else "worldline-operation-causal-v1") & Ada.Characters.Latin_1.NUL);
                               begin
                                  if not J.Canonical_JSON_Valid (Payload, (Payload'First, Payload'Length)) or else
                                     Hex_Id (Data, F (Data, Bound, "root")) /= C.Optional_Digest'(True, Root) then return False; end if;
+                                 -- Count never reaches the boundary total; a full
+                                 -- table is refused where indexing past it raised.
+                                 if Count >= Rows'Length then return False; end if;
                                  Rows (Count + 1) := (Hex_Id (Data, F (Data, Bound, "previous")),
                                     (True, Root), Hex_Id (Data, F (Data, Bound, "root")), Hex_Id (Data, F (Data, Bound, "head")));
                                  if C.Replay (Chain, Rows (1 .. Count + 1), Genesis, Genesis,
@@ -1109,15 +1276,18 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                            elsif S.Text_Is (Data, F (Data, Bound, "name"), "OPERATION_CHAIN_ACK") then
                               if not Ack_Intent (I, K, Bound, Kind) then return False; end if;
                               if Kind not in Operation_Receipts | Operation_Events or else
-                                 not V.Valid_Hex_Field (Data, F (Data, Bound, "payload"), "value") then return False; end if;
+                                 not V.Valid_Hex_Field (Data, Bound_Payload, Value_Field) or else
+                                 -- Raw_Hex's precondition: refused where the original raised.
+                                 not V.Valid_Text (Data, Bound_Payload) then return False; end if;
                               declare
-                                 Payload : constant E.Bytes := Raw_Hex (Data, F (Data, Bound, "payload"));
+                                 Payload : constant E.Bytes := Raw_Hex (Data, Bound_Payload);
                                  Root : constant Worldline.Hash := Domain_Hash (Payload, (Payload'First, Payload'Length),
                                     (if Kind = Operation_Receipts then "worldline-operation-use-receipt-v1" else "worldline-operation-causal-v1") & Ada.Characters.Latin_1.NUL);
                               begin
                                  if not J.Canonical_JSON_Valid (Payload, (Payload'First, Payload'Length)) or else
                                     Hex_Id (Data, F (Data, Bound, "root")) /= C.Optional_Digest'(True, Root)
                                  then return False; end if;
+                                 if Count >= Rows'Length then return False; end if;
                                  Count := Count + 1;
                                  Rows (Count) := (Hex_Id (Data, F (Data, Bound, "previous")),
                                     (True, Root), Hex_Id (Data, F (Data, Bound, "root")), Hex_Id (Data, F (Data, Bound, "head")));
@@ -1142,7 +1312,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Chains_Correspond;
    function Context (Value : L.Parsed_Input) return E.Span is
      (F (Value.Arena, Value.Owner_Roster, "operation_context"));
-   function Issuer_Key (Data : E.Bytes; Roster : E.Span) return E.Span is
+   function Issuer_Key (Data : E.Bytes; Roster : E.Span) return E.Span
+     with Global => null
+   is
       Current : constant E.Span := F (Data, Roster, "current");
       Authority : constant E.Span := F (Data, F (Data, F (Data, Current, "installation"), "paths"), "authority_root");
    begin
@@ -1151,7 +1323,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Issuer_Key;
    function Issuer_Key (Value : L.Parsed_Input) return E.Span is
      (Issuer_Key (Value.Arena, Value.Owner_Roster));
-   function Store_Identity_Corresponds (Data : E.Bytes; Roster, Expected : E.Span) return Boolean is
+   function Store_Identity_Corresponds (Data : E.Bytes; Roster, Expected : E.Span) return Boolean
+     with Global => null
+   is
       Current : constant E.Span := F (Data, Roster, "current");
       State : constant E.Span := F (Data, F (Data, F (Data, Current, "installation"), "paths"), "state");
       Store : constant E.Span := Suffix_Entry (Data, F (Data, Current, "paths"), State, "/worldline.sqlite3");
@@ -1167,9 +1341,11 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                   pragma Loop_Variant (Increases => K);
                   declare Row : constant E.Span := V.Element (Data, Rows, K - 1); begin
                      if S.Text_Is (Data, V.Element (Data, Row, 1), "protectedStoreGenesis") then
+                        -- Found + 1 overflowed exactly here.
+                        if Found = E.Count'Last then return False; end if;
                         Found := Found + 1;
                         if not V.Valid_Bytes (Data, V.Element (Data, Row, 2)) then return False; end if;
-                        declare Raw : constant E.Bytes := V.Bytes_Value (Data, V.Element (Data, Row, 2)); begin
+                        declare Raw : constant E.Bytes := Bytes_Of (Data, V.Element (Data, Row, 2)); begin
                            if not JSON_Matches (Raw, Data, (Raw'First, Raw'Length), Expected) then return False; end if;
                         end;
                      end if;
@@ -1182,7 +1358,10 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Store_Identity_Corresponds;
    function Profile_Authenticated
      (Data : E.Bytes; Roster : E.Span; Owner_Context : O.Prepared_History;
-      Resource_Context : K.Prepared_History; Require_Head : Boolean) return Boolean is
+      Resource_Context : K.Prepared_History; Require_Head : Boolean) return Boolean
+     with Global => null,
+       Post => (if Profile_Authenticated'Result then V.Valid_Bytes (Data, Issuer_Key (Data, Roster)))
+   is
       Ctx : constant E.Span := F (Data, Roster, "operation_context");
       Current : constant E.Span := F (Data, Roster, "current");
       Installation : constant E.Span := F (Data, Current, "installation");
@@ -1193,6 +1372,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Owner : constant E.Span := F (Data, Ctx, "owner_genesis");
       Lease : constant E.Span := F (Data, Ctx, "lease_genesis");
       Key_Item : constant E.Span := Issuer_Key (Data, Roster);
+      Policy_Bytes_Item : constant E.Span := F (Data, Binding, "policy_bytes");
+      Owner_Genesis_Raw_Item : constant E.Span := F (Data, Ctx, "owner_genesis_raw");
       Policy_Item : constant E.Span := F (Data, Suffix_Entry (Data, Paths, Authority,
          "/authority/issuer/state/worldline-operation-policy.json"), "raw");
       Owner_Item : constant E.Span := F (Data, Path_Entry (Data, Paths, F (Data, Policy, "genesis_file")), "raw");
@@ -1218,12 +1399,12 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             V.Count (Data, Mode) /= 1 or else V.Count (Data, V.Element (Data, Mode, 0)) /= 1 or else
             not S.Text_Is (Data, V.Element (Data, V.Element (Data, Mode, 0), 0), "wal"))) then return False; end if;
       declare
-         Key : constant E.Bytes := V.Bytes_Value (Data, Key_Item);
-         Policy_Raw : constant E.Bytes := V.Bytes_Value (Data, Policy_Item);
-         Owner_Raw : constant E.Bytes := V.Bytes_Value (Data, Owner_Item);
-         Lease_Raw : constant E.Bytes := V.Bytes_Value (Data, Lease_Item);
-         Journal_Raw : constant E.Bytes := V.Bytes_Value (Data, Journal_Item);
-         Universe_Raw : constant E.Bytes := V.Bytes_Value (Data, Universe_Item);
+         Key : constant E.Bytes := Bytes_Of (Data, Key_Item);
+         Policy_Raw : constant E.Bytes := Bytes_Of (Data, Policy_Item);
+         Owner_Raw : constant E.Bytes := Bytes_Of (Data, Owner_Item);
+         Lease_Raw : constant E.Bytes := Bytes_Of (Data, Lease_Item);
+         Journal_Raw : constant E.Bytes := Bytes_Of (Data, Journal_Item);
+         Universe_Raw : constant E.Bytes := Bytes_Of (Data, Universe_Item);
          Policy_JSON : constant E.Span := JSON (Policy_Raw, (Policy_Raw'First, Policy_Raw'Length));
          Owner_JSON : constant E.Span := JF (Owner_Raw, JSON (Owner_Raw, (Owner_Raw'First, Owner_Raw'Length)), "body");
          Journal_JSON : constant E.Span := JF (Journal_Raw, JSON (Journal_Raw, (Journal_Raw'First, Journal_Raw'Length)), "body");
@@ -1243,17 +1424,19 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             not Same (Data, F (Data, Binding, "store_genesis"), F (Data, Policy, "store_genesis")) or else
             not Same (Data, F (Data, Policy, "store_genesis"), F (Data, F (Data, Lease, "store"), "identity")) or else
             not Store_Identity_Corresponds (Data, Roster, F (Data, Policy, "store_genesis")) or else
-            not V.Valid_Hex_Field (Data, F (Data, Binding, "policy_bytes"), "value") or else
-            Raw_Hex (Data, F (Data, Binding, "policy_bytes")) /= Policy_Raw or else
+            not V.Valid_Hex_Field (Data, Policy_Bytes_Item, Value_Field) or else
+            -- Raw_Hex's precondition: refused where the original raised.
+            not V.Valid_Text (Data, Policy_Bytes_Item) or else
+            Raw_Hex (Data, Policy_Bytes_Item) /= Policy_Raw or else
             not Digest_Text (Data, F (Data, Binding, "issuer_key"), H.C.G.Hash (Key, (Key'First, Key'Length))) or else
             not JSON_Matches (Lease_Raw, Data, (Lease_Raw'First, Lease_Raw'Length), Lease) or else
             not Envelope_Authenticated (Key, Owner_Raw, (Key'First, Key'Length), (Owner_Raw'First, Owner_Raw'Length),
                Domain & "owner-genesis" & Ada.Characters.Latin_1.NUL) or else
             not JSON_Keys (Owner_Raw, Owner_JSON, "schema,installation,installation_genesis,binding,gate_head,issuer_head,universe,store,resource,owner,initial_envelope", 11) or else
             not JSON_Matches (Owner_Raw, Data, Owner_JSON, Owner) or else
-            not V.Valid_Bytes (Data, F (Data, Ctx, "owner_genesis_raw")) or else
-            not J.Operation_Archive_JSON_Matches (Owner_Raw, V.Bytes_Value (Data, F (Data, Ctx, "owner_genesis_raw")),
-               Owner_JSON, (1, V.Bytes_Value (Data, F (Data, Ctx, "owner_genesis_raw"))'Length)) or else
+            not V.Valid_Bytes (Data, Owner_Genesis_Raw_Item) or else
+            not J.Operation_Archive_JSON_Matches (Owner_Raw, Bytes_Of (Data, Owner_Genesis_Raw_Item),
+               Owner_JSON, (1, Bytes_Of (Data, Owner_Genesis_Raw_Item)'Length)) or else
             not S.Text_Is (Data, F (Data, Owner, "schema"), "worldline.operation-owner-genesis-v1") or else
             not Same (Data, F (Data, Owner, "installation"), F (Data, Installation, "installation_id")) or else
             not Same (Data, F (Data, Owner, "binding"), Binding) or else
@@ -1286,7 +1469,10 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Profile_Authenticated;
    function Raw_Current_Authenticated
      (Data : E.Bytes; Roster : E.Span; Owner_Context : O.Prepared_History;
-      Resource_Context : K.Prepared_History; Require_Head : Boolean) return Boolean is
+      Resource_Context : K.Prepared_History; Require_Head : Boolean) return Boolean
+     with Global => null,
+       Post => (if Raw_Current_Authenticated'Result then V.Valid_Bytes (Data, Issuer_Key (Data, Roster)))
+   is
       Ctx : constant E.Span := F (Data, Roster, "operation_context");
       Current : constant E.Span := F (Data, Roster, "current");
       Policy : constant E.Span := F (Data, Ctx, "policy");
@@ -1295,7 +1481,10 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Raw_Item : constant E.Span := F (Data, Path_Entry (Data, F (Data, Current, "paths"), F (Data, Policy, "journal")), "raw");
    begin
       if not Profile_Authenticated (Data, Roster, Owner_Context, Resource_Context, Require_Head) then return False; end if;
-      declare Raw : constant E.Bytes := V.Bytes_Value (Data, Raw_Item);
+      -- Profile_Authenticated has checked this same journal file; Bytes_Of's
+      -- precondition is restated for the prover (it cannot fire after that).
+      if not V.Valid_Bytes (Data, Raw_Item) then return False; end if;
+      declare Raw : constant E.Bytes := Bytes_Of (Data, Raw_Item);
               Body_JSON : constant E.Span := JF (Raw, JSON (Raw, (Raw'First, Raw'Length)), "body"); begin
          return History_Corresponds (Data, Raw, Body_JSON, Events,
             F (Data, Ctx, "operation_authority_observations"), Events, Ctx, Policy, Owner_Context, Resource_Context) and then
@@ -1322,7 +1511,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       K.Establish_History (Resource_Context, Value.Arena, Value.Owner_Roster);
       return Current_Authenticated (Value, Owner_Context, Resource_Context);
    end Current_Authenticated;
-   function Head_Fact (Value : L.Parsed_Input) return Head_Disposition is
+   function Head_Fact (Value : L.Parsed_Input) return Head_Disposition
+     with Global => null
+   is
       Data : E.Bytes renames Value.Arena;
       Current : constant E.Span := F (Data, Value.Owner_Roster, "current");
       Policy : constant E.Span := F (Data, Context (Value), "policy");
@@ -1333,7 +1524,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       if S.Text_Is (Data, Row_Value (Data, Head, 5, 7), "STABLE") then return Stable; end if;
       return Finalize_Surviving_Next;
    end Head_Fact;
-   function Preparations_Fact (Value : L.Parsed_Input) return Boolean is
+   function Preparations_Fact (Value : L.Parsed_Input) return Boolean
+     with Global => null
+   is
       Data : E.Bytes renames Value.Arena;
       Events : constant E.Span := F (Data, F (Data, Context (Value), "journal"), "events");
       Found : Boolean;
@@ -1360,10 +1553,15 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    -- Cache identity covers the entire owned arena AND every decoded operand.
    -- It serializes field values, never record padding, addresses or a producer
    -- verdict. Mutating a decoded span/row without changing bytes invalidates it.
-   function Operand_Digest (Value : L.Parsed_Input) return Worldline.Hash is
+   function Operand_Digest (Value : L.Parsed_Input) return Worldline.Hash
+     with Global => null
+   is
       package RS renames L.S;
       package M renames L.N.M;
       Ctx : H.SHA.Context := H.SHA.Initial;
+      -- The digest serializers carry their true effect so GNATprove analyses
+      -- each once instead of inlining every call into Operand_Digest.
+      procedure Number (N : E.Count) with Global => (In_Out => Ctx);
       procedure Number (N : E.Count) is
          X : Interfaces.Unsigned_64 := Interfaces.Unsigned_64 (N);
          Encoded : Attest.Byte_Array (0 .. 7);
@@ -1375,23 +1573,28 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          end loop;
          H.SHA.Update (Ctx, Encoded);
       end Number;
+      procedure Bit (B : Boolean) with Global => (In_Out => Ctx);
       procedure Bit (B : Boolean) is
       begin
          H.SHA.Update (Ctx, Attest.Byte_Array'(0 => (if B then 1 else 0)));
       end Bit;
+      procedure Span (Item : E.Span) with Global => (In_Out => Ctx);
       procedure Span (Item : E.Span) is
       begin
          Number (Item.First); Number (Item.Length);
       end Span;
+      procedure Quantity (Item : Q.Quantity) with Global => (In_Out => Ctx);
       procedure Quantity (Item : Q.Quantity) is
       begin
          Bit (Item.Negative); Number (Item.First); Number (Item.Length);
       end Quantity;
+      procedure Identity (Item : M.Identity) with Global => (In_Out => Ctx);
       procedure Identity (Item : M.Identity) is
       begin
          Bit (Item.Present);
          if Item.Present then Number (Item.Value.First); Number (Item.Value.Length); end if;
       end Identity;
+      procedure Cell (Item : RS.SQL_Cell) with Global => (In_Out => Ctx);
       procedure Cell (Item : RS.SQL_Cell) is
       begin
          Number (RS.SQL_Class'Pos (Item.Kind));
@@ -1402,6 +1605,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                Number (Item.Bytes.First); Number (Item.Bytes.Length);
          end case;
       end Cell;
+      procedure SQL (Rows : L.SQL_Rows) with Global => (In_Out => Ctx);
       procedure SQL (Rows : L.SQL_Rows) is
       begin
          for I in Rows'Range (1) loop
@@ -1412,6 +1616,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             end loop;
          end loop;
       end SQL;
+      procedure Spans (Items : L.Span_Array) with Global => (In_Out => Ctx);
       procedure Spans (Items : L.Span_Array) is
       begin
          for I in Items'Range loop
@@ -1604,7 +1809,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Head_Action;
    function Preparations_Complete (Value : L.Parsed_Input) return Boolean is
      (Current_Authenticated (Value) and then Preparations_Fact (Value));
-   function Candidate_History (Value : L.Parsed_Input; Candidate : E.Span) return Boolean is
+   function Candidate_History (Value : L.Parsed_Input; Candidate : E.Span) return Boolean
+     with Global => null, Post => (if Candidate_History'Result then Value.Status = L.Parsed)
+   is
       Data : E.Bytes renames Value.Arena;
       Ctx : constant E.Span := Context (Value);
       Before : constant E.Span := F (Data, Ctx, "journal");
@@ -1623,8 +1830,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          not V.Is_Sequence (Data, Events) or else
          V.Count (Data, Events) = 0 or else V.Count (Data, Events) - 1 /= V.Count (Data, Current_Events) then return False; end if;
       declare
-         Key : constant E.Bytes := V.Bytes_Value (Data, Key_Item);
-         Raw : constant E.Bytes := V.Bytes_Value (Data, Raw_Item);
+         Key : constant E.Bytes := Bytes_Of (Data, Key_Item);
+         Raw : constant E.Bytes := Bytes_Of (Data, Raw_Item);
          Body_JSON : constant E.Span := JF (Raw, JSON (Raw, (Raw'First, Raw'Length)), "body");
       begin
          if not Envelope_Authenticated (Key, Raw, (Key'First, Key'Length), (Raw'First, Raw'Length), Domain) or else
@@ -1669,12 +1876,15 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Policy := F (Data, Ctx, "policy");
       Raw_Item := F (Data, X5, "operation_journal");
       Events := F (Data, X5, "operation_journal_events");
+      -- The issuer key is refused where Bytes_Of's precondition raised: the
+      -- proof binds digests, which does not by itself re-establish the key.
       if not V.Valid_Bytes (Data, Raw_Item) or else not V.Is_Sequence (Data, Events) or else
          V.Count (Data, Events) > V.Count (Data, F (Data, F (Data, Ctx, "journal"), "events")) or else
-         not Same (Data, F (Data, X5, "source_identity"), F (Data, Current, "source")) then return False; end if;
+         not Same (Data, F (Data, X5, "source_identity"), F (Data, Current, "source")) or else
+         not V.Valid_Bytes (Data, Issuer_Key (Value)) then return False; end if;
       declare
-         Key : constant E.Bytes := V.Bytes_Value (Data, Issuer_Key (Value));
-         Raw : constant E.Bytes := V.Bytes_Value (Data, Raw_Item);
+         Key : constant E.Bytes := Bytes_Of (Data, Issuer_Key (Value));
+         Raw : constant E.Bytes := Bytes_Of (Data, Raw_Item);
          Body_JSON : constant E.Span := JF (Raw, JSON (Raw, (Raw'First, Raw'Length)), "body");
          Journal : constant E.Span := F (Data, Ctx, "journal");
          Actual_Events : constant E.Span := F (Data, Journal, "events");
@@ -1688,6 +1898,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             not JSON_Matches (Raw, Data, JF (Raw, Body_JSON, "grants"), F (Data, Journal, "grants")) or else
             not JSON_Matches (Raw, Data, JF (Raw, Body_JSON, "events"), Events) then return False; end if;
          for I in E.Count range 1 .. V.Count (Data, Events) loop
+            pragma Loop_Invariant (Found < I);
             pragma Loop_Variant (Increases => I);
             declare Event : constant E.Span := V.Element (Data, Events, I - 1); begin
                if not Same (Data, Event, V.Element (Data, Actual_Events, I - 1)) then return False; end if;
@@ -1785,10 +1996,69 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Payload : E.Byte_View;
       Length : E.Count := 0;
    end record;
+   -- The lazy views below read exactly the bytes E.Materialize would decode.
+   -- E.Bytes_Valid states, through E.Materialize, that the text under every
+   -- level is canonical base64 (B64.Canonical); View_Canonical states that
+   -- same condition over the lazily decoded bytes, without recursion, so the
+   -- views' decoding preconditions are provable. Encoding_Level is 0 .. 2.
+   function B64_Span (Item : E.Byte_View) return B64.Span is
+     ((Item.Encoded.First, Item.Encoded.Length)) with Global => null;
+   -- One byte of the level-1 view (the decoded level-0 text).
+   function Decoded_1 (Data : E.Bytes; Item : E.Byte_View; Offset : E.Count) return Q.Byte is
+     (B64.Decoded_Byte (Data, B64_Span (Item), Offset))
+     with Global => null,
+       Pre => B64.Canonical (Data, B64_Span (Item)) and then
+         Offset < B64.Decoded_Length (Data, B64_Span (Item));
+   -- B64.Padding over the level-1 view.
+   function Padding_1 (Data : E.Bytes; Item : E.Byte_View) return E.Count is
+     (if Decoded_1 (Data, Item, B64.Decoded_Length (Data, B64_Span (Item)) - 1) /= Character'Pos ('=') then 0
+      elsif Decoded_1 (Data, Item, B64.Decoded_Length (Data, B64_Span (Item)) - 2) = Character'Pos ('=') then 2
+      else 1)
+     with Global => null,
+       Pre => B64.Canonical (Data, B64_Span (Item)) and then
+         B64.Decoded_Length (Data, B64_Span (Item)) >= 4,
+       Post => Padding_1'Result <= 2;
+   -- B64.Canonical over the level-1 view.
+   function Canonical_1 (Data : E.Bytes; Item : E.Byte_View) return Boolean is
+     (B64.Canonical (Data, B64_Span (Item)) and then
+      (B64.Decoded_Length (Data, B64_Span (Item)) = 0 or else
+       (B64.Decoded_Length (Data, B64_Span (Item)) >= 4 and then
+        B64.Decoded_Length (Data, B64_Span (Item)) mod 4 = 0 and then
+        (for all O in E.Count range 0 .. B64.Decoded_Length (Data, B64_Span (Item)) - 1 =>
+           (if O < B64.Decoded_Length (Data, B64_Span (Item)) - Padding_1 (Data, Item)
+            then B64.Is_Digit (Decoded_1 (Data, Item, O))
+            else Decoded_1 (Data, Item, O) = Character'Pos ('='))) and then
+        (case Padding_1 (Data, Item) is
+           when 2 => B64.Digit (Decoded_1 (Data, Item, B64.Decoded_Length (Data, B64_Span (Item)) - 3)) mod 16 = 0,
+           when 1 => B64.Digit (Decoded_1 (Data, Item, B64.Decoded_Length (Data, B64_Span (Item)) - 2)) mod 4 = 0,
+           when others => True))))
+     with Global => null;
+   function View_Canonical (Data : E.Bytes; Item : E.Byte_View) return Boolean is
+     (case Item.Level is
+        when 0 => J.P.Valid (Data, Item.Encoded),
+        when 1 => B64.Canonical (Data, B64_Span (Item)),
+        when 2 => Canonical_1 (Data, Item))
+     with Global => null;
+   -- The length each level decodes to (B64.Decoded_Length at every level).
+   function Expected_Length (Data : E.Bytes; Item : E.Byte_View) return E.Count is
+     (case Item.Level is
+        when 0 => Item.Encoded.Length,
+        when 1 => B64.Decoded_Length (Data, B64_Span (Item)),
+        when 2 =>
+          (if B64.Decoded_Length (Data, B64_Span (Item)) = 0 then 0
+           else (B64.Decoded_Length (Data, B64_Span (Item)) / 4) * 3 - Padding_1 (Data, Item)))
+     with Global => null, Pre => View_Canonical (Data, Item);
    function View_Length (Data : E.Bytes; Item : E.Byte_View) return E.Count
-     with Global => null, Subprogram_Variant => (Decreases => Item.Level);
+     with Global => null, Subprogram_Variant => (Decreases => Item.Level),
+       Pre => View_Canonical (Data, Item),
+       Post => View_Length'Result = Expected_Length (Data, Item);
    function View_Byte (Data : E.Bytes; Item : E.Byte_View; Offset : E.Count) return Q.Byte
-     with Global => null, Subprogram_Variant => (Decreases => Item.Level);
+     with Global => null, Subprogram_Variant => (Decreases => Item.Level),
+       Pre => View_Canonical (Data, Item) and then Offset < Expected_Length (Data, Item),
+       Post => (case Item.Level is
+                  when 0 => View_Byte'Result = Data (Item.Encoded.First + Offset),
+                  when 1 => View_Byte'Result = Decoded_1 (Data, Item, Offset),
+                  when 2 => True);
    function View_Length (Data : E.Bytes; Item : E.Byte_View) return E.Count is
       Prior : E.Byte_View;
       Size, Padding : E.Count;
@@ -1816,11 +2086,30 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             B64.Digit (View_Byte (Data, Prior, Quartet + 3));
       end case;
    end View_Byte;
-   function Scalar (Data : E.Bytes; Item : E.Span; Field : String := "value") return Scalar_Bytes is
+   -- A valid scalar's bytes are readable at every offset below Length; a hex
+   -- scalar's underlying text consists of lower-case hex digits.
+   function Scalar_OK (Data : E.Bytes; Item : Scalar_Bytes) return Boolean is
+     (Item.Valid and then View_Canonical (Data, Item.Payload) and then
+      (if Item.Hex then
+         Item.Length <= E.Count'Last / 2 and then
+         Expected_Length (Data, Item.Payload) = Item.Length * 2 and then
+         (for all I in E.Count range 0 .. Item.Length * 2 - 1 =>
+            View_Byte (Data, Item.Payload, I) in Character'Pos ('0') .. Character'Pos ('9') |
+               Character'Pos ('a') .. Character'Pos ('f'))
+       else Expected_Length (Data, Item.Payload) = Item.Length))
+     with Global => null;
+   function Scalar (Data : E.Bytes; Item : E.Span; Field : String := "value") return Scalar_Bytes
+     with Global => null,
+       Post => (if Scalar'Result.Valid then Scalar_OK (Data, Scalar'Result))
+   is
       Result : Scalar_Bytes;
       Value : constant E.View := E.Decode (Data, F (Data, Item, Field), E.Operation);
    begin
       if not E.Bytes_Valid (Data, Value.Payload) then return Result; end if;
+      -- Exactly the canonical-base64 condition E.Bytes_Valid has just
+      -- accepted, restated over the lazily decoded bytes (see View_Canonical);
+      -- it refuses nothing E.Bytes_Valid accepts.
+      if not View_Canonical (Data, Value.Payload) then return Result; end if;
       Result.Payload := Value.Payload;
       Result.Length := View_Length (Data, Value.Payload);
       Result.Hex := V.Type_Is (Data, Item, "bytes") or else Field = "magnitude";
@@ -1836,7 +2125,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    function Byte_At (Data : E.Bytes; Item : Scalar_Bytes; Offset : E.Count) return Q.Byte is
      (if Item.Hex then Nibble (View_Byte (Data, Item.Payload, Offset * 2)) * 16 +
          Nibble (View_Byte (Data, Item.Payload, Offset * 2 + 1))
-      else View_Byte (Data, Item.Payload, Offset));
+      else View_Byte (Data, Item.Payload, Offset))
+     with Global => null, Pre => Scalar_OK (Data, Item) and then Offset < Item.Length;
    function Internal_Table_Name (Data : E.Bytes; Item : E.Span) return Boolean is
       Value : constant Scalar_Bytes := Scalar (Data, Item);
       Prefix : constant String := "sqlite";
@@ -1856,10 +2146,13 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Present : Boolean := False;
       Value : U64 := 0;
    end record;
-   function Number (Data : E.Bytes; Item : E.Span) return Native_Number is
+   function Number (Data : E.Bytes; Item : E.Span) return Native_Number
+     with Global => null
+   is
       Result : U64 := 0;
    begin
-      if not V.Type_Is (Data, Item, "integer") or else V.Negative (Data, Item) then return (others => <>); end if;
+      -- V.Negative's precondition (Is_Integer): refused where the original raised.
+      if not V.Is_Integer (Data, Item) or else V.Negative (Data, Item) then return (others => <>); end if;
       declare Raw : constant Scalar_Bytes := Scalar (Data, Item, "magnitude"); begin
          if not Raw.Valid then return (others => <>); end if;
          for I in reverse E.Count range 1 .. Raw.Length loop
@@ -1882,12 +2175,17 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          return (if Flag.Value = 0 then Visible_Column else Hidden_Column);
       end;
    end Visibility;
-   function Is_Number (Data : E.Bytes; Item : E.Span; Expected : U64) return Boolean is
+   function Is_Number (Data : E.Bytes; Item : E.Span; Expected : U64) return Boolean
+     with Global => null
+   is
       Value : constant Native_Number := Number (Data, Item);
    begin return Value.Present and then Value.Value = Expected; end Is_Number;
-   function Is_Minus_One (Data : E.Bytes; Item : E.Span) return Boolean is
+   function Is_Minus_One (Data : E.Bytes; Item : E.Span) return Boolean
+     with Global => null
+   is
    begin
-      if not V.Type_Is (Data, Item, "integer") or else not V.Negative (Data, Item) then return False; end if;
+      -- V.Negative's precondition (Is_Integer): refused where the original raised.
+      if not V.Is_Integer (Data, Item) or else not V.Negative (Data, Item) then return False; end if;
       declare Value : constant Scalar_Bytes := Scalar (Data, Item, "magnitude"); begin
          return Value.Valid and then Value.Length > 0 and then Byte_At (Data, Value, 0) = 1 and then
             (for all I in E.Count range 1 .. Value.Length - 1 => Byte_At (Data, Value, I) = 0);
@@ -1895,8 +2193,11 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    end Is_Minus_One;
    function Space (Value : Q.Byte) return Boolean is
      (Value in 9 .. 13 or else Value = 32);
+   -- Local helper: both callers pass a Scalar result.
    function Decimal (Data : E.Bytes; Value : Scalar_Bytes; First, Last : E.Count;
-                     Radix : U64 := 10) return Native_Number is
+                     Radix : U64 := 10) return Native_Number
+     with Global => null, Pre => (if Value.Valid then Scalar_OK (Data, Value))
+   is
       Result : U64 := 0;
    begin
       if not Value.Valid or else First >= Last or else Last > Value.Length then return (others => <>); end if;
@@ -1911,7 +2212,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       return (True, Result);
    end Decimal;
    function Proc_Word (Data : E.Bytes; Blob : E.Span; Name : String; Part : Positive;
-                       Radix : U64 := 10) return Native_Number is
+                       Radix : U64 := 10) return Native_Number
+     with Global => null
+   is
       Value : constant Scalar_Bytes := Scalar (Data, Blob);
       Offset : E.Count := 0;
       Start, Stop, Word : E.Count;
@@ -1934,6 +2237,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
             if Found then return (others => <>); end if;
             Found := True; Start := Start + E.Count (Name'Length) + 1; Word := 0;
             while Start < Stop loop
+               pragma Loop_Invariant (Word <= Start);
                pragma Loop_Variant (Increases => Start);
                while Start < Stop and then Space (Byte_At (Data, Value, Start)) loop
                   pragma Loop_Invariant (Start >= Start'Loop_Entry and then Start <= Stop);
@@ -1955,7 +2259,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Result;
    end Proc_Word;
-   function Stat_PID (Data : E.Bytes; Blob : E.Span) return Native_Number is
+   function Stat_PID (Data : E.Bytes; Blob : E.Span) return Native_Number
+     with Global => null
+   is
       Value : constant Scalar_Bytes := Scalar (Data, Blob);
       Stop : E.Count := 0;
    begin
@@ -1966,7 +2272,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Decimal (Data, Value, 0, Stop);
    end Stat_PID;
-   function Bytes_Text (Data : E.Bytes; Bytes_Item, Text_Item : E.Span) return Boolean is
+   function Bytes_Text (Data : E.Bytes; Bytes_Item, Text_Item : E.Span) return Boolean
+     with Global => null
+   is
       Left : constant Scalar_Bytes := Scalar (Data, Bytes_Item);
       Right : constant Scalar_Bytes := Scalar (Data, Text_Item);
    begin
@@ -1974,7 +2282,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          Left.Valid and then Right.Valid and then Left.Length = Right.Length and then
          (for all I in E.Count range 1 .. Left.Length => Byte_At (Data, Left, I - 1) = Byte_At (Data, Right, I - 1));
    end Bytes_Text;
-   function Private_Identity (Data : E.Bytes; Identity : E.Span; Directory : Boolean) return Boolean is
+   function Private_Identity (Data : E.Bytes; Identity : E.Span; Directory : Boolean) return Boolean
+     with Global => null
+   is
       Mode : constant Native_Number := Number (Data, F (Data, Identity, "mode"));
    begin
       return Is_Number (Data, F (Data, Identity, "uid"), 0) and then Mode.Present and then
@@ -1982,7 +2292,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          (if Directory then (Mode.Value / 16) mod 2 = 0 and then (Mode.Value / 2) mod 2 = 0
           else Mode.Value mod 64 = 0);
    end Private_Identity;
-   function Identity_Same (Data : E.Bytes; Left, Right : E.Span) return Boolean is
+   function Identity_Same (Data : E.Bytes; Left, Right : E.Span) return Boolean
+     with Global => null
+   is
    begin
       for I in 1 .. 5 loop
          declare Name : constant String := (case I is when 1 => "device", when 2 => "inode",
@@ -1999,7 +2311,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    Exclusive_Flags : constant U64 := 16#880C2#;
    Directory_Flags : constant U64 := 16#8C000#;
    Largefile_Flag : constant U64 := 16#20000#;
-   function FD_Matches (Data : E.Bytes; Identity, Info : E.Span; Flags : U64) return Boolean is
+   function FD_Matches (Data : E.Bytes; Identity, Info : E.Span; Flags : U64) return Boolean
+     with Global => null
+   is
       Inode : constant Native_Number := Proc_Word (Data, Info, "ino", 1);
       Actual : constant Native_Number := Proc_Word (Data, Info, "flags", 1, 8);
       Expected : constant Native_Number := Number (Data, F (Data, Identity, "inode"));
@@ -2009,7 +2323,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          Same (Data, Info, F (Data, Identity, "fdinfo"));
    end FD_Matches;
    function Receipt (Data : E.Bytes; Item, Source : E.Span; Call : String;
-                     Errno : U64 := 0) return Boolean is
+                     Errno : U64 := 0) return Boolean
+     with Global => null
+   is
    begin
       return S.Text_Is (Data, F (Data, Item, "call"), Call) and then
          Same (Data, F (Data, Item, "source"), Source) and then
@@ -2019,7 +2335,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
           else Number (Data, F (Data, Item, "result")).Present)
           else Is_Minus_One (Data, F (Data, Item, "result")));
    end Receipt;
-   function Parent_Path_Matches (Data : E.Bytes; Target, Parent : E.Span) return Boolean is
+   function Parent_Path_Matches (Data : E.Bytes; Target, Parent : E.Span) return Boolean
+     with Global => null
+   is
       Name : constant String := "worldline-operation-head.sqlite";
       Full : constant Scalar_Bytes := Scalar (Data, Target);
       Dir : constant Scalar_Bytes := Scalar (Data, Parent);
@@ -2030,7 +2348,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          (for all I in E.Count range 1 .. Dir.Length => Byte_At (Data, Full, I - 1) = Byte_At (Data, Dir, I - 1)) and then
          (for all I in Name'Range => Byte_At (Data, Full, Dir.Length + 1 + E.Count (I - Name'First)) = Character'Pos (Name (I)));
    end Parent_Path_Matches;
-   function Parent_Matches (Data : E.Bytes; Artifact : E.Span) return Boolean is
+   function Parent_Matches (Data : E.Bytes; Artifact : E.Span) return Boolean
+     with Global => null
+   is
       Held : constant E.Span := F (Data, Artifact, "parent_held_identity");
       Named : constant E.Span := F (Data, Artifact, "parent_named_identity");
    begin
@@ -2040,7 +2360,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          Identity_Same (Data, Held, Named) and then
          FD_Matches (Data, Held, F (Data, Held, "fdinfo"), Directory_Flags);
    end Parent_Matches;
-   function Artifact_Absent (Data : E.Bytes; Artifact, Source : E.Span) return Boolean is
+   function Artifact_Absent (Data : E.Bytes; Artifact, Source : E.Span) return Boolean
+     with Global => null
+   is
       Named : constant E.Span := F (Data, Artifact, "named");
       Probe : constant E.Span := F (Data, Artifact, "probe");
    begin
@@ -2051,7 +2373,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          Is_Number (Data, F (Data, F (Data, Probe, "args"), "flags"), Read_Flags) and then
          V.Is_Null (Data, F (Data, Artifact, "raw")) and then V.Is_Null (Data, F (Data, Artifact, "logical_database"));
    end Artifact_Absent;
-   function Artifact_Present (Data : E.Bytes; Artifact, Source : E.Span) return Boolean is
+   function Artifact_Present (Data : E.Bytes; Artifact, Source : E.Span) return Boolean
+     with Global => null
+   is
       Named : constant E.Span := F (Data, Artifact, "named");
       Later : constant E.Span := F (Data, Artifact, "named_after");
       Probe : constant E.Span := F (Data, Artifact, "probe");
@@ -2077,7 +2401,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          V.Is_Null (Data, F (Data, Artifact, "read_error")) and then V.Is_Null (Data, F (Data, Artifact, "database_error"));
    end Artifact_Present;
    function Bootstrap_Frame_Corresponds
-     (Data : E.Bytes; Frame : E.Span; Caller_PID, Caller_EUID : Interfaces.Unsigned_32) return Boolean is
+     (Data : E.Bytes; Frame : E.Span; Caller_PID, Caller_EUID : Interfaces.Unsigned_32) return Boolean
+     with Global => null
+   is
       Roster : constant E.Span := F (Data, Frame, "owner_roster");
       Boot : constant E.Span := F (Data, Frame, "bootstrap");
       Current : constant E.Span := F (Data, Roster, "current");
@@ -2116,7 +2442,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       O.Establish_History (Owner_Context, Data, Facts, Roster); K.Establish_History (Resource_Context, Data, Roster);
       return Raw_Current_Authenticated (Data, Roster, Owner_Context, Resource_Context, Require_Head => False);
    end Bootstrap_Frame_Corresponds;
-   function Bootstrap_Path (Data : E.Bytes; Paths, Target : E.Span) return E.Span is
+   function Bootstrap_Path (Data : E.Bytes; Paths, Target : E.Span) return E.Span
+     with Global => null
+   is
       Found : E.Span := (1, 0);
    begin
       for I in E.Count range 1 .. V.Count (Data, Paths) loop
@@ -2128,7 +2456,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Found;
    end Bootstrap_Path;
-   function Slot_Metadata_Matches (Data : E.Bytes; Frame : E.Span; Present : Boolean) return Boolean is
+   function Slot_Metadata_Matches (Data : E.Bytes; Frame : E.Span; Present : Boolean) return Boolean
+     with Global => null
+   is
       Roster : constant E.Span := F (Data, Frame, "owner_roster");
       Boot : constant E.Span := F (Data, Frame, "bootstrap");
       Artifact : constant E.Span := F (Data, Boot, "artifact");
@@ -2148,7 +2478,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          return Left.Present and then Right.Present and then Left.Value mod 4096 = Right.Value mod 4096;
       end;
    end Slot_Metadata_Matches;
-   function Database_Mode (Data : E.Bytes; Database : E.Span; WAL : Boolean) return Boolean is
+   function Database_Mode (Data : E.Bytes; Database : E.Span; WAL : Boolean) return Boolean
+     with Global => null
+   is
       Integrity : constant E.Span := F (Data, Database, "integrity");
       Mode : constant E.Span := F (Data, Database, "journal_mode");
    begin
@@ -2158,7 +2490,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          (not WAL or else (V.Count (Data, Mode) = 1 and then V.Count (Data, V.Element (Data, Mode, 0)) = 1 and then
             S.Text_Is (Data, V.Element (Data, V.Element (Data, Mode, 0), 0), "wal")));
    end Database_Mode;
-   function SQL_Files_Match (Data : E.Bytes; Artifact, Creation : E.Span) return Boolean is
+   function SQL_Files_Match (Data : E.Bytes; Artifact, Creation : E.Span) return Boolean
+     with Global => null
+   is
       Files : constant E.Span := F (Data, Artifact, "database_files");
       List : constant E.Span := F (Data, Artifact, "database_list");
       Before : constant E.Span := F (Data, Artifact, "fd_before_sql");
@@ -2201,7 +2535,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Database_Found;
    end SQL_Files_Match;
-   function Empty_Created_File (Data : E.Bytes; Artifact : E.Span) return Boolean is
+   function Empty_Created_File (Data : E.Bytes; Artifact : E.Span) return Boolean
+     with Global => null
+   is
       Raw : constant Scalar_Bytes := Scalar (Data, F (Data, Artifact, "raw"));
       DB : constant E.Span := F (Data, Artifact, "logical_database");
    begin
@@ -2209,7 +2545,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          V.Is_Sequence (Data, F (Data, DB, "tables")) and then V.Count (Data, F (Data, DB, "tables")) = 0 and then
          V.Is_Sequence (Data, F (Data, DB, "schema")) and then V.Count (Data, F (Data, DB, "schema")) = 0;
    end Empty_Created_File;
-   function Empty_Created_Schema (Data : E.Bytes; DB : E.Span) return Boolean is
+   function Empty_Created_Schema (Data : E.Bytes; DB : E.Span) return Boolean
+     with Global => null
+   is
       Tables : constant E.Span := F (Data, DB, "tables");
       Head_Found, Admission_Found : Boolean := False;
    begin
@@ -2227,6 +2565,8 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                V.Count (Data, Cols) /= (if Head then 7 else 6) or else
                not V.Is_Sequence (Data, F (Data, Table, "rows")) or else V.Count (Data, F (Data, Table, "rows")) /= 0 then return False; end if;
             for K in Names'Range loop
+               pragma Loop_Invariant (Offset in Names'First .. K);
+               pragma Loop_Invariant (Ordinal <= E.Count (K - Names'First));
                if Names (K) = ',' then
                   if not S.Text_Is (Data, V.Element (Data, V.Element (Data, Cols, Ordinal), 1), Names (Offset .. K - 1)) then return False; end if;
                   Offset := K + 1; Ordinal := Ordinal + 1;
@@ -2238,7 +2578,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return Head_Found and then Admission_Found;
    end Empty_Created_Schema;
-   function Bootstrap_Head_Matches (Data : E.Bytes; Frame : E.Span; Fresh : Boolean) return Boolean is
+   function Bootstrap_Head_Matches (Data : E.Bytes; Frame : E.Span; Fresh : Boolean) return Boolean
+     with Global => null
+   is
       Roster : constant E.Span := F (Data, Frame, "owner_roster");
       Current : constant E.Span := F (Data, Roster, "current");
       Ctx : constant E.Span := F (Data, Roster, "operation_context");
@@ -2250,9 +2592,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
    begin
       if not Database_Mode (Data, DB, True) or else not V.Valid_Bytes (Data, Journal_Item) or else
          not V.Valid_Bytes (Data, Owner_Item) or else not V.Valid_Bytes (Data, Issuer_Key (Data, Roster)) then return False; end if;
-      declare Key : constant E.Bytes := V.Bytes_Value (Data, Issuer_Key (Data, Roster));
-              Journal : constant E.Bytes := V.Bytes_Value (Data, Journal_Item);
-              Owner : constant E.Bytes := V.Bytes_Value (Data, Owner_Item); begin
+      declare Key : constant E.Bytes := Bytes_Of (Data, Issuer_Key (Data, Roster));
+              Journal : constant E.Bytes := Bytes_Of (Data, Journal_Item);
+              Owner : constant E.Bytes := Bytes_Of (Data, Owner_Item); begin
          if not Head_Corresponds (Data, Key, Journal, Owner, DB, F (Data, F (Data, Current, "installation"), "installation_id"), Policy, Ctx) then return False; end if;
       end;
       if Fresh then
@@ -2264,7 +2606,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end if;
       return True;
    end Bootstrap_Head_Matches;
-   function Other_Sources_Unchanged (Data, Before_Data : E.Bytes; Frame, Before_Frame : E.Span) return Boolean is
+   function Other_Sources_Unchanged (Data, Before_Data : E.Bytes; Frame, Before_Frame : E.Span) return Boolean
+     with Global => null
+   is
       Current : constant E.Span := F (Data, F (Data, Frame, "owner_roster"), "current");
       Old : constant E.Span := F (Before_Data, F (Before_Data, Before_Frame, "owner_roster"), "current");
       Paths : constant E.Span := F (Data, Current, "paths");
@@ -2293,7 +2637,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       end loop;
       return True;
    end Other_Sources_Unchanged;
-   function Creation_Matches (Data, Before_Data : E.Bytes; Frame, Before_Frame : E.Span) return Boolean is
+   function Creation_Matches (Data, Before_Data : E.Bytes; Frame, Before_Frame : E.Span) return Boolean
+     with Global => null
+   is
       Boot : constant E.Span := F (Data, Frame, "bootstrap");
       Before_Boot : constant E.Span := F (Before_Data, Before_Frame, "bootstrap");
       Creation : constant E.Span := F (Data, Boot, "creation");
@@ -2327,7 +2673,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          Raw_Same (Data, Before_Data, F (Data, Boot, "arguments"), F (Before_Data, Before_Boot, "arguments")) and then
          Install.Stable (Before_Data, Data, F (Before_Data, Before_Boot, "source_profile"), F (Data, Boot, "source_profile"));
    end Creation_Matches;
-   function Sync_Matches (Data : E.Bytes; Frame : E.Span) return Boolean is
+   function Sync_Matches (Data : E.Bytes; Frame : E.Span) return Boolean
+     with Global => null
+   is
       Boot : constant E.Span := F (Data, Frame, "bootstrap");
       Sync : constant E.Span := F (Data, Boot, "sync");
       Artifact : constant E.Span := F (Data, Boot, "artifact");
@@ -2358,6 +2706,7 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
       Boot : constant E.Span := F (Data, Envelope, "bootstrap");
       Artifact : constant E.Span := F (Data, Boot, "artifact");
       Creation : constant E.Span := F (Data, Boot, "creation");
+      Before_Item : constant E.Span := F (Data, Creation, "before");
       Source : constant E.Span := F (Data, F (Data, Roster, "current"), "source");
    begin
       if not Bootstrap_Frame_Corresponds (Data, Envelope, Caller_PID, Caller_EUID) then return (others => <>); end if;
@@ -2374,9 +2723,9 @@ package body Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
          end if;
          return (others => <>);
       end if;
-      if not V.Valid_Bytes (Data, F (Data, Creation, "before")) then return (others => <>); end if;
+      if not V.Valid_Bytes (Data, Before_Item) then return (others => <>); end if;
       declare
-         Before_Data : aliased constant E.Bytes := V.Bytes_Value (Data, F (Data, Creation, "before"));
+         Before_Data : aliased constant E.Bytes := Bytes_Of (Data, Before_Item);
          Before_Frame : constant E.Span := (Before_Data'First, Before_Data'Length);
          Before_Boot : constant E.Span := F (Before_Data, Before_Frame, "bootstrap");
          Before_Artifact : constant E.Span := F (Before_Data, Before_Boot, "artifact");
