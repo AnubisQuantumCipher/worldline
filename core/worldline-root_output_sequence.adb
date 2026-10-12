@@ -443,8 +443,9 @@ package body Worldline.Root_Output_Sequence with SPARK_Mode is
             if Capacity = E.Count'Last then return; end if;
             Capacity := Capacity + 1;
             declare
-               A_Magnitude, B_Magnitude, A_Written, B_Written : E.Bytes (1 .. Capacity) := (others => 0);
-               Selected : E.Bytes (1 .. Capacity) := (others => 0);
+               Extent : constant E.Count := Capacity;
+               A_Magnitude, B_Magnitude, A_Written, B_Written : E.Bytes (1 .. Extent) := (others => 0);
+               Selected : E.Bytes (1 .. Extent) := (others => 0);
                Use_A, Written_A : Boolean := True;
                Used, Written_Used, Selected_Used : E.Count := 1;
                Seen : E.Count := 0;
@@ -465,21 +466,26 @@ package body Worldline.Root_Output_Sequence with SPARK_Mode is
                      else return O.Canonical_Decimal_Matches (Digit_Bytes, B_Magnitude (1 .. Used)); end if;
                   end;
                end Ordinal_Matches;
-               procedure Advance (Written : Boolean := False) is
+               -- One procedure per counter: the written ordinal and the
+               -- produced magnitude advance through disjoint buffer pairs.
+               procedure Advance_Written is
                   Needed : E.Count;
                   Complete : Boolean;
                begin
-                  if Written then
-                     if Written_A then O.Successor (A_Written (1 .. Written_Used), B_Written, Needed, Complete);
-                     else O.Successor (B_Written (1 .. Written_Used), A_Written, Needed, Complete); end if;
-                     Written_A := not Written_A;
-                     Written_Used := Needed;
-                  else
-                     if Use_A then O.Successor (A_Magnitude (1 .. Used), B_Magnitude, Needed, Complete);
-                     else O.Successor (B_Magnitude (1 .. Used), A_Magnitude, Needed, Complete); end if;
-                     Use_A := not Use_A;
-                     Used := Needed;
-                  end if;
+                  if Written_A then O.Successor (A_Written (1 .. Written_Used), B_Written, Needed, Complete);
+                  else O.Successor (B_Written (1 .. Written_Used), A_Written, Needed, Complete); end if;
+                  Written_A := not Written_A;
+                  Written_Used := Needed;
+                  Good := Good and then Complete;
+               end Advance_Written;
+               procedure Advance is
+                  Needed : E.Count;
+                  Complete : Boolean;
+               begin
+                  if Use_A then O.Successor (A_Magnitude (1 .. Used), B_Magnitude, Needed, Complete);
+                  else O.Successor (B_Magnitude (1 .. Used), A_Magnitude, Needed, Complete); end if;
+                  Use_A := not Use_A;
+                  Used := Needed;
                   Good := Good and then Complete;
                end Advance;
                procedure Remember (Item : E.Span) is
@@ -562,7 +568,7 @@ package body Worldline.Root_Output_Sequence with SPARK_Mode is
                                                        Ack_Data, Records_Data, Ack, Produced)
                   then Good := False; return; end if;
                   if Ordinal_Matches (Ack_Data, F (Ack_Data, Ack, "out_seq"), True) then
-                     Advance (True);
+                     Advance_Written;
                   else
                      -- Duplicate acknowledgments must refer to an earlier
                      -- genuine write, not manufacture a gap or new byte effect.

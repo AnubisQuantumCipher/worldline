@@ -279,10 +279,20 @@ def agent_context_pair(selected, subject, agent_record):
     retained_agent, _legacy = runner_agent_record(retained_agent)
     if isinstance(retained_agent, Mapping) and retained_agent.get('origin') != 'agent':
         retained_agent = None
-    expected = value_bytes((start.subject, sealed.value.content,
-                            sealed.value.evidence, retained_agent))
-    observed = value_bytes((identity(subject.instance_id), identity(subject.content_id),
-                            canonical_bytes(subject.evidence), agent_record))
+    # The sealed subject, content and evidence are bytes. value_bytes owns
+    # JSON-like values, not Python bytes objects (see _required_value), so
+    # both sides use the lossless finalization encoding, which carries each
+    # complete byte field unchanged. The retained agent record is read back
+    # from the sealed canonical evidence (sorted keys), so both agent records
+    # are compared in that same canonical JSON form: exact value equality,
+    # independent of the live dict's insertion order, and nothing filtered.
+    from .finalization_journal import encode as finalization_bytes
+    def agent_value(record):
+        return None if record is None else canonical_bytes(record)
+    expected = finalization_bytes((start.subject, sealed.value.content,
+                                   sealed.value.evidence, agent_value(retained_agent)))
+    observed = finalization_bytes((identity(subject.instance_id), identity(subject.content_id),
+                                   canonical_bytes(subject.evidence), agent_value(agent_record)))
     return expected, observed
 
 

@@ -42,12 +42,15 @@ package body Worldline.Transaction_Archive_JSON with SPARK_Mode is
          Copy := Copy / To_Big_Integer (10);
       end loop;
       declare
-         Answer : String (1 .. Size + (if V.Sign then 1 else 0));
+         Width : constant Natural := Size + (if V.Sign then 1 else 0);
+         Answer : String (1 .. Width) with Relaxed_Initialization;
          First : constant Positive := (if V.Sign then 2 else 1);
       begin
          if V.Sign then Answer (1) := '-'; end if;
          Copy := Value;
          for I in reverse First .. Answer'Last loop
+            pragma Loop_Invariant (for all K in Answer'Range => (if K > I then Answer (K)'Initialized));
+            pragma Loop_Invariant (if V.Sign then Answer (1)'Initialized);
             Answer (I) := Character'Val (48 + To_Integer (Copy mod To_Big_Integer (10)));
             Copy := Copy / To_Big_Integer (10);
          end loop;

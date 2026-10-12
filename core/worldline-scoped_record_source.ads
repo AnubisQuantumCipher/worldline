@@ -7,14 +7,12 @@ package Worldline.Scoped_Record_Source with SPARK_Mode is
    function Scoped_Record_Value_Matches
      (Data : E.Bytes; Encoded, Typed : E.Span;
       Carrier_Scoped, Typed_Scoped : Boolean := False) return Boolean
-     with Global => null,
-       Subprogram_Variant => (Decreases => Encoded.Length);
+     with Global => null;
    -- Original source_restore union: legacy S.record or its explicitly declared
    -- complete SourceImage. Bytes-key grammar stays inside the raw image, never
    -- in the unchanged public S.record grammar.
    function Source_Record_Value_Matches
      (Data : E.Bytes; Encoded, Typed : E.Span;
       Carrier_Scoped, Typed_Scoped : Boolean := False) return Boolean
-     with Global => null,
-       Subprogram_Variant => (Decreases => Encoded.Length);
+     with Global => null;
 end Worldline.Scoped_Record_Source;
