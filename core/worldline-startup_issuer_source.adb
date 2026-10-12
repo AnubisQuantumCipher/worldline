@@ -36,9 +36,12 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
       return Result;
    end Text;
    function Bytes (T : String) return E.Bytes is
-      Result : E.Bytes (1 .. E.Count (T'Length));
+      Result : E.Bytes (1 .. E.Count (T'Length)) with Relaxed_Initialization;
    begin
-      for I in T'Range loop Result (1 + E.Count (I - T'First)) := Character'Pos (T (I)); end loop;
+      for I in T'Range loop
+         pragma Loop_Invariant (for all K in E.Count range 1 .. E.Count (I - T'First) => Result (K)'Initialized);
+         Result (1 + E.Count (I - T'First)) := Character'Pos (T (I));
+      end loop;
       return Result;
    end Bytes;
    function Word (D : E.Bytes; X : E.Span) return String is
@@ -267,7 +270,7 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
    end Universe_Record;
    function Hex_Image (Sum : H.SHA.Digest) return String is
       Hex_Characters : constant String := "0123456789abcdef";
-      Result : String (1 .. 64);
+      Result : String (1 .. 64) := (others => '0');
    begin
       for I in Sum'Range loop
          Result (1 + (I - Sum'First) * 2) := Hex_Characters (Integer (Sum (I) / 16) + 1);
@@ -373,6 +376,7 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
                      Grants (Grant_Count) := Grant;
                      Index := Grant_Count;
                      while Index /= 0 loop
+                        pragma Loop_Variant (Increases => Count);
                         if Count = 8 then return False; end if;
                         Count := Count + 1;
                         Links (Count) := (Grant => Grants (Index), Revoked => Revoked (Index));

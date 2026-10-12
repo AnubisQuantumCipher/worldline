@@ -60,7 +60,7 @@ package body Worldline.Startup_Admission with SPARK_Mode is
       Negative : constant Boolean := V.Is_Integer (D, X) and then V.Negative (D, X);
    begin
       if Exponent = 16#7FF# then return False; end if;
-      while Used > 0 and then Mag (Mag'First + Used - 1) = 0 loop Used := Used - 1; end loop;
+      while Used > 0 and then Mag (Mag'First + Used - 1) = 0 loop pragma Loop_Variant (Decreases => Used); Used := Used - 1; end loop;
       if Exponent /= 0 then Mantissa := Mantissa or 16#0010_0000_0000_0000#; end if;
       if Mantissa = 0 then return Used = 0; end if;
       if Used = 0 or else Negative /= ((Bits and 16#8000_0000_0000_0000#) /= 0) then return False; end if;
@@ -71,7 +71,7 @@ package body Worldline.Startup_Admission with SPARK_Mode is
          Shift := 0;
       end if;
       declare Remaining : U64 := Mantissa; begin
-         while Remaining > 0 loop Width := Width + 1; Remaining := Remaining / 2; end loop;
+         while Remaining > 0 loop pragma Loop_Variant (Decreases => Remaining); Width := Width + 1; Remaining := Remaining / 2; end loop;
       end;
       if Used /= (Width + E.Count (Shift) + 7) / 8 then return False; end if;
       for I in E.Count range 0 .. Used - 1 loop
@@ -108,8 +108,8 @@ package body Worldline.Startup_Admission with SPARK_Mode is
               Right : constant E.Bytes := Integer_Magnitude (B, Y);
               LL : E.Count := Left'Length;
               RL : E.Count := Right'Length; begin
-         while LL > 0 and then Left (Left'First + LL - 1) = 0 loop LL := LL - 1; end loop;
-         while RL > 0 and then Right (Right'First + RL - 1) = 0 loop RL := RL - 1; end loop;
+         while LL > 0 and then Left (Left'First + LL - 1) = 0 loop pragma Loop_Variant (Decreases => LL); LL := LL - 1; end loop;
+         while RL > 0 and then Right (Right'First + RL - 1) = 0 loop pragma Loop_Variant (Decreases => RL); RL := RL - 1; end loop;
          if LL /= RL then return False; end if;
          if LL = 0 then return True; end if;
          return (V.Is_Integer (A, X) and then V.Negative (A, X)) =

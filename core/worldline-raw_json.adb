@@ -25,7 +25,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
    function Decode_JSON (Data : P.Bytes; Item : P.Span) return Decoded_JSON is
       type Encoding is (UTF8, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE);
       Kind : Encoding := UTF8;
-      Start, Offset : P.Count := 0;
+      Start : P.Count := 0;
+      Offset : P.Count;
       Length : Natural := 0;
       Invalid : Boolean := False;
       function Byte (At_Offset : P.Count) return Natural is
@@ -33,7 +34,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       function Unit_16 (At_Offset : P.Count) return Natural is
         (if Kind = UTF16_LE then Byte (At_Offset) + 256 * Byte (At_Offset + 1)
          else Byte (At_Offset) * 256 + Byte (At_Offset + 1));
-      procedure Scalar (Position : in out P.Count; Code : out Natural) is
+      procedure Scalar (Position : in out P.Count; Code : out Natural)
+        with Global => (Input => (Data, Item, Kind), In_Out => Invalid) is
          Width : P.Count;
          Next : Natural;
          U : Interfaces.Unsigned_32;
@@ -376,7 +378,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                if N.Valid and then N.After /= P.Count (Token'Length) then return False; end if;
                if Item.Form = V.Number_Value then
                   declare
-                     C : Decimal_Binary64.Conversion := Decimal_Binary64.No_Conversion;
+                     C : Decimal_Binary64.Conversion;
                      Bits, Expected : Interfaces.Unsigned_64 := 0;
                   begin
                      if N.Valid then
@@ -573,9 +575,11 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       elsif Code <= 65535 then Hex_Unit (Code)
       else Hex_Unit (16#D800# + (Code - 65536) / 1024) & Hex_Unit (16#DC00# + (Code - 65536) mod 1024));
    function Canonical_ASCII_Quote (Text : String) return String is
-      Offset, Length, Width : Natural := 0;
+      Offset, Length : Natural := 0;
+      Width : Natural;
    begin
       while Offset < Text'Length loop
+         pragma Loop_Variant (Increases => Offset);
          Width := V.UTF8_Width (Text,Offset);
          if Width = 0 then return ""; end if;
          Length := Length + ASCII_Piece (Scalar_Code (Text,Offset,Width))'Length;
@@ -611,6 +615,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
              Data (Data'First + Position .. Data'First + Position + Piece'Length - 1) = Piece);
       begin
          while Offset < Text'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Width := V.UTF8_Width (Text,Offset);
             if Width = 0 then return False; end if;
             Code := Scalar_Code (Text,Offset,Width);
@@ -627,7 +632,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
         with Subprogram_Variant => (Decreases => Item.Last - Natural'Min (Item.First,Item.Last));
       function Canonical (Item : V.Node) return Boolean is
          Position : Natural := Item.First;
-         Child, Key, Prior : V.Node := V.No_Node;
+         Child, Key : V.Node;
+         Prior : V.Node := V.No_Node;
       begin
          case Item.Form is
             when V.Missing => return False;

@@ -12,7 +12,7 @@ package body Worldline.Custody_V2_Provision with SPARK_Mode is
    function Digest_Field (Data : E.Bytes; Encoded : E.Span; Name : String;
                           Raw : E.Span) return Boolean is
       Hex : constant String := "0123456789abcdef";
-      Text : String (1 .. 64);
+      Text : String (1 .. 64) := (others => '0');
    begin
       if not E.C.P.Valid (Data, Raw) then return False; end if;
       declare

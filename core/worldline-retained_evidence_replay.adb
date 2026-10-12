@@ -37,7 +37,7 @@ package body Worldline.Retained_Evidence_Replay with SPARK_Mode is
    use type A.C.Chain_Row;
    function Original_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
      (Worldline.Recovery_Archive.Source_Valid (Data, Item, False));
-   function Field (Data : E.Bytes; Item : E.Span; Name : String) return E.Span is
+   function Field (Data : E.Bytes; Item : E.Span; Name : String) return E.Span with Global => null is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if SA.Valid (Data, Item) then return P.Record_Field (Data, Item, Name);
@@ -2182,7 +2182,6 @@ Digest_Matches (Data, Field (Data, Item, "operation_id"), Raw (A.Operation_Id), 
       authority_rosters_Archive : constant E.Span := Field (Data, Observation_Archive, "authority_rosters");
       crosswalk_Archive : constant E.Span := Field (Data, Observation_Archive, "crosswalk");
       child_input_Archive : constant E.Span := Field (Data, Observation_Archive, "child_input");
-      raw_output_Archive : constant E.Span := Field (Data, Observation_Archive, "raw_output");
    begin
       if not Archive_Record_Is (Data, Observation_Archive, "ResourceChildNativeObservation")
         or else not Bytes_Shape (Data, actor_input_Archive, D.Raw_Packet'Size / System.Storage_Unit)
@@ -2601,33 +2600,33 @@ Digest_Matches (Data, Field (Data, Item, "operation_id"), Raw (A.Operation_Id), 
    function Owned (Raw : V.Raw_Grant_Array) return A.Grants
      with Global => null, Pre => (for all I in Raw'Range => T.Well_Formed (Raw (I)))
    is
-      Result : A.Grants (Raw'Range);
+      Result : A.Grants (Raw'Range) with Relaxed_Initialization;
    begin
       for I in Raw'Range loop
          Result (I) := T.Decode (Raw (I));
-         pragma Loop_Invariant (for all K in Raw'First .. I => Result (K) = T.Decode (Raw (K)));
+         pragma Loop_Invariant (for all K in Raw'First .. I => Result (K)'Initialized and then Result (K) = T.Decode (Raw (K)));
       end loop;
       return Result;
    end Owned;
    function Owned (Raw : V.Raw_Use_Array) return A.Uses
      with Global => null, Pre => (for all I in Raw'Range => T.Well_Formed (Raw (I)))
    is
-      Result : A.Uses (Raw'Range);
+      Result : A.Uses (Raw'Range) with Relaxed_Initialization;
    begin
       for I in Raw'Range loop
          Result (I) := T.Decode (Raw (I));
-         pragma Loop_Invariant (for all K in Raw'First .. I => Result (K) = T.Decode (Raw (K)));
+         pragma Loop_Invariant (for all K in Raw'First .. I => Result (K)'Initialized and then Result (K) = T.Decode (Raw (K)));
       end loop;
       return Result;
    end Owned;
    function Owned (Raw : V.Raw_Chain_Array) return A.C.Retained_Rows
      with Global => null, Pre => (for all I in Raw'Range => T.C.Well_Formed (Raw (I)))
    is
-      Result : A.C.Retained_Rows (Raw'Range);
+      Result : A.C.Retained_Rows (Raw'Range) with Relaxed_Initialization;
    begin
       for I in Raw'Range loop
          Result (I) := T.C.Decode (Raw (I));
-         pragma Loop_Invariant (for all K in Raw'First .. I => Result (K) = T.C.Decode (Raw (K)));
+         pragma Loop_Invariant (for all K in Raw'First .. I => Result (K)'Initialized and then Result (K) = T.C.Decode (Raw (K)));
       end loop;
       return Result;
    end Owned;
@@ -3699,7 +3698,6 @@ Digest_Matches (Data, Field (Data, Item, "operation_id"), Raw (A.Operation_Id), 
       authority_arena_Archive : constant E.Span := Field (Data, Observation_Archive, "authority_arena");
       authority_rosters_Archive : constant E.Span := Field (Data, Observation_Archive, "authority_rosters");
       crosswalk_Archive : constant E.Span := Field (Data, Observation_Archive, "crosswalk");
-      raw_output_Archive : constant E.Span := Field (Data, Observation_Archive, "raw_output");
    begin
       if not Archive_Record_Is (Data, Observation_Archive, "ActorExecutionNativeDecision")
         or else not Bytes_Shape (Data, actor_input_Archive, D.Raw_Packet'Size / System.Storage_Unit)

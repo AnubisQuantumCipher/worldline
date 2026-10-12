@@ -3,12 +3,14 @@ package body Worldline.Protected_Paths with SPARK_Mode is
    package V renames Worldline.Producer_Values;
    type Scalars is array (Natural range <>) of Natural;
    function Decode (Text : String) return Scalars is
-      Buffer : Scalars (0 .. Text'Length);
+      Buffer : Scalars (0 .. Text'Length) with Relaxed_Initialization;
       Count : Natural := 0;
       I : Natural := 0;
       Width, Code : Natural;
    begin
       while I < Text'Length loop
+         pragma Loop_Invariant (Count <= I and then (for all K in 0 .. Count - 1 => Buffer (K)'Initialized));
+         pragma Loop_Variant (Increases => I);
          Width := 1;
          Code := Character'Pos (Text (Text'First + I));
          if Code in 16#C2# .. 16#DF# then Code := Code - 16#C0#; Width := 2;
@@ -50,12 +52,14 @@ package body Worldline.Protected_Paths with SPARK_Mode is
          After := First;
          if After < Pattern'Length and then Pattern (After) = 93 then After := After + 1; end if;
          while After < Pattern'Length and then Pattern (After) /= 93 loop
+            pragma Loop_Variant (Increases => After);
             After := After + 1;
          end loop;
          if After < Pattern'Length then
             Included := False;
             I := First;
             while I < After loop
+               pragma Loop_Variant (Increases => I);
                if After - I >= 3 and then Pattern (I + 1) = 45 then
                   if Pattern (I) <= Pattern (I + 2) and then
                     Path (N) >= Pattern (I) and then Path (N) <= Pattern (I + 2)
@@ -75,6 +79,7 @@ package body Worldline.Protected_Paths with SPARK_Mode is
       Last : Natural := Pattern'Length;
    begin
       while Last > 0 and then Pattern (Pattern'First + Last - 1) = '/' loop
+         pragma Loop_Variant (Decreases => Last);
          Last := Last - 1;
       end loop;
       declare

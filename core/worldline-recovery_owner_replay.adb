@@ -21,7 +21,7 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
    use type CW.Raw_Optional_Counter;
 
    function Field (Data : E.Bytes; Item : E.Span; Name : String;
-      At_Layer : E.Layer) return E.Span is
+      At_Layer : E.Layer) return E.Span with Global => null is
    begin
       if At_Layer = E.Recovery then
          return RA.Field (Data, Item, Name);
@@ -312,10 +312,15 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
       Audit : out R.Audit; Reason : out Status;
       Facts_Data : E.Bytes; Capsules : E.Span)
    is
-      Valid, Before_Valid, After_Valid : Boolean := True;
+      Valid : Boolean := True;
+      Before_Valid, After_Valid : Boolean;
       Before_Current : H.Optional_Cursor;
       Prepared : constant E.Span := RA.Field (Data, Owner, "prepared");
    begin
+      --  SPARK: the discriminants of these out components are inputs of the
+      --  callees below; the caller's object already holds their default False.
+      Audit.Current_Head := (Present => False);
+      Audit.Current_Epoch := (Present => False);
       M.Classify_All (Data, RA.Field (Data, Owner, "before_material"),
          RA.Field (Data, Owner, "world"), RA.Field (Data, Owner, "requirement"),
          Arena, Before, Before_Final, Before_Current, Before_Valid,
@@ -472,7 +477,7 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
               (Data, RA.Field (Data, Owner, "before_material")) else 0);
             Arena : E.Bytes (Data'First ..
               (if Adopt then Arena_Last (Data, Owner, False) else Data'Last)) := (others => 0);
-            Rows : H.History (1 .. Count);
+            Rows : H.History (1 .. Count) with Relaxed_Initialization;
             Finalization : H.Optional_Record := (Present => False);
             Current : H.Optional_Cursor;
             Scope : C.Full_Scope;

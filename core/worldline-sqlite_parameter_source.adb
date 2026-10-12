@@ -192,6 +192,7 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
       N : Natural := 0;
    begin
       while N < 64 and then (V and High_Bit) = 0 loop
+         pragma Loop_Variant (Increases => N);
          V := Interfaces.Shift_Left (V, 1); N := N + 1;
       end loop;
       return N;
@@ -292,6 +293,7 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
       end if;
       Convert10 (V, Exponent, (if Precision >= 18 then 18 else Precision + 1), V, Power);
       while V > 0 loop
+         pragma Loop_Variant (Decreases => V);
          First := First - 1; Z (First) := Character'Val (48 + Integer (V mod 10)); V := V / 10;
       end loop;
       N := 20 - First; DP := N + Power; Round := Precision;
@@ -299,13 +301,13 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
          if Round = 17 then
             if Z (First + 15) = '9' and then Z (First + 14) = '9' then
                declare J : Natural := 14; V2 : U64; begin
-                  while J > 0 and then Z (First + J - 1) = '9' loop J := J - 1; end loop;
+                  while J > 0 and then Z (First + J - 1) = '9' loop pragma Loop_Variant (Decreases => J); J := J - 1; end loop;
                   V2 := (if J = 0 then 1 else Prefix_Value (J) + 1);
                   if Convert2 (V2, Power + N - J) = Positive_Bits then Round := J + 1; end if;
                end;
             elsif DP >= N or else (Z (First + 15) = '0' and then Z (First + 14) = '0' and then Z (First + 13) = '0') then
                declare J : Natural := 13; begin
-                  while J > 1 and then Z (First + J - 1) = '0' loop J := J - 1; end loop;
+                  while J > 1 and then Z (First + J - 1) = '0' loop pragma Loop_Variant (Decreases => J); J := J - 1; end loop;
                   if Convert2 (Prefix_Value (J), Power + N - J) = Positive_Bits then Round := J + 1; end if;
                end;
             end if;
@@ -314,6 +316,7 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
          if Z (First + Round) >= '5' then
             declare J : Natural := First + Round - 1; begin
                loop
+                  pragma Loop_Variant (Decreases => J);
                   Z (J) := Character'Succ (Z (J));
                   exit when Z (J) <= '9';
                   Z (J) := '0';
@@ -323,7 +326,7 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
             end;
          end if;
       end if;
-      while N > 1 and then Z (First + N - 1) = '0' loop N := N - 1; end loop;
+      while N > 1 and then Z (First + N - 1) = '0' loop pragma Loop_Variant (Decreases => N); N := N - 1; end loop;
       if Bits >= High_Bit then Append ('-'); end if;
       Exponent := DP - 1;
       if Exponent < -4 or else Exponent >= Precision then

@@ -26,7 +26,11 @@ package body Worldline.Source_Syntax with SPARK_Mode is
       function Reference (Item : V.Node) return Natural is
         (if Item.Form = V.Object_Value and then V.Count (Data, Item) = 1
          then Index_Of (F (Item, "node"), Node_Count) else Node_Count);
-      function Tree (Item : V.Node; Owner : Natural) return Boolean is
+      --  Children of an array/object node start after their parent (Producer_Values
+      --  Element/Field Posts); a non-container child ends the recursion.
+      function Tree (Item : V.Node; Owner : Natural) return Boolean
+        with Subprogram_Variant => (Decreases => (if Item.Form in V.Array_Value | V.Object_Value then 1 else 0),
+                                    Increases => Item.First) is
       begin
          if Item.Form = V.Array_Value then
             for I in 1 .. V.Count (Data, Item) loop

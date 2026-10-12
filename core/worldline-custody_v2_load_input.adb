@@ -82,7 +82,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Raw : E.Byte_View;
       Hex : Boolean := False;
       Sign : Boolean := False;
-      Kind : S.SQL_Class := S.SQL_Null;
+      Kind : S.SQL_Class;
       Length : E.Count;
    begin
       Cell := (Kind => S.SQL_Null); Status := Malformed;
@@ -287,6 +287,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
    function Counts (Data : E.Bytes; Envelope : E.Span) return Sizes is
       Input : constant E.Span := Envelope;
       Result : Sizes;
+      Rows : E.Count;
       Good : Boolean := True;
       procedure Add (Amount : E.Count) is
       begin
@@ -340,9 +341,10 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       begin
          if V.Valid_Bytes (Data, Capture) then Add (SQL_Length (Data, Capture)); end if;
       end;
-      Table ("events", 13, Result.Events); Table ("heads", 5, Result.Heads);
-      Table ("roots", 16, Result.Roots); Table ("subjects", 9, Result.Subjects);
-      Table ("alternatives", 7, Result.Alternatives); Table ("blobs", 3, Result.Blobs);
+      --  SPARK: Table also updates Result (through Add); its out actual may not alias it.
+      Table ("events", 13, Rows); Result.Events := Rows; Table ("heads", 5, Rows); Result.Heads := Rows;
+      Table ("roots", 16, Rows); Result.Roots := Rows; Table ("subjects", 9, Rows); Result.Subjects := Rows;
+      Table ("alternatives", 7, Rows); Result.Alternatives := Rows; Table ("blobs", 3, Rows); Result.Blobs := Rows;
       declare
          Messages : constant E.Span := T.Field (Data, T.Field (Data, Input, "owner_roster"), "custody_head_messages");
       begin
@@ -418,27 +420,29 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Good : Boolean := True;
       function Nibble (B : Q.Byte) return Q.Byte is
         (if B in 48 .. 57 then B - 48 else B - 97 + 10);
-      procedure Cell (Encoded : E.Span; Result : out S.SQL_Cell) is
+      --  SPARK: these helpers receive the arena (and input span) explicitly; a helper
+      --  reading Value as a global may not also receive a component of Value as an actual.
+      procedure Cell (Arena : in out E.Bytes; Encoded : E.Span; Result : out S.SQL_Cell) is
          Status : Decode_Status;
       begin
-         Append_SQL_Cell (Value.Arena, Encoded, Used, Result, Status);
+         Append_SQL_Cell (Arena, Encoded, Used, Result, Status);
          if Status /= Parsed then Good := False; end if;
       end Cell;
-      procedure Global_Field (Name : String; Span : out E.Span) is
+      procedure Global_Field (Arena : in out E.Bytes; Input : E.Span; Name : String; Span : out E.Span) is
          Result : S.SQL_Cell;
       begin
-         Cell (T.Field (Value.Arena, Value.Input, Name), Result);
+         Cell (Arena, T.Field (Arena, Input, Name), Result);
          if Result.Kind not in S.SQL_Text | S.SQL_Blob then Good := False; Span := (1, 0);
          else Span := (Result.Bytes.First, Result.Bytes.Length); end if;
       end Global_Field;
-      procedure Table (Name : String; Rows : in out SQL_Rows; Encoded : in out Span_Array;
-                       Count : E.Count) is
-         Seq : constant E.Span := T.Field (Value.Arena, Value.Input, Name);
+      procedure Table (Arena : in out E.Bytes; Input : E.Span; Name : String; Rows : in out SQL_Rows;
+                       Encoded : in out Span_Array; Count : E.Count) is
+         Seq : constant E.Span := T.Field (Arena, Input, Name);
       begin
          for I in E.Count range 1 .. Count loop
-            Encoded (I) := V.Element (Value.Arena, Seq, I - Rows'First (1));
+            Encoded (I) := V.Element (Arena, Seq, I - Rows'First (1));
             for J in Rows'Range (2) loop
-               Cell (V.Element (Value.Arena, Encoded (I), E.Count (J - Rows'First (2))), Rows (I, J));
+               Cell (Arena, V.Element (Arena, Encoded (I), E.Count (J - Rows'First (2))), Rows (I, J));
             end loop;
          end loop;
       end Table;
@@ -482,32 +486,30 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          end loop;
          return Result;
       end Digest;
-      procedure Intern (Name : String; Result : out S.SQL_Cell) is
+      procedure Intern (Arena : in out E.Bytes; Name : String; Result : out S.SQL_Cell) is
          Span : E.Span := (1, 0);
       begin
-         if Name'Length > Value.Arena_Count - Used then Good := False;
+         if Name'Length > Arena'Length - Used then Good := False;
          elsif Name'Length > 0 then
             Span := (Used + 1, Name'Length);
             for I in Name'Range loop
-               Value.Arena (Span.First + E.Count (I - Name'First)) := Q.Byte (Character'Pos (Name (I)));
+               Arena (Span.First + E.Count (I - Name'First)) := Q.Byte (Character'Pos (Name (I)));
             end loop;
             Used := Used + Name'Length;
          end if;
          Result := (Kind => S.SQL_Text, Bytes => (Span.First, Span.Length));
       end Intern;
-      procedure Event_Extras (Index : Q.Byte_Index) is
+      procedure Event_Extras (Arena : in out E.Bytes; Record_Archive : E.Span; Extras : out Event_Extra) is
          Result : Decode_Status;
       begin
-         Append_Event_Extras (Value.Arena, Value.Events (Index).Record_Archive, Used, Value.Extras (Index), Result);
+         Append_Event_Extras (Arena, Record_Archive, Used, Extras, Result);
          if Result /= Parsed then Good := False; end if;
       end Event_Extras;
    begin
       Decoded_Used := 0; Value.Decoded_Event_Count := 0; Value.Arena_Used := 0;
       Value.Status := Malformed;
       for I in Value.Arena'Range loop
-         if I <= Data'Length then Value.Arena (I) := Data (Data'First + I - 1);
-         else Value.Arena (I) := 0;
-         end if;
+         Value.Arena (I) := (if I <= Data'Length then Data (Data'First + (I - 1)) else 0);
       end loop;
       Value.Input := (1, 0); Value.Key := (1, 0); Value.Genesis_File := (1, 0);
       Value.Source_Input := (1, 0);
@@ -556,7 +558,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          Image : S.SQL_Cell;
       begin
          if V.Valid_Bytes (Value.Arena, Capture) then
-            Cell (Capture, Image);
+            Cell (Value.Arena, Capture, Image);
             if Image.Kind = S.SQL_Blob then
                Value.Startup_Capture_Payload := (Image.Bytes.First, Image.Bytes.Length);
                if V.S.A.Valid (Value.Arena, Value.Startup_Capture_Payload) then
@@ -565,15 +567,17 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
             end if;
          end if;
       end;
-      Global_Field ("key", Value.Key); Global_Field ("genesis_file", Value.Genesis_File);
-      Global_Field ("genesis_row", Value.Genesis_Row); Global_Field ("genesis_message", Value.Genesis_Message);
-      Global_Field ("genesis_mac", Value.Genesis_Mac);
-      Table ("events", Value.Event_SQL, Value.Event_Encoded, Size.Events);
-      Table ("heads", Value.Head_SQL, Value.Head_Encoded, Size.Heads);
-      Table ("roots", Value.Root_SQL, Value.Root_Encoded, Size.Roots);
-      Table ("subjects", Value.Subject_SQL, Value.Subject_Encoded, Size.Subjects);
-      Table ("alternatives", Value.Alternative_SQL, Value.Alternative_Encoded, Size.Alternatives);
-      Table ("blobs", Value.Blob_SQL, Value.Blob_Encoded, Size.Blobs);
+      Global_Field (Value.Arena, Value.Input, "key", Value.Key);
+      Global_Field (Value.Arena, Value.Input, "genesis_file", Value.Genesis_File);
+      Global_Field (Value.Arena, Value.Input, "genesis_row", Value.Genesis_Row);
+      Global_Field (Value.Arena, Value.Input, "genesis_message", Value.Genesis_Message);
+      Global_Field (Value.Arena, Value.Input, "genesis_mac", Value.Genesis_Mac);
+      Table (Value.Arena, Value.Input, "events", Value.Event_SQL, Value.Event_Encoded, Size.Events);
+      Table (Value.Arena, Value.Input, "heads", Value.Head_SQL, Value.Head_Encoded, Size.Heads);
+      Table (Value.Arena, Value.Input, "roots", Value.Root_SQL, Value.Root_Encoded, Size.Roots);
+      Table (Value.Arena, Value.Input, "subjects", Value.Subject_SQL, Value.Subject_Encoded, Size.Subjects);
+      Table (Value.Arena, Value.Input, "alternatives", Value.Alternative_SQL, Value.Alternative_Encoded, Size.Alternatives);
+      Table (Value.Arena, Value.Input, "blobs", Value.Blob_SQL, Value.Blob_Encoded, Size.Blobs);
       for I in E.Count range 1 .. Size.Events loop
          Value.Events (I) :=
            (Event_Id => Raw_Span (Value.Event_SQL (I, 2), S.SQL_Text),
@@ -598,7 +602,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
               Event_Id => Optional (Value.Head_SQL (I, 3)), Origin => Optional (Value.Head_SQL (I, 4)),
               Mac => Raw_Span (Value.Head_SQL (I, 5), S.SQL_Text), Message => (1, 0));
             declare Head_Message : S.SQL_Cell; begin
-               Cell (V.Element (Value.Arena, Messages, I - 1), Head_Message);
+               Cell (Value.Arena, V.Element (Value.Arena, Messages, I - 1), Head_Message);
                Value.Heads (I).Message := Raw_Span (Head_Message, S.SQL_Blob);
             end;
          end loop;
@@ -651,13 +655,15 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
               Set => Family, Event_Id => Digest (Value.Alternative_SQL (I, 7)));
          end;
       end loop;
-      for I in E.Count range 1 .. Size.Events loop Event_Extras (I); end loop;
-      for P in M.Root_Phase loop Intern (Root_Name (P), Value.Symbols.Root (P)); end loop;
-      for P in M.Request_Phase loop Intern (Request_Name (P), Value.Symbols.Request (P)); end loop;
-      for P in M.Descriptor_Phase loop Intern (Descriptor_Name (P), Value.Symbols.Descriptor (P)); end loop;
-      for P in M.Abort_Class loop Intern (Abort_Name (P), Value.Symbols.Abort_Name (P)); end loop;
-      for P in M.Transfer_Mode loop Intern (Mode_Name (P), Value.Symbols.Mode (P)); end loop;
-      Intern ("", Value.Symbols.Empty_Text);
+      for I in E.Count range 1 .. Size.Events loop
+         Event_Extras (Value.Arena, Value.Events (I).Record_Archive, Value.Extras (I));
+      end loop;
+      for P in M.Root_Phase loop Intern (Value.Arena, Root_Name (P), Value.Symbols.Root (P)); end loop;
+      for P in M.Request_Phase loop Intern (Value.Arena, Request_Name (P), Value.Symbols.Request (P)); end loop;
+      for P in M.Descriptor_Phase loop Intern (Value.Arena, Descriptor_Name (P), Value.Symbols.Descriptor (P)); end loop;
+      for P in M.Abort_Class loop Intern (Value.Arena, Abort_Name (P), Value.Symbols.Abort_Name (P)); end loop;
+      for P in M.Transfer_Mode loop Intern (Value.Arena, Mode_Name (P), Value.Symbols.Mode (P)); end loop;
+      Intern (Value.Arena, "", Value.Symbols.Empty_Text);
       Value.Symbols.Zero := (Kind => S.SQL_Integer, Integer_Value => (False, 1, 0));
       Value.Symbols.Zero_Magnitude := (Kind => S.SQL_Blob, Bytes => (1, 0));
       if Used < Value.Arena_Count then
