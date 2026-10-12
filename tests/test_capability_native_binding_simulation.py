@@ -104,12 +104,21 @@ class NativeBindingSimulations(unittest.TestCase):
         class Issuer:
             pass
         class Lease:
-            def open_journal(self, gate, name, path, envelope):
+            # Live constructors restore an existing complete admission and never
+            # write at startup (StartupLease.capture_journal_admission); the
+            # journal itself is provisioned offline beforehand.
+            def capture_journal_admission(self, gate, name, path, envelope):
                 trace.append(('lease', name))
-                path.write_text(json.dumps(envelope))
+                if not os.path.lexists(path):
+                    raise SimulatedRefusal('STARTUP_OFFLINE_JOURNAL_PROVISIONING_REQUIRED')
 
         issuer = Issuer()
         issuer.key, issuer.state = b'SIMULATED KEY', root
+        # Simulated offline provisioning of the prior journal (contents unread:
+        # journal replay is an explicit exclusion below).
+        (root / 'full-use-reservations.json').write_text(json.dumps(
+            {'body': {'schema': 'cosmogony.full-protected-use-reservations-v1', 'events': []},
+             'mac': 'SIMULATED OFFLINE PROVISIONING'}))
         gate, capture, lease = Gate(), Capture(), Lease()
         gate.root, gate.issuer, capture.startup_lease = root, issuer, lease
         config = {'schema': 'cosmogony.protected-use-reservation-bind-v1',

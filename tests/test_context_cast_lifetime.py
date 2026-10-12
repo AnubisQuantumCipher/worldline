@@ -42,10 +42,32 @@ def descriptor_snapshot(value, pointer_fields):
                  for name, _kind in value._fields_ if name not in pointer_fields)
 
 
+# Every c_void_p field of completion_kernel.Request. 'captured' and 'retained'
+# are by-value Capture descriptors and are compared field by field below.
+PROJECTION_POINTERS = ('data', 'journal', 'captured_results', 'retained_results',
+                       'history', 'required')
+
+
+def projection_snapshot(prepared):
+    # Raw addresses of two distinct allocations never compare equal; compare the
+    # complete owned bytes behind every pointer and require that each non-null
+    # pointer names its retained owner and each absent one is null.
+    p = prepared.request
+    owners = {'data': prepared.owned[0], 'captured_results': prepared.owned[2],
+              'required': prepared.owned[5]}
+    if prepared.owned[0] is not prepared.native_owners[0]:
+        raise AssertionError('projection data is not the native arena owner')
+    for name in PROJECTION_POINTERS:
+        owner = owners.get(name)
+        if getattr(p, name) != (None if owner is None else C.addressof(owner)):
+            raise AssertionError('projection pointer is not owned: ' + name)
+    return (descriptor_snapshot(p, set(PROJECTION_POINTERS)),
+            tuple((name, bytes(owners[name])) for name in PROJECTION_POINTERS if name in owners))
+
+
 def complete(prepared):
     native = snapshot(prepared.native_request, prepared.native_owners)
-    projection = descriptor_snapshot(prepared.request,
-        {'data', 'journal', 'captured', 'retained', 'history', 'required'})
+    projection = projection_snapshot(prepared)
     x = prepared.context
     if x.data != C.addressof(prepared.context_owners[0]):
         raise AssertionError('context data is not owned')
@@ -120,6 +142,12 @@ class ContextCastLifetimeControls(unittest.TestCase):
     def test_context_copy_audit_count_order_size_and_offsets_match_original(self):
         value = self.fixture.sealed(self.fixture.capture())
         request, agent = self.fixture.collapse_values()
+        # ctypes resolves each CDLL export once per process (a 'ctypes.dlsym'
+        # audit event on first attribute lookup, then cached). Whichever join runs
+        # first would carry that process-global event. Perform one unobserved join
+        # on each path first so both observations below are in the same state.
+        for original in (True, False):
+            self.join(self.make(value, original), request, agent, original)
         observations = []
         for original in (True, False):
             prepared = self.make(value, original)

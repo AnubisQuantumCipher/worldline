@@ -167,7 +167,25 @@ class RootWorkerCodecLosslessControls(unittest.TestCase):
         state = S.ScopedState(current=context(), resource_epoch=7, universe_head=b'u',
             ledger_head=b'l', history_head=b'h', physical_head=None)
         snapshot = ScopedSnapshot(state=state, history=(), rows=(), projection=(), buckets=())
-        original = operation_archive(snapshot)
+        # ScopedSnapshot and ScopedState are root DTOs (R._schema), not members of
+        # the unchanged original operation-capture grammar, which refuses them.
+        # The original-grammar oracle is therefore the original operation-capture
+        # tags of every operand that grammar has, in the original record framing,
+        # with the complete declared field order of the two root DTOs.
+        for root_only in (snapshot, state):
+            with self.assertRaises(WorldlineError) as refused:
+                operation_archive(root_only)
+            self.assertEqual(refused.exception.code, 'RECOVERY_PACKET_TYPE')
+        def original_tags(value):
+            return decode(operation_archive(value))
+        original_state = ['record', S.ScopedState.__module__, 'ScopedState',
+            [[name, original_tags(getattr(state, name))] for name in
+             ('current', 'resource_epoch', 'universe_head', 'ledger_head', 'history_head', 'physical_head')]]
+        original = encode(['record', ScopedSnapshot.__module__, 'ScopedSnapshot',
+            [['state', original_state]] + [[name, original_tags(getattr(snapshot, name))]
+                for name in ('history', 'rows', 'projection', 'buckets')]])
+        self.assertEqual(original_tags(context())[:3],
+                         ['record', L.RunContext.__module__, 'RunContext'])
         self.assertEqual(R.raw_archive(snapshot), original)
         restored = self.assert_roundtrip({b'snapshot': snapshot, 'snapshot': original})
         self.assertIs(type(restored[b'snapshot']), ScopedSnapshot)
