@@ -16,16 +16,19 @@ package body Worldline.Report_Parser with SPARK_Mode is
    end record;
 
    function Decode (Bytes : String; Replace : Boolean := False) return Decoded_Text
-     with Global => null
+     with Global => null,
+       Post => Decode'Result.Capacity = Bytes'Length and then Decode'Result.Length <= Bytes'Length
    is
       R : Decoded_Text (Bytes'Length) := (Bytes'Length, True, 0, (others => 0));
       O : Natural := 0;
       C, Width, Minimum : Natural;
       Valid : Boolean;
       function Byte (At_Offset : Natural) return Natural is
-        (Character'Pos (Bytes (Bytes'First + At_Offset)));
+        (Character'Pos (Bytes (Bytes'First + At_Offset)))
+        with Pre => At_Offset < Bytes'Length;
    begin
       while O < Bytes'Length loop
+         pragma Loop_Invariant (R.Length <= O);
          pragma Loop_Variant (Decreases => Bytes'Length - O);
          C := Byte (O); Width := 1; Minimum := 0;
          if C < 128 then null;
@@ -37,6 +40,7 @@ package body Worldline.Report_Parser with SPARK_Mode is
          Valid := Width > 0 and then Width <= Bytes'Length - O;
          if Valid and then Width > 1 then
             for K in 1 .. Width - 1 loop
+               pragma Loop_Invariant (C < (if K = 1 then 32 elsif K = 2 then 2048 elsif K = 3 then 131072 else 8388608));
                if Byte (O + K) not in 128 .. 191 then Valid := False; exit; end if;
                C := C * 64 + Byte (O + K) mod 64;
             end loop;
@@ -51,7 +55,11 @@ package body Worldline.Report_Parser with SPARK_Mode is
             if Byte (O) in 16#C2# .. 16#F4# then
                while Width < Bytes'Length - O and then Width < 4
                  and then Byte (O + Width) in 128 .. 191
-               loop Width := Width + 1; end loop;
+               loop
+                  pragma Loop_Invariant (Width in 1 .. 3 and then Width <= Bytes'Length - O);
+                  pragma Loop_Variant (Increases => Width);
+                  Width := Width + 1;
+               end loop;
             end if;
          end if;
          R.Length := R.Length + 1; R.Data (R.Length) := C; O := O + Width;
@@ -97,7 +105,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
       Valid : Boolean := False;
       Value : Big_Integer := To_Big_Integer (0);
    end record;
-   function Py_Integer (D : Code_Array; First, Last : Natural) return Integer_Result is
+   function Py_Integer (D : Code_Array; First, Last : Natural) return Integer_Result
+     with Pre => Last < Natural'Last
+   is
       R : Integer_Result;
       A : Natural := First;
       B : Natural := Last;
@@ -105,11 +115,20 @@ package body Worldline.Report_Parser with SPARK_Mode is
       Digit : Integer;
    begin
       if A = 0 or else A > B or else A not in D'Range or else B not in D'Range then return R; end if;
-      while A <= B and then Is_White (D (A)) loop A := A + 1; end loop;
-      while B >= A and then Is_White (D (B)) loop B := B - 1; end loop;
+      while A <= B and then Is_White (D (A)) loop
+         pragma Loop_Invariant (A >= D'First);
+         pragma Loop_Variant (Increases => A);
+         A := A + 1;
+      end loop;
+      while B >= A and then Is_White (D (B)) loop
+         pragma Loop_Invariant (B <= Last);
+         pragma Loop_Variant (Decreases => B);
+         B := B - 1;
+      end loop;
       if A > B then return R; end if;
       if D (A) = 43 or else D (A) = 45 then Negative := D (A) = 45; A := A + 1; end if;
       while A <= B loop
+         pragma Loop_Invariant (A >= D'First);
          pragma Loop_Variant (Decreases => B - A + 1);
          Digit := Decimal_Digit (D (A));
          if Digit >= 0 then
@@ -125,30 +144,48 @@ package body Worldline.Report_Parser with SPARK_Mode is
       return R;
    end Py_Integer;
 
-   function Image (N : Big_Integer) return String is
+   function Image (N : Big_Integer) return String
+     with Post => Image'Result'First = 1
+   is
       S : constant String := To_String (N);
-      First : Natural := S'First;
    begin
-      while First <= S'Last and then S (First) = ' ' loop First := First + 1; end loop;
-      return S (First .. S'Last);
+      for First in S'Range loop
+         if S (First) /= ' ' then
+            declare
+               R : constant String (1 .. S'Last - First + 1) := S (First .. S'Last);
+            begin
+               return R;
+            end;
+         end if;
+      end loop;
+      return "";
    end Image;
    function Status_JSON (Good : Boolean) return String is
      (if Good then "PASS" else "FAIL");
-   function Answer (Good : Boolean; Class : Classification; Fields : String := "") return Parsed_Report is
+   function Answer (Good : Boolean; Class : Classification; Fields : String := "") return Parsed_Report
+     with Pre => Fields'Length <= Natural'Last - 17,
+       Post => Answer'Result.Status = (if Good then Pass else Fail) and then Answer'Result.Class = Class
+   is
       S : constant String := "{""status"":""" & Status_JSON (Good) & """" & Fields & "}";
    begin
       return (S'Length, (if Good then Pass else Fail), Class, S);
    end Answer;
-   function Reject (Class : Classification; Reason : String; Null_Field : String := "") return Parsed_Report is
+   function Reject (Class : Classification; Reason : String; Null_Field : String := "") return Parsed_Report
+     with Pre => Reason'Length <= Natural'Last / 4 and then Null_Field'Length <= Natural'Last / 4,
+       Post => Reject'Result.Status = Fail and then Reject'Result.Class = Class
+   is
    begin
       return Answer (False, Class, ",""reason"":""" & Reason & """" &
         (if Null_Field = "" then "" else ",""" & Null_Field & """:null"));
    end Reject;
 
-   function GNAT_Report (Payload : String; Exit_Zero : Boolean) return Parsed_Report is
+   function GNAT_Report (Payload : String; Exit_Zero : Boolean) return Parsed_Report
+     with Post => GNAT_Report'Result.Status /= Unsupported
+   is
       T : constant Decoded_Text := Decode (Payload, True);
       Clean : Code_Array (1 .. T.Length) := (others => 0);
-      Start, Stop, O, K, Used : Natural := 1;
+      Start, Stop : Natural := 1;
+      O, K, Used : Natural;
       Found : Boolean := False;
       type Count_Array is array (1 .. 5) of Big_Integer;
       Counts : Count_Array := (others => To_Big_Integer (0));
@@ -157,8 +194,14 @@ package body Worldline.Report_Parser with SPARK_Mode is
       Starts, Stops : Token_Bounds := (others => 0);
    begin
       while Start <= T.Length loop
+         pragma Loop_Invariant (Start >= 1);
+         pragma Loop_Variant (Increases => Start);
          Stop := Start;
-         while Stop <= T.Length and then not Line_End (T.Data (Stop)) loop Stop := Stop + 1; end loop;
+         while Stop <= T.Length and then not Line_End (T.Data (Stop)) loop
+            pragma Loop_Invariant (Stop in Start .. T.Length);
+            pragma Loop_Variant (Increases => Stop);
+            Stop := Stop + 1;
+         end loop;
          if Stop - Start >= 5 and then T.Data (Start .. Start + 4) = Code_Array'(84,111,116,97,108) then Found := True; exit; end if;
          Start := Stop + 1;
          if Stop < T.Length and then T.Data (Stop) = 13 and then T.Data (Stop + 1) = 10 then Start := Start + 1; end if;
@@ -166,12 +209,16 @@ package body Worldline.Report_Parser with SPARK_Mode is
       if not Found then return Reject (Missing_Total, "gnatprove Total row is missing", "total"); end if;
       O := Start; Used := 0;
       while O < Stop loop
+         pragma Loop_Invariant (O in Start .. Stop and then Used <= O - Start);
          pragma Loop_Variant (Decreases => Stop - O);
-         K := O;
          if T.Data (O) = 40 then
             K := O + 1;
-            while K < Stop and then T.Data (K) in 48 .. 57 loop K := K + 1; end loop;
-            if K > O + 1 and then K + 1 < Stop and then T.Data (K) = 37 and then T.Data (K + 1) = 41 then
+            while K < Stop and then T.Data (K) in 48 .. 57 loop
+               pragma Loop_Invariant (K in O + 1 .. Stop);
+               pragma Loop_Variant (Increases => K);
+               K := K + 1;
+            end loop;
+            if K > O + 1 and then K < Stop - 1 and then T.Data (K) = 37 and then T.Data (K + 1) = 41 then
                O := K + 2;
             else Used := Used + 1; Clean (Used) := T.Data (O); O := O + 1;
             end if;
@@ -180,10 +227,21 @@ package body Worldline.Report_Parser with SPARK_Mode is
       end loop;
       O := 1;
       while O <= Used loop
-         while O <= Used and then Is_White (Clean (O)) loop O := O + 1; end loop;
+         pragma Loop_Invariant (O >= 1 and then Fields <= 6);
+         pragma Loop_Invariant (for all F in 1 .. Fields => Starts (F) in 1 .. Used and then Stops (F) in Starts (F) .. Used);
+         pragma Loop_Variant (Increases => O);
+         while O <= Used and then Is_White (Clean (O)) loop
+            pragma Loop_Invariant (O >= O'Loop_Entry);
+            pragma Loop_Variant (Increases => O);
+            O := O + 1;
+         end loop;
          exit when O > Used;
          K := O;
-         while K <= Used and then not Is_White (Clean (K)) loop K := K + 1; end loop;
+         while K <= Used and then not Is_White (Clean (K)) loop
+            pragma Loop_Invariant (K in O .. Used);
+            pragma Loop_Variant (Increases => K);
+            K := K + 1;
+         end loop;
          Fields := Fields + 1;
          if Fields > 6 then return Reject (Invalid_Total_Row, "gnatprove Total row is invalid", "total"); end if;
          Starts (Fields) := O; Stops (Fields) := K - 1;
@@ -207,16 +265,20 @@ package body Worldline.Report_Parser with SPARK_Mode is
         ",""total"":" & Image (Counts (1)) & ",""justified"":" & Image (Counts (4)) & ",""unproved"":" & Image (Counts (5)));
    end GNAT_Report;
 
-   function Decode_XML (Bytes : String) return Decoded_Text is
+   function Decode_XML (Bytes : String) return Decoded_Text
+     with Post => Decode_XML'Result.Capacity = Bytes'Length and then Decode_XML'Result.Length <= Bytes'Length
+   is
       R : Decoded_Text (Bytes'Length) := (Bytes'Length,True,0,(others => 0));
       Little, UTF16, Latin, ASCII_Only : Boolean := False;
       Offset : Natural := 0;
       C, Second : Natural;
       function Byte (At_Offset : Natural) return Natural is
-        (Character'Pos (Bytes (Bytes'First + At_Offset)));
+        (Character'Pos (Bytes (Bytes'First + At_Offset)))
+        with Pre => At_Offset < Bytes'Length;
       function Unit (At_Offset : Natural) return Natural is
         (if Little then Byte (At_Offset) + 256 * Byte (At_Offset + 1)
-         else 256 * Byte (At_Offset) + Byte (At_Offset + 1));
+         else 256 * Byte (At_Offset) + Byte (At_Offset + 1))
+        with Pre => At_Offset < Bytes'Length - 1;
    begin
       if Bytes'Length >= 2 then
          if Byte (0) = 255 and then Byte (1) = 254 then UTF16 := True; Little := True; Offset := 2;
@@ -229,6 +291,8 @@ package body Worldline.Report_Parser with SPARK_Mode is
       end if;
       if UTF16 then
          while Offset < Bytes'Length loop
+            pragma Loop_Invariant (R.Length <= Offset / 2);
+            pragma Loop_Variant (Increases => Offset);
             if Bytes'Length - Offset < 2 then R.Valid := False; return R; end if;
             C := Unit (Offset); Offset := Offset + 2;
             if C in 16#D800# .. 16#DBFF# then
@@ -248,21 +312,32 @@ package body Worldline.Report_Parser with SPARK_Mode is
       if Bytes'Length >= 5 and then Bytes (Bytes'First .. Bytes'First + 4) = "<?xml" then
          Offset := 5;
          while Offset < Bytes'Length and then Byte (Offset) /= 62 loop
+            pragma Loop_Variant (Increases => Offset);
             if Bytes'Length - Offset >= 8 and then Bytes (Bytes'First + Offset .. Bytes'First + Offset + 7) = "encoding" then
                Offset := Offset + 8;
-               while Offset < Bytes'Length and then Byte (Offset) in 9 .. 13 | 32 loop Offset := Offset + 1; end loop;
+               while Offset < Bytes'Length and then Byte (Offset) in 9 .. 13 | 32 loop
+                  pragma Loop_Variant (Increases => Offset);
+                  Offset := Offset + 1;
+               end loop;
                if Offset < Bytes'Length and then Byte (Offset) = 61 then
                   Offset := Offset + 1;
-                  while Offset < Bytes'Length and then Byte (Offset) in 9 .. 13 | 32 loop Offset := Offset + 1; end loop;
+                  while Offset < Bytes'Length and then Byte (Offset) in 9 .. 13 | 32 loop
+                     pragma Loop_Variant (Increases => Offset);
+                     Offset := Offset + 1;
+                  end loop;
                   if Offset < Bytes'Length and then Byte (Offset) in 34 | 39 then
                      declare
                         Q : constant Natural := Byte (Offset);
                         First : constant Natural := Offset + 1;
                      begin
                         Offset := First;
-                        while Offset < Bytes'Length and then Byte (Offset) /= Q loop Offset := Offset + 1; end loop;
+                        while Offset < Bytes'Length and then Byte (Offset) /= Q loop
+                           pragma Loop_Invariant (Offset >= First);
+                           pragma Loop_Variant (Increases => Offset);
+                           Offset := Offset + 1;
+                        end loop;
                         declare
-                           Name : String := Bytes (Bytes'First + First .. Bytes'First + Offset - 1);
+                           Name : String := (if Offset > First then Bytes (Bytes'First + First .. Bytes'First + (Offset - 1)) else "");
                         begin
                            for K in Name'Range loop
                               if Name (K) in 'A' .. 'Z' then Name (K) := Character'Val (Character'Pos (Name (K)) + 32); end if;
@@ -280,14 +355,19 @@ package body Worldline.Report_Parser with SPARK_Mode is
          end loop;
       end if;
       if Latin then
-         for K in Bytes'Range loop R.Length := R.Length + 1; R.Data (R.Length) := Character'Pos (Bytes (K)); end loop;
+         for K in Bytes'Range loop
+            pragma Loop_Invariant (R.Length = K - Bytes'First);
+            R.Length := R.Length + 1; R.Data (R.Length) := Character'Pos (Bytes (K));
+         end loop;
          return R;
       end if;
       if ASCII_Only and then (for some B of Bytes => Character'Pos (B) > 127) then R.Valid := False; return R; end if;
       return Decode (Bytes);
    end Decode_XML;
 
-   function JUnit_Report (Payload : String; Exit_Zero : Boolean) return Parsed_Report is
+   function JUnit_Report (Payload : String; Exit_Zero : Boolean) return Parsed_Report
+     with Post => JUnit_Report'Result.Status /= Unsupported
+   is
       T : constant Decoded_Text := Decode_XML (Payload);
       O : Natural := 1;
       Depth, Attributes, Values_Used : Natural := 0;
@@ -309,7 +389,25 @@ package body Worldline.Report_Parser with SPARK_Mode is
       Values : Code_Array (1 .. T.Length) := (others => 0);
       Bad : Boolean := False;
 
-      function Match (At_Offset : Natural; Text : String; Casefold : Boolean := False) return Boolean is
+      -- Proof-only descriptions of the parsed element stack and attribute table.
+      function Stack_OK (Count : Natural) return Boolean is
+        (Count <= T.Length and then
+         (for all I in 1 .. Count =>
+            Stack (I).First >= 1 and then Stack (I).Last >= Stack (I).First and then Stack (I).Last < O
+            and then Stack (I).Attr_Base <= Attributes
+            and then (for all J in I .. Count => Stack (I).Attr_Base <= Stack (J).Attr_Base)))
+        with Ghost;
+      function Attrs_OK (Count : Natural) return Boolean is
+        (Count <= T.Length and then Values_Used <= T.Length and then
+         (for all I in 1 .. Count =>
+            Attr (I).First >= 1 and then Attr (I).Last >= Attr (I).First and then Attr (I).Last <= T.Length
+            and then Attr (I).Value_First >= 1 and then Attr (I).Value_Last <= Values_Used
+            and then Attr (I).Value_Last >= Attr (I).Value_First - 1))
+        with Ghost;
+
+      function Match (At_Offset : Natural; Text : String; Casefold : Boolean := False) return Boolean
+        with Post => (if Match'Result then At_Offset in 1 .. T.Length and then Text'Length <= T.Length - At_Offset + 1)
+      is
          C, Expected : Natural;
       begin
          if At_Offset = 0 or else At_Offset > T.Length or else Text'Length > T.Length - At_Offset + 1 then return False; end if;
@@ -334,23 +432,46 @@ package body Worldline.Report_Parser with SPARK_Mode is
       function Name_Char (C : CP) return Boolean is
         (Name_Start (C) or else C in 48 .. 57 or else C = 45 or else C = 46
          or else C = 16#B7# or else C in 16#300# .. 16#36F# or else C in 16#203F# .. 16#2040#);
-      procedure White is
-      begin while O <= T.Length and then XML_White (T.Data (O)) loop O := O + 1; end loop; end White;
-      procedure Name (First, Last : out Natural) is
+      procedure White
+        with Pre => O >= 1 and then O - 1 <= T.Length,
+          Post => O >= O'Old and then O - 1 <= T.Length
+      is
+      begin
+         while O <= T.Length and then XML_White (T.Data (O)) loop
+            pragma Loop_Invariant (O >= O'Loop_Entry and then O <= T.Length);
+            pragma Loop_Variant (Increases => O);
+            O := O + 1;
+         end loop;
+      end White;
+      procedure Name (First, Last : out Natural)
+        with Pre => O >= 1 and then O - 1 <= T.Length,
+          Post => O >= O'Old and then O - 1 <= T.Length
+            and then (if not Bad then First = O'Old and then Last = O - 1 and then Last >= First)
+      is
       begin
          First := O; Last := O;
          if O > T.Length or else not Name_Start (T.Data (O)) then Bad := True; return; end if;
          O := O + 1;
-         while O <= T.Length and then Name_Char (T.Data (O)) loop O := O + 1; end loop;
+         while O <= T.Length and then Name_Char (T.Data (O)) loop
+            pragma Loop_Invariant (O > First and then O <= T.Length);
+            pragma Loop_Variant (Increases => O);
+            O := O + 1;
+         end loop;
          Last := O - 1;
       end Name;
       function Equal_Name (F, L, G, H : Natural) return Boolean is
-        (L >= F and then H >= G and then L - F = H - G and then T.Data (F .. L) = T.Data (G .. H));
+        (L >= F and then H >= G and then L - F = H - G and then T.Data (F .. L) = T.Data (G .. H))
+        with Pre => (if L >= F and then H >= G then F >= 1 and then L <= T.Length and then G >= 1 and then H <= T.Length);
       function Exact_Name (F, L : Natural; Text : String) return Boolean is
-        (L >= F and then L - F + 1 = Text'Length and then Match (F, Text));
-      procedure Entity (Value : out CP) is
+        (L >= F and then L - F + 1 = Text'Length and then Match (F, Text))
+        with Pre => F >= 1;
+      procedure Entity (Value : out CP)
+        with Pre => O >= 1 and then O <= T.Length,
+          Post => O > O'Old and then O - 1 <= T.Length
+      is
          Start : Natural;
-         C, Base, Digit : Natural := 0;
+         C : Natural := 0;
+         Base, Digit : Natural;
       begin
          Value := 0; O := O + 1; Start := O;
          if O <= T.Length and then T.Data (O) = 35 then
@@ -358,6 +479,8 @@ package body Worldline.Report_Parser with SPARK_Mode is
             if O <= T.Length and then T.Data (O) = 120 then Base := 16; O := O + 1; end if;
             Start := O;
             while O <= T.Length and then T.Data (O) /= 59 loop
+               pragma Loop_Invariant (O >= Start and then O <= T.Length and then C <= CP'Last);
+               pragma Loop_Variant (Increases => O);
                if T.Data (O) in 48 .. 57 then Digit := T.Data (O) - 48;
                elsif Base = 16 and then T.Data (O) in 65 .. 70 then Digit := T.Data (O) - 65 + 10;
                elsif Base = 16 and then T.Data (O) in 97 .. 102 then Digit := T.Data (O) - 97 + 10;
@@ -369,7 +492,11 @@ package body Worldline.Report_Parser with SPARK_Mode is
             if O = Start or else O > T.Length or else not XML_Char (C) then Bad := True; return; end if;
             Value := C;
          else
-            while O <= T.Length and then T.Data (O) /= 59 loop O := O + 1; end loop;
+            while O <= T.Length and then T.Data (O) /= 59 loop
+               pragma Loop_Invariant (O >= Start and then O <= T.Length);
+               pragma Loop_Variant (Increases => O);
+               O := O + 1;
+            end loop;
             if O > T.Length then Bad := True; return; end if;
             if Exact_Name (Start, O - 1, "amp") then Value := 38;
             elsif Exact_Name (Start, O - 1, "lt") then Value := 60;
@@ -381,10 +508,15 @@ package body Worldline.Report_Parser with SPARK_Mode is
          end if;
          O := O + 1;
       end Entity;
-      function Colon (F, L : Natural) return Natural is
+      function Colon (F, L : Natural) return Natural
+        with Pre => (if F <= L then F >= 1 and then L <= T.Length),
+          Post => Colon'Result = 0 or else Colon'Result = Natural'Last
+            or else (Colon'Result > F and then Colon'Result < L)
+      is
          R : Natural := 0;
       begin
          for K in F .. L loop
+            pragma Loop_Invariant (R = 0 or else (R > F and then R < L));
             if T.Data (K) = 58 then
                if R /= 0 or else K = F or else K = L then return Natural'Last; end if;
                R := K;
@@ -394,7 +526,11 @@ package body Worldline.Report_Parser with SPARK_Mode is
       end Colon;
       -- Namespace lookup uses the actual active declarations, including those
       -- on this start tag; a namespace-qualified testsuite is not testsuite.
-      function Namespace_Of (F, L : Natural; Is_Attribute : Boolean) return Natural is
+      function Namespace_Of (F, L : Natural; Is_Attribute : Boolean) return Natural
+        with Pre => (if F <= L then F >= 1 and then L <= T.Length) and then Attrs_OK (Attributes),
+          Post => Namespace_Of'Result = 0 or else Namespace_Of'Result >= Natural'Last - 1
+            or else Namespace_Of'Result in 1 .. Attributes
+      is
          C : constant Natural := Colon (F, L);
          A, N : Natural;
       begin
@@ -403,6 +539,8 @@ package body Worldline.Report_Parser with SPARK_Mode is
          if C /= 0 and then Exact_Name (F, C - 1, "xml") then return Natural'Last - 1; end if;
          A := Attributes;
          while A > 0 loop
+            pragma Loop_Invariant (A <= Attributes);
+            pragma Loop_Variant (Decreases => A);
             if Attr (A).Namespace then
                N := Colon (Attr (A).First, Attr (A).Last);
                if (C = 0 and then N = 0) or else
@@ -419,13 +557,19 @@ package body Worldline.Report_Parser with SPARK_Mode is
          end loop;
          return (if C = 0 then 0 else Natural'Last);
       end Namespace_Of;
-      function URI_Equal (A, B : Natural) return Boolean is
+      function URI_Equal (A, B : Natural) return Boolean
+        with Pre => (A = 0 or else A >= Natural'Last - 1 or else A in 1 .. Attributes)
+          and then (B = 0 or else B >= Natural'Last - 1 or else B in 1 .. Attributes)
+          and then Attrs_OK (Attributes)
+      is
       begin
          if A = B then return True; end if;
          if A = 0 or else B = 0 or else A >= Natural'Last - 1 or else B >= Natural'Last - 1 then return False; end if;
          return Values (Attr (A).Value_First .. Attr (A).Value_Last) = Values (Attr (B).Value_First .. Attr (B).Value_Last);
       end URI_Equal;
-      function Value_Is (A : Natural; Text : String) return Boolean is
+      function Value_Is (A : Natural; Text : String) return Boolean
+        with Pre => A in 1 .. Attributes and then Attrs_OK (Attributes)
+      is
       begin
          if Attr (A).Value_Last < Attr (A).Value_First
            or else Attr (A).Value_Last - Attr (A).Value_First + 1 /= Text'Length then return False; end if;
@@ -434,22 +578,35 @@ package body Worldline.Report_Parser with SPARK_Mode is
          end loop;
          return True;
       end Value_Is;
-      function Local_First (F, L : Natural) return Natural is
+      function Local_First (F, L : Natural) return Natural
+        with Pre => (if F <= L then F >= 1 and then L <= T.Length),
+          Post => Local_First'Result >= F and then (if F <= L then Local_First'Result <= L)
+      is
          C : constant Natural := Colon (F, L);
       begin return (if C = 0 or else C = Natural'Last then F else C + 1); end Local_First;
-      procedure Skip_Until (Terminator : String; Comment : Boolean := False) is
+      procedure Skip_Until (Terminator : String; Comment : Boolean := False)
+        with Pre => O >= 1 and then O - 1 <= T.Length,
+          Post => O >= O'Old and then O - 1 <= T.Length
+      is
       begin
          while O <= T.Length and then not Match (O, Terminator) loop
+            pragma Loop_Invariant (O >= O'Loop_Entry and then O <= T.Length);
+            pragma Loop_Variant (Increases => O);
             if Comment and then Match (O, "--") then Bad := True; return; end if;
             O := O + 1;
          end loop;
          if O > T.Length then Bad := True; else O := O + Terminator'Length; end if;
       end Skip_Until;
-      procedure Declaration is
+      procedure Declaration
+        with Pre => O >= 1 and then O - 1 <= T.Length,
+          Post => O >= O'Old and then O - 1 <= T.Length
+      is
          F, L, V, Stop, Q, Before : Natural;
          Stage : Natural := 0;
       begin
          loop
+            pragma Loop_Invariant (O >= O'Loop_Entry and then O - 1 <= T.Length);
+            pragma Loop_Variant (Increases => O);
             Before := O; White;
             if Match (O,"?>") then
                if Stage = 0 then Bad := True; else O := O + 2; end if;
@@ -461,7 +618,11 @@ package body Worldline.Report_Parser with SPARK_Mode is
             O := O + 1; White;
             if O > T.Length or else (T.Data (O) /= 34 and then T.Data (O) /= 39) then Bad := True; return; end if;
             Q := T.Data (O); O := O + 1; V := O;
-            while O <= T.Length and then T.Data (O) /= Q loop O := O + 1; end loop;
+            while O <= T.Length and then T.Data (O) /= Q loop
+               pragma Loop_Invariant (O >= V and then O <= T.Length);
+               pragma Loop_Variant (Increases => O);
+               O := O + 1;
+            end loop;
             if O > T.Length then Bad := True; return; end if;
             Stop := O - 1; O := O + 1;
             if Exact_Name (F,L,"version") and then Stage = 0 then
@@ -491,8 +652,8 @@ package body Worldline.Report_Parser with SPARK_Mode is
          if Payload'Last - K + 1 >= 9 then
             declare S : String (1 .. 9); begin
                for J in S'Range loop
-                  S (J) := Payload (K + J - 1);
-                  if S (J) in 'a' .. 'z' then S (J) := Character'Val (Character'Pos (S (J)) - 32); end if;
+                  S (J) := (if Payload (K + (J - 1)) in 'a' .. 'z'
+                            then Character'Val (Character'Pos (Payload (K + (J - 1))) - 32) else Payload (K + (J - 1)));
                end loop;
                if S = "<!DOCTYPE" then return Reject (DTD_Forbidden, "JUnit DTD is not allowed", "tests"); end if;
             end;
@@ -503,6 +664,10 @@ package body Worldline.Report_Parser with SPARK_Mode is
       end if;
       if T.Length > 0 and then T.Data (1) = 16#FEFF# then O := 2; end if;
       while O <= T.Length and then not Bad loop
+         pragma Loop_Invariant (O >= 1 and then O <= T.Length);
+         pragma Loop_Invariant (Depth < O and then Attributes < O and then Values_Used < O and then Suite_Count < O);
+         pragma Loop_Invariant (Stack_OK (Depth));
+         pragma Loop_Invariant (Attrs_OK (Attributes));
          pragma Loop_Variant (Decreases => T.Length - O + 1);
          if T.Data (O) /= 60 then
             if Depth = 0 then if not XML_White (T.Data (O)) then Bad := True; end if; O := O + 1;
@@ -543,10 +708,16 @@ package body Worldline.Report_Parser with SPARK_Mode is
             O := O + 1;
             declare
                F, L, Base, AF, AL, VF, VL, Q, Before, NS, Other_NS : Natural;
-               Empty, Suite : Boolean := False;
+               Empty : Boolean := False;
+               Suite : Boolean;
             begin
                Name (F, L); Base := Attributes;
                while not Bad and then O <= T.Length loop
+                  pragma Loop_Invariant (O >= 1 and then F >= 1 and then L >= F and then L < O);
+                  pragma Loop_Invariant (Attributes >= Base and then Attributes < O and then Values_Used < O);
+                  pragma Loop_Invariant (Stack_OK (Depth));
+                  pragma Loop_Invariant (Attrs_OK (Attributes));
+                  pragma Loop_Variant (Increases => O);
                   Before := O; White;
                   exit when O > T.Length or else T.Data (O) = 62 or else T.Data (O) = 47;
                   if Before = O then Bad := True; exit; end if;
@@ -556,6 +727,10 @@ package body Worldline.Report_Parser with SPARK_Mode is
                   if O > T.Length or else (T.Data (O) /= 34 and then T.Data (O) /= 39) then Bad := True; exit; end if;
                   Q := T.Data (O); O := O + 1; VF := Values_Used + 1;
                   while O <= T.Length and then T.Data (O) /= Q and then not Bad loop
+                     pragma Loop_Invariant (O >= O'Loop_Entry and then Values_Used < O and then Values_Used >= VF - 1);
+                     pragma Loop_Invariant (Stack_OK (Depth));
+                     pragma Loop_Invariant (Attrs_OK (Attributes));
+                     pragma Loop_Variant (Increases => O);
                      declare C : CP; begin
                         if T.Data (O) = 38 then Entity (C);
                         elsif T.Data (O) = 60 then Bad := True; C := 0;
@@ -655,11 +830,16 @@ package body Worldline.Report_Parser with SPARK_Mode is
         ",""errors"":" & Image (Totals (3)) & ",""skipped"":" & Image (Totals (4)));
    end JUnit_Report;
 
-   function Quote (D : Code_Array; First, Last : Natural) return String is
+   function Quote (D : Code_Array; First, Last : Natural) return String
+     with Pre => D'First = 1 and then First >= 1 and then Last <= D'Last,
+       Post => Quote'Result'First = 1
+   is
       Hex : constant String := "0123456789abcdef";
-      Buffer : String (1 .. (if Last < First then 2 else (Last - First + 1) * 12 + 2));
+      Buffer : String (1 .. (if Last < First then 2 else (Last - First + 1) * 12 + 2)) := (others => Character'Val (0));
       Used : Natural := 1;
-      procedure Unit (C : Natural) is
+      procedure Unit (C : Natural)
+        with Pre => Used <= Buffer'Last - 6, Post => Used = Used'Old + 6
+      is
       begin
          Buffer (Used + 1 .. Used + 2) := "\u";
          Buffer (Used + 3) := Hex (C / 4096 mod 16 + 1);
@@ -671,6 +851,7 @@ package body Worldline.Report_Parser with SPARK_Mode is
    begin
       Buffer (1) := '"';
       for K in First .. Last loop
+         pragma Loop_Invariant (Used <= (K - First) * 12 + 1);
          if D (K) in 32 .. 126 and then D (K) /= 34 and then D (K) /= 92 then
             Used := Used + 1; Buffer (Used) := Character'Val (D (K));
          elsif D (K) > 65535 then
@@ -682,15 +863,17 @@ package body Worldline.Report_Parser with SPARK_Mode is
       Used := Used + 1; Buffer (Used) := '"';
       return Buffer (1 .. Used);
    end Quote;
-   function Quote (S : String) return String is
+   function Quote (S : String) return String
+     with Post => Quote'Result'First = 1
+   is
       D : Code_Array (1 .. S'Length);
    begin
-      for K in D'Range loop D (K) := Character'Pos (S (S'First + K - 1)); end loop;
+      for K in D'Range loop D (K) := Character'Pos (S (S'First + (K - 1))); end loop;
       return Quote (D, 1, D'Length);
    end Quote;
 
    function Number_From_ASCII (S : String) return Exact_Decimal.Number is
-      A : P.Bytes (1 .. P.Count (S'Length));
+      A : P.Bytes (1 .. P.Count (S'Length)) := (others => 0);
    begin
       for K in S'Range loop A (P.Count (K - S'First + 1)) := P.Byte (Character'Pos (S (K))); end loop;
       return Exact_Decimal.Parse (A, (1, P.Count (S'Length)), 0);
@@ -702,7 +885,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
    end record;
    -- Decimal(str(value)) admits signed, Unicode decimal digits and underscores
    -- in JSON strings, as well as JSON int and rounded binary64 values.
-   function Decimal_String (D : Code_Array; First, Last : Natural) return Decimal_Result is
+   function Decimal_String (D : Code_Array; First, Last : Natural) return Decimal_Result
+     with Pre => D'First = 1 and then Last < D'Last
+   is
       R : Decimal_Result;
       A : Natural := First;
       B : Natural := Last;
@@ -710,12 +895,19 @@ package body Worldline.Report_Parser with SPARK_Mode is
       Exponent_Negative : Boolean := False;
       Fraction, Power : Big_Integer := To_Big_Integer (0);
       Digit : Integer;
-      function Word (Text : String; Payload : Boolean := False) return Boolean is
+      function Word (Text : String; Payload : Boolean := False) return Boolean
+        with Pre => D'First = 1 and then A >= 1 and then B < D'Last
+      is
          J : Natural := A;
          C, E : Natural;
       begin
          for K in Text'Range loop
-            while J <= B and then D (J) = 95 loop J := J + 1; end loop;
+            pragma Loop_Invariant (J >= A);
+            while J <= B and then D (J) = 95 loop
+               pragma Loop_Invariant (J >= A);
+               pragma Loop_Variant (Increases => J);
+               J := J + 1;
+            end loop;
             if J > B then return False; end if;
             C := D (J); E := Character'Pos (Text (K));
             if C in 65 .. 90 then C := C + 32; end if;
@@ -723,6 +915,8 @@ package body Worldline.Report_Parser with SPARK_Mode is
             J := J + 1;
          end loop;
          while J <= B loop
+            pragma Loop_Invariant (J >= A);
+            pragma Loop_Variant (Increases => J);
             if D (J) /= 95 and then (not Payload or else Decimal_Digit (D (J)) < 0) then return False; end if;
             J := J + 1;
          end loop;
@@ -730,15 +924,23 @@ package body Worldline.Report_Parser with SPARK_Mode is
       end Word;
    begin
       if A = 0 or else A > B then return R; end if;
-      while A <= B and then (Is_White (D (A)) or else D (A) = 95) loop A := A + 1; end loop;
-      while B >= A and then (Is_White (D (B)) or else D (B) = 95) loop B := B - 1; end loop;
-      while A <= B and then D (A) = 95 loop A := A + 1; end loop;
+      while A <= B and then (Is_White (D (A)) or else D (A) = 95) loop
+         pragma Loop_Invariant (A >= 1);
+         pragma Loop_Variant (Increases => A);
+         A := A + 1;
+      end loop;
+      while B >= A and then (Is_White (D (B)) or else D (B) = 95) loop
+         pragma Loop_Invariant (B <= Last);
+         pragma Loop_Variant (Decreases => B);
+         B := B - 1;
+      end loop;
       if A > B then return R; end if;
       if D (A) = 43 or else D (A) = 45 then R.Value.Negative := D (A) = 45; A := A + 1; end if;
       if Word ("inf") or else Word ("infinity") or else Word ("nan",True) or else Word ("snan",True) then
          R.Valid := True; return R;
       end if;
       while A <= B loop
+         pragma Loop_Invariant (A >= 1);
          pragma Loop_Variant (Decreases => B - A + 1);
          Digit := Decimal_Digit (D (A));
          if D (A) = 95 then null;
@@ -752,7 +954,11 @@ package body Worldline.Report_Parser with SPARK_Mode is
          elsif D (A) = 46 and then not Dot and then not Exponent then Dot := True;
          elsif (D (A) = 69 or else D (A) = 101) and then Had_Digits and then not Exponent then
             Exponent := True; A := A + 1;
-            while A <= B and then D (A) = 95 loop A := A + 1; end loop;
+            while A <= B and then D (A) = 95 loop
+               pragma Loop_Invariant (A >= A'Loop_Entry);
+               pragma Loop_Variant (Increases => A);
+               A := A + 1;
+            end loop;
             if A <= B and then (D (A) = 43 or else D (A) = 45) then Exponent_Negative := D (A) = 45;
             else A := A - 1; end if;
          else return R;
@@ -772,7 +978,7 @@ package body Worldline.Report_Parser with SPARK_Mode is
    function Decimal_Less (L, R : Exact_Decimal.Number) return Boolean is
       LC : Big_Integer := L.Coefficient;
       RC : Big_Integer := R.Coefficient;
-      L_Order, R_Order : Big_Integer;
+      L_Order, R_Order : Big_Integer := To_Big_Integer (0);
       Less_Magnitude : Boolean;
    begin
       if LC = 0 and then RC = 0 then return False; end if;
@@ -822,7 +1028,13 @@ package body Worldline.Report_Parser with SPARK_Mode is
       E : Big_Integer := N.Exponent;
    begin
       if C = 0 then return (if N.Negative then "-0" else "0"); end if;
-      while C rem To_Big_Integer (10) = 0 loop C := C / To_Big_Integer (10); E := E + To_Big_Integer (1); end loop;
+      -- A nonzero coefficient has fewer trailing zeros than digits, so the
+      -- decimal image bounds the stripping (GNAT's runtime Loop_Variant
+      -- cannot carry a Big_Integer measure).
+      for Zeros in 1 .. Image (C)'Length loop
+         exit when C rem To_Big_Integer (10) /= 0;
+         C := C / To_Big_Integer (10); E := E + To_Big_Integer (1);
+      end loop;
       declare
          S : constant String := Image (C);
          Adjusted : constant Big_Integer := E + To_Big_Integer (S'Length - 1);
@@ -830,10 +1042,10 @@ package body Worldline.Report_Parser with SPARK_Mode is
          Position : Integer;
       begin
          if E > 0 or else Adjusted < -6 then
-            return Sign & S (1 .. 1) & (if S'Length > 1 then "." & S (2 .. S'Last) else "") &
+            return Sign & (if S'Length > 0 then S (1 .. 1) else "") & (if S'Length > 1 then "." & S (2 .. S'Last) else "") &
               "E" & (if Adjusted >= 0 then "+" else "") & Image (Adjusted);
          end if;
-         Position := S'Length + To_Integer (E);
+         Position := To_Integer (E + To_Big_Integer (S'Length));
          if Position <= 0 then return Sign & "0." & String'(1 .. -Position => '0') & S;
          elsif Position >= S'Length then return Sign & S & String'(1 .. Position - S'Length => '0');
          else return Sign & S (1 .. Position) & "." & S (Position + 1 .. S'Last);
@@ -866,7 +1078,7 @@ package body Worldline.Report_Parser with SPARK_Mode is
          if Numerator < Denominator * Exact_Decimal.Power (10, To_Big_Integer (Order)) then Order := Order - 1; end if;
       elsif Numerator * Exact_Decimal.Power (10, To_Big_Integer (-Order)) < Denominator then Order := Order - 1;
       end if;
-      Scale := To_Big_Integer (27 - Order);
+      Scale := To_Big_Integer (27) - To_Big_Integer (Order);
       if Scale >= 0 then Numerator := Numerator * Exact_Decimal.Power (10, Scale);
       else Denominator := Denominator * Exact_Decimal.Power (10, -Scale);
       end if;
@@ -879,7 +1091,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
       return Quote (Decimal_Image (N));
    end Percentage;
 
-   function Benchmark_Report (Payload : String; Exit_Zero : Boolean) return Parsed_Report is
+   function Benchmark_Report (Payload : String; Exit_Zero : Boolean) return Parsed_Report
+     with Post => Benchmark_Report'Result.Status /= Unsupported
+   is
       T : constant Decoded_Text := Decode (Payload);
       Values : Code_Array (1 .. T.Length) := (others => 0);
       Used, O : Natural := 0;
@@ -892,12 +1106,27 @@ package body Worldline.Report_Parser with SPARK_Mode is
       type Field_Array is array (1 .. 5) of JSON_Node;
       Fields : Field_Array := (others => (J_Invalid, 0, 0));
       Unknown : Boolean := False;
-      procedure White is
+      -- Proof-only description of a lexed node: string spans index Values,
+      -- numeric spans index the ASCII source text.
+      function Node_OK (N : JSON_Node) return Boolean is
+        ((if N.Kind = J_String then N.First >= 1 and then N.Last <= Used) and then
+         (if N.Kind in J_Integer | J_Float then N.First >= 1 and then N.Last <= T.Length
+            and then (for all I in N.First .. N.Last => T.Data (I) < 128)))
+        with Ghost;
+      procedure White
+        with Post => O >= O'Old and then O <= Natural'Max (O'Old, T.Length)
+      is
       begin
          while O < T.Length and then (T.Data (O + 1) = 32 or else T.Data (O + 1) = 9
-           or else T.Data (O + 1) = 10 or else T.Data (O + 1) = 13) loop O := O + 1; end loop;
+           or else T.Data (O + 1) = 10 or else T.Data (O + 1) = 13) loop
+            pragma Loop_Invariant (O >= O'Loop_Entry and then O < T.Length);
+            pragma Loop_Variant (Increases => O);
+            O := O + 1;
+         end loop;
       end White;
-      function Match (S : String) return Boolean is
+      function Match (S : String) return Boolean
+        with Post => (if Match'Result then S'Length <= T.Length - O)
+      is
       begin
          if S'Length > T.Length - O then return False; end if;
          for K in 0 .. S'Length - 1 loop
@@ -909,7 +1138,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
         (if C in 48 .. 57 then Integer (C - 48)
          elsif C in 65 .. 70 then Integer (C - 65 + 10)
          elsif C in 97 .. 102 then Integer (C - 97 + 10) else -1);
-      procedure Escaped_Unit (C : out CP) is
+      procedure Escaped_Unit (C : out CP)
+        with Post => O >= O'Old and then O <= Natural'Max (O'Old, T.Length) and then C <= 16#FFFF#
+      is
          H : Integer;
       begin
          C := 0;
@@ -921,7 +1152,12 @@ package body Worldline.Report_Parser with SPARK_Mode is
          end loop;
          O := O + 4;
       end Escaped_Unit;
-      procedure JSON_String (R : out JSON_Node) is
+      procedure JSON_String (R : out JSON_Node)
+        with Pre => Used < T.Length and then Used <= O and then O <= T.Length,
+          Post => O >= O'Old and then O <= T.Length and then Used >= Used'Old and then Used <= O
+            and then Used - O <= Used'Old - O'Old and then (if not Bad then Used < O)
+            and then R.Kind = J_String and then R.First = Used'Old + 1 and then R.Last <= Used
+      is
          C, Second : CP;
          Save : Natural;
       begin
@@ -929,6 +1165,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
          if O >= T.Length or else T.Data (O + 1) /= 34 then Bad := True; return; end if;
          O := O + 1;
          while O < T.Length loop
+            pragma Loop_Invariant (O >= O'Loop_Entry and then Used < O and then Used >= Used'Loop_Entry);
+            pragma Loop_Invariant (Used - O <= Used'Loop_Entry - O'Loop_Entry);
+            pragma Loop_Variant (Increases => O);
             C := T.Data (O + 1); O := O + 1;
             if C = 34 then R.Last := Used; return; end if;
             if C < 32 then Bad := True; return; end if;
@@ -959,14 +1198,19 @@ package body Worldline.Report_Parser with SPARK_Mode is
          end loop;
          Bad := True;
       end JSON_String;
-      function ASCII (F, L : Natural) return String is
+      function ASCII (F, L : Natural) return String
+        with Pre => F >= 1 and then L <= T.Length and then (for all I in F .. L => T.Data (I) < 128)
+      is
          S : String (1 .. (if L < F then 0 else L - F + 1));
       begin
-         for K in S'Range loop S (K) := Character'Val (T.Data (F + K - 1)); end loop;
+         for K in S'Range loop S (K) := Character'Val (T.Data (F + (K - 1))); end loop;
          return S;
       end ASCII;
       procedure Value (R : out JSON_Node)
-        with Subprogram_Variant => (Decreases => T.Length - O);
+        with Subprogram_Variant => (Decreases => T.Length - O),
+          Pre => Used <= O and then O <= T.Length,
+          Post => O >= O'Old and then O <= T.Length and then Used >= Used'Old
+            and then Used - O <= Used'Old - O'Old and then Node_OK (R);
       procedure Value (R : out JSON_Node) is
          Close : CP;
          Object : Boolean;
@@ -981,6 +1225,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
             White;
             if O < T.Length and then T.Data (O + 1) = Close then O := O + 1; R := (J_Other,0,0); return; end if;
             loop
+               pragma Loop_Invariant (O >= O'Loop_Entry and then O <= T.Length and then Used < O);
+               pragma Loop_Invariant (Used >= Used'Loop_Entry and then Used - O <= Used'Loop_Entry - O'Loop_Entry);
+               pragma Loop_Variant (Increases => O);
                if Object then
                   JSON_String (Child); White;
                   if Bad or else O >= T.Length or else T.Data (O + 1) /= 58 then Bad := True; exit; end if;
@@ -1010,23 +1257,41 @@ package body Worldline.Report_Parser with SPARK_Mode is
          if T.Data (O + 1) = 45 then O := O + 1; end if;
          if O >= T.Length or else T.Data (O + 1) not in 48 .. 57 then Bad := True; return; end if;
          if T.Data (O + 1) = 48 then O := O + 1;
-         else while O < T.Length and then T.Data (O + 1) in 48 .. 57 loop O := O + 1; end loop;
+         else
+            while O < T.Length and then T.Data (O + 1) in 48 .. 57 loop
+               pragma Loop_Invariant (O in R.First - 1 .. T.Length and then (for all I in R.First .. O => T.Data (I) < 128));
+               pragma Loop_Variant (Increases => O);
+               O := O + 1;
+            end loop;
          end if;
          R.Kind := J_Integer;
+         pragma Assert (for all I in R.First .. O => T.Data (I) < 128);
          if O < T.Length and then T.Data (O + 1) = 46 then
             R.Kind := J_Float; O := O + 1;
             if O >= T.Length or else T.Data (O + 1) not in 48 .. 57 then Bad := True; return; end if;
-            while O < T.Length and then T.Data (O + 1) in 48 .. 57 loop O := O + 1; end loop;
+            while O < T.Length and then T.Data (O + 1) in 48 .. 57 loop
+               pragma Loop_Invariant (O in R.First - 1 .. T.Length and then (for all I in R.First .. O => T.Data (I) < 128));
+               pragma Loop_Variant (Increases => O);
+               O := O + 1;
+            end loop;
          end if;
+         pragma Assert (for all I in R.First .. O => T.Data (I) < 128);
          if O < T.Length and then (T.Data (O + 1) = 101 or else T.Data (O + 1) = 69) then
             R.Kind := J_Float; O := O + 1;
             if O < T.Length and then (T.Data (O + 1) = 43 or else T.Data (O + 1) = 45) then O := O + 1; end if;
             if O >= T.Length or else T.Data (O + 1) not in 48 .. 57 then Bad := True; return; end if;
-            while O < T.Length and then T.Data (O + 1) in 48 .. 57 loop O := O + 1; end loop;
+            while O < T.Length and then T.Data (O + 1) in 48 .. 57 loop
+               pragma Loop_Invariant (O in R.First - 1 .. T.Length and then (for all I in R.First .. O => T.Data (I) < 128));
+               pragma Loop_Variant (Increases => O);
+               O := O + 1;
+            end loop;
          end if;
          R.Last := O;
       end Value;
-      function String_Is (N : JSON_Node; S : String) return Boolean is
+      function String_Is (N : JSON_Node; S : String) return Boolean
+        with Pre => (if N.Kind = J_String then N.First >= 1 and then N.Last <= T.Length),
+          Post => (if String_Is'Result then N.Kind = J_String and then N.Last >= N.First)
+      is
       begin
          if N.Kind /= J_String or else N.Last < N.First or else N.Last - N.First + 1 /= S'Length then return False; end if;
          for K in 0 .. S'Length - 1 loop
@@ -1039,7 +1304,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
          N : Exact_Decimal.Number;
          Spelling : String (1 .. Length);
       end record;
-      function Number (Node : JSON_Node) return Numeric is
+      function Number (Node : JSON_Node) return Numeric
+        with Pre => Node_OK (Node) and then Used < T.Length
+      is
          N : Exact_Decimal.Number;
          D : Decimal_Result;
          Conversion : Decimal_Binary64.Conversion;
@@ -1082,6 +1349,9 @@ package body Worldline.Report_Parser with SPARK_Mode is
       if O < T.Length and then T.Data (O + 1) = 125 then O := O + 1;
       else
          loop
+            pragma Loop_Invariant (Used < O and then O <= T.Length);
+            pragma Loop_Invariant (for all I in 1 .. 5 => Node_OK (Fields (I)));
+            pragma Loop_Variant (Increases => O);
             declare Key : JSON_Node; Item : JSON_Node; Index : Natural := 0; begin
                JSON_String (Key); White;
                if Bad or else O >= T.Length or else T.Data (O + 1) /= 58 then Bad := True; exit; end if;

@@ -19,7 +19,9 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       Valid : Boolean := False;
       Value : U64 := 0;
    end record;
-   function Image (Value : U64) return String is
+   function Image (Value : U64) return String
+     with Post => Image'Result'Length <= 20
+   is
       S : constant String := U64'Image (Value);
    begin return S (S'First + 1 .. S'Last); end Image;
    function White (C : Character) return Boolean is
@@ -29,9 +31,17 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       A : Natural := 0;
       Z : Natural := S'Length;
    begin
-      while A < Z and then White (S (S'First + A)) loop A := A + 1; end loop;
-      while Z > A and then White (S (S'First + Z - 1)) loop Z := Z - 1; end loop;
-      return S (S'First + A .. S'First + Z - 1);
+      while A < Z and then White (S (S'First + A)) loop
+         pragma Loop_Invariant (A < Z);
+         pragma Loop_Variant (Increases => A);
+         A := A + 1;
+      end loop;
+      while Z > A and then White (S (S'First + (Z - 1))) loop
+         pragma Loop_Invariant (Z in A + 1 .. S'Length);
+         pragma Loop_Variant (Decreases => Z);
+         Z := Z - 1;
+      end loop;
+      return (if Z = A then "" else S (S'First + A .. S'First + (Z - 1)));
    end Strip;
    function Parse_Number (S : String; Base : Positive := 10) return Number is
       Value : U64 := 0;
@@ -49,15 +59,26 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       return (True, Value);
    end Parse_Number;
    function Word (S : String; Index : Positive) return String is
-      A, Z, Count : Natural := 0;
+      A, Count : Natural := 0;
+      Z : Natural;
    begin
       while A < S'Length loop
-         while A < S'Length and then White (S (S'First + A)) loop A := A + 1; end loop;
+         pragma Loop_Invariant (Count <= A);
+         pragma Loop_Variant (Increases => A);
+         while A < S'Length and then White (S (S'First + A)) loop
+            pragma Loop_Invariant (A >= A'Loop_Entry);
+            pragma Loop_Variant (Increases => A);
+            A := A + 1;
+         end loop;
          Z := A;
-         while Z < S'Length and then not White (S (S'First + Z)) loop Z := Z + 1; end loop;
+         while Z < S'Length and then not White (S (S'First + Z)) loop
+            pragma Loop_Invariant (Z in A .. S'Length);
+            pragma Loop_Variant (Increases => Z);
+            Z := Z + 1;
+         end loop;
          if Z > A then
             Count := Count + 1;
-            if Count = Index then return S (S'First + A .. S'First + Z - 1); end if;
+            if Count = Index then return S (S'First + A .. S'First + (Z - 1)); end if;
          end if;
          A := Z;
       end loop;
@@ -67,8 +88,9 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       Count : Natural := 0;
       Inside : Boolean := False;
    begin
-      for C of S loop
-         if White (C) then Inside := False;
+      for I in S'Range loop
+         pragma Loop_Invariant (Count <= I - S'First);
+         if White (S (I)) then Inside := False;
          elsif not Inside then Count := Count + 1; Inside := True; end if;
       end loop;
       return Count;
@@ -81,61 +103,105 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       return B.Base64 (J.Text (Data, J.Field (Data, Item, "payload")));
    end Raw;
    function JSON (Bytes : String) return Worldline.Raw_JSON.Decoded_JSON is
-      Data : P.Bytes (1 .. P.Count (Bytes'Length));
+      Data : P.Bytes (1 .. P.Count (Bytes'Length)) := (others => 0);
    begin
       for I in Bytes'Range loop Data (P.Index (I - Bytes'First + 1)) := P.Byte (Character'Pos (Bytes (I))); end loop;
       return Worldline.Raw_JSON.Decode_JSON (Data, (1, P.Count (Data'Length)));
    end JSON;
    function Fields_Valid (Data : String) return Boolean is
-      A, Z, Colon : Natural := 0;
+      A : Natural := 0;
+      Z, Colon : Natural;
    begin
       while A < Data'Length loop
+         pragma Loop_Variant (Increases => A);
          Z := A;
-         while Z < Data'Length and then Data (Data'First + Z) not in Character'Val (10) | Character'Val (13) loop Z := Z + 1; end loop;
+         while Z < Data'Length and then Data (Data'First + Z) not in Character'Val (10) | Character'Val (13) loop
+            pragma Loop_Invariant (Z in A .. Data'Length);
+            pragma Loop_Variant (Increases => Z);
+            Z := Z + 1;
+         end loop;
          Colon := A;
-         while Colon < Z and then Data (Data'First + Colon) /= ':' loop Colon := Colon + 1; end loop;
+         while Colon < Z and then Data (Data'First + Colon) /= ':' loop
+            pragma Loop_Invariant (Colon in A .. Z);
+            pragma Loop_Variant (Increases => Colon);
+            Colon := Colon + 1;
+         end loop;
          if Colon = A or else Colon = Z then return False; end if;
          declare
-            Key : constant String := Data (Data'First + A .. Data'First + Colon - 1);
+            Key : constant String := Data (Data'First + A .. Data'First + (Colon - 1));
             Previous : Natural := 0;
             End_Previous : Natural;
          begin
             while Previous < A loop
+               pragma Loop_Variant (Increases => Previous);
                End_Previous := Previous;
-               while End_Previous < A and then Data (Data'First + End_Previous) not in ':' | Character'Val (10) | Character'Val (13) loop End_Previous := End_Previous + 1; end loop;
-               if Data (Data'First + Previous .. Data'First + End_Previous - 1) = Key then return False; end if;
-               while End_Previous < A and then Data (Data'First + End_Previous) not in Character'Val (10) | Character'Val (13) loop End_Previous := End_Previous + 1; end loop;
+               while End_Previous < A and then Data (Data'First + End_Previous) not in ':' | Character'Val (10) | Character'Val (13) loop
+                  pragma Loop_Invariant (End_Previous in Previous .. A);
+                  pragma Loop_Variant (Increases => End_Previous);
+                  End_Previous := End_Previous + 1;
+               end loop;
+               if Data (Data'First + Previous .. Data'First + (End_Previous - 1)) = Key then return False; end if;
+               while End_Previous < A and then Data (Data'First + End_Previous) not in Character'Val (10) | Character'Val (13) loop
+                  pragma Loop_Invariant (End_Previous in Previous .. A);
+                  pragma Loop_Variant (Increases => End_Previous);
+                  End_Previous := End_Previous + 1;
+               end loop;
                Previous := End_Previous + 1;
                if Previous < A and then Data (Data'First + End_Previous) = Character'Val (13) and then Data (Data'First + Previous) = Character'Val (10) then Previous := Previous + 1; end if;
             end loop;
          end;
+         exit when Z = Data'Length;
          A := Z + 1;
          if A < Data'Length and then Data (Data'First + Z) = Character'Val (13) and then Data (Data'First + A) = Character'Val (10) then A := A + 1; end if;
       end loop;
       return Data'Length > 0;
    end Fields_Valid;
    function Field (Data, Name : String) return String is
-      A, Z, Colon : Natural := 0;
+      A : Natural := 0;
+      Z, Colon : Natural;
    begin
       while A < Data'Length loop
+         pragma Loop_Variant (Increases => A);
          Z := A;
-         while Z < Data'Length and then Data (Data'First + Z) not in Character'Val (10) | Character'Val (13) loop Z := Z + 1; end loop;
+         while Z < Data'Length and then Data (Data'First + Z) not in Character'Val (10) | Character'Val (13) loop
+            pragma Loop_Invariant (Z in A .. Data'Length);
+            pragma Loop_Variant (Increases => Z);
+            Z := Z + 1;
+         end loop;
          Colon := A;
-         while Colon < Z and then Data (Data'First + Colon) /= ':' loop Colon := Colon + 1; end loop;
-         if Data (Data'First + A .. Data'First + Colon - 1) = Name and then Colon < Z then return Strip (Data (Data'First + Colon + 1 .. Data'First + Z - 1)); end if;
+         while Colon < Z and then Data (Data'First + Colon) /= ':' loop
+            pragma Loop_Invariant (Colon in A .. Z);
+            pragma Loop_Variant (Increases => Colon);
+            Colon := Colon + 1;
+         end loop;
+         if Data (Data'First + A .. Data'First + (Colon - 1)) = Name and then Colon < Z then
+            return (if Colon + 1 = Z then "" else Strip (Data (Data'First + (Colon + 1) .. Data'First + (Z - 1))));
+         end if;
+         exit when Z = Data'Length;
          A := Z + 1;
          if A < Data'Length and then Data (Data'First + Z) = Character'Val (13) and then Data (Data'First + A) = Character'Val (10) then A := A + 1; end if;
       end loop;
       return "";
    end Field;
    function Has_Field (Data, Name : String) return Boolean is
-      A, Z : Natural := 0;
+      A : Natural := 0;
+      Z : Natural;
    begin
       while A < Data'Length loop
+         pragma Loop_Variant (Increases => A);
          Z := A;
-         while Z < Data'Length and then Data (Data'First + Z) not in ':' | Character'Val (10) | Character'Val (13) loop Z := Z + 1; end loop;
-         if Z < Data'Length and then Data (Data'First + Z) = ':' and then Data (Data'First + A .. Data'First + Z - 1) = Name then return True; end if;
-         while Z < Data'Length and then Data (Data'First + Z) not in Character'Val (10) | Character'Val (13) loop Z := Z + 1; end loop;
+         while Z < Data'Length and then Data (Data'First + Z) not in ':' | Character'Val (10) | Character'Val (13) loop
+            pragma Loop_Invariant (Z in A .. Data'Length);
+            pragma Loop_Variant (Increases => Z);
+            Z := Z + 1;
+         end loop;
+         if Z < Data'Length and then Data (Data'First + Z) = ':' and then Data (Data'First + A .. Data'First + (Z - 1)) = Name then return True; end if;
+         while Z < Data'Length and then Data (Data'First + Z) not in Character'Val (10) | Character'Val (13) loop
+            pragma Loop_Invariant (Z in A .. Data'Length);
+            pragma Loop_Variant (Increases => Z);
+            Z := Z + 1;
+         end loop;
+         exit when Z = Data'Length;
          A := Z + 1;
          if A < Data'Length and then Data (Data'First + Z) = Character'Val (13) and then Data (Data'First + A) = Character'Val (10) then A := A + 1; end if;
       end loop;
@@ -162,14 +228,18 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
    begin
       if S'Length < 4 then return (False, 0, 0, 0); end if;
       for I in 0 .. S'Length - 2 loop
+         pragma Loop_Invariant (Closing <= S'Length - 2);
          if S (S'First + I) = ')' and then S (S'First + I + 1) = ' ' then Closing := I; Found := True; end if;
       end loop;
       if not Found then return (False, 0, 0, 0); end if;
-      while Opening < Closing and then S (S'First + Opening) /= ' ' loop Opening := Opening + 1; end loop;
+      while Opening < Closing and then S (S'First + Opening) /= ' ' loop
+         pragma Loop_Variant (Increases => Opening);
+         Opening := Opening + 1;
+      end loop;
       if Opening + 1 >= Closing or else S (S'First + Opening + 1) /= '(' then return (False, 0, 0, 0); end if;
       declare
-         Tail : constant String := S (S'First + Closing + 2 .. S'Last);
-         PID : constant Number := Parse_Number (S (S'First .. S'First + Opening - 1));
+         Tail : constant String := (if Closing + 2 = S'Length then "" else S (S'First + (Closing + 2) .. S'Last));
+         PID : constant Number := Parse_Number (S (S'First .. S'First + (Opening - 1)));
          PPID : constant Number := Parse_Number (Word (Tail, 2));
          Start : constant Number := Parse_Number (Word (Tail, 20));
       begin
@@ -189,8 +259,14 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       A : Natural := 0;
    begin
       while A < S'Length loop
+         pragma Loop_Invariant (Count <= A);
+         pragma Loop_Variant (Increases => A);
          Count := Count + 1;
-         while A < S'Length and then S (S'First + A) not in Character'Val (10) | Character'Val (13) loop A := A + 1; end loop;
+         while A < S'Length and then S (S'First + A) not in Character'Val (10) | Character'Val (13) loop
+            pragma Loop_Invariant (A >= A'Loop_Entry);
+            pragma Loop_Variant (Increases => A);
+            A := A + 1;
+         end loop;
          if A < S'Length then
             if S (S'First + A) = Character'Val (13) and then A + 1 < S'Length and then S (S'First + A + 1) = Character'Val (10) then A := A + 1; end if;
             A := A + 1;
@@ -199,13 +275,20 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       return Count;
    end Lines;
    function Line (S : String; Index : Positive) return String is
-      A, Z, Count : Natural := 0;
+      A, Count : Natural := 0;
+      Z : Natural;
    begin
       while A < S'Length loop
+         pragma Loop_Invariant (Count <= A);
+         pragma Loop_Variant (Increases => A);
          Z := A;
-         while Z < S'Length and then S (S'First + Z) not in Character'Val (10) | Character'Val (13) loop Z := Z + 1; end loop;
+         while Z < S'Length and then S (S'First + Z) not in Character'Val (10) | Character'Val (13) loop
+            pragma Loop_Invariant (Z in A .. S'Length);
+            pragma Loop_Variant (Increases => Z);
+            Z := Z + 1;
+         end loop;
          Count := Count + 1;
-         if Count = Index then return S (S'First + A .. S'First + Z - 1); end if;
+         if Count = Index then return S (S'First + A .. S'First + (Z - 1)); end if;
          A := Z;
          if A < S'Length then
             if S (S'First + A) = Character'Val (13) and then A + 1 < S'Length and then S (S'First + A + 1) = Character'Val (10) then A := A + 1; end if;
@@ -251,27 +334,44 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       return Result;
    end Mapped;
    function Nul_Word (S : String; Index : Positive) return String is
-      A, Z, Count : Natural := 0;
+      A, Count : Natural := 0;
+      Z : Natural;
    begin
       loop
+         pragma Loop_Invariant (Count < Index and then A <= S'Length);
+         pragma Loop_Variant (Increases => A);
          Z := A;
-         while Z < S'Length and then S (S'First + Z) /= Character'Val (0) loop Z := Z + 1; end loop;
+         while Z < S'Length and then S (S'First + Z) /= Character'Val (0) loop
+            pragma Loop_Invariant (Z in A .. S'Length);
+            pragma Loop_Variant (Increases => Z);
+            Z := Z + 1;
+         end loop;
          Count := Count + 1;
-         if Count = Index then return S (S'First + A .. S'First + Z - 1); end if;
+         if Count = Index then return (if Z = A then "" else S (S'First + A .. S'First + (Z - 1))); end if;
          exit when Z = S'Length;
          A := Z + 1;
       end loop;
       return "";
    end Nul_Word;
-   function Nul_Count (S : String) return Natural is
-      Count : Natural := 1;
-   begin for C of S loop if C = Character'Val (0) then Count := Count + 1; end if; end loop; return Count; end Nul_Count;
+   function Nul_Count (S : String) return Long_Long_Integer
+     with Post => Nul_Count'Result in 1 .. Long_Long_Integer (S'Length) + 1
+   is
+      Count : Long_Long_Integer := 1;
+   begin
+      for I in S'Range loop
+         pragma Loop_Invariant (Count in 1 .. Long_Long_Integer (I - S'First) + 1);
+         if S (I) = Character'Val (0) then Count := Count + 1; end if;
+      end loop;
+      return Count;
+   end Nul_Count;
    function Mount_Path (S : String) return B.Decoded is
-      Data : String (1 .. S'Length);
+      Data : String (1 .. S'Length) := (others => Character'Val (0));
       Used, I : Natural := 0;
       C : Character;
    begin
       while I < S'Length loop
+         pragma Loop_Invariant (Used <= I);
+         pragma Loop_Variant (Increases => I);
          C := S (S'First + I);
          if C = '\' then
             if S'Length - I < 4 then return (0, False, ""); end if;
@@ -292,11 +392,14 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
    function Namespace_Link (S : String; Name : String := "") return Boolean is
       Colon : Natural := 0;
    begin
-      while Colon < S'Length and then S (S'First + Colon) /= ':' loop Colon := Colon + 1; end loop;
+      while Colon < S'Length and then S (S'First + Colon) /= ':' loop
+         pragma Loop_Variant (Increases => Colon);
+         Colon := Colon + 1;
+      end loop;
       if Colon = S'Length or else S'Length - Colon < 4 or else
         S (S'First + Colon + 1) /= '[' or else S (S'Last) /= ']' then return False; end if;
       declare
-         Prefix : constant String := S (S'First .. S'First + Colon - 1);
+         Prefix : constant String := S (S'First .. S'First + (Colon - 1));
          Link_Digits : constant String := S (S'First + Colon + 2 .. S'Last - 1);
       begin
          return (if Name'Length > 0 then Prefix = Name else Prefix in "user" | "pid" | "mnt" | "net" | "ipc" | "uts" | "cgroup" | "time") and then
@@ -305,11 +408,14 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
    end Namespace_Link;
    --  Python str.split whitespace, unlike proc bytes.split's ASCII whitespace.
    --  This distinction preserves the complete original compatibility domain.
-   function Unicode_White_Width (Text : String; Offset : Natural) return Natural is
+   function Unicode_White_Width (Text : String; Offset : Natural) return Natural
+     with Pre => Offset < Text'Length, Post => Unicode_White_Width'Result <= Text'Length - Offset
+   is
       Width : constant Natural := J.UTF8_Width (Text, Offset);
-      Code : Natural;
+      Code : Integer;
    begin
-      if Width = 0 then return 0; end if;
+      -- UTF8_Width never reports a unit past the end; its contract only bounds it by 4.
+      if Width = 0 or else Width > Text'Length - Offset then return 0; end if;
       if Width = 1 then Code := Character'Pos (Text (Text'First + Offset));
       elsif Width = 2 then
          Code := (Character'Pos (Text (Text'First + Offset)) - 192) * 64 + Character'Pos (Text (Text'First + Offset + 1)) - 128;
@@ -321,12 +427,16 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
         16#2000# .. 16#200A# | 16#2028# .. 16#2029# | 16#202F# | 16#205F# | 16#3000# then Width else 0);
    end Unicode_White_Width;
    function Python_Four (Text, ID : String) return Boolean is
-      Offset, First, Count : Natural := 0;
-      Width : Natural;
+      Offset, Count : Natural := 0;
+      First, Width : Natural;
    begin
       while Offset < Text'Length loop
+         pragma Loop_Invariant (Count <= 4);
+         pragma Loop_Variant (Increases => Offset);
          Width := Unicode_White_Width (Text, Offset);
          while Width > 0 loop
+            pragma Loop_Invariant (Offset >= Offset'Loop_Entry and then Offset < Text'Length and then Width <= Text'Length - Offset);
+            pragma Loop_Variant (Increases => Offset);
             Offset := Offset + Width;
             exit when Offset = Text'Length;
             Width := Unicode_White_Width (Text, Offset);
@@ -335,11 +445,13 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          First := Offset;
          while Offset < Text'Length and then Unicode_White_Width (Text, Offset) = 0 loop
             Width := J.UTF8_Width (Text, Offset);
-            if Width = 0 then return False; end if;
+            if Width = 0 or else Width > Text'Length - Offset then return False; end if;
             Offset := Offset + Width;
+            pragma Loop_Invariant (Offset in First + 1 .. Text'Length);
+            pragma Loop_Variant (Increases => Offset);
          end loop;
          Count := Count + 1;
-         if Count > 4 or else Text (Text'First + First .. Text'First + Offset - 1) /= ID then return False; end if;
+         if Count > 4 or else Text (Text'First + First .. Text'First + (Offset - 1)) /= ID then return False; end if;
       end loop;
       return Count = 4;
    end Python_Four;
@@ -505,6 +617,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          if not Mounts.Valid or else not Mount_Table_Valid (Mounts.Data, J.No_Node) or else
            not Read_Bytes (Record_Node, "cmdline", PID).Valid or else not Read_Bytes (Record_Node, "cgroup", PID).Valid then return False; end if;
          for I in 1 .. J.Count (Observed, Reads) loop
+            pragma Loop_Invariant (Count < I);
             declare Row : constant J.Node := A (Reads, I);
             begin
                if N (Row, "subject") = PID and then S (Row, "name") = "stat" then
@@ -520,6 +633,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          if Count < 2 or else Live.Form /= J.Array_Value then return False; end if;
          Count := 0;
          for I in 1 .. J.Count (Observed, Live) loop
+            pragma Loop_Invariant (Count < I);
             declare Row : constant J.Node := A (Live, I);
             begin
                if N (Row, "pid") = PID then
@@ -531,6 +645,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          if Count < 2 then return False; end if;
          Count := 0;
          for I in 1 .. J.Count (Observed, Reads) loop
+            pragma Loop_Invariant (Count < I);
             declare Row : constant J.Node := A (Reads, I);
             begin
                if S (Row, "subject") = "receiver-pidfd" then
@@ -555,6 +670,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
             begin
                if NS.Form /= J.Object_Value then return False; end if;
                for K in 1 .. J.Count (Observed, Rechecks) loop
+                  pragma Loop_Invariant (Seen < K);
                   declare Row : constant J.Node := A (Rechecks, K);
                   begin
                      if N (Row, "pid") = PID and then S (Row, "name") = NS_Name (I) then
@@ -578,6 +694,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          Seen : Natural := 0;
       begin
          for I in 1 .. J.Count (Observed, Root) loop
+            pragma Loop_Invariant (Seen < I);
             declare Row : constant J.Node := A (Root, I);
             begin
                if S (Row, "kind") = "private-kernel-role-observation" then
@@ -589,16 +706,26 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          return False;
       end Record_Bound;
       function Canonical_Group (Text : String) return Boolean is
-         Offset, Finish : Natural := 0;
+         Offset : Natural := 0;
+         Finish : Natural;
       begin
          if Text'Length = 0 or else Text (Text'First) /= '/' or else (for some C of Text => C = Character'Val (10)) then return False; end if;
-         while Offset < Text'Length and then Text (Text'First + Offset) = '/' loop Offset := Offset + 1; end loop;
+         while Offset < Text'Length and then Text (Text'First + Offset) = '/' loop
+            pragma Loop_Variant (Increases => Offset);
+            Offset := Offset + 1;
+         end loop;
          if Offset > 2 then return False; end if;
          if Offset = Text'Length then return True; end if;
          while Offset < Text'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Finish := Offset;
-            while Finish < Text'Length and then Text (Text'First + Finish) /= '/' loop Finish := Finish + 1; end loop;
-            if Finish = Offset or else Text (Text'First + Offset .. Text'First + Finish - 1) in "." | ".." then return False; end if;
+            while Finish < Text'Length and then Text (Text'First + Finish) /= '/' loop
+               pragma Loop_Invariant (Finish in Offset .. Text'Length);
+               pragma Loop_Variant (Increases => Finish);
+               Finish := Finish + 1;
+            end loop;
+            if Finish = Offset or else Text (Text'First + Offset .. Text'First + (Finish - 1)) = "."
+              or else Text (Text'First + Offset .. Text'First + (Finish - 1)) = ".." then return False; end if;
             if Finish = Text'Length then return True; end if;
             Offset := Finish + 1;
          end loop;
@@ -662,6 +789,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
            (Flags.Value and not U64 (16#4000_0080#)) /= 0 or else Bytes.Length = 0 or else Bytes.Length > 65_536 or else
            (Payload'Length > 0 and then Bytes.Data /= Payload) or else Ancillary.Form /= J.Array_Value then return False; end if;
          for I in 1 .. J.Count (Observed, Ancillary) loop
+            pragma Loop_Invariant (Credentials < I and then Descriptors <= Rights);
             declare
                Row : constant J.Node := A (Ancillary, I);
                Content : constant B.Decoded := Raw (Observed, F (Row, "bytes"));
@@ -672,7 +800,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                     not Integer_Is (F (Peer, "uid"), L.Word (Content.Data, 5, 4)) or else not Integer_Is (F (Peer, "gid"), L.Word (Content.Data, 9, 4)) then return False; end if;
                   Credentials := Credentials + 1;
                elsif Integer_Is (F (Row, "kind"), 1) then
-                  if Content.Length mod 4 /= 0 then return False; end if;
+                  if Content.Length mod 4 /= 0 or else Content.Length / 4 > Rights - Descriptors then return False; end if;
                   Descriptors := Descriptors + Content.Length / 4;
                else return False; end if;
             end;
@@ -712,6 +840,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                if I < J.Count (Observed, Chain) and then not Equal (F (ID, "ppid"), F (A (Chain, I + 1), "pid")) then return False; end if;
                for K in 1 .. I - 1 loop if Equal (F (A (Chain, K), "pid"), F (ID, "pid")) then return False; end if; end loop;
                for K in 1 .. J.Count (Observed, Reads) loop
+                  pragma Loop_Invariant (Count < K);
                   declare Row : constant J.Node := A (Reads, K);
                   begin
                      if S (Row, "name") = "stat" and then Equal (F (Row, "subject"), F (ID, "pid")) then
@@ -734,8 +863,10 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          Width : Natural;
       begin
          while TI < Text'Length loop
+            pragma Loop_Invariant (BI <= Bytes'Length);
+            pragma Loop_Variant (Increases => TI);
             Width := J.UTF8_Width (Text, TI);
-            if Width = 0 or else BI >= Bytes'Length then return False; end if;
+            if Width = 0 or else Width > Text'Length - TI or else BI >= Bytes'Length then return False; end if;
             if Width = 3 and then Character'Pos (Text (Text'First + TI)) = 16#ED# and then
               Character'Pos (Text (Text'First + TI + 1)) in 16#B2# .. 16#B3# then
                if Character'Pos (Bytes (Bytes'First + BI)) /=
@@ -744,8 +875,8 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                BI := BI + 1;
             else
                if Width > Bytes'Length - BI or else
-                 Bytes (Bytes'First + BI .. Bytes'First + BI + Width - 1) /=
-                   Text (Text'First + TI .. Text'First + TI + Width - 1) then return False; end if;
+                 Bytes (Bytes'First + BI .. Bytes'First + BI + (Width - 1)) /=
+                   Text (Text'First + TI .. Text'First + TI + (Width - 1)) then return False; end if;
                BI := BI + Width;
             end if;
             TI := TI + Width;
@@ -756,25 +887,36 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       begin
          if Item.Form /= J.Array_Value or else J.Count (Observed, Item) /= Word_Count (Text) - (First - 1) then return False; end if;
          for I in 1 .. J.Count (Observed, Item) loop
-            if not J.Is_Text (Observed, A (Item, I), Word (Text, I + First - 1)) then return False; end if;
+            if not J.Is_Text (Observed, A (Item, I), Word (Text, I + (First - 1))) then return False; end if;
          end loop;
          return True;
       end Array_Words;
       function Array_Commas (Item : J.Node; Text : String) return Boolean is
-         Start, Finish, Index : Natural := 0;
+         Start, Index : Natural := 0;
+         Finish : Natural;
       begin
          if Item.Form /= J.Array_Value then return False; end if;
          loop
+            pragma Loop_Invariant (Index <= Start and then Start <= Text'Length);
+            pragma Loop_Variant (Increases => Start);
             Finish := Start;
-            while Finish < Text'Length and then Text (Text'First + Finish) /= ',' loop Finish := Finish + 1; end loop;
+            while Finish < Text'Length and then Text (Text'First + Finish) /= ',' loop
+               pragma Loop_Invariant (Finish in Start .. Text'Length);
+               pragma Loop_Variant (Increases => Finish);
+               Finish := Finish + 1;
+            end loop;
+            -- An Observed array cannot hold Natural'Last elements.
+            if Index = Natural'Last then return False; end if;
             Index := Index + 1;
-            if not J.Is_Text (Observed, A (Item, Index), Text (Text'First + Start .. Text'First + Finish - 1)) then return False; end if;
+            if not J.Is_Text (Observed, A (Item, Index), (if Finish = Start then "" else Text (Text'First + Start .. Text'First + (Finish - 1)))) then return False; end if;
             exit when Finish = Text'Length;
             Start := Finish + 1;
          end loop;
          return J.Count (Observed, Item) = Index;
       end Array_Commas;
-      function Mount_Marker (Text : String) return Natural is
+      function Mount_Marker (Text : String) return Natural
+        with Post => Mount_Marker'Result = 0 or else Mount_Marker'Result in 1 .. Text'Length - 2
+      is
       begin
          if Text'Length >= 3 then
             for I in 0 .. Text'Length - 3 loop
@@ -786,17 +928,20 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       function Device_Pair (Text : String; Base : Positive := 10) return Boolean is
          Colon : Natural := 0;
       begin
-         while Colon < Text'Length and then Text (Text'First + Colon) /= ':' loop Colon := Colon + 1; end loop;
-         return Colon < Text'Length and then Parse_Number (Text (Text'First .. Text'First + Colon - 1), Base).Valid and then
-           Parse_Number (Text (Text'First + Colon + 1 .. Text'Last), Base).Valid;
+         while Colon < Text'Length and then Text (Text'First + Colon) /= ':' loop
+            pragma Loop_Variant (Increases => Colon);
+            Colon := Colon + 1;
+         end loop;
+         return Colon < Text'Length and then Parse_Number (Text (Text'First .. Text'First + (Colon - 1)), Base).Valid and then
+           Parse_Number ((if Colon + 1 = Text'Length then "" else Text (Text'First + (Colon + 1) .. Text'Last)), Base).Valid;
       end Device_Pair;
       function Mount_Row_Valid (Text : String; Row : J.Node := J.No_Node) return Boolean is
          Marker : constant Natural := Mount_Marker (Text);
       begin
          if Marker = 0 then return False; end if;
          declare
-            Before : constant String := Text (Text'First .. Text'First + Marker - 2);
-            After : constant String := Text (Text'First + Marker + 2 .. Text'Last);
+            Before : constant String := Text (Text'First .. Text'First + (Marker - 2));
+            After : constant String := (if Marker + 2 = Text'Length then "" else Text (Text'First + (Marker + 2) .. Text'Last));
             ID : constant Number := Parse_Number (Word (Before, 1));
             Parent : constant Number := Parse_Number (Word (Before, 2));
             Root_Path : constant B.Decoded := Mount_Path (Word (Before, 4));
@@ -875,6 +1020,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
             end;
          end loop;
          for I in 1 .. J.Count (Observed, F (Record_Node, "reads")) loop
+            pragma Loop_Invariant (Seen < I);
             declare Row : constant J.Node := A (F (Record_Node, "reads"), I);
             begin
                if S (Row, "subject") = "receiver-mount-handle" then
@@ -948,7 +1094,9 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          Kind : Mount_Kind;
          Index : Natural := 0;
       end record;
-      function Slot (Name : String; Index : Positive) return Mount_Slot is
+      function Slot (Name : String; Index : Positive) return Mount_Slot
+        with Post => (if Slot'Result.Kind in Root_Mount | Protected_Source_Mount then Slot'Result.Index >= 1)
+      is
          Offset : Natural := Index;
          Roots_Count : constant Natural := J.Count (Observed, F (Plan, "roots"));
          Protected_Count : constant Natural := J.Count (Observed, F (Plan, "protectedSourceMounts"));
@@ -1021,7 +1169,8 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          when Protected_Socket_Mount => "/run/worldline-protected-report.sock",
          when Loader_Policy_Mount => "/run/worldline-loader-policy.json", when Loader_Helper_Mount => "/run/worldline-examiner-loader.py",
          when Native_Mount => "/run/worldline-examiner-guard.so", when Preparation_Mount => "/run/worldline-native-preparation.sock",
-         when Lifetime_Mount => "/run/worldline-native-lifetime.sock", when Toolchain_Mount => "/opt/worldline-gnat", when No_Mount => "");
+         when Lifetime_Mount => "/run/worldline-native-lifetime.sock", when Toolchain_Mount => "/opt/worldline-gnat", when No_Mount => "")
+        with Pre => (if Item.Kind in Root_Mount | Protected_Source_Mount then Item.Index >= 1);
       function Slot_Source (Item : Mount_Slot) return String is
         (case Item.Kind is when Helper_Mount => S (Plan, "helper"), when Startup_Mount => S (Plan, "startupPolicy"),
          when Namespace_Mount => S (Plan, "namespacePolicy"), when Observer_Mount => S (Plan, "runtime") & "/role-observer.sock",
@@ -1032,7 +1181,8 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          when Protected_Socket_Mount => S (Plan, "protectedReportSocket"),
          when Loader_Policy_Mount => S (Plan, "loaderPolicy"), when Loader_Helper_Mount => S (Plan, "loaderHelper"),
          when Native_Mount => S (Plan, "nativeGuard"), when Preparation_Mount => S (Plan, "nativePreparationSocket"),
-         when Lifetime_Mount => S (Plan, "nativeLifetimeSocket"), when Toolchain_Mount => S (F (Plan, "toolchain"), "source"), when No_Mount => "");
+         when Lifetime_Mount => S (Plan, "nativeLifetimeSocket"), when Toolchain_Mount => S (F (Plan, "toolchain"), "source"), when No_Mount => "")
+        with Pre => (if Item.Kind in Root_Mount | Protected_Source_Mount then Item.Index >= 1);
       function Reserved (I : Positive) return String is
         (case I is when 1 => "/run/worldline-report", when 2 => "/run/worldline-broker.sock",
          when 3 => "/run/worldline-worker-broker.sock", when 4 => "/run/worldline-verifiers",
@@ -1049,13 +1199,14 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          Packets : constant J.Node := F (Record_Node, "packets");
          Absent : constant J.Node := F (Record_Node, "absentPaths");
          Aliases : constant J.Node := F (Record_Node, "reportDirectoryMountRootsAtStartup");
-         Expected_Count : Natural := 4;
+         Expected_Count : Long_Long_Integer := 4;
          Absent_Count : Natural := 0;
          Alias_Count : Natural := 0;
          function Aliases_Valid (Path, Target : String; Projection : J.Node) return Boolean is
             Count : Natural := 0;
          begin
             for K in 1 .. J.Count (Observed, Handles) loop
+               pragma Loop_Invariant (Count < K);
                declare Handle : constant J.Node := A (Handles, K);
                begin
                   if Same_Object (Source (Path), F (Handle, "effective")) then
@@ -1069,8 +1220,8 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          end Aliases_Valid;
       begin
          if Name = "examiner" then
-            Expected_Count := Expected_Count + 3 + J.Count (Observed, F (Plan, "roots"));
-            Expected_Count := Expected_Count + J.Count (Observed, F (Plan, "protectedSourceMounts"));
+            Expected_Count := Expected_Count + 3 + Long_Long_Integer (J.Count (Observed, F (Plan, "roots")));
+            Expected_Count := Expected_Count + Long_Long_Integer (J.Count (Observed, F (Plan, "protectedSourceMounts")));
             if J.Present (F (Plan, "protectedReportSocket")) then Expected_Count := Expected_Count + 1; end if;
             if J.Present (F (Plan, "loaderPolicy")) then Expected_Count := Expected_Count + 2; end if;
             if J.Present (F (Plan, "nativeGuard")) then Expected_Count := Expected_Count + 3; end if;
@@ -1078,8 +1229,9 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          elsif Name = "worker" then Expected_Count := Expected_Count + 1; end if;
          if not Before.Valid or else not After.Valid or else not Mount_Table_Valid (Before.Data, Handles) or else
            not Mount_Table_Valid (After.Data, Handles) or else Objects.Form /= J.Array_Value or else
-           J.Count (Observed, Objects) /= Expected_Count or else J.Count (Observed, Packets) < J.Count (Observed, Handles) + 1 then return False; end if;
+           Long_Long_Integer (J.Count (Observed, Objects)) /= Expected_Count or else J.Count (Observed, Packets) <= J.Count (Observed, Handles) then return False; end if;
          for I in 1 .. J.Count (Observed, Handles) loop
+            pragma Loop_Invariant (Alias_Count < I);
             declare Handle : constant J.Node := A (Handles, I);
             begin
                if not Handle_Valid (Record_Node, Handle, A (Packets, I + 1), F (Record_Node, "peerCredentials"), I) then return False; end if;
@@ -1122,6 +1274,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                   end;
                end if;
                for K in 1 .. J.Count (Observed, Handles) loop
+                  pragma Loop_Invariant (Match_Count < K);
                   declare Handle : constant J.Node := A (Handles, K);
                   begin
                      if S (F (Handle, "mount"), "target") = Target then
@@ -1144,12 +1297,14 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
             end;
          end loop;
          for I in 1 .. (if J.Present (F (Plan, "protectedReportSocket")) then 11 else 10) loop
+            pragma Loop_Invariant (Absent_Count < I);
             declare
                Target : constant String := Reserved (I);
                Required : constant Boolean := Expected_Source (Target, Name)'Length > 0;
                Count : Natural := 0;
             begin
                for K in 1 .. J.Count (Observed, Absent) loop
+                  pragma Loop_Invariant (Count < K);
                   declare Item : constant J.Node := A (Absent, K);
                   begin
                      if S (Item, "target") = Target then
@@ -1159,6 +1314,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                   end;
                end loop;
                if Count /= (if Required then 0 else 1) then return False; end if;
+               pragma Assert (Count <= 1);
                Absent_Count := Absent_Count + Count;
             end;
          end loop;
@@ -1204,7 +1360,8 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          Arguments : constant J.Node := F (Record_Node, "command");
       begin
          if not Command.Valid or else Arguments.Form /= J.Array_Value or else
-           J.Count (Observed, Arguments) < 5 or else Nul_Count (Command.Data) /= J.Count (Observed, Arguments) + 1 or else
+           J.Count (Observed, Arguments) < 5 or else J.Count (Observed, Arguments) = Natural'Last or else
+           Nul_Count (Command.Data) /= Long_Long_Integer (J.Count (Observed, Arguments)) + 1 or else
            not J.Is_Text (Observed, A (Arguments, 1), S (Plan, "trustedInterpreter")) or else
            not J.Is_Text (Observed, A (Arguments, 2), "-I") or else not J.Is_Text (Observed, A (Arguments, 3), "-S") or else
            not J.Is_Text (Observed, A (Arguments, 4), S (Plan, "namespacePolicy")) or else
@@ -1315,7 +1472,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
             end;
          end loop;
          -- Packets are redecoded rather than accepting enumerationComplete.
-         if Packets.Form /= J.Array_Value or else J.Count (Observed, Packets) /= Count + 3 then return False; end if;
+         if Packets.Form /= J.Array_Value or else J.Count (Observed, Packets) < 3 or else J.Count (Observed, Packets) - 3 /= Count then return False; end if;
          for I in 1 .. Count + 2 loop
             declare
                Packet : constant J.Node := A (Packets, I);
@@ -1376,6 +1533,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
            not Equal (Held, F (Mapping, "heldSource")) or else not Equal (Held, F (Record_Node, "nativeSourceCurrent")) or else
            not Equal (F (Mapping, "binding"), F (Plan, "nativeGuardBinding")) then return False; end if;
          for I in 1 .. Lines (Bytes.Data) loop
+            pragma Loop_Invariant (Count < I);
             declare
                Text : constant String := Line (Bytes.Data, I);
                Range_Text : constant String := Word (Text, 1);
@@ -1383,19 +1541,26 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                Device_Text : constant String := Word (Text, 4);
                Dash, Colon : Natural := 0;
             begin
-               while Dash < Range_Text'Length and then Range_Text (Range_Text'First + Dash) /= '-' loop Dash := Dash + 1; end loop;
-               while Colon < Device_Text'Length and then Device_Text (Device_Text'First + Colon) /= ':' loop Colon := Colon + 1; end loop;
+               while Dash < Range_Text'Length and then Range_Text (Range_Text'First + Dash) /= '-' loop
+                  pragma Loop_Variant (Increases => Dash);
+                  Dash := Dash + 1;
+               end loop;
+               while Colon < Device_Text'Length and then Device_Text (Device_Text'First + Colon) /= ':' loop
+                  pragma Loop_Variant (Increases => Colon);
+                  Colon := Colon + 1;
+               end loop;
                if Word_Count (Text) < 5 or else Dash = Range_Text'Length or else Colon = Device_Text'Length or else Permissions'Length /= 4 or else
                  Permissions (Permissions'First) not in 'r' | '-' or else Permissions (Permissions'First + 1) not in 'w' | '-' or else
                  Permissions (Permissions'First + 2) not in 'x' | '-' or else Permissions (Permissions'First + 3) not in 'p' | 's' then return False; end if;
                declare
-                  Start : constant Number := Parse_Number (Range_Text (Range_Text'First .. Range_Text'First + Dash - 1), 16);
-                  Finish : constant Number := Parse_Number (Range_Text (Range_Text'First + Dash + 1 .. Range_Text'Last), 16);
+                  Start : constant Number := Parse_Number (Range_Text (Range_Text'First .. Range_Text'First + (Dash - 1)), 16);
+                  Finish : constant Number := Parse_Number ((if Dash + 1 = Range_Text'Length then "" else Range_Text (Range_Text'First + (Dash + 1) .. Range_Text'Last)), 16);
                   Offset : constant Number := Parse_Number (Word (Text, 3), 16);
-                  Major : constant Number := Parse_Number (Device_Text (Device_Text'First .. Device_Text'First + Colon - 1), 16);
-                  Minor : constant Number := Parse_Number (Device_Text (Device_Text'First + Colon + 1 .. Device_Text'Last), 16);
+                  Major : constant Number := Parse_Number (Device_Text (Device_Text'First .. Device_Text'First + (Colon - 1)), 16);
+                  Minor : constant Number := Parse_Number ((if Colon + 1 = Device_Text'Length then "" else Device_Text (Device_Text'First + (Colon + 1) .. Device_Text'Last)), 16);
                   Inode : constant Number := Parse_Number (Word (Text, 5));
-                  A_Offset, End_Offset, Words : Natural := 0;
+                  A_Offset, Words : Natural := 0;
+                  End_Offset : Natural;
                begin
                   if not Start.Valid or else not Finish.Valid or else Start.Value >= Finish.Value or else not Offset.Valid or else
                     not Major.Valid or else not Minor.Valid or else not Inode.Valid or else
@@ -1413,12 +1578,24 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                         Executable := Executable or Permissions (Permissions'First + 2) = 'x';
                         if Permissions (Permissions'First + 1) = 'w' and then Permissions (Permissions'First + 2) = 'x' then return False; end if;
                         while Words < 5 loop
-                           while A_Offset < Text'Length and then White (Text (Text'First + A_Offset)) loop A_Offset := A_Offset + 1; end loop;
+                           pragma Loop_Invariant (A_Offset <= Text'Length);
+                           pragma Loop_Variant (Increases => Words);
+                           while A_Offset < Text'Length and then White (Text (Text'First + A_Offset)) loop
+                              pragma Loop_Variant (Increases => A_Offset);
+                              A_Offset := A_Offset + 1;
+                           end loop;
                            End_Offset := A_Offset;
-                           while End_Offset < Text'Length and then not White (Text (Text'First + End_Offset)) loop End_Offset := End_Offset + 1; end loop;
+                           while End_Offset < Text'Length and then not White (Text (Text'First + End_Offset)) loop
+                              pragma Loop_Invariant (End_Offset in A_Offset .. Text'Length);
+                              pragma Loop_Variant (Increases => End_Offset);
+                              End_Offset := End_Offset + 1;
+                           end loop;
                            Words := Words + 1; A_Offset := End_Offset;
                         end loop;
-                        while A_Offset < Text'Length and then White (Text (Text'First + A_Offset)) loop A_Offset := A_Offset + 1; end loop;
+                        while A_Offset < Text'Length and then White (Text (Text'First + A_Offset)) loop
+                           pragma Loop_Variant (Increases => A_Offset);
+                           A_Offset := A_Offset + 1;
+                        end loop;
                         if A_Offset = Text'Length then
                            if F (Row, "pathBytes").Form /= J.Null_Value then return False; end if;
                         else
@@ -1578,7 +1755,8 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          return Found;
       end Find_Role;
       function Quota_Valid return Boolean is
-         Reader, Done : J.Node := J.No_Node;
+         Reader : J.Node := J.No_Node;
+         Done : J.Node;
       begin
          for I in 1 .. J.Count (Observed, Roles) loop
             declare Row : constant J.Node := A (Roles, I);
@@ -1630,6 +1808,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                begin if not Same_Object (F (Observation, Key), User) then return False; end if; end;
             end loop;
             for I in 1 .. J.Count (Observed, Reads) loop
+               pragma Loop_Invariant (Quota_Count < I);
                declare Row : constant J.Node := A (Reads, I);
                begin
                   if not Clean (Row) or else not J.Is_True (Observed, F (Row, "returned")) or else not J.Is_True (Observed, F (Row, "eof")) or else
@@ -1689,6 +1868,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
             begin
                if S (Startup, "kind") = "role-startup" then
                   for K in 1 .. J.Count (Observed, Roles) loop
+                     pragma Loop_Invariant (Count < K);
                      declare Row : constant J.Node := A (Roles, K);
                      begin
                         if S (Row, "kind") = "role-held-descriptor-cleanup" and then Equal (F (Row, "startupRecordId"), F (Startup, "recordId")) then Count := Count + 1; end if;
@@ -1727,7 +1907,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                      Closes : constant J.Node := F (Row, "descriptorCloses");
                   begin
                      if Startup.Form /= J.Object_Value or else Closes.Form /= J.Array_Value or else
-                       J.Count (Observed, Closes) /= J.Count (Observed, F (Startup, "ancestry")) + 7 then return False; end if;
+                       J.Count (Observed, Closes) < 7 or else J.Count (Observed, Closes) - 7 /= J.Count (Observed, F (Startup, "ancestry")) then return False; end if;
                      for K in 1 .. J.Count (Observed, Closes) loop
                         declare Close : constant J.Node := A (Closes, K);
                         begin
@@ -1772,6 +1952,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
          -- Recover the signed C interpreter status from its ORIGINAL typed bytes.
          -- JSON terminal flags and normalized-status projections never decide it.
          for I in 1 .. J.Count (Observed, Roles) loop
+            pragma Loop_Invariant (Exit_Count < I);
             declare Row : constant J.Node := A (Roles, I);
             begin
                if S (Row, "kind") in "native-lifetime-receive" | "native-lifetime-terminal" then
@@ -1782,10 +1963,11 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
                      if Bytes.Valid and then Value.Kind = L.Tuple_Value and then L.Text (Bytes.Data, L.Element (Bytes.Data, Value, 1)) = "native-interpreter-exit" then
                         declare
                            Status : constant L.Node := L.Element (Bytes.Data, Value, 3);
-                           Width : constant Natural := (if Status.Last >= Status.First + 8 then Status.Last - Status.First - 8 else 0);
+                           Width : constant Natural := (if Status.Last - Status.First >= 8 then Status.Last - Status.First - 8 else 0);
                         begin
                            Exit_Count := Exit_Count + 1;
-                           if Status.Kind /= L.Integer_Value or else Width not in 1 .. 4 then return False; end if;
+                           -- Lifetime_Values nodes lie inside their data; its contract does not say so.
+                           if Status.Kind /= L.Integer_Value or else Width not in 1 .. 4 or else Status.Last > Bytes.Length then return False; end if;
                            declare
                               Number_Value : constant U64 := L.Word (Bytes.Data, Status.First + 9, Width);
                               Negative : constant Boolean := Character'Pos (Bytes.Data (Status.Last)) >= 128;
@@ -1814,10 +1996,12 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
         not J.Equal (Observed, F (Plan, "runId"), Expected, J.Field (Expected, Invocation, "runId")) or else
         not Equal (F (Plan, "runId"), F (Boundary, "runId")) then return False; end if;
       for I in 1 .. J.Count (Observed, Root) loop
+         pragma Loop_Invariant (Acquired_Role_Count < I);
          if S (A (Root, I), "kind") = "private-kernel-role-observation" then Acquired_Role_Count := Acquired_Role_Count + 1; end if;
       end loop;
       if Acquired_Role_Count /= J.Count (Observed, Roles) then return False; end if;
       for I in 1 .. J.Count (Observed, Roles) loop
+         pragma Loop_Invariant (Role_Count < I);
          declare Row : constant J.Node := A (Roles, I); Kind : constant String := S (Row, "kind");
          begin
             if not Record_Bound (Row, I) or else not Integer_Is (F (Row, "schemaVersion"), 1) or else
@@ -1846,7 +2030,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
       end loop;
       if Bootstrap.Form /= J.Object_Value or else Examiner.Form /= J.Object_Value or else not Bootstrap_Valid or else
         not Capture_Budget (Bootstrap) or else not Quota_Valid or else not Cleanup_Valid or else
-        Role_Count /= J.Count (Observed, Workers) + 1 or else not Role_Valid (Examiner, "examiner") or else
+        Role_Count = 0 or else Role_Count - 1 /= J.Count (Observed, Workers) or else not Role_Valid (Examiner, "examiner") or else
         not Acknowledged (Examiner, "examiner") or else not Capture_Budget (Examiner, True) or else
         not Compatibility (F (Boundary, "examiner"), Examiner, "examiner") then return False; end if;
       for I in 1 .. J.Count (Observed, Workers) loop
