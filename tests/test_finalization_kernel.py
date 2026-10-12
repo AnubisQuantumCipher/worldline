@@ -245,7 +245,10 @@ class FinalizationNativeControls(unittest.TestCase):
     def collapse_values(self):
         from test_raw_evaluation_default import RawDependencyControls
         original = RawDependencyControls.checkpoint()
+        # Candidate evaluation requires the resulting requirement (Collapse
+        # Required_Present); the sibling bound_request fixture supplies it too.
         request = replace(original, mode='CANDIDATE_EVALUATION',
+            resulting_requirement=original.current_requirement,
             evaluated_requirement=original.current_requirement,
             executed_verifiers=original.declared_verifiers,
             expected_checkpoint=None, witnessed_checkpoint=None)
