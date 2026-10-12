@@ -1157,8 +1157,12 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
           Scalar (Data, Field (Data, Field (Data, Capture, "bound", L), "requirement", L), L)
       then Valid := False; return; end if;
       if V.Kind (V.Field (Initial, "evaluationEpoch")) /= V.Integer_Value
-        or else V.Decimal (Initial, V.Field (Initial, V.Parse (Initial), "evaluationEpoch"))'Length = 0
-        or else V.Decimal (Initial, V.Field (Initial, V.Parse (Initial), "evaluationEpoch")) (1) = '-'
+        --  Decimal returns the value's own slice of Initial, positioned where the
+        --  value occurs; its sign is the slice's first character, not index 1.
+        or else (declare
+                   Epoch : constant String :=
+                     V.Decimal (Initial, V.Field (Initial, V.Parse (Initial), "evaluationEpoch"));
+                 begin Epoch'Length = 0 or else Epoch (Epoch'First) = '-')
         or else V.Kind (V.Field (Initial, "storeId")) /= V.String_Value
         or else V.Kind (V.Field (Initial, "run")) /= V.String_Value
         or else V.Kind (V.Field (V.Field (Initial, "measurement"), "worldInstance")) /= V.String_Value
@@ -1611,7 +1615,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    begin
       Valid := Needed > 0 and then Arena'First = Data'First and then Arena'Length >= Needed
         and then Rows'Length = Row_Count (Data, Material, L)
-        and then Material_Record_Is (Data, Material, "worldline.evaluation_authority", "AuthorityMaterial", L)
+        and then Material_Record_Is (Data, Material, "worldline.recovery_material", "AuthorityMaterial", L)
         and then E.Decode (Data, Terminal_Material, L).Form = E.Tuple_Value
         and then Count (Data, Terminal_Material, L) = 4
         and then E.Decode (Data, Intents, L).Form = E.Tuple_Value
