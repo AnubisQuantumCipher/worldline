@@ -282,13 +282,17 @@ def agent_context_pair(selected, subject, agent_record):
     # The sealed subject, content and evidence are bytes. value_bytes owns
     # JSON-like values, not Python bytes objects (see _required_value), so
     # both sides use the lossless finalization encoding, which carries each
-    # complete byte field and the agent record unchanged; the comparison is
-    # still exact bytes-for-bytes on every field.
+    # complete byte field unchanged. The retained agent record is read back
+    # from the sealed canonical evidence (sorted keys), so both agent records
+    # are compared in that same canonical JSON form: exact value equality,
+    # independent of the live dict's insertion order, and nothing filtered.
     from .finalization_journal import encode as finalization_bytes
+    def agent_value(record):
+        return None if record is None else canonical_bytes(record)
     expected = finalization_bytes((start.subject, sealed.value.content,
-                                   sealed.value.evidence, retained_agent))
+                                   sealed.value.evidence, agent_value(retained_agent)))
     observed = finalization_bytes((identity(subject.instance_id), identity(subject.content_id),
-                                   canonical_bytes(subject.evidence), agent_record))
+                                   canonical_bytes(subject.evidence), agent_value(agent_record)))
     return expected, observed
 
 
