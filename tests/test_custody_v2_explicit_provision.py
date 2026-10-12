@@ -9,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 from worldline.custody_v2_provision_values import (
     DOMAIN, ExplicitInputs, Target, write_empty_artifacts)
-from worldline.protected_startup import canonical, digest, StartupRefusal
+from worldline.protected_startup import canonical, digest, exact_json, StartupRefusal
 from worldline.root_worker_codec import archive
 
 class EmptyV2ProducerControls(unittest.TestCase):
@@ -23,7 +23,10 @@ class EmptyV2ProducerControls(unittest.TestCase):
             'installation': 'fixture', 'startup_descriptor_sha256': digest(descriptor),
             'owner_plan_sha256': digest(plan), 'issuer_key_sha256': digest(key),
             'initial_event': None, 'prior_custody': prior}
-        return ExplicitInputs(descriptor, plan, canonical(genesis), key), genesis
+        # The genesis value is the one its canonical file declares (exact_json
+        # order), which native Genesis_Archive_Matches requires of the row.
+        raw = canonical(genesis)
+        return ExplicitInputs(descriptor, plan, raw, key), exact_json(raw)
 
     def targets(self, fd):
         return (Target(fd, 'custody.sqlite'), Target(fd, 'genesis.json'), Target(fd, 'custody.sqlite.lock'))
