@@ -134,6 +134,9 @@ package Resource_Ledger with SPARK_Mode is
    with Ghost, Global => null,
      Subprogram_Variant => (Decreases => Count);
 
+   --  Public expression functions are already definitions for the prover, so
+   --  no Inline_For_Proof annotation is carried beside these compound Posts
+   --  (GNATprove requires a single 'Result equality for that annotation).
    function Total_Reference
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
       return Valid_Big_Integer is
@@ -144,8 +147,7 @@ package Resource_Ledger with SPARK_Mode is
        (if Count = 0 then To_Big_Integer (0)
         else Total_Model (Data, Rows, Count - 1) +
           Row_Reference (Data, Rows, Count - 1)) and then
-       Total_Reference'Result = Total_Model (Data, Rows, Count),
-     Annotate => (GNATprove, Inline_For_Proof);
+       Total_Reference'Result = Total_Model (Data, Rows, Count);
 
    --  Executed checked bridge; its body preserves every original public-body
    --  assertion and the iterative-worker correspondence. No new caller Pre.
@@ -163,14 +165,13 @@ package Resource_Ledger with SPARK_Mode is
      (Prefix_Total_Checked (Data, Rows, Count))
    with Ghost, Global => null,
      Subprogram_Variant => (Decreases => Count),
+     --  Prefix_Total = Total_Reference = Total_Model for every Count, so the
+     --  predecessor substitution preserves the exact signed ordered sum.
      Post => Prefix_Total'Result =
        (if Count = 0 then To_Big_Integer (0)
         else Total_Model (Data, Rows, Count - 1) +
           Row_Reference (Data, Rows, Count - 1)) and then
-       Prefix_Total'Result = Total_Reference (Data, Rows, Count),
-     --  Prefix_Total = Total_Reference = Total_Model for every Count, so the
-     --  predecessor substitution preserves the exact signed ordered sum.
-     Annotate => (GNATprove, Inline_For_Proof);
+       Prefix_Total'Result = Total_Reference (Data, Rows, Count);
 
    --  This is an exact storage relation, not a bound on accepted integers.
    --  The supplied total arena must hold every ordered partial sum. A caller

@@ -23,7 +23,10 @@ package body Worldline.Recovery_Packet with SPARK_Mode is
       V : constant Packet_View := Decode (Data, Packet);
       use type E.Q.Byte;
    begin
-      if not V.Valid or else not A.Valid (Expected_Data, Expected_Values) or else
+      --  Both value spans must lie inside their own arenas before any byte is
+      --  compared; a packet whose values span escapes its arena cannot match.
+      if not V.Valid or else not A.Valid (Data, V.Values) or else
+        not A.Valid (Expected_Data, Expected_Values) or else
         not A.Record_Is (Expected_Data, Expected_Values, "worldline.core", "CollapseInput") or else
         V.Values.Length /= Expected_Values.Length then return False; end if;
       if V.Values.Length > 0 then

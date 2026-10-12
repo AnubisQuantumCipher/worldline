@@ -24,7 +24,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
    use type W.Byte;
 
    function JSON_Bytes (Text : String) return P.Bytes is
-      Result : P.Bytes (1 .. P.Count (Text'Length));
+      Result : P.Bytes (1 .. P.Count (Text'Length)) := [others => 0];
    begin
       for I in Text'Range loop
          Result (P.Count (I - Text'First + 1)) := P.Byte (Character'Pos (Text (I)));
@@ -177,7 +177,10 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          Position := Position + Advance;
       end loop;
       declare
-         Output : String (1 .. Length);
+         --  SPARK: a constraint may not read a variable; the computed extent
+         --  is frozen into a constant first.
+         Final_Length : constant Natural := Length;
+         Output : String (1 .. Final_Length);
          Used : Natural := 0;
       begin
          Position := 0;
@@ -688,7 +691,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          return Found;
       end Find_Show;
       function Cgroup_Path (Group, Name : String) return String is
-         Output : String (1 .. Group'Length);
+         Output : String (1 .. Group'Length) := [others => ' '];
          Used, Position, First : Natural := 0;
       begin
          -- Original pathlib POSIX lexical normalization: repeated slash and
@@ -744,7 +747,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
                --  Universal newlines are equivalent to ordinary whitespace for
                --  memory.events and limits values; preserve internal newlines.
                declare
-                  Text : String (1 .. Decoded.Length);
+                  Text : String (1 .. Decoded.Length) := [others => ' '];
                   Used : Natural := 0;
                   Position : Natural := 0;
                begin

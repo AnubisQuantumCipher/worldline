@@ -17,8 +17,10 @@ package Worldline.Runner_Lifecycle_Bytes with SPARK_Mode is
      with Global => null;
    function Text_Is (Data : E.Bytes; Item : E.Span; Text : String) return Boolean
      with Global => null;
+   --  Same-buffer view of the two-buffer Equal below; it is not itself
+   --  recursive, so it carries no variant of its own.
    function Equal (Data : E.Bytes; Left, Right : E.Span) return Boolean
-     with Global => null, Subprogram_Variant => (Decreases => Left.Length);
+     with Global => null;
    function Truth (Data : E.Bytes; Item : E.Span) return Boolean with Global => null;
    function Equal (Left_Data, Right_Data : E.Bytes; Left, Right : E.Span)
       return Boolean with Global => null,

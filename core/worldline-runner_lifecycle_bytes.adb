@@ -287,6 +287,8 @@ package body Worldline.Runner_Lifecycle_Bytes with SPARK_Mode is
                      if Pair.Form /= E.List_Value or else E.Array_Length (Left_Data, Pair.Children) /= 2
                      then return False; end if;
                      for J in E.Count range 0 .. Size - 1 loop
+                        --  One match per examined right-hand pair at most.
+                        pragma Loop_Invariant (Matches <= J);
                         declare
                            Other : constant E.View := E.Decode
                              (Right_Data, E.Array_Element (Right_Data, R.Children, J), E.Terminal);
@@ -501,7 +503,9 @@ package body Worldline.Runner_Lifecycle_Bytes with SPARK_Mode is
    end Positive_Integer_Hex;
    function Positive_Float_Bits (Data : E.Bytes; Item : E.Span) return Boolean is
       Value : constant E.View := E.Decode (Data, Item, E.Finalization);
-      D : array (E.Count range 0 .. 15) of Integer;
+      --  Every digit is assigned before it is read; the initial aggregate only
+      --  makes that whole-array initialization visible to flow analysis.
+      D : array (E.Count range 0 .. 15) of Integer := [others => 0];
       Nonzero, Fraction : Boolean := False;
    begin
       if Value.Form /= E.Text_Value or else Leaf_Length (Data, Value) /= 16 then return False; end if;
@@ -526,7 +530,7 @@ package body Worldline.Runner_Lifecycle_Bytes with SPARK_Mode is
    function Positive_Float_Hex (Data : E.Bytes; Item : E.Span) return Boolean is
       Value : constant E.View := E.Decode (Data, Item, E.Finalization);
       Size : constant E.Count := Leaf_Length (Data, Value);
-      Nonzero : Boolean := False;
+      Nonzero : Boolean;
       Exponent : Natural := 0;
       Negative_Exponent : Boolean;
    begin
@@ -550,6 +554,9 @@ package body Worldline.Runner_Lifecycle_Bytes with SPARK_Mode is
       if Size > 20 and then Leaf_Byte (Data, Value, 19) = Character'Pos ('0')
       then return False; end if;
       for I in E.Count range 19 .. Size - 1 loop
+         --  At most four decimal digits (Size <= 23): the accumulated exponent
+         --  stays below 10 ** (digits read), so the next step cannot overflow.
+         pragma Loop_Invariant (Exponent < 10 ** Natural (I - 19));
          if Leaf_Byte (Data, Value, I) not in Character'Pos ('0') .. Character'Pos ('9')
          then return False; end if;
          Exponent := Exponent * 10 + Natural (Leaf_Byte (Data, Value, I) - Character'Pos ('0'));
