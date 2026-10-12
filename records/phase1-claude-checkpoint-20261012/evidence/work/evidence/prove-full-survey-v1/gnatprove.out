@@ -1,0 +1,202 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+--------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                                            Provers   Justified   Unproved
+--------------------------------------------------------------------------------------------------------------------------
+Data Dependencies               103          103                                                  .           .          .
+Flow Dependencies                 2            2                                                  .           .          .
+Initialization                   46           36     10 (CVC5 15%, Trivial 8%, Z3 54%, altergo 23%)           .          .
+Non-Aliasing                      6            6                                                  .           .          .
+Run-time Checks                 704            .      700 (CVC5 2%, Trivial 6%, Z3 89%, altergo 3%)           .          4
+Assertions                      188            .     188 (CVC5 8%, Trivial 8%, Z3 72%, altergo 12%)           .          .
+Functional Contracts            164            .    164 (CVC5 11%, Trivial 4%, Z3 64%, altergo 22%)           .          .
+LSP Verification                  .            .                                                  .           .          .
+Termination                     144          125                            19 (Z3 95%, altergo 5%)           .          .
+Concurrency                       .            .                                                  .           .          .
+--------------------------------------------------------------------------------------------------------------------------
+Total                          1357    272 (20%)                                         1081 (80%)           .     4 (0%)
+
+
+max steps used for successful proof: 35546
+
+============================
+Most difficult proved checks
+============================
+
+evaluation_finalization.adb:402:10: assertion proved in max 9 seconds
+evaluation_epoch.adb:480:10: assertion proved in max 9 seconds
+worldline-root_custody_row_views.ads:127:79: discriminant check proved in max 4 seconds
+evaluation_finalization.ads:295:17: postcondition proved in max 3 seconds
+worldline-root_custody_row_views.adb:59:83: discriminant check proved in max 3 seconds
+evaluation_epoch.adb:539:13: assertion proved in max 3 seconds
+evaluation_finalization.adb:47:13: loop invariant after first iteration proved in max 2 seconds
+evaluation_finalization.ads:394:16: postcondition proved in max 1 seconds
+evaluation_finalization.adb:48:15: use of an uninitialized variable proved in max 1 seconds
+evaluation_finalization.ads:384:16: postcondition proved in max 1 seconds
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 11 units
+in unit attest, 1 subprograms and packages out of 1 analyzed
+  Attest at attest.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit attest-custody_sha256, 16 subprograms and packages out of 16 analyzed
+  Attest.Custody_SHA256 at attest-custody_sha256.ads:12 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Absorbed at attest-custody_sha256.ads:29 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Bit_Length at attest-custody_sha256.ads:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Ch at attest-custody_sha256.adb:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Compress at attest-custody_sha256.adb:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (25 checks)
+  Attest.Custody_SHA256.Context at attest-custody_sha256.ads:52 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Final at attest-custody_sha256.ads:38 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)
+  Attest.Custody_SHA256.Hash at attest-custody_sha256.ads:42 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Initial at attest-custody_sha256.ads:32 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Attest.Custody_SHA256.Low_Byte at attest-custody_sha256.adb:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Attest.Custody_SHA256.Maj at attest-custody_sha256.adb:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Sigma0 at attest-custody_sha256.adb:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Sigma1 at attest-custody_sha256.adb:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Theta0 at attest-custody_sha256.adb:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Theta1 at attest-custody_sha256.adb:43 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.Custody_SHA256.Update at attest-custody_sha256.ads:35 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+in unit attest-sha256, 15 subprograms and packages out of 15 analyzed
+  Attest.SHA256 at attest-sha256.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Absorbed at attest-sha256.ads:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Ch at attest-sha256.adb:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Compress at attest-sha256.adb:53 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (25 checks)
+  Attest.SHA256.Context at attest-sha256.ads:51 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Final at attest-sha256.ads:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)
+  Attest.SHA256.Hash at attest-sha256.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Attest.SHA256.Initial at attest-sha256.ads:29 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Attest.SHA256.Low_Byte at attest-sha256.adb:45 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Attest.SHA256.Maj at attest-sha256.adb:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Sigma0 at attest-sha256.adb:33 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Sigma1 at attest-sha256.adb:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Theta0 at attest-sha256.adb:39 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Theta1 at attest-sha256.adb:42 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Update at attest-sha256.ads:32 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+in unit evaluation_epoch, 25 subprograms and packages out of 25 analyzed
+  Evaluation_Epoch at evaluation_epoch.ads:4 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Evaluation_Epoch.Carry_Input at evaluation_epoch.adb:428 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Epoch.Column_Bounds at evaluation_epoch.adb:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Evaluation_Epoch.Column_Division at evaluation_epoch.adb:437 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Evaluation_Epoch.Distinct_Columns at evaluation_epoch.adb:221 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (22 checks)
+  Evaluation_Epoch.Equal_Prefix_Reference at evaluation_epoch.adb:557 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Evaluation_Epoch.Increment_Modulus at evaluation_epoch.adb:486 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (19 checks)
+  Evaluation_Epoch.Is_Successor at evaluation_epoch.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (26 checks)
+  Evaluation_Epoch.Magnitude_Modulus at evaluation_epoch.adb:387 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Evaluation_Epoch.Matching_Column at evaluation_epoch.adb:453 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Evaluation_Epoch.Mismatching_Column at evaluation_epoch.adb:500 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (38 checks)
+  Evaluation_Epoch.Nonnegative_Valid at evaluation_epoch.adb:2 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Evaluation_Epoch.Positive_Multiple at evaluation_epoch.adb:196 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Evaluation_Epoch.Power_Factor at evaluation_epoch.adb:141 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Evaluation_Epoch.Prefix_Bounds at evaluation_epoch.adb:99 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Evaluation_Epoch.Prefix_Modulus at evaluation_epoch.adb:361 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Evaluation_Epoch.Prefix_Padding at evaluation_epoch.adb:119 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Evaluation_Epoch.Prefix_Step at evaluation_epoch.adb:67 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Evaluation_Epoch.Prefix_Tail at evaluation_epoch.adb:162 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Evaluation_Epoch.Quotient_Above_Contradiction at evaluation_epoch.adb:305 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Evaluation_Epoch.Quotient_Below_Contradiction at evaluation_epoch.adb:279 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Evaluation_Epoch.Remainder_From_Witness at evaluation_epoch.adb:331 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (22 checks)
+  Evaluation_Epoch.Same_Value at evaluation_epoch.ads:7 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Evaluation_Epoch.Scale_Column at evaluation_epoch.adb:14 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Evaluation_Epoch.Unsigned_Value at evaluation_epoch.adb:413 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+in unit evaluation_finalization, 37 subprograms and packages out of 37 analyzed
+  Evaluation_Finalization at evaluation_finalization.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Evaluation_Finalization.Artifact_Binding at evaluation_finalization.ads:332 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Finalization.Artifacts_Valid at evaluation_finalization.ads:299 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Evaluation_Finalization.Bind_Row at evaluation_finalization.ads:218 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Evaluation_Finalization.Bind_Rows at evaluation_finalization.ads:227 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Evaluation_Finalization.Bound_To at evaluation_finalization.ads:214 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Evaluation_Finalization.Capture_Reference at evaluation_finalization.ads:245 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Evaluation_Finalization.Capture_Valid at evaluation_finalization.ads:194 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Evaluation_Finalization.Classify_Capture at evaluation_finalization.ads:259 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Finalization.Content_Matches at evaluation_finalization.ads:292 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)
+  Evaluation_Finalization.Content_Reference at evaluation_finalization.ads:278 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Evaluation_Finalization.Final_Identity at evaluation_finalization.ads:271 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Evaluation_Finalization.History_Projection at evaluation_finalization.ads:312 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Evaluation_Finalization.Input_Reference at evaluation_finalization.ads:162 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Finalization.Input_Unchanged at evaluation_finalization.ads:207 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Evaluation_Finalization.Input_Valid at evaluation_finalization.ads:121 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Evaluation_Finalization.Lemma_Content_Completion at evaluation_finalization.adb:224 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (26 checks)
+  Evaluation_Finalization.Lemma_Content_Erasure at evaluation_finalization.adb:344 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (51 checks)
+  Evaluation_Finalization.Lemma_Content_Failure at evaluation_finalization.adb:258 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (31 checks)
+  Evaluation_Finalization.Lemma_Content_Promotion at evaluation_finalization.adb:300 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (36 checks)
+  Evaluation_Finalization.Lemma_Content_Rows at evaluation_finalization.adb:189 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)
+  Evaluation_Finalization.Lemma_Selected_Same at evaluation_finalization.adb:165 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Evaluation_Finalization.Payload_Spans at evaluation_finalization.ads:326 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Evaluation_Finalization.Plan_Valid at evaluation_finalization.ads:74 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Evaluation_Finalization.Record_Input at evaluation_finalization.ads:169 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Finalization.Record_Start at evaluation_finalization.ads:154 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Finalization.Requirements at evaluation_finalization.ads:89 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Evaluation_Finalization.Row_Valid at evaluation_finalization.ads:182 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Evaluation_Finalization.Same_Input at evaluation_finalization.ads:126 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Evaluation_Finalization.Same_Plan at evaluation_finalization.ads:80 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Evaluation_Finalization.Same_Start at evaluation_finalization.ads:107 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Evaluation_Finalization.Seal at evaluation_finalization.ads:387 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Evaluation_Finalization.Seal_Classification_Equation at evaluation_finalization.ads:343 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Evaluation_Finalization.Seal_Equation at evaluation_finalization.ads:353 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Finalization.Seal_Reference at evaluation_finalization.ads:377 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Evaluation_Finalization.Start_Reference at evaluation_finalization.ads:147 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Evaluation_Finalization.Start_Valid at evaluation_finalization.ads:95 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+in unit worldline-producer_bytes, 7 subprograms and packages out of 7 analyzed
+  Worldline.Producer_Bytes at worldline-producer_bytes.ads:1 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Producer_Bytes.Base64 at worldline-producer_bytes.ads:12 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Producer_Bytes.Base64_Extent at worldline-producer_bytes.ads:10 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Producer_Bytes.Decode_Base64 at worldline-producer_bytes.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Producer_Bytes.Digest at worldline-producer_bytes.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (28 checks)
+  Worldline.Producer_Bytes.Scan_Base64 at worldline-producer_bytes.adb:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (35 checks)
+  Worldline.Producer_Bytes.Sextet at worldline-producer_bytes.adb:9 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+in unit worldline-recovery_authorization_wire, 12 subprograms and packages out of 12 analyzed
+  Worldline.Recovery_Authorization_Wire at worldline-recovery_authorization_wire.ads:4 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Authorization_Wire.Decide at worldline-recovery_authorization_wire.ads:165 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Recovery_Authorization_Wire.Decode at worldline-recovery_authorization_wire.ads:114 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Authorization_Wire.Decode at worldline-recovery_authorization_wire.ads:117 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Authorization_Wire.Decode at worldline-recovery_authorization_wire.ads:120 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (30 checks)
+  Worldline.Recovery_Authorization_Wire.Decode at worldline-recovery_authorization_wire.ads:152 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Recovery_Authorization_Wire.Selected_Action at worldline-recovery_authorization_wire.ads:157 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Recovery_Authorization_Wire.Well_Formed at worldline-recovery_authorization_wire.ads:61 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Authorization_Wire.Well_Formed at worldline-recovery_authorization_wire.ads:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Authorization_Wire.Well_Formed at worldline-recovery_authorization_wire.ads:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Authorization_Wire.Well_Formed at worldline-recovery_authorization_wire.ads:101 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Authorization_Wire.Well_Formed at worldline-recovery_authorization_wire.ads:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-recovery_packet, 9 subprograms and packages out of 9 analyzed
+  Worldline.Recovery_Packet at worldline-recovery_packet.ads:4 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Packet.Complete at worldline-recovery_packet.ads:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Recovery_Packet.Complete at worldline-recovery_packet.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Recovery_Packet.Decode at worldline-recovery_packet.ads:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Packet.Decode.F at worldline-recovery_packet.adb:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Packet.Inspect at worldline-recovery_packet.ads:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Recovery_Packet.Inspect at worldline-recovery_packet.ads:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Recovery_Packet.Is_Null at worldline-recovery_packet.adb:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Recovery_Packet.Projection_Matches at worldline-recovery_packet.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 1 checks out of 5 proved
+in unit worldline-resources_c_api, 4 subprograms and packages out of 4 analyzed
+flow analysis and proof skipped for this unit (error during checking of SPARK_Mode)
+  Worldline.Resources_C_API at worldline-resources_c_api.ads:10 not analyzed
+  Worldline.Resources_C_API.ABI_Version at worldline-resources_c_api.ads:11 not analyzed
+  Worldline.Resources_C_API.Can_Reserve at worldline-resources_c_api.ads:19 not analyzed
+  Worldline.Resources_C_API.Decode at worldline-resources_c_api.adb:11 not analyzed
+in unit worldline-retained_v1_migration, 8 subprograms and packages out of 8 analyzed
+  Worldline.Retained_V1_Migration at worldline-retained_v1_migration.ads:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Retained_V1_Migration.Closed_Operations at worldline-retained_v1_migration.ads:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Retained_V1_Migration.Context_Matches at worldline-retained_v1_migration.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Retained_V1_Migration.Decide at worldline-retained_v1_migration.ads:51 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Retained_V1_Migration.Last_For_Operation at worldline-retained_v1_migration.ads:23 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Retained_V1_Migration.Literal at worldline-retained_v1_migration.ads:10 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Retained_V1_Migration.Same at worldline-retained_v1_migration.ads:14 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Retained_V1_Migration.Terminal at worldline-retained_v1_migration.ads:20 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-root_custody_row_views, 13 subprograms and packages out of 13 analyzed
+  Worldline.Root_Custody_Row_Views at worldline-root_custody_row_views.ads:5 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Row_Views.Decode_Digest at worldline-root_custody_row_views.ads:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (30 checks)
+  Worldline.Root_Custody_Row_Views.Hex_Nibble at worldline-root_custody_row_views.ads:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Root_Custody_Row_Views.Make_Optional_Root at worldline-root_custody_row_views.ads:109 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Root_Custody_Row_Views.Make_Optional_Subject at worldline-root_custody_row_views.ads:146 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Root_Custody_Row_Views.Make_Root at worldline-root_custody_row_views.ads:97 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Root_Custody_Row_Views.Make_Subject at worldline-root_custody_row_views.ads:134 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Root_Custody_Row_Views.Optional_Abort at worldline-root_custody_row_views.ads:59 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Root_Custody_Row_Views.Optional_Digest at worldline-root_custody_row_views.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Root_Custody_Row_Views.Optional_Phase at worldline-root_custody_row_views.ads:51 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Root_Custody_Row_Views.Optional_Quantity at worldline-root_custody_row_views.ads:67 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Root_Custody_Row_Views.Root_Corresponds at worldline-root_custody_row_views.ads:75 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.Root_Custody_Row_Views.Subject_Corresponds at worldline-root_custody_row_views.ads:120 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)

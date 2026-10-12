@@ -1,0 +1,26 @@
+test_complete_simulated_mapping_precedes_actual_adapter_queries (test_capability_native_binding_simulation.NativeBindingSimulations.test_complete_simulated_mapping_precedes_actual_adapter_queries) ... ERROR
+test_each_wrong_mapped_symbol_refuses_before_queries (test_capability_native_binding_simulation.NativeBindingSimulations.test_each_wrong_mapped_symbol_refuses_before_queries) ... ok
+test_missing_dependency_size_retains_attribute_error (test_capability_native_binding_simulation.NativeBindingSimulations.test_missing_dependency_size_retains_attribute_error) ... ok
+test_missing_mapping_refuses_before_queries (test_capability_native_binding_simulation.NativeBindingSimulations.test_missing_mapping_refuses_before_queries) ... ok
+test_missing_original_api_retains_typed_error_and_cause_without_queries (test_capability_native_binding_simulation.NativeBindingSimulations.test_missing_original_api_retains_typed_error_and_cause_without_queries) ... ok
+test_unrelated_lookup_error_is_not_translated (test_capability_native_binding_simulation.NativeBindingSimulations.test_unrelated_lookup_error_is_not_translated) ... ok
+
+======================================================================
+ERROR: test_complete_simulated_mapping_precedes_actual_adapter_queries (test_capability_native_binding_simulation.NativeBindingSimulations.test_complete_simulated_mapping_precedes_actual_adapter_queries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/baseline-source20/tests/test_capability_native_binding_simulation.py", line 186, in test_complete_simulated_mapping_precedes_actual_adapter_queries
+    construct()
+    ~~~~~~~~~^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/baseline-source20/tests/test_capability_native_binding_simulation.py", line 182, in <lambda>
+    return ns, trace, lambda: owner(gate, capture, startup_lease=lease)
+                              ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/baseline-source20/runtime/worldline/protected_capability_uses.py", line 52, in __init__
+    startup_lease.capture_journal_admission(gate,'full-use-reservations',self.path,self._envelope())
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Lease' object has no attribute 'capture_journal_admission'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.258s
+
+FAILED (errors=1)

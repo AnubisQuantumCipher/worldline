@@ -1,0 +1,4 @@
+row113: stored row == archive(exact_json(genesis_raw)): True
+row113: native match(genesis file, stored producer row)      = 3
+row113: native match(genesis file, test-expected archive(genesis)) = 2
+row111: production v1 reader (genesis from file) REFUSES fixture journal: ROOT_CUSTODY_PRIOR_GENESIS_ABSENT_OR_CHANGED

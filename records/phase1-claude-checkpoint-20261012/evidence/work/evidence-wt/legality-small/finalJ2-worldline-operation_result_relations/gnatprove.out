@@ -1,0 +1,76 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                               Provers   Justified   Unproved
+------------------------------------------------------------------------------------------------------------
+Data Dependencies                12          12                                     .           .          .
+Flow Dependencies                 .           .                                     .           .          .
+Initialization                    1           1                                     .           .          .
+Non-Aliasing                      .           .                                     .           .          .
+Run-time Checks                 187           .    177 (CVC5 18%, Z3 78%, altergo 4%)           .         10
+Assertions                        6           .     6 (CVC5 13%, Z3 63%, altergo 25%)           .          .
+Functional Contracts              8           .                  5 (CVC5 15%, Z3 85%)           .          3
+LSP Verification                  .           .                                     .           .          .
+Termination                      41          39                                2 (Z3)           .          .
+Concurrency                       .           .                                     .           .          .
+------------------------------------------------------------------------------------------------------------
+Total                           255    52 (20%)                             190 (75%)           .    13 (5%)
+
+
+max steps used for successful proof: 1219
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-operation_result_relations, 41 subprograms and packages out of 41 analyzed
+  Worldline.Operation_Result_Relations at worldline-operation_result_relations.ads:4 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Action_Name at worldline-operation_result_relations.adb:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Archive_Unhex at worldline-operation_result_relations.adb:115 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+  Worldline.Operation_Result_Relations.Archive_Unhex.Digit at worldline-operation_result_relations.adb:117 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Assess at worldline-operation_result_relations.ads:32 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Assessment_Reference at worldline-operation_result_relations.ads:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Operation_Result_Relations.Binding_Matches at worldline-operation_result_relations.adb:249 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Bytes_Value at worldline-operation_result_relations.adb:108 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Capture_Matches at worldline-operation_result_relations.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Capture_Reference at worldline-operation_result_relations.ads:18 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Capture_Source_Reference at worldline-operation_result_relations.ads:14 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Operation_Result_Relations.Digest_Matches at worldline-operation_result_relations.adb:208 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Operation_Result_Relations.Epoch_Matches at worldline-operation_result_relations.adb:237 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Operation_Result_Relations.Field at worldline-operation_result_relations.adb:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Hash_Of at worldline-operation_result_relations.adb:165 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 11 checks out of 15 proved
+  Worldline.Operation_Result_Relations.Hash_Of.Feed at worldline-operation_result_relations.adb:170 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Hex at worldline-operation_result_relations.adb:189 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Operation_Result_Relations.Historical_Payload_Matches at worldline-operation_result_relations.adb:621 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Operation_Result_Relations.JSON_Field at worldline-operation_result_relations.adb:558 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.JSON_Hex at worldline-operation_result_relations.adb:599 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 21 checks out of 22 proved
+  Worldline.Operation_Result_Relations.JSON_Same at worldline-operation_result_relations.adb:617 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Operation_Result_Relations.JSON_Text at worldline-operation_result_relations.adb:564 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Operation_Result_Relations.Matches at worldline-operation_result_relations.ads:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Material_Extends at worldline-operation_result_relations.adb:478 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Material_View_Matches at worldline-operation_result_relations.adb:444 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Member_Count at worldline-operation_result_relations.adb:566 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Worldline.Operation_Result_Relations.Name at worldline-operation_result_relations.adb:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Null_Value at worldline-operation_result_relations.adb:106 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Payloads_Match at worldline-operation_result_relations.ads:48 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Payloads_Reference at worldline-operation_result_relations.ads:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 45 checks out of 46 proved
+  Worldline.Operation_Result_Relations.Record_DTO_Matches at worldline-operation_result_relations.adb:261 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 6 checks out of 8 proved
+  Worldline.Operation_Result_Relations.Record_Field at worldline-operation_result_relations.adb:144 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Result_Matches at worldline-operation_result_relations.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Result_Reference at worldline-operation_result_relations.ads:21 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Result_Source_Reference at worldline-operation_result_relations.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Snapshot_Source_Matches at worldline-operation_result_relations.adb:322 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 1 checks out of 5 proved
+  Worldline.Operation_Result_Relations.Snapshot_Source_Matches.Name at worldline-operation_result_relations.adb:326 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.Store_Source_Matches at worldline-operation_result_relations.adb:500 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Operation_Result_Relations.Text at worldline-operation_result_relations.adb:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Operation_Result_Relations.UID_Matches at worldline-operation_result_relations.adb:218 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Operation_Result_Relations.Whole at worldline-operation_result_relations.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 1 checks out of 2 proved

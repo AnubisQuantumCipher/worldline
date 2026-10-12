@@ -1,0 +1,68 @@
+{
+ "index": 46,
+ "source": "planned",
+ "mode": "row46",
+ "argv": [
+  "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/artifact-tests/test_canonical_artifacts"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/artifact-tests-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-planned-046-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Actual child wait0 AND scope wait0 with unchanged inputs for artifact-build; stop all dependent actions on failure.",
+ "original_child_argv": [
+  "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source/obj/artifact-tests/test_canonical_artifacts"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "c5ab1c34585f5f4729ac334242ad4b73df428973c3f520d2b821951e911b01c2",
+ "script_sha256": null,
+ "started_at": "2026-10-12T09:30:43.216752+00:00",
+ "exit_code": 0,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T09:30:43.233492+00:00",
+ "wall_seconds": 0.017,
+ "stdout.bin": {
+  "bytes": 495,
+  "sha256": "b87cc7813bf260ca2690218d2332ead565f0cabeb9ad02ff48b238364748a62b",
+  "tail": "PASS null\nPASS true\nPASS false\nPASS integer\nPASS negative_integer\nPASS empty_array\nPASS empty_object\nPASS nested\nPASS controls\nPASS leading_space\nPASS trailing_space\nPASS duplicate\nPASS unsorted\nPASS minus_zero\nPASS leading_zero\nPASS float\nPASS exponent\nPASS short_escape_required\nPASS noncontrol_escape\nPASS upper_escape\nPASS slash_escape\nPASS trailing_array_comma\nPASS trailing_object_comma\nPASS unfinished\nPASS utf8_scalar\nPASS utf8_overlong\nPASS utf8_surrogate\nPASS only_top_level_root_view\n"
+ },
+ "stderr.bin": {
+  "bytes": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tail": ""
+ },
+ "library_sha256_after": "ee6a4f4a8a14842f8f88fadfc3844f53d6a1ae3041f0837ccdb9019a8b84ee2b",
+ "child_receipt_files": []
+}

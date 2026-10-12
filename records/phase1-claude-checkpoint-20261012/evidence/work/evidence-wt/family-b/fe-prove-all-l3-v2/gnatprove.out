@@ -1,0 +1,60 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                                           Provers   Justified   Unproved
+------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                17          17                                                 .           .          .
+Flow Dependencies                 .           .                                                 .           .          .
+Initialization                   36          36                                                 .           .          .
+Non-Aliasing                      .           .                                                 .           .          .
+Run-time Checks                 225           .    225 (CVC5 81%, Trivial 2%, Z3 14%, altergo 4%)           .          .
+Assertions                       14           .                 14 (CVC5 67%, Trivial 8%, Z3 25%)           .          .
+Functional Contracts             42           .     42 (CVC5 50%, Trivial 9%, Z3 39%, altergo 2%)           .          .
+LSP Verification                  .           .                                                 .           .          .
+Termination                      35          19                             16 (CVC5 81%, Z3 19%)           .          .
+Concurrency                       .           .                                                 .           .          .
+------------------------------------------------------------------------------------------------------------------------
+Total                           369    72 (20%)                                         297 (80%)           .          .
+
+
+max steps used for successful proof: 14989
+
+============================
+Most difficult proved checks
+============================
+
+worldline-custody_v2_fold_engine.adb:155:15: postcondition proved in max 3 seconds
+worldline-custody_v2_fold_engine.adb:543:15: postcondition proved in max 2 seconds
+worldline-custody_v2_fold_engine.adb:546:44: range check proved in max 2 seconds
+worldline-custody_v2_fold_engine.adb:322:16: postcondition proved in max 1 seconds
+worldline-custody_v2_fold_engine.adb:623:36: loop invariant after first iteration proved in max 1 seconds
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-custody_v2_fold_engine, 21 subprograms and packages out of 21 analyzed
+  Worldline.Custody_V2_Fold_Engine at worldline-custody_v2_fold_engine.ads:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Fold_Engine.Apply_Legal at worldline-custody_v2_fold_engine.ads:139 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Custody_V2_Fold_Engine.Archive_Authenticated at worldline-custody_v2_fold_engine.ads:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Fold_Engine.Finish_Load at worldline-custody_v2_fold_engine.adb:687 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Fold_Engine.Fold at worldline-custody_v2_fold_engine.ads:100 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Fold_Engine.Fold at worldline-custody_v2_fold_engine.ads:110 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Fold_Engine.Fold_Prefix at worldline-custody_v2_fold_engine.ads:71 flow analyzed (0 errors, 0 checks, 2 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Fold_Engine.Fold_Prefix at worldline-custody_v2_fold_engine.ads:81 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Fold_Engine.Fold_Prefix_Core at worldline-custody_v2_fold_engine.adb:538 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (58 checks)
+  Worldline.Custody_V2_Fold_Engine.Head_Reference at worldline-custody_v2_fold_engine.adb:89 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Fold_Engine.Hex at worldline-custody_v2_fold_engine.adb:76 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Fold_Engine.Legal at worldline-custody_v2_fold_engine.ads:122 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Fold_Engine.Legal_Decoded at worldline-custody_v2_fold_engine.adb:149 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)
+  Worldline.Custody_V2_Fold_Engine.Load_Decide at worldline-custody_v2_fold_engine.ads:151 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Fold_Engine.Load_Decide at worldline-custody_v2_fold_engine.ads:156 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Custody_V2_Fold_Engine.Next at worldline-custody_v2_fold_engine.ads:131 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Fold_Engine.Next_Decoded at worldline-custody_v2_fold_engine.adb:318 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (120 checks)
+  Worldline.Custody_V2_Fold_Engine.Raw_Alternatives_Exact at worldline-custody_v2_fold_engine.adb:117 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Custody_V2_Fold_Engine.Root_Index at worldline-custody_v2_fold_engine.ads:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Custody_V2_Fold_Engine.Rows_Match at worldline-custody_v2_fold_engine.ads:56 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Fold_Engine.Subject_Index at worldline-custody_v2_fold_engine.ads:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)

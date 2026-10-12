@@ -1,0 +1,78 @@
+{
+ "index": 112,
+ "source": "planned",
+ "mode": "row112",
+ "argv": [
+  "/usr/bin/python3",
+  "-B",
+  "-m",
+  "unittest",
+  "-v",
+  "test_custody_subject_primitives"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/test-custody-subject-primitives-controls-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-planned-112-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Every preceding O24 ordered action and added custody whole module requires actual successful same-frame child/scope/outer waits, unchanged full inputs, exact compiled continuation and fresh admitted gates; failure stops the dependent tail. No protected startup/actor/provision/strict-proof credit.",
+ "original_child_argv": [
+  "/usr/bin/python3",
+  "-B",
+  "-m",
+  "unittest",
+  "-v",
+  "test_custody_subject_primitives"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+ "script_sha256": null,
+ "started_at": "2026-10-12T10:17:46.620903+00:00",
+ "exit_code": 0,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T10:17:47.282694+00:00",
+ "wall_seconds": 0.662,
+ "stdout.bin": {
+  "bytes": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tail": ""
+ },
+ "stderr.bin": {
+  "bytes": 653,
+  "sha256": "7abf46ab46d2bfef4af2ef55c43023806a3d5454c1b6692caf6c5ede976bd788",
+  "tail": "(test_custody_subject_primitives.CustodySubjectPrimitiveControls.test_actual_close_has_same_descriptor_ebadf_readback) ... ok\ntest_listener_failure_is_raw_not_connected_requester_success (test_custody_subject_primitives.CustodySubjectPrimitiveControls.test_listener_failure_is_raw_not_connected_requester_success) ... ok\ntest_real_rights_raw_credentials_and_lossless_archive (test_custody_subject_primitives.CustodySubjectPrimitiveControls.test_real_rights_raw_credentials_and_lossless_archive) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.230s\n\nOK\n"
+ },
+ "library_sha256_after": "ee6a4f4a8a14842f8f88fadfc3844f53d6a1ae3041f0837ccdb9019a8b84ee2b",
+ "child_receipt_files": []
+}

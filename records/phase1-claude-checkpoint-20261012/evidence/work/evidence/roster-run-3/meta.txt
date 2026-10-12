@@ -1,0 +1,4 @@
+command: roster/run_roster.py --work roster-run-3 --planned roster/planned-compact.json --additional roster/additional-raw.json --out evidence/roster-run-3 --additions --clean --child-deadline 1800 --cap 8G
+tree: git archive of main 9a2c814 (runtime fixes f484b29, 41e6f43, 9a2c814); SURVEY deadline 1800 s per child (original frame: 600 s) because the machine is shared with proof owners; timing obligations are measured separately
+start: 2026-10-12T07:49:51Z
+exit: 1 duration_s: 10699 end: 2026-10-12T10:48:10Z

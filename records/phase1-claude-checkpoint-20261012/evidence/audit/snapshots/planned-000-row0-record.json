@@ -1,0 +1,74 @@
+{
+ "index": 0,
+ "source": "planned",
+ "mode": "row0",
+ "argv": [
+  "/usr/bin/python3",
+  "-B",
+  "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/native/build_guard.py",
+  "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/native-artifacts"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/native-build-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-planned-000-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Qualified exact native source/control binding and original fresh live resource gate.",
+ "original_child_argv": [
+  "/usr/bin/python3",
+  "-B",
+  "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source/native/build_guard.py",
+  "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/native-artifacts"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+ "script_sha256": "c198d44d63c821fcff2e8fa96c1b1340d80c153d34f8e483a129bfef76ef684c",
+ "started_at": "2026-10-12T07:49:51.774987+00:00",
+ "exit_code": 0,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T07:49:53.957567+00:00",
+ "wall_seconds": 2.183,
+ "stdout.bin": {
+  "bytes": 4049,
+  "sha256": "7c9037fab7d093a0977c54bb701eef8f133ec6ecb7efbb9b71c6aa4e3d360704",
+  "tail": "   BIND_NOW\n 0x000000006ffffffb (FLAGS_1)            Flags: NOW\n 0x000000006ffffffe (VERNEED)            0x1c78\n 0x000000006fffffff (VERNEEDNUM)         2\n 0x000000006ffffff0 (VERSYM)             0x1b3c\n 0x000000006ffffff9 (RELACOUNT)          145\n 0x0000000000000000 (NULL)               0x0\n{\"artifact\": \"/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/native-artifacts/libworldline_examiner_guard.so\", \"bytes\": 149864, \"sha256\": \"23ed026f43c736dfe5bdde6ffac6fa7049b7a350221cb7d7aa4d58748bca3f10\", \"compilerReturncode\": 0, \"confinementAcceptance\": false, \"phaseAcceptance\": false}\n"
+ },
+ "stderr.bin": {
+  "bytes": 0,
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tail": ""
+ },
+ "library_sha256_after": null,
+ "child_receipt_files": []
+}

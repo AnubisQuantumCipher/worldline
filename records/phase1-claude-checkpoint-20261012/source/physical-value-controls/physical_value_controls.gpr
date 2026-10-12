@@ -1,0 +1,13 @@
+with "../core/attest_sha256.gpr";
+project Physical_Value_Controls is
+   for Source_Dirs use (".", "../core");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("physical_value_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-gnata", "-O2", "-g");
+   end Compiler;
+   package Prove is
+      for Proof_Switches ("Ada") use ("--level=3", "--report=all", "-j2");
+   end Prove;
+end Physical_Value_Controls;

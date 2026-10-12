@@ -1,0 +1,79 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                              Provers   Justified   Unproved
+------------------------------------------------------------------------------------------------------------
+Data Dependencies                32           32                                    .           .          .
+Flow Dependencies                 .            .                                    .           .          .
+Initialization                   33           33                                    .           .          .
+Non-Aliasing                      .            .                                    .           .          .
+Run-time Checks                 274            .                274 (CVC5 94%, Z3 6%)           .          .
+Assertions                       90            .                 90 (CVC5 96%, Z3 4%)           .          .
+Functional Contracts              8            .    8 (CVC5 41%, Trivial 22%, Z3 37%)           .          .
+LSP Verification                  .            .                                    .           .          .
+Termination                      85           39                 46 (CVC5 96%, Z3 4%)           .          .
+Concurrency                       .            .                                    .           .          .
+------------------------------------------------------------------------------------------------------------
+Total                           522    104 (20%)                            418 (80%)           .          .
+
+
+max steps used for successful proof: 3052
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-producer_values, 44 subprograms and packages out of 44 analyzed
+  Worldline.Producer_Values at worldline-producer_values.ads:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Byte_At at worldline-producer_values.adb:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Producer_Values.Count at worldline-producer_values.ads:38 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (32 checks)
+  Worldline.Producer_Values.Count at worldline-producer_values.ads:74 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Decimal at worldline-producer_values.ads:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Duplicate_Free at worldline-producer_values.ads:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Element at worldline-producer_values.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (26 checks)
+  Worldline.Producer_Values.Element at worldline-producer_values.ads:71 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Producer_Values.Equal at worldline-producer_values.ads:52 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Producer_Values.Equal at worldline-producer_values.ads:76 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Field at worldline-producer_values.ads:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (31 checks)
+  Worldline.Producer_Values.Field at worldline-producer_values.ads:70 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.First_Key at worldline-producer_values.adb:217 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (23 checks)
+  Worldline.Producer_Values.Hex at worldline-producer_values.adb:39 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Is_False at worldline-producer_values.ads:45 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Is_Null at worldline-producer_values.ads:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Is_Text at worldline-producer_values.ads:42 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Is_True at worldline-producer_values.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Kind at worldline-producer_values.ads:73 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Member_Key at worldline-producer_values.ads:12 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (30 checks)
+  Worldline.Producer_Values.Member_Name at worldline-producer_values.ads:68 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Nonempty_Text at worldline-producer_values.ads:50 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Nonnegative at worldline-producer_values.ads:59 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Producer_Values.Number_Image at worldline-producer_values.ads:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Producer_Values.Original_Exact_JSON at worldline-producer_values.ads:18 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Parse at worldline-producer_values.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Producer_Values.Present at worldline-producer_values.ads:48 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Python_String at worldline-producer_values.ads:78 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Quote at worldline-producer_values.ads:77 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Raw at worldline-producer_values.adb:45 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Producer_Values.Scan at worldline-producer_values.adb:51 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (101 checks)
+  Worldline.Producer_Values.Scan_String at worldline-producer_values.adb:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Slice at worldline-producer_values.ads:61 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Producer_Values.Space at worldline-producer_values.adb:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Standard_JSON at worldline-producer_values.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Text at worldline-producer_values.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (92 checks)
+  Worldline.Producer_Values.Text at worldline-producer_values.ads:72 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Text.Emit at worldline-producer_values.adb:376 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Text.Unicode at worldline-producer_values.adb:381 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Tree_Admitted at worldline-producer_values.adb:238 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (31 checks)
+  Worldline.Producer_Values.Truth at worldline-producer_values.ads:57 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.Truth at worldline-producer_values.ads:75 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Producer_Values.UTF8_Width at worldline-producer_values.ads:21 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Worldline.Producer_Values.UTF8_Width.Tail at worldline-producer_values.adb:10 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)

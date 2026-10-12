@@ -1,0 +1,27 @@
+test_durable_empty_store_origin_and_full_hmac_readback (test_custody_v2_explicit_provision.EmptyV2ProducerControls.test_durable_empty_store_origin_and_full_hmac_readback) ... FAIL
+test_existing_output_refuses_without_replacing_other_files (test_custody_v2_explicit_provision.EmptyV2ProducerControls.test_existing_output_refuses_without_replacing_other_files) ... ok
+test_injected_failure_keeps_partial_artifacts_and_retry_refuses (test_custody_v2_explicit_provision.EmptyV2ProducerControls.test_injected_failure_keeps_partial_artifacts_and_retry_refuses) ... ok
+test_key_binding_refuses_before_creating_artifacts (test_custody_v2_explicit_provision.EmptyV2ProducerControls.test_key_binding_refuses_before_creating_artifacts) ... ok
+test_symlink_target_refuses_and_preserves_referent (test_custody_v2_explicit_provision.EmptyV2ProducerControls.test_symlink_target_refuses_and_preserves_referent) ... ok
+
+======================================================================
+FAIL: test_durable_empty_store_origin_and_full_hmac_readback (test_custody_v2_explicit_provision.EmptyV2ProducerControls.test_durable_empty_store_origin_and_full_hmac_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/baseline-source20/tests/test_custody_v2_explicit_provision.py", line 44, in test_durable_empty_store_origin_and_full_hmac_readback
+    self.assertEqual(db.execute('SELECT * FROM genesis').fetchall(),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        [('owner-genesis', row, mac({'genesis': genesis}))])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('ow[943 chars]tr","aW5pdGlhbF9ldmVudA=="]]]]]]],["array",[["[7095 chars]65')] != [('ow[943 chars]tr","c2NoZW1h"]]]]]]],["array",[["str","bGlzdA[7095 chars]2a')]
+
+First differing element 0:
+('own[942 chars]tr","aW5pdGlhbF9ldmVudA=="]]]]]]],["array",[["[7094 chars]c65')
+('own[942 chars]tr","c2NoZW1h"]]]]]]],["array",[["str","bGlzdA[7094 chars]52a')
+
+Diff is 17372 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.113s
+
+FAILED (failures=1)

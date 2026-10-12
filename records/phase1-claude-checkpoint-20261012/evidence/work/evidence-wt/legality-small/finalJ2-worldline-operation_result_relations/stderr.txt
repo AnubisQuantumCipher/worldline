@@ -1,0 +1,1264 @@
+ info: implicit aspect Always_Terminates on "Whole" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:22:13
+
+ high: range check might fail, cannot prove lower bound for Data'First
+--> worldline-operation_result_relations.adb:23:12
+   23 |         ((Data'First, Data'Length));
+      |           ~~~~^~~~~~
+      + e.g. when Data'First = 0
+      and Data'Last = -1
+      + reason for check: value must fit in component type
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:23:24
+
+ info: implicit aspect Always_Terminates on "Field" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:24:13
+
+ info: no contextual analysis of "Name" (unconstrained return type)
+--> worldline-operation_result_relations.adb:26:04
+
+ info: implicit aspect Always_Terminates on "Name" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:26:13
+
+ info: no contextual analysis of "Action_Name" (unconstrained return type)
+--> worldline-operation_result_relations.adb:58:04
+
+ info: implicit aspect Always_Terminates on "Action_Name" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:58:13
+
+ info: implicit aspect Always_Terminates on "Text" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:104:13
+
+ info: implicit aspect Always_Terminates on "Null_Value" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:106:13
+
+ info: no contextual analysis of "Bytes_Value" (unconstrained return type)
+--> worldline-operation_result_relations.adb:108:04
+
+ info: implicit aspect Always_Terminates on "Bytes_Value" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:108:13
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:112:19
+
+ info: no contextual analysis of "Archive_Unhex" (unconstrained return type)
+--> worldline-operation_result_relations.adb:115:04
+
+ info: implicit aspect Always_Terminates on "Archive_Unhex" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:115:13
+
+ info: implicit aspect Always_Terminates on "Digit" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:117:16
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:124:19
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:127:10
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:127:34
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:127:42
+
+ info: length check proved
+--> worldline-operation_result_relations.adb:127:50
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:129:25
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:129:48
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:131:17
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:131:44
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:131:56
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:133:70
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:133:70
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:133:74
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:134:69
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:134:73
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:134:77
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:134:77
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:136:61
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:137:26
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:137:26
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:137:47
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:137:52
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:137:52
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:141:17
+
+ info: implicit aspect Always_Terminates on "Record_Field" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:144:13
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:412
+--> worldline-operation_result_relations.adb:151:14
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:413
+--> worldline-operation_result_relations.adb:151:14
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:151:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:151:44
+
+ info: implicit aspect Always_Terminates on "Hash_Of" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:165:13
+
+ info: no contextual analysis of "Hash_Of" (nested subprogram)
+--> worldline-operation_result_relations.adb:170:07
+
+ info: local subprogram "Feed" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:170:17
+      + add a contract to analyze it separately from calling contexts
+
+ medium: array index check might fail, in call inlined at worldline-operation_result_relations.adb:179
+--> worldline-operation_result_relations.adb:172:18
+  172 |             Buffer (Fill) := Attest.Byte (B); Fill := Fill + 1;
+      |                     ^
+      + reason for check: value must be a valid index into the array
+      + provers reached time limit before completing the proof
+
+ info: index check proved, in call inlined at worldline-operation_result_relations.adb:182
+--> worldline-operation_result_relations.adb:172:18
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:179
+--> worldline-operation_result_relations.adb:172:57
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:182
+--> worldline-operation_result_relations.adb:172:57
+
+ medium: precondition might fail, in call inlined at worldline-operation_result_relations.adb:179
+--> worldline-operation_result_relations.adb:173:42
+  173 |             if Fill = Buffer'Length then SHA.Update (Ctx, Buffer); Fill := 0; end if;
+      |                                          ~~~^~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ medium: precondition might fail, in call inlined at worldline-operation_result_relations.adb:182
+--> worldline-operation_result_relations.adb:173:42
+  173 |             if Fill = Buffer'Length then SHA.Update (Ctx, Buffer); Fill := 0; end if;
+      |                                          ~~~^~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:176:25
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:177:63
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:179:23
+
+ info: analyzing call to "Feed" in context
+--> worldline-operation_result_relations.adb:179:28
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:181:14
+
+ info: analyzing call to "Feed" in context
+--> worldline-operation_result_relations.adb:182:13
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:182:37
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:182:37
+
+ info: loop invariant preservation proved
+--> worldline-operation_result_relations.adb:183:36
+
+ info: loop invariant initialization proved
+--> worldline-operation_result_relations.adb:183:36
+
+ medium: precondition might fail
+--> worldline-operation_result_relations.adb:186:27
+  186 |          if Fill > 0 then SHA.Update (Ctx, Buffer (0 .. Fill - 1)); end if;
+      |                           ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: loop at line 179 should mention Ctx in a loop invariant
+  179 |          for C of Domain loop Feed (Q.Byte (Character'Pos (C))); end loop;
+      |                          ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:186:41
+
+ info: implicit aspect Always_Terminates on "Hex" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:189:13
+
+ info: no contextual analysis of "Hex" (call returns unconstrained type)
+--> worldline-operation_result_relations.adb:195:41
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:197:28
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:197:62
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:199:17
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:199:44
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:199:56
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:200:42
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:200:42
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:200:46
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:200:105
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:200:105
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:200:110
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:201:49
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:201:53
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:201:57
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:201:57
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:201:116
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:201:116
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:201:121
+
+ info: implicit aspect Always_Terminates on "Digest_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:208:13
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:212:10
+
+ info: length check proved
+--> worldline-operation_result_relations.adb:212:60
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:214:34
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:215:35
+
+ info: implicit aspect Always_Terminates on "UID_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:218:13
+
+ info: no contextual analysis of "UID_Matches" (call returns unconstrained type)
+--> worldline-operation_result_relations.adb:226:37
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:230:17
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:230:52
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:230:64
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:231:96
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:231:96
+
+ info: implicit aspect Always_Terminates on "Epoch_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:237:13
+
+ info: discriminant check proved
+--> worldline-operation_result_relations.adb:241:77
+
+ info: discriminant check proved
+--> worldline-operation_result_relations.adb:242:43
+
+ info: discriminant check proved
+--> worldline-operation_result_relations.adb:243:12
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:244:56
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:247:09
+
+ info: discriminant check proved
+--> worldline-operation_result_relations.adb:247:17
+
+ info: discriminant check proved
+--> worldline-operation_result_relations.adb:247:35
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:247:48
+
+ info: discriminant check proved
+--> worldline-operation_result_relations.adb:247:53
+
+ info: implicit aspect Always_Terminates on "Binding_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:249:13
+
+ info: no contextual analysis of "Action_Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:252:88
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:253:52
+
+ info: no contextual analysis of "Binding_Matches" (call returns unconstrained type)
+--> worldline-operation_result_relations.adb:253:92
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:253:92
+
+ info: no contextual analysis of "UID_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:254:18
+
+ info: no contextual analysis of "UID_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:255:18
+
+ info: no contextual analysis of "UID_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:256:18
+
+ info: no contextual analysis of "UID_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:257:18
+
+ info: no contextual analysis of "Epoch_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:258:18
+
+ info: no contextual analysis of "Epoch_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:259:18
+
+ info: implicit aspect Always_Terminates on "Record_DTO_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:261:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.adb:262:11
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:274:24
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:282:27
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:287:71
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:299:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:299:50
+
+ info: initialization of "Key_Text" proved
+--> worldline-operation_result_relations.adb:307:22
+
+ medium: range check might fail
+--> worldline-operation_result_relations.adb:307:22
+  307 |                         Key_Text : String (1 .. Natural (Raw_Key'Length));
+      |                         ^~~~~~~~
+      + provers reached time limit before completing the proof
+
+ medium: range check might fail, cannot prove upper bound for Raw_Key'Length
+--> worldline-operation_result_relations.adb:307:62
+  307 |                         Key_Text : String (1 .. Natural (Raw_Key'Length));
+      |                                                          ~~~~~~~^~~~~~~
+      + reason for check: value must be convertible to the target type of the conversion
+      + provers reached time limit before completing the proof
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:309:46
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:310:35
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:310:79
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:310:79
+
+ info: subprogram variant proved
+--> worldline-operation_result_relations.adb:313:36
+
+ info: implicit aspect Always_Terminates on "Snapshot_Source_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:322:13
+
+ info: no contextual analysis of "Snapshot_Source_Matches" (nested subprogram)
+--> worldline-operation_result_relations.adb:326:07
+
+ info: no contextual analysis of "Name" (unconstrained return type)
+--> worldline-operation_result_relations.adb:326:07
+
+ info: implicit aspect Always_Terminates on "Name" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:326:16
+
+ info: cannot unroll loop (local non-scalar declaration at line 349) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:347:29
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:353:17
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:353:54
+
+ medium: overflow check might fail, cannot prove upper bound for L.First + I
+--> worldline-operation_result_relations.adb:354:34
+  354 |                   if Input (L.First + I) /= Current (R.First + I) then return False; end if;
+      |                             ~~~~~~~~^~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: subprogram at line 322 should mention Input and Original in a precondition
+  322 |       function Snapshot_Source_Matches (Input, Current : E.Bytes; Original, Capture : E.Span) return Boolean is
+      |       ^
+      + provers reached time limit before completing the proof
+
+ medium: array index check might fail
+--> worldline-operation_result_relations.adb:354:34
+  354 |                   if Input (L.First + I) /= Current (R.First + I) then return False; end if;
+      |                             ~~~~~~~~^~~
+      + reason for check: result of addition must be a valid index into the array
+      + possible fix: subprogram at line 322 should mention Input and Original in a precondition
+  322 |       function Snapshot_Source_Matches (Input, Current : E.Bytes; Original, Capture : E.Span) return Boolean is
+      |       ^
+      + provers reached time limit before completing the proof
+
+ medium: overflow check might fail, cannot prove upper bound for R.First + I
+--> worldline-operation_result_relations.adb:354:59
+  354 |                   if Input (L.First + I) /= Current (R.First + I) then return False; end if;
+      |                                                      ~~~~~~~~^~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: subprogram at line 322 should mention Capture and Current in a precondition
+  322 |       function Snapshot_Source_Matches (Input, Current : E.Bytes; Original, Capture : E.Span) return Boolean is
+      |       ^
+      + provers reached time limit before completing the proof
+
+ medium: array index check might fail
+--> worldline-operation_result_relations.adb:354:59
+  354 |                   if Input (L.First + I) /= Current (R.First + I) then return False; end if;
+      |                                                      ~~~~~~~~^~~
+      + reason for check: result of addition must be a valid index into the array
+      + possible fix: subprogram at line 322 should mention Capture and Current in a precondition
+  322 |       function Snapshot_Source_Matches (Input, Current : E.Bytes; Original, Capture : E.Span) return Boolean is
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:378:106
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:379:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:379:69
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:379:91
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:380:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:380:69
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:380:87
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:389:21
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:389:87
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:395:70
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:396:70
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:397:70
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:405:31
+
+ info: no contextual analysis of "Record_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:408:47
+
+ info: no contextual analysis of "Record_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:409:47
+
+ info: analyzing call to "Record_Field" in context
+--> worldline-operation_result_relations.adb:412:63
+
+ info: in inlined body at line 151
+--> worldline-operation_result_relations.adb:412:63
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: analyzing call to "Record_Field" in context
+--> worldline-operation_result_relations.adb:413:61
+
+ info: in inlined body at line 151
+--> worldline-operation_result_relations.adb:413:61
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:421:21
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:422:21
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:424:15
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:424:28
+
+ info: no contextual analysis of "Snapshot_Source_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:426:21
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:427:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:427:69
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:427:95
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:428:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:428:69
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:428:93
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:429:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:429:69
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:429:95
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:430:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:430:69
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:430:95
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:431:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:431:58
+
+ info: no contextual analysis of "Bytes_Value" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:432:14
+
+ info: no contextual analysis of "Record_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:432:33
+
+ info: no contextual analysis of "Record_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:432:53
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:433:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:433:58
+
+ info: no contextual analysis of "Bytes_Value" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:434:14
+
+ info: no contextual analysis of "Record_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:434:33
+
+ info: no contextual analysis of "Record_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:434:53
+
+ info: no contextual analysis of "Binding_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:440:16
+
+ info: implicit aspect Always_Terminates on "Material_View_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:444:13
+
+ info: cannot unroll loop (local non-scalar declaration at line 451) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:449:30
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:462:20
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:507
+--> worldline-operation_result_relations.adb:462:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:462:50
+
+ info: implicit aspect Always_Terminates on "Material_Extends" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:478:13
+
+ info: cannot unroll loop (local non-scalar declaration at line 483) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:481:30
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:491:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:491:50
+
+ info: implicit aspect Always_Terminates on "Store_Source_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:500:13
+
+ info: analyzing call to "Material_View_Matches" in context
+--> worldline-operation_result_relations.adb:507:14
+
+ info: no contextual analysis of "Material_View_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:508:18
+
+ info: no contextual analysis of "Material_View_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:509:18
+
+ info: no contextual analysis of "Material_Extends" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:510:18
+
+ info: no contextual analysis of "Material_Extends" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:511:18
+
+ info: no contextual analysis of "Action_Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:519:62
+
+ info: no contextual analysis of "Store_Source_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:528:21
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:538:21
+
+ info: no contextual analysis of "Name" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:539:53
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:540:11
+
+ info: no contextual analysis of "Binding_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:554:16
+
+ info: implicit aspect Always_Terminates on "JSON_Field" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:558:13
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:688
+--> worldline-operation_result_relations.adb:559:46
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:665
+--> worldline-operation_result_relations.adb:559:46
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:559:46
+
+ info: implicit aspect Always_Terminates on "JSON_Text" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:564:13
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:565:20
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:565:43
+
+ info: implicit aspect Always_Terminates on "Member_Count" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:566:13
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:567:43
+
+ info: loop invariant initialization proved
+--> worldline-operation_result_relations.adb:575:33
+
+ info: loop invariant preservation proved
+--> worldline-operation_result_relations.adb:575:33
+
+ info: loop variant proved
+--> worldline-operation_result_relations.adb:576:31
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:576:57
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:578:48
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:582:41
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:582:41
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:585:53
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:585:76
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:590:31
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:592:37
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:592:37
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:593:38
+
+ info: implicit aspect Always_Terminates on "JSON_Hex" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:599:13
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:602:25
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:602:25
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:602:66
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:602:66
+
+ info: division check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:603:61
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:603:61
+
+ info: division check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:604:36
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:604:36
+
+ info: index check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:605:33
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:605:33
+
+ medium: overflow check might fail, cannot prove upper bound for Value.First + Value.Length, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:606:40
+  606 |            or else JSON_Data (Value.First + Value.Length - 1) /= Character'Pos ('"')
+      |                               ~~~~~~~~~~~~^~~~~~~~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + provers reached time limit before completing the proof
+
+ high: overflow check might fail, cannot prove upper bound for Value.First + Value.Length
+--> worldline-operation_result_relations.adb:606:40
+  606 |            or else JSON_Data (Value.First + Value.Length - 1) /= Character'Pos ('"')
+      |                               ~~~~~~~~~~~~^~~~~~~~~~~~~~
+      + e.g. when Value = (First => Index'Last-1, Length => 2)
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: add precondition (Value.First <= 9223372036854775807 - Value.Length) to subprogram at line 599
+  599 |       function JSON_Hex (JSON_Data : E.Bytes; Value : E.Span; Raw_Data : E.Bytes; Raw : E.Span) return Boolean is
+      |                ^
+      + provers reached time limit before completing the proof
+
+ info: index check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:606:55
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:606:55
+
+ info: range check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:609:14
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:609:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:609:53
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:610:39
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:610:39
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:610:43
+
+ info: index check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:610:43
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:610:43
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:610:43
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:610:47
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:610:47
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:610:111
+
+ info: index check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:610:111
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:610:111
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:610:111
+
+ info: division check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:610:116
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:610:116
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:611:46
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:611:46
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:611:50
+
+ info: index check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:611:50
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:611:50
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:611:50
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:611:54
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:611:54
+
+ info: overflow check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:611:118
+
+ info: index check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:611:118
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:611:118
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:611:118
+
+ info: division check proved, in call inlined at worldline-operation_result_relations.adb:706
+--> worldline-operation_result_relations.adb:611:123
+
+ info: division check proved
+--> worldline-operation_result_relations.adb:611:123
+
+ info: implicit aspect Always_Terminates on "JSON_Same" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:617:13
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:618:72
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:619:28
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:620:17
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:620:70
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:620:70
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:620:89
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:620:89
+
+ info: implicit aspect Always_Terminates on "Historical_Payload_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.adb:621:13
+
+ info: no contextual analysis of "JSON_Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:629:18
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:629:37
+
+ info: no contextual analysis of "JSON_Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:630:18
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:630:37
+
+ info: no contextual analysis of "JSON_Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:631:18
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:631:37
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:633:12
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:633:21
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:633:27
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:635:12
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:635:21
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:635:27
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:652:73
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:653:69
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:655:71
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:657:11
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:657:43
+
+ info: loop invariant preservation proved
+--> worldline-operation_result_relations.adb:658:33
+
+ info: loop invariant initialization proved
+--> worldline-operation_result_relations.adb:658:33
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:663:69
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:663:69
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:664:65
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:664:65
+
+ info: analyzing call to "JSON_Field" in context
+--> worldline-operation_result_relations.adb:665:44
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:667:33
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:667:71
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:668:47
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:669:45
+
+ info: no contextual analysis of "Member_Count" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:670:23
+
+ info: no contextual analysis of "Member_Count" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:671:23
+
+ info: no contextual analysis of "Member_Count" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:672:23
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:672:46
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:673:35
+
+ info: no contextual analysis of "Hash_Of" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:674:35
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:675:65
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:676:47
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:676:93
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:677:47
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:677:99
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:678:47
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:678:96
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:679:47
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:679:107
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:682:20
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:682:56
+
+ info: analyzing call to "JSON_Field" in context
+--> worldline-operation_result_relations.adb:688:24
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:696:52
+
+ info: no contextual analysis of "JSON_Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:697:58
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:697:75
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:697:115
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:697:128
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:705:63
+
+ info: analyzing call to "JSON_Hex" in context
+--> worldline-operation_result_relations.adb:706:19
+
+ info: in inlined body at line 609
+--> worldline-operation_result_relations.adb:706:19
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:706:60
+
+ info: no contextual analysis of "JSON_Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:709:33
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:709:52
+
+ info: no contextual analysis of "JSON_Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:710:33
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:710:52
+
+ info: no contextual analysis of "JSON_Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:711:33
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:711:52
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:713:24
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:713:33
+
+ info: no contextual analysis of "JSON_Field" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:713:39
+
+ info: range check proved
+--> worldline-operation_result_relations.adb:723:29
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-operation_result_relations.adb:723:59
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:728:45
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:731:62
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:732:48
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:733:48
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:734:48
+
+ info: no contextual analysis of "Hex" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:738:60
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:739:48
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:740:48
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:741:48
+
+ info: no contextual analysis of "Historical_Payload_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:753:33
+
+ info: overflow check proved
+--> worldline-operation_result_relations.adb:756:56
+
+ info: no contextual analysis of "Store_Source_Matches" (in potentially unevaluated context)
+--> worldline-operation_result_relations.adb:778:21
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:784:70
+
+ info: index check proved
+--> worldline-operation_result_relations.adb:786:66
+
+ info: implicit aspect Always_Terminates on "Capture_Source_Reference" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:14:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:15:62
+
+ info: implicit aspect Always_Terminates on "Result_Source_Reference" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:16:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:17:62
+
+ info: implicit aspect Always_Terminates on "Capture_Reference" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:18:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:20:11
+
+ info: implicit aspect Always_Terminates on "Result_Reference" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:21:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:23:11
+
+ info: implicit aspect Always_Terminates on "Payloads_Reference" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:24:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:27:11
+
+ info: implicit aspect Always_Terminates on "Assessment_Reference" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:28:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:31:11
+
+ info: implicit aspect Always_Terminates on "Assess" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:32:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:35:11
+
+ info: postcondition proved
+--> worldline-operation_result_relations.ads:36:16
+
+ info: implicit aspect Always_Terminates on "Capture_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:40:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:42:11
+
+ info: postcondition proved
+--> worldline-operation_result_relations.ads:43:16
+
+ info: implicit aspect Always_Terminates on "Result_Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:44:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:46:11
+
+ info: postcondition proved
+--> worldline-operation_result_relations.ads:47:16
+
+ info: implicit aspect Always_Terminates on "Payloads_Match" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:48:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:51:11
+
+ info: postcondition proved
+--> worldline-operation_result_relations.ads:52:16
+
+ info: implicit aspect Always_Terminates on "Matches" has been proved, subprogram will terminate
+--> worldline-operation_result_relations.ads:54:13
+
+ info: data dependencies proved
+--> worldline-operation_result_relations.ads:57:11
+
+ info: postcondition proved
+--> worldline-operation_result_relations.ads:58:16
+gnatprove: unproved check messages considered as errors

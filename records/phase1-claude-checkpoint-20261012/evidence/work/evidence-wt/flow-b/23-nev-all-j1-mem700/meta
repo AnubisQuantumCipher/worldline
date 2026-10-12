@@ -1,0 +1,4 @@
+cmd: rm -f obj/core/gnatprove/*.spark; CAP=3G gnatprove -P core/worldline_core_sources.gpr -u worldline-native_execution_views.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j1 --counterexamples=off --check-counterexamples=off --memlimit=700 | exit=143 | duration=3316s | note: prover memlimit lowered from level-3's 2000 MB to 700 MB (can only lose proofs, never add them) to fit the 3G cap
+83 systemd[1014]: phase1-roster-planned-006-1446240.scope: Failed with result 'oom-kill'.
+83 systemd[1014]: worldline-141267ff-c14e-4f94-b43d-4d9ed064435c.service: Failed with result 'oom-kill'.
+RESULT: OOM-killed (journal: run-p1476457-i1469272.scope Failed with result 'oom-kill', 3G peak, 55m16s). Sessions completed: Scoped_Check (03:58:02), Actor_Check (03:59:29); then Child_Decide until the kill. gnatwhy3 RSS grew steadily 783 MB (04:02) -> 1966 MB (04:52) with gnat2why at 534 MB, independent of prover memlimit; no gnatprove.out written.

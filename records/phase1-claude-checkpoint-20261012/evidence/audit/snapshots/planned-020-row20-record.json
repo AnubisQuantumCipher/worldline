@@ -1,0 +1,76 @@
+{
+ "index": 20,
+ "source": "planned",
+ "mode": "row20",
+ "argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-j2",
+  "-P",
+  "resource-tests/resource_tests.gpr"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/resource-direct-build-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-planned-020-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Actual child wait0 AND scope wait0 with unchanged inputs for legacy-direct-tests; stop all dependent actions on failure.",
+ "original_child_argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-j2",
+  "-P",
+  "resource-tests/resource_tests.gpr"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb",
+ "script_sha256": null,
+ "started_at": "2026-10-12T08:22:37.982032+00:00",
+ "exit_code": 0,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T08:22:46.005636+00:00",
+ "wall_seconds": 8.024,
+ "stdout.bin": {
+  "bytes": 435,
+  "sha256": "f2a5a867baea7b27452f04ae7551024cd4b4787bb21c0033741e219946139788",
+  "tail": "Setup\n   [mkdir]        object directory for project Resource_Tests\n   [mkdir]        exec directory for project Resource_Tests\nCompile\n   [Ada]          resource_tests.adb\n   [Ada]          worldline.ads\n   [Ada]          worldline-resources.adb\n   [Ada]          attest.ads\n   [Ada]          attest-sha256.adb\nBind\n   [gprbind]      resource_tests.bexch\n   [Ada]          resource_tests.ali\nLink\n   [link]         resource_tests.adb\n"
+ },
+ "stderr.bin": {
+  "bytes": 265,
+  "sha256": "e1dd4f0f6d4999bae4897c54d266551fc9d2db092910f104b87d2e8d019f5efd",
+  "tail": "worldline-resources.adb:2:04: warning: \"Unsigned_8\" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]\nworldline-resources.adb:2:04: warning: use clause for type \"Byte\" defined at worldline-resources.ads:10 has no effect [-gnatwu]\n"
+ },
+ "library_sha256_after": "ee6a4f4a8a14842f8f88fadfc3844f53d6a1ae3041f0837ccdb9019a8b84ee2b",
+ "child_receipt_files": []
+}

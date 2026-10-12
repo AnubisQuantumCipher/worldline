@@ -1,0 +1,12 @@
+kinds: {'info': 1836, 'medium': 60, 'warning': 14, 'high': 4, 'low': 1}
+files mentioned: 27  files with unproved proof checks: 2
+=== unproved (medium/high/low) per file, excluding flow-only messages ===
+  56  worldline-raw_json.adb
+           7 medium: array index check might fail, in call inlined at worldline-raw_json.adb:N
+           6 medium: array index check might fail
+           5 medium: subprogram variant might fail
+           4 medium: overflow check might fail, cannot prove upper bound for Used + N, in call inlined at worldline-raw_json.adb:N
+   4  worldline-recovery_packet.adb
+           2 medium: array index check might fail
+           1 medium: overflow check might fail, cannot prove upper bound for V.Values.First + I
+           1 medium: overflow check might fail, cannot prove upper bound for Expected_Values.First + I

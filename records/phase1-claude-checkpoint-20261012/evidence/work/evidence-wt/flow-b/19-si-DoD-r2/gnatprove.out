@@ -1,0 +1,91 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                                            Provers   Justified   Unproved
+-------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                 5           5                                                  .           .          .
+Flow Dependencies                 .           .                                                  .           .          .
+Initialization                   35          35                                                  .           .          .
+Non-Aliasing                      .           .                                                  .           .          .
+Run-time Checks                 305           .                 300 (CVC5 79%, Z3 20%, altergo 1%)           .          5
+Assertions                      100           .    100 (CVC5 66%, Trivial 12%, Z3 19%, altergo 3%)           .          .
+Functional Contracts             76           .                  70 (CVC5 69%, Trivial 3%, Z3 28%)           .          6
+LSP Verification                  .           .                                                  .           .          .
+Termination                      90          50                              36 (CVC5 75%, Z3 25%)           .          4
+Concurrency                       .           .                                                  .           .          .
+-------------------------------------------------------------------------------------------------------------------------
+Total                           611    90 (15%)                                          506 (83%)           .    15 (2%)
+
+
+max steps used for successful proof: 33215
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-startup_installation, 56 subprograms and packages out of 56 analyzed
+  Worldline.Startup_Installation at worldline-startup_installation.ads:5 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Ancestors at worldline-startup_installation.adb:299 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Startup_Installation.Byte_At at worldline-startup_installation.adb:23 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 18 checks out of 27 proved
+  Worldline.Startup_Installation.Bytecode_Name at worldline-startup_installation.adb:438 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Canonical_Absolute at worldline-startup_installation.adb:260 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (49 checks)
+  Worldline.Startup_Installation.Corresponds at worldline-startup_installation.ads:47 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (64 checks)
+  Worldline.Startup_Installation.Corresponds.B_73.B_74.Prefix at worldline-startup_installation.adb:792 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Startup_Installation.Cross_Encoding at worldline-startup_installation.adb:828 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Startup_Installation.Cross_View at worldline-startup_installation.adb:824 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Cursor_Bounded at worldline-startup_installation.adb:111 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Startup_Installation.Cursor_Steps at worldline-startup_installation.adb:108 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Startup_Installation.Digest_Matches at worldline-startup_installation.adb:396 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Startup_Installation.Directory_Stable at worldline-startup_installation.adb:872 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Entries_Stable at worldline-startup_installation.adb:883 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 5 checks out of 6 proved
+  Worldline.Startup_Installation.Entry_Protected at worldline-startup_installation.adb:367 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Entry_Stable at worldline-startup_installation.adb:887 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 6 checks out of 7 proved
+  Worldline.Startup_Installation.Envelope_Byte at worldline-startup_installation.adb:560 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Startup_Installation.Envelope_Hex_Path at worldline-startup_installation.adb:587 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Startup_Installation.Envelope_Text at worldline-startup_installation.adb:584 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Startup_Installation.Environment_Stable at worldline-startup_installation.adb:944 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Equal at worldline-startup_installation.adb:59 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Executable_Files at worldline-startup_installation.adb:598 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (79 checks)
+  Worldline.Startup_Installation.Executable_Files.B_46.B_48.Check at worldline-startup_installation.adb:627 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.Startup_Installation.Hex_Digit at worldline-startup_installation.adb:376 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Identity_Field at worldline-startup_installation.adb:247 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Identity_Valid at worldline-startup_installation.adb:234 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Initialize at worldline-startup_installation.adb:125 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Installed_Entry at worldline-startup_installation.adb:531 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Startup_Installation.Join_Fits at worldline-startup_installation.adb:91 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Join_Separator at worldline-startup_installation.adb:85 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Joined_Path at worldline-startup_installation.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Length at worldline-startup_installation.adb:21 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 6 proved
+  Worldline.Startup_Installation.Manifest_File at worldline-startup_installation.adb:429 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Mode_Matches at worldline-startup_installation.adb:379 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Startup_Installation.Next_Line at worldline-startup_installation.adb:564 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Next_Path at worldline-startup_installation.adb:139 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Pair_Part at worldline-startup_installation.adb:72 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Path_Bytes_Equivalent at worldline-startup_installation.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (68 checks)
+  Worldline.Startup_Installation.Path_Equivalent at worldline-startup_installation.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Path_View at worldline-startup_installation.adb:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Paths_Match at worldline-startup_installation.adb:187 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (66 checks)
+  Worldline.Startup_Installation.Payload at worldline-startup_installation.adb:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Protected_Identity at worldline-startup_installation.adb:249 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Startup_Installation.Protected_Identity.Zero at worldline-startup_installation.adb:253 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Raw_Byte at worldline-startup_installation.adb:96 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Startup_Installation.Raw_Key_Matches at worldline-startup_installation.adb:66 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Raw_Length at worldline-startup_installation.adb:93 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Startup_Installation.Read_Intact at worldline-startup_installation.adb:344 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Startup_Installation.Root_Shape at worldline-startup_installation.adb:119 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Same_Number at worldline-startup_installation.adb:232 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Same_Text at worldline-startup_installation.adb:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Semantic_Same at worldline-startup_installation.adb:833 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 6 checks out of 8 proved
+  Worldline.Startup_Installation.Stable at worldline-startup_installation.ads:55 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Startup_Installation.Suffix_Skip at worldline-startup_installation.adb:88 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Startup_Installation.Tree_Matches at worldline-startup_installation.adb:453 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Startup_Installation.Word_Spanpredicate at worldline-startup_installation.adb:556 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)

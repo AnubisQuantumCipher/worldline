@@ -1,0 +1,76 @@
+{
+ "index": 77,
+ "source": "planned",
+ "mode": "row77",
+ "argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-j2",
+  "-P",
+  "explicit-recovery-marker-tests/explicit_recovery_marker_tests.gpr"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/explicit-recovery-marker-tests-test-explicit-recovery-markers-build-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-planned-077-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Every preceding complete original/additive action must have actual successful same-frame child/scope/outer waits and unchanged inputs. Original compiled continuation and fresh root gates required. Control run additionally requires exact retained same-frame built binary and actual completion; archive requires existing marker. No predecessor outcome transfer.",
+ "original_child_argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-j2",
+  "-P",
+  "explicit-recovery-marker-tests/explicit_recovery_marker_tests.gpr"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb",
+ "script_sha256": null,
+ "started_at": "2026-10-12T10:06:58.424439+00:00",
+ "exit_code": 0,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T10:06:59.200668+00:00",
+ "wall_seconds": 0.776,
+ "stdout.bin": {
+  "bytes": 500,
+  "sha256": "3c9803e173daf54666c9811bee1ea9d92a7947551d308970b23e021c11228554",
+  "tail": "Setup\n   [mkdir]        object directory for project Explicit_Recovery_Marker_Tests\n   [mkdir]        exec directory for project Explicit_Recovery_Marker_Tests\nCompile\n   [Ada]          test_explicit_recovery_markers.adb\nBind\n   [gprbind]      test_explicit_recovery_markers.bexch\n   [Ada]          test_explicit_recovery_markers.ali\nLink\n   [archive]      libexplicit_recovery_marker_tests.a\n   [index]        libexplicit_recovery_marker_tests.a\n   [link]         test_explicit_recovery_markers.adb\n"
+ },
+ "stderr.bin": {
+  "bytes": 364,
+  "sha256": "4f1dd6d27ff576aad7d8baabf20ce9e4a7d712c01333301fb8b5e3808d5b7568",
+  "tail": "attest_sha256.gpr:1:33: warning: file name does not match project name, should be \"worldline_attest_sha256.gpr\"\ntest_explicit_recovery_markers.adb:5:53: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]\ntest_explicit_recovery_markers.adb:6:50: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]\n"
+ },
+ "library_sha256_after": "ee6a4f4a8a14842f8f88fadfc3844f53d6a1ae3041f0837ccdb9019a8b84ee2b",
+ "child_receipt_files": []
+}

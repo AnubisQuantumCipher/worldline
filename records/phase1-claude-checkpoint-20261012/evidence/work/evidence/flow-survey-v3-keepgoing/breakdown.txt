@@ -1,0 +1,143 @@
+=== files with legality errors: errors / medium / warning ===
+ 156 /    0 /   0  worldline-custody_v2_machine_evidence.adb
+          76  error in inlined body at line N
+          41  "_" is not allowed in SPARK (due to box notation without default or relaxed initialization)
+          32  subtype of "_" is not allowed in SPARK (due to box notation without default or relaxed initialization)
+           5  "_" attribute of a type with ownership not directly inside an assignment statement, an object declaration, or a simple r
+           2  box notation without default or relaxed initialization is not allowed in SPARK (SPARK RM N.N(N))
+ 150 /    0 /   0  worldline-custody_v2_k4_resource_ack.adb
+         132  "_" is not allowed in SPARK (due to access discriminant)
+          18  subtype of "_" is not allowed in SPARK (due to access discriminant)
+ 147 /    0 /   0  worldline-custody_v2_owner_canonical.adb
+         134  "_" is not allowed in SPARK (due to access discriminant)
+          13  subtype of "_" is not allowed in SPARK (due to access discriminant)
+ 119 /    0 /   0  worldline-custody_v2_operation_journal.adb
+          93  "_" is not allowed in SPARK (due to access discriminant)
+          26  subtype of "_" is not allowed in SPARK (due to access discriminant)
+  38 /    0 /   0  worldline-custody_v2_owner_canonical.ads
+          26  "_" is not allowed in SPARK (due to access discriminant)
+          12  access discriminant is not allowed in SPARK
+  23 /    0 /   0  worldline-journal_witness.adb
+          15  "_" is not allowed in SPARK (due to access discriminant)
+           8  subtype of "_" is not allowed in SPARK (due to access discriminant)
+  19 /    0 /   0  worldline-custody_v2_k4_resource_ack.ads
+          11  "_" is not allowed in SPARK (due to access discriminant)
+           8  access discriminant is not allowed in SPARK
+  18 /    0 /   0  worldline-operation_result_relations.adb
+          15  non-scalar object or object with address clause declared before loop-invariant is not yet supported
+           3  error in inlined body at line N
+  18 /    0 /   0  worldline-recovery_material_replay.adb
+           9  non-scalar object or object with address clause declared before loop-invariant is not yet supported
+           9  error in inlined body at line N
+   9 /    0 /   0  worldline-startup_source_custody.adb
+           6  "_" is not allowed in SPARK (due to function with global outputs)
+           3  function "_" with output global "_" is not allowed in SPARK [E0005]
+   6 /   40 /  20  worldline-custody_v2_mutation_decision.adb
+           6  subtype constraint cannot depend on variable input "_" [E0007]
+   5 /    0 /   0  worldline-custody_v2_fold_engine.adb
+           5  "_" is not allowed in SPARK (due to access discriminant)
+   4 /    0 /   0  worldline-custody_v2_fold_engine.ads
+           4  "_" is not allowed in SPARK (due to access discriminant)
+   4 /    0 /   0  worldline-custody_v2_operation_journal.ads
+           4  "_" is not allowed in SPARK (due to access discriminant)
+   2 /    0 /   0  worldline-resources.adb
+           2  non-scalar object or object with address clause declared before loop-invariant is not yet supported
+   2 /    2 /   0  worldline-custody_v2_closed_v1.adb
+           2  subtype constraint cannot depend on variable input "_" [E0007]
+   2 /    0 /   3  worldline-root_output_sequence.adb
+           2  subtype constraint cannot depend on variable input "_" [E0007]
+   1 /    0 /   1  worldline-transaction_archive_json.adb
+           1  subtype constraint cannot depend on variable input "_" [E0007]
+   1 /    0 /   0  worldline-excluded_source_owner.adb
+           1  function "_" with output global "_" is not allowed in SPARK [E0005]
+   1 /    0 /   0  native_diagnostic_trace.adb
+           1  structural loop variant which is not a variable of an anonymous access-to-object type is not allowed in SPARK
+   1 /    1 /   1  worldline-native_lifetime_observation.adb
+           1  subtype constraint cannot depend on variable input "_" [E0007]
+   1 /    0 /   0  worldline-scoped_record_source.adb
+           1  subtype constraint cannot depend on variable input "_" [E0007]
+
+=== files with flow findings only (no errors): medium / warning ===
+  68 /  26  worldline-report_parser.adb
+          29  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating, in call inlined at worldline-
+  53 /  13  worldline-evaluation_role_native.adb
+          42  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+  46 /   1  worldline-producer_values.adb
+          24  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating, in call inlined at worldline-
+          12  implicit aspect Always_Terminates on "_" could be incorrect, call to "_" might be nonterminating
+           6  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+  35 /   0  worldline-startup_installation.adb
+          15  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating, in call inlined at worldline-
+  32 /   0  worldline-native_execution_views.adb
+          32  "_" might not be initialized
+  26 /  27  worldline-evaluation_agent_native.adb
+          17  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+  14 /   1  worldline-scoped_capture_namespace_projection.adb
+           7  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+  14 /   1  worldline-source_audit_native.adb
+  11 /   0  worldline-manager_resource_lifecycle.adb
+          11  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+  10 /   0  worldline-scoped_capture_owner_projection.adb
+   9 /   2  worldline-scoped_capture_projection.adb
+           9  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+   8 /   3  worldline-sqlite_parameter_source.adb
+           6  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+   8 /   0  resource_scoped_run_ledger_wire.adb
+           8  "_" might not be initialized
+   8 /  16  worldline-recovery_owner_replay.adb
+   7 /   4  worldline-custody_v2_load_input.adb
+   6 /   0  worldline-startup_admission.adb
+           4  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+   6 /   0  worldline-resource_child_execution_wire.adb
+           6  "_" might not be initialized
+   5 /   9  worldline-raw_json.adb
+   5 /   0  worldline-protected_paths.adb
+           4  implicit aspect Always_Terminates on "_" could be incorrect, loop might be nonterminating
+           1  "_" might not be initialized
+   5 /  23  worldline-retained_evidence_replay.adb
+   4 /   0  worldline-lifetime_values.adb
+           3  implicit aspect Always_Terminates on "_" could be incorrect, subprogram is recursive
+   4 /   2  worldline-recovery_archive.adb
+   4 /   0  resource_actor_admission_wire.adb
+           4  "_" might not be initialized
+   3 /   0  worldline-startup_issuer_source.adb
+   2 /   0  worldline-source_syntax.adb
+           2  implicit aspect Always_Terminates on "_" could be incorrect, subprogram is recursive
+   2 /   0  worldline-custody_v2_provision.adb
+           1  "_" might not be initialized
+           1  "_" might not be initialized, in call inlined at worldline-custody_v2_provision.adb:N
+   1 /   0  worldline-policy_syntax.adb
+   1 /   4  worldline-scoped_capture_evolution_projection.adb
+   1 /   8  worldline-custody_v2_delta_encoding.adb
+   1 /   1  worldline-reservation_lifecycle_c_api.adb
+           1  "_" might not be initialized in "_"
+   1 /   4  worldline-custody_v2_owner_correspondence.adb
+   1 /   0  worldline-scoped_capture_history_projection.adb
+   1 /  31  evaluation_completion_c.adb
+   1 /   0  worldline-transaction_relations.adb
+   0 /   1  worldline-resources_c_api.adb
+   0 /   2  worldline-retained_custody_chain.adb
+   0 /   1  resource_run_ledger_c_api.adb
+   0 /  10  worldline-resource_ledger_c_api.adb
+   0 /   1  evaluation_pending_c.adb
+   0 /   1  worldline-root_custody_request_abandon.ads
+   0 /   1  worldline-resource_policy_c_api.adb
+   0 /  99  worldline-runner_outcome_bytes.adb
+   0 /   2  worldline-custody_v2_empty_seed.adb
+   0 /   1  worldline-ordinary_receipt_policy.adb
+   0 /   1  worldline-custody_v2_archive_chain.adb
+   0 /   1  worldline-evaluation_history_c_api.adb
+   0 /   1  evaluation_pending_v2_c.adb
+   0 /  16  evaluation_finalization_c.adb
+   0 /   3  worldline-resource_child_execution.ads
+   0 /   4  worldline-evaluation_producer.adb
+   0 /   1  worldline-report_parser.ads
+   0 /  18  canonical_artifacts.adb
+   0 /   1  worldline-custody_v2_history.ads
+   0 /   2  worldline-custody_v2_domain_hmac.adb
+   0 /   2  worldline-custody_v2_root_evidence.adb
+   0 /   1  resource_scoped_run_ledger.ads
+   0 /  12  resource_ledger.adb
+   0 /   5  worldline-retained_raw_decode.ads
+
+totals: 727 446 388

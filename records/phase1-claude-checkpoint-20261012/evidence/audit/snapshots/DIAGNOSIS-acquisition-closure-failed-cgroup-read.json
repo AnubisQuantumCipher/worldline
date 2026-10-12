@@ -1,0 +1,181 @@
+{
+ "schema": "worldline-phase1-claude-acquisition-closure-diagnosis-v1",
+ "recorded_at_utc": "2026-10-12T01:12:38.397977+00:00",
+ "controller": "Claude Code session (claude-mythos-5-1), Desktop app, lead-executed; not the Codex thread 01a12665-43dd-7732-be5f-b7c5bec8be96",
+ "frozen_source20": {
+  "path": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/integrated-candidate-v20/source",
+  "manifest_sha256": "268cb8925d95365bb4adce966ee01d4ad3714c196694d56264398aef67cc5fde",
+  "files": 1193,
+  "working_copy_identical": true,
+  "working_copy_baseline_commit": "c932d9a"
+ },
+ "c20_receiving_candidate_source_identical_to_source20": true,
+ "c20_library_compiled_from_identical_ada_sources": {
+  "ali_source_checksums_compared": 7863,
+  "differences": 0
+ },
+ "library_used_here": {
+  "build": "gprbuild -p -j8 -P core/worldline_core.gpr on the byte-identical Source20 working copy",
+  "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/build-lib-v1/stdout.txt",
+  "sha256": "50b3397d48ad26468ec838e633ac63da41079d6f0d121e81cec28b9e55593071",
+  "bytes": 15089,
+  "mode": 420,
+  "library_sha256_at_diagnosis": "3032298ccbb5c06ca2669b795381d95110f4d96e31c2d01bfbaabc8747baba64"
+ },
+ "selected_original_method": "test_revalidation_binding.OneCoherentEvaluation.test_a_failed_revalidation_does_not_speak",
+ "original_diagnostic_main": "tests/revalidation_diagnostic.py (unchanged), driven by diag/observe_acquisition_closure.py which only wraps EngineFinalizationWriter._native_acquisition_state to retain operands and re-evaluate the pure native predicate over reduced operand sets",
+ "runs": [
+  {
+   "label": "diag-acq-v1",
+   "result": "OK, Ran 1 test in 246.624s",
+   "native_closed_calls": [
+    true,
+    true
+   ],
+   "meta": "start 2026-10-12T00:54:09Z\nexit=0\nend 2026-10-12T00:58:16Z\n",
+   "cgroup_read_memory_events": "readReturned true"
+  },
+  {
+   "label": "diag-acq-v2",
+   "result": "FAILED (errors=1): FINALIZATION_ACQUISITION_NOT_QUIESCENT during _candidate() finalization, 87 s",
+   "native_closed_calls": [
+    false
+   ],
+   "meta": "start 2026-10-12T01:00:09Z\nexit=1\nend 2026-10-12T01:01:36Z\n",
+   "cgroup_read_memory_events": "readReturned false, bytes null, exception FileNotFoundError ENOENT"
+  }
+ ],
+ "nondeterminism": "same source, same library, same command, same environment; the outcome depends on whether the memory.events cgroup read inside SystemdAdapter.resource_telemetry happens before or after systemd removes the exited unit's cgroup directory (systemctl show still reported the ControlGroup).",
+ "failing_operands": {
+  "subject.encoded.bin": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v2/observation/acquisition-state-1/subject.encoded.bin",
+   "sha256": "cf201207bda09b374d3d8e67c947ecb9c2587a7ec4a917fae277c7d87634cd3d",
+   "bytes": 89,
+   "mode": 384
+  },
+  "owners.encoded.bin": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v2/observation/acquisition-state-1/owners.encoded.bin",
+   "sha256": "11c861df4436700b6fa33b458068f92a58b149df8c37f00fda4f9223d88f8aa2",
+   "bytes": 24679,
+   "mode": 384
+  },
+  "acquisitions.encoded.bin": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v2/observation/acquisition-state-1/acquisitions.encoded.bin",
+   "sha256": "4037b2fdf0f2a9552cef9962a8333ac6904ff1f1fb2a9d9e34244eaf6a0b6192",
+   "bytes": 226848,
+   "mode": 384
+  },
+  "operands.typed.json": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v2/observation/acquisition-state-1/operands.typed.json",
+   "sha256": "c0bf0eff2191ccb610d5521fcd8beac56d02be463c1830fbbc6599c32369765f",
+   "bytes": 146339,
+   "mode": 384
+  },
+  "report.json": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v2/observation/acquisition-state-1/report.json",
+   "sha256": "b8a5398912517fcbd93bd9896cb6af6a2ef72b6c0f031ecd5081b5f04804fab4",
+   "bytes": 8893,
+   "mode": 384
+  }
+ },
+ "passing_operands": {
+  "subject.encoded.bin": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v1/observation/acquisition-state-1/subject.encoded.bin",
+   "sha256": "b46ad78f0292f307cc926e24ceb77895e474a1cdb5bb99a3065c45ab1726a255",
+   "bytes": 89,
+   "mode": 384
+  },
+  "owners.encoded.bin": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v1/observation/acquisition-state-1/owners.encoded.bin",
+   "sha256": "61e95213d83fc5e525d40866ea6032e372d00e0adbe701e6bc2ae0296e27f06e",
+   "bytes": 24679,
+   "mode": 384
+  },
+  "acquisitions.encoded.bin": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v1/observation/acquisition-state-1/acquisitions.encoded.bin",
+   "sha256": "b3b5c99d20539e5d8a4001ec8c6ab1103499d6e5522e59b5ae1624c1b2449f07",
+   "bytes": 242843,
+   "mode": 384
+  },
+  "operands.typed.json": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v1/observation/acquisition-state-1/operands.typed.json",
+   "sha256": "61dc36472bfd63113e4308bb8686f1fd7240f725e97441b9ede2e5dce8f57fe3",
+   "bytes": 157783,
+   "mode": 384
+  },
+  "report.json": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-acq-v1/observation/acquisition-state-1/report.json",
+   "sha256": "9126e8fd203235f2eaf686453470555603be74e6a4e1bce7cec0b6184a88aaa9",
+   "bytes": 2634,
+   "mode": 384
+  }
+ },
+ "bisection_summary": {
+  "acquisition_count": 31,
+  "owners_only_no_acquisitions": false,
+  "acquisitions_only_no_owners": false,
+  "sole_record_whose_removal_closes": [
+   {
+    "index": 12,
+    "kind": "agent-control-acquisition",
+    "site": "cgroup-read",
+    "native_closed_without_this_record": true
+   }
+  ],
+  "kind_site_removal_that_closes": [
+   "('agent-control-acquisition', 'cgroup-read')"
+  ]
+ },
+ "exact_rejecting_predicate": "Worldline.Runner_Acquisition_Bytes.Controls_Ended -> Successful_Cgroup_Read: requires readReturned true, null exception and canonical bytes for every agent-control-acquisition at site cgroup-read; the complete failed-read record (readReturned false, bytes null, exception-observation object) is refused, so Closed returns False and finalization_writer._close_acquisitions raises FINALIZATION_ACQUISITION_NOT_QUIESCENT.",
+ "owner_state_at_refusal": {
+  "cleanupStarted": true,
+  "launcherPresent": true,
+  "launcherWaitObserved": true,
+  "launcherStreamsClosed": true,
+  "streamEofObserved": {
+   "stdout": true,
+   "stderr": true
+  },
+  "guardPresent": true,
+  "guardReleased": true,
+  "guardOwned": true,
+  "guardDecisionPresent": false,
+  "guardReleaseReturnObserved": true,
+  "timerAlive": false,
+  "samplerAlive": false,
+  "proxyPresent": false,
+  "proxyClosed": false,
+  "actualUnit": "worldline-c32bf60c-df45-4c20-8003-70402e8cd913.service",
+  "launcherReturncode": 0,
+  "launcherReturncodeCapture": {
+   "type": "int",
+   "value": 0
+  },
+  "subject": "c32bf60c-df45-4c20-8003-70402e8cd913",
+  "activeControllerCalls": [],
+  "controllerCallsAfterClosure": [],
+  "threadErrors": [],
+  "tailErrors": []
+ },
+ "owner_lifecycle_policy_at_refusal": {
+  "0": {
+   "quiescent": true,
+   "finished": true,
+   "drain-tails": true,
+   "close-streams": true,
+   "streams-closed": true,
+   "guard-released": true,
+   "forget-owner": true,
+   "observe-manager": false,
+   "release-guard": false
+  }
+ },
+ "why_this_is_a_defect_not_a_guarantee": "The failed read is a synchronous Path.read_bytes call whose context manager closed the handle; nothing remains live. The refusal is not protecting a cleanup obligation. The agent-native producer (worldline-evaluation_agent_native.adb Cgroup, lines 733-735) already recognizes exactly this shape as honest absence. The two SPARK units disagreed on the same immutable raw record; the closure gate side is the inconsistent one.",
+ "correction": "core/worldline-runner_acquisition_bytes.adb Controls_Ended: Cgroup_Read_Ended = Cgroup_Read_Shape and then (Successful_Cgroup_Read or else Failed_Cgroup_Read); Failed_Cgroup_Read requires readReturned false, bytes null, and the complete exception-observation record (schema 1, kind exception-observation, named exceptionType, exception text, non-empty exceptionGraph, root 0) with an exact key roster. All previously refused shapes remain refused; new accepted-case tests in tests/test_evaluation_acquisition_raw_producer.py.",
+ "not_claimed": [
+  "campaign credit for any run here",
+  "full-suite acceptance",
+  "proof of the corrected unit (separate gnatprove evidence)",
+  "that this was the only defect in the original full acquisition regression (its first cause remains UNKNOWN; this is the first demonstrated blocker of the selected method)"
+ ]
+}

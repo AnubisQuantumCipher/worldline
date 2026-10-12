@@ -1,0 +1,117 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                                           Provers   Justified   Unproved
+-------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                25           25                                                 .           .          .
+Flow Dependencies                 .            .                                                 .           .          .
+Initialization                   21           21                                                 .           .          .
+Non-Aliasing                      .            .                                                 .           .          .
+Run-time Checks                 403            .                            403 (CVC5 89%, Z3 11%)           .          .
+Assertions                       18            .                                         18 (CVC5)           .          .
+Functional Contracts            192            .    192 (CVC5 78%, Trivial 3%, Z3 19%, altergo 1%)           .          .
+LSP Verification                  .            .                                                 .           .          .
+Termination                      75           69                                          6 (CVC5)           .          .
+Concurrency                       .            .                                                 .           .          .
+-------------------------------------------------------------------------------------------------------------------------
+Total                           734    115 (16%)                                         619 (84%)           .          .
+
+
+max steps used for successful proof: 46663
+
+============================
+Most difficult proved checks
+============================
+
+worldline-custody_v2_owner_canonical.adb:862:13: precondition proved in max 9 seconds
+worldline-custody_v2_owner_canonical.adb:941:21: precondition proved in max 8 seconds
+worldline-custody_v2_owner_canonical.adb:843:78: range check proved in max 7 seconds
+worldline-custody_v2_owner_canonical.adb:863:86: precondition proved in max 7 seconds
+worldline-custody_v2_owner_canonical.adb:843:61: precondition proved in max 6 seconds
+worldline-custody_v2_owner_canonical.adb:837:35: range check proved in max 6 seconds
+worldline-custody_v2_owner_canonical.adb:844:89: range check proved in max 6 seconds
+worldline-custody_v2_owner_canonical.adb:838:77: range check proved in max 6 seconds
+worldline-custody_v2_owner_canonical.adb:849:43: precondition proved in max 5 seconds
+worldline-custody_v2_owner_canonical.adb:839:84: range check proved in max 5 seconds
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 2 units
+in unit worldline-custody_v2_owner_canonical, 70 subprograms and packages out of 70 analyzed
+  Worldline.Custody_V2_Owner_Canonical at worldline-custody_v2_owner_canonical.ads:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Adopt_Settled_Redecided at worldline-custody_v2_owner_canonical.ads:66 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (70 checks)
+  Worldline.Custody_V2_Owner_Canonical.Archive_Fits at worldline-custody_v2_owner_canonical.adb:110 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Owner_Canonical.Archive_Text at worldline-custody_v2_owner_canonical.adb:114 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Owner_Canonical.Arena_Last at worldline-custody_v2_owner_canonical.adb:248 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Authenticated at worldline-custody_v2_owner_canonical.ads:38 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Owner_Canonical.Authenticated at worldline-custody_v2_owner_canonical.ads:45 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Owner_Canonical.Authenticated_From_Data at worldline-custody_v2_owner_canonical.adb:1069 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (38 checks)
+  Worldline.Custody_V2_Owner_Canonical.Authenticated_From_Data.WF at worldline-custody_v2_owner_canonical.adb:1074 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Authority at worldline-custody_v2_owner_canonical.adb:366 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Bound at worldline-custody_v2_owner_canonical.adb:975 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Owner_Canonical.Boundary_Prefix at worldline-custody_v2_owner_canonical.adb:310 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Owner_Canonical.Bytes at worldline-custody_v2_owner_canonical.adb:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_Owner_Canonical.Context at worldline-custody_v2_owner_canonical.adb:338 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Context_File_Matches at worldline-custody_v2_owner_canonical.adb:396 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Custody_V2_Owner_Canonical.Current at worldline-custody_v2_owner_canonical.adb:362 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Current_History_Authenticated at worldline-custody_v2_owner_canonical.ads:52 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Owner_Canonical.Current_History_Core at worldline-custody_v2_owner_canonical.adb:868 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (54 checks)
+  Worldline.Custody_V2_Owner_Canonical.Current_Matches at worldline-custody_v2_owner_canonical.ads:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Decode_Record at worldline-custody_v2_owner_canonical.adb:174 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Owner_Canonical.Digest at worldline-custody_v2_owner_canonical.adb:135 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Owner_Canonical.Digest_Is at worldline-custody_v2_owner_canonical.adb:138 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Owner_Canonical.Element at worldline-custody_v2_owner_canonical.adb:308 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Envelope at worldline-custody_v2_owner_canonical.adb:157 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Custody_V2_Owner_Canonical.Establish_History at worldline-custody_v2_owner_canonical.ads:21 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Owner_Canonical.Event_Cause at worldline-custody_v2_owner_canonical.adb:285 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Extract_Replay_Capsules at worldline-custody_v2_owner_canonical.ads:15 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Owner_Canonical.From_Base64 at worldline-custody_v2_owner_canonical.adb:1060 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Owner_Canonical.From_Hex at worldline-custody_v2_owner_canonical.adb:998 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (55 checks)
+  Worldline.Custody_V2_Owner_Canonical.From_Hex.Hex_Digit at worldline-custody_v2_owner_canonical.adb:1005 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.From_Hex.Nibble at worldline-custody_v2_owner_canonical.adb:1007 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.From_Hex.Pairs at worldline-custody_v2_owner_canonical.adb:1019 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.Custody_V2_Owner_Canonical.From_Hex.Pairs_Valid at worldline-custody_v2_owner_canonical.adb:1013 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.Custody_V2_Owner_Canonical.From_Hex.Space at worldline-custody_v2_owner_canonical.adb:1002 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Genesis_Matches at worldline-custody_v2_owner_canonical.adb:751 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (110 checks)
+  Worldline.Custody_V2_Owner_Canonical.Head_Matches at worldline-custody_v2_owner_canonical.adb:564 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_Owner_Canonical.Hex at worldline-custody_v2_owner_canonical.adb:122 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Owner_Canonical.History at worldline-custody_v2_owner_canonical.adb:581 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Custody_V2_Owner_Canonical.Is_Text at worldline-custody_v2_owner_canonical.adb:103 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.JF at worldline-custody_v2_owner_canonical.adb:97 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Joined at worldline-custody_v2_owner_canonical.adb:369 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.Custody_V2_Owner_Canonical.Length at worldline-custody_v2_owner_canonical.adb:306 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Next_Record at worldline-custody_v2_owner_canonical.adb:322 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Object_Keys at worldline-custody_v2_owner_canonical.adb:141 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Owner_Canonical.Owned_File at worldline-custody_v2_owner_canonical.adb:380 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Owner_Canonical.Owner_Context at worldline-custody_v2_owner_canonical.adb:340 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Owner_File at worldline-custody_v2_owner_canonical.adb:393 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Owner_Canonical.Part at worldline-custody_v2_owner_canonical.adb:88 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Custody_V2_Owner_Canonical.Paths at worldline-custody_v2_owner_canonical.adb:364 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Policy_Binding_Matches at worldline-custody_v2_owner_canonical.adb:530 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Custody_V2_Owner_Canonical.Policy_Binding_Matches.Field at worldline-custody_v2_owner_canonical.adb:537 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Policy_Binding_Matches.Matches at worldline-custody_v2_owner_canonical.adb:545 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Owner_Canonical.Policy_Sources at worldline-custody_v2_owner_canonical.adb:475 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+  Worldline.Custody_V2_Owner_Canonical.Policy_Sources.Required_Source at worldline-custody_v2_owner_canonical.adb:487 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Custody_V2_Owner_Canonical.Prepared_History at worldline-custody_v2_owner_canonical.ads:77 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Raw_File at worldline-custody_v2_owner_canonical.adb:406 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Custody_V2_Owner_Canonical.Raw_Same at worldline-custody_v2_owner_canonical.adb:83 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Owner_Canonical.Record_Valid at worldline-custody_v2_owner_canonical.adb:185 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Replay_Capsules_Match at worldline-custody_v2_owner_canonical.adb:351 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Request_Same_Except_State at worldline-custody_v2_owner_canonical.adb:194 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Reserved_Redecided at worldline-custody_v2_owner_canonical.ads:61 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Custody_V2_Owner_Canonical.Run_Service_Source at worldline-custody_v2_owner_canonical.adb:443 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Owner_Canonical.Sequence at worldline-custody_v2_owner_canonical.adb:304 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Source_Bytes_Match at worldline-custody_v2_owner_canonical.adb:428 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Custody_V2_Owner_Canonical.Source_Matches at worldline-custody_v2_owner_canonical.ads:32 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Owner_Canonical.Source_Raw at worldline-custody_v2_owner_canonical.adb:414 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Text at worldline-custody_v2_owner_canonical.adb:67 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_Owner_Canonical.Text_Valid at worldline-custody_v2_owner_canonical.adb:106 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Transition at worldline-custody_v2_owner_canonical.adb:293 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Owner_Canonical.Whole at worldline-custody_v2_owner_canonical.adb:81 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+in unit worldline-journal_witness, 2 subprograms and packages out of 2 analyzed
+  Worldline.Journal_Witness at worldline-journal_witness.ads:2 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Journal_Witness.Decide at worldline-journal_witness.ads:7 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)

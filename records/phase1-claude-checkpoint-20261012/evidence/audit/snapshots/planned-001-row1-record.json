@@ -1,0 +1,91 @@
+{
+ "index": 1,
+ "source": "planned",
+ "mode": "row1",
+ "argv": [
+  "/usr/bin/python3",
+  "-B",
+  "-m",
+  "unittest",
+  "-v",
+  "test_examiner_native_guard",
+  "test_examiner_native_generators"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/native-component-tests-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-planned-001-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Actual native-build child/scope waits0, unchanged native/source inputs and exact retained build artifact; stop on failure.",
+ "original_child_argv": [
+  "/usr/bin/python3",
+  "-B",
+  "-m",
+  "unittest",
+  "-v",
+  "test_examiner_native_guard",
+  "test_examiner_native_generators"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+ "script_sha256": null,
+ "started_at": "2026-10-12T07:49:53.958401+00:00",
+ "exit_code": 0,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T07:50:19.722166+00:00",
+ "wall_seconds": 25.764,
+ "stdout.bin": {
+  "bytes": 75578580,
+  "sha256": "f06010065f4753e91a2cebc982994bbff21cfc3cc1e935046dcc788bebd8e656",
+  "tail": "ed\": true, \"cleanReportedTerminal\": false, \"confinementEstablished\": false, \"entryPrimarySnapshotsDifferAcrossCleanup\": false, \"incompleteAcquisitionInputs\": false, \"incompleteFailureFacts\": true, \"interpreterExitSequence\": 74, \"interpreterOriginalStatus\": 1, \"nativeViolationObserved\": false, \"pendingOperations\": 0, \"primaryWorkloadFailurePreservationEstablished\": false, \"protectedCustody\": false, \"retainedToNativeFinalization\": true, \"workloadEntryReturned\": false, \"workloadOutcomeSequence\": 24, \"workloadPrimaryOrigin\": \"entry\", \"workloadPrimarySnapshotsDifferAcrossReferenceRelease\": true}]}\n"
+ },
+ "stderr.bin": {
+  "bytes": 25896,
+  "sha256": "365ad2ada0536a1a67f4eeed5ceff729b9eb77e843ade16557f87b14c6757206",
+  "tail": "or_must_match_owned_generator (test_examiner_native_generators.NativeGeneratorControls.test_source_selector_must_match_owned_generator) ... ok\ntest_unregistered_cached_generator_cannot_be_bound (test_examiner_native_generators.NativeGeneratorControls.test_unregistered_cached_generator_cannot_be_bound) ... ok\ntest_unrelated_target_global_keys_and_values_remain_supported (test_examiner_native_generators.NativeGeneratorControls.test_unrelated_target_global_keys_and_values_remain_supported) ... ok\n\n----------------------------------------------------------------------\nRan 144 tests in 25.661s\n\nOK\n"
+ },
+ "library_sha256_after": null,
+ "child_receipt_files": [
+  {
+   "path": "workload-stdlib-fixture/acquisitions.jsonl",
+   "bytes": 30143067,
+   "sha256": "1eb1366fb2351a91bb2f73a6ee13ec502d9249bfff5b403416effde141c8b608"
+  },
+  {
+   "path": "workload-stdlib-fixture/policy.json",
+   "bytes": 192899,
+   "sha256": "e099384e5e2607b8f0377de3ec05e2a0a160cec7a637dfaa887de9c3532cfbb1"
+  }
+ ]
+}

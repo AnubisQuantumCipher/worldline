@@ -1,0 +1,152 @@
+legality-small residuals — generated 2026-10-12T07:57:00Z from each unit's final evidence directory (exact gnatprove messages; [timeout] = 'provers reached time limit'; [CE: ...] = prover counterexample)
+
+##### native_diagnostic_trace [finalJ2-native_diagnostic_trace] exit=1 48s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u native_diagnostic_trace.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=1 warnings=3 errors=0
+      medium  native_diagnostic_trace.ads:58:19  postcondition might fail, cannot prove Line_Sequences.Length (After) = Line_Sequences.Length (Before) + 1 [timeout]
+      warning spark-containers-functional-infinite_sequences.ads:162:18  precondition is always False, in instantiation at native_diagnostic_trace.ads:22
+      warning spark-containers-functional-infinite_sequences.ads:163:19  postcondition is always False, in instantiation at native_diagnostic_trace.ads:22
+      warning spark-containers-parameter_checks.ads:60:19  precondition is always False, in instantiation at spark-containers-functional-infinite_sequences.ads:354, in instantiation at native_diagnostic_trace.ads:22
+##### worldline-scoped_record_source [finalJ2-worldline-scoped_record_source] exit=0 55s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-scoped_record_source.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=0 warnings=0 errors=0
+##### worldline-custody_v2_closed_v1 [finalJ2-worldline-custody_v2_closed_v1] exit=0 646s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-custody_v2_closed_v1.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=0 warnings=0 errors=0
+##### worldline-resources [finalJ2-worldline-resources] exit=1 528s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-resources.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=2 warnings=0 errors=0
+      medium  worldline-resources.adb:1061:16  loop invariant might not be preserved by an arbitrary iteration [timeout]
+      medium  worldline-resources.ads:46:28  postcondition might fail, cannot prove  Radix_Power'Result = 256 * Radix_Power (Count - 1) [timeout]
+##### worldline-operation_result_relations [finalJ2-worldline-operation_result_relations] exit=1 603s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-operation_result_relations.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=13 warnings=0 errors=0
+      high    worldline-operation_result_relations.adb:23:12  range check might fail, cannot prove lower bound for Data'First [timeout] [CE: e.g. when Data'First = 0 and Data'Last = -1]
+      medium  worldline-operation_result_relations.adb:172:18  array index check might fail, in call inlined at worldline-operation_result_relations.adb:179 [timeout]
+      medium  worldline-operation_result_relations.adb:173:42  precondition might fail, in call inlined at worldline-operation_result_relations.adb:179 [timeout]
+      medium  worldline-operation_result_relations.adb:173:42  precondition might fail, in call inlined at worldline-operation_result_relations.adb:182 [timeout]
+      medium  worldline-operation_result_relations.adb:186:27  precondition might fail [timeout]
+      medium  worldline-operation_result_relations.adb:307:22  range check might fail [timeout]
+      medium  worldline-operation_result_relations.adb:307:62  range check might fail, cannot prove upper bound for Raw_Key'Length [timeout]
+      medium  worldline-operation_result_relations.adb:354:34  overflow check might fail, cannot prove upper bound for L.First + I [timeout]
+      medium  worldline-operation_result_relations.adb:354:34  array index check might fail [timeout]
+      medium  worldline-operation_result_relations.adb:354:59  overflow check might fail, cannot prove upper bound for R.First + I [timeout]
+      medium  worldline-operation_result_relations.adb:354:59  array index check might fail [timeout]
+      medium  worldline-operation_result_relations.adb:606:40  overflow check might fail, cannot prove upper bound for Value.First + Value.Length, in call inlined at worldline-operation_result_relations.adb:706 [timeout]
+      high    worldline-operation_result_relations.adb:606:40  overflow check might fail, cannot prove upper bound for Value.First + Value.Length [timeout] [CE: e.g. when Value = (First => Index'Last-1, Length => 2)]
+##### worldline-excluded_source_owner [allB-worldline-excluded_source_owner] exit=1 3794s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-excluded_source_owner.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j1 --memlimit=1000
+      unproved=51 warnings=0 errors=0
+      medium  worldline-excluded_source_owner.adb:29:21  range check might fail, cannot prove lower bound for B'First [timeout]
+      medium  worldline-excluded_source_owner.adb:34:08  precondition might fail, cannot prove Valid_Text_Field (Data, Item, Field) [timeout]
+      medium  worldline-excluded_source_owner.adb:84:56  precondition might fail, cannot prove Valid_Text_Field (Data, Item, Field) [timeout]
+      medium  worldline-excluded_source_owner.adb:138:35  range check might fail, cannot prove lower bound for B'First [timeout]
+      medium  worldline-excluded_source_owner.adb:166:41  overflow check might fail, cannot prove upper bound for Seen + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:189:76  overflow check might fail, cannot prove upper bound for A + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:190:78  overflow check might fail, cannot prove upper bound for B + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:230:36  overflow check might fail, cannot prove upper bound for A'First + K [timeout]
+      medium  worldline-excluded_source_owner.adb:290:73  overflow check might fail, cannot prove upper bound for B'First + Start + I [timeout]
+      medium  worldline-excluded_source_owner.adb:309:43  precondition might fail, cannot prove Valid_Text_Field (Data, Item, Field) [timeout]
+      medium  worldline-excluded_source_owner.adb:310:45  precondition might fail, cannot prove Type_Is (Data, Item, "str") [timeout]
+      medium  worldline-excluded_source_owner.adb:311:44  precondition might fail, cannot prove Type_Is (Data, Item, "str") [timeout]
+      medium  worldline-excluded_source_owner.adb:312:43  precondition might fail, cannot prove Type_Is (Data, Item, "str") [timeout]
+      medium  worldline-excluded_source_owner.adb:318:60  overflow check might fail, cannot prove upper bound for Bounds'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:322:70  overflow check might fail, cannot prove upper bound for Modes'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:327:69  overflow check might fail, cannot prove upper bound for Path'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:348:44  range check might fail, cannot prove lower bound for Cursor - Tokens (T).First [timeout]
+      medium  worldline-excluded_source_owner.adb:375:43  overflow check might fail, cannot prove upper bound for Maps'First + Start + I [timeout]
+      medium  worldline-excluded_source_owner.adb:375:65  overflow check might fail, cannot prove upper bound for B'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:375:93  overflow check might fail, cannot prove upper bound for Seen + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:407:33  overflow check might fail, cannot prove upper bound for B'First + K [timeout]
+      medium  worldline-excluded_source_owner.adb:412:92  range check might fail, cannot prove lower bound for B'Length - Dash [timeout]
+      medium  worldline-excluded_source_owner.adb:494:16  precondition might fail, cannot prove Type_Is (Data, Item, "bytes") [timeout]
+      medium  worldline-excluded_source_owner.adb:537:45  overflow check might fail, cannot prove upper bound for Rights_Count + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:540:53  overflow check might fail, cannot prove upper bound for Credential_Count + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:584:36  overflow check might fail, cannot prove upper bound for B'First + Cursor + I [timeout]
+      medium  worldline-excluded_source_owner.adb:584:59  overflow check might fail, cannot prove upper bound for M'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:598:40  precondition might fail, cannot prove Type_Is (Data, Item, "bytes") [timeout]
+      medium  worldline-excluded_source_owner.adb:603:56  overflow check might fail, cannot prove upper bound for Name'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:732:83  range check might fail, cannot prove lower bound for B'First [timeout]
+      medium  worldline-excluded_source_owner.adb:736:51  array index check might fail [timeout]
+      medium  worldline-excluded_source_owner.adb:738:62  array index check might fail [timeout]
+      medium  worldline-excluded_source_owner.adb:758:55  range check might fail, cannot prove lower bound for V.Count (D, F (D, Frame, "messages")) - 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:866:96  overflow check might fail, cannot prove upper bound for Found + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:932:36  overflow check might fail, cannot prove upper bound for P'First + K [timeout]
+      medium  worldline-excluded_source_owner.adb:932:68  overflow check might fail, cannot prove upper bound for B'First + Cursor + K [timeout]
+      medium  worldline-excluded_source_owner.adb:987:68  overflow check might fail, cannot prove upper bound for A'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:987:90  overflow check might fail, cannot prove upper bound for P'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:1022:48  overflow check might fail, cannot prove upper bound for Actual'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:1022:70  overflow check might fail, cannot prove upper bound for B'First + I [timeout]
+      medium  worldline-excluded_source_owner.adb:1060:37  overflow check might fail, cannot prove upper bound for Expected + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:1065:40  overflow check might fail, cannot prove upper bound for Found + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:1172:68  overflow check might fail, cannot prove upper bound for Lines + 1 [timeout]
+      medium  worldline-excluded_source_owner.adb:1229:19  precondition might fail, cannot prove Type_Is (Data, Item, "bytes") [timeout]
+      medium  worldline-excluded_source_owner.adb:1363:94  range check might fail, cannot prove lower bound for V.Count (Data, Rows) - 1 [timeout]
+      high    worldline-excluded_source_owner.adb:1377:39  range check might fail, cannot prove lower bound for Data'First [timeout] [CE: e.g. when Data'First = 0 and Data'Last = -1]
+      medium  worldline-excluded_source_owner.adb:1385:97  range check might fail, cannot prove lower bound for V.Count (Data, Rows) - 1 [timeout]
+      high    worldline-excluded_source_owner.adb:1394:39  range check might fail, cannot prove lower bound for Data'First [timeout] [CE: e.g. when Data'First = 0 and Data'Last = -1]
+      medium  worldline-excluded_source_owner.adb:1402:97  range check might fail, cannot prove lower bound for V.Count (Data, Rows) - 1 [timeout]
+      medium  worldline-excluded_source_owner.ads:26:10  postcondition might fail, cannot prove L.V.Is_Sequence (Data, L.V.S.Field (Data, Frame, "messages")) [timeout]
+      medium  worldline-excluded_source_owner.ads:37:14  postcondition might fail [timeout]
+##### worldline-native_lifetime_observation [finalFlow-worldline-native_lifetime_observation] exit=1 0s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-native_lifetime_observation.adb --mode=flow --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=1 warnings=0 errors=0
+      medium  worldline-native_lifetime_observation.adb:149:13  implicit aspect Always_Terminates on "Tree" could be incorrect, loop might be nonterminating
+##### worldline-root_output_sequence [finalFlow-worldline-root_output_sequence] exit=0 52s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-root_output_sequence.adb --mode=flow --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=0 warnings=0 errors=0
+##### worldline-recovery_material_replay [finalFlow-worldline-recovery_material_replay] exit=1 2s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-recovery_material_replay.adb --mode=flow --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=0 warnings=21 errors=0
+      warning worldline-recovery_material_replay.adb:1594:56  unused variable "Requirement"
+      warning worldline-recovery_material_replay.adb:1789:16  "Promotions" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:1789:28  "Final_Promotion" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2040:73  "Arena" is set by "Selected_Matches" but not used after the call
+      warning worldline-recovery_material_replay.adb:2057:09  "Arena" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2057:16  "Rows" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2057:22  "Finalization" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2057:36  "Current" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2057:64  "Final_Promotion" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2072:16  "Rows" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2072:22  "Finalization" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2072:64  "Final_Promotion" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:2075:18  "Arena" is set by "Selected_Matches" but not used after the call
+      warning worldline-recovery_material_replay.adb:3003:16  "History" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:3003:25  "Final_Record" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:3003:69  "Promotions" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:3003:81  "Final_Promotion" is set by "Collect" but not used after the call
+      warning worldline-recovery_material_replay.adb:3040:45  "Policy_Position" is set by "Plan_Checks" but not used after the call
+      warning worldline-recovery_material_replay.adb:3040:81  "Native_Completion" is set by "Plan_Checks" but not used after the call
+      warning worldline-recovery_material_replay.adb:3105:40  "Position" is set by "Plan_Checks" but not used after the call
+      warning worldline-recovery_material_replay.adb:3105:60  "Completion" is set by "Plan_Checks" but not used after the call
+##### worldline-transaction_archive_json [finalJ2-worldline-transaction_archive_json] exit=1 83s cap=3G
+      cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-transaction_archive_json.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2
+      unproved=27 warnings=1 errors=0
+      medium  worldline-transaction_archive_json.adb:20:10  range check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:20:33  range check might fail, cannot prove upper bound for Raw'Length [timeout]
+      medium  worldline-transaction_archive_json.adb:41:23  overflow check might fail, cannot prove upper bound for Size + 1 [timeout]
+      medium  worldline-transaction_archive_json.adb:45:43  overflow check might fail, cannot prove upper bound for Size + (if V.Sign then 1 else 0) [timeout]
+      medium  worldline-transaction_archive_json.adb:81:54  overflow check might fail, cannot prove upper bound for (Raw'Length / 3) * 4 [timeout]
+      medium  worldline-transaction_archive_json.adb:81:58  overflow check might fail, cannot prove upper bound for (Raw'Length / 3) * 4 + (if Raw'Length mod 3 = 0 then 0 else 4) [timeout]
+      medium  worldline-transaction_archive_json.adb:82:10  range check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:82:41  range check might fail, cannot prove upper bound for Size [timeout]
+      medium  worldline-transaction_archive_json.adb:92:21  array index check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:93:28  array index check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:94:60  array index check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:95:60  array index check might fail [timeout]
+      low     worldline-transaction_archive_json.adb:100:59  range check might fail, cannot prove upper bound for "{""encoding"":""base64"",""payload"":""" & Answer [timeout]
+      high    worldline-transaction_archive_json.adb:131:38  overflow check might fail, cannot prove upper bound for Key.First + 1 [timeout] [CE: e.g. when Key = (First => Index'Last, Length => 2)]
+      medium  worldline-transaction_archive_json.adb:182:38  overflow check might fail, cannot prove upper bound for Size + E.Count (R.Quote (Output_Name (Name, Mode))'Length) [timeout]
+      medium  worldline-transaction_archive_json.adb:182:92  overflow check might fail, cannot prove upper bound for Size + E.Count (R.Quote (Output_Name (Name, Mode))'Length) + 1 [timeout]
+      medium  worldline-transaction_archive_json.adb:189:50  overflow check might fail, cannot prove upper bound for Size + 1 [timeout]
+      medium  worldline-transaction_archive_json.adb:190:32  overflow check might fail, cannot prove upper bound for Kept + 1 [timeout]
+      medium  worldline-transaction_archive_json.adb:196:35  overflow check might fail, cannot prove upper bound for Size + Child_Size [timeout]
+      medium  worldline-transaction_archive_json.adb:212:41  range check might fail, cannot prove upper bound for E.Array_Length (Data, V.Children) [timeout]
+      medium  worldline-transaction_archive_json.adb:218:47  overflow check might fail, cannot prove upper bound for Cursor + 1 [timeout]
+      high    worldline-transaction_archive_json.adb:218:60  array index check might fail [timeout] [CE: e.g. when Cursor = 1 and Output'First = 2 and Output'Last = 0]
+      medium  worldline-transaction_archive_json.adb:233:113  array index check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:234:85  array index check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:279:29  overflow check might fail, cannot prove upper bound for Kept + 1 [timeout]
+      medium  worldline-transaction_archive_json.adb:290:07  range check might fail [timeout]
+      medium  worldline-transaction_archive_json.adb:290:38  range check might fail, cannot prove upper bound for Size [timeout]
+      warning worldline-transaction_archive_json.adb:294:49  "Cursor" is set by "Emit" but not used after the call

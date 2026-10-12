@@ -1,0 +1,74 @@
+{
+ "index": 4,
+ "source": "additional",
+ "mode": "original-canonical-exchange-semantic-build",
+ "argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-P",
+  "canonical-exchange-tests/canonical_exchange_tests.gpr"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/original-canonical-exchange-semantic-build-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0n8yfPI:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-additional-004-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Actual successful complete original116 in unchanged order, both original additions, every preceding original restored domain, exact current compiled continuation and matching native/runtime/source/private/artifact readback plus original current admission/window/ownership gates. This DATA authorizes nothing.",
+ "original_child_argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-P",
+  "canonical-exchange-tests/canonical_exchange_tests.gpr"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb",
+ "script_sha256": null,
+ "started_at": "2026-10-12T10:18:05.595619+00:00",
+ "exit_code": 4,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T10:18:06.068570+00:00",
+ "wall_seconds": 0.473,
+ "stdout.bin": {
+  "bytes": 245,
+  "sha256": "57b0d89f251feec22e9edfc3b9dd31c6c157580a2ea61e45fedab04d47de3afc",
+  "tail": "Setup\n   [mkdir]        object directory for project Canonical_Exchange_Tests\n   [mkdir]        exec directory for project Canonical_Exchange_Tests\nCompile\n   [Ada]          canonical_exchange_controls.adb\ngprbuild: *** compilation phase failed\n"
+ },
+ "stderr.bin": {
+  "bytes": 404,
+  "sha256": "48c694a4a38c834c80e9fa54964b5d34e9bd4275b097f9ac59abe99961cebb75",
+  "tail": "attest_sha256.gpr:1:33: warning: file name does not match project name, should be \"worldline_attest_sha256.gpr\"\ncanonical_exchange_controls.adb:25:18: error: no value supplied for component \"Effect_Material\"\ncanonical_exchange_controls.adb:32:37: error: \"Value\" is not a component of the aggregate subtype\ncanonical_exchange_controls.adb:38:69: error: \"Value\" is not a component of the aggregate subtype\n"
+ },
+ "library_sha256_after": "ee6a4f4a8a14842f8f88fadfc3844f53d6a1ae3041f0837ccdb9019a8b84ee2b",
+ "child_receipt_files": []
+}

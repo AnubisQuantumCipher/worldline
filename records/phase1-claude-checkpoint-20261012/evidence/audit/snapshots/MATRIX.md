@@ -1,0 +1,31 @@
+# Phase One requirement-to-evidence matrix (Source21 candidate; lead: Claude, 2026-10-12)
+
+Status legend: CLOSED (evidence retained, same source identity), IN PROGRESS, OPEN (engineering not finished),
+OPERATOR-GATED (needs an authority only the operator holds: host euid 0, disposable-root approval, model-actor
+spend/mission approval, GPT-6.1 reviewer access). Every CLOSED row names the exact evidence directory and the
+source commit it was produced on. Nothing in this file is a claim beyond its evidence line.
+
+| # | Gate / requirement (from HANDOFF.md "Definition of done" and ACCEPTANCE-AND-PROTECTED-WORK.md) | Evidence (exact) | Status |
+|---|---|---|---|
+| 1 | Integrated source: one coherent final identity; frozen Source15/18/19/20 untouched; deltas deliberate, each justified by a demonstrated blocker; original accepted cases preserved | `source/` git history c932d9a (byte-identical Source20) → 337c9a3 → …; `evidence/DIAGNOSIS-*.json`; frozen-tree hash check (TODO: record sha256 manifest of S20 before/after) | IN PROGRESS |
+| 2 | Complete checked all-unit build with the exact command `gprbuild -p -j2 -c -U -P core/worldline_core_sources.gpr` on the final commit, fresh objects; library identity recorded | TODO (final chain) | OPEN |
+| 3 | Full strict proof: `gnatprove -P core/worldline_core_sources.gpr -U --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2`; zero unproved, zero justified, zero `pragma Assume`, no new SPARK_Mode Off, full REQUIRED_PROVED1623 roster, boundary = {worldline-c_api}; project gate `prove.sh` + `verify_proof_manifest.py --require-summary` passing on the same commit | campaign in progress (see STATUS.md); survey `evidence/prove-full-survey-v2`; unit evidence `evidence-wt/*`, `evidence/redesign-contexts-v1` | IN PROGRESS |
+| 4 | Original ordinary runtime roster (116 planned + 11 additions) after the proof, same source and library; raw streams, pids, waits, cleanup retained | `roster/run_roster.py --clean --additions` → TODO | OPEN |
+| 5a | Evaluation lifecycle operates through SPARK with complete contracts and callers | map: campaign/seven-area-map.md §1. Gaps found: the raw-evaluation authorization join (roster × agent admission × context × collapse) is composed in C_API.Authority_Glue (SPARK Off, c_api.adb:3158-3435) and the owner conjunction in Python (recovery_observation.py:185-188); Runner_Lifecycle/Acquisition/Outcome units have Global-only contracts (AoRTE proof only) | OPEN |
+| 5b | Resource reservations: proved conservation/containment, real accounting | map: §2. Gaps: ordinary admission uses Ordinary_Reservation_Lifecycle.Plan (range-only Post) while the fully specified Resource_Reservation_Lifecycle.Plan / Resources.Can_Reserve are test-only; Resource_Reservation_Transition.Check/Apply never called; the Python launch precondition and run_service.py sit outside SPARK | OPEN |
+| 5c | Recovery state machine: legal transitions on authentic durable facts | map: §3. Gaps: production recovery uses Transaction_Relations.Marker_State (no Post) and Custody_V2_Operation_Journal.Recovery_Decide (Post only implies Parsed); Recovery.Select_Action is test-only; the historical verdict is composed into the v3 input in Python | OPEN |
+| 5d | Evidence roster and completeness | map: §4. Gaps: Rollback_Fence exists in Evaluation_History but nothing produces it; ledger rollback detection is pure Python (anchor.py); Evaluation_Policy/Producer, Retained_Evidence_Replay, Journal_Witness have no functional Post | OPEN |
+| 5e | Typed optional identities across Ada/native/C/Python | map: §5. Gaps: two presence conventions coexist (Collapse_Wire forbids a present all-zero hash; Root_Custody_Model/Recovery_Authorization allow it); ABI layout equality is checked at load and by tests, not proved (declared boundary assumption) | OPEN |
+| 5f | Capability attenuation | map: §6. Gaps: no wl_* export reaches Cosmogony Derive/Attenuates; runtime capability checks go through libcosmogony_core.so (SPARK-Off C APIs) via an out-of-tree adapter; every grant fixture uses parent=None and no test exercises an attenuation refusal; use allowance/revocation live only in Operation_Authority.Eligible's body; docs/phase1-checkpoint-2026-10-02.md already lists this area as open | OPEN |
+| 5g | Receipt-chain rules | map: §7. Gaps: the ordinary receipt chain is appended/verified in Python (store.py) with native Link only; Chain_Authority.Replay runs only for canonical operation chains; Retained_Custody_Chain.Verify / Archive_Chain.Verify Posts do not state link continuity; no test exercises Ordinary_Receipt_Policy | OPEN |
+| 6 | Ownership/reclamation and the literal `'Old` / M4 facility obligation (`OPEN_CONCRETE_MISSING_INSTALLED_GNAT16_FULL_NONLIMITED_VALUE_COPY_PLUS_AUTOMATIC_OLD_RETIREMENT_FACILITY`) | TODO: establish or record precisely what remains | OPEN |
+| 7 | Original timeout obligation | TODO | OPEN |
+| 8 | Authentic protected fixtures: installed closure, 22 live cases, five startup descriptors, ordered startup/replay suites | requires host euid 0, exclusive offline disposable root approval (O1–O9) | OPERATOR-GATED |
+| 9 | World/child actor and authentic archives (gpt-6-luna actor inside the WORLDLINE world) | requires actor mission/model/spend approval and credential projection | OPERATOR-GATED |
+| 10 | Confinement and recovery premises (OS/privilege/owner/FD/lock/rollback) | partly covered by roster controls (row 4); protected part in row 8 | OPEN |
+| 11 | Independent acceptance review of this matrix: the handoff names actual GPT-6.1 (`gpt-6.1-sol`, ultra); the operator switched reviews to independent fresh-context Claude review subagents on 2026-10-05 and `gpt-6.1-sol` is not reachable from this harness | review record TODO (`review/`) | OPEN |
+| 12 | Publication: accepted source + evidence pushed to AnubisQuantumCipher/worldline, remote identity and hosted checks read back at that commit; no session links/trailers | TODO | OPEN |
+
+Constraints honoured throughout: no `pragma Assume`, no `pragma Annotate (GNATprove, …)`, no SPARK_Mode Off beyond
+the declared boundary, no contract/accepted-case/proof-scope weakening (any such finding is recorded as an open
+obligation instead); derived arithmetic via JACKAL; SIA note at the end; storage via project-vault.

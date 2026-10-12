@@ -1,0 +1,1716 @@
+ info: implicit aspect Always_Terminates on "Byte_At" has been proved, subprogram will terminate
+--> worldline-producer_values.adb:6:13
+
+ info: range check proved
+--> worldline-producer_values.adb:7:23
+
+ info: overflow check proved
+--> worldline-producer_values.adb:7:53
+
+ info: index check proved
+--> worldline-producer_values.adb:7:53
+
+ info: initialization of "B" proved
+--> worldline-producer_values.adb:9:07
+
+ info: implicit aspect Always_Terminates on "Tail" has been proved, subprogram will terminate
+--> worldline-producer_values.adb:10:16
+
+ info: range check proved
+--> worldline-producer_values.adb:11:23
+
+ info: overflow check proved
+--> worldline-producer_values.adb:11:31
+
+ info: overflow check proved
+--> worldline-producer_values.adb:11:80
+
+ info: range check proved
+--> worldline-producer_values.adb:13:24
+
+ info: range check proved
+--> worldline-producer_values.adb:16:48
+
+ info: overflow check proved
+--> worldline-producer_values.adb:16:56
+
+ info: range check proved
+--> worldline-producer_values.adb:17:48
+
+ info: overflow check proved
+--> worldline-producer_values.adb:17:56
+
+ info: overflow check proved
+--> worldline-producer_values.adb:19:75
+
+ info: range check proved
+--> worldline-producer_values.adb:20:48
+
+ info: overflow check proved
+--> worldline-producer_values.adb:20:56
+
+ info: overflow check proved
+--> worldline-producer_values.adb:22:75
+
+ info: overflow check proved
+--> worldline-producer_values.adb:23:75
+
+ info: local subprogram "Space" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-producer_values.adb:28:14
+      + add a contract to analyze it separately from calling contexts
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:209
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:537
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:548
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:553
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:555
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:257
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:265
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:271
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:273
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:291
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:299
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:305
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:307
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:321
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:330
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:332
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:346
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:355
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:362
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:364
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:221
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:227
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:232
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:234
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:101
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:127
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:135
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:141
+--> worldline-producer_values.adb:30:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:145
+--> worldline-producer_values.adb:30:28
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:209
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:209
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:537
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:537
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:548
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:548
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:553
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:553
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:555
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:555
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:257
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:257
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:265
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:265
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:271
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:271
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:273
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:273
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:291
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:291
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:299
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:299
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:305
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:305
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:307
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:307
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:321
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:321
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:330
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:330
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:332
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:332
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:346
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:346
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:355
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:355
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:362
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:362
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:364
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:364
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:221
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:221
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:227
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:227
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:232
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:232
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:234
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:234
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:101
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:101
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:127
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:127
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:135
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:135
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:141
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:141
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:145
+--> worldline-producer_values.adb:33:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:145
+--> worldline-producer_values.adb:33:33
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:209
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:537
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:548
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:553
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:555
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:257
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:265
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:271
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:273
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:291
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:299
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:305
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:307
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:321
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:330
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:332
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:346
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:355
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:362
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:364
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:221
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:227
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:232
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:234
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:101
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:127
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:135
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:141
+--> worldline-producer_values.adb:34:31
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:145
+--> worldline-producer_values.adb:34:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:209
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:537
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:548
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:553
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:555
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:257
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:265
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:271
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:273
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:291
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:299
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:305
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:307
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:321
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:330
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:332
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:346
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:355
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:362
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:364
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:221
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:227
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:232
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:234
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:101
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:127
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:135
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:141
+--> worldline-producer_values.adb:35:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:145
+--> worldline-producer_values.adb:35:31
+
+ info: implicit aspect Always_Terminates on "Hex" has been proved, subprogram will terminate
+--> worldline-producer_values.adb:39:13
+
+ info: implicit aspect Always_Terminates on "Raw" has been proved, subprogram will terminate
+--> worldline-producer_values.adb:45:13
+
+ info: range check proved
+--> worldline-producer_values.adb:47:60
+
+ info: range check proved
+--> worldline-producer_values.adb:48:12
+
+ info: overflow check proved
+--> worldline-producer_values.adb:48:29
+
+ info: overflow check proved
+--> worldline-producer_values.adb:48:62
+
+ info: aspect Always_Terminates on "Scan" has been proved, subprogram will terminate
+--> worldline-producer_values.adb:51:14
+
+ info: initialization of "Item" proved
+--> worldline-producer_values.adb:51:62
+
+ info: range check proved
+--> worldline-producer_values.adb:53:48
+
+ info: overflow check proved
+--> worldline-producer_values.adb:53:56
+
+ info: range check proved
+--> worldline-producer_values.adb:53:84
+
+ info: postcondition proved
+--> worldline-producer_values.adb:54:16
+
+ info: range check proved
+--> worldline-producer_values.adb:56:66
+
+ info: local subprogram "Scan_String" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-producer_values.adb:58:14
+      + add a contract to analyze it separately from calling contexts
+
+ info: initialization of "Valid" proved
+--> worldline-producer_values.adb:58:69
+
+ info: initialization of "Width" proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:59:07
+
+ info: initialization of "Width" proved
+--> worldline-producer_values.adb:59:07
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:63:28
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:64:28
+
+ info: loop invariant initialization proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:65:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:65:33
+
+ info: loop variant proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:66:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:68:34
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:73:34
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:74:32
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:76:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:76:31
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:78:51
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:80:37
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:82:37
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:119
+--> worldline-producer_values.adb:88:34
+
+ info: initialization of "Start" proved
+--> worldline-producer_values.adb:94:07
+
+ info: initialization of "Form" proved
+--> worldline-producer_values.adb:95:07
+
+ info: initialization of "Valid" proved
+--> worldline-producer_values.adb:96:07
+
+ info: initialization of "Child" proved
+--> worldline-producer_values.adb:97:07
+
+ info: initialization of "Key" proved
+--> worldline-producer_values.adb:97:14
+
+ info: initialization of "Open" proved
+--> worldline-producer_values.adb:98:07
+
+ info: initialization of "Close" proved
+--> worldline-producer_values.adb:98:13
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:101:07
+
+ info: range check proved
+--> worldline-producer_values.adb:102:26
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:105:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:105:33
+
+ info: range check proved
+--> worldline-producer_values.adb:109:21
+
+ info: range check proved
+--> worldline-producer_values.adb:109:36
+
+ info: overflow check proved
+--> worldline-producer_values.adb:109:44
+
+ info: range check proved
+--> worldline-producer_values.adb:110:15
+
+ info: overflow check proved
+--> worldline-producer_values.adb:110:32
+
+ info: overflow check proved
+--> worldline-producer_values.adb:110:57
+
+ info: overflow check proved
+--> worldline-producer_values.adb:110:68
+
+ info: range check proved
+--> worldline-producer_values.adb:110:76
+
+ info: overflow check proved
+--> worldline-producer_values.adb:112:37
+
+ info: range check proved
+--> worldline-producer_values.adb:112:44
+
+ info: overflow check proved
+--> worldline-producer_values.adb:113:44
+
+ info: analyzing call to "Scan_String" in context
+--> worldline-producer_values.adb:119:13
+
+ info: in inlined body at line 77
+--> worldline-producer_values.adb:119:13
+      + unrolling loop [info-unrolling-inlining]
+
+ info: overflow check proved
+--> worldline-producer_values.adb:126:34
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:127:13
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:130:42
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:130:42
+
+ info: loop variant proved
+--> worldline-producer_values.adb:131:40
+
+ info: subprogram variant proved
+--> worldline-producer_values.adb:133:22
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:135:22
+
+ info: overflow check proved
+--> worldline-producer_values.adb:137:43
+
+ info: subprogram variant proved
+--> worldline-producer_values.adb:139:19
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:141:19
+
+ info: overflow check proved
+--> worldline-producer_values.adb:144:40
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:145:19
+
+ info: range check proved
+--> worldline-producer_values.adb:148:32
+
+ warning: unreachable code
+--> worldline-producer_values.adb:148:87
+  148 |                if Position >= Data'Length or else Byte_At (Data, Position) /= Close then return; end if;
+      |                                                                                          ^~~~~~
+
+ info: overflow check proved
+--> worldline-producer_values.adb:149:34
+
+ info: range check proved
+--> worldline-producer_values.adb:156:23
+
+ info: overflow check proved
+--> worldline-producer_values.adb:156:31
+
+ info: range check proved
+--> worldline-producer_values.adb:156:51
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-producer_values.adb:157:39
+
+ info: overflow check proved
+--> worldline-producer_values.adb:158:46
+
+ info: overflow check proved
+--> worldline-producer_values.adb:158:50
+
+ info: range check proved
+--> worldline-producer_values.adb:158:50
+
+ info: index check proved
+--> worldline-producer_values.adb:158:79
+
+ info: overflow check proved
+--> worldline-producer_values.adb:160:37
+
+ info: range check proved
+--> worldline-producer_values.adb:160:46
+
+ info: overflow check proved
+--> worldline-producer_values.adb:166:37
+
+ info: range check proved
+--> worldline-producer_values.adb:167:35
+
+ info: overflow check proved
+--> worldline-producer_values.adb:169:73
+
+ info: range check proved
+--> worldline-producer_values.adb:171:37
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:172:42
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:172:42
+
+ info: loop variant proved
+--> worldline-producer_values.adb:173:40
+
+ info: overflow check proved
+--> worldline-producer_values.adb:174:40
+
+ info: overflow check proved
+--> worldline-producer_values.adb:180:37
+
+ info: range check proved
+--> worldline-producer_values.adb:181:35
+
+ info: range check proved
+--> worldline-producer_values.adb:182:37
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:183:42
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:183:42
+
+ info: loop variant proved
+--> worldline-producer_values.adb:184:40
+
+ info: overflow check proved
+--> worldline-producer_values.adb:185:40
+
+ info: overflow check proved
+--> worldline-producer_values.adb:190:37
+
+ info: overflow check proved
+--> worldline-producer_values.adb:191:83
+
+ info: range check proved
+--> worldline-producer_values.adb:192:35
+
+ info: range check proved
+--> worldline-producer_values.adb:193:37
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:194:42
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:194:42
+
+ info: loop variant proved
+--> worldline-producer_values.adb:195:40
+
+ info: overflow check proved
+--> worldline-producer_values.adb:196:40
+
+ info: overflow check proved
+--> worldline-producer_values.adb:201:53
+
+ info: initialization of "Item" proved
+--> worldline-producer_values.adb:206:07
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:209:07
+
+ info: range check proved
+--> worldline-producer_values.adb:210:25
+
+ info: implicit aspect Always_Terminates on "First_Key" has been proved, subprogram will terminate
+--> worldline-producer_values.adb:217:13
+
+ info: initialization of "Prior" proved
+--> worldline-producer_values.adb:219:07
+
+ info: initialization of "Item" proved
+--> worldline-producer_values.adb:219:14
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:221:07
+
+ info: loop variant proved
+--> worldline-producer_values.adb:223:31
+
+ info: no contextual analysis of "First_Key" (call returns unconstrained type)
+--> worldline-producer_values.adb:226:34
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:227:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:229:31
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:232:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:233:70
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:234:10
+
+ info: implicit aspect Always_Terminates on "Tree_Admitted" has been proved, subprogram will terminate
+--> worldline-producer_values.adb:238:13
+
+ info: range check proved
+--> worldline-producer_values.adb:243:42
+
+ info: range check proved
+--> worldline-producer_values.adb:243:107
+
+ info: postcondition proved
+--> worldline-producer_values.adb:244:16
+
+ info: initialization of "Key" proved
+--> worldline-producer_values.adb:250:07
+
+ info: initialization of "Child" proved
+--> worldline-producer_values.adb:250:12
+
+ info: range check proved
+--> worldline-producer_values.adb:253:62
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:257:07
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:259:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:259:33
+
+ info: loop variant proved
+--> worldline-producer_values.adb:260:31
+
+ info: overflow check proved
+--> worldline-producer_values.adb:260:56
+
+ info: no contextual analysis of "First_Key" (in potentially unevaluated context)
+--> worldline-producer_values.adb:264:41
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:265:13
+
+ info: overflow check proved
+--> worldline-producer_values.adb:267:34
+
+ info: subprogram variant proved
+--> worldline-producer_values.adb:270:17
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:271:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:272:69
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:273:10
+
+ info: initialization of "Position" proved
+--> worldline-producer_values.adb:284:07
+
+ info: initialization of "Key" proved
+--> worldline-producer_values.adb:285:07
+
+ info: initialization of "Item" proved
+--> worldline-producer_values.adb:285:12
+
+ info: range check proved
+--> worldline-producer_values.adb:289:28
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:291:07
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:293:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:293:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:294:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:294:33
+
+ info: range check proved
+--> worldline-producer_values.adb:295:68
+
+ info: loop variant proved
+--> worldline-producer_values.adb:296:31
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:299:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:301:31
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:305:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:306:70
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:307:10
+
+ info: initialization of "Position" proved
+--> worldline-producer_values.adb:313:07
+
+ info: initialization of "Item" proved
+--> worldline-producer_values.adb:315:07
+
+ info: range check proved
+--> worldline-producer_values.adb:317:88
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:321:07
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:323:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:323:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:324:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:324:33
+
+ info: overflow check proved
+--> worldline-producer_values.adb:324:50
+
+ info: loop variant proved
+--> worldline-producer_values.adb:325:31
+
+ info: overflow check proved
+--> worldline-producer_values.adb:328:23
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:330:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:331:70
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:332:10
+
+ info: initialization of "Position" proved
+--> worldline-producer_values.adb:338:07
+
+ info: initialization of "Item" proved
+--> worldline-producer_values.adb:340:07
+
+ info: initialization of "Unique" proved
+--> worldline-producer_values.adb:341:07
+
+ info: range check proved
+--> worldline-producer_values.adb:344:27
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:346:07
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:348:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:348:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:349:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:349:33
+
+ info: overflow check proved
+--> worldline-producer_values.adb:349:50
+
+ info: loop variant proved
+--> worldline-producer_values.adb:350:31
+
+ info: no contextual analysis of "First_Key" (in potentially unevaluated context)
+--> worldline-producer_values.adb:353:56
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:355:13
+
+ info: overflow check proved
+--> worldline-producer_values.adb:357:34
+
+ info: overflow check proved
+--> worldline-producer_values.adb:361:38
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:362:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:363:70
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:364:10
+
+ info: range check proved
+--> worldline-producer_values.adb:370:07
+
+ info: range check proved
+--> worldline-producer_values.adb:371:59
+
+ info: overflow check proved
+--> worldline-producer_values.adb:371:82
+
+ info: overflow check proved
+--> worldline-producer_values.adb:371:95
+
+ info: length check proved
+--> worldline-producer_values.adb:372:09
+
+ info: initialization of "Position" proved
+--> worldline-producer_values.adb:374:07
+
+ info: initialization of "Code" proved
+--> worldline-producer_values.adb:374:17
+
+ info: initialization of "Low" proved
+--> worldline-producer_values.adb:374:23
+
+ info: initialization of "C" proved
+--> worldline-producer_values.adb:375:07
+
+ info: local subprogram "Emit" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-producer_values.adb:376:17
+      + add a contract to analyze it separately from calling contexts
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:404
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:405
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:406
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:407
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:408
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:409
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:383, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:384, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:386, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:388, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:389, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:378:23
+
+ info: overflow check proved, in call inlined at worldline-producer_values.adb:435
+--> worldline-producer_values.adb:378:23
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:404
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:405
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:406
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:407
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:408
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:409
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:383, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:384, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:386, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:388, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:389, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:18
+
+ info: index check proved, in call inlined at worldline-producer_values.adb:435
+--> worldline-producer_values.adb:379:18
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:404
+--> worldline-producer_values.adb:379:42
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:383, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:42
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:384, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:42
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:386, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:42
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:388, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:42
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:389, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:379:42
+
+ info: range check proved, in call inlined at worldline-producer_values.adb:435
+--> worldline-producer_values.adb:379:42
+
+ info: local subprogram "Unicode" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-producer_values.adb:381:17
+      + add a contract to analyze it separately from calling contexts
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:383:30
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:384:34
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:384:52
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:384:59
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:384:77
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:386:13
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:386:31
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:386:40
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:386:58
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:386:63
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:386:72
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:386:90
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:388:13
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:388:31
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:388:42
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:388:60
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:388:67
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:389:13
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:389:31
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:389:36
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:389:45
+
+ info: division check proved, in call inlined at worldline-producer_values.adb:432
+--> worldline-producer_values.adb:389:63
+
+ info: range check proved
+--> worldline-producer_values.adb:393:83
+
+ info: overflow check proved
+--> worldline-producer_values.adb:394:19
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:397:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:397:33
+
+ info: overflow check proved
+--> worldline-producer_values.adb:397:82
+
+ info: loop variant proved
+--> worldline-producer_values.adb:398:31
+
+ info: overflow check proved
+--> worldline-producer_values.adb:401:34
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:404:40
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:405:28
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:406:28
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:407:28
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:408:28
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:409:28
+
+ info: overflow check proved
+--> worldline-producer_values.adb:411:36
+
+ info: unrolling loop [info-unrolling-inlining]
+--> worldline-producer_values.adb:413:35
+
+ info: overflow check proved
+--> worldline-producer_values.adb:414:54
+
+ info: overflow check proved
+--> worldline-producer_values.adb:415:35
+
+ info: overflow check proved
+--> worldline-producer_values.adb:415:40
+
+ info: range check proved
+--> worldline-producer_values.adb:415:51
+
+ info: overflow check proved
+--> worldline-producer_values.adb:415:80
+
+ info: overflow check proved
+--> worldline-producer_values.adb:417:40
+
+ info: overflow check proved
+--> worldline-producer_values.adb:419:35
+
+ info: overflow check proved
+--> worldline-producer_values.adb:419:83
+
+ info: overflow check proved
+--> worldline-producer_values.adb:420:53
+
+ info: unrolling loop [info-unrolling-inlining]
+--> worldline-producer_values.adb:423:38
+
+ info: overflow check proved
+--> worldline-producer_values.adb:424:56
+
+ info: overflow check proved
+--> worldline-producer_values.adb:425:36
+
+ info: overflow check proved
+--> worldline-producer_values.adb:425:41
+
+ info: range check proved
+--> worldline-producer_values.adb:425:52
+
+ info: overflow check proved
+--> worldline-producer_values.adb:425:80
+
+ info: overflow check proved
+--> worldline-producer_values.adb:428:39
+
+ info: overflow check proved
+--> worldline-producer_values.adb:428:59
+
+ info: overflow check proved
+--> worldline-producer_values.adb:428:66
+
+ info: range check proved
+--> worldline-producer_values.adb:428:72
+
+ info: overflow check proved
+--> worldline-producer_values.adb:429:46
+
+ info: analyzing call to "Unicode" in context
+--> worldline-producer_values.adb:432:19
+
+ info: analyzing call to "Emit" in context
+--> worldline-producer_values.adb:435:15
+
+ info: overflow check proved
+--> worldline-producer_values.adb:437:31
+
+ info: range check proved
+--> worldline-producer_values.adb:439:14
+
+ info: range check proved
+--> worldline-producer_values.adb:457:83
+
+ info: range check proved
+--> worldline-producer_values.adb:458:43
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-producer_values.adb:467:43
+
+ info: subprogram variant proved
+--> worldline-producer_values.adb:468:23
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-producer_values.adb:473:43
+
+ info: subprogram variant proved
+--> worldline-producer_values.adb:476:26
+
+ info: initialization of "Arena" proved
+--> worldline-producer_values.adb:496:10
+
+ info: range check proved
+--> worldline-producer_values.adb:496:10
+
+ info: range check proved
+--> worldline-producer_values.adb:496:46
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-producer_values.adb:498:31
+
+ info: index check proved
+--> worldline-producer_values.adb:498:43
+
+ info: overflow check proved
+--> worldline-producer_values.adb:498:91
+
+ info: index check proved
+--> worldline-producer_values.adb:498:91
+
+ info: range check proved
+--> worldline-producer_values.adb:498:104
+
+ info: range check proved
+--> worldline-producer_values.adb:500:71
+
+ info: range check proved
+--> worldline-producer_values.adb:500:85
+
+ info: range check proved
+--> worldline-producer_values.adb:502:75
+
+ info: precondition proved
+--> worldline-producer_values.adb:504:56
+
+ info: initialization of "Position" proved
+--> worldline-producer_values.adb:530:07
+
+ info: initialization of "Key" proved
+--> worldline-producer_values.adb:532:07
+
+ info: initialization of "Item" proved
+--> worldline-producer_values.adb:532:12
+
+ info: range check proved
+--> worldline-producer_values.adb:535:28
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:537:07
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:539:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:539:33
+
+ info: loop invariant initialization proved
+--> worldline-producer_values.adb:540:33
+
+ info: loop invariant preservation proved
+--> worldline-producer_values.adb:540:33
+
+ info: overflow check proved
+--> worldline-producer_values.adb:540:50
+
+ info: loop variant proved
+--> worldline-producer_values.adb:541:31
+
+ info: overflow check proved
+--> worldline-producer_values.adb:545:26
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:548:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:550:31
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:553:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:554:70
+
+ info: analyzing call to "Space" in context
+--> worldline-producer_values.adb:555:10
+
+ info: overflow check proved
+--> worldline-producer_values.adb:565:90
+
+ info: implicit aspect Always_Terminates on "Parse" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:11:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:11:52
+
+ info: implicit aspect Always_Terminates on "Member_Key" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:12:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:13:24
+
+ info: implicit aspect Always_Terminates on "Standard_JSON" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:16:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:16:63
+
+ info: implicit aspect Always_Terminates on "Duplicate_Free" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:17:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:17:64
+
+ info: implicit aspect Always_Terminates on "Original_Exact_JSON" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:18:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:19:65
+
+ info: implicit aspect Always_Terminates on "UTF8_Width" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:21:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:22:11
+
+ info: postcondition proved
+--> worldline-producer_values.ads:23:16
+
+ info: range check proved
+--> worldline-producer_values.ads:25:26
+
+ info: range check proved
+--> worldline-producer_values.ads:25:68
+
+ info: overflow check proved
+--> worldline-producer_values.ads:25:76
+
+ info: implicit aspect Always_Terminates on "Number_Image" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:28:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:29:11
+
+ info: implicit aspect Always_Terminates on "Field" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:30:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:31:11
+
+ info: postcondition proved
+--> worldline-producer_values.ads:32:16
+
+ info: range check proved
+--> worldline-producer_values.ads:33:88
+
+ info: implicit aspect Always_Terminates on "Element" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:34:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:35:11
+
+ info: postcondition proved
+--> worldline-producer_values.ads:36:16
+
+ info: range check proved
+--> worldline-producer_values.ads:37:92
+
+ info: implicit aspect Always_Terminates on "Count" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:38:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:39:11
+
+ info: postcondition proved
+--> worldline-producer_values.ads:40:16
+
+ info: range check proved
+--> worldline-producer_values.ads:40:67
+
+ info: implicit aspect Always_Terminates on "Text" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:41:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:41:66
+
+ info: implicit aspect Always_Terminates on "Is_Text" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:42:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:43:11
+
+ info: implicit aspect Always_Terminates on "Is_True" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:44:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:44:70
+
+ info: implicit aspect Always_Terminates on "Is_False" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:45:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:45:71
+
+ info: implicit aspect Always_Terminates on "Is_Null" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:46:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:47:11
+
+ info: implicit aspect Always_Terminates on "Present" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:48:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:49:11
+
+ info: implicit aspect Always_Terminates on "Nonempty_Text" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:50:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:51:11
+
+ info: implicit aspect Always_Terminates on "Equal" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:52:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:53:11
+
+ info: range check proved
+--> worldline-producer_values.ads:56:39
+
+ info: range check proved
+--> worldline-producer_values.ads:56:99
+
+ info: implicit aspect Always_Terminates on "Truth" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:57:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:57:68
+
+ info: implicit aspect Always_Terminates on "Decimal" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:58:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:58:69
+
+ info: implicit aspect Always_Terminates on "Nonnegative" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:59:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:60:11
+
+ info: implicit aspect Always_Terminates on "Slice" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:61:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:62:11
+
+ info: postcondition proved
+--> worldline-producer_values.ads:63:16
+
+ info: range check proved
+--> worldline-producer_values.ads:65:64
+
+ info: range check proved
+--> worldline-producer_values.ads:66:28
+
+ info: overflow check proved
+--> worldline-producer_values.ads:66:48
+
+ info: overflow check proved
+--> worldline-producer_values.ads:66:61
+
+ info: implicit aspect Always_Terminates on "Member_Name" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:68:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:69:26
+
+ info: implicit aspect Always_Terminates on "Field" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:70:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:70:60
+
+ info: implicit aspect Always_Terminates on "Element" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:71:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:71:73
+
+ info: implicit aspect Always_Terminates on "Text" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:72:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:72:53
+
+ info: implicit aspect Always_Terminates on "Kind" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:73:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:73:57
+
+ info: implicit aspect Always_Terminates on "Count" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:74:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:74:55
+
+ info: implicit aspect Always_Terminates on "Truth" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:75:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:75:55
+
+ info: implicit aspect Always_Terminates on "Equal" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:76:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:76:62
+
+ info: implicit aspect Always_Terminates on "Quote" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:77:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:77:54
+
+ info: implicit aspect Always_Terminates on "Python_String" has been proved, subprogram will terminate
+--> worldline-producer_values.ads:78:13
+
+ info: data dependencies proved
+--> worldline-producer_values.ads:78:63

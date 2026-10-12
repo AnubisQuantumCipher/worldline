@@ -1,0 +1,77 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-----------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total       Flow                                           Provers   Justified   Unproved
+-----------------------------------------------------------------------------------------------------------------------
+Data Dependencies                36         36                                                 .           .          .
+Flow Dependencies                 .          .                                                 .           .          .
+Initialization                    3          3                                                 .           .          .
+Non-Aliasing                      .          .                                                 .           .          .
+Run-time Checks                 907          .    907 (CVC5 50%, Trivial 48%, Z3 3%, altergo 0%)           .          .
+Assertions                      132          .    131 (CVC5 83%, Trivial 1%, Z3 14%, altergo 1%)           .          1
+Functional Contracts             64          .     63 (CVC5 76%, Trivial 14%, Z3 7%, altergo 2%)           .          1
+LSP Verification                  .          .                                                 .           .          .
+Termination                      47         36                                         11 (CVC5)           .          .
+Concurrency                       .          .                                                 .           .          .
+-----------------------------------------------------------------------------------------------------------------------
+Total                          1189    75 (6%)                                        1112 (94%)           .     2 (0%)
+
+
+max steps used for successful proof: 72036
+
+============================
+Most difficult proved checks
+============================
+
+worldline-resources.adb:747:13: assertion proved in max 3 seconds
+worldline-resources.adb:541:13: assertion proved in max 2 seconds
+worldline-resources.adb:769:13: assertion proved in max 2 seconds
+worldline-resources.adb:600:10: assertion proved in max 1 seconds
+worldline-resources.ads:111:19: postcondition proved in max 1 seconds
+worldline-resources.adb:645:10: assertion proved in max 1 seconds
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-resources, 37 subprograms and packages out of 37 analyzed
+  Worldline.Resources at worldline-resources.ads:4 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Resources.Addition_Column at worldline-resources.adb:357 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (52 checks)
+  Worldline.Resources.Can_Reserve at worldline-resources.ads:108 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (91 checks)
+  Worldline.Resources.Close_Mismatch_Column at worldline-resources.adb:609 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (65 checks)
+  Worldline.Resources.Close_Reserve_Column at worldline-resources.adb:558 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (56 checks)
+  Worldline.Resources.Compare_Extensions at worldline-resources.adb:296 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (43 checks)
+  Worldline.Resources.Complete_Prefix at worldline-resources.adb:154 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Resources.Digit_At at worldline-resources.ads:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Resources.Extended_Digit_Bound at worldline-resources.adb:271 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Worldline.Resources.Fits_By_Addition at worldline-resources.ads:102 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (63 checks)
+  Worldline.Resources.Fits_Mathematically at worldline-resources.ads:72 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Resources.Low_Prefix_Exact at worldline-resources.adb:182 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Resources.Magnitude at worldline-resources.ads:68 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resources.Matching_Prefix at worldline-resources.adb:233 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Resources.Mismatching_Sum_Column at worldline-resources.adb:701 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (121 checks)
+  Worldline.Resources.Positive_Multiple at worldline-resources.adb:71 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Resources.Power_Model at worldline-resources.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Resources.Power_Order at worldline-resources.adb:134 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (25 checks)
+  Worldline.Resources.Power_Quotient at worldline-resources.adb:9 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Worldline.Resources.Prefix_Growth at worldline-resources.adb:166 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Resources.Prefix_Model at worldline-resources.ads:50 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Worldline.Resources.Prefix_Modulus at worldline-resources.adb:195 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (27 checks)
+  Worldline.Resources.Prefix_Quotient at worldline-resources.adb:33 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (35 checks)
+  Worldline.Resources.Prefix_Step at worldline-resources.adb:250 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Worldline.Resources.Prefix_Value at worldline-resources.ads:62 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Resources.Radix_Power at worldline-resources.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 9 checks out of 10 proved
+  Worldline.Resources.Remainder_From_Witness at worldline-resources.adb:92 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (26 checks)
+  Worldline.Resources.Reserve_Conforms at worldline-resources.ads:153 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resources.Reserve_Mathematically_Conforms at worldline-resources.ads:134 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Resources.Reserve_Prefix_Step at worldline-resources.adb:652 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (28 checks)
+  Worldline.Resources.Subtract_Column at worldline-resources.ads:86 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Resources.Subtraction_Column at worldline-resources.adb:403 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (52 checks)
+  Worldline.Resources.Sum_Equals at worldline-resources.ads:117 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (38 checks)
+  Worldline.Resources.Sum_Modulus at worldline-resources.adb:448 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (59 checks)
+  Worldline.Resources.Sum_Prefix_Step at worldline-resources.adb:482 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (99 checks)
+  Worldline.Resources.Try_Reserve at worldline-resources.ads:171 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 53 checks out of 54 proved
+  Worldline.Resources.Value_Modulus at worldline-resources.adb:220 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)

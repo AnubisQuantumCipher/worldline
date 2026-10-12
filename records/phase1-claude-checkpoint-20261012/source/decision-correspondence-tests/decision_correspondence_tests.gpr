@@ -1,0 +1,15 @@
+with "../core/worldline_core_sources.gpr";
+project Decision_Correspondence_Tests is
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/decision-correspondence-tests";
+   for Exec_Dir use "../obj/decision-correspondence-tests";
+   for Main use ("test_completion_correspondence.adb",
+                 "test_transition_correspondence.adb",
+                 "test_history_correspondence.adb",
+                 "test_raw_roster_correspondence.adb",
+                 "test_run_metadata_correspondence.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+end Decision_Correspondence_Tests;

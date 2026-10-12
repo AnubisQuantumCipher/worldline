@@ -1,0 +1,18 @@
+test_retained_finalization_agent_matches_actual_context (test_finalization_agent_binding.FinalizationAgentBindingControls.test_retained_finalization_agent_matches_actual_context) ... FAIL
+
+======================================================================
+FAIL: test_retained_finalization_agent_matches_actual_context (test_finalization_agent_binding.FinalizationAgentBindingControls.test_retained_finalization_agent_matches_actual_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/rt-tree/tests/test_finalization_agent_binding.py", line 50, in test_retained_finalization_agent_matches_actual_context
+    self.assertEqual(self.joined_decision(case), 'AUTHORIZED')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'INVALID_REQUEST' != 'AUTHORIZED'
+- INVALID_REQUEST
++ AUTHORIZED
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.072s
+
+FAILED (failures=1)

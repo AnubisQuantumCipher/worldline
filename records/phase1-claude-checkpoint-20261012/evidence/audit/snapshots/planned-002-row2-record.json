@@ -1,0 +1,76 @@
+{
+ "index": 2,
+ "source": "planned",
+ "mode": "row2",
+ "argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-j2",
+  "-P",
+  "pending-component/pending.gpr"
+ ],
+ "cwd": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source",
+ "child_receipt_dir": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/evidence/pending-build-v1",
+ "child_deadline_seconds": 1800,
+ "environment": {
+  "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin",
+  "HOME": "/home/sicarii",
+  "LANG": "en_US.UTF-8",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "TMPDIR": "/home/sicarii/.cache/workflow-tmp",
+  "GNAT_ROOT": "/home/sicarii/opt/gnat",
+  "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+  "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime:/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "WORLDLINE_BUILD": "checks",
+  "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/libworldline_core.so",
+  "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/lib/pending-standalone",
+  "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/obj/pending-standalone"
+ },
+ "scope_argv": [
+  "systemd-run",
+  "--user",
+  "--scope",
+  "-q",
+  "-p",
+  "MemoryMax=8G",
+  "-p",
+  "MemorySwapMax=0",
+  "--unit",
+  "phase1-roster-planned-002-1446240",
+  "timeout",
+  "-s",
+  "KILL",
+  "1800"
+ ],
+ "depends_on": "Root complete source/independent review and fresh current tool/vendor/environment/manager/storage/capacity/lane gate before any target action.",
+ "original_child_argv": [
+  "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+  "-p",
+  "-j2",
+  "-P",
+  "pending-component/pending.gpr"
+ ],
+ "original_cwd": "/home/sicarii/Documents/Codex/2026-10-03/read-the-two-files-and-follow/work/claude-lead-isolation-v1/wt-1/records/codex-resumption-20261007/codex-takeover-20261010/runtime-frame-successor-v20-ultra-v1-draft/candidate/source",
+ "executed_binary_sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb",
+ "script_sha256": null,
+ "started_at": "2026-10-12T07:50:20.034843+00:00",
+ "exit_code": 0,
+ "launch_error": null,
+ "deadline_killed": false,
+ "ended_at": "2026-10-12T07:50:21.599497+00:00",
+ "wall_seconds": 1.565,
+ "stdout.bin": {
+  "bytes": 632,
+  "sha256": "269ed98614a413e49b117c19fb62ffa44a16e91cadf0b6c322482815e4ca4a34",
+  "tail": "irectory for project Pending\n   [mkdir]        library directory for project Pending\nCompile\n   [Ada]          evaluation_epoch.adb\n   [Ada]          evaluation_pending_c.adb\n   [Ada]          resource_quantities.adb\n   [Ada]          evaluation_pending_v2.adb\n   [Ada]          evaluation_pending_v2_c.adb\n   [Ada]          evaluation_pending.adb\n   [Ada]          spark-big_integers.ads\n   [Ada]          spark.ads\nBuild Libraries\n   [gprlib]       evaluation_pending.lexch\n   [bind SAL]     evaluation_pending\n   [Ada]          b__evaluation_pending.adb\n   [link library] libevaluation_pending.so\n"
+ },
+ "stderr.bin": {
+  "bytes": 1521,
+  "sha256": "17734812588d77a569e378fd394fbb8faff8ad4e9e2f4afd8713d5b611c22d69",
+  "tail": "er \"Next\" is not referenced [-gnatwf]\nevaluation_pending_v2_c.adb:1:06: warning: redundant with clause in body [-gnatwr]\nevaluation_pending_v2_c.adb:9:04: warning: \"Integer_64\" is already use-visible through previous use_type_clause at evaluation_pending_v2_c.ads:10 [-gnatwr]\nevaluation_pending_v2_c.adb:9:04: warning: use clause for type \"I64\" defined at evaluation_pending_v2_c.ads:8 has no effect [-gnatwu]\nevaluation_pending_v2_c.adb:100:23: warning: condition can only be False if invalid values present [-gnatwc]\nevaluation_pending_v2_c.adb:100:23: warning: condition is always True [-gnatwc]\n"
+ },
+ "library_sha256_after": null,
+ "child_receipt_files": []
+}

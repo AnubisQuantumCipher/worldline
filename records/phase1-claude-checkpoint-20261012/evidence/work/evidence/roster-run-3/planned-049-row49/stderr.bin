@@ -1,0 +1,17 @@
+setUpClass (test_recovery_witness_relation_v3.FullDomainRecoveryRelationTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_recovery_witness_relation_v3.FullDomainRecoveryRelationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests/test_recovery_witness_relation_v3.py", line 38, in setUpClass
+    cls.kernel = RecoveryAuthorityKernelV3(cls.core)
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_authority_kernel_v3.py", line 120, in __init__
+    raise CoreUnavailable('full-domain recovery layout differs')
+worldline.errors.CoreUnavailable: CORE_UNAVAILABLE: full-domain recovery layout differs
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.004s
+
+FAILED (errors=1)

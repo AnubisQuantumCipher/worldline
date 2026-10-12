@@ -1,0 +1,117 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                                          Provers   Justified   Unproved
+------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                59           59                                                .           .          .
+Flow Dependencies                 .            .                                                .           .          .
+Initialization                   37           31                             6 (CVC5 83%, Z3 17%)           .          .
+Non-Aliasing                      6            6                                                .           .          .
+Run-time Checks                 584            .               584 (CVC5 80%, Z3 20%, altergo 0%)           .          .
+Assertions                       44            .                44 (CVC5 64%, Z3 30%, altergo 5%)           .          .
+Functional Contracts             84            .    84 (CVC5 70%, Trivial 7%, Z3 22%, altergo 1%)           .          .
+LSP Verification                  .            .                                                .           .          .
+Termination                     121           61                60 (CVC5 8%, Z3 67%, altergo 25%)           .          .
+Concurrency                       .            .                                                .           .          .
+------------------------------------------------------------------------------------------------------------------------
+Total                           935    157 (17%)                                        778 (83%)           .          .
+
+
+max steps used for successful proof: 8755
+
+============================
+Most difficult proved checks
+============================
+
+worldline-custody_v2_k4_resource_ack.adb:586:52: use of an uninitialized variable proved in max 2 seconds
+worldline-custody_v2_k4_resource_ack.adb:574:33: loop invariant after first iteration proved in max 2 seconds
+worldline-custody_v2_k4_resource_ack.adb:579:33: loop invariant after first iteration proved in max 1 seconds
+worldline-custody_v2_k4_resource_ack.adb:586:77: use of an uninitialized variable proved in max 1 seconds
+worldline-custody_v2_k4_resource_ack.adb:586:65: use of an uninitialized variable proved in max 1 seconds
+worldline-custody_v2_k4_resource_ack.adb:569:33: loop invariant after first iteration proved in max 1 seconds
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-custody_v2_k4_resource_ack, 77 subprograms and packages out of 77 analyzed
+  Worldline.Custody_V2_K4_Resource_Ack at worldline-custody_v2_k4_resource_ack.ads:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Authenticated at worldline-custody_v2_k4_resource_ack.ads:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Authenticated at worldline-custody_v2_k4_resource_ack.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Authenticated_From_Data at worldline-custody_v2_k4_resource_ack.adb:1346 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Bound at worldline-custody_v2_k4_resource_ack.adb:1290 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Bytes_OK at worldline-custody_v2_k4_resource_ack.adb:126 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Bytes_Of at worldline-custody_v2_k4_resource_ack.adb:139 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Count at worldline-custody_v2_k4_resource_ack.adb:48 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Current_Authenticated at worldline-custody_v2_k4_resource_ack.ads:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Current_Matches at worldline-custody_v2_k4_resource_ack.ads:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.DTO_Matches at worldline-custody_v2_k4_resource_ack.adb:629 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (61 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Dictionary_Count at worldline-custody_v2_k4_resource_ack.adb:783 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Digest_Matches at worldline-custody_v2_k4_resource_ack.adb:176 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Direct_Authenticated at worldline-custody_v2_k4_resource_ack.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Direct_Authenticated at worldline-custody_v2_k4_resource_ack.ads:48 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Dispatch at worldline-custody_v2_k4_resource_ack.adb:1302 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Element at worldline-custody_v2_k4_resource_ack.adb:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Equal_Record at worldline-custody_v2_k4_resource_ack.adb:938 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Equal_Value at worldline-custody_v2_k4_resource_ack.adb:923 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Establish_From_Data at worldline-custody_v2_k4_resource_ack.adb:1248 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Establish_History at worldline-custody_v2_k4_resource_ack.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Hex at worldline-custody_v2_k4_resource_ack.adb:165 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Hex_OK at worldline-custody_v2_k4_resource_ack.adb:158 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.JA at worldline-custody_v2_k4_resource_ack.adb:97 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.JC at worldline-custody_v2_k4_resource_ack.adb:68 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.JT at worldline-custody_v2_k4_resource_ack.adb:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Joined at worldline-custody_v2_k4_resource_ack.adb:192 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Match at worldline-custody_v2_k4_resource_ack.adb:121 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Member at worldline-custody_v2_k4_resource_ack.adb:622 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Nibble at worldline-custody_v2_k4_resource_ack.adb:156 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Operation_Matches at worldline-custody_v2_k4_resource_ack.adb:755 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Ordinal_Is at worldline-custody_v2_k4_resource_ack.adb:187 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ack_Matches at worldline-custody_v2_k4_resource_ack.adb:1173 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_History at worldline-custody_v2_k4_resource_ack.adb:827 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (74 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready at worldline-custody_v2_k4_resource_ack.adb:340 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (48 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Append at worldline-custody_v2_k4_resource_ack.adb:357 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Binding at worldline-custody_v2_k4_resource_ack.adb:466 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Charge_Kind at worldline-custody_v2_k4_resource_ack.adb:414 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Context at worldline-custody_v2_k4_resource_ack.adb:450 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Epoch at worldline-custody_v2_k4_resource_ack.adb:406 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Id at worldline-custody_v2_k4_resource_ack.adb:378 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Liveness at worldline-custody_v2_k4_resource_ack.adb:432 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Native at worldline-custody_v2_k4_resource_ack.adb:523 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Null_Is at worldline-custody_v2_k4_resource_ack.adb:346 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Operation at worldline-custody_v2_k4_resource_ack.adb:441 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Phase at worldline-custody_v2_k4_resource_ack.adb:423 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Quantity at worldline-custody_v2_k4_resource_ack.adb:389 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Request at worldline-custody_v2_k4_resource_ack.adb:538 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Row at worldline-custody_v2_k4_resource_ack.adb:483 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.Shape at worldline-custody_v2_k4_resource_ack.adb:348 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Ready.State at worldline-custody_v2_k4_resource_ack.adb:509 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Record at worldline-custody_v2_k4_resource_ack.adb:606 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Original_Terminal_Matches at worldline-custody_v2_k4_resource_ack.adb:769 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Path at worldline-custody_v2_k4_resource_ack.adb:203 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Payload_OK at worldline-custody_v2_k4_resource_ack.adb:589 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Plain_Hex at worldline-custody_v2_k4_resource_ack.adb:227 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Plain_Hex_Matches at worldline-custody_v2_k4_resource_ack.adb:230 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Plain_Is at worldline-custody_v2_k4_resource_ack.adb:224 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Prepared_History at worldline-custody_v2_k4_resource_ack.ads:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Raw_Same at worldline-custody_v2_k4_resource_ack.adb:117 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Record_Name_Is at worldline-custody_v2_k4_resource_ack.adb:596 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Reply_Matches at worldline-custody_v2_k4_resource_ack.adb:808 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Rows_Match at worldline-custody_v2_k4_resource_ack.adb:325 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.SF at worldline-custody_v2_k4_resource_ack.adb:992 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Scalar_Matches at worldline-custody_v2_k4_resource_ack.adb:632 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Scoped_Ack_Matches at worldline-custody_v2_k4_resource_ack.adb:1209 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Scoped_History at worldline-custody_v2_k4_resource_ack.adb:1008 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (151 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Scoped_Match at worldline-custody_v2_k4_resource_ack.adb:123 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Scoped_Terminal_Matches at worldline-custody_v2_k4_resource_ack.adb:971 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Selected_Config at worldline-custody_v2_k4_resource_ack.adb:233 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (71 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Snapshot_Matches at worldline-custody_v2_k4_resource_ack.adb:994 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Source_Matches at worldline-custody_v2_k4_resource_ack.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Sum at worldline-custody_v2_k4_resource_ack.adb:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Table at worldline-custody_v2_k4_resource_ack.adb:296 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Text at worldline-custody_v2_k4_resource_ack.adb:42 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Text_Digest at worldline-custody_v2_k4_resource_ack.adb:792 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Custody_V2_K4_Resource_Ack.Typed_Record at worldline-custody_v2_k4_resource_ack.adb:615 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)

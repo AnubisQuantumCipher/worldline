@@ -1,0 +1,161 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                                           Provers   Justified   Unproved
+-------------------------------------------------------------------------------------------------------------------------
+Data Dependencies               103          103                                                 .           .          .
+Flow Dependencies                 .            .                                                 .           .          .
+Initialization                   54           54                                                 .           .          .
+Non-Aliasing                      .            .                                                 .           .          .
+Run-time Checks                 741            .                 741 (CVC5 92%, Z3 7%, altergo 0%)           .          .
+Assertions                       46            .                 46 (CVC5 72%, Z3 20%, altergo 8%)           .          .
+Functional Contracts            176            .    176 (CVC5 85%, Trivial 4%, Z3 10%, altergo 1%)           .          .
+LSP Verification                  .            .                                                 .           .          .
+Termination                     188          116                              72 (CVC5 99%, Z3 1%)           .          .
+Concurrency                       .            .                                                 .           .          .
+-------------------------------------------------------------------------------------------------------------------------
+Total                          1308    273 (21%)                                        1035 (79%)           .          .
+
+
+max steps used for successful proof: 8427
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-custody_v2_operation_journal, 126 subprograms and packages out of 126 analyzed
+  Worldline.Custody_V2_Operation_Journal at worldline-custody_v2_operation_journal.ads:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Append_Allowed at worldline-custody_v2_operation_journal.ads:98 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Artifact_Absent at worldline-custody_v2_operation_journal.adb:2363 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Artifact_Present at worldline-custody_v2_operation_journal.adb:2376 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Authenticated at worldline-custody_v2_operation_journal.ads:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (56 checks)
+  Worldline.Custody_V2_Operation_Journal.Authenticated at worldline-custody_v2_operation_journal.ads:101 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.B64_Span at worldline-custody_v2_operation_journal.adb:2004 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Bootstrap_Decide at worldline-custody_v2_operation_journal.ads:115 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Bootstrap_Frame_Corresponds at worldline-custody_v2_operation_journal.adb:2403 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Bootstrap_Head_Matches at worldline-custody_v2_operation_journal.adb:2581 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Custody_V2_Operation_Journal.Bootstrap_Path at worldline-custody_v2_operation_journal.adb:2445 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Boundaries_Correspond at worldline-custody_v2_operation_journal.adb:780 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.Byte_At at worldline-custody_v2_operation_journal.adb:2125 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Operation_Journal.Bytes_Of at worldline-custody_v2_operation_journal.adb:233 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Custody_V2_Operation_Journal.Bytes_Text at worldline-custody_v2_operation_journal.adb:2275 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Candidate_History at worldline-custody_v2_operation_journal.adb:1812 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (65 checks)
+  Worldline.Custody_V2_Operation_Journal.Canonical_1 at worldline-custody_v2_operation_journal.adb:2022 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (23 checks)
+  Worldline.Custody_V2_Operation_Journal.Canonical_Chain_Corresponds at worldline-custody_v2_operation_journal.adb:901 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (23 checks)
+  Worldline.Custody_V2_Operation_Journal.Cause at worldline-custody_v2_operation_journal.adb:201 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Chain_Witness_Matches at worldline-custody_v2_operation_journal.adb:972 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_Operation_Journal.Chains_Correspond at worldline-custody_v2_operation_journal.adb:1067 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (54 checks)
+  Worldline.Custody_V2_Operation_Journal.Chains_Correspond.Ack_Intent at worldline-custody_v2_operation_journal.adb:1123 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (30 checks)
+  Worldline.Custody_V2_Operation_Journal.Chains_Correspond.Canonical_Intent_Valid at worldline-custody_v2_operation_journal.adb:1093 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Custody_V2_Operation_Journal.Chains_Correspond.Name at worldline-custody_v2_operation_journal.adb:1076 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Chains_Correspond.Unique at worldline-custody_v2_operation_journal.adb:1079 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Context at worldline-custody_v2_operation_journal.adb:1313 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Creation_Matches at worldline-custody_v2_operation_journal.adb:2640 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Current_Authenticated at worldline-custody_v2_operation_journal.adb:1495 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Current_Authenticated at worldline-custody_v2_operation_journal.ads:60 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.Database_Mode at worldline-custody_v2_operation_journal.adb:2481 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Decimal at worldline-custody_v2_operation_journal.adb:2197 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Decoded_1 at worldline-custody_v2_operation_journal.adb:2007 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Digest_JSON at worldline-custody_v2_operation_journal.adb:159 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Operation_Journal.Digest_Text at worldline-custody_v2_operation_journal.adb:156 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Domain_Hash at worldline-custody_v2_operation_journal.adb:766 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Custody_V2_Operation_Journal.Element at worldline-custody_v2_operation_journal.adb:252 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Empty_Created_File at worldline-custody_v2_operation_journal.adb:2538 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Empty_Created_Schema at worldline-custody_v2_operation_journal.adb:2548 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Worldline.Custody_V2_Operation_Journal.Envelope_Authenticated at worldline-custody_v2_operation_journal.ads:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Establish at worldline-custody_v2_operation_journal.ads:35 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Establish at worldline-custody_v2_operation_journal.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Established at worldline-custody_v2_operation_journal.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Expected_Length at worldline-custody_v2_operation_journal.adb:2043 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Custody_V2_Operation_Journal.FD_Matches at worldline-custody_v2_operation_journal.adb:2314 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Hash_Value at worldline-custody_v2_operation_journal.adb:717 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Head_Action at worldline-custody_v2_operation_journal.ads:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Head_Corresponds at worldline-custody_v2_operation_journal.adb:432 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (25 checks)
+  Worldline.Custody_V2_Operation_Journal.Head_Fact at worldline-custody_v2_operation_journal.adb:1514 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Custody_V2_Operation_Journal.Hex_Id at worldline-custody_v2_operation_journal.adb:743 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Custody_V2_Operation_Journal.Hex_Matches at worldline-custody_v2_operation_journal.adb:144 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Operation_Journal.History_Corresponds at worldline-custody_v2_operation_journal.adb:528 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (74 checks)
+  Worldline.Custody_V2_Operation_Journal.Identity_Same at worldline-custody_v2_operation_journal.adb:2295 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Internal_Table_Name at worldline-custody_v2_operation_journal.adb:306 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Is_Minus_One at worldline-custody_v2_operation_journal.adb:2183 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.Is_Number at worldline-custody_v2_operation_journal.adb:2178 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Issuer_Key at worldline-custody_v2_operation_journal.adb:1315 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Issuer_Key at worldline-custody_v2_operation_journal.adb:1324 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.JA at worldline-custody_v2_operation_journal.adb:95 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Operation_Journal.JF at worldline-custody_v2_operation_journal.adb:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.JSON at worldline-custody_v2_operation_journal.adb:60 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.JSON_Count at worldline-custody_v2_operation_journal.adb:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Custody_V2_Operation_Journal.JSON_Is at worldline-custody_v2_operation_journal.adb:138 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.JSON_Keys at worldline-custody_v2_operation_journal.adb:119 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Custody_V2_Operation_Journal.JSON_Matches at worldline-custody_v2_operation_journal.adb:140 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Joined at worldline-custody_v2_operation_journal.adb:278 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.Custody_V2_Operation_Journal.Journal_Proof at worldline-custody_v2_operation_journal.ads:122 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Native_Identity_Corresponds at worldline-custody_v2_operation_journal.adb:501 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Native_Identity_Corresponds.Digest_Field at worldline-custody_v2_operation_journal.adb:506 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Native_Identity_Corresponds.Payload_Digest at worldline-custody_v2_operation_journal.adb:512 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Native_Item at worldline-custody_v2_operation_journal.adb:483 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Nibble at worldline-custody_v2_operation_journal.adb:738 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Number at worldline-custody_v2_operation_journal.adb:2149 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest at worldline-custody_v2_operation_journal.adb:1556 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (117 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.Bit at worldline-custody_v2_operation_journal.adb:1576 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.Cell at worldline-custody_v2_operation_journal.adb:1597 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.Identity at worldline-custody_v2_operation_journal.adb:1591 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.Number at worldline-custody_v2_operation_journal.adb:1564 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.Quantity at worldline-custody_v2_operation_journal.adb:1586 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.SQL at worldline-custody_v2_operation_journal.adb:1608 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.Span at worldline-custody_v2_operation_journal.adb:1581 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Operand_Digest.Spans at worldline-custody_v2_operation_journal.adb:1619 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Original_Bytes at worldline-custody_v2_operation_journal.adb:807 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Original_Text at worldline-custody_v2_operation_journal.adb:728 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Other_Sources_Unchanged at worldline-custody_v2_operation_journal.adb:2609 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Padding_1 at worldline-custody_v2_operation_journal.adb:2013 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Operation_Journal.Parent_Matches at worldline-custody_v2_operation_journal.adb:2351 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Parent_Path_Matches at worldline-custody_v2_operation_journal.adb:2338 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Operation_Journal.Path_Entry at worldline-custody_v2_operation_journal.adb:262 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Prefix_Chains_Correspond at worldline-custody_v2_operation_journal.adb:1013 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_Operation_Journal.Prefix_Chains_Correspond.Name at worldline-custody_v2_operation_journal.adb:1019 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Prefix_Chains_Correspond.Unique at worldline-custody_v2_operation_journal.adb:1022 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Preparations_Complete at worldline-custody_v2_operation_journal.ads:76 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Preparations_Fact at worldline-custody_v2_operation_journal.adb:1527 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Worldline.Custody_V2_Operation_Journal.Private_Identity at worldline-custody_v2_operation_journal.adb:2285 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Operation_Journal.Proc_Word at worldline-custody_v2_operation_journal.adb:2214 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (35 checks)
+  Worldline.Custody_V2_Operation_Journal.Profile_Authenticated at worldline-custody_v2_operation_journal.adb:1359 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (45 checks)
+  Worldline.Custody_V2_Operation_Journal.Raw_Current_Authenticated at worldline-custody_v2_operation_journal.adb:1470 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.Raw_Hex at worldline-custody_v2_operation_journal.adb:222 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Custody_V2_Operation_Journal.Raw_Same at worldline-custody_v2_operation_journal.adb:52 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Operation_Journal.Receipt at worldline-custody_v2_operation_journal.adb:2325 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Recovery_Decide at worldline-custody_v2_operation_journal.ads:87 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Custody_V2_Operation_Journal.Recovery_Decide at worldline-custody_v2_operation_journal.ads:92 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Recovery_Decide.Has_Boundary at worldline-custody_v2_operation_journal.adb:1926 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Operation_Journal.Row_Bytes at worldline-custody_v2_operation_journal.adb:423 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Row_Value at worldline-custody_v2_operation_journal.adb:311 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.SQL_Files_Match at worldline-custody_v2_operation_journal.adb:2493 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Operation_Journal.Same at worldline-custody_v2_operation_journal.adb:49 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Scalar at worldline-custody_v2_operation_journal.adb:2101 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Custody_V2_Operation_Journal.Scalar_OK at worldline-custody_v2_operation_journal.adb:2091 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Custody_V2_Operation_Journal.Sequence_Count at worldline-custody_v2_operation_journal.adb:242 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Slot_Metadata_Matches at worldline-custody_v2_operation_journal.adb:2459 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Source_Canonical_Rows at worldline-custody_v2_operation_journal.adb:816 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (19 checks)
+  Worldline.Custody_V2_Operation_Journal.Space at worldline-custody_v2_operation_journal.adb:2194 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Startup_Decide at worldline-custody_v2_operation_journal.ads:47 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Startup_Decide at worldline-custody_v2_operation_journal.ads:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.Stat_PID at worldline-custody_v2_operation_journal.adb:2262 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Custody_V2_Operation_Journal.State_Is at worldline-custody_v2_operation_journal.adb:212 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Store_Identity_Corresponds at worldline-custody_v2_operation_journal.adb:1326 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Operation_Journal.Suffix_Entry at worldline-custody_v2_operation_journal.adb:290 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Operation_Journal.Sync_Matches at worldline-custody_v2_operation_journal.adb:2676 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.Table_Row at worldline-custody_v2_operation_journal.adb:325 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)
+  Worldline.Custody_V2_Operation_Journal.Transition_Allowed at worldline-custody_v2_operation_journal.ads:19 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Operation_Journal.View_Byte at worldline-custody_v2_operation_journal.adb:2055 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (38 checks)
+  Worldline.Custody_V2_Operation_Journal.View_Canonical at worldline-custody_v2_operation_journal.adb:2036 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Operation_Journal.View_Length at worldline-custody_v2_operation_journal.adb:2051 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Custody_V2_Operation_Journal.Visibility at worldline-custody_v2_operation_journal.adb:309 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)

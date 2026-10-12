@@ -1,0 +1,2139 @@
+ info: implicit aspect Always_Terminates on "Length" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:21:13
+
+ info: implicit aspect Always_Terminates on "Byte_At" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:23:13
+
+ info: initialization of "Prior" proved
+--> worldline-startup_installation.adb:26:07
+
+ info: initialization of "N" proved
+--> worldline-startup_installation.adb:27:07
+
+ info: initialization of "Padding" proved
+--> worldline-startup_installation.adb:27:10
+
+ info: range check proved
+--> worldline-startup_installation.adb:30:36
+
+ info: subprogram variant proved
+--> worldline-startup_installation.adb:31:12
+
+ info: range check proved
+--> worldline-startup_installation.adb:33:31
+
+ medium: range check might fail, cannot prove lower bound for N - 2
+--> worldline-startup_installation.adb:34:34
+   34 |          elsif Byte_At (D, Prior, N - 2) = Character'Pos ('=') then Padding := 2;
+      |                                   ~~^~~
+      + reason for check: input value must fit in parameter type
+      + provers reached time limit before completing the proof
+
+ info: division check proved
+--> worldline-startup_installation.adb:36:17
+
+ medium: range check might fail, cannot prove lower bound for (N / 4) * 3 - Padding
+--> worldline-startup_installation.adb:36:26
+   36 |          return (N / 4) * 3 - Padding;
+      |                 ~~~~~~~~~~~~^~~~~~~~~
+      + reason for check: returned value must fit in the result type of the function
+      + provers reached time limit before completing the proof
+
+ info: initialization of "Prior" proved
+--> worldline-startup_installation.adb:39:07
+
+ info: initialization of "At_Quartet" proved
+--> worldline-startup_installation.adb:40:07
+
+ high: overflow check might fail, cannot prove upper bound for X.Encoded.First + I
+--> worldline-startup_installation.adb:42:53
+   42 |          if X.Level = 0 then return D (X.Encoded.First + I); end if;
+      |                                        ~~~~~~~~~~~~~~~~^~~
+      + e.g. when I = Count'Last
+      and X = (Encoded => (First => 1, Length => 0), Level => 0)
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: add precondition (X.Encoded.First <= 9223372036854775807 - I) to subprogram at line 23
+   23 |       function Byte_At (D : E.Bytes; X : E.Byte_View; I : E.Count) return E.Q.Byte
+      |                ^
+      + provers reached time limit before completing the proof
+
+ high: array index check might fail
+--> worldline-startup_installation.adb:42:53
+   42 |          if X.Level = 0 then return D (X.Encoded.First + I); end if;
+      |                                        ~~~~~~~~~~~~~~~~^~~
+      + e.g. when D'First = 2
+      and D'Last = 0
+      and I = 0
+      and X = (Encoded => (First => 1, Length => 0), Level => 0)
+      + reason for check: result of addition must be a valid index into the array
+      + possible fix: add precondition (X.Encoded.First <= Byte_Index'Last - I) to subprogram at line 23
+   23 |       function Byte_At (D : E.Bytes; X : E.Byte_View; I : E.Count) return E.Q.Byte
+      |                ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-startup_installation.adb:43:36
+
+ info: division check proved
+--> worldline-startup_installation.adb:44:24
+
+ high: overflow check might fail, cannot prove upper bound for (I / 3) * 4
+--> worldline-startup_installation.adb:44:29
+   44 |          At_Quartet := (I / 3) * 4;
+      |                        ~~~~~~~~^~~
+      + e.g. when I = 6917529027641081856
+      + reason for check: result of multiplication must fit in a 64-bits machine integer
+      + possible fix: add precondition ((I / 3) * 4 <= 9223372036854775807) to subprogram at line 23
+   23 |       function Byte_At (D : E.Bytes; X : E.Byte_View; I : E.Count) return E.Q.Byte
+      |                ^
+      + provers reached time limit before completing the proof
+
+ info: division check proved
+--> worldline-startup_installation.adb:45:14
+
+ medium: precondition might fail
+--> worldline-startup_installation.adb:46:30
+   46 |             when 0 => return B64.Digit (Byte_At (D, Prior, At_Quartet)) * 4 +
+      |                              ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: subprogram variant proved
+--> worldline-startup_installation.adb:46:38
+
+ medium: precondition might fail
+--> worldline-startup_installation.adb:47:15
+   47 |               B64.Digit (Byte_At (D, Prior, At_Quartet + 1)) / 16;
+      |               ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: subprogram variant proved
+--> worldline-startup_installation.adb:47:23
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:47:53
+
+ info: division check proved
+--> worldline-startup_installation.adb:47:59
+
+ medium: precondition might fail
+--> worldline-startup_installation.adb:48:31
+   48 |             when 1 => return (B64.Digit (Byte_At (D, Prior, At_Quartet + 1)) mod 16) * 16 +
+      |                               ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: subprogram variant proved
+--> worldline-startup_installation.adb:48:39
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:48:69
+
+ info: division check proved
+--> worldline-startup_installation.adb:48:75
+
+ medium: precondition might fail
+--> worldline-startup_installation.adb:49:15
+   49 |               B64.Digit (Byte_At (D, Prior, At_Quartet + 2)) / 4;
+      |               ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: subprogram variant proved
+--> worldline-startup_installation.adb:49:23
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:49:53
+
+ info: division check proved
+--> worldline-startup_installation.adb:49:59
+
+ medium: precondition might fail
+--> worldline-startup_installation.adb:50:36
+   50 |             when others => return (B64.Digit (Byte_At (D, Prior, At_Quartet + 2)) mod 4) * 64 +
+      |                                    ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: subprogram variant proved
+--> worldline-startup_installation.adb:50:44
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:50:74
+
+ info: division check proved
+--> worldline-startup_installation.adb:50:80
+
+ medium: precondition might fail
+--> worldline-startup_installation.adb:51:15
+   51 |               B64.Digit (Byte_At (D, Prior, At_Quartet + 3));
+      |               ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: subprogram variant proved
+--> worldline-startup_installation.adb:51:23
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:51:53
+
+ info: implicit aspect Always_Terminates on "Payload" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:54:13
+
+ info: implicit aspect Always_Terminates on "Path_View" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:58:13
+
+ info: implicit aspect Always_Terminates on "Equal" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:59:13
+
+ info: range check proved
+--> worldline-startup_installation.adb:61:16
+
+ info: implicit aspect Always_Terminates on "Same_Text" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:63:13
+
+ info: implicit aspect Always_Terminates on "Raw_Key_Matches" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:66:13
+
+ info: local subprogram "Raw_Key_Matches" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:66:13
+      + add a contract to analyze it separately from calling contexts
+
+ info: implicit aspect Always_Terminates on "Pair_Part" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:72:13
+
+ info: implicit aspect Always_Terminates on "Join_Separator" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:85:13
+
+ info: range check proved
+--> worldline-startup_installation.adb:87:37
+
+ info: implicit aspect Always_Terminates on "Suffix_Skip" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:88:13
+
+ info: index check proved
+--> worldline-startup_installation.adb:89:51
+
+ info: implicit aspect Always_Terminates on "Join_Fits" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:91:13
+
+ info: range check proved
+--> worldline-startup_installation.adb:92:84
+
+ info: implicit aspect Always_Terminates on "Raw_Length" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:93:13
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:94:21
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:94:53
+
+ info: range check proved
+--> worldline-startup_installation.adb:94:70
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:94:79
+
+ info: range check proved
+--> worldline-startup_installation.adb:94:79
+
+ info: implicit aspect Always_Terminates on "Raw_Byte" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:96:13
+
+ info: precondition proved
+--> worldline-startup_installation.adb:97:56
+
+ info: postcondition proved
+--> worldline-startup_installation.adb:98:16
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:105:55
+
+ info: index check proved
+--> worldline-startup_installation.adb:105:55
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:105:68
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:105:72
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:105:84
+
+ info: range check proved
+--> worldline-startup_installation.adb:105:84
+
+ info: implicit aspect Always_Terminates on "Cursor_Steps" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:108:13
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:109:32
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:109:64
+
+ info: range check proved
+--> worldline-startup_installation.adb:109:64
+
+ info: implicit aspect Always_Terminates on "Cursor_Bounded" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:111:13
+
+ info: precondition proved
+--> worldline-startup_installation.adb:112:75
+
+ info: precondition proved
+--> worldline-startup_installation.adb:113:68
+
+ info: implicit aspect Always_Terminates on "Root_Shape" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:119:13
+
+ info: local subprogram "Initialize" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:125:14
+      + add a contract to analyze it separately from calling contexts
+
+ info: initialization of "C" proved
+--> worldline-startup_installation.adb:125:73
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:212
+--> worldline-startup_installation.adb:126:31
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:193
+--> worldline-startup_installation.adb:126:31
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:271
+--> worldline-startup_installation.adb:126:31
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:212
+--> worldline-startup_installation.adb:130:32
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:193
+--> worldline-startup_installation.adb:130:32
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:271
+--> worldline-startup_installation.adb:130:32
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:212
+--> worldline-startup_installation.adb:131:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:212
+--> worldline-startup_installation.adb:131:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:193
+--> worldline-startup_installation.adb:131:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:193
+--> worldline-startup_installation.adb:131:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:271
+--> worldline-startup_installation.adb:131:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:271
+--> worldline-startup_installation.adb:131:33
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:212
+--> worldline-startup_installation.adb:132:31
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:193
+--> worldline-startup_installation.adb:132:31
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:271
+--> worldline-startup_installation.adb:132:31
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:212
+--> worldline-startup_installation.adb:133:29
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:193
+--> worldline-startup_installation.adb:133:29
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:271
+--> worldline-startup_installation.adb:133:29
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:212
+--> worldline-startup_installation.adb:133:49
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:193
+--> worldline-startup_installation.adb:133:49
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:271
+--> worldline-startup_installation.adb:133:49
+
+ info: local subprogram "Next_Path" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:139:14
+      + add a contract to analyze it separately from calling contexts
+
+ info: initialization of "Present" proved
+--> worldline-startup_installation.adb:141:07
+
+ info: initialization of "Value" proved
+--> worldline-startup_installation.adb:141:30
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:143:31
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:143:31
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:143:31
+
+ info: initialization of "First" proved
+--> worldline-startup_installation.adb:144:07
+
+ info: initialization of "First" proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:144:07
+
+ info: initialization of "First" proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:144:07
+
+ info: initialization of "First" proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:144:07
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:148:46
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:148:46
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:148:46
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:151:19
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:151:19
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:151:19
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:151:75
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:151:75
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:151:75
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:156:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:156:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:156:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:156:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:156:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:156:33
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:158:31
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:158:31
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:158:31
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:159:38
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:159:38
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:159:38
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:160:36
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:160:36
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:160:36
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:160:36
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:160:36
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:160:36
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:161:34
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:161:34
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:161:34
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:162:34
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:162:34
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:162:34
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:165:38
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:165:38
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:165:38
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:166:36
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:166:36
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:166:36
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:166:36
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:166:36
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:166:36
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:167:34
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:167:34
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:167:34
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:168:34
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:168:34
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:168:34
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:170:54
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:170:54
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:170:54
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:171:12
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:171:12
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:171:12
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:182:19
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:182:19
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:182:19
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:218
+--> worldline-startup_installation.adb:182:75
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:199
+--> worldline-startup_installation.adb:182:75
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:284
+--> worldline-startup_installation.adb:182:75
+
+ info: implicit aspect Always_Terminates on "Paths_Match" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:187:13
+
+ info: initialization of "CA" proved
+--> worldline-startup_installation.adb:188:07
+
+ info: initialization of "CB" proved
+--> worldline-startup_installation.adb:188:11
+
+ info: initialization of "PA" proved
+--> worldline-startup_installation.adb:189:07
+
+ info: initialization of "PB" proved
+--> worldline-startup_installation.adb:189:11
+
+ info: initialization of "BA" proved
+--> worldline-startup_installation.adb:190:07
+
+ info: initialization of "BB" proved
+--> worldline-startup_installation.adb:190:11
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:192:39
+
+ info: range check proved
+--> worldline-startup_installation.adb:192:47
+
+ info: analyzing call to "Initialize" in context
+--> worldline-startup_installation.adb:193:07
+
+ info: analyzing call to "Initialize" in context
+--> worldline-startup_installation.adb:193:34
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:195:33
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:195:33
+
+ info: loop variant proved
+--> worldline-startup_installation.adb:196:31
+
+ info: precondition proved
+--> worldline-startup_installation.adb:196:44
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:196:66
+
+ info: precondition proved
+--> worldline-startup_installation.adb:197:44
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:197:70
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:198:62
+
+ info: analyzing call to "Next_Path" in context
+--> worldline-startup_installation.adb:199:10
+
+ info: analyzing call to "Next_Path" in context
+--> worldline-startup_installation.adb:199:44
+
+ info: range check proved
+--> worldline-startup_installation.adb:206:73
+
+ info: range check proved
+--> worldline-startup_installation.adb:206:86
+
+ info: range check proved
+--> worldline-startup_installation.adb:207:75
+
+ info: range check proved
+--> worldline-startup_installation.adb:207:89
+
+ info: initialization of "CA" proved
+--> worldline-startup_installation.adb:208:07
+
+ info: initialization of "CB" proved
+--> worldline-startup_installation.adb:208:11
+
+ info: initialization of "PA" proved
+--> worldline-startup_installation.adb:209:07
+
+ info: initialization of "PB" proved
+--> worldline-startup_installation.adb:209:11
+
+ info: initialization of "BA" proved
+--> worldline-startup_installation.adb:210:07
+
+ info: initialization of "BB" proved
+--> worldline-startup_installation.adb:210:11
+
+ info: analyzing call to "Initialize" in context
+--> worldline-startup_installation.adb:212:07
+
+ info: analyzing call to "Initialize" in context
+--> worldline-startup_installation.adb:212:37
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:214:33
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:214:33
+
+ info: loop variant proved
+--> worldline-startup_installation.adb:215:31
+
+ info: precondition proved
+--> worldline-startup_installation.adb:215:44
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:215:69
+
+ info: precondition proved
+--> worldline-startup_installation.adb:216:44
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:216:70
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:217:62
+
+ info: analyzing call to "Next_Path" in context
+--> worldline-startup_installation.adb:218:10
+
+ info: analyzing call to "Next_Path" in context
+--> worldline-startup_installation.adb:218:47
+
+ info: no contextual analysis of "Paths_Match" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:226:07
+
+ info: no contextual analysis of "Paths_Match" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:229:07
+
+ info: implicit aspect Always_Terminates on "Same_Number" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:232:13
+
+ info: implicit aspect Always_Terminates on "Identity_Valid" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:234:13
+
+ info: cannot unroll loop (local non-scalar declaration at line 238) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:237:23
+
+ info: precondition proved
+--> worldline-startup_installation.adb:242:34
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:255
+--> worldline-startup_installation.adb:242:34
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:352
+--> worldline-startup_installation.adb:242:34
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:874, in call inlined at worldline-startup_installation.adb:906
+--> worldline-startup_installation.adb:242:34
+
+ info: implicit aspect Always_Terminates on "Identity_Field" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:247:13
+
+ info: implicit aspect Always_Terminates on "Protected_Identity" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:249:13
+
+ info: no contextual analysis of "Protected_Identity" (call returns unconstrained type)
+--> worldline-startup_installation.adb:250:41
+
+ info: implicit aspect Always_Terminates on "Zero" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:253:16
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:253:81
+
+ info: analyzing call to "Identity_Valid" in context
+--> worldline-startup_installation.adb:255:14
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:257:13
+
+ info: division check proved
+--> worldline-startup_installation.adb:257:20
+
+ info: division check proved
+--> worldline-startup_installation.adb:257:25
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:257:48
+
+ info: division check proved
+--> worldline-startup_installation.adb:257:55
+
+ info: division check proved
+--> worldline-startup_installation.adb:257:59
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:258:13
+
+ info: division check proved
+--> worldline-startup_installation.adb:258:20
+
+ info: division check proved
+--> worldline-startup_installation.adb:258:27
+
+ info: implicit aspect Always_Terminates on "Canonical_Absolute" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:260:13
+
+ info: postcondition proved
+--> worldline-startup_installation.adb:261:19
+
+ info: initialization of "C" proved
+--> worldline-startup_installation.adb:263:07
+
+ info: initialization of "Present" proved
+--> worldline-startup_installation.adb:264:07
+
+ info: initialization of "Value" proved
+--> worldline-startup_installation.adb:265:07
+
+ info: analyzing call to "Initialize" in context
+--> worldline-startup_installation.adb:271:10
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:273:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:273:36
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:274:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:274:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:275:36
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:275:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:278:36
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:278:36
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:279:44
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:281:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:281:36
+
+ info: loop variant proved
+--> worldline-startup_installation.adb:283:34
+
+ info: analyzing call to "Next_Path" in context
+--> worldline-startup_installation.adb:284:13
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:286:20
+
+ info: assertion proved
+--> worldline-startup_installation.adb:289:25
+
+ info: range check proved
+--> worldline-startup_installation.adb:290:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:290:44
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:291:67
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:292:32
+
+ info: range check proved
+--> worldline-startup_installation.adb:293:47
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:294:18
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:294:51
+
+ info: implicit aspect Always_Terminates on "Ancestors" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:299:13
+
+ info: initialization of "Found" proved
+--> worldline-startup_installation.adb:304:40
+
+ info: assertion proved
+--> worldline-startup_installation.adb:305:25
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:307:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:307:36
+
+ info: loop variant proved
+--> worldline-startup_installation.adb:308:34
+
+ info: range check proved
+--> worldline-startup_installation.adb:310:17
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:311:39
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:311:39
+
+ info: range check proved
+--> worldline-startup_installation.adb:315:30
+
+ info: no contextual analysis of "Protected_Identity" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:318:28
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:319:37
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:327:42
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:327:42
+
+ info: loop variant proved
+--> worldline-startup_installation.adb:328:40
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:329:32
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:332:29
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:334:42
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:334:42
+
+ info: loop variant proved
+--> worldline-startup_installation.adb:335:40
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:336:32
+
+ info: implicit aspect Always_Terminates on "Read_Intact" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:344:13
+
+ info: no contextual analysis of "Read_Intact" (call returns unconstrained type)
+--> worldline-startup_installation.adb:350:41
+
+ info: analyzing call to "Identity_Valid" in context
+--> worldline-startup_installation.adb:352:14
+
+ info: no contextual analysis of "Identity_Valid" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:352:52
+
+ info: no contextual analysis of "Identity_Valid" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:353:13
+
+ info: no contextual analysis of "Identity_Valid" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:353:51
+
+ info: division check proved
+--> worldline-startup_installation.adb:355:38
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:355:49
+
+ info: cannot unroll loop (local non-scalar declaration at line 357) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:356:23
+
+ info: implicit aspect Always_Terminates on "Entry_Protected" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:367:13
+
+ info: no contextual analysis of "Protected_Identity" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:371:09
+
+ info: no contextual analysis of "Ancestors" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:372:09
+
+ info: no contextual analysis of "Read_Intact" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:374:73
+
+ info: implicit aspect Always_Terminates on "Hex_Digit" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:376:13
+
+ info: implicit aspect Always_Terminates on "Mode_Matches" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:379:13
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:386:12
+
+ info: range check proved
+--> worldline-startup_installation.adb:387:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:387:45
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:391:28
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:391:32
+
+ info: division check proved
+--> worldline-startup_installation.adb:394:27
+
+ info: implicit aspect Always_Terminates on "Digest_Matches" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:396:13
+
+ info: division check proved
+--> worldline-startup_installation.adb:404:53
+
+ info: range check proved
+--> worldline-startup_installation.adb:404:53
+
+ info: range check proved
+--> worldline-startup_installation.adb:409:14
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:410:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:410:36
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:411:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:411:36
+
+ info: range check proved
+--> worldline-startup_installation.adb:412:70
+
+ info: index check proved
+--> worldline-startup_installation.adb:413:20
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:413:76
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:414:49
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:414:53
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:415:26
+
+ info: precondition proved
+--> worldline-startup_installation.adb:416:47
+
+ info: precondition proved
+--> worldline-startup_installation.adb:418:30
+
+ info: range check proved
+--> worldline-startup_installation.adb:418:48
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:421:35
+
+ info: division check proved
+--> worldline-startup_installation.adb:422:94
+
+ info: division check proved
+--> worldline-startup_installation.adb:423:98
+
+ info: implicit aspect Always_Terminates on "Manifest_File" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:429:13
+
+ info: no contextual analysis of "Manifest_File" (call returns unconstrained type)
+--> worldline-startup_installation.adb:430:41
+
+ info: no contextual analysis of "Mode_Matches" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:435:09
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:435:49
+
+ info: no contextual analysis of "Digest_Matches" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:436:09
+
+ info: implicit aspect Always_Terminates on "Bytecode_Name" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:438:13
+
+ info: local subprogram "Bytecode_Name" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:438:13
+      + add a contract to analyze it separately from calling contexts
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:444:11
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:445:69
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:447:17
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:448:59
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:449:12
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:449:50
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:450:27
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:450:80
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:487, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:451:27
+
+ info: implicit aspect Always_Terminates on "Tree_Matches" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:453:13
+
+ info: local subprogram "Tree_Matches" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:453:13
+      + add a contract to analyze it separately from calling contexts
+
+ info: no contextual analysis of "Protected_Identity" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:460:14
+
+ info: no contextual analysis of "Ancestors" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:460:80
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:461:11
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:462:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:462:33
+
+ info: analyzing call to "Entry_Protected" in context
+--> worldline-startup_installation.adb:466:20
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:473:45
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:476:59
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:476:64
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:477:28
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:480:28
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:481:64
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:481:76
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:483:17
+
+ info: analyzing call to "Bytecode_Name" in context
+--> worldline-startup_installation.adb:487:19
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:488:37
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:489:20
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:490:42
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:490:42
+
+ info: analyzing call to "Raw_Key_Matches" in context
+--> worldline-startup_installation.adb:491:22
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:491:42
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:492:59
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:493:37
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:504:66
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:505:14
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:512:33
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:514:29
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:515:51
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:515:51
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:708
+--> worldline-startup_installation.adb:518:108
+
+ info: implicit aspect Always_Terminates on "Installed_Entry" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:531:13
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:749
+--> worldline-startup_installation.adb:536:11
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:800
+--> worldline-startup_installation.adb:536:11
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:806
+--> worldline-startup_installation.adb:536:11
+
+ info: range check proved
+--> worldline-startup_installation.adb:536:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:536:54
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:749
+--> worldline-startup_installation.adb:541:11
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:800
+--> worldline-startup_installation.adb:541:11
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:806
+--> worldline-startup_installation.adb:541:11
+
+ info: range check proved
+--> worldline-startup_installation.adb:541:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:541:54
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:749
+--> worldline-startup_installation.adb:543:17
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:800
+--> worldline-startup_installation.adb:543:17
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:806
+--> worldline-startup_installation.adb:543:17
+
+ info: range check proved
+--> worldline-startup_installation.adb:543:17
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:543:62
+
+ info: implicit aspect Always_Terminates on "Envelope_Byte" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:560:13
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:561:37
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:562:37
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:562:41
+
+ info: local subprogram "Next_Line" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:564:14
+      + add a contract to analyze it separately from calling contexts
+
+ info: initialization of "Parts" proved
+--> worldline-startup_installation.adb:565:06
+
+ info: initialization of "Fields" proved
+--> worldline-startup_installation.adb:565:30
+
+ info: initialization of "Valid" proved
+--> worldline-startup_installation.adb:565:52
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:568:47
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:568:47
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:568:47
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:568:47
+
+ info: predicate check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:570:27
+
+ info: predicate check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:570:27
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:571:33
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:571:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:572:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:572:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:572:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:572:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:573:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:573:33
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:573:33
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:573:33
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:574:31
+
+ info: loop variant proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:574:31
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:575:13
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:575:13
+
+ info: index check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:577:20
+
+ info: index check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:577:20
+
+ info: predicate check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:577:31
+
+ info: predicate check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:577:31
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:577:46
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:577:46
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:577:46
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:577:46
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:577:73
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:577:73
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:577:94
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:577:94
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:579:27
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:579:27
+
+ info: index check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:582:14
+
+ info: index check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:582:14
+
+ info: predicate check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:582:25
+
+ info: predicate check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:582:25
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:582:40
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:582:40
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:582:40
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:582:40
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:608
+--> worldline-startup_installation.adb:582:67
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:614
+--> worldline-startup_installation.adb:582:67
+
+ info: implicit aspect Always_Terminates on "Envelope_Text" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:584:13
+
+ info: range check proved
+--> worldline-startup_installation.adb:585:25
+
+ info: precondition proved
+--> worldline-startup_installation.adb:586:08
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:586:42
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:586:55
+
+ info: range check proved
+--> worldline-startup_installation.adb:586:55
+
+ info: index check proved
+--> worldline-startup_installation.adb:586:93
+
+ info: implicit aspect Always_Terminates on "Envelope_Hex_Path" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:587:13
+
+ info: division check proved
+--> worldline-startup_installation.adb:592:29
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:592:29
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:592:29
+
+ info: division check proved
+--> worldline-startup_installation.adb:592:60
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:592:60
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:592:60
+
+ info: range check proved
+--> worldline-startup_installation.adb:593:21
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:593:21
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:593:21
+
+ info: precondition proved
+--> worldline-startup_installation.adb:594:14
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:594:14
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:594:14
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:594:53
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:594:53
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:594:53
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:594:63
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:594:63
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:594:63
+
+ info: division check proved
+--> worldline-startup_installation.adb:594:121
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:594:121
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:594:121
+
+ info: precondition proved
+--> worldline-startup_installation.adb:595:14
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:595:14
+
+ info: precondition proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:595:14
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:595:53
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:595:53
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:595:53
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:595:63
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:595:63
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:595:63
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:595:67
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:595:67
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:595:67
+
+ info: division check proved
+--> worldline-startup_installation.adb:595:125
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:664
+--> worldline-startup_installation.adb:595:125
+
+ info: division check proved, in call inlined at worldline-startup_installation.adb:668
+--> worldline-startup_installation.adb:595:125
+
+ info: implicit aspect Always_Terminates on "Executable_Files" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:598:13
+
+ info: initialization of "Parts" proved
+--> worldline-startup_installation.adb:601:07
+
+ info: predicate check proved on default value
+--> worldline-startup_installation.adb:601:07
+      + in default initialization of array component at worldline-startup_installation.adb:556
+      + in default value at worldline-startup_installation.adb:601
+
+ info: initialization of "Fields" proved
+--> worldline-startup_installation.adb:602:07
+
+ info: initialization of "Valid" proved
+--> worldline-startup_installation.adb:603:07
+
+ info: analyzing call to "Next_Line" in context
+--> worldline-startup_installation.adb:608:10
+
+ info: division check proved
+--> worldline-startup_installation.adb:611:46
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:612:36
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:612:36
+
+ info: loop variant proved
+--> worldline-startup_installation.adb:613:34
+
+ info: analyzing call to "Next_Line" in context
+--> worldline-startup_installation.adb:614:13
+
+ info: no contextual analysis of "Executable_Files" (nested subprogram)
+--> worldline-startup_installation.adb:627:24
+
+ info: no contextual analysis of "Check" (call returns unconstrained type)
+--> worldline-startup_installation.adb:628:61
+
+ info: no contextual analysis of "Envelope_Hex_Path" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:633:33
+
+ info: precondition proved
+--> worldline-startup_installation.adb:636:29
+
+ info: range check proved
+--> worldline-startup_installation.adb:637:31
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:637:72
+
+ info: precondition proved
+--> worldline-startup_installation.adb:638:63
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:638:107
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:641:48
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:641:52
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:645:46
+
+ info: division check proved
+--> worldline-startup_installation.adb:645:53
+
+ info: division check proved
+--> worldline-startup_installation.adb:647:39
+
+ info: division check proved
+--> worldline-startup_installation.adb:647:45
+
+ info: division check proved
+--> worldline-startup_installation.adb:647:71
+
+ info: division check proved
+--> worldline-startup_installation.adb:647:76
+
+ info: division check proved
+--> worldline-startup_installation.adb:647:101
+
+ info: range check proved
+--> worldline-startup_installation.adb:649:34
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:649:75
+
+ info: precondition proved
+--> worldline-startup_installation.adb:650:36
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:650:80
+
+ info: range check proved
+--> worldline-startup_installation.adb:656:23
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:656:66
+
+ info: range check proved
+--> worldline-startup_installation.adb:657:23
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:657:66
+
+ info: range check proved
+--> worldline-startup_installation.adb:659:29
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:659:74
+
+ info: analyzing call to "Envelope_Hex_Path" in context
+--> worldline-startup_installation.adb:664:29
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:665:61
+
+ info: analyzing call to "Envelope_Hex_Path" in context
+--> worldline-startup_installation.adb:668:29
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:669:51
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:671:102
+
+ info: range check proved
+--> worldline-startup_installation.adb:702:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:702:73
+
+ info: range check proved
+--> worldline-startup_installation.adb:704:17
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:705:39
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:705:39
+
+ info: analyzing call to "Raw_Key_Matches" in context
+--> worldline-startup_installation.adb:707:22
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:707:45
+
+ info: analyzing call to "Tree_Matches" in context
+--> worldline-startup_installation.adb:708:29
+
+ info: in inlined body at line 483
+--> worldline-startup_installation.adb:708:29
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 505
+--> worldline-startup_installation.adb:708:29
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 444
+--> worldline-startup_installation.adb:708:29
+      + in inlined body at line 487
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:708:55
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:709:37
+
+ info: range check proved
+--> worldline-startup_installation.adb:716:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:716:73
+
+ info: range check proved
+--> worldline-startup_installation.adb:718:17
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:719:39
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:719:39
+
+ info: analyzing call to "Raw_Key_Matches" in context
+--> worldline-startup_installation.adb:721:22
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:721:45
+
+ info: no contextual analysis of "Entry_Protected" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:724:28
+
+ info: no contextual analysis of "Manifest_File" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:725:28
+
+ info: no contextual analysis of "Pair_Part" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:725:62
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:726:37
+
+ info: cannot unroll loop (local non-scalar declaration at line 737) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:736:23
+
+ info: no contextual analysis of "Installed_Entry" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:741:48
+
+ info: analyzing call to "Installed_Entry" in context
+--> worldline-startup_installation.adb:749:51
+
+ info: in inlined body at line 536
+--> worldline-startup_installation.adb:749:51
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 541
+--> worldline-startup_installation.adb:749:51
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 543
+--> worldline-startup_installation.adb:749:51
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: no contextual analysis of "Installed_Entry" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:760:15
+
+ info: precondition proved
+--> worldline-startup_installation.adb:763:46
+
+ info: range check proved
+--> worldline-startup_installation.adb:764:68
+
+ info: range check proved
+--> worldline-startup_installation.adb:764:71
+
+ info: range check proved
+--> worldline-startup_installation.adb:764:108
+
+ info: range check proved
+--> worldline-startup_installation.adb:764:118
+
+ info: no contextual analysis of "Installed_Entry" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:770:72
+
+ info: no contextual analysis of "Installed_Entry" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:772:09
+
+ info: cannot unroll loop (local non-scalar declaration at line 775) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:774:23
+
+ info: discriminant check proved
+--> worldline-startup_installation.adb:777:45
+
+ info: range check proved
+--> worldline-startup_installation.adb:788:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:788:63
+
+ info: implicit aspect Always_Terminates on "Prefix" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:792:30
+
+ info: range check proved
+--> worldline-startup_installation.adb:793:48
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:794:54
+
+ info: range check proved
+--> worldline-startup_installation.adb:794:54
+
+ info: index check proved
+--> worldline-startup_installation.adb:794:92
+
+ info: range check proved
+--> worldline-startup_installation.adb:799:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:799:58
+
+ info: analyzing call to "Installed_Entry" in context
+--> worldline-startup_installation.adb:800:13
+
+ info: in inlined body at line 536
+--> worldline-startup_installation.adb:800:13
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 541
+--> worldline-startup_installation.adb:800:13
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 543
+--> worldline-startup_installation.adb:800:13
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: range check proved
+--> worldline-startup_installation.adb:802:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:802:64
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:803:48
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:804:43
+
+ info: analyzing call to "Installed_Entry" in context
+--> worldline-startup_installation.adb:806:16
+
+ info: in inlined body at line 536
+--> worldline-startup_installation.adb:806:16
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 541
+--> worldline-startup_installation.adb:806:16
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: in inlined body at line 543
+--> worldline-startup_installation.adb:806:16
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: range check proved
+--> worldline-startup_installation.adb:807:17
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:808:39
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:808:39
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:809:55
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:813:62
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:814:37
+
+ info: implicit aspect Always_Terminates on "Cross_View" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:824:13
+
+ info: range check proved
+--> worldline-startup_installation.adb:826:16
+
+ info: implicit aspect Always_Terminates on "Cross_Encoding" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:828:13
+
+ info: range check proved
+--> worldline-startup_installation.adb:829:20
+
+ info: range check proved
+--> worldline-startup_installation.adb:829:51
+
+ info: range check proved
+--> worldline-startup_installation.adb:831:16
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:832:23
+
+ info: index check proved
+--> worldline-startup_installation.adb:832:23
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:832:51
+
+ info: index check proved
+--> worldline-startup_installation.adb:832:51
+
+ info: implicit aspect Always_Terminates on "Semantic_Same" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:833:13
+
+ info: initialization of "N" proved
+--> worldline-startup_installation.adb:836:07
+
+ info: range check proved
+--> worldline-startup_installation.adb:843:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:843:40
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:844:59
+
+ info: range check proved
+--> worldline-startup_installation.adb:846:20
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:847:42
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:847:42
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:848:67
+
+ medium: subprogram variant might fail
+--> worldline-startup_installation.adb:851:32
+  851 |                            if not Semantic_Same (A, B, Pair_Part (A, Left, I - 1, 1),
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  852 |                              Pair_Part (B, Right, J - 1, 1)) then return False; end if;
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at line 833 should mention A and B in a precondition
+  833 |       function Semantic_Same (A, B : E.Bytes; Left, Right : E.Span) return Boolean
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:851:53
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:852:27
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:853:40
+
+ info: range check proved
+--> worldline-startup_installation.adb:863:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:863:56
+
+ medium: subprogram variant might fail
+--> worldline-startup_installation.adb:864:20
+  864 |                if not Semantic_Same (A, B, V.Element (A, Left, I - 1), V.Element (B, Right, I - 1)) then return False; end if;
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at line 833 should mention A and B and Left and Right in a precondition
+  833 |       function Semantic_Same (A, B : E.Bytes; Left, Right : E.Span) return Boolean
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: implicit aspect Always_Terminates on "Directory_Stable" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:872:13
+
+ info: local subprogram "Directory_Stable" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:872:13
+      + add a contract to analyze it separately from calling contexts
+
+ info: analyzing call to "Identity_Valid" in context
+--> worldline-startup_installation.adb:874:14
+
+ info: no contextual analysis of "Identity_Valid" (in potentially unevaluated context)
+--> worldline-startup_installation.adb:874:51
+
+ info: implicit aspect Always_Terminates on "Entries_Stable" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:883:13
+
+ info: implicit aspect Always_Terminates on "Entry_Stable" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:887:13
+
+ info: range check proved
+--> worldline-startup_installation.adb:896:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:896:60
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:897:56
+
+ info: range check proved
+--> worldline-startup_installation.adb:899:17
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:900:39
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:900:39
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:901:64
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:902:51
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:903:57
+
+ info: analyzing call to "Directory_Stable" in context
+--> worldline-startup_installation.adb:906:32
+
+ info: in inlined body at line 875
+--> worldline-startup_installation.adb:906:32
+      + cannot unroll loop (local non-scalar declaration at line 876, instance at line 906) [info-unrolling-inlining]
+
+ medium: subprogram variant might fail
+--> worldline-startup_installation.adb:908:32
+  908 |                            if not Entries_Stable (A, B, Value, Other_Value, False) then return False; end if;
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: loop invariant at line 900 should mention C1125b and C1132b
+  900 |                   pragma Loop_Invariant (Found < J);
+      |                   ^
+      + provers reached time limit before completing the proof
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:911:37
+
+ info: range check proved
+--> worldline-startup_installation.adb:928:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:928:53
+
+ info: range check proved
+--> worldline-startup_installation.adb:930:17
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:931:39
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:931:39
+
+ medium: subprogram variant might fail
+--> worldline-startup_installation.adb:934:29
+  934 |                         if not Entry_Stable (A, B, Entry_Value, Other, Trees) then return False; end if;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at line 883 should mention A and B and Left and Right and Trees in a precondition
+  883 |       function Entries_Stable
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:935:37
+
+ info: implicit aspect Always_Terminates on "Environment_Stable" has been proved, subprogram will terminate
+--> worldline-startup_installation.adb:944:13
+
+ info: local subprogram "Environment_Stable" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-startup_installation.adb:944:13
+      + add a contract to analyze it separately from calling contexts
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:985
+--> worldline-startup_installation.adb:948:11
+
+ info: range check proved, in call inlined at worldline-startup_installation.adb:985
+--> worldline-startup_installation.adb:950:17
+
+ info: loop invariant initialization proved, in call inlined at worldline-startup_installation.adb:985
+--> worldline-startup_installation.adb:951:39
+
+ info: loop invariant preservation proved, in call inlined at worldline-startup_installation.adb:985
+--> worldline-startup_installation.adb:951:39
+
+ info: overflow check proved, in call inlined at worldline-startup_installation.adb:985
+--> worldline-startup_installation.adb:952:117
+
+ info: range check proved
+--> worldline-startup_installation.adb:968:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_installation.adb:968:67
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:969:66
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:970:45
+
+ info: range check proved
+--> worldline-startup_installation.adb:972:17
+
+ info: loop invariant initialization proved
+--> worldline-startup_installation.adb:973:39
+
+ info: loop invariant preservation proved
+--> worldline-startup_installation.adb:973:39
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:974:73
+
+ info: analyzing call to "Pair_Part" in context
+--> worldline-startup_installation.adb:975:57
+
+ info: analyzing call to "Environment_Stable" in context
+--> worldline-startup_installation.adb:985:32
+
+ info: in inlined body at line 948
+--> worldline-startup_installation.adb:985:32
+      + cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+
+ info: overflow check proved
+--> worldline-startup_installation.adb:988:37
+
+ info: implicit aspect Always_Terminates on "Path_Bytes_Equivalent" has been proved, subprogram will terminate
+--> worldline-startup_installation.ads:11:13
+
+ info: data dependencies proved
+--> worldline-startup_installation.ads:12:11
+
+ info: implicit aspect Always_Terminates on "Path_Equivalent" has been proved, subprogram will terminate
+--> worldline-startup_installation.ads:13:13
+
+ info: data dependencies proved
+--> worldline-startup_installation.ads:15:11
+
+ info: implicit aspect Always_Terminates on "Joined_Path" has been proved, subprogram will terminate
+--> worldline-startup_installation.ads:16:13
+
+ info: data dependencies proved
+--> worldline-startup_installation.ads:18:11
+
+ info: implicit aspect Always_Terminates on "Corresponds" has been proved, subprogram will terminate
+--> worldline-startup_installation.ads:47:13
+
+ info: data dependencies proved
+--> worldline-startup_installation.ads:49:11
+
+ info: implicit aspect Always_Terminates on "Stable" has been proved, subprogram will terminate
+--> worldline-startup_installation.ads:55:13
+
+ info: data dependencies proved
+--> worldline-startup_installation.ads:58:11
+gnatprove: unproved check messages considered as errors

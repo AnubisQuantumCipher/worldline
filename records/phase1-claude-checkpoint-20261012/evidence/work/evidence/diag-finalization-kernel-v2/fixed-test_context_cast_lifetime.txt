@@ -1,0 +1,50 @@
+F..FF
+======================================================================
+FAIL: test_context_copy_audit_count_order_size_and_offsets_match_original (test_context_cast_lifetime.ContextCastLifetimeControls.test_context_copy_audit_count_order_size_and_offsets_match_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/rt-tree/tests/test_context_cast_lifetime.py", line 133, in test_context_copy_audit_count_order_size_and_offsets_match_original
+    self.assertEqual(observations[0], observations[1])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (['ct[483 chars]ypes.dlsym', 'ctypes.call_function', 'ctypes.c[28793 chars]')))) != (['ct[483 chars]ypes.call_function', 'ctypes.call_function', '[28761 chars]'))))
+
+First differing element 0:
+['cty[482 chars]ypes.dlsym', 'ctypes.call_function', 'ctypes.c[1102 chars]ion']
+['cty[482 chars]ypes.call_function', 'ctypes.call_function', '[1070 chars]ion']
+
+Diff is 34964 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_original_conjunct_mutations_refuse_with_unchanged_results (test_context_cast_lifetime.ContextCastLifetimeControls.test_original_conjunct_mutations_refuse_with_unchanged_results)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/rt-tree/tests/test_context_cast_lifetime.py", line 114, in test_original_conjunct_mutations_refuse_with_unchanged_results
+    self.assertEqual(complete(new), complete(old))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (((('[9397 chars]51468623408), ('captured_count', 2), ('retaine[17959 chars]0'))) != (((('[9397 chars]51468168928), ('captured_count', 2), ('retaine[17959 chars]0')))
+
+First differing element 1:
+(('ve[220 chars]51468623408), ('captured_count', 2), ('retaine[673 chars])))))
+(('ve[220 chars]51468168928), ('captured_count', 2), ('retaine[673 chars])))))
+
+Diff is 32119 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_original_whole_projection_context_metadata_and_native_conjunction (test_context_cast_lifetime.ContextCastLifetimeControls.test_original_whole_projection_context_metadata_and_native_conjunction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/rt-tree/tests/test_context_cast_lifetime.py", line 99, in test_original_whole_projection_context_metadata_and_native_conjunction
+    self.assertEqual(complete(new), complete(old))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (((('[9398 chars]1468641808), ('captured_count', 2), ('retained[18013 chars]0'))) != (((('[9398 chars]1468638992), ('captured_count', 2), ('retained[18013 chars]0')))
+
+First differing element 1:
+(('ve[221 chars]1468641808), ('captured_count', 2), ('retained[672 chars])))))
+(('ve[221 chars]1468638992), ('captured_count', 2), ('retained[672 chars])))))
+
+Diff is 32186 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.802s
+
+FAILED (failures=3)

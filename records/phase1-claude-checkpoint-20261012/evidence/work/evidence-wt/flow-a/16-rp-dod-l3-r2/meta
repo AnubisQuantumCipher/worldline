@@ -1,0 +1,2 @@
+cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-report_parser.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2 | exit=1 | 2364s
+DONE

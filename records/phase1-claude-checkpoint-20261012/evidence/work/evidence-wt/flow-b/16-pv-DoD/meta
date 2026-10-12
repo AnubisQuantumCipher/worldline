@@ -1,0 +1,1 @@
+cmd: rm -f obj/core/gnatprove/*.spark; CAP=3G gnatprove -P core/worldline_core_sources.gpr -u worldline-producer_values.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2 | exit=0 | duration=34s

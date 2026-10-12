@@ -1,0 +1,1 @@
+command: rm -f obj/core/gnatprove/*.spark; CAP=4G capped.sh gnatprove -P core/worldline_core_sources.gpr -u worldline-custody_v2_owner_canonical.adb -u worldline-journal_witness.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2 exit=0 duration_s=623 head=df36636+worktree

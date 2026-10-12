@@ -1,0 +1,116 @@
+{
+  "status": "PASS_WITH_REVIEWED_FALSE_POSITIVE",
+  "scope": "Bounded high-specificity marker scan of preserved plaintext, decompressed raw logs, and exact captured source-history commits/blobs. Existing PDF manuals not parsed; not a guarantee of absence.",
+  "patterns": [
+    "credential_token",
+    "private_key_header",
+    "private_conversation_url",
+    "forbidden_trailer"
+  ],
+  "findings": [
+    {
+      "path": "compressed-raw/evidence/roster-run-3/planned-006-row6/stderr.bin.gz",
+      "marker": "credential_token"
+    }
+  ],
+  "captured_source_refs": [
+    {
+      "commit": "26dd9ce097e453b8ded900f5df328c1727a8a4c7",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/family-a",
+      "saved_ref": "refs/checkpoint-source/campaign/family-a"
+    },
+    {
+      "commit": "6c28ccddfbdf4b07920ee8c23213f647f1bc7e0d",
+      "included_in_integrated_source_history": false,
+      "original_ref": "refs/heads/campaign/family-b",
+      "saved_ref": "refs/checkpoint-source/campaign/family-b"
+    },
+    {
+      "commit": "dde2dec0cc08a314a7c595be497ba78e48083b4c",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/flow-a",
+      "saved_ref": "refs/checkpoint-source/campaign/flow-a"
+    },
+    {
+      "commit": "be072a542e4f97ae6d9f916039616922f1981564",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/flow-b",
+      "saved_ref": "refs/checkpoint-source/campaign/flow-b"
+    },
+    {
+      "commit": "458d69b5508728d52e5a00f796d7c6ed2308a381",
+      "included_in_integrated_source_history": false,
+      "original_ref": "refs/heads/campaign/flow-c",
+      "saved_ref": "refs/checkpoint-source/campaign/flow-c"
+    },
+    {
+      "commit": "40a008121422f10de95634de3dc489559df6cded",
+      "included_in_integrated_source_history": false,
+      "original_ref": "refs/heads/campaign/flow-d",
+      "saved_ref": "refs/checkpoint-source/campaign/flow-d"
+    },
+    {
+      "commit": "314f3a383d768f21c7fb3b8b6fc36c9849cb17b5",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/legality-small",
+      "saved_ref": "refs/checkpoint-source/campaign/legality-small"
+    },
+    {
+      "commit": "259647f57f8ce3aa0bc7a14038073c42bea0b378",
+      "included_in_integrated_source_history": false,
+      "original_ref": "refs/heads/campaign/machine-evidence",
+      "saved_ref": "refs/checkpoint-source/campaign/machine-evidence"
+    },
+    {
+      "commit": "875d6e63fffe2cb8ad9343e3a7f5363e214288fb",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/replay-derive",
+      "saved_ref": "refs/checkpoint-source/campaign/replay-derive"
+    },
+    {
+      "commit": "875d6e63fffe2cb8ad9343e3a7f5363e214288fb",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/roster-abi",
+      "saved_ref": "refs/checkpoint-source/campaign/roster-abi"
+    },
+    {
+      "commit": "875d6e63fffe2cb8ad9343e3a7f5363e214288fb",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/roster-ada-tests",
+      "saved_ref": "refs/checkpoint-source/campaign/roster-ada-tests"
+    },
+    {
+      "commit": "cb8287a85e6ac0d7d1c0b3ab5ff225b40cf98090",
+      "included_in_integrated_source_history": false,
+      "original_ref": "refs/heads/campaign/roster-custody",
+      "saved_ref": "refs/checkpoint-source/campaign/roster-custody"
+    },
+    {
+      "commit": "875d6e63fffe2cb8ad9343e3a7f5363e214288fb",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/campaign/roster-misc",
+      "saved_ref": "refs/checkpoint-source/campaign/roster-misc"
+    },
+    {
+      "commit": "802708bf23f875c96000fff5e5fed3c68f8103a6",
+      "included_in_integrated_source_history": true,
+      "original_ref": "refs/heads/main",
+      "saved_ref": "refs/checkpoint-source/main"
+    }
+  ],
+  "initial_status": "REVIEW_REQUIRED",
+  "resolution": {
+    "reviewer_model": "gpt-6.1-sol",
+    "reasoning_effort": "ultra",
+    "classification": "AKIA-pattern substrings inside a repeated valid Base64-encoded binary record, not AWS credentials at the flagged positions",
+    "raw_offsets": [
+      80432432,
+      256100650,
+      434593933
+    ],
+    "decoded_record_sha256": "3c26c50020cfd4ba23c2ff47a914d7b347e7b08817fc23d45b8eba5f765a9a53",
+    "checks": "Enclosing records decode identically; corresponding regions are binary; no literal AWS-key pattern in the decoded record. No matched token displayed.",
+    "non_claim": "Resolves these specific matches only; bounded marker scan does not guarantee absence of secrets."
+  }
+}

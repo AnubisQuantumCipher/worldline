@@ -1,0 +1,4 @@
+command: gnatprove -P core/worldline_core_sources.gpr -U --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -k -j8 (survey of f21a688; -k continues past the legality errors so legal units are inventoried)
+start: 2026-10-12T02:05:43Z
+exit: 143  duration_s: 5843  end: 2026-10-12T03:43:06Z
+aborted: 2026-10-12T03:43:09Z — scope run-p239813-i212566.scope stopped by the lead to relieve memory pressure (OOM kills in app.slice at 23:33/23:39/23:41 local); partial stderr retained; re-run later on a quiet machine

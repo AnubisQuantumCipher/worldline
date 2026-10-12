@@ -1,0 +1,4 @@
+(1) gprbuild -q -p -j4 -P tests/worldline_tests.gpr ; (2) gprbuild -q -p -j4 -P worldline.gpr -XGPR_TOOL=gnatprove ; in lead-tree
+start: 2026-10-12T04:08:03Z
+(1) exit: 0 1s
+(2) exit: 0 0s

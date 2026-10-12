@@ -1,0 +1,9 @@
+cmd: gnatprove -P core/worldline_core_sources.gpr -u worldline-resources.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2
+cap: 3G
+exit: 1
+duration_s: 528
+started: 2026-10-12T07:37:26Z
+tree: /home/sicarii/Work/worldline-phase1-claude-20261012/wt/legality-small
+src_sha256: fd1b00c0d9724b53
+wt_head: f21a688
+load_at_end: 31.71 38.30 38.43

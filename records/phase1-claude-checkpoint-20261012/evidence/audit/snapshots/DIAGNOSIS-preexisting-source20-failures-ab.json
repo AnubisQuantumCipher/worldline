@@ -1,0 +1,46 @@
+{
+ "schema": "worldline-phase1-claude-preexisting-source20-test-failures-ab-v1",
+ "recorded_at_utc": "2026-10-12T01:22:15.338134+00:00",
+ "method": "A/B: the frozen Source20 tree was copied byte-identically to baseline-source20/ (no edits), its library built with gprbuild -p -j8 -P core/worldline_core.gpr, and the same five test modules were run with the same environment as the corrected working copy.",
+ "baseline_library_sha256": "47b0d34095a775b7850d66f8932c48b63bfed03c5913ad00af137cdb507f12c9",
+ "baseline_result": "Ran 56 tests, FAILED (failures=3)",
+ "baseline_failures": [
+  "test_evaluation_acquisition_raw_producer.NativeAcquisitionClosure.test_raw_helper_no_wait_or_eof_cannot_be_erased_by_empty_owner_summary (processWaitReturncode None accepted; line 107 assertFalse -> True)",
+  "test_runner_lifecycle_bytes_v35.BorrowedLifecycleNativeV35.test_original_timer_full_int_binary64_and_requested_protocol (value=inf: activate-timer False, expected True)",
+  "test_runner_lifecycle_native_v35.RunnerLifecycleNativeV35.test_original_native_timer_full_domain_and_actual_comparison_protocol (kind=float, inf: activate-timer False, expected True)"
+ ],
+ "corrected_working_copy_with_cgroup_fix_only": {
+  "library_sha256": "21b8096875edbb9ce5949042eddd90244a00ca78de2cfcd9cbd5906193eeb2ea",
+  "raw_producer": "Ran 20 tests, FAILED (failures=1) same processWaitReturncode case; the 3 new failed-cgroup-read cases passed",
+  "lifecycle_ownership": "Ran 38 tests, FAILED (failures=2) same two timer cases"
+ },
+ "conclusion": "The three failures are pre-existing Source20 defects in the SPARK predicates (Controls_Ended processWaitReturncode shape; Positive_Float_Bits binary64 exponent/fraction digit boundary). None was introduced by the cgroup-read correction. Each is fixed in the single successor with the existing accepted cases as its regression controls.",
+ "defect_2_root_cause": "worldline-runner_acquisition_bytes.adb Controls_Ended process branch tested processWaitReturncode only for Form /= Invalid; the finalization encoding of None is a Null_Value scalar, so a claimed wait with no return code closed. Fix: require Integer_Value (process.wait() always returns an int; the lifecycle-bytes accepted cases use large positive and negative integers).",
+ "defect_3_root_cause": "worldline-runner_lifecycle_bytes.adb Positive_Float_Bits: binary64 hex digit 2 holds exponent bits e3..e0, not a fraction bit; the predicate ORed (D(2) mod 2 /= 0) into Fraction and tested D(2) >= 14 for the all-ones exponent. +inf (7ff0000000000000) therefore read as NaN and was refused, and exponent 7fe finite values with a nonzero fraction were refused. Fix: Fraction is digits 3..15 only and the all-ones exponent is D(0)=7, D(1)=15, D(2)=15.",
+ "files": {
+  "build-meta.txt": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/baseline-ab-v1/build-meta.txt",
+   "sha256": "b1ae2c40e914a6226ae8e9e50ef001011dfae522b6a7dd49edbc6e3754475b0b",
+   "bytes": 59
+  },
+  "baseline-tests.txt": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/baseline-ab-v1/baseline-tests.txt",
+   "sha256": "bfd53002b160c2bbb482dded8e7b9f8aa9c2aa225d4b1127254fd046819678c8",
+   "bytes": 14074
+  },
+  "raw_producer.txt": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/baseline-ab-v1/raw_producer.txt",
+   "sha256": "68201e4599883c084ee589c1d843ad3c876cc4c79417396f35f45183a52f8849",
+   "bytes": 4951
+  },
+  "lifecycle_ownership.txt": {
+   "path": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/baseline-ab-v1/lifecycle_ownership.txt",
+   "sha256": "4a792b51206d87224918b57547b738c95cf08c94e2cae52c1dcaa7ba8d1ca36c",
+   "bytes": 9584
+  }
+ },
+ "not_claimed": [
+  "that these were the only pre-existing failures in the full suite (the full suite run follows)",
+  "campaign credit"
+ ]
+}

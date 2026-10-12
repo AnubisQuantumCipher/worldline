@@ -1,0 +1,96 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-----------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                                          Provers   Justified   Unproved
+-----------------------------------------------------------------------------------------------------------------------
+Data Dependencies                18          18                                                .           .          .
+Flow Dependencies                 1           1                                                .           .          .
+Initialization                    1           1                                                .           .          .
+Non-Aliasing                      .           .                                                .           .          .
+Run-time Checks                  99           .                       99 (CVC5 31%, Trivial 69%)           .          .
+Assertions                       21           .    21 (CVC5 80%, Trivial 3%, Z3 3%, altergo 13%)           .          .
+Functional Contracts             49           .                 48 (CVC5 94%, Trivial 4%, Z3 2%)           .          1
+LSP Verification                  .           .                                                .           .          .
+Termination                      29          26                        3 (CVC5 33%, Trivial 67%)           .          .
+Concurrency                       .           .                                                .           .          .
+-----------------------------------------------------------------------------------------------------------------------
+Total                           218    46 (21%)                                        171 (78%)           .     1 (0%)
+
+
+max steps used for successful proof: 111838
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit native_diagnostic_trace, 30 subprograms and packages out of 61 analyzed
+  Native_Diagnostic_Trace at native_diagnostic_trace.ads:8 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Native_Diagnostic_Trace.Appended at native_diagnostic_trace.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Native_Diagnostic_Trace.Contents at native_diagnostic_trace.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Native_Diagnostic_Trace.Empty at native_diagnostic_trace.ads:48 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Native_Diagnostic_Trace.Freegp171 at native_diagnostic_trace.adb:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Freegp171.Free at native_diagnostic_trace.adb:6 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences."<" at spark-containers-functional-infinite_sequences.ads:166, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences."<=" at spark-containers-functional-infinite_sequences.ads:178, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences."=" at spark-containers-functional-infinite_sequences.ads:146, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Add at spark-containers-functional-infinite_sequences.ads:269, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Add at spark-containers-functional-infinite_sequences.ads:282, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Aggr_Append at spark-containers-functional-infinite_sequences.ads:534, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Constant_Range at spark-containers-functional-infinite_sequences.ads:417, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Contains at spark-containers-functional-infinite_sequences.ads:209, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Copy_Element at spark-containers-functional-infinite_sequences.ads:341, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Element_Logic_Equal at spark-containers-functional-infinite_sequences.ads:411, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Empty_Sequence at spark-containers-functional-infinite_sequences.ads:245, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Checks at spark-containers-functional-infinite_sequences.ads:354, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Checks.Eq_Logical_Eq at spark-containers-parameter_checks.ads:57, instantiated at spark-containers-functional-infinite_sequences.ads:354, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Checks.Eq_Reflexive at spark-containers-parameter_checks.ads:45, instantiated at spark-containers-functional-infinite_sequences.ads:354, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Checks.Eq_Symmetric at spark-containers-parameter_checks.ads:48, instantiated at spark-containers-functional-infinite_sequences.ads:354, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Checks.Eq_Transitive at spark-containers-parameter_checks.ads:51, instantiated at spark-containers-functional-infinite_sequences.ads:354, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Checks.Logical_Eq at spark-containers-parameter_checks.ads:54, instantiated at spark-containers-functional-infinite_sequences.ads:354, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Elements_Checks at spark-containers-functional-infinite_sequences.ads:365, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Elements_Checks.Eq_Reflexive at spark-containers-parameter_checks.ads:98, instantiated at spark-containers-functional-infinite_sequences.ads:365, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Elements_Checks.Eq_Reflexive at spark-containers-parameter_checks.ads:104, instantiated at spark-containers-functional-infinite_sequences.ads:365, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Elements_Checks.Eq_Symmetric at spark-containers-parameter_checks.ads:107, instantiated at spark-containers-functional-infinite_sequences.ads:365, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Elements_Checks.Eq_Transitive at spark-containers-parameter_checks.ads:110, instantiated at spark-containers-functional-infinite_sequences.ads:365, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Logical_Eq at spark-containers-functional-infinite_sequences.ads:32, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Reflexive at spark-containers-functional-infinite_sequences.ads:39, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Symmetric at spark-containers-functional-infinite_sequences.ads:42, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Eq_Transitive at spark-containers-functional-infinite_sequences.ads:45, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Equal_Except at spark-containers-functional-infinite_sequences.ads:450, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Equal_Except at spark-containers-functional-infinite_sequences.ads:467, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Equal_Prefix at spark-containers-functional-infinite_sequences.ads:436, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Equivalent_Elements_Reflexive at spark-containers-functional-infinite_sequences.ads:52, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Equivalent_Elements_Symmetric at spark-containers-functional-infinite_sequences.ads:55, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Equivalent_Elements_Transitive at spark-containers-functional-infinite_sequences.ads:58, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Equivalent_Sequences at spark-containers-functional-infinite_sequences.ads:194, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Find at spark-containers-functional-infinite_sequences.ads:227, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.First at spark-containers-functional-infinite_sequences.ads:127, instantiated at native_diagnostic_trace.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Native_Diagnostic_Trace.Line_Sequences.Get at spark-containers-functional-infinite_sequences.ads:110, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Iter_First at spark-containers-functional-infinite_sequences.ads:383, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Iter_Has_Element at spark-containers-functional-infinite_sequences.ads:386, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Iter_Next at spark-containers-functional-infinite_sequences.ads:396, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Last at spark-containers-functional-infinite_sequences.ads:119, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Lemma_Eq_Extensional at spark-containers-functional-infinite_sequences.ads:157, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Length at spark-containers-functional-infinite_sequences.ads:103, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Logical_Eq at spark-containers-functional-infinite_sequences.ads:139, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Range_Equal at spark-containers-functional-infinite_sequences.ads:484, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Range_Shifted at spark-containers-functional-infinite_sequences.ads:500, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Remove at spark-containers-functional-infinite_sequences.ads:311, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Sequence at spark-containers-functional-infinite_sequences.ads:74, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Line_Sequences.Set at spark-containers-functional-infinite_sequences.ads:255, instantiated at native_diagnostic_trace.ads:22 skipped; body is SPARK_Mode => Off
+  Native_Diagnostic_Trace.Pending_Contents at native_diagnostic_trace.ads:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Native_Diagnostic_Trace.Push at native_diagnostic_trace.ads:56 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 5 proved
+  Native_Diagnostic_Trace.Release at native_diagnostic_trace.ads:72 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Native_Diagnostic_Trace.Split_Contents at native_diagnostic_trace.ads:101 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Native_Diagnostic_Trace.Stack_Contents at native_diagnostic_trace.ads:79 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Native_Diagnostic_Trace.Take_All at native_diagnostic_trace.ads:68 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (78 checks)

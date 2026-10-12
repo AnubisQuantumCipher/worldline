@@ -1,0 +1,3 @@
+command: gnatprove -P core/worldline_core_sources.gpr -u worldline-archive_base64.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2 (lead2-tree = main working tree with the local-first base64 preconditions)
+start: 2026-10-12T06:49:15Z
+exit: 0 duration_s: 11

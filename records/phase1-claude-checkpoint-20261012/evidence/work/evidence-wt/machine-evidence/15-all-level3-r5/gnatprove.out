@@ -1,0 +1,49 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+----------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                       Provers   Justified   Unproved
+----------------------------------------------------------------------------------------------------
+Data Dependencies                 4           4                             .           .          .
+Flow Dependencies                 .           .                             .           .          .
+Initialization                    8           8                             .           .          .
+Non-Aliasing                      .           .                             .           .          .
+Run-time Checks                 148           .        148 (CVC5 89%, Z3 11%)           .          .
+Assertions                        2           .     2 (CVC5 50%, Trivial 50%)           .          .
+Functional Contracts             13           .    13 (CVC5 87%, Trivial 13%)           .          .
+LSP Verification                  .           .                             .           .          .
+Termination                      13          13                             .           .          .
+Concurrency                       .           .                             .           .          .
+----------------------------------------------------------------------------------------------------
+Total                           188    25 (13%)                     163 (87%)           .          .
+
+
+max steps used for successful proof: 3756
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-custody_v2_machine_evidence, 14 subprograms and packages out of 14 analyzed
+  Worldline.Custody_V2_Machine_Evidence at worldline-custody_v2_machine_evidence.ads:2 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Machine_Evidence.Count_Is at worldline-custody_v2_machine_evidence.adb:165 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Machine_Evidence.Input at worldline-custody_v2_machine_evidence.adb:115 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Machine_Evidence.Joined at worldline-custody_v2_machine_evidence.ads:8 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (121 checks)
+  Worldline.Custody_V2_Machine_Evidence.Joined.B_3.B_4.Input_Field at worldline-custody_v2_machine_evidence.adb:236 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Machine_Evidence.Lossless_Number at worldline-custody_v2_machine_evidence.adb:143 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Machine_Evidence.Matches at worldline-custody_v2_machine_evidence.adb:147 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Custody_V2_Machine_Evidence.Optional at worldline-custody_v2_machine_evidence.adb:105 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Custody_V2_Machine_Evidence.Optional_Matches at worldline-custody_v2_machine_evidence.adb:157 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Machine_Evidence.Quantity at worldline-custody_v2_machine_evidence.adb:94 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Custody_V2_Machine_Evidence.Shape at worldline-custody_v2_machine_evidence.adb:132 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Machine_Evidence.Value at worldline-custody_v2_machine_evidence.adb:137 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Custody_V2_Machine_Evidence.Word at worldline-custody_v2_machine_evidence.adb:80 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Custody_V2_Machine_Evidence.Zero at worldline-custody_v2_machine_evidence.adb:162 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)

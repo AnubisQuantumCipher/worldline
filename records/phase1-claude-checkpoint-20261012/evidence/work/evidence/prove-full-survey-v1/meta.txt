@@ -1,0 +1,7 @@
+start 2026-10-12T01:28:39Z
+commit 337c9a30c5ed9813421538b8e9f61d08f79e71b8
+tree 4dcb17c49635ea0127f581c7c28191a2960fc9e6
+purpose: SURVEY of all unproved checks (not the -j2 evidence run)
+cmd: gnatprove -P core/worldline_core_sources.gpr -U --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j8
+exit=1
+end 2026-10-12T01:34:45Z

@@ -1,0 +1,1 @@
+cmd: rm -f obj/core/gnatprove/*.spark; CAP=3G gnatprove -P core/worldline_core_sources.gpr -u worldline-startup_installation.adb --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on -j2 | exit=1 | duration=497s

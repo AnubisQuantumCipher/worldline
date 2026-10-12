@@ -1,0 +1,127 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                              Provers   Justified   Unproved
+------------------------------------------------------------------------------------------------------------
+Data Dependencies                 3            3                                    .           .          .
+Flow Dependencies                 .            .                                    .           .          .
+Initialization                   22           22                                    .           .          .
+Non-Aliasing                      .            .                                    .           .          .
+Run-time Checks                 632            .    620 (CVC5 96%, Z3 4%, altergo 0%)           .         12
+Assertions                      129            .                129 (CVC5 98%, Z3 2%)           .          .
+Functional Contracts             26            .     26 (CVC5 91%, Trivial 4%, Z3 5%)           .          .
+LSP Verification                  .            .                                    .           .          .
+Termination                     142           91                            51 (CVC5)           .          .
+Concurrency                       .            .                                    .           .          .
+------------------------------------------------------------------------------------------------------------
+Total                           954    116 (12%)                            826 (87%)           .    12 (1%)
+
+
+max steps used for successful proof: 2901
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-evaluation_role_native, 92 subprograms and packages out of 92 analyzed
+  Worldline.Evaluation_Role_Native at worldline-evaluation_role_native.ads:5 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Evaluation_Role_Native.Cap_Name at worldline-evaluation_role_native.adb:217 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.DAC_Capability at worldline-evaluation_role_native.adb:214 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Evaluation_Role_Native.Field at worldline-evaluation_role_native.adb:159 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (32 checks)
+  Worldline.Evaluation_Role_Native.Fields_Valid at worldline-evaluation_role_native.adb:111 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (49 checks)
+  Worldline.Evaluation_Role_Native.Four at worldline-evaluation_role_native.adb:210 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Has_Field at worldline-evaluation_role_native.adb:186 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (32 checks)
+  Worldline.Evaluation_Role_Native.Image at worldline-evaluation_role_native.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Evaluation_Role_Native.JSON at worldline-evaluation_role_native.adb:105 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Evaluation_Role_Native.Line at worldline-evaluation_role_native.adb:277 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (26 checks)
+  Worldline.Evaluation_Role_Native.Lines at worldline-evaluation_role_native.adb:257 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (22 checks)
+  Worldline.Evaluation_Role_Native.Map at worldline-evaluation_role_native.adb:300 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (35 checks)
+  Worldline.Evaluation_Role_Native.Mapped at worldline-evaluation_role_native.adb:324 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Mount_Path at worldline-evaluation_role_native.adb:367 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (22 checks)
+  Worldline.Evaluation_Role_Native.NS_Name at worldline-evaluation_role_native.adb:219 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Namespace_Link at worldline-evaluation_role_native.adb:392 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Evaluation_Role_Native.Nul_Count at worldline-evaluation_role_native.adb:356 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Evaluation_Role_Native.Nul_Word at worldline-evaluation_role_native.adb:336 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Evaluation_Role_Native.Observed_Role at worldline-evaluation_role_native.adb:458 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Observed_Role.F at worldline-evaluation_role_native.adb:459 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Original_Observed at worldline-evaluation_role_native.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Original_Workers_Separated at worldline-evaluation_role_native.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Original_Workers_Separated.A at worldline-evaluation_role_native.adb:493 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Original_Workers_Separated.Equal at worldline-evaluation_role_native.adb:494 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Original_Workers_Separated.F at worldline-evaluation_role_native.adb:492 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Original_Workers_Separated.Same_Get at worldline-evaluation_role_native.adb:495 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Parse_Number at worldline-evaluation_role_native.adb:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Evaluation_Role_Native.Process at worldline-evaluation_role_native.adb:225 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (29 checks)
+  Worldline.Evaluation_Role_Native.Python_Four at worldline-evaluation_role_native.adb:429 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (29 checks)
+  Worldline.Evaluation_Role_Native.Raw at worldline-evaluation_role_native.adb:98 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Strip at worldline-evaluation_role_native.adb:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (19 checks)
+  Worldline.Evaluation_Role_Native.Unicode_White_Width at worldline-evaluation_role_native.adb:411 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Worldline.Evaluation_Role_Native.Valid at worldline-evaluation_role_native.ads:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Evaluation_Role_Native.Valid.A at worldline-evaluation_role_native.adb:538 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Acknowledged at worldline-evaluation_role_native.adb:1835 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Evaluation_Role_Native.Valid.Acquisition at worldline-evaluation_role_native.adb:544 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Ancestry_Valid at worldline-evaluation_role_native.adb:830 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Evaluation_Role_Native.Valid.Array_Commas at worldline-evaluation_role_native.adb:894 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (19 checks)
+  Worldline.Evaluation_Role_Native.Valid.Array_Words at worldline-evaluation_role_native.adb:886 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Evaluation_Role_Native.Valid.Bootstrap_Valid at worldline-evaluation_role_native.adb:734 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 0 checks out of 3 proved
+  Worldline.Evaluation_Role_Native.Valid.Bootstrap_Valid.Separated at worldline-evaluation_role_native.adb:744 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Canonical_Group at worldline-evaluation_role_native.adb:708 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (25 checks)
+  Worldline.Evaluation_Role_Native.Valid.Capture_Budget at worldline-evaluation_role_native.adb:1612 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Capture_Budget.Read_Charge at worldline-evaluation_role_native.adb:1613 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Clean at worldline-evaluation_role_native.adb:541 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Cleanup_Valid at worldline-evaluation_role_native.adb:1862 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Evaluation_Role_Native.Valid.Command_Valid at worldline-evaluation_role_native.adb:810 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Compatibility at worldline-evaluation_role_native.adb:1711 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 25 checks out of 27 proved
+  Worldline.Evaluation_Role_Native.Valid.Completion at worldline-evaluation_role_native.adb:1344 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Completion_Valid at worldline-evaluation_role_native.adb:1323 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Descriptor_Valid at worldline-evaluation_role_native.adb:1383 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 8 checks out of 9 proved
+  Worldline.Evaluation_Role_Native.Valid.Device_Pair at worldline-evaluation_role_native.adb:928 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Evaluation_Role_Native.Valid.Equal at worldline-evaluation_role_native.adb:540 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Expected_Source at worldline-evaluation_role_native.adb:1059 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 0 checks out of 3 proved
+  Worldline.Evaluation_Role_Native.Valid.F at worldline-evaluation_role_native.adb:535 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Filesystem_Equals at worldline-evaluation_role_native.adb:861 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (35 checks)
+  Worldline.Evaluation_Role_Native.Valid.Find_Role at worldline-evaluation_role_native.adb:1743 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Handle_Valid at worldline-evaluation_role_native.adb:995 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Worldline.Evaluation_Role_Native.Valid.Helper_Command at worldline-evaluation_role_native.adb:1358 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Evaluation_Role_Native.Valid.Identity_Matches at worldline-evaluation_role_native.adb:574 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Integer_Is at worldline-evaluation_role_native.adb:542 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Linux_Major at worldline-evaluation_role_native.adb:991 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Evaluation_Role_Native.Valid.Linux_Minor at worldline-evaluation_role_native.adb:993 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Evaluation_Role_Native.Valid.Mount_Marker at worldline-evaluation_role_native.adb:917 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Evaluation_Role_Native.Valid.Mount_Row_Valid at worldline-evaluation_role_native.adb:938 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Evaluation_Role_Native.Valid.Mount_Table_Valid at worldline-evaluation_role_native.adb:607 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)
+  Worldline.Evaluation_Role_Native.Valid.Mounts_Valid at worldline-evaluation_role_native.adb:1193 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+  Worldline.Evaluation_Role_Native.Valid.Mounts_Valid.Aliases_Valid at worldline-evaluation_role_native.adb:1205 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Evaluation_Role_Native.Valid.N at worldline-evaluation_role_native.adb:537 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Namespace at worldline-evaluation_role_native.adb:592 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Native_Mapping_Valid at worldline-evaluation_role_native.adb:1523 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (97 checks)
+  Worldline.Evaluation_Role_Native.Valid.Native_Outcome_Valid at worldline-evaluation_role_native.adb:1925 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Worldline.Evaluation_Role_Native.Valid.Packet_Valid at worldline-evaluation_role_native.adb:782 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Evaluation_Role_Native.Valid.Quota_Valid at worldline-evaluation_role_native.adb:1757 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Evaluation_Role_Native.Valid.R at worldline-evaluation_role_native.adb:539 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Raw_Maps_Equal at worldline-evaluation_role_native.adb:687 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Read_Bytes at worldline-evaluation_role_native.adb:577 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Record_Bound at worldline-evaluation_role_native.adb:693 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Evaluation_Role_Native.Valid.Reserved at worldline-evaluation_role_native.adb:1186 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Retained_Control at worldline-evaluation_role_native.adb:1374 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Role_Valid at worldline-evaluation_role_native.adb:1643 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Evaluation_Role_Native.Valid.S at worldline-evaluation_role_native.adb:536 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Same_Object at worldline-evaluation_role_native.adb:565 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Slot at worldline-evaluation_role_native.adb:1097 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Evaluation_Role_Native.Valid.Slot_Source at worldline-evaluation_role_native.adb:1174 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 2 checks out of 5 proved
+  Worldline.Evaluation_Role_Native.Valid.Slot_Target at worldline-evaluation_role_native.adb:1162 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Evaluation_Role_Native.Valid.Source at worldline-evaluation_role_native.adb:691 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Valid.Subject_Valid at worldline-evaluation_role_native.adb:608 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Worldline.Evaluation_Role_Native.White at worldline-evaluation_role_native.adb:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Evaluation_Role_Native.Word at worldline-evaluation_role_native.adb:61 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (23 checks)
+  Worldline.Evaluation_Role_Native.Word_Count at worldline-evaluation_role_native.adb:87 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Evaluation_Role_Native.Zero_Hex at worldline-evaluation_role_native.adb:212 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)

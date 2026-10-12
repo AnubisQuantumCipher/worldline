@@ -1,0 +1,828 @@
+{
+  "schema": "phase1-independent-readonly-progress-audit-v1",
+  "captured_at": "2026-10-12T06:24:28.313431-04:00",
+  "target_workspace": "/home/sicarii/Work/worldline-phase1-claude-20261012",
+  "target_session": "0f146ed8-a2d2-4eb5-bc17-c4a1e9afa43b",
+  "source_head": "875d6e63fffe2cb8ad9343e3a7f5363e214288fb",
+  "source_status_short": "",
+  "phase_one_complete": false,
+  "runtime_survey_is_final_acceptance": false,
+  "snapshots": [
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/STATUS.md",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/STATUS.md",
+      "sha256": "b60c1aa8048235e302f0c3ba6e124f6366690096ed45e8e5e309e2f30783cab4",
+      "bytes": 16538
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/MATRIX.md",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/MATRIX.md",
+      "sha256": "f6e76c17f512293aafafd200d022d2028a1d4f9e661cd1de5a8bf455af54ddbd",
+      "bytes": 6317
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/campaign/seven-area-map.md",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/seven-area-map.md",
+      "sha256": "9cf00afba2e4b5bb8e2f88f0255ed0904bbd089fa877796b59bc7a2e26e651fe",
+      "bytes": 21556
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/run.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/roster-run-3-run.json",
+      "sha256": "49f10153a1a408f8ceb9464edfdf83a6a7e00947c7fe0f919d303e9b5513c542",
+      "bytes": 247
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/meta.txt",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/roster-run-3-meta.txt",
+      "sha256": "848519e8f66806aac0e62e3710450f81be5509540d9002511233c2a7ef0c8519",
+      "bytes": 461
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/runner-stdout.txt",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/roster-run-3-stdout.txt",
+      "sha256": "4a559597978407e6aa5e408a6a5a3be2819ea98dff54332008bdc339e7aaf48e",
+      "bytes": 9421
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-000-row0/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-000-row0-record.json",
+      "sha256": "2f918358d011e6feff9a2c461e6a0849a3556c9333294cada7aac8c2f28e8c76",
+      "bytes": 5123
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-001-row1/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-001-row1-record.json",
+      "sha256": "0e879cef7d1cfb99052c2b2abf4b149aefb55731a595b8a8f84172cc6d524707",
+      "bytes": 5588
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-002-row2/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-002-row2-record.json",
+      "sha256": "559dfa2189f2849781dd5393214b41cb98561e7ecd14a75fa1a772d00eb6b29e",
+      "bytes": 5256
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-003-row3/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-003-row3-record.json",
+      "sha256": "e11f6b40a6b903d6414af8d3b0b993803199bc057515762471f08b306300e5fb",
+      "bytes": 5280
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-004-row4/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-004-row4-record.json",
+      "sha256": "a6f153a0ee1dca4b1b1ee2c563d59a1274e06ece1aa56b6347707afdba66a675",
+      "bytes": 5275
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-005-row5/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-005-row5-record.json",
+      "sha256": "5328b73f717c2cf61f3ffb1432b8f57a44fe1d46f701bd6b8e6280a9e306c410",
+      "bytes": 4744
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-006-row6/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-006-row6-record.json",
+      "sha256": "6ae017d64782e53f0cc8a15b5c53d1d9a817fde6b69f9dc79b9e7f4afccd0330",
+      "bytes": 5178
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-007-row7/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-007-row7-record.json",
+      "sha256": "9185d931b809a9528410a5ce2ccaac073fee8c6c5b070d10636dd20dc92c726f",
+      "bytes": 5011
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-008-row8/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-008-row8-record.json",
+      "sha256": "d4cd3123d7fd5d4a84834ec4d5b37245cefaee1c5e073af4eafb69e6f6fd8c88",
+      "bytes": 4794
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-009-row9/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-009-row9-record.json",
+      "sha256": "60c934cc130821f4cfc3f433bd58025769a5e12bdde963cd698493e38108a3bc",
+      "bytes": 4594
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-010-row10/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-010-row10-record.json",
+      "sha256": "8e805f08dfa500f217e6ebc33896e1b2b789947b2d301c9abfea88bf89c6544c",
+      "bytes": 4598
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-011-row11/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-011-row11-record.json",
+      "sha256": "c052ab5ba4efdfa95d3bc4d42de80d3c649451bee28f9df5a267fb1bcf4c04aa",
+      "bytes": 4820
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-012-row12/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-012-row12-record.json",
+      "sha256": "e364f8631744ca375bc255c20d3b1099c8d35a633eec2fe66e4870781b4998e3",
+      "bytes": 4839
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-013-row13/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-013-row13-record.json",
+      "sha256": "b76bf63ce983949d6b6683cd331aa7527f37d216e6727081e9c27d36e8fb97d6",
+      "bytes": 4543
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-014-row14/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-014-row14-record.json",
+      "sha256": "f1a900808261079259ecb299552e25f1c57964d2db932ff20c3ac56357b5070a",
+      "bytes": 4571
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-015-row15/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-015-row15-record.json",
+      "sha256": "630e8a5a30aa98d01522a4bc80594c7c583489fbd79077357489d08f9e4eadfe",
+      "bytes": 4570
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-016-row16/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-016-row16-record.json",
+      "sha256": "e29193f4558c7e5660c22744f3ee509f038947bdf8a5f028db16e8bf2da1839c",
+      "bytes": 4695
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-017-row17/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-017-row17-record.json",
+      "sha256": "1ec27bfa9843584f10b576559a9a6d32a7131521b8a63be4279dbbe8fe906ef2",
+      "bytes": 4181
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-018-row18/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-018-row18-record.json",
+      "sha256": "8bce5f6f8fed06d1498d4e4b294c77e27483a6c9ad7f9cf6bcc54a3b508cc462",
+      "bytes": 4475
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-019-row19/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-019-row19-record.json",
+      "sha256": "9501dc15337fd8dbc3296fb1712d65b58308de20440aed520c422f0930d7b846",
+      "bytes": 4257
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-020-row20/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-020-row20-record.json",
+      "sha256": "378f467e03b0eedebe356d24e9e789ed61721254762830eb3aa42d7509e1bd7d",
+      "bytes": 4805
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-021-row21/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-021-row21-record.json",
+      "sha256": "cb84712fd275c030311b037e243f3793f3b142e913ac4c83ab21a61f0ab4ef71",
+      "bytes": 4801
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-022-row22/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-022-row22-record.json",
+      "sha256": "2c56538fa5c26f7cfa75317b88ec1a319046ce101dbf9495337bd23c4eb380e5",
+      "bytes": 4578
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-023-row23/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-023-row23-record.json",
+      "sha256": "fc61d453a3268bf075ee1aafead62045c12daf4bec4bc7d7d589d2aa2b6749ed",
+      "bytes": 4580
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-024-row24/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-024-row24-record.json",
+      "sha256": "3542d43d3052d71aaf5f5452f5f0b4bffbdfe92ce5a261b8d0e75acf4140a336",
+      "bytes": 5018
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-025-row25/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-025-row25-record.json",
+      "sha256": "f345f90fc8e60620dad678fa3e18a19deafc4c999f6caf3fa563a5eda19832de",
+      "bytes": 4377
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-026-row26/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-026-row26-record.json",
+      "sha256": "5978b7f93531ba2e12b06c932c9977b42850e0997b5c092ecb8df364cad30773",
+      "bytes": 4570
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-027-row27/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-027-row27-record.json",
+      "sha256": "b2f0830dabbbdcc5901dbb1acc1cf30d65cd1bba3a28ba4a65de4a8c89a66564",
+      "bytes": 4789
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-028-row28/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-028-row28-record.json",
+      "sha256": "d113850dce97a344a03783b5a532c2efa761e4c73b817b90f8bab5265b89c932",
+      "bytes": 4429
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-029-row29/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-029-row29-record.json",
+      "sha256": "60176f610cd9ff0f096cca8092039ef979f9735831c63ab71a2e56891446eb5e",
+      "bytes": 4225
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-030-row30/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-030-row30-record.json",
+      "sha256": "e2628d695fb3965b5290db8a525217b6abc8b74d451fa0eb49e3413b1c909b5a",
+      "bytes": 4595
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-031-row31/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-031-row31-record.json",
+      "sha256": "78e86aafcc021fab47fac337fde647d9959f093cafd801896e18520c48df47ad",
+      "bytes": 5077
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-032-row32/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-032-row32-record.json",
+      "sha256": "737674cb69d2898cc2214569049544793cde5cfb4d9bbf8d5d215668ed93dfdc",
+      "bytes": 4803
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-033-row33/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-033-row33-record.json",
+      "sha256": "041209929cdc4c2046d615e8a582d8f6a168df3662c33411ae01bd71ce847f1c",
+      "bytes": 4758
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-034-row34/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-034-row34-record.json",
+      "sha256": "4cbab41d985441ae28b3e7a35b7dcf3d542cac0ca27277141dec60fae92324df",
+      "bytes": 4264
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-035-row35/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-035-row35-record.json",
+      "sha256": "d083e71054dae1bd680747e37e591e441d709ae60b6f4ad344a86f6e989cd76f",
+      "bytes": 4577
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-036-row36/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-036-row36-record.json",
+      "sha256": "28e6559290a2926a64a628a9ef6ed60bbbf87576572e5ea22ca244fdc3921cac",
+      "bytes": 4584
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-037-row37/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-037-row37-record.json",
+      "sha256": "c212d78909121614aeeac1a23f7e2e4c73f01f9a9b48ebc0d907f64960e529e4",
+      "bytes": 4582
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-038-row38/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-038-row38-record.json",
+      "sha256": "56051ed487433b222f4a2723221682b0ee09b5cea963b591420908144d8e16b1",
+      "bytes": 4547
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-039-row39/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-039-row39-record.json",
+      "sha256": "7139c22a6d5802f5309bc03545b191c60beecb8d5c67139159fe563b46d16148",
+      "bytes": 4466
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-040-row40/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-040-row40-record.json",
+      "sha256": "67677b3b8f27e78351b999684aff01be8453bde36958d083f76e0bbc9228a480",
+      "bytes": 4438
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-041-row41/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-041-row41-record.json",
+      "sha256": "5c432a86d7070644c1afe9ed97cebbcc1642811bfb2dd4b8d2b978139f896151",
+      "bytes": 4560
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-042-row42/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-042-row42-record.json",
+      "sha256": "ac166fe4c011cfc73ad1dd96d6a54f39da6ac6ea90c4a5bc4550938e51f00207",
+      "bytes": 4199
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-043-row43/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-043-row43-record.json",
+      "sha256": "de0423219afdb3392e604bba5c783944cad3e4b3d1aacc5a2df6327de065679c",
+      "bytes": 4585
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-044-row44/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-044-row44-record.json",
+      "sha256": "fc84875d86e19b7079b18af09480e32815edc56cf67ff284bdf9d7167b795e99",
+      "bytes": 4599
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-045-row45/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-045-row45-record.json",
+      "sha256": "088c9f385b6e264b675d5c466374622a4cef21d262304b67fed4acde799e09b0",
+      "bytes": 4614
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-046-row46/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-046-row46-record.json",
+      "sha256": "9cadbc0ffebe58f8b79c523bdeb129e0600befc8470ae97520167f3ea82731e2",
+      "bytes": 4714
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-047-row47/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-047-row47-record.json",
+      "sha256": "a08c81977c13e92c8a6b13d60212ce6e37572c9e86b052fcc6277e622f1c9d61",
+      "bytes": 4956
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-048-row48/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-048-row48-record.json",
+      "sha256": "d491fced9e29be1b76f2ff5ab6ad1388e4aa5202c819ed9aa425e7a91c222ba2",
+      "bytes": 4844
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-049-row49/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-049-row49-record.json",
+      "sha256": "1a46fb72614d2f1ef7e197134baff767998ad0bc3e07cc90e907ff3f052d62ae",
+      "bytes": 4708
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-050-row50/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-050-row50-record.json",
+      "sha256": "a47a73805c8c2b160b2a941051deae6c09f8f09a4535f4f1a992d8cd2a45bd9a",
+      "bytes": 5201
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-051-row51/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-051-row51-record.json",
+      "sha256": "9c5a7fc976e2f5c0cf41e9ebc1921ae8eff7d5fd2fdbdb0508c73a23a8ad4304",
+      "bytes": 4261
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-052-row52/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-052-row52-record.json",
+      "sha256": "ad6ddf1d16105b5bf5f9979905687d7f9600fc3bacfa7df9674053ea07d65719",
+      "bytes": 5526
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-053-row53/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-053-row53-record.json",
+      "sha256": "7443fa70d5842b672c1e262b83e246bf8a7831dabb5d412a1b97d44ee8884656",
+      "bytes": 4670
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-054-row54/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-054-row54-record.json",
+      "sha256": "5fe7b6d9699fe45c87e9fb2ccb3ab2d8ea986b480f58e8430c16a8f426202c97",
+      "bytes": 4807
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-055-row55/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-055-row55-record.json",
+      "sha256": "53ac35c0efbf2e164db08265b89295e9ad7b3a5de51db4c6ec7d76ec1b7fd31a",
+      "bytes": 5320
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-056-row56/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-056-row56-record.json",
+      "sha256": "11f3859694ea371228e8351fa31bb5cd8ea98530db855fad93dc52ff93648171",
+      "bytes": 4477
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-057-row57/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-057-row57-record.json",
+      "sha256": "8bc717b9887c32dfeac3d782143df98e2799c408aa07681d43192d811c8f131d",
+      "bytes": 5371
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-058-row58/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-058-row58-record.json",
+      "sha256": "1438ba8ae81258a12f04443b7e1832fd6fc7a6774b409046e86afc46278178af",
+      "bytes": 4482
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-059-row59/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-059-row59-record.json",
+      "sha256": "699f1a4d1957f04d1575239d2ed630cfce7a067bcad01ba94f5b5b4f3287e0dd",
+      "bytes": 5383
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-060-row60/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-060-row60-record.json",
+      "sha256": "516db3792ab0a67686ed1defd88ca88ab06c69b4648c526e817030cd38de03e6",
+      "bytes": 4488
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-061-row61/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-061-row61-record.json",
+      "sha256": "ecb51a5d141c6250419da6687c174533605a588243f2ff499b35fc1aa09dd28f",
+      "bytes": 5107
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-062-row62/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-062-row62-record.json",
+      "sha256": "02011f236ba2f805762533d95c969b728d1c4519c5c4d277a9d45fb46b1ca2e2",
+      "bytes": 4551
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-063-row63/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-063-row63-record.json",
+      "sha256": "abf3a857c8cb89b31e4456f04f6f934ff7a67896d78872f93382d2535dfe1244",
+      "bytes": 5651
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-064-row64/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-064-row64-record.json",
+      "sha256": "92c2830b40944eee469b7be2e56c7c8af9116ff0643b1527fb8b488fe84ec971",
+      "bytes": 5139
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-065-row65/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-065-row65-record.json",
+      "sha256": "52ff559cf3b75d942b4281b5ba0b79e43a90497eda86e064585ae7839b5acb3a",
+      "bytes": 4827
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-066-row66/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-066-row66-record.json",
+      "sha256": "ff727410e893c78c648f2ecfc9a7581b67ddc16b1aa9084b131ffc8d7a47d566",
+      "bytes": 5148
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-067-row67/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-067-row67-record.json",
+      "sha256": "b8b25968d66054039a5997a15f9f4b98f9eba0749a183ecb5db3528b8cc0afe3",
+      "bytes": 4825
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-068-row68/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-068-row68-record.json",
+      "sha256": "561b057d724897e49d9c58497345f1443aea949d5d0ad323528ad8257cde86f4",
+      "bytes": 4512
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-069-row69/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-069-row69-record.json",
+      "sha256": "1b15c275c9eb8eec60a02f4672d99f7aed769797a76d7b845ce388376e7559c8",
+      "bytes": 4828
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-070-row70/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-070-row70-record.json",
+      "sha256": "157bcd197bf0e4862b8a691a174feb656f86b4a6242d3238ae67209703ab67d8",
+      "bytes": 5137
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-071-row71/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-071-row71-record.json",
+      "sha256": "fffc901f58aab9c90c004c71044d7cea89dac93c8daf702c5072d7bfe4052ec8",
+      "bytes": 4829
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-072-row72/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-072-row72-record.json",
+      "sha256": "6254a6606b7700a2c5a09ddb5b054d98a0f57632c6c3daffeb1910de667eff18",
+      "bytes": 4527
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-073-row73/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-073-row73-record.json",
+      "sha256": "b527557340b8218223a61f66913d80825b8fa3f6566e9e7ca5666b9d8597aab3",
+      "bytes": 5039
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-074-row74/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-074-row74-record.json",
+      "sha256": "6f57e16e325a11c20dc3a039f7c2e4f56f28e7210525662e609bb8cc39b02242",
+      "bytes": 5083
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-075-row75/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-075-row75-record.json",
+      "sha256": "68983a4ba1daabb2cd12e435ad970189128c886adf6ded03acc1533e63289889",
+      "bytes": 4815
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-076-row76/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-076-row76-record.json",
+      "sha256": "dbc9e35e0320639938d07aeb78702d2216bdc8d860b97693e12e2a335f89da1e",
+      "bytes": 5092
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-077-row77/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-077-row77-record.json",
+      "sha256": "ee3a3b354c6eaae66f37bbfa18c216b4b5cb5aab0e94fa96787c59d4c43a2140",
+      "bytes": 5315
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-078-row78/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-078-row78-record.json",
+      "sha256": "71e4e273b5bfc40add0a38ceda44dbad77b3ec82bb1f60f7a89965d4c26fad74",
+      "bytes": 4524
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-079-row79/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-079-row79-record.json",
+      "sha256": "8babf1e5058b6ab8f4aca921a5a8bd961a156da07c970154de94553f084b678d",
+      "bytes": 5633
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-080-row80/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-080-row80-record.json",
+      "sha256": "9476a8bd896bfaa58751e9dc2955e412886a50b8efdfb012cbd954057434925a",
+      "bytes": 4441
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-081-row81/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-081-row81-record.json",
+      "sha256": "bf3bf40461fe50bda1082427f4e055322d305e7941126285e7c50380299e529c",
+      "bytes": 4699
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-082-row82/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-082-row82-record.json",
+      "sha256": "fcae01981be7ff70a669353ef88607808746ef858717e721f9749ea1244d0340",
+      "bytes": 4462
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-083-row83/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-083-row83-record.json",
+      "sha256": "488f928984b535289b8ed1b0f6d5e7ec3798901afc7d455326aa195d0885f3db",
+      "bytes": 4696
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-084-row84/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-084-row84-record.json",
+      "sha256": "8e9a9f73e35d73ff6b91b6ca4fa0eeaffb784b49ef2a290a332db5b114550533",
+      "bytes": 4453
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-085-row85/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-085-row85-record.json",
+      "sha256": "e60617eb15f0d315cf2b88094a36162fdfc3e85bfab9c30e0d89dd63cad3b7c3",
+      "bytes": 4944
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-086-row86/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-086-row86-record.json",
+      "sha256": "f963db9e4fbb14bd3da675c77dddcec98da5f8edfba645ee63dd9c7409f7bb02",
+      "bytes": 4473
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-087-row87/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-087-row87-record.json",
+      "sha256": "8633286c680be388272543acf8b0bee589b766164702d00dfe9d751b73424ae8",
+      "bytes": 4913
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-088-row88/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-088-row88-record.json",
+      "sha256": "57395d605fa256d7ad08a6d8d0df96748eb04be0c0a9df5e53d09c549ffd90b4",
+      "bytes": 4452
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-089-row89/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-089-row89-record.json",
+      "sha256": "313a7566ea421d9daa876d596efe27efdd5bcda47253e8df639404777f870c7c",
+      "bytes": 5368
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-090-row90/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-090-row90-record.json",
+      "sha256": "5d7b4b6fab1a33b58182bd552294982f5cea141fc5e30dc74156191e143c8499",
+      "bytes": 4488
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-091-row91/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-091-row91-record.json",
+      "sha256": "12ac13a0664f9af56751a5e0620fb11b784f6cf3f35b0d46a6f07fe520d16153",
+      "bytes": 5087
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-092-row92/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-092-row92-record.json",
+      "sha256": "83b1dc594d159500b941db84b7853750ae3af1e3a9765ee3012c0984ef984d5a",
+      "bytes": 4960
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-093-row93/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-093-row93-record.json",
+      "sha256": "97440e0db9f657331eec47f973ed6fbe9f799b750573bd914c99d664fa752f23",
+      "bytes": 5459
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-094-row94/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-094-row94-record.json",
+      "sha256": "5ba89133ed368400b7f58507a37fad87b92cafede93adb7975465adf8d24f211",
+      "bytes": 5112
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-095-row95/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-095-row95-record.json",
+      "sha256": "30f0cb4507cc3a25361cdc800e770792ba1229dfe952c02acb75b7f2a9fd70d0",
+      "bytes": 4953
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-096-row96/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-096-row96-record.json",
+      "sha256": "509f31a041570539a35d563d7498cf7a1e8a4b380732d091d686d890f5cfd8df",
+      "bytes": 4465
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-097-row97/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-097-row97-record.json",
+      "sha256": "ca40c9184de93787c9c9d32a4bdcba15a15e9c0c7a6e28e38fb9c317d6de5b72",
+      "bytes": 5176
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-098-row98/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-098-row98-record.json",
+      "sha256": "13242e2d2435d3e54e2fa01aa02a8e660958aaf988b0ecf8f4858fa8837d0083",
+      "bytes": 4436
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-099-row99/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-099-row99-record.json",
+      "sha256": "532263b94074526af6e6468c23113a5d031e5240e9c4c006e92c75e78d605de2",
+      "bytes": 4939
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-100-row100/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-100-row100-record.json",
+      "sha256": "9e40ca2414707eb94b591e9052242c81f68ed46a8e13130166c855dbed83bdb3",
+      "bytes": 4460
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-101-row101/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-101-row101-record.json",
+      "sha256": "96be2c4e561e4e36cafcea5ed98607b04a8ed678fdb75b9df295499e87296627",
+      "bytes": 4996
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-102-row102/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-102-row102-record.json",
+      "sha256": "ab160833f76189b1085ef0b43e4d85a7821d80552779f35307f24f0e9457abb4",
+      "bytes": 4471
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-103-row103/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-103-row103-record.json",
+      "sha256": "08092d040e34879edc7adc0fd0fb5712b626089023f363ee06f555084713bef5",
+      "bytes": 5479
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-104-row104/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-104-row104-record.json",
+      "sha256": "60ff1dcb71739c861d036828b8f0a708d796f0c3dd1f46f0feb50625b15864f4",
+      "bytes": 4493
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-105-row105/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-105-row105-record.json",
+      "sha256": "877e34fe899c25aa0bf95afc71230bd461261364b4288d40f42b3bc6211f9ee0",
+      "bytes": 4846
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-106-row106/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-106-row106-record.json",
+      "sha256": "81e04b6c2ab9debbb60748dde09f773dd17448fd7a97d0618e80476ed5416170",
+      "bytes": 4856
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-107-row107/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-107-row107-record.json",
+      "sha256": "a43e310cf55332c1d63cbe221f7c1d8bd33a4adc24f93019206adccdcf01a5fb",
+      "bytes": 4859
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-108-row108/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-108-row108-record.json",
+      "sha256": "cc2a85bf46ee85a894b1071e26bbbf9b63d5b1ffc842e1221bf52e8385ce26b1",
+      "bytes": 4890
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-109-row109/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-109-row109-record.json",
+      "sha256": "b6bc2f2603f1db3a7f4afd2489d8cf74fa7687fa86d15900c88c52ae468d8840",
+      "bytes": 4616
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-110-row110/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-110-row110-record.json",
+      "sha256": "9a477b954223286d4ad595e822808faa76a5216640f74adb3fef6e517c7d201a",
+      "bytes": 4829
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-111-row111/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-111-row111-record.json",
+      "sha256": "872506fa5ed486025fe452ba1d0c8773076570fea86165a47a9ebe9c717f67d5",
+      "bytes": 4812
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-112-row112/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-112-row112-record.json",
+      "sha256": "6bf52fda84d6d771bfe678502c615278e873418b5a6c85824c043c2c47de0e7a",
+      "bytes": 4809
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-113-row113/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-113-row113-record.json",
+      "sha256": "01a6c4d645cdd2f4d61cf6dee665f08c51305b576048f0e776a7a08d1ae54244",
+      "bytes": 4852
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-114-row114/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-114-row114-record.json",
+      "sha256": "2a3aa7cc8eab687f277ec53ceb87b145af48617cc029d6599aea005a21760086",
+      "bytes": 4814
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/planned-115-row115/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/planned-115-row115-record.json",
+      "sha256": "5a6c3bd20c6b08b7f544322fe54c4c0b9205b546f8a6e953e08a3878101fe6f7",
+      "bytes": 4817
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-000-freshness-json-object-order-additional-controls/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-000-freshness-json-object-order-additional-controls-record.json",
+      "sha256": "6d50c002c4c3d7e40bd8605d6015874978e35127fa47825156cf07d809a4fe40",
+      "bytes": 5193
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-001-execution-evidence-boundary-additional-controls/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-001-execution-evidence-boundary-additional-controls-record.json",
+      "sha256": "773bdbfd0e57a069851ca7cee61c0e9bef3bc48242aee2f8c5825c9f1862c331",
+      "bytes": 4775
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-002-original-physical-semantic-build/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-002-original-physical-semantic-build-record.json",
+      "sha256": "45925e5f86f26f0e20e2fbcd95338457b5a2f67a842e4bb90b8e79c308ac7fbf",
+      "bytes": 5423
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-003-original-physical-semantic-controls/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-003-original-physical-semantic-controls-record.json",
+      "sha256": "fd87e2f243b3bdcfc9a6fecf184771d66b0e6a34ec78aaf8166ebade0c763c93",
+      "bytes": 4552
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-004-original-canonical-exchange-semantic-build/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-004-original-canonical-exchange-semantic-build-record.json",
+      "sha256": "ab4fcf5de744949ee7310c4680bebbea9404be54ec37181ff5949a87bdff9d18",
+      "bytes": 5123
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-005-original-canonical-exchange-semantic-controls/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-005-original-canonical-exchange-semantic-controls-record.json",
+      "sha256": "205493073f199cbec1269e893b6fc472668e0d9eac2b2a17e8160b8ab6a072ad",
+      "bytes": 4724
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-006-original-canonical-owner-semantic-build/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-006-original-canonical-owner-semantic-build-record.json",
+      "sha256": "4b567bfbdf26621c43f67ac51177ee764f2be578668839833db15a7f7b99039d",
+      "bytes": 5330
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/roster-run-3/additional-007-original-canonical-owner-semantic-controls/record.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/additional-007-original-canonical-owner-semantic-controls-record.json",
+      "sha256": "474709895927929d275c17aab043a903447035caea4c78633b1c8a556f5a4b41",
+      "bytes": 4766
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/DIAGNOSIS-acquisition-closure-failed-cgroup-read.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/DIAGNOSIS-acquisition-closure-failed-cgroup-read.json",
+      "sha256": "7b92d174fa0a7c549a9d90db5b52f627c2fa6bb33a92afc29d538f46e8e8ab1f",
+      "bytes": 8837
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/DIAGNOSIS-preexisting-source20-failures-ab.json",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/DIAGNOSIS-preexisting-source20-failures-ab.json",
+      "sha256": "1f748ca4948765f62cc7ec3cda210ddc82023361ed9f130c43192d8558aaa74a",
+      "bytes": 3847
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/DIAGNOSIS-machine-evidence-size-vs-object-size.md",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/DIAGNOSIS-machine-evidence-size-vs-object-size.md",
+      "sha256": "062ec4384e1af79b9e1af30e8e9d6ced02d27c70a16cfca8db6202ab683d3f8f",
+      "bytes": 2333
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/diag-packet-native-v1/DIAGNOSIS-replay-derivation.md",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/DIAGNOSIS-replay-derivation.md",
+      "sha256": "5ba5584eb12e4e19e7bad4290022ae149160da27fc9f354ed57efeddd262927c",
+      "bytes": 1739
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence-wt/legality-small/RESIDUALS.txt",
+      "snapshot": "/home/sicarii/Documents/Codex/2026-10-12/phase1-claude-progress-audit/snapshots/legality-small-RESIDUALS.txt",
+      "sha256": "bcc9379052cfad50931a59f3d05dc343b7ee2fe56d372ca14ab041311a9b8851",
+      "bytes": 19762
+    }
+  ],
+  "limitations": [
+    "Existing artifact audit only; no campaign rerun.",
+    "Target work continues; captured files may be superseded.",
+    "Exit-zero survey rows are not original-frame acceptance or necessarily all assertions reached.",
+    "Missing records are not fabricated failures or passes."
+  ]
+}

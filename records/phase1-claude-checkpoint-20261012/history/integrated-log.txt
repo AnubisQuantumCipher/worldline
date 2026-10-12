@@ -1,0 +1,1743 @@
+commit 802708bf23f875c96000fff5e5fed3c68f8103a6
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 07:01:09 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 07:02:42 2026 -0400
+
+    Merge branch 'campaign/roster-custody'
+    
+    Roster rows 110, 111, 113, 114 (custody SQL capture and provision controls), all
+    pre-existing on Source20 (A/B identical):
+    - Product: root_worker_current_state._database never enabled foreign keys on its capture
+      connection; SQLite 3.53.4 here has no compile-time default, so captures reported
+      foreign_keys 0 while the native Database_Matches requires 1 and sibling connections
+      enable it. The connection now runs PRAGMA foreign_keys=ON before BEGIN.
+    - Tests: two fixtures archived the genesis in Python insertion order; production reads it
+      through exact_json (sorted), and the native Genesis_Archive_Matches preserves object
+      order, so the fixtures could never match a real retained journal. Fixtures now use
+      exact_json; every assertion and refusal case is unchanged (two refusal tests previously
+      passed for the wrong reason and now refuse on their own mutation).
+    After: test_custody_foreign_key_capture 3/3, test_custody_v2_sql_capture 4/4,
+    test_custody_v2_explicit_provision 5/5, test_custody_provision_kernel 9/9.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ runtime/worldline/root_worker_current_state.py |  9 ++++++++-
+ tests/test_custody_provision_kernel.py         | 11 +++++++----
+ tests/test_custody_v2_explicit_provision.py    |  7 +++++--
+ 3 files changed, 20 insertions(+), 7 deletions(-)
+
+commit 875d6e63fffe2cb8ad9343e3a7f5363e214288fb
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 05:44:46 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 05:44:46 2026 -0400
+
+    Recovery_Material_Replay: correct the AuthorityMaterial record tag and the epoch sign check
+    
+    1. Collect required the retained material record to be tagged
+       worldline.evaluation_authority.AuthorityMaterial; the class is defined in
+       worldline.recovery_material (Python, and Operation_Archive's native decoder already
+       expects that tag). No genuine packet could pass the shape check. Every other
+       module/record tag in the replay units matches its Python definition.
+    2. The evaluation-epoch sign check indexed V.Decimal's result at 1, but Decimal returns
+       the value's own slice of the context text, positioned where it occurs, so every
+       genuine epoch raised Constraint_Error (replay: index check failed at the line). The
+       check now reads the slice's own first character inside a declare expression; the
+       refusal (empty or negative epoch) is unchanged.
+    
+    Found by replaying a captured 11.8 MB packet from test_transaction through
+    Recovery_Packet.Inspect with an instrumented scratch copy (evidence/diag-packet-native-v1).
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ core/worldline-recovery_material_replay.adb | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+commit d28bfe23b7a074d42b21d019374cb2039f53da18
+Merge: c8049f1 26dd9ce
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 05:11:37 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 05:11:37 2026 -0400
+
+    Merge branch 'campaign/family-a'
+    
+    Family-a owner: Custody_V2_Owner_Canonical and Journal_Witness (the redesigned observer
+    units) prove completely at level 3 with the strict switches: 734 checks, 0 unproved,
+    0 justified, after .spark cleanup, CAP=4G (evidence-wt/family-a/proof2-dod). No spec
+    changes. Contracts on body-local helpers, hoisted literal spans, exact-condition
+    totalizations of the original raise paths (each listed in the branch commit). Lead
+    audit: no Assume/Annotate/SPARK_Mode Off/Warnings Off.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+commit 26dd9ce097e453b8ded900f5df328c1727a8a4c7
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 05:08:10 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 05:08:10 2026 -0400
+
+    family-a: owner_canonical and journal_witness proved at level 3 (0 unproved, 0 justified)
+    
+    worldline-custody_v2_owner_canonical: 85 unproved -> 0 (734 checks over both units; 2 pre-existing flow warnings, Current unused after Classify_All)
+    worldline-journal_witness: 1 unproved -> 0
+    
+    No spec (.ads) text changed. Observer design (explicit arena, extent + digest) unchanged.
+    Body-local helpers given contracts: Bytes/Text/Hex/From_Hex length+First Posts, Part Post
+    J.P.Valid, Pre Data'Length <= Natural'Last on Text/Part/Envelope/History/Head_Matches/
+    Genesis_Matches/Policy_Binding_Matches, Name-length Pre on Owner_File/Context_File_Matches/
+    Raw_File (Context_File_Matches Post exposes Valid_Bytes), Archive_Text Pre Archive_Fits,
+    Object_Keys Pre on Names bounds, Digest_Is Pre. Loop invariants (Object_Keys, Effect_Count,
+    Reserved_Count) and ghost scan model Pairs_Valid/Pairs for From_Hex. Literal spans hoisted
+    (Policy_Name, Journal_Name, WF fields, Intent, UID_Node, Gate_State/UID_Open/UID_Close,
+    Genesis fragments K_*). Index arithmetic reassociated (X'First + (I - 1)).
+    
+    Totalized error paths (original raised; now the unit's own refusal, same conditions):
+    - Text conversions of arena bytes > Natural'Last: Run_Service_Source (Empty), Policy_Sources
+      (False, gate/run-service/native/source-root paths), Current_History_Core policy/journal
+      (Rejected), Authenticated_From_Data policy/journal and archive text fields (False),
+      History intent text (False), Genesis/Head/Bootstrap raw files (False/Rejected).
+    - String concatenation beyond Natural'Last: Envelope Domain & Suffix, Required_Source path,
+      both Principal builds, Genesis_Matches binding/journal/head construction (one guard on the
+      two largest strings; byte identity checked mechanically against the original expression).
+    - Unguarded preconditions: Authenticated_From_Data V.Bytes_Value on Key/Policy/Journal fields
+      of an extent-bound arena; Adopt_Settled_Redecided CW.Decode Well_Formed.
+    - Empty arena with lower bound < 1: Whole -> Empty span; Reserved_Redecided and
+      Adopt_Settled_Redecided -> False; Establish_History -> Rejected (Data or Facts_Data);
+      Journal_Witness.Decide -> Input_Invalid.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ core/worldline-custody_v2_owner_canonical.adb | 315 ++++++++++++++++++++------
+ core/worldline-journal_witness.adb            |   7 +-
+ 2 files changed, 251 insertions(+), 71 deletions(-)
+
+commit c8049f193b3085d737256f681219fdf5efcc5c4b
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 05:00:16 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 05:00:16 2026 -0400
+
+    Recovery packets: retained events as plain mappings; packet kernels on an input-sized stack
+    
+    1. FinalizationJournal._events returned sqlite3.Row objects (bound to the connection).
+       Every consumer reads them by name and the native recovery replay reads them as
+       archived objects by field name, but recovery_observation.archive has no grammar for a
+       Row, so every packet carrying finalization material refused with RECOVERY_PACKET_TYPE
+       (spy: primary.authorityMaterial.finalization[2][0] is sqlite3.Row). Events now leave
+       the journal as dicts of exactly the selected columns.
+    
+    2. The packet kernels declare their working arenas on the stack, sized from the complete
+       input (Recovery_Material_Replay.Rebuild: packet length plus retained material). An
+       11.8 MB packet raised Storage_Error inside Recovery_Packet.Inspect on the default 8 MiB
+       main-thread stack (gdb: memset in Rebuild at the arena), which the C boundary returns
+       as transport refusal 255. The two packet calls now run on a thread whose stack is
+       64 MiB plus four times the input length (no cap); the caller waits, so native calls
+       stay serialized, and the native answer or exception is returned unchanged. Through the
+       C entry point: main thread status 255, input-sized thread status 2 (same as replay
+       with a 16 MiB process stack). Evidence: evidence/diag-packet-native-v1.
+    
+    Remaining on this path: the native relation now answers SELECTION_CONFLICT for the
+    clean-commit test (under diagnosis). Long-term: input-proportional stack arenas in the
+    SPARK kernels should move to owned heap storage.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ runtime/worldline/finalization_journal.py |  6 +++-
+ runtime/worldline/recovery_observation.py | 50 ++++++++++++++++++++++++++++---
+ 2 files changed, 51 insertions(+), 5 deletions(-)
+
+commit 4f593db8fec0258e90889aab1c9f1e80176b4673
+Merge: 4d9da9d be072a5
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 04:54:55 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 04:55:03 2026 -0400
+
+    Merge branch 'campaign/flow-b'
+    
+    Flow-b owner: producer_values proves completely at level 3 (522 checks, 0 unproved),
+    including the Slice result-length postcondition other units need; startup_installation
+    flow-clean with 15 residuals that need length/content contracts on Operation_Archive.Field,
+    Custody_V2_Values.Element, Scoped_Archive.Member_Count and Archive_Envelope; native_execution_views
+    flow-clean, level 3 needs a dedicated run of at least 6 GB (evidence-wt/flow-b). Lead audit:
+    no Assume/Annotate/SPARK_Mode Off/Warnings Off; producer_values.ads only gains postconditions
+    and a variant.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+commit be072a542e4f97ae6d9f916039616922f1981564
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 04:53:55 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 04:53:55 2026 -0400
+
+    flow-b: termination/initialization evidence for producer_values, startup_installation, native_execution_views
+    
+    worldline-producer_values: legality 0->0, flow 46->0, unproved 35 (partial original run) -> 0 of 522 checks, justified 0; exit 0 at --level=3 strict
+    worldline-startup_installation: legality 0->0, flow 35->0, unproved (never measured) -> 15 of 611, justified 0 (11 base64 view-walker AoRTE + 4 recursion variants needing other units' Posts)
+    worldline-native_execution_views: legality 0->0, flow 32->0, proof not completed: Child_Decide exceeds the 3G cap (OOM at -j2 3G/4G and -j1 3G)
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ core/worldline-native_execution_views.adb |  36 ++++---
+ core/worldline-producer_values.adb        |  54 ++++++++--
+ core/worldline-producer_values.ads        |  30 ++++--
+ core/worldline-startup_installation.adb   | 157 +++++++++++++++++++++++++-----
+ 4 files changed, 225 insertions(+), 52 deletions(-)
+
+commit 4d9da9dbb7a641732d3d03b31131dee79566a993
+Merge: df36636 dde2dec
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 04:07:56 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 04:08:05 2026 -0400
+
+    Merge branch 'campaign/flow-a'
+    
+    Flow-a owner: Report_Parser and Evaluation_Role_Native flow-clean (0 flow findings);
+    level-3 residuals 74 and 12, all tied to inputs within bytes of Natural'Last or to
+    unowned library length contracts (evidence-wt/flow-a). Fixes a pre-existing crash:
+    Report_Parser.Image returned a slice starting at 2, so Decimal_Image raised
+    Constraint_Error for every benchmark percentage needing a decimal point or exponent
+    (differential corpus 2717 cases: 2631 identical, 86 from transport failure to the
+    Python-equal diagnostic). Lead audit: no Assume/Annotate/SPARK_Mode Off/Warnings Off;
+    specs untouched; rewritten refusal conditions are equivalent.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+commit dde2dec0cc08a314a7c595be497ba78e48083b4c
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 04:06:37 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 04:06:37 2026 -0400
+
+    flow-a: termination, flow and RTE proof repairs for Report_Parser and Evaluation_Role_Native
+    
+    worldline-report_parser: flow findings 68 -> 0, warnings 27 -> 8; L3 strict: 1373 checks, 0 justified, 74 unproved (input-length family + Big_Integer image-length gap); fixes Decimal_Image index crash (Image result now 1-based)
+    worldline-evaluation_role_native: flow findings 53 -> 0, warnings 13 -> 0; L3 strict: 954 checks, 0 justified, 12 unproved (concatenation of unbounded J.Text/J.Decimal values)
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ core/worldline-evaluation_role_native.adb | 366 ++++++++++++++++++-------
+ core/worldline-report_parser.adb          | 434 ++++++++++++++++++++++++------
+ 2 files changed, 627 insertions(+), 173 deletions(-)
+
+commit df36636dd16146de3e0783fc8f643aa6a027ec40
+Merge: 69322af 314f3a3
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 04:03:21 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 04:03:28 2026 -0400
+
+    Merge branch 'campaign/legality-small'
+    
+    Legality-small owner (fresh-context subagent): 47 legality errors in ten units cleared;
+    custody_v2_closed_v1 and scoped_record_source prove completely at level 3; residuals in
+    the other units are listed in evidence-wt/legality-small/RESIDUALS.txt; three units
+    (native_lifetime_observation, root_output_sequence, recovery_material_replay) do not finish
+    level 3 under a 3 GB scope cap. Lead audit: no Assume/Annotate/SPARK_Mode Off/Warnings Off;
+    loop invariants moved, not dropped; spec changes only add contracts or remove vestigial
+    variants on non-recursive functions.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+commit 314f3a383d768f21c7fb3b8b6fc36c9849cb17b5
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 03:59:23 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 03:59:38 2026 -0400
+
+    legality-small: SPARK legality, flow and proof repairs for 10 owned units
+    
+    Per unit: legality errors / flow findings (checks+warnings) / unproved checks,
+    before -> after. Flow "before" = first flow run after the legality fixes;
+    unproved "before" = first level-3 result. Final runs: gnatprove --mode=all
+    --level=3 --checks-as-errors=on --proof-warnings=on -j2, CAP=3G, after
+    .spark cleanup, unless noted. Justified = 0 and pragma Assume = 0 everywhere.
+    - native_diagnostic_trace: legality 1->0; flow 0->0; unproved 3->1
+      (Push Post, pre-existing time-out; Take_All now proved)
+    - worldline-scoped_record_source: legality 1->0; flow 1+4w->0; unproved 1->0
+    - worldline-custody_v2_closed_v1: legality 2->0; flow 19+6w->0; unproved 22->0
+    - worldline-resources: legality 2->0; flow 0->0; unproved 4->2 (pre-existing
+      time-outs, 3 runs each)
+    - worldline-operation_result_relations: legality 18->0; flow 7->0; unproved 13->13
+    - worldline-transaction_archive_json: legality 1->0; flow 1+1w->0+1w;
+      unproved 27->27
+    - worldline-excluded_source_owner: legality 1->0; flow 3w->0; unproved 51
+      (-j1 --memlimit=1000: the -j2 run is OOM-killed at CAP=3G)
+    - worldline-native_lifetime_observation: legality 1->0; flow 90+1w->1 (Tree
+      termination); level 3 OOM-killed at CAP=3G (64 s)
+    - worldline-root_output_sequence: legality 2->0; flow 7w->0; level 3
+      OOM-killed at CAP=3G (63 s)
+    - worldline-recovery_material_replay: legality 18->0; flow 83+43w->0+21w;
+      level 3 OOM-killed at CAP=3G (-j1 --memlimit=1000, 18 min)
+    
+    Legality repairs: Loop_Invariants moved to the top of the loop body and
+    restated there (operation_result_relations.adb:658,
+    recovery_material_replay.adb:1644, resources.adb:887); E0007 bounds snapshotted
+    into constants (custody_v2_closed_v1.adb:201, root_output_sequence.adb:446,
+    transaction_archive_json.adb:45, native_lifetime_observation.adb:69,
+    scoped_record_source.adb:210); excluded_source_owner.adb:571 Match is a
+    procedure with an out Found (same evaluation and short-circuit order);
+    native_diagnostic_trace.adb:34 numeric Loop_Variant replaces Structural.
+    
+    Behavior-identical code changes (all other edits are contracts, ghost code,
+    assertions, invariants and variants):
+    - recovery_material_replay.adb:1654 Collect indexes Stored_Rows/Rows by
+      Slot = Rows'First + (I - Journal'First) (identical for every caller, all
+      1-based); :1109 Plan_Checks assigns Checks/Completion ((1,0),(1,0)) on its
+      refusal path (callers read them only when Valid); :2690 and :3049 the
+      native arena and B are whole-array zero-initialised; unused body-local
+      parameters removed: :1117 Classify_Terminal.Stream, :1308
+      Read_Start.Position (and its pragma Unreferenced), :1377
+      Classify_Finalization.Position, :1850 Final_Stream_Matches.Observed (their
+      actuals were names, never evaluated expressions); dead initialisers removed
+      at :2163 and :2863.
+    - root_output_sequence.adb:471 Advance (Written : Boolean) split into
+      Advance_Written and Advance; the one Advance (True) call is :571.
+    - native_lifetime_observation.adb:70 Data whole-array initialised before the
+      decoder overwrites every slice; :97 dead initialiser removed.
+    - custody_v2_closed_v1.adb:81 Answer and :203 Arena zero-initialised;
+      :206-208 Genesis/Rows/Heads full-value aggregates (every component
+      overwritten by Put_Cell/Dictionary before any read) replace
+      Relaxed_Initialization; :134 and :204-205 dead initialisers removed;
+      :238 Dictionary encodes into an exact-size buffer and copies it into the
+      disjoint next slice (O(output) copy; SPARK cannot separate two dynamic
+      slices of one array passed as in and out).
+    - operation_result_relations.adb:127, :212, :694, :703 byte buffers
+      zero-initialised before every byte is overwritten.
+    - excluded_source_owner.adb:147, :333, :997 dead initialisers removed.
+    
+    Totalized error paths (behavior differs only on inputs where the original
+    raised):
+    - custody_v2_closed_v1.adb:75 JSON_String_Is returns False exactly when
+      Item.First + Item.Length - 1 overflowed (Constraint_Error).
+    - custody_v2_closed_v1.adb:199 Matches returns False when Size.Needed =
+      E.Count'Last (an E.Count'Last-byte arena cannot be allocated:
+      Storage_Error) or Size.Needed < Names'Length (the first slice copy raised
+      Constraint_Error).
+    
+    Spec contract changes (CONTRACT_PINS refresh):
+    - worldline-recovery_material_replay.ads:12 JSON gains Subprogram_Variant
+      (Item.Length, 1, 0); :65 Classify_All gains Always_Terminates.
+    - worldline-resources.ads:44 Radix_Power Post gains the conjunct
+      Radix_Power'Result = Power_Model (Count); :65 vestigial Subprogram_Variant
+      on non-recursive Prefix_Value removed.
+    - worldline-scoped_record_source.ads:10 and :17 vestigial Subprogram_Variant
+      on two non-recursive functions removed ([variant-no-recursion]).
+    
+    Residual checks with locations: evidence-wt/legality-small/RESIDUALS.txt.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ core/native_diagnostic_trace.adb               |  60 ++++++-
+ core/worldline-custody_v2_closed_v1.adb        |  38 ++--
+ core/worldline-excluded_source_owner.adb       |  23 ++-
+ core/worldline-native_lifetime_observation.adb |   5 +-
+ core/worldline-operation_result_relations.adb  |  10 +-
+ core/worldline-recovery_material_replay.adb    | 231 ++++++++++++++++---------
+ core/worldline-recovery_material_replay.ads    |   5 +-
+ core/worldline-resources.adb                   |  73 +++++---
+ core/worldline-resources.ads                   |   6 +-
+ core/worldline-root_output_sequence.adb        |  36 ++--
+ core/worldline-scoped_record_source.adb        |   9 +-
+ core/worldline-scoped_record_source.ads        |   6 +-
+ core/worldline-transaction_archive_json.adb    |   5 +-
+ 13 files changed, 341 insertions(+), 166 deletions(-)
+
+commit 69322af815947200634867dff951c172ac138f1b
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 03:57:12 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 03:57:12 2026 -0400
+
+    CHANGELOG: observer redesign, base64 checks-mode fix, agent binding fixes, fixture correction
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ CHANGELOG.md | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 9a2c814db1be9ba9e62f4f32430282a1034fde68
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 03:49:40 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 03:49:40 2026 -0400
+
+    test_finalization_kernel.collapse_values: supply the resulting requirement
+    
+    Candidate evaluation requires Resulting_Requirement (Worldline.Collapse
+    Required_Present); the runtime always supplies it and the sibling bound_request
+    fixture in test_raw_evaluation_default does too. This fixture omitted it, so the
+    native decision was IDENTITY_ABSENT (trace: context and metadata joins 1, collapse
+    decision 15) and the positive control could never pass, on Source20 as well. With
+    the field supplied: test_finalization_kernel 17/17, test_finalization_owned_abi 8/8
+    (evidence/diag-finalization-kernel-v2). Every refusal control is unchanged.
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ tests/test_finalization_kernel.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 41e6f43d9204fc7a148d7927fe04ebd48ea29564
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 03:47:28 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 03:47:28 2026 -0400
+
+    agent_context_pair: compare the retained and live agent records in canonical JSON form
+    
+    The retained agent record is read back from the sealed canonical evidence, whose
+    keys are sorted; the live agent record keeps its insertion order. Both lossless
+    encodings preserve dict order, so equal records compared unequal and the positive
+    control test_retained_finalization_agent_matches_actual_context refused
+    (INVALID_REQUEST; native trace: completion.context.join-result 0, the agent_record
+    context field differed with equal length). Both sides now carry canonical_bytes of
+    the record (None stays None): exact JSON value equality, nothing filtered. The
+    changed-payload, other-subject, duplicate-agent and unrelated-evidence refusal
+    controls still refuse. test_finalization_agent_binding: 74/74 OK on the checks
+    library built from f484b29 (evidence/diag-agent-binding-ab-v1/fix2-*).
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ runtime/worldline/evaluation_context.py | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+commit f484b291da3916ece9d0f49519404089b3fd793f
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 03:09:52 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 03:09:52 2026 -0400
+
+    Fix two pre-existing Source20 runtime defects found behind the first original error
+    
+    1. evaluation_context.agent_context_pair (sealed finalization branch) passed a tuple
+       of bytes (seal subject, content, evidence) to evaluation_terminal.value_bytes, which
+       accepts JSON-like values only and raised CAPTURE_VALUE_UNSUPPORTED on every call.
+       Unchanged since integrated-candidate-v1 and masked by the acquisition-closure error.
+       Both sides now use finalization_journal.encode, the lossless bytes-capable encoder the
+       caller already uses for bytes-bearing tuples; the comparison stays exact per field.
+       The untouched Source20 fails test_finalization_agent_binding (5 errors),
+       _producer (1) and _additional (2) with this refusal (evidence/agent-binding-tests-v1).
+    
+    2. Archive_Base64.Decoded_Byte re-validated the whole span (Canonical, O(n)) in its
+       precondition on every byte, and Decode's body and postcondition call it per byte,
+       so a checked build (-gnata) decoded an n-byte leaf in O(n^2): the relation kernel
+       spent every gdb sample in archive_base64.canonical (120 KB input: Source20 17.1 s,
+       release 1.0 s). Preconditions are now local-first and weaker: Decoded_Byte requires
+       Byte_Readable (the two sextets it reads are in-span alphabet digits) or else the
+       original condition; Decoded_Length requires its local span condition or else
+       Canonical. The original preconditions remain sufficient disjuncts, results are
+       unchanged on the original domain, and no caller changes. Archive_Base64 proves
+       with 0 unproved and 0 warnings at level 3 (evidence/archive-base64-local-pre-v1);
+       the 120 KB replay drops to 3.5 s and the 3.8 MB input completes (code 12, as release).
+    
+    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+ core/worldline-archive_base64.ads       | 25 +++++++++++++++++++++++--
+ runtime/worldline/evaluation_context.py | 14 ++++++++++----
+ 2 files changed, 33 insertions(+), 6 deletions(-)
+
+commit dd911db52699026ee0ed77e10b4ae7f90d8f6158
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Mon Oct 12 00:00:05 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Mon Oct 12 00:00:05 2026 -0400
+
+    Recovery_Packet.Projection_Matches: check both value spans with the span predicate before indexing
+    
+    The comment already required both value spans to lie inside their arenas; the opaque archive
+    validity gave the prover nothing, so the explicit span predicate is now part of the refusal.
+    Unit proves 0 unproved at level 3 (evidence/recovery-packet-v2).
+    
+    Co-Authored-By: Claude Mythos 5.1 <noreply@anthropic.com>
+
+ core/worldline-recovery_packet.adb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 3396a9ba4ee07a8d2bb0cc209d77bc51d369a800
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Sun Oct 11 23:13:55 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Sun Oct 11 23:13:55 2026 -0400
+
+    WIP rev 2 draft 2: observer redesign (explicit arenas, extent+digest binding), family flow fixes, Archive_Envelope payload-length Posts
+    
+    - Custody_V2_Owner_Canonical / Custody_V2_K4_Resource_Ack: Prepared_History loses its access
+      discriminants (not SPARK); every operation receives the arena explicitly; the observer records
+      the arena extent and whole-bytes digest at establishment, refuses a different extent, and
+      Source_Matches compares the digest (the original exact-full-bytes relation, now a real check).
+      Callers updated: Operation_Journal, Journal_Witness. K4 Establish_History is now an out mode.
+    - Family flow repairs: initializers for fully overwritten buffers, Relaxed_Initialization with
+      'Initialized invariants for the row arrays, hoisted variable bounds (E0007), loop variants in
+      Proc_Word/Stat_PID, dead initializers removed (Start/Stop/Word, Origin).
+    - Archive_Envelope: Decode Post bounds the payload span strictly below the envelope;
+      String_Payload Post; unit proves 120/120 at level 3 (evidence/archive-envelope-payload-post-v1).
+    
+    Co-Authored-By: Claude Mythos 5.1 <noreply@anthropic.com>
+
+ core/worldline-archive_envelope.adb             |   5 +-
+ core/worldline-archive_envelope.ads             |   7 +-
+ core/worldline-custody_v2_fold_engine.adb       |   4 +-
+ core/worldline-custody_v2_k4_resource_ack.adb   | 106 +++++++++++-------------
+ core/worldline-custody_v2_k4_resource_ack.ads   |  30 ++++---
+ core/worldline-custody_v2_operation_journal.adb |  75 ++++++++++-------
+ core/worldline-custody_v2_owner_canonical.adb   |  66 ++++++---------
+ core/worldline-custody_v2_owner_canonical.ads   |  32 ++++---
+ core/worldline-journal_witness.adb              |  23 +++--
+ 9 files changed, 181 insertions(+), 167 deletions(-)
+
+commit f21a6888bec911c207af3ed37647324883b99cc1
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Sun Oct 11 21:52:17 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Sun Oct 11 21:52:17 2026 -0400
+
+    WIP proof repairs (rev 2 draft): Inline_For_Proof annotations removed, Archive_Envelope contracts, lifecycle-bytes invariants, E0007 constants, side-effect matchers to procedures, pins refreshed
+
+ CHANGELOG.md                               |  6 +++
+ core/resource_ledger.ads                   | 13 ++++---
+ core/worldline-archive_envelope.adb        | 46 +++++++++++++---------
+ core/worldline-archive_envelope.ads        | 42 ++++++++++++++++----
+ core/worldline-evaluation_agent_native.adb | 11 ++++--
+ core/worldline-raw_json.adb                | 12 ++++--
+ core/worldline-recovery_packet.adb         |  5 ++-
+ core/worldline-resources.ads               | 10 +++--
+ core/worldline-runner_lifecycle_bytes.adb  | 11 +++++-
+ core/worldline-runner_lifecycle_bytes.ads  |  4 +-
+ core/worldline-startup_source_custody.adb  | 62 +++++++++++++++++++++---------
+ runtime/worldline/proof_manifest.py        | 24 ++++++------
+ 12 files changed, 169 insertions(+), 77 deletions(-)
+
+commit 337c9a30c5ed9813421538b8e9f61d08f79e71b8
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Sun Oct 11 21:24:25 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Sun Oct 11 21:24:25 2026 -0400
+
+    Source21 candidate rev 1: close three demonstrated Source20 SPARK predicate defects
+    
+    1. Runner_Acquisition_Bytes.Controls_Ended: a cgroup file read that returned by
+       raising (readReturned false, bytes null, complete exception-observation) is an
+       ENDED acquisition; it was refused, so a finished workload could never close
+       (FINALIZATION_ACQUISITION_NOT_QUIESCENT, Source20 first original error, operands
+       retained in evidence/diag-acq-v2).
+    2. Runner_Acquisition_Bytes.Controls_Ended: a claimed process wait needs an integer
+       processWaitReturncode; null was accepted (existing accepted case failed on Source20).
+    3. Runner_Lifecycle_Bytes.Positive_Float_Bits: binary64 exponent/fraction digit
+       boundary; +inf was refused as NaN and exponent 7fe finite values misclassified
+       (existing accepted cases failed on Source20).
+    
+    Tests: new failed-cgroup-read accepted/refused cases in
+    tests/test_evaluation_acquisition_raw_producer.py. CHANGELOG updated.
+
+ CHANGELOG.md                                      |   3 +
+ core/worldline-runner_acquisition_bytes.adb       | 135 ++++++++++++++++++----
+ core/worldline-runner_lifecycle_bytes.adb         |  14 ++-
+ tests/test_evaluation_acquisition_raw_producer.py |  84 ++++++++++++++
+ 4 files changed, 209 insertions(+), 27 deletions(-)
+
+commit c932d9a7cae31b44d0b1136fc79dd3820a080dbe
+Author:     sicarii <sic.tau@pm.me>
+AuthorDate: Sun Oct 11 20:50:01 2026 -0400
+Commit:     sicarii <sic.tau@pm.me>
+CommitDate: Sun Oct 11 20:50:01 2026 -0400
+
+    Source20 baseline: byte-identical copy of frozen integrated-candidate-v20/source
+
+ .github/workflows/assurance.yml                    |  167 +
+ .github/workflows/ci.yml                           |   16 +
+ .github/workflows/release.yml                      |  219 +
+ .gitignore                                         |   12 +
+ AGENTS.md                                          |   19 +
+ CHANGELOG.md                                       | 2384 +++++
+ DOC-CORRECTIONS.md                                 |  153 +
+ LICENSE                                            |   21 +
+ README.md                                          |  152 +
+ SECURITY-AUDIT-2026-09-02.md                       |  169 +
+ SECURITY.md                                        |  592 ++
+ actor-archive-controls/actor_archive_controls.adb  |   61 +
+ actor-archive-controls/controls.gpr                |   12 +
+ .../archive_envelope_controls.adb                  |  258 +
+ .../archive_hmac_join_controls.adb                 |   59 +
+ archive-envelope-controls/controls.gpr             |   12 +
+ .../scoped_archive_controls.adb                    |  145 +
+ archive-leaf-controls/archive_leaf_controls.adb    |    9 +
+ archive-leaf-controls/archive_leaf_fixtures.adb    |  846 ++
+ archive-leaf-controls/archive_leaf_fixtures.ads    |    4 +
+ archive-leaf-controls/controls.gpr                 |   12 +
+ artifact-tests/canonical_artifact_tests.gpr        |   11 +
+ artifact-tests/test_canonical_artifacts.adb        |   66 +
+ assurance/checkpoints/phase1-2026-10-02.json       | 2736 ++++++
+ .../phase1-bound-loader-2026-10-02.json            | 2912 ++++++
+ .../checkpoints/phase1-native-2026-10-03.json      |  445 +
+ .../phase1-native-cached-2026-10-03.json           |  545 ++
+ .../phase1-native-frozen-2026-10-03.json           |  489 +
+ .../phase1-native-kernel-filter-2026-10-03.json    |  625 ++
+ .../phase1-native-lifetime-2026-10-03.json         | 2906 ++++++
+ .../phase1-native-metadata-2026-10-03.json         |  657 ++
+ .../canonical_exchange_controls.adb                |  161 +
+ .../canonical_exchange_tests.gpr                   |   13 +
+ .../canonical_owner_completion_controls.adb        |  177 +
+ .../canonical_owner_completion_tests.gpr           |   13 +
+ chain-bounds-tests/test_bounds.adb                 |   56 +
+ chain-bounds-tests/tests.gpr                       |   12 +
+ cli/worldline                                      |   20 +
+ cli/worldline-relocate                             |   20 +
+ completion-tests/completion_tests.gpr              |   11 +
+ completion-tests/test_completion.adb               |  183 +
+ core/attest/README.md                              |    7 +
+ core/attest/attest-custody_sha256.adb              |  210 +
+ core/attest/attest-custody_sha256.ads              |   61 +
+ core/attest/attest-sha256.adb                      |  209 +
+ core/attest/attest-sha256.ads                      |   60 +
+ core/attest/attest.ads                             |   23 +
+ core/attest/sync.sh                                |    9 +
+ core/attest_sha256.gpr                             |   24 +
+ core/canonical_artifacts.adb                       | 1190 +++
+ core/canonical_artifacts.ads                       |  157 +
+ core/cosmogony-capabilities.adb                    |  102 +
+ core/cosmogony-capabilities.ads                    |  262 +
+ core/cosmogony-genesis.adb                         |  114 +
+ core/cosmogony-genesis.ads                         |  106 +
+ core/cosmogony-governed_capabilities.adb           |   52 +
+ core/cosmogony-governed_capabilities.ads           |   82 +
+ core/cosmogony-revocable_capabilities.adb          |   62 +
+ core/cosmogony-revocable_capabilities.ads          |  108 +
+ core/cosmogony-universes.adb                       |   79 +
+ core/cosmogony-universes.ads                       |  288 +
+ core/cosmogony.ads                                 |    2 +
+ core/decimal_binary64.adb                          |  474 +
+ core/decimal_binary64.ads                          |  127 +
+ core/evaluation_completion.adb                     |  192 +
+ core/evaluation_completion.ads                     |  435 +
+ core/evaluation_completion.h                       |  201 +
+ core/evaluation_completion_c.adb                   | 1946 ++++
+ core/evaluation_completion_c.ads                   |  319 +
+ core/evaluation_completion_roster.adb              |   73 +
+ core/evaluation_completion_roster.ads              |  145 +
+ core/evaluation_epoch.adb                          |  663 ++
+ core/evaluation_epoch.ads                          |   23 +
+ core/evaluation_finalization-values.adb            |   14 +
+ core/evaluation_finalization-values.ads            |   24 +
+ core/evaluation_finalization.adb                   |  456 +
+ core/evaluation_finalization.ads                   |  410 +
+ core/evaluation_finalization.h                     |   76 +
+ core/evaluation_finalization_c.adb                 | 1043 +++
+ core/evaluation_finalization_c.ads                 |  149 +
+ core/evaluation_history.adb                        |   78 +
+ core/evaluation_history.ads                        |  337 +
+ core/evaluation_pending.adb                        |   56 +
+ core/evaluation_pending.ads                        |  166 +
+ core/evaluation_pending.h                          |   54 +
+ core/evaluation_pending_c.adb                      |  253 +
+ core/evaluation_pending_c.ads                      |   90 +
+ core/evaluation_pending_v2.adb                     |   44 +
+ core/evaluation_pending_v2.ads                     |   89 +
+ core/evaluation_pending_v2.h                       |   38 +
+ core/evaluation_pending_v2_c.adb                   |  292 +
+ core/evaluation_pending_v2_c.ads                   |  100 +
+ core/evaluation_raw_roster.adb                     |   76 +
+ core/evaluation_raw_roster.ads                     |  195 +
+ core/exact_decimal.adb                             |  201 +
+ core/exact_decimal.ads                             |   81 +
+ core/genesis_float_domain_controls.adb             |   46 +
+ core/native_diagnostic_periphery.c                 |  276 +
+ core/native_diagnostic_periphery.h                 |   48 +
+ core/native_diagnostic_trace.adb                   |   67 +
+ core/native_diagnostic_trace.ads                   |  113 +
+ core/owner_audit_schema.json                       |  285 +
+ core/resource_actor_admission.adb                  |   34 +
+ core/resource_actor_admission.ads                  |  273 +
+ core/resource_actor_admission_v1.h                 |   98 +
+ core/resource_actor_admission_wire.adb             |   20 +
+ core/resource_actor_admission_wire.ads             |  250 +
+ core/resource_admission.adb                        |  277 +
+ core/resource_admission.ads                        |  202 +
+ core/resource_ledger.adb                           | 2033 ++++
+ core/resource_ledger.ads                           |  297 +
+ core/resource_observation_classification.adb       |   42 +
+ core/resource_observation_classification.ads       |  131 +
+ core/resource_observation_classification_wire.adb  |   18 +
+ core/resource_observation_classification_wire.ads  |  197 +
+ core/resource_observation_v1.h                     |   59 +
+ core/resource_quantities.adb                       |  598 ++
+ core/resource_quantities.ads                       |  139 +
+ core/resource_reservation_lifecycle.adb            |   36 +
+ core/resource_reservation_lifecycle.ads            |  105 +
+ core/resource_reservation_transition.adb           |  767 ++
+ core/resource_reservation_transition.ads           |  413 +
+ core/resource_run_ledger.adb                       |  209 +
+ core/resource_run_ledger.ads                       |  466 +
+ core/resource_run_ledger_c_api.adb                 |  270 +
+ core/resource_run_ledger_c_api.ads                 |   19 +
+ core/resource_run_ledger_v1.h                      |  102 +
+ core/resource_run_ledger_wire.adb                  |   33 +
+ core/resource_run_ledger_wire.ads                  |  367 +
+ core/resource_scoped_run_ledger.adb                |  177 +
+ core/resource_scoped_run_ledger.ads                |  458 +
+ core/resource_scoped_run_ledger_v1.h               |  148 +
+ core/resource_scoped_run_ledger_wire.adb           |   81 +
+ core/resource_scoped_run_ledger_wire.ads           |  401 +
+ core/spark-big_integers.ads                        |   11 +
+ core/spark.ads                                     |   19 +
+ core/worldline-actor_archive_replay.adb            |  950 ++
+ core/worldline-actor_archive_replay.ads            |   28 +
+ core/worldline-actuation.adb                       |   26 +
+ core/worldline-actuation.ads                       |   54 +
+ core/worldline-actuation_full_wire.ads             |   32 +
+ core/worldline-ancestry.adb                        |   32 +
+ core/worldline-ancestry.ads                        |   66 +
+ core/worldline-archive_base64.adb                  |   12 +
+ core/worldline-archive_base64.ads                  |   98 +
+ core/worldline-archive_envelope.adb                |  316 +
+ core/worldline-archive_envelope.ads                |   63 +
+ core/worldline-archive_text.adb                    |   23 +
+ core/worldline-archive_text.ads                    |  119 +
+ core/worldline-c_api.adb                           | 9824 ++++++++++++++++++++
+ core/worldline-c_api.ads                           | 1156 +++
+ core/worldline-canonical_exchange.adb              |   65 +
+ core/worldline-canonical_exchange.ads              |  168 +
+ core/worldline-canonical_exchange_wire.ads         |   64 +
+ core/worldline-canonical_operation.adb             |   42 +
+ core/worldline-canonical_operation.ads             |   33 +
+ core/worldline-canonical_operation_wire.ads        |   23 +
+ core/worldline-canonical_owner_completion.adb      |   54 +
+ core/worldline-canonical_owner_completion.ads      |   70 +
+ core/worldline-canonical_owner_completion_wire.ads |   22 +
+ core/worldline-causal_graph.adb                    |   54 +
+ core/worldline-causal_graph.ads                    |   40 +
+ core/worldline-chain_authority.adb                 |  492 +
+ core/worldline-chain_authority.ads                 |  134 +
+ core/worldline-chain_authority_c_api.adb           |  157 +
+ core/worldline-chain_authority_c_api.ads           |   37 +
+ core/worldline-chain_authority_wire.adb            |   11 +
+ core/worldline-chain_authority_wire.ads            |   73 +
+ core/worldline-collapse.adb                        |   72 +
+ core/worldline-collapse.ads                        |  276 +
+ core/worldline-collapse_wire.adb                   |   11 +
+ core/worldline-collapse_wire.ads                   |  262 +
+ core/worldline-confinement_filter.adb              |   49 +
+ core/worldline-confinement_filter.ads              |    6 +
+ core/worldline-custody_hmac.adb                    |   41 +
+ core/worldline-custody_hmac.ads                    |   32 +
+ core/worldline-custody_v2_archive_chain.adb        |  178 +
+ core/worldline-custody_v2_archive_chain.ads        |   57 +
+ core/worldline-custody_v2_archive_projection.adb   |  210 +
+ core/worldline-custody_v2_archive_projection.ads   |   46 +
+ core/worldline-custody_v2_closed_state.adb         |  412 +
+ core/worldline-custody_v2_closed_state.ads         |   32 +
+ core/worldline-custody_v2_closed_v1.adb            |  310 +
+ core/worldline-custody_v2_closed_v1.ads            |   19 +
+ core/worldline-custody_v2_delta_encoding.adb       |  707 ++
+ core/worldline-custody_v2_delta_encoding.ads       |  133 +
+ core/worldline-custody_v2_delta_grammar.adb        |   87 +
+ core/worldline-custody_v2_delta_grammar.ads        |   19 +
+ core/worldline-custody_v2_domain_hmac.adb          |   56 +
+ core/worldline-custody_v2_domain_hmac.ads          |   15 +
+ core/worldline-custody_v2_empty_seed.adb           |  114 +
+ core/worldline-custody_v2_empty_seed.ads           |   47 +
+ core/worldline-custody_v2_event_joins.adb          |   70 +
+ core/worldline-custody_v2_event_joins.ads          |   81 +
+ core/worldline-custody_v2_fold_engine.adb          |  675 ++
+ core/worldline-custody_v2_fold_engine.ads          |  151 +
+ core/worldline-custody_v2_fold_rows.adb            |   36 +
+ core/worldline-custody_v2_fold_rows.ads            |   53 +
+ core/worldline-custody_v2_history.adb              |   52 +
+ core/worldline-custody_v2_history.ads              |   60 +
+ core/worldline-custody_v2_k4_resource_ack.adb      | 1226 +++
+ core/worldline-custody_v2_k4_resource_ack.ads      |   57 +
+ core/worldline-custody_v2_load_input.adb           |  684 ++
+ core/worldline-custody_v2_load_input.ads           |  113 +
+ core/worldline-custody_v2_machine_evidence.adb     |  242 +
+ core/worldline-custody_v2_machine_evidence.ads     |   11 +
+ core/worldline-custody_v2_mutation_decision.adb    | 1292 +++
+ core/worldline-custody_v2_mutation_decision.ads    |  151 +
+ core/worldline-custody_v2_operation_journal.adb    | 2384 +++++
+ core/worldline-custody_v2_operation_journal.ads    |  131 +
+ core/worldline-custody_v2_owner_canonical.adb      | 1028 ++
+ core/worldline-custody_v2_owner_canonical.ads      |   77 +
+ core/worldline-custody_v2_owner_correspondence.adb |  424 +
+ core/worldline-custody_v2_owner_correspondence.ads |   43 +
+ core/worldline-custody_v2_prepared.adb             |   19 +
+ core/worldline-custody_v2_prepared.ads             |   61 +
+ core/worldline-custody_v2_prepared_wire.adb        |  112 +
+ core/worldline-custody_v2_prepared_wire.ads        |   28 +
+ core/worldline-custody_v2_provision.adb            |  159 +
+ core/worldline-custody_v2_provision.ads            |   54 +
+ core/worldline-custody_v2_raw_next.adb             |   64 +
+ core/worldline-custody_v2_raw_next.ads             |  145 +
+ core/worldline-custody_v2_request_step.adb         |   50 +
+ core/worldline-custody_v2_request_step.ads         |   39 +
+ core/worldline-custody_v2_requester_join.adb       |  305 +
+ core/worldline-custody_v2_requester_join.ads       |   55 +
+ core/worldline-custody_v2_root_evidence.adb        | 2809 ++++++
+ core/worldline-custody_v2_root_evidence.ads        |  252 +
+ core/worldline-custody_v2_root_values.adb          |  139 +
+ core/worldline-custody_v2_root_values.ads          |   41 +
+ core/worldline-custody_v2_s0_abandon.adb           |   69 +
+ core/worldline-custody_v2_s0_abandon.ads           |   54 +
+ .../worldline-custody_v2_schema_correspondence.adb |  342 +
+ .../worldline-custody_v2_schema_correspondence.ads |   13 +
+ core/worldline-custody_v2_subject_evidence.adb     | 2006 ++++
+ core/worldline-custody_v2_subject_evidence.ads     |  166 +
+ core/worldline-custody_v2_typed_step.adb           |  140 +
+ core/worldline-custody_v2_typed_step.ads           |   57 +
+ core/worldline-custody_v2_values.adb               |   91 +
+ core/worldline-custody_v2_values.ads               |   74 +
+ core/worldline-emitter_allocation_capture.adb      |   34 +
+ core/worldline-emitter_allocation_capture.ads      |   21 +
+ core/worldline-emitter_channel_evidence.adb        | 1200 +++
+ core/worldline-emitter_channel_evidence.ads        |   67 +
+ core/worldline-emitter_ordinal.adb                 |  204 +
+ core/worldline-emitter_ordinal.ads                 |   74 +
+ core/worldline-evaluation.adb                      |  128 +
+ core/worldline-evaluation.ads                      |  200 +
+ core/worldline-evaluation_agent_native.adb         | 1357 +++
+ core/worldline-evaluation_agent_native.ads         |   39 +
+ core/worldline-evaluation_authority.adb            |  104 +
+ core/worldline-evaluation_authority.ads            |  282 +
+ core/worldline-evaluation_history_c_api.adb        |  352 +
+ core/worldline-evaluation_history_c_api.ads        |   83 +
+ core/worldline-evaluation_policy.adb               |  364 +
+ core/worldline-evaluation_policy.ads               |   37 +
+ core/worldline-evaluation_producer.adb             |  638 ++
+ core/worldline-evaluation_producer.ads             |   41 +
+ core/worldline-evaluation_report_facts.adb         |   38 +
+ core/worldline-evaluation_report_facts.ads         |  125 +
+ core/worldline-evaluation_report_wire.adb          |   59 +
+ core/worldline-evaluation_report_wire.ads          |  168 +
+ core/worldline-evaluation_role_native.adb          | 1894 ++++
+ core/worldline-evaluation_role_native.ads          |   15 +
+ core/worldline-evaluation_v2.adb                   |  154 +
+ core/worldline-evaluation_v2.ads                   |  286 +
+ core/worldline-evaluation_wire.adb                 |  114 +
+ core/worldline-evaluation_wire.ads                 |  233 +
+ core/worldline-excluded_source_owner.adb           | 1405 +++
+ core/worldline-excluded_source_owner.ads           |   38 +
+ core/worldline-identities.ads                      |  108 +
+ core/worldline-journal_witness.adb                 |   66 +
+ core/worldline-journal_witness.ads                 |   10 +
+ core/worldline-lifetime_values.adb                 |  153 +
+ core/worldline-lifetime_values.ads                 |   24 +
+ core/worldline-manager_resource_lifecycle.adb      |  376 +
+ core/worldline-manager_resource_lifecycle.ads      |   14 +
+ core/worldline-native_execution_capture.adb        |  276 +
+ core/worldline-native_execution_capture.ads        |  168 +
+ core/worldline-native_execution_views.adb          |  554 ++
+ core/worldline-native_execution_views.ads          |  268 +
+ core/worldline-native_lifetime_observation.adb     |  599 ++
+ core/worldline-native_lifetime_observation.ads     |    6 +
+ core/worldline-operation_archive.adb               |  646 ++
+ core/worldline-operation_archive.ads               |   23 +
+ core/worldline-operation_authority.adb             |  218 +
+ core/worldline-operation_authority.ads             |  229 +
+ core/worldline-operation_authority_wire.adb        |   33 +
+ core/worldline-operation_authority_wire.ads        |  123 +
+ core/worldline-operation_result_relations.adb      |  804 ++
+ core/worldline-operation_result_relations.ads      |   63 +
+ core/worldline-operation_result_view.adb           |   53 +
+ core/worldline-operation_result_view.ads           |   14 +
+ core/worldline-ordinary_receipt_policy.adb         |  945 ++
+ core/worldline-ordinary_receipt_policy.ads         |   83 +
+ core/worldline-ordinary_reservation_lifecycle.adb  |  158 +
+ core/worldline-ordinary_reservation_lifecycle.ads  |   15 +
+ core/worldline-owner_conjunction.adb               |   66 +
+ core/worldline-owner_conjunction.ads               |  129 +
+ core/worldline-owner_conjunction_wire.adb          |   58 +
+ core/worldline-owner_conjunction_wire.ads          |   75 +
+ core/worldline-owner_retry_audit.adb               |   84 +
+ core/worldline-owner_retry_audit.ads               |  116 +
+ core/worldline-owner_retry_audit_wire.adb          |   31 +
+ core/worldline-owner_retry_audit_wire.ads          |   65 +
+ core/worldline-owner_subject_projection.adb        |  105 +
+ core/worldline-owner_subject_projection.ads        |   37 +
+ core/worldline-owner_transitions.adb               |  115 +
+ core/worldline-owner_transitions.ads               |  194 +
+ core/worldline-owner_transitions_wire.adb          |  132 +
+ core/worldline-owner_transitions_wire.ads          |  146 +
+ core/worldline-policy_source.adb                   |  217 +
+ core/worldline-policy_source.ads                   |    8 +
+ core/worldline-policy_syntax.adb                   |  266 +
+ core/worldline-policy_syntax.ads                   |    4 +
+ core/worldline-producer_bytes.adb                  |  182 +
+ core/worldline-producer_bytes.ads                  |   15 +
+ core/worldline-producer_render.adb                 |  127 +
+ core/worldline-producer_render.ads                 |    4 +
+ core/worldline-producer_unicode.ads                |  747 ++
+ core/worldline-producer_values.adb                 |  538 ++
+ core/worldline-producer_values.ads                 |   61 +
+ core/worldline-protected_paths.adb                 |  104 +
+ core/worldline-protected_paths.ads                 |    5 +
+ core/worldline-raw_json.adb                        |  658 ++
+ core/worldline-raw_json.ads                        |   63 +
+ core/worldline-receipts.adb                        |   55 +
+ core/worldline-receipts.ads                        |   40 +
+ core/worldline-recovery.adb                        |   22 +
+ core/worldline-recovery.ads                        |   39 +
+ core/worldline-recovery_archive.adb                | 1069 +++
+ core/worldline-recovery_archive.ads                |   75 +
+ core/worldline-recovery_authorization.adb          |   62 +
+ core/worldline-recovery_authorization.ads          |  158 +
+ core/worldline-recovery_authorization_c_api.adb    |  199 +
+ core/worldline-recovery_authorization_c_api.ads    |   28 +
+ core/worldline-recovery_authorization_v3.adb       |   70 +
+ core/worldline-recovery_authorization_v3.ads       |  217 +
+ core/worldline-recovery_authorization_v3_c_api.adb |  233 +
+ core/worldline-recovery_authorization_v3_c_api.ads |   32 +
+ core/worldline-recovery_authorization_v3_wire.adb  |  115 +
+ core/worldline-recovery_authorization_v3_wire.ads  |  270 +
+ core/worldline-recovery_authorization_wire.adb     |   10 +
+ core/worldline-recovery_authorization_wire.ads     |  171 +
+ core/worldline-recovery_c_api.adb                  |  111 +
+ core/worldline-recovery_c_api.ads                  |   34 +
+ core/worldline-recovery_material_replay.adb        | 3063 ++++++
+ core/worldline-recovery_material_replay.ads        |   73 +
+ core/worldline-recovery_owner_replay.adb           |  506 +
+ core/worldline-recovery_owner_replay.ads           |   84 +
+ core/worldline-recovery_packet.adb                 |  168 +
+ core/worldline-recovery_packet.ads                 |   46 +
+ core/worldline-recovery_protocol.adb               |   34 +
+ core/worldline-recovery_protocol.ads               |   37 +
+ core/worldline-recovery_protocol_abi.adb           |   15 +
+ core/worldline-recovery_protocol_abi.ads           |   25 +
+ core/worldline-recovery_protocol_c_api.adb         |   99 +
+ core/worldline-recovery_protocol_c_api.ads         |   22 +
+ core/worldline-recovery_protocol_wire.adb          |    5 +
+ core/worldline-recovery_protocol_wire.ads          |   19 +
+ core/worldline-recovery_syntax.adb                 |   77 +
+ core/worldline-recovery_syntax.ads                 |   20 +
+ core/worldline-report_custody_native.adb           |  697 ++
+ core/worldline-report_custody_native.ads           |   12 +
+ core/worldline-report_parser.adb                   | 1169 +++
+ core/worldline-report_parser.ads                   |   26 +
+ core/worldline-reservation_lifecycle_c_api.adb     |  108 +
+ core/worldline-reservation_lifecycle_c_api.ads     |   43 +
+ core/worldline-resource_actor_execution.adb        |   81 +
+ core/worldline-resource_actor_execution.ads        |  107 +
+ core/worldline-resource_actor_execution_wire.adb   |    2 +
+ core/worldline-resource_actor_execution_wire.ads   |   61 +
+ core/worldline-resource_child_execution.adb        |  169 +
+ core/worldline-resource_child_execution.ads        |  258 +
+ core/worldline-resource_child_execution_wire.adb   |   29 +
+ core/worldline-resource_child_execution_wire.ads   |  292 +
+ core/worldline-resource_ledger_c_api.adb           |  194 +
+ core/worldline-resource_ledger_c_api.ads           |   67 +
+ core/worldline-resource_policy_c_api.adb           |  199 +
+ core/worldline-resource_policy_c_api.ads           |   69 +
+ core/worldline-resource_wire.adb                   |   11 +
+ core/worldline-resource_wire.ads                   |   17 +
+ core/worldline-resources.adb                       | 1054 +++
+ core/worldline-resources.ads                       |  178 +
+ core/worldline-resources_c_api.adb                 |   56 +
+ core/worldline-resources_c_api.ads                 |   23 +
+ core/worldline-retained_custody_chain.adb          |  156 +
+ core/worldline-retained_custody_chain.ads          |   48 +
+ core/worldline-retained_evidence_replay.adb        | 3904 ++++++++
+ core/worldline-retained_evidence_replay.ads        |  153 +
+ core/worldline-retained_raw_decode.adb             | 1860 ++++
+ core/worldline-retained_raw_decode.ads             |  265 +
+ core/worldline-retained_source_layout.adb          |  562 ++
+ core/worldline-retained_source_layout.ads          |   64 +
+ core/worldline-retained_v1_migration.adb           |   54 +
+ core/worldline-retained_v1_migration.ads           |   63 +
+ core/worldline-root_custody_abandon.adb            |   61 +
+ core/worldline-root_custody_abandon.ads            |  178 +
+ core/worldline-root_custody_archive_join.ads       |   22 +
+ core/worldline-root_custody_context.adb            |   70 +
+ core/worldline-root_custody_context.ads            |  157 +
+ core/worldline-root_custody_descriptor.adb         |   68 +
+ core/worldline-root_custody_descriptor.ads         |  105 +
+ core/worldline-root_custody_model.adb              |   44 +
+ core/worldline-root_custody_model.ads              |  186 +
+ core/worldline-root_custody_mutation_roles.adb     |   56 +
+ core/worldline-root_custody_mutation_roles.ads     |   72 +
+ core/worldline-root_custody_phase_values.adb       |   26 +
+ core/worldline-root_custody_phase_values.ads       |  474 +
+ core/worldline-root_custody_raw_operands.ads       |   39 +
+ core/worldline-root_custody_replay.adb             |   32 +
+ core/worldline-root_custody_replay.ads             |   89 +
+ core/worldline-root_custody_request_abandon.adb    |   65 +
+ core/worldline-root_custody_request_abandon.ads    |  177 +
+ core/worldline-root_custody_row_schema.adb         |  168 +
+ core/worldline-root_custody_row_schema.ads         |  515 +
+ core/worldline-root_custody_row_views.adb          |   77 +
+ core/worldline-root_custody_row_views.ads          |  156 +
+ core/worldline-root_output_sequence.adb            |  808 ++
+ core/worldline-root_output_sequence.ads            |   66 +
+ core/worldline-runner_acquisition_bytes.adb        |  239 +
+ core/worldline-runner_acquisition_bytes.ads        |   11 +
+ core/worldline-runner_lifecycle.adb                |   28 +
+ core/worldline-runner_lifecycle.ads                |   30 +
+ core/worldline-runner_lifecycle_bytes.adb          |  689 ++
+ core/worldline-runner_lifecycle_bytes.ads          |   53 +
+ core/worldline-runner_outcome.adb                  |    5 +
+ core/worldline-runner_outcome.ads                  |   10 +
+ core/worldline-runner_outcome_bytes.adb            |  291 +
+ core/worldline-runner_outcome_bytes.ads            |   14 +
+ core/worldline-scoped_archive.adb                  |  643 ++
+ core/worldline-scoped_archive.ads                  |   22 +
+ ...rldline-scoped_capture_evolution_projection.adb | 1672 ++++
+ ...rldline-scoped_capture_evolution_projection.ads |   31 +
+ ...worldline-scoped_capture_history_projection.adb | 1121 +++
+ ...worldline-scoped_capture_history_projection.ads |   19 +
+ ...rldline-scoped_capture_namespace_projection.adb |  615 ++
+ ...rldline-scoped_capture_namespace_projection.ads |   18 +
+ core/worldline-scoped_capture_owner_projection.adb | 1044 +++
+ core/worldline-scoped_capture_owner_projection.ads |   13 +
+ core/worldline-scoped_capture_projection.adb       | 1591 ++++
+ core/worldline-scoped_capture_projection.ads       |   44 +
+ core/worldline-scoped_record_source.adb            |  216 +
+ core/worldline-scoped_record_source.ads            |   20 +
+ core/worldline-source_audit_native.adb             |  809 ++
+ core/worldline-source_audit_native.ads             |    8 +
+ core/worldline-source_syntax.adb                   |   90 +
+ core/worldline-source_syntax.ads                   |    3 +
+ core/worldline-source_syntax_provider.adb          |  372 +
+ core/worldline-source_syntax_provider.ads          |   18 +
+ core/worldline-source_syntax_reference.adb         |  262 +
+ core/worldline-source_syntax_reference.ads         |    4 +
+ core/worldline-sqlite_parameter_source.adb         |  414 +
+ core/worldline-sqlite_parameter_source.ads         |   17 +
+ core/worldline-startup_admission.adb               |  975 ++
+ core/worldline-startup_admission.ads               |   48 +
+ core/worldline-startup_admission_owned.adb         |   70 +
+ core/worldline-startup_admission_owned.ads         |   17 +
+ core/worldline-startup_installation.adb            |  892 ++
+ core/worldline-startup_installation.ads            |   59 +
+ core/worldline-startup_issuer_source.adb           |  523 ++
+ core/worldline-startup_issuer_source.ads           |    9 +
+ core/worldline-startup_source_custody.adb          |  628 ++
+ core/worldline-startup_source_custody.ads          |   41 +
+ core/worldline-transaction_archive_json.adb        |  294 +
+ core/worldline-transaction_archive_json.ads        |   14 +
+ core/worldline-transaction_relations.adb           | 1674 ++++
+ core/worldline-transaction_relations.ads           |   47 +
+ core/worldline-transitions.adb                     |   47 +
+ core/worldline-transitions.ads                     |   44 +
+ core/worldline-world.adb                           |   46 +
+ core/worldline-world.ads                           |   12 +
+ core/worldline.ads                                 |   18 +
+ core/worldline_actuation_v1.h                      |   16 +
+ core/worldline_canonical_exchange_v1.h             |   33 +
+ core/worldline_canonical_operation_v1.h            |   21 +
+ core/worldline_canonical_owner_completion_v1.h     |   36 +
+ core/worldline_chain_authority_v1.h                |   23 +
+ core/worldline_core.gpr                            |  172 +
+ core/worldline_core.h                              |  798 ++
+ core/worldline_core_sources.gpr                    |   37 +
+ core/worldline_full_physical_v1.h                  |   47 +
+ core/worldline_journal_witness_v1.h                |   20 +
+ core/worldline_operation_authority_v1.h            |  163 +
+ core/worldline_owner_audit.h                       |  130 +
+ core/worldline_recovery_authorization_v3.h         |   63 +
+ core/worldline_recovery_protocol.h                 |   11 +
+ core/worldline_resource_child_execution_v1.h       |  156 +
+ core/worldline_sparklib_link.gpr                   |   10 +
+ .../additional-proof-obligations.json              |  218 +
+ cosmogony-use-component/cosmogony_core.gpr         |   28 +
+ cosmogony-use-component/src/cosmogony-c_api.adb    |   93 +
+ cosmogony-use-component/src/cosmogony-c_api.ads    |   65 +
+ .../src/cosmogony-capabilities.adb                 |  102 +
+ .../src/cosmogony-capabilities.ads                 |  262 +
+ .../src/cosmogony-capability_c_api.adb             |  204 +
+ .../src/cosmogony-capability_c_api.ads             |   70 +
+ .../src/cosmogony-capsule_c_api.adb                |   91 +
+ .../src/cosmogony-capsule_c_api.ads                |   46 +
+ cosmogony-use-component/src/cosmogony-capsules.adb |   27 +
+ cosmogony-use-component/src/cosmogony-capsules.ads |  138 +
+ .../src/cosmogony-evidence_court.adb               |   88 +
+ .../src/cosmogony-evidence_court.ads               |  130 +
+ .../src/cosmogony-evidence_court_c_api.adb         |  137 +
+ .../src/cosmogony-evidence_court_c_api.ads         |   78 +
+ cosmogony-use-component/src/cosmogony-genesis.adb  |  114 +
+ cosmogony-use-component/src/cosmogony-genesis.ads  |  106 +
+ .../src/cosmogony-governed_capabilities.adb        |   52 +
+ .../src/cosmogony-governed_capabilities.ads        |   82 +
+ .../src/cosmogony-hierarchy.adb                    |  125 +
+ .../src/cosmogony-hierarchy.ads                    |  285 +
+ .../src/cosmogony-hierarchy_c_api.adb              |  140 +
+ .../src/cosmogony-hierarchy_c_api.ads              |   63 +
+ .../src/cosmogony-host_profiles.adb                |   16 +
+ .../src/cosmogony-host_profiles.ads                |  101 +
+ .../src/cosmogony-resource_c_api.adb               |   28 +
+ .../src/cosmogony-resource_c_api.ads               |   17 +
+ .../src/cosmogony-revocable_capabilities.adb       |   66 +
+ .../src/cosmogony-revocable_capabilities.ads       |  118 +
+ .../src/cosmogony-revocation_c_api.adb             |  184 +
+ .../src/cosmogony-revocation_c_api.ads             |   36 +
+ .../src/cosmogony-universe_c_api.adb               |  198 +
+ .../src/cosmogony-universe_c_api.ads               |   95 +
+ .../src/cosmogony-universes.adb                    |   79 +
+ .../src/cosmogony-universes.ads                    |  288 +
+ .../src/cosmogony-use_reservations.adb             |  115 +
+ .../src/cosmogony-use_reservations.ads             |  204 +
+ .../src/cosmogony-use_reservations_c_api.adb       |  460 +
+ .../src/cosmogony-use_reservations_c_api.ads       |   42 +
+ cosmogony-use-component/src/cosmogony.ads          |    2 +
+ .../src/cosmogony_use_reservation.h                |   11 +
+ custody-hmac-controls/controls.gpr                 |   12 +
+ custody-hmac-controls/custody_hmac_controls.adb    |   40 +
+ daemon/worldlined                                  |   20 +
+ daemon/worldlined.service                          |   26 +
+ .../decision_correspondence_tests.gpr              |   15 +
+ .../test_completion_correspondence.adb             |  215 +
+ .../test_history_correspondence.adb                |   78 +
+ .../test_raw_roster_correspondence.adb             |  200 +
+ .../test_run_metadata_correspondence.adb           |   75 +
+ .../test_transition_correspondence.adb             |  280 +
+ docs/build-pdf.sh                                  |   36 +
+ docs/pdf/WORLDLINE-User-Manual.md                  |  464 +
+ docs/pdf/WORLDLINE-User-Manual.pdf                 |  Bin 0 -> 211283 bytes
+ docs/pdf/WORLDLINE-Whitepaper.md                   |  283 +
+ docs/pdf/WORLDLINE-Whitepaper.pdf                  |  Bin 0 -> 131502 bytes
+ docs/phase1-bound-loader-checkpoint-2026-10-02.md  |   64 +
+ docs/phase1-checkpoint-2026-10-02.md               |   92 +
+ docs/phase1-evaluation-lifecycle.md                |  240 +
+ docs/phase1-native-cached-checkpoint-2026-10-03.md |   34 +
+ docs/phase1-native-checkpoint-2026-10-03.md        |   38 +
+ docs/phase1-native-frozen-checkpoint-2026-10-03.md |   34 +
+ ...1-native-kernel-filter-checkpoint-2026-10-03.md |   43 +
+ ...phase1-native-lifetime-checkpoint-2026-10-03.md |   56 +
+ ...phase1-native-metadata-checkpoint-2026-10-03.md |   44 +
+ docs/phase1-typed-absence.md                       |  235 +
+ docs/release-process.md                            |   98 +
+ docs/user-manual.md                                |  649 ++
+ docs/whitepaper.md                                 |  354 +
+ .../epoch_correspondence_core_tests.gpr            |   15 +
+ .../epoch_correspondence_pending_tests.gpr         |   15 +
+ .../test_epoch_correspondence.adb                  |   68 +
+ .../evaluation_authority_tests.gpr                 |   11 +
+ .../test_evaluation_authority.adb                  |   18 +
+ evaluation-history-tests/test_history.adb          |   69 +
+ evaluation-history-tests/tests.gpr                 |   12 +
+ evaluation-wire-tests/evaluation_wire_tests.gpr    |   11 +
+ evaluation-wire-tests/test_evaluation_wire.adb     |  191 +
+ .../explicit_recovery_marker_tests.gpr             |   12 +
+ .../test_explicit_recovery_markers.adb             |   29 +
+ .../finalization_value_controls.gpr                |   12 +
+ .../test_finalization_parent_values.adb            |   61 +
+ .../test_finalization_projection.adb               |   42 +
+ .../test_finalization_values.adb                   |   58 +
+ install.sh                                         |  461 +
+ native/README.md                                   |  136 +
+ native/build_guard.py                              |   58 +
+ native/examiner_guard.c                            | 2625 ++++++
+ native/generator_templates.h                       |  542 ++
+ native/lifetime_stream.h                           | 1050 +++
+ native/protected_report_custody.h                  |  233 +
+ native/workload_boundary.h                         |  255 +
+ omarchy/README.md                                  |    7 +
+ packaging/.gitignore                               |    5 +
+ packaging/PKGBUILD                                 |   83 +
+ pending-component/core/evaluation_epoch.adb        |  605 ++
+ pending-component/core/evaluation_epoch.ads        |   23 +
+ pending-component/core/evaluation_pending.adb      |   56 +
+ pending-component/core/evaluation_pending.ads      |  166 +
+ pending-component/core/evaluation_pending.h        |   54 +
+ pending-component/core/evaluation_pending_c.adb    |  247 +
+ pending-component/core/evaluation_pending_c.ads    |   90 +
+ pending-component/core/evaluation_pending_v2.adb   |   44 +
+ pending-component/core/evaluation_pending_v2.ads   |   89 +
+ pending-component/core/evaluation_pending_v2.h     |   38 +
+ pending-component/core/evaluation_pending_v2_c.adb |  275 +
+ pending-component/core/evaluation_pending_v2_c.ads |  100 +
+ pending-component/core/resource_quantities.adb     |  476 +
+ pending-component/core/resource_quantities.ads     |  138 +
+ pending-component/core/spark-big_integers.ads      |    9 +
+ pending-component/core/spark.ads                   |   19 +
+ pending-component/pending.gpr                      |   18 +
+ .../physical_value_controls.adb                    |   74 +
+ .../physical_value_controls.gpr                    |   13 +
+ plugin-compatibility.json                          |   12 +
+ .../operation_authority_controls.adb               |  107 +
+ .../operation_effect_fixtures.adb                  |  117 +
+ .../operation_effect_fixtures.ads                  |   18 +
+ .../prepared_operation_heads_controls.adb          |   93 +
+ prepared_wire_diagnostic.gpr                       |   14 +
+ proof-manifest.json                                |  600 ++
+ ...007-resource-admission-and-execution-budgets.md |  128 +
+ protected-authority/authority_service.py           | 1671 ++++
+ protected-authority/daemon_supervisor.py           |  653 ++
+ protected-canonical/full_physical_actuator.c       |  281 +
+ protected-canonical/full_physical_actuator.h       |   40 +
+ protected-canonical/full_physical_sources.gpr      |   12 +
+ protected-canonical/provision_operation_head.py    |  285 +
+ .../vendor-transaction-035545/worldline_actuator.c |  219 +
+ .../vendor-transaction-035545/worldline_actuator.h |   35 +
+ protected-lab/recovery_principal.py                |  455 +
+ protected-lab/recovery_principal_controls.py       |   92 +
+ protected-resource/REPLAY_V2.md                    |   59 +
+ protected-resource/actor_stdin_probe_v3.c          |   24 +
+ .../controls/campaign-action-v1.json               |   76 +
+ .../controls/canonical_stdin_v3_controls.py        |   95 +
+ .../controls/owner_full_resource_control_entry.py  |   25 +
+ protected-resource/controls/run_campaign.py        |  180 +
+ .../controls/test_full_resource_replay_v2.py       |  125 +
+ protected-resource/gate_bridge.py                  |  294 +
+ .../native_namespace_supervisor_v3.c               |  381 +
+ protected-resource/run_service.py                  |  362 +
+ protected-root/controls/assertion_registry.py      |   50 +
+ protected-root/controls/campaign_registry.py       |  142 +
+ protected-root/controls/capture_coverage.py        |  155 +
+ protected-root/controls/construction_registry.py   |   65 +
+ protected-root/controls/control_worker_entry.py    |   76 +
+ protected-root/controls/duplex_original_control.py |  298 +
+ protected-root/controls/fixture_builder.py         |  835 ++
+ .../controls/front_reader_original_control.py      |  239 +
+ .../controls/handoff_sequence_original_control.py  |  217 +
+ protected-root/controls/head_target.py             |  185 +
+ protected-root/controls/live_campaign.py           |  727 ++
+ protected-root/controls/observed_controls.py       |  119 +
+ protected-root/controls/offline_owner_guard.py     |  199 +
+ .../controls/original_assertion_entry.py           |   55 +
+ protected-root/controls/original_client.py         |   93 +
+ .../controls/original_composed_ledger_formation.py |   85 +
+ .../controls/original_fixture_derived_data.py      |  204 +
+ .../controls/original_fixture_service_lifecycle.py |  267 +
+ .../controls/original_full_canonical_formation.py  |  164 +
+ .../controls/original_managed_formation.py         |  217 +
+ protected-root/controls/original_owner_genesis.py  |   80 +
+ .../controls/original_resource_owner_data.py       |  180 +
+ .../controls/original_supervisor_entry.py          |   45 +
+ .../controls/owner_form_native_startup_states.py   |  894 ++
+ .../prepare_original_fixture_control_data.py       |  234 +
+ protected-root/controls/run_campaign.py            |  226 +
+ protected-root/controls/source_registration.json   | 3427 +++++++
+ protected-root/controls/syscall_fault.c            |  240 +
+ protected-root/custody_runtime_controls_v35.py     |  251 +
+ protected-root/native_root_worker_supervisor_v1.c  |  386 +
+ protected-root/provision_root_custody_v2.py        |   16 +
+ protected-root/worker_entry.py                     |   61 +
+ protected-runtime/approved_source_loader.py        |  543 ++
+ .../controls/_worldline_cache_probe.py             |    2 +
+ .../controls/_worldline_cache_probe_other.py       |    2 +
+ .../controls/_worldline_unapproved_import_probe.py |    2 +
+ protected-runtime/controls/loader_probe.py         |   60 +
+ protected-startup/OPERATOR.md                      |  116 +
+ .../controls/additional_startup_controls.py        |  106 +
+ protected-startup/controls/campaign-action-v1.json |  120 +
+ .../controls/owner_form_startup_fixture.py         |  564 ++
+ protected-startup/controls/run_campaign.py         |  195 +
+ .../controls/test_protected_startup_v1.py          |  108 +
+ protected-startup/launcher.py                      |   44 +
+ .../owner-provisioned-genesis-v1.schema.json       |  109 +
+ protected-startup/owner_provision_bootstrap.py     |   89 +
+ protected-startup/protected-startup-v1.schema.json |  218 +
+ protocol-adapter-tests/protocol_adapter_tests.gpr  |   11 +
+ protocol-adapter-tests/test_protocol_adapter.adb   |   33 +
+ prove.sh                                           |  234 +
+ recovery-epoch-tests/recovery_epoch_tests.gpr      |   14 +
+ recovery-epoch-tests/test_epochs.adb               |   63 +
+ .../recovery_protocol_tests.gpr                    |   10 +
+ recovery-protocol-tests/test_protocol.adb          |   18 +
+ refresh_contract_pins.py                           |  165 +
+ report-facts-tests/report_facts_tests.gpr          |   11 +
+ report-facts-tests/test_report_facts.adb           |  134 +
+ request-abandon-controls/controls.gpr              |   12 +
+ .../request_abandon_controls.adb                   |  134 +
+ reservation-tests/test_lifecycle.adb               |   40 +
+ reservation-tests/tests.gpr                        |   11 +
+ resource-evidence/binding-oracle-v1.json           |  295 +
+ .../resource_ledger_correspondence_tests.gpr       |   14 +
+ .../test_resource_ledger_correspondence.adb        |  159 +
+ resource-run-ledger-source-controls-v1.json        |   64 +
+ resource-tests/resource_tests.adb                  |   80 +
+ resource-tests/resource_tests.gpr                  |   15 +
+ .../resources_prefix_correspondence_tests.gpr      |   14 +
+ .../test_resources_prefix_correspondence.adb       |  105 +
+ retained-chain-controls/controls.gpr               |   12 +
+ .../provider_length_controls.adb                   |   18 +
+ .../retained_chain_controls.adb                    |   82 +
+ retained_startup_diagnostic.gpr                    |   15 +
+ root-custody-abandon-controls/controls.gpr         |   12 +
+ .../root_custody_abandon_controls.adb              |   81 +
+ root-custody-context-controls/controls.gpr         |   12 +
+ .../root_custody_context_controls.adb              |  231 +
+ root-custody-replay-controls/controls.gpr          |   12 +
+ .../root_custody_replay_controls.adb               |   63 +
+ roster-d2-tests/roster_d2_tests.gpr                |   11 +
+ roster-d2-tests/test_roster_d2.adb                 |  125 +
+ runtime/worldline/OWNER-PROVISIONING-SOURCE.md     |   34 +
+ runtime/worldline/__init__.py                      |    4 +
+ runtime/worldline/admission.py                     | 1089 +++
+ runtime/worldline/agents/__init__.py               |   32 +
+ runtime/worldline/agents/base.py                   |  124 +
+ runtime/worldline/agents/claude.py                 |   47 +
+ runtime/worldline/agents/codex.py                  |   69 +
+ runtime/worldline/agents/generic.py                |   45 +
+ runtime/worldline/agents/omp.py                    |   42 +
+ runtime/worldline/agents/pi.py                     |   55 +
+ runtime/worldline/anchor.py                        |  921 ++
+ runtime/worldline/app.py                           |   57 +
+ runtime/worldline/canonical.py                     |   96 +
+ runtime/worldline/canonical_actor_execution.py     |  182 +
+ runtime/worldline/canonical_actor_stdin.py         |  154 +
+ runtime/worldline/canonical_exchange_kernel.py     |   69 +
+ runtime/worldline/canonical_followup.py            |  106 +
+ runtime/worldline/canonical_full_broker.py         |  231 +
+ runtime/worldline/canonical_full_store.py          |  109 +
+ runtime/worldline/canonical_k4_recovery.py         |   65 +
+ runtime/worldline/canonical_operation_chains.py    |  258 +
+ runtime/worldline/canonical_operation_kernel.py    |   44 +
+ runtime/worldline/canonical_operation_machine.py   |   46 +
+ .../worldline/canonical_owner_completion_kernel.py |   57 +
+ runtime/worldline/canonical_owner_witness.py       |   87 +
+ runtime/worldline/canonical_physical.py            |  118 +
+ runtime/worldline/canonical_workload_capture.py    |  107 +
+ runtime/worldline/capabilities.py                  |  102 +
+ runtime/worldline/capability_use_kernel.py         |   97 +
+ runtime/worldline/causal.py                        |  362 +
+ runtime/worldline/chain_authority.py               |  110 +
+ runtime/worldline/checkpoint.py                    |  123 +
+ runtime/worldline/checks.py                        |  848 ++
+ runtime/worldline/cli_main.py                      |  659 ++
+ runtime/worldline/client.py                        |   88 +
+ runtime/worldline/client_peer.py                   |  270 +
+ runtime/worldline/client_peer_relay.py             |  121 +
+ runtime/worldline/completion_kernel.py             |  262 +
+ runtime/worldline/completion_observations.py       |   46 +
+ runtime/worldline/config.py                        |  286 +
+ runtime/worldline/controller.py                    | 1422 +++
+ runtime/worldline/core.py                          |  664 ++
+ runtime/worldline/custody_cleanup_kernel.py        |   31 +
+ runtime/worldline/custody_closed_kernel.py         |   29 +
+ runtime/worldline/custody_context_kernel.py        |   65 +
+ runtime/worldline/custody_control_registration.py  |  179 +
+ runtime/worldline/custody_event_capture.py         |  152 +
+ runtime/worldline/custody_load_kernel.py           |   55 +
+ runtime/worldline/custody_mutation_kernel.py       |   81 +
+ runtime/worldline/custody_native_status.py         |   15 +
+ runtime/worldline/custody_operation_sources.py     |   60 +
+ .../worldline/custody_operation_startup_kernel.py  |  377 +
+ runtime/worldline/custody_prepared_kernel.py       |  162 +
+ runtime/worldline/custody_provision_kernel.py      |  125 +
+ runtime/worldline/custody_serving_kernel.py        |   29 +
+ runtime/worldline/custody_sql_delta.py             |   87 +
+ runtime/worldline/custody_stale_control.py         |  301 +
+ runtime/worldline/custody_startup_capture.py       |  376 +
+ runtime/worldline/custody_subject_capture.py       |  191 +
+ runtime/worldline/custody_v2_provision_entry.py    |  200 +
+ runtime/worldline/custody_v2_provision_values.py   |  227 +
+ runtime/worldline/daemon.py                        |  510 +
+ runtime/worldline/daemon_main.py                   |  107 +
+ runtime/worldline/delta.py                         |  338 +
+ runtime/worldline/engine_codes.py                  |  289 +
+ runtime/worldline/environment.py                   |  440 +
+ runtime/worldline/errors.py                        |   61 +
+ runtime/worldline/evaluation_authority.py          |  460 +
+ runtime/worldline/evaluation_context.py            |  541 ++
+ runtime/worldline/evaluation_history.py            |  214 +
+ runtime/worldline/evaluation_pending.py            |  497 +
+ runtime/worldline/evaluation_policy.py             |  125 +
+ runtime/worldline/evaluation_producer.py           |  317 +
+ runtime/worldline/evaluation_terminal.py           |  696 ++
+ runtime/worldline/evaluation_wire.py               |  129 +
+ runtime/worldline/evaluation_writer.py             |  328 +
+ runtime/worldline/examiner_audit.py                |  601 ++
+ runtime/worldline/excluded_source_owner.py         |  706 ++
+ runtime/worldline/executed.py                      |  435 +
+ runtime/worldline/finalization_journal.py          |  718 ++
+ runtime/worldline/finalization_kernel.py           |  331 +
+ runtime/worldline/finalization_values.py           |   95 +
+ runtime/worldline/finalization_writer.py           |  388 +
+ runtime/worldline/finalize.py                      |  754 ++
+ runtime/worldline/fork.py                          |  205 +
+ runtime/worldline/fstree.py                        |   87 +
+ runtime/worldline/ghosts.py                        |  100 +
+ runtime/worldline/install_config.py                |   68 +
+ runtime/worldline/journal_witness_kernel.py        |   72 +
+ runtime/worldline/linux/__init__.py                |    1 +
+ runtime/worldline/linux/atomic.py                  |   63 +
+ runtime/worldline/linux/btrfs.py                   |   87 +
+ runtime/worldline/linux/cgroups.py                 |   51 +
+ runtime/worldline/linux/criu.py                    |  101 +
+ runtime/worldline/linux/docker.py                  |  265 +
+ runtime/worldline/linux/examiner_loader.py         |  775 ++
+ runtime/worldline/linux/git.py                     |  402 +
+ runtime/worldline/linux/hyprland.py                |  112 +
+ runtime/worldline/linux/inotify.py                 |  347 +
+ runtime/worldline/linux/kernel_role_observer.py    | 2105 +++++
+ runtime/worldline/linux/namespace_lifetime.py      |  822 ++
+ runtime/worldline/linux/namespaces.py              |  427 +
+ runtime/worldline/linux/native_lifetime.py         |  799 ++
+ runtime/worldline/linux/netguard.py                |  423 +
+ runtime/worldline/linux/overlay.py                 |   18 +
+ runtime/worldline/linux/private_case_copy.py       |  263 +
+ runtime/worldline/linux/private_evaluator.py       | 2808 ++++++
+ .../worldline/linux/protected_report_channel.py    |  213 +
+ .../worldline/linux/protected_report_provider.py   |  548 ++
+ runtime/worldline/linux/protected_source_parser.py |  238 +
+ runtime/worldline/linux/protected_syntax_helper.py |  313 +
+ runtime/worldline/linux/systemd.py                 |  807 ++
+ runtime/worldline/manager_resource_lifecycle.py    |  305 +
+ runtime/worldline/manifest.py                      |  480 +
+ runtime/worldline/model.py                         |  235 +
+ runtime/worldline/operation_authority_kernel.py    |  125 +
+ runtime/worldline/operation_capture.py             |  112 +
+ runtime/worldline/operation_owner_kernel.py        |  126 +
+ runtime/worldline/operation_result_relation.py     |   39 +
+ runtime/worldline/ordinary_receipt_policy.py       |  397 +
+ .../worldline/ordinary_reservation_lifecycle.py    |  158 +
+ runtime/worldline/owner_collapse_data.py           |   43 +
+ runtime/worldline/owner_intent_endpoint.py         |   95 +
+ runtime/worldline/owner_resource_control.py        | 1041 +++
+ runtime/worldline/owner_retry_audit.py             |  146 +
+ runtime/worldline/owner_transitions.py             |  176 +
+ runtime/worldline/paths.py                         |  738 ++
+ runtime/worldline/payload.py                       |   39 +
+ runtime/worldline/pending_kernel.py                |  185 +
+ runtime/worldline/pending_kernel_v2.py             |  205 +
+ runtime/worldline/prime.py                         |  137 +
+ runtime/worldline/project.py                       |  258 +
+ runtime/worldline/proof.py                         |  197 +
+ runtime/worldline/proof_manifest.py                | 2100 +++++
+ runtime/worldline/protected_capability_uses.py     |  302 +
+ runtime/worldline/protected_operations.py          | 1205 +++
+ runtime/worldline/protected_owner.py               |  639 ++
+ runtime/worldline/protected_owner_bootstrap.py     |   29 +
+ runtime/worldline/protected_recovery_capture.py    |  344 +
+ runtime/worldline/protected_resource_runtime.py    | 1144 +++
+ runtime/worldline/protected_root_observation.py    |  164 +
+ runtime/worldline/protected_root_resource.py       |  203 +
+ runtime/worldline/protected_root_supervisor.py     |  667 ++
+ runtime/worldline/protected_root_worker.py         |  803 ++
+ .../protected_scoped_observation_journal.py        |   86 +
+ .../worldline/protected_scoped_resource_runtime.py |  960 ++
+ .../worldline/protected_scoped_resource_service.py |  260 +
+ .../worldline/protected_scoped_supervisor_v3.py    |  532 ++
+ runtime/worldline/protected_shared_source.py       |  231 +
+ runtime/worldline/protected_startup.py             | 1272 +++
+ runtime/worldline/prune.py                         |  274 +
+ runtime/worldline/raw_completion_kernel.py         |  148 +
+ runtime/worldline/raw_observation.py               |  300 +
+ runtime/worldline/receipt.py                       |  119 +
+ runtime/worldline/reconcile.py                     |   45 +
+ runtime/worldline/recovery_authority_kernel.py     |  206 +
+ runtime/worldline/recovery_authority_kernel_v3.py  |  249 +
+ runtime/worldline/recovery_kernel.py               |   54 +
+ runtime/worldline/recovery_material.py             |   15 +
+ runtime/worldline/recovery_observation.py          |  666 ++
+ runtime/worldline/recovery_protocol_kernel.py      |   37 +
+ runtime/worldline/relocate.py                      | 1147 +++
+ runtime/worldline/report.py                        |  263 +
+ runtime/worldline/report_facts.py                  |   46 +
+ runtime/worldline/report_parser.py                 |   86 +
+ runtime/worldline/reservation_lifecycle.py         |   57 +
+ runtime/worldline/resolution.py                    |   75 +
+ runtime/worldline/resource_actor_admission.py      |  232 +
+ runtime/worldline/resource_actor_credentials.py    |  255 +
+ runtime/worldline/resource_actor_execution.py      |  110 +
+ runtime/worldline/resource_child_execution.py      |  207 +
+ runtime/worldline/resource_child_schema.py         |   94 +
+ runtime/worldline/resource_kernel.py               |   48 +
+ runtime/worldline/resource_ledger.py               |  253 +
+ runtime/worldline/resource_machine_evidence.py     |  122 +
+ runtime/worldline/resource_os_observation.py       |  139 +
+ runtime/worldline/resource_policy.py               |  173 +
+ runtime/worldline/resource_run_ledger.py           |  299 +
+ runtime/worldline/resource_scoped_run_ledger.py    |  437 +
+ runtime/worldline/retained_chain_kernel.py         |  152 +
+ runtime/worldline/retained_v1_migration_capture.py |  147 +
+ runtime/worldline/returning.py                     |  193 +
+ runtime/worldline/revalidate.py                    |  483 +
+ runtime/worldline/root_owned_descriptor_roster.py  | 1216 +++
+ runtime/worldline/root_scoped_capture_profile.py   |  131 +
+ runtime/worldline/root_worker_closed.py            |  314 +
+ runtime/worldline/root_worker_closed_resource.py   |   59 +
+ runtime/worldline/root_worker_codec.py             |  168 +
+ runtime/worldline/root_worker_credentials.py       |  257 +
+ runtime/worldline/root_worker_current_state.py     |  539 ++
+ runtime/worldline/root_worker_custody.py           |  459 +
+ runtime/worldline/root_worker_endpoint_router.py   |   53 +
+ runtime/worldline/root_worker_failed_closure.py    |  362 +
+ runtime/worldline/root_worker_handoff_failure.py   |  117 +
+ runtime/worldline/root_worker_host_peer.py         |   54 +
+ runtime/worldline/root_worker_journal.py           |   54 +
+ runtime/worldline/root_worker_journal_v2.py        |  699 ++
+ runtime/worldline/root_worker_output_kernel.py     |  120 +
+ runtime/worldline/root_worker_physical.py          |  121 +
+ runtime/worldline/root_worker_plan.py              |   38 +
+ runtime/worldline/root_worker_prepared_inputs.py   |   49 +
+ runtime/worldline/root_worker_prepared_wire.py     |   78 +
+ runtime/worldline/root_worker_process_capture.py   |  103 +
+ runtime/worldline/root_worker_relay_dispatch.py    |   56 +
+ runtime/worldline/root_worker_result_channel.py    |  222 +
+ runtime/worldline/root_worker_retained_inputs.py   |   91 +
+ runtime/worldline/root_worker_root_evidence.py     |  499 +
+ runtime/worldline/root_worker_serving_peer.py      |  170 +
+ runtime/worldline/root_worker_subject_custody.py   |  237 +
+ runtime/worldline/root_worker_subject_front.py     |   78 +
+ runtime/worldline/root_worker_subject_messages.py  |   99 +
+ runtime/worldline/root_worker_subject_output.py    |   88 +
+ runtime/worldline/root_worker_subject_pump.py      |  130 +
+ runtime/worldline/root_worker_subject_relay.py     |  240 +
+ runtime/worldline/root_worker_subject_service.py   | 1000 ++
+ runtime/worldline/root_worker_subject_spool.py     |  114 +
+ runtime/worldline/root_worker_subject_sync.py      |   52 +
+ runtime/worldline/root_worker_subject_transfer.py  |  127 +
+ runtime/worldline/roots.py                         |  650 ++
+ runtime/worldline/runner.py                        | 1300 +++
+ runtime/worldline/runner_lifecycle.py              |   57 +
+ runtime/worldline/runner_outcome.py                |  244 +
+ runtime/worldline/scoped_capture_history_source.py |  352 +
+ .../worldline/scoped_capture_namespace_source.py   |  150 +
+ .../worldline/scoped_capture_owner_projection.py   |  203 +
+ runtime/worldline/scoped_source_image.py           |   25 +
+ runtime/worldline/scoring.py                       |   72 +
+ runtime/worldline/services.py                      |  219 +
+ runtime/worldline/simulation.py                    |  357 +
+ runtime/worldline/source_syntax_selection.json     |   15 +
+ runtime/worldline/startup_admission_kernel.py      |  107 +
+ runtime/worldline/status.py                        |  107 +
+ runtime/worldline/store.py                         | 1168 +++
+ runtime/worldline/transaction.py                   | 2041 ++++
+ runtime/worldline/transaction_relation.py          |  217 +
+ runtime/worldline/trusted.py                       |   51 +
+ runtime/worldline/validation.py                    |  610 ++
+ scripts/assurance.py                               |  393 +
+ scripts/assurance_contract.py                      |   39 +
+ scripts/backup_manifest.py                         |   61 +
+ scripts/decisive_evaluation_test.py                |  281 +
+ scripts/engine_codes.py                            |  355 +
+ scripts/evaluation_domain_gate.py                  |  116 +
+ scripts/install_proof_sources.py                   |   44 +
+ scripts/plugin_compat.py                           |   97 +
+ scripts/preflight.py                               |  405 +
+ scripts/prune_backups.py                           |  107 +
+ scripts/release_gate.py                            |  271 +
+ scripts/release_notes.py                           |   69 +
+ scripts/rollback.sh                                |  190 +
+ scripts/verify_install.py                          |  215 +
+ scripts/verify_release_pair_report.py              |   75 +
+ tests/anchor_support.py                            |  222 +
+ tests/diagnostic_value_stream.py                   |  178 +
+ tests/excluded_source_owner_controls.py            |  894 ++
+ tests/export_actor_archive_v35.py                  |  157 +
+ tests/fixtures/headroom-oracles-v1.json            |  549 ++
+ tests/fixtures/owner-epoch-exact-v1.json           |   23 +
+ tests/fixtures/policy-oracle-admission-v1.json     |   29 +
+ .../fixtures/policy-oracle-large-capacity-v1.json  |   29 +
+ tests/fixtures/policy-oracles-v1.json              |  389 +
+ tests/freshness_json_order_controls.py             |  109 +
+ tests/freshness_support.py                         |  407 +
+ tests/genesis_float_producer_pins.json             |   92 +
+ tests/journal_witness_fixture_exporter.py          |   47 +
+ tests/manager_resource_lifecycle_controls.adb      |   80 +
+ tests/native_lifetime_controls.py                  |  492 +
+ tests/native_workload_controls.py                  |  408 +
+ tests/operation_result_controls.py                 |  156 +
+ tests/oracle_evaluation_context_cast_lifetime.py   |  488 +
+ tests/oracle_finalization_kernel_cast_lifetime.py  |  313 +
+ tests/ordinary_receipt_policy_v35_controls.py      |  230 +
+ tests/ordinary_receipt_policy_v35_regressions.py   |  156 +
+ tests/owned_evaluation_support.py                  |  168 +
+ tests/recovery_owner_packet_native_controls.py     |  121 +
+ tests/recovery_packet_fixture_controls.py          |   57 +
+ tests/recovery_packet_native_controls.py           |  148 +
+ tests/resource_policy_smoke.adb                    |   32 +
+ tests/resource_policy_smoke.gpr                    |   15 +
+ tests/retained_evidence_replay_controls.py         |  322 +
+ tests/retained_replay_controls.adb                 |  148 +
+ tests/retained_replay_controls.ads                 |   38 +
+ tests/revalidation_diagnostic.py                   |  181 +
+ tests/run_freshness_json_order_controls.py         |   34 +
+ tests/runner_lifecycle_controls.adb                |  251 +
+ tests/test_abi_layout.py                           |  151 +
+ tests/test_actor_archive_replay_v35.py             |  132 +
+ tests/test_actor_stdin_transport_v3.py             |  108 +
+ tests/test_admission.py                            |  339 +
+ tests/test_admission_custody_repair.py             |  250 +
+ tests/test_admission_enforcement.py                |  243 +
+ tests/test_admission_regressions.py                |  160 +
+ tests/test_admission_terminal_repair.py            |  295 +
+ tests/test_agent_acquisition_ownership.py          |  419 +
+ tests/test_agents.py                               |  157 +
+ tests/test_anchor.py                               |  102 +
+ tests/test_anchor_rotation_control.py              |   44 +
+ tests/test_anchor_witness.py                       |  213 +
+ tests/test_assurance_instrument.py                 |  257 +
+ tests/test_authority_static_audit.py               |  407 +
+ tests/test_boundaries.py                           |  619 ++
+ tests/test_candidate_report_reader.py              |   54 +
+ tests/test_candidate_snapshot.py                   |  191 +
+ ...test_canonical_exchange_owner_exports_native.py |   63 +
+ tests/test_canonical_operation_exports_native.py   |   69 +
+ tests/test_canonical_owner_mapping_order.py        |   57 +
+ tests/test_capabilities.py                         |   36 +
+ tests/test_capability_native_binding_simulation.py |  238 +
+ tests/test_causal.py                               |  154 +
+ tests/test_causal_root_coverage.py                 |  222 +
+ tests/test_chain_authority_analyzed_transport.py   |   60 +
+ tests/test_chain_authority_native.py               |   71 +
+ tests/test_chain_verification.py                   |   96 +
+ tests/test_cli.py                                  |   56 +
+ tests/test_client_content.py                       |  773 ++
+ tests/test_client_peer_producer.py                 |  244 +
+ tests/test_completion_owned_abi.py                 |  239 +
+ tests/test_config.py                               |   61 +
+ tests/test_context_cast_lifetime.py                |  172 +
+ tests/test_core_abi.py                             |  327 +
+ tests/test_custody_foreign_key_capture.py          |   74 +
+ tests/test_custody_prepared_abi.py                 |   90 +
+ tests/test_custody_provision_kernel.py             |  162 +
+ tests/test_custody_startup_native_v35.py           |  280 +
+ tests/test_custody_subject_primitives.py           |   61 +
+ tests/test_custody_v2_explicit_provision.py        |  116 +
+ tests/test_custody_v2_sql_capture.py               |   74 +
+ tests/test_daemon.py                               |   82 +
+ tests/test_dedicated_client.py                     |  431 +
+ tests/test_delta.py                                |   89 +
+ tests/test_diagnostic_value_stream.py              |  123 +
+ tests/test_docker.py                               |  118 +
+ tests/test_e2e.py                                  |  219 +
+ tests/test_engine_code_inventory.py                |  143 +
+ tests/test_environment.py                          |  116 +
+ tests/test_evaluation_acquisition_raw_producer.py  |  324 +
+ tests/test_evaluation_authority.py                 |  359 +
+ tests/test_evaluation_history.py                   |  193 +
+ tests/test_evaluation_lifecycle_promotion.py       |  190 +
+ tests/test_evaluation_pending.py                   |  175 +
+ tests/test_evaluation_pending_requirements.py      |   72 +
+ tests/test_evaluation_policy_raw_producer.py       |  119 +
+ tests/test_evaluation_roster_d2.py                 |   96 +
+ tests/test_evaluation_row_projection.py            |  161 +
+ tests/test_evaluation_terminal.py                  |  539 ++
+ tests/test_evaluator_completeness.py               |  237 +
+ tests/test_examiner_audit.py                       |  261 +
+ tests/test_examiner_bound_loader.py                | 1346 +++
+ tests/test_examiner_entry_code.py                  |  343 +
+ tests/test_examiner_entry_retention.py             |  693 ++
+ tests/test_examiner_native_generators.py           | 1897 ++++
+ tests/test_examiner_native_guard.py                |  604 ++
+ tests/test_executed_identity.py                    |  310 +
+ tests/test_finalization_agent_binding.py           |   82 +
+ .../test_finalization_agent_binding_additional.py  |   99 +
+ tests/test_finalization_agent_binding_producer.py  |  113 +
+ tests/test_finalization_cast_lifetime.py           |  243 +
+ tests/test_finalization_journal_sequence.py        |  164 +
+ tests/test_finalization_kernel.py                  |  289 +
+ tests/test_finalization_owned_abi.py               |  156 +
+ tests/test_finalization_producer.py                |  173 +
+ tests/test_finalize.py                             |  139 +
+ tests/test_freshness.py                            | 1022 ++
+ tests/test_full_physical_exports_native.py         |   51 +
+ tests/test_full_physical_syscalls_native.py        |  296 +
+ tests/test_genesis_float_domain.py                 |  382 +
+ tests/test_ghosts.py                               |   69 +
+ tests/test_git_capture.py                          |   65 +
+ tests/test_inotify.py                              |  165 +
+ tests/test_install_config.py                       |   55 +
+ tests/test_install_guards.py                       |  256 +
+ tests/test_journal_witness_native_v35.py           |   77 +
+ tests/test_kernel_role_observer.py                 |  497 +
+ tests/test_lifecycle_integrity.py                  |  597 ++
+ tests/test_manager_resource_lifecycle_native.py    |  348 +
+ tests/test_manifest.py                             |   60 +
+ tests/test_namespace_lifetime.py                   |  651 ++
+ tests/test_native_execution_completion_v34.py      |  120 +
+ tests/test_netguard.py                             |   93 +
+ tests/test_operation_exports_native.py             |   39 +
+ tests/test_ordinary_reservation_lifecycle_v35.py   |  315 +
+ tests/test_owned_recovery_history_abi.py           |  172 +
+ tests/test_owner_retry_audit.py                    |  181 +
+ tests/test_owner_transitions.py                    |   73 +
+ tests/test_pending_owned_abi.py                    |  259 +
+ tests/test_policy_source_raw_correspondence.py     |  109 +
+ tests/test_post_commit_reporting.py                |   90 +
+ tests/test_preflight.py                            |  303 +
+ tests/test_prepared_wire_values.py                 |   48 +
+ tests/test_prime.py                                |   61 +
+ tests/test_private_acquisition_terminal.py         |  389 +
+ tests/test_private_benchmark.py                    |  165 +
+ tests/test_private_case_copy.py                    |  102 +
+ tests/test_private_case_lease.py                   |  170 +
+ tests/test_private_check_runner.py                 |  116 +
+ tests/test_private_evaluator.py                    |  229 +
+ tests/test_private_lease_fault_campaign.py         |  864 ++
+ tests/test_private_lease_protocol_campaign.py      |  736 ++
+ tests/test_private_report.py                       |  108 +
+ tests/test_private_report_admission.py             |  198 +
+ tests/test_private_world_flow.py                   |  113 +
+ tests/test_profile_binding.py                      |   50 +
+ tests/test_project.py                              |  197 +
+ tests/test_proof_manifest_shapes.py                |   97 +
+ tests/test_proof_source_inventory.py               |   69 +
+ tests/test_protected.py                            |  135 +
+ tests/test_protected_report_provider.py            |  207 +
+ tests/test_prune.py                                |  470 +
+ tests/test_prune_backups.py                        |  102 +
+ tests/test_race.py                                 |  127 +
+ tests/test_raw_evaluation_default.py               |  562 ++
+ tests/test_raw_observation.py                      |  360 +
+ tests/test_raw_process_ownership.py                |  156 +
+ tests/test_recovery_authority.py                   |  244 +
+ tests/test_recovery_kernel.py                      |   89 +
+ tests/test_recovery_observation_codec.py           |   46 +
+ tests/test_recovery_packet_producer.py             |  216 +
+ tests/test_recovery_protocol_native.py             |   29 +
+ tests/test_recovery_protocol_typed_adapter.py      |   38 +
+ tests/test_recovery_witness_relation.py            |  222 +
+ tests/test_recovery_witness_relation_v3.py         |  302 +
+ tests/test_release_gate.py                         |  266 +
+ tests/test_release_pair_report.py                  |   59 +
+ tests/test_relocate.py                             | 1231 +++
+ tests/test_report_admission.py                     |   42 +
+ tests/test_report_parsers.py                       |   57 +
+ tests/test_reservation_lifecycle.py                |  183 +
+ tests/test_resource_actor_execution_v1.py          |  129 +
+ tests/test_resource_child_execution_v1.py          |  154 +
+ tests/test_resource_headroom.py                    |  196 +
+ tests/test_resource_kernel.py                      |  116 +
+ tests/test_resource_ledger.py                      |  375 +
+ tests/test_resource_os_observation_v1.py           |   98 +
+ tests/test_resource_owned_abi.py                   |  287 +
+ tests/test_resource_policy.py                      |  180 +
+ tests/test_resource_run_ledger_v1.py               |  227 +
+ tests/test_resource_scoped_history_v1.py           |  184 +
+ tests/test_result_channel.py                       |  227 +
+ tests/test_resulting_requirement_caller.py         |  141 +
+ tests/test_retained_observation_correspondence.py  |   78 +
+ tests/test_revalidation_binding.py                 |  618 ++
+ tests/test_rollback.py                             |  355 +
+ tests/test_root_resolution.py                      |  616 ++
+ tests/test_root_worker_codec_lossless.py           |  307 +
+ tests/test_roots.py                                |   98 +
+ tests/test_runner_lifecycle_bytes_v35.py           |  230 +
+ tests/test_runner_lifecycle_native_v35.py          |  306 +
+ tests/test_runner_outcome_native_v35.py            |  595 ++
+ tests/test_sandbox.py                              |  147 +
+ tests/test_scoring.py                              |   60 +
+ tests/test_security_hardening.py                   |  610 ++
+ tests/test_simulation.py                           |  101 +
+ tests/test_staged_authority_callbacks.py           |   69 +
+ tests/test_status_degraded.py                      |   59 +
+ tests/test_store.py                                |  121 +
+ tests/test_supervision.py                          |  199 +
+ tests/test_supervision_real.py                     |   85 +
+ tests/test_systemd.py                              |   45 +
+ tests/test_tagged_object_cursor.py                 |  117 +
+ tests/test_transaction.py                          |  329 +
+ tests/test_trusted_startup.py                      |  249 +
+ tests/test_typed_absence.py                        | 1256 +++
+ tests/test_verification_reporting.py               |  114 +
+ tests/test_verifier_resolution.py                  |  190 +
+ tests/transaction_result_controls.py               |  213 +
+ tests/validation_support.py                        |   69 +
+ tests/watch_support.py                             |   42 +
+ tests/worldline_collapse_checks.adb                |  350 +
+ tests/worldline_collapse_checks.ads                |    6 +
+ tests/worldline_core_fuzz.adb                      |  282 +
+ tests/worldline_core_tests.adb                     |  400 +
+ tests/worldline_tests.gpr                          |   33 +
+ transition-tests/test_transition.adb               |  252 +
+ transition-tests/tests.gpr                         |   11 +
+ use-reservation-tests/use_reservation_tests.adb    |  144 +
+ use-reservation-tests/use_reservation_tests.gpr    |    9 +
+ verify_proof_manifest.py                           |  129 +
+ .../test_wire_initialization.adb                   |  130 +
+ .../wire_initialization_tests.gpr                  |   12 +
+ worldline.gpr                                      |    4 +
+ 1193 files changed, 300818 insertions(+)

@@ -1,0 +1,359 @@
+ info: range check proved
+--> worldline-archive_envelope.adb:11:60
+
+ info: range check proved
+--> worldline-archive_envelope.adb:12:20
+
+ info: range check proved
+--> worldline-archive_envelope.adb:14:17
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:15:42
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.adb:18:34
+
+ info: range check proved
+--> worldline-archive_envelope.adb:19:45
+
+ info: range check proved
+--> worldline-archive_envelope.adb:23:50
+
+ info: range check proved
+--> worldline-archive_envelope.adb:25:40
+
+ info: range check proved
+--> worldline-archive_envelope.adb:25:51
+
+ info: initialization of "Result" proved
+--> worldline-archive_envelope.adb:26:13
+
+ info: range check proved
+--> worldline-archive_envelope.adb:26:13
+
+ info: precondition proved
+--> worldline-archive_envelope.adb:26:35
+
+ info: precondition proved
+--> worldline-archive_envelope.adb:28:14
+
+ info: range check proved
+--> worldline-archive_envelope.adb:29:20
+
+ info: range check proved
+--> worldline-archive_envelope.adb:37:28
+
+ info: range check proved
+--> worldline-archive_envelope.adb:40:66
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.adb:42:17
+
+ info: range check proved
+--> worldline-archive_envelope.adb:48:40
+
+ info: initialization of "N" proved
+--> worldline-archive_envelope.adb:57:07
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:61:33
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:61:33
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:62:33
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:62:33
+
+ info: loop variant proved
+--> worldline-archive_envelope.adb:63:31
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:63:60
+
+ info: range check proved
+--> worldline-archive_envelope.adb:64:25
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:66:25
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:68:64
+
+ info: initialization of "N" proved
+--> worldline-archive_envelope.adb:78:07
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:82:33
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:82:33
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:83:33
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:83:33
+
+ info: loop variant proved
+--> worldline-archive_envelope.adb:84:31
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:84:60
+
+ info: range check proved
+--> worldline-archive_envelope.adb:85:25
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:88:25
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:90:64
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:105:30
+
+ info: index check proved
+--> worldline-archive_envelope.adb:105:30
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:105:41
+
+ info: range check proved
+--> worldline-archive_envelope.adb:105:41
+
+ info: index check proved
+--> worldline-archive_envelope.adb:105:79
+
+ info: implicit aspect Always_Terminates on "Literal" has been proved, subprogram will terminate
+--> worldline-archive_envelope.adb:109:13
+
+ info: range check proved
+--> worldline-archive_envelope.adb:110:18
+
+ info: range check proved
+--> worldline-archive_envelope.adb:110:57
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:112:28
+
+ info: index check proved
+--> worldline-archive_envelope.adb:112:28
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:112:39
+
+ info: range check proved
+--> worldline-archive_envelope.adb:112:39
+
+ info: index check proved
+--> worldline-archive_envelope.adb:112:77
+
+ info: implicit aspect Always_Terminates on "String_Payload" has been proved, subprogram will terminate
+--> worldline-archive_envelope.adb:114:13
+
+ info: postcondition proved
+--> worldline-archive_envelope.adb:115:19
+
+ info: range check proved
+--> worldline-archive_envelope.adb:118:40
+
+ info: range check proved
+--> worldline-archive_envelope.adb:124:43
+
+ info: implicit aspect Always_Terminates on "Terminal_Tag" has been proved, subprogram will terminate
+--> worldline-archive_envelope.adb:127:13
+
+ info: range check proved
+--> worldline-archive_envelope.adb:128:40
+
+ info: range check proved
+--> worldline-archive_envelope.adb:131:22
+
+ info: initialization of "Header_Node" proved
+--> worldline-archive_envelope.adb:141:07
+
+ info: initialization of "Tag_View" proved
+--> worldline-archive_envelope.adb:143:07
+
+ info: initialization of "Value_View" proved
+--> worldline-archive_envelope.adb:143:17
+
+ info: initialization of "Extra_View" proved
+--> worldline-archive_envelope.adb:143:29
+
+ info: implicit aspect Always_Terminates on "Has_Tag" has been proved, subprogram will terminate
+--> worldline-archive_envelope.adb:145:16
+
+ info: no contextual analysis of "Terminal_Tag" (in potentially unevaluated context)
+--> worldline-archive_envelope.adb:146:38
+
+ info: range check proved
+--> worldline-archive_envelope.adb:151:37
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.adb:152:24
+
+ info: range check proved
+--> worldline-archive_envelope.adb:159:32
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:164:33
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:164:33
+
+ info: range check proved
+--> worldline-archive_envelope.adb:164:44
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:165:33
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:165:33
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:166:33
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:166:33
+
+ info: loop invariant preservation proved
+--> worldline-archive_envelope.adb:169:33
+
+ info: loop invariant initialization proved
+--> worldline-archive_envelope.adb:169:33
+
+ info: loop variant proved
+--> worldline-archive_envelope.adb:173:31
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:173:60
+
+ info: range check proved
+--> worldline-archive_envelope.adb:174:35
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:183:39
+
+ info: overflow check proved
+--> worldline-archive_envelope.adb:185:64
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.adb:188:22
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.adb:189:24
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.adb:190:24
+
+ info: range check proved
+--> worldline-archive_envelope.adb:201:49
+
+ info: range check proved
+--> worldline-archive_envelope.adb:213:49
+
+ info: range check proved
+--> worldline-archive_envelope.adb:213:60
+
+ info: range check proved
+--> worldline-archive_envelope.adb:227:49
+
+ info: index check proved
+--> worldline-archive_envelope.adb:240:51
+
+ info: range check proved
+--> worldline-archive_envelope.adb:257:58
+
+ info: index check proved
+--> worldline-archive_envelope.adb:299:51
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.adb:315:42
+
+ info: implicit aspect Always_Terminates on "Materialize" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:30:13
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:31:11
+
+ info: postcondition proved
+--> worldline-archive_envelope.ads:33:16
+
+ info: range check proved
+--> worldline-archive_envelope.ads:34:28
+
+ info: implicit aspect Always_Terminates on "Leaf_Canonical" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:35:13
+
+ info: range check proved
+--> worldline-archive_envelope.ads:37:52
+
+ info: range check proved
+--> worldline-archive_envelope.ads:37:63
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:38:11
+
+ info: implicit aspect Always_Terminates on "Bytes_Valid" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:43:13
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:44:11
+
+ info: postcondition proved
+--> worldline-archive_envelope.ads:45:16
+
+ info: range check proved
+--> worldline-archive_envelope.ads:46:45
+
+ info: subprogram variant proved
+--> worldline-archive_envelope.ads:47:16
+
+ info: range check proved
+--> worldline-archive_envelope.ads:47:61
+
+ info: range check proved
+--> worldline-archive_envelope.ads:48:74
+
+ info: implicit aspect Always_Terminates on "Array_Element" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:72:13
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:73:24
+
+ info: postcondition proved
+--> worldline-archive_envelope.ads:74:15
+
+ info: implicit aspect Always_Terminates on "Array_Length" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:76:13
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:77:12
+
+ info: postcondition proved
+--> worldline-archive_envelope.ads:78:17
+
+ info: implicit aspect Always_Terminates on "Is_Array" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:80:13
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:81:12
+
+ info: implicit aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:82:13
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:84:11
+
+ info: postcondition proved
+--> worldline-archive_envelope.ads:86:16
+
+ info: implicit aspect Always_Terminates on "Text_Is" has been proved, subprogram will terminate
+--> worldline-archive_envelope.ads:94:13
+
+ info: data dependencies proved
+--> worldline-archive_envelope.ads:95:11

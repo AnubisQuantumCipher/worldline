@@ -1,0 +1,353 @@
+ info: length check proved
+--> worldline-archive_base64.adb:8:14
+
+ info: range check proved
+--> worldline-archive_base64.adb:9:09
+
+ info: range check proved
+--> worldline-archive_base64.adb:9:25
+
+ info: precondition proved
+--> worldline-archive_base64.adb:10:12
+
+ info: overflow check proved
+--> worldline-archive_base64.adb:10:40
+
+ info: range check proved
+--> worldline-archive_base64.adb:10:40
+
+ info: implicit aspect Always_Terminates on "Span_Valid" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:13:13
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:16:33
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:16:46
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:17:09
+
+ info: implicit aspect Always_Terminates on "Is_Digit" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:21:13
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:26:09
+
+ info: implicit aspect Always_Terminates on "Digit" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:28:13
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:36:09
+
+ info: postcondition proved
+--> worldline-archive_base64.ads:36:58
+
+ info: implicit aspect Always_Terminates on "Padding" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:40:13
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:41:27
+
+ info: index check proved
+--> worldline-archive_base64.ads:41:27
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:42:30
+
+ info: index check proved
+--> worldline-archive_base64.ads:42:30
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:44:09
+
+ info: postcondition proved
+--> worldline-archive_base64.ads:46:14
+
+ info: implicit aspect Always_Terminates on "Canonical" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:48:13
+
+ info: division check proved
+--> worldline-archive_base64.ads:51:47
+
+ info: range check proved
+--> worldline-archive_base64.ads:52:18
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:53:37
+
+ info: precondition proved
+--> worldline-archive_base64.ads:53:39
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:54:43
+
+ info: index check proved
+--> worldline-archive_base64.ads:54:43
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:55:35
+
+ info: index check proved
+--> worldline-archive_base64.ads:55:35
+
+ info: precondition proved
+--> worldline-archive_base64.ads:56:15
+
+ info: precondition proved
+--> worldline-archive_base64.ads:57:22
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:57:46
+
+ info: index check proved
+--> worldline-archive_base64.ads:57:46
+
+ info: division check proved
+--> worldline-archive_base64.ads:57:68
+
+ info: precondition proved
+--> worldline-archive_base64.ads:58:22
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:58:46
+
+ info: index check proved
+--> worldline-archive_base64.ads:58:46
+
+ info: division check proved
+--> worldline-archive_base64.ads:58:68
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:60:09
+
+ info: implicit aspect Always_Terminates on "Decoded_Length" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:66:13
+
+ info: division check proved
+--> worldline-archive_base64.ads:69:25
+
+ info: range check proved
+--> worldline-archive_base64.ads:69:34
+
+ info: precondition proved
+--> worldline-archive_base64.ads:69:36
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:70:09
+
+ info: postcondition proved
+--> worldline-archive_base64.ads:74:14
+
+ info: implicit aspect Always_Terminates on "Byte_Readable" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:78:13
+
+ info: division check proved
+--> worldline-archive_base64.ads:80:47
+
+ info: division check proved
+--> worldline-archive_base64.ads:80:65
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:81:34
+
+ info: index check proved
+--> worldline-archive_base64.ads:81:34
+
+ info: division check proved
+--> worldline-archive_base64.ads:81:45
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:81:50
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:81:54
+
+ info: division check proved
+--> worldline-archive_base64.ads:81:63
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:82:34
+
+ info: index check proved
+--> worldline-archive_base64.ads:82:34
+
+ info: division check proved
+--> worldline-archive_base64.ads:82:45
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:82:50
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:82:54
+
+ info: division check proved
+--> worldline-archive_base64.ads:82:63
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:82:69
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:83:09
+
+ info: implicit aspect Always_Terminates on "Decoded_Byte" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:91:13
+
+ info: division check proved
+--> worldline-archive_base64.ads:93:19
+
+ info: precondition proved
+--> worldline-archive_base64.ads:95:11
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:95:35
+
+ info: index check proved
+--> worldline-archive_base64.ads:95:35
+
+ info: division check proved
+--> worldline-archive_base64.ads:95:45
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:95:50
+
+ info: precondition proved
+--> worldline-archive_base64.ads:96:11
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:96:35
+
+ info: index check proved
+--> worldline-archive_base64.ads:96:35
+
+ info: division check proved
+--> worldline-archive_base64.ads:96:46
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:96:51
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:96:55
+
+ info: division check proved
+--> worldline-archive_base64.ads:96:62
+
+ info: precondition proved
+--> worldline-archive_base64.ads:98:12
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:98:36
+
+ info: index check proved
+--> worldline-archive_base64.ads:98:36
+
+ info: division check proved
+--> worldline-archive_base64.ads:98:47
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:98:52
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:98:56
+
+ info: division check proved
+--> worldline-archive_base64.ads:98:63
+
+ info: precondition proved
+--> worldline-archive_base64.ads:99:11
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:99:35
+
+ info: index check proved
+--> worldline-archive_base64.ads:99:35
+
+ info: division check proved
+--> worldline-archive_base64.ads:99:46
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:99:51
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:99:55
+
+ info: division check proved
+--> worldline-archive_base64.ads:99:62
+
+ info: precondition proved
+--> worldline-archive_base64.ads:101:12
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:101:36
+
+ info: index check proved
+--> worldline-archive_base64.ads:101:36
+
+ info: division check proved
+--> worldline-archive_base64.ads:101:47
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:101:52
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:101:56
+
+ info: division check proved
+--> worldline-archive_base64.ads:101:63
+
+ info: precondition proved
+--> worldline-archive_base64.ads:102:11
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:102:35
+
+ info: index check proved
+--> worldline-archive_base64.ads:102:35
+
+ info: division check proved
+--> worldline-archive_base64.ads:102:46
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:102:51
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:102:55
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:103:09
+
+ info: precondition proved
+--> worldline-archive_base64.ads:105:63
+
+ info: aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-archive_base64.ads:110:14
+
+ info: initialization of "Result" proved
+--> worldline-archive_base64.ads:111:41
+
+ info: data dependencies proved
+--> worldline-archive_base64.ads:113:09
+
+ info: flow dependencies proved
+--> worldline-archive_base64.ads:113:25
+
+ info: range check proved
+--> worldline-archive_base64.ads:116:14
+
+ info: precondition proved
+--> worldline-archive_base64.ads:116:24
+
+ info: postcondition proved
+--> worldline-archive_base64.ads:117:14
+
+ info: index check proved
+--> worldline-archive_base64.ads:118:16
+
+ info: precondition proved
+--> worldline-archive_base64.ads:118:21
+
+ info: overflow check proved
+--> worldline-archive_base64.ads:118:49
+
+ info: range check proved
+--> worldline-archive_base64.ads:118:49

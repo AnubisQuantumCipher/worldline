@@ -1,0 +1,97 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-----------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                                          Provers   Justified   Unproved
+-----------------------------------------------------------------------------------------------------------------------
+Data Dependencies                 2           2                                                .           .          .
+Flow Dependencies                 .           .                                                .           .          .
+Initialization                   78          78                                                .           .          .
+Non-Aliasing                      .           .                                                .           .          .
+Run-time Checks                 916           .    845 (CVC5 83%, Trivial 9%, Z3 8%, altergo 0%)           .         71
+Assertions                      112           .               112 (CVC5 85%, Z3 14%, altergo 1%)           .          .
+Functional Contracts            175           .               172 (CVC5 71%, Trivial 8%, Z3 21%)           .          3
+LSP Verification                  .           .                                                .           .          .
+Termination                      90          47                             43 (CVC5 93%, Z3 7%)           .          .
+Concurrency                       .           .                                                .           .          .
+-----------------------------------------------------------------------------------------------------------------------
+Total                          1373    127 (9%)                                       1172 (85%)           .    74 (5%)
+
+
+max steps used for successful proof: 7139
+
+============================
+Most difficult proved checks
+============================
+
+worldline-report_parser.adb:766:35: precondition proved in max 1 seconds
+worldline-report_parser.adb:825:19: precondition proved in max 1 seconds
+worldline-report_parser.adb:761:55: precondition proved in max 1 seconds
+worldline-report_parser.adb:671:53: overflow check proved in max 1 seconds
+worldline-report_parser.adb:668:33: loop invariant after first iteration proved in max 1 seconds
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-report_parser, 58 subprograms and packages out of 58 analyzed
+  Worldline.Report_Parser at worldline-report_parser.ads:1 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Report_Parser.Answer at worldline-report_parser.adb:165 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Report_Parser.Benchmark_Report at worldline-report_parser.adb:1094 flow analyzed (0 errors, 0 checks, 3 warnings and 0 pragma Assume statements) and not proved, 48 checks out of 62 proved
+  Worldline.Report_Parser.Benchmark_Report.ASCII at worldline-report_parser.adb:1201 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Report_Parser.Benchmark_Report.Escaped_Unit at worldline-report_parser.adb:1141 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Report_Parser.Benchmark_Report.Hex at worldline-report_parser.adb:1137 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.Benchmark_Report.JSON_String at worldline-report_parser.adb:1155 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (25 checks)
+  Worldline.Report_Parser.Benchmark_Report.Match at worldline-report_parser.adb:1127 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Report_Parser.Benchmark_Report.Node_OK at worldline-report_parser.adb:1111 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Report_Parser.Benchmark_Report.Number at worldline-report_parser.adb:1307 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Report_Parser.Benchmark_Report.String_Is at worldline-report_parser.adb:1291 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Report_Parser.Benchmark_Report.Value at worldline-report_parser.adb:1209 flow analyzed (0 errors, 0 checks, 2 warnings and 0 pragma Assume statements) and proved (92 checks)
+  Worldline.Report_Parser.Benchmark_Report.White at worldline-report_parser.adb:1116 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Report_Parser.Decimal_Digit at worldline-report_parser.adb:83 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Report_Parser.Decimal_Exit_Zero at worldline-report_parser.adb:1400 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.Decimal_Image at worldline-report_parser.adb:1026 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 45 checks out of 53 proved
+  Worldline.Report_Parser.Decimal_Less at worldline-report_parser.adb:978 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)
+  Worldline.Report_Parser.Decimal_String at worldline-report_parser.adb:888 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (50 checks)
+  Worldline.Report_Parser.Decimal_String.Word at worldline-report_parser.adb:898 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.Report_Parser.Decode at worldline-report_parser.adb:18 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)
+  Worldline.Report_Parser.Decode.Byte at worldline-report_parser.adb:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Report_Parser.Decode_XML at worldline-report_parser.adb:268 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (83 checks)
+  Worldline.Report_Parser.Decode_XML.Byte at worldline-report_parser.adb:275 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Report_Parser.Decode_XML.Unit at worldline-report_parser.adb:278 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Report_Parser.GNAT_Report at worldline-report_parser.adb:182 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 84 checks out of 93 proved
+  Worldline.Report_Parser.Image at worldline-report_parser.adb:147 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Report_Parser.Is_White at worldline-report_parser.adb:70 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.JUnit_Report at worldline-report_parser.adb:368 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and not proved, 168 checks out of 191 proved
+  Worldline.Report_Parser.JUnit_Report.Attrs_OK at worldline-report_parser.adb:400 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Report_Parser.JUnit_Report.Colon at worldline-report_parser.adb:511 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Report_Parser.JUnit_Report.Declaration at worldline-report_parser.adb:600 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 34 checks out of 39 proved
+  Worldline.Report_Parser.JUnit_Report.Entity at worldline-report_parser.adb:468 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 35 checks out of 41 proved
+  Worldline.Report_Parser.JUnit_Report.Equal_Name at worldline-report_parser.adb:462 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Worldline.Report_Parser.JUnit_Report.Exact_Name at worldline-report_parser.adb:465 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Report_Parser.JUnit_Report.Local_First at worldline-report_parser.adb:581 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.Report_Parser.JUnit_Report.Match at worldline-report_parser.adb:408 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)
+  Worldline.Report_Parser.JUnit_Report.Name at worldline-report_parser.adb:446 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 7 checks out of 9 proved
+  Worldline.Report_Parser.JUnit_Report.Name_Char at worldline-report_parser.adb:432 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.JUnit_Report.Name_Start at worldline-report_parser.adb:424 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.JUnit_Report.Namespace_Of at worldline-report_parser.adb:529 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.Report_Parser.JUnit_Report.Skip_Until at worldline-report_parser.adb:587 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 5 checks out of 7 proved
+  Worldline.Report_Parser.JUnit_Report.Stack_OK at worldline-report_parser.adb:393 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Report_Parser.JUnit_Report.URI_Equal at worldline-report_parser.adb:560 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Report_Parser.JUnit_Report.Value_Is at worldline-report_parser.adb:570 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (13 checks)
+  Worldline.Report_Parser.JUnit_Report.White at worldline-report_parser.adb:435 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 5 checks out of 6 proved
+  Worldline.Report_Parser.Line_End at worldline-report_parser.adb:79 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.Number_From_ASCII at worldline-report_parser.adb:875 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Report_Parser.Parse at worldline-report_parser.ads:18 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Worldline.Report_Parser.Percentage at worldline-report_parser.adb:1056 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 63 checks out of 65 proved
+  Worldline.Report_Parser.Py_Integer at worldline-report_parser.adb:108 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+  Worldline.Report_Parser.Quote at worldline-report_parser.adb:833 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 30 checks out of 32 proved
+  Worldline.Report_Parser.Quote at worldline-report_parser.adb:866 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Report_Parser.Quote.Unit at worldline-report_parser.adb:840 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (29 checks)
+  Worldline.Report_Parser.Reject at worldline-report_parser.adb:173 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.Report_Parser.Round_28 at worldline-report_parser.adb:1009 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (20 checks)
+  Worldline.Report_Parser.Status_JSON at worldline-report_parser.adb:163 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.XML_Char at worldline-report_parser.adb:76 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Report_Parser.XML_White at worldline-report_parser.adb:75 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)

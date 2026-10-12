@@ -1,0 +1,130 @@
+test_directory_flush_failure_is_not_returned_as_success (test_admission_custody_repair.AdmissionCustodyRepair.test_directory_flush_failure_is_not_returned_as_success) ... ok
+test_file_fsync_failure_preserves_old_bytes_and_primary_over_close (test_admission_custody_repair.AdmissionCustodyRepair.test_file_fsync_failure_preserves_old_bytes_and_primary_over_close) ... ok
+test_file_is_flushed_before_replacement_directory_is_flushed (test_admission_custody_repair.AdmissionCustodyRepair.test_file_is_flushed_before_replacement_directory_is_flushed) ... ok
+test_observation_waits_for_the_accounting_lock (test_admission_custody_repair.AdmissionCustodyRepair.test_observation_waits_for_the_accounting_lock) ... ok
+test_unlock_failure_cannot_replace_body_failure (test_admission_custody_repair.AdmissionCustodyRepair.test_unlock_failure_cannot_replace_body_failure) ... ok
+test_acquired_actual_unit_is_attached_and_success_releases (test_admission_custody_repair.CheckReservationCustody.test_acquired_actual_unit_is_attached_and_success_releases) ... ok
+test_attachment_failure_stops_owned_work_before_release (test_admission_custody_repair.CheckReservationCustody.test_attachment_failure_stops_owned_work_before_release) ... ok
+test_private_actual_acquisition_binds_before_collection (test_admission_custody_repair.CheckReservationCustody.test_private_actual_acquisition_binds_before_collection) ... ok
+test_release_failure_preserves_existing_primary (test_admission_custody_repair.CheckReservationCustody.test_release_failure_preserves_existing_primary) ... ok
+test_restart_uses_the_retained_check_unit_for_liveness (test_admission_custody_repair.CheckReservationCustody.test_restart_uses_the_retained_check_unit_for_liveness) ... ok
+test_unsettled_cleanup_retains_capacity_and_primary (test_admission_custody_repair.CheckReservationCustody.test_unsettled_cleanup_retains_capacity_and_primary) ... ok
+test_both_cleanup_errors_are_attached_to_original (test_admission_terminal_repair.ActualPrivateCollectionCleanup.test_both_cleanup_errors_are_attached_to_original) ... ok
+test_direct_normal_collection_without_optional_guard_keeps_interface (test_admission_terminal_repair.ActualPrivateCollectionCleanup.test_direct_normal_collection_without_optional_guard_keeps_interface) ... ok
+test_failed_stop_cannot_replace_primary_or_skip_wait (test_admission_terminal_repair.ActualPrivateCollectionCleanup.test_failed_stop_cannot_replace_primary_or_skip_wait) ... ok
+test_failed_wait_cannot_replace_primary (test_admission_terminal_repair.ActualPrivateCollectionCleanup.test_failed_wait_cannot_replace_primary) ... ok
+test_timeout_normalization_keeps_timeout_and_cleanup_errors_as_cause (test_admission_terminal_repair.ActualPrivateCollectionCleanup.test_timeout_normalization_keeps_timeout_and_cleanup_errors_as_cause) ... ok
+test_failed_stop_with_terminal_launcher_and_live_unit_retains (test_admission_terminal_repair.ActualTerminalObservation.test_failed_stop_with_terminal_launcher_and_live_unit_retains) ... ok
+test_failed_stop_with_terminal_launcher_and_unavailable_unit_retains (test_admission_terminal_repair.ActualTerminalObservation.test_failed_stop_with_terminal_launcher_and_unavailable_unit_retains) ... ok
+test_matching_terminal_manager_and_empty_cgroup_support_cleanup_release (test_admission_terminal_repair.ActualTerminalObservation.test_matching_terminal_manager_and_empty_cgroup_support_cleanup_release) ... ok
+test_missing_cgroup_events_with_existing_directory_is_unknown (test_admission_terminal_repair.ActualTerminalObservation.test_missing_cgroup_events_with_existing_directory_is_unknown) ... ok
+test_nonzero_unknown_missing_or_conflicting_completion_retains (test_admission_terminal_repair.ActualTerminalObservation.test_nonzero_unknown_missing_or_conflicting_completion_retains) ... ok
+test_normal_owned_pipe_success_preserves_release_once (test_admission_terminal_repair.ActualTerminalObservation.test_normal_owned_pipe_success_preserves_release_once) ... ok
+test_terminal_manager_does_not_override_populated_or_unreadable_cgroup (test_admission_terminal_repair.ActualTerminalObservation.test_terminal_manager_does_not_override_populated_or_unreadable_cgroup) ... ok
+test_unknown_launcher_identity_does_not_use_zero_returncode (test_admission_terminal_repair.ActualTerminalObservation.test_unknown_launcher_identity_does_not_use_zero_returncode) ... ok
+test_actual_admit_report_and_native_reconcile_keep_unknown_check_capacity (test_admission_terminal_repair.RestartAccountingCustody.test_actual_admit_report_and_native_reconcile_keep_unknown_check_capacity) ... ok
+test_persisted_actual_identity_round_trips_without_changing_original_rows (test_admission_terminal_repair.RestartAccountingCustody.test_persisted_actual_identity_round_trips_without_changing_original_rows) ... ok
+test_restart_matching_terminal_identity_and_empty_cgroup_is_dead (test_admission_terminal_repair.RestartAccountingCustody.test_restart_matching_terminal_identity_and_empty_cgroup_is_dead) ... ok
+test_restart_missing_unknown_conflicting_unit_does_not_drop_or_credit (test_admission_terminal_repair.RestartAccountingCustody.test_restart_missing_unknown_conflicting_unit_does_not_drop_or_credit) ... ok
+test_actual_decision_observer_captures_full_real_producer_and_redecides (test_recovery_packet_producer.RecoveryPacketProducerControls.test_actual_decision_observer_captures_full_real_producer_and_redecides) ... ERROR
+test_complete_packet_reconstructs_real_owned_arenas_and_same_native_decision (test_recovery_packet_producer.RecoveryPacketProducerControls.test_complete_packet_reconstructs_real_owned_arenas_and_same_native_decision) ... ERROR
+test_replay_keeps_historical_policy_separate_from_later_live_policy (test_recovery_packet_producer.RecoveryPacketProducerControls.test_replay_keeps_historical_policy_separate_from_later_live_policy) ... ERROR
+test_unsealed_finalization_retains_whole_start_and_events_when_history_speaks (test_recovery_packet_producer.RecoveryPacketProducerControls.test_unsealed_finalization_retains_whole_start_and_events_when_history_speaks) ... ERROR
+test_all_old_failure_and_new_pass_rows_are_retained_and_cannot_be_filtered (test_recovery_packet_producer.RecoveryPacketProducerControls.test_all_old_failure_and_new_pass_rows_are_retained_and_cannot_be_filtered) ... ok
+test_changed_full_selection_cursor_or_missing_material_refuses (test_recovery_packet_producer.RecoveryPacketProducerControls.test_changed_full_selection_cursor_or_missing_material_refuses) ... ok
+test_raw_retained_metadata_substitution_refuses_before_native_collapse (test_recovery_packet_producer.RecoveryPacketProducerControls.test_raw_retained_metadata_substitution_refuses_before_native_collapse) ... ok
+test_native_positive_packet_cannot_manufacture_protected_historical_authority (test_recovery_packet_producer.RecoveryPacketProducerControls.test_native_positive_packet_cannot_manufacture_protected_historical_authority) ... ERROR
+test_original_constructor_fixture_is_accepted_but_missing_packet_material_named_refuses (test_recovery_packet_producer.RecoveryPacketProducerControls.test_original_constructor_fixture_is_accepted_but_missing_packet_material_named_refuses) ... ok
+
+======================================================================
+ERROR: test_actual_decision_observer_captures_full_real_producer_and_redecides (test_recovery_packet_producer.RecoveryPacketProducerControls.test_actual_decision_observer_captures_full_real_producer_and_redecides)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests/test_recovery_packet_producer.py", line 74, in test_actual_decision_observer_captures_full_real_producer_and_redecides
+    observed = CollapseTransaction._observe_decision(manager,
+        phase=request.phase, kind_mode='collapse', candidate=world, subject=world,
+    ...<6 lines>...
+        inputs=inputs, witness=None, authoritative_requirement=policy,
+        authoritative_roots=[], retain_packet=True)
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/transaction.py", line 1152, in _observe_decision
+    chosen = self._owner_evidence(subject, current_requirement, prepared=cursor)
+             ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute '_owner_evidence'
+
+======================================================================
+ERROR: test_complete_packet_reconstructs_real_owned_arenas_and_same_native_decision (test_recovery_packet_producer.RecoveryPacketProducerControls.test_complete_packet_reconstructs_real_owned_arenas_and_same_native_decision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests/test_recovery_packet_producer.py", line 96, in test_complete_packet_reconstructs_real_owned_arenas_and_same_native_decision
+    observation = restore_packet(packet, core=self.core)
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 619, in restore_packet
+    _, syntax_facts = _native_packet_result(raw, core=core, syntax_facts=syntax_facts,
+                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        principal=principal, syntax_context=syntax_context)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 523, in _native_packet_result
+    raise WorldlineError(errors[status], 'the complete native recovery packet relation refused',
+                        {'status': status, 'collapse': collapse, 'owner': owner})
+worldline.errors.WorldlineError: RECOVERY_PACKET_SELECTION_CHANGED: the complete native recovery packet relation refused
+
+======================================================================
+ERROR: test_replay_keeps_historical_policy_separate_from_later_live_policy (test_recovery_packet_producer.RecoveryPacketProducerControls.test_replay_keeps_historical_policy_separate_from_later_live_policy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests/test_recovery_packet_producer.py", line 110, in test_replay_keeps_historical_policy_separate_from_later_live_policy
+    self.assertEqual(redecide_packet(packet, core=self.core), verdict)
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 651, in redecide_packet
+    return _native_packet(raw, core=core, syntax_facts=syntax_facts,
+                          principal=principal, syntax_context=syntax_context)
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 538, in _native_packet
+    return _native_packet_result(raw, core=core, syntax_facts=syntax_facts,
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        principal=principal, syntax_context=syntax_context)[0]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 523, in _native_packet_result
+    raise WorldlineError(errors[status], 'the complete native recovery packet relation refused',
+                        {'status': status, 'collapse': collapse, 'owner': owner})
+worldline.errors.WorldlineError: RECOVERY_PACKET_SELECTION_CHANGED: the complete native recovery packet relation refused
+
+======================================================================
+ERROR: test_unsealed_finalization_retains_whole_start_and_events_when_history_speaks (test_recovery_packet_producer.RecoveryPacketProducerControls.test_unsealed_finalization_retains_whole_start_and_events_when_history_speaks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests/test_recovery_packet_producer.py", line 120, in test_unsealed_finalization_retains_whole_start_and_events_when_history_speaks
+    finalization = FinalizationJournal(Path(directory)/'finalization.db', b'store',
+        library=Path(self.core.library_path), create=True)
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/finalization_journal.py", line 374, in __init__
+    super().__init__(path, store_id, create=create)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/finalization_journal.py", line 212, in __init__
+    self.path, self.store_id = Path(path), identity(store_id)
+                                           ~~~~~~~~^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/evaluation_pending.py", line 30, in identity
+    raise PendingRefused("IDENTITY_NOT_A_STRING")
+worldline.evaluation_pending.PendingRefused: IDENTITY_NOT_A_STRING
+
+======================================================================
+ERROR: test_native_positive_packet_cannot_manufacture_protected_historical_authority (test_recovery_packet_producer.RecoveryPacketProducerControls.test_native_positive_packet_cannot_manufacture_protected_historical_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/tests/test_recovery_packet_producer.py", line 192, in test_native_positive_packet_cannot_manufacture_protected_historical_authority
+    self.assertEqual(redecide_packet(packet, core=self.core), 'AUTHORIZED')
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 651, in redecide_packet
+    return _native_packet(raw, core=core, syntax_facts=syntax_facts,
+                          principal=principal, syntax_context=syntax_context)
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 538, in _native_packet
+    return _native_packet_result(raw, core=core, syntax_facts=syntax_facts,
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        principal=principal, syntax_context=syntax_context)[0]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-claude-20261012/roster-run-3/source/runtime/worldline/recovery_observation.py", line 523, in _native_packet_result
+    raise WorldlineError(errors[status], 'the complete native recovery packet relation refused',
+                        {'status': status, 'collapse': collapse, 'owner': owner})
+worldline.errors.WorldlineError: RECOVERY_PACKET_SELECTION_CHANGED: the complete native recovery packet relation refused
+
+----------------------------------------------------------------------
+Ran 37 tests in 131.021s
+
+FAILED (errors=5)
