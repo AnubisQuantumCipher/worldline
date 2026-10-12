@@ -30,6 +30,7 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
       if not Nonzero or else Group'Length <= Unit'Length or else Group (Group'First) /= '/'
         or else Group (Group'Last - Unit'Length + 1 .. Group'Last) /= Unit
         or else Group (Group'Last - Unit'Length) /= '/' then return False; end if;
+      pragma Assert (Group (Group'Last) = Unit (Unit'Last));
       -- POSIX pathlib preserves exactly two initial slashes, but normalizes
       -- three or more, interior repeated slashes, dot and trailing slash.
       Start := Group'First + 1;
@@ -53,11 +54,14 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
    function Break (C : Character) return Boolean is
      (Character'Pos (C) in 10 .. 13 | 28 .. 30);
    function Events_State (Events : String) return Natural is
-      -- Total for an empty Events of any bounds; equal to Events'First otherwise.
-      P : Natural := Natural'Max (1, Events'First);
+      P : Natural;
       Populated : Boolean := False;
       Empty_Group : Boolean := False;
    begin
+      -- An empty Events skips both loops (1). Totalized: the original raised
+      -- initializing P from a lower bound below Natural; that is refused (0).
+      if Events'Length = 0 then return (if Events'First >= 0 then 1 else 0); end if;
+      P := Events'First;
       -- read_text(encoding="ascii") admitted domain and Python splitlines/split.
       for C of Events loop
          if Character'Pos (C) > 127 then return 0; end if;
@@ -162,11 +166,29 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
          and then Identity_Valid (T ("unit"), S (N, "invocationId"), S (N, "controlGroup")));
       function Result (State : String := "UNKNOWN"; Reason : String := "";
                        Action : String := "done"; Accepted : Boolean := False;
-                       Value : String := "null"; Live : String := "null") return String is
-        ("{""action"":" & V.Quote (Action) & ",""state"":" & V.Quote (State)
-         & ",""reason"":" & (if Reason = "" then "null" else V.Quote (Reason))
-         & ",""accepted"":" & (if Accepted or else State in "NORMAL_PIPE_COMPLETION" | "MANAGER_CGROUP_EMPTY" | "MANAGER_CGROUP_REMOVED" then "true" else "false")
-         & ",""value"":" & Value & ",""live"":" & Live & "}");
+                       Value : String := "null"; Live : String := "null") return String
+        with Global => null
+      is
+         Quoted_Action : constant String := V.Quote (Action);
+         Quoted_State : constant String := V.Quote (State);
+         Quoted_Reason : constant String := (if Reason = "" then "null" else V.Quote (Reason));
+         Flag : constant String := (if Accepted or else State in "NORMAL_PIPE_COMPLETION" | "MANAGER_CGROUP_EMPTY" | "MANAGER_CGROUP_REMOVED" then "true" else "false");
+         -- 59 = the seven fixed literal pieces below; the text starts at index 1.
+         Total : constant Long_Long_Integer := 59 + Long_Long_Integer (Quoted_Action'Length)
+           + Long_Long_Integer (Quoted_State'Length) + Long_Long_Integer (Quoted_Reason'Length)
+           + Long_Long_Integer (Flag'Length) + Long_Long_Integer (Value'Length) + Long_Long_Integer (Live'Length);
+      begin
+         -- Totalized: the original concatenation raised Constraint_Error exactly
+         -- when the complete text exceeds Positive'Last; that input now receives
+         -- the default refusal (UNKNOWN, not accepted) instead of an exception.
+         if Total > Long_Long_Integer (Natural'Last) then
+            return "{""action"":""done"",""state"":""UNKNOWN"",""reason"":null,""accepted"":false,""value"":null,""live"":null}";
+         end if;
+         return "{""action"":" & Quoted_Action & ",""state"":" & Quoted_State
+           & ",""reason"":" & Quoted_Reason
+           & ",""accepted"":" & Flag
+           & ",""value"":" & Value & ",""live"":" & Live & "}";
+      end Result;
       function Positive (N : V.Node) return Boolean is
          Token : constant String := V.Slice (Capture, N);
       begin
@@ -204,7 +226,8 @@ package body Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
             return "continue";
          end Gate;
          function One_Gate (Name, Action : String) return String
-           with Pre => Name'Length <= Natural'Last - 9 and then Action'Length <= Natural'Last - 8 is
+           with Pre => (Name'Length = 0 or else Name'Last <= Natural'Last - 9)
+             and then (Action'Length = 0 or else Action'Last <= Natural'Last - 8) is
             N : constant V.Node := P (Name);
          begin
             if not V.Present (N) then return Action; end if;

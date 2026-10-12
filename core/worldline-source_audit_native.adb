@@ -7,16 +7,30 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
    package B renames Worldline.Producer_Bytes;
    use type V.Value_Kind;
 
+   --  True exactly when Prefix (Value, <head of length Width>) raised in the
+   --  original (Value'First + Width passes Integer'Last: Value ends there).
+   function At_End (Value : String; Width : Natural) return Boolean is
+     (Width > 0 and then Value'Length = Width and then Value'Last = Integer'Last)
+     with Global => null;
    function Prefix (Value, Head : String) return Boolean is
-     (Value'Length >= Head'Length and then Value (Value'First .. Value'First + Head'Length - 1) = Head);
-   function Contains (Value, Needle : String) return Boolean is
+     (Value'Length >= Head'Length and then Value (Value'First .. Value'First + Head'Length - 1) = Head)
+     with Pre => Head'Length > 0 and then not At_End (Value, Head'Length);
+   --  The original Contains, with Overflowed marking exactly the point where
+   --  it raised (a slice bound past Integer'Last); each caller refuses there.
+   type Search_Result is (Absent, Present, Overflowed);
+   function Search (Value, Needle : String) return Search_Result
+     with Global => null
+   is
    begin
-      if Needle'Length > Value'Length then return False; end if;
+      if Needle'Length > Value'Length then return Absent; end if;
       for I in 0 .. Value'Length - Needle'Length loop
-         if Value (Value'First + I .. Value'First + I + Needle'Length - 1) = Needle then return True; end if;
+         if Long_Long_Integer (Value'First) + Long_Long_Integer (I) + Long_Long_Integer (Needle'Length) > Long_Long_Integer (Integer'Last)
+           or else Long_Long_Integer (Value'First) + Long_Long_Integer (I) + Long_Long_Integer (Needle'Length) - 1 < Long_Long_Integer (Integer'First)
+         then return Overflowed; end if;
+         if Value (Value'First + I .. Value'First + I + Needle'Length - 1) = Needle then return Present; end if;
       end loop;
-      return False;
-   end Contains;
+      return Absent;
+   end Search;
    function Head (Name : String) return String is
    begin
       for I in Name'Range loop
@@ -24,7 +38,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
       end loop;
       return Name;
    end Head;
-   function Tail (Name : String) return String is
+   function Tail (Name : String) return String
+     with Pre => Name'Length = 0 or else Name'Last < Integer'Last or else Name (Name'Last) /= '.'
+   is
    begin
       for I in reverse Name'Range loop
          if Name (I) = '.' then return Name (I + 1 .. Name'Last); end if;
@@ -34,35 +50,76 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
    function Denied_Import (Name : String) return Boolean is
       List : constant String := "|importlib|runpy|pkgutil|zipimport|site|pickle|shelve|marshal|code|codeop|timeit|doctest|pdb|bdb|trace|profile|cProfile|ctypes|_ctypes|subprocess|multiprocessing|pty|unittest|logging.config|http.server|webbrowser|builtins|";
    begin
-      return Contains (List, "|" & Head (Name) & "|") or else
-        Name = "logging.config" or else Prefix (Name, "logging.config.") or else
-        Name = "http.server" or else Prefix (Name, "http.server.");
+      --  The original raised Constraint_Error exactly here; deny that name.
+      if Head (Name)'Length > Natural'Last - 2 then return True; end if;
+      if Search (List, "|" & Head (Name) & "|") /= Absent then return True; end if;
+      if Name = "logging.config" then return True; end if;
+      --  At_End: the original raised in Prefix exactly there; deny.
+      if At_End (Name, 15) then return True; end if;
+      if Prefix (Name, "logging.config.") then return True; end if;
+      if Name = "http.server" then return True; end if;
+      if At_End (Name, 12) then return True; end if;
+      return Prefix (Name, "http.server.");
    end Denied_Import;
    function Denied_Name (Name : String) return Boolean is
      (Name in "exec" | "eval" | "compile" | "__import__" | "breakpoint" | "__builtins__");
+   --  At_End and the Tail guard mark exactly where the original raised; deny.
    function Denied_Attribute (Name : String) return Boolean is
    begin
+      if At_End (Name, 3) then return True; end if;
       if Prefix (Name, "os.") then
          declare
             Attribute : constant String := Name (Name'First + 3 .. Name'Last);
          begin
-            return Attribute in "system" | "popen" | "fork" | "forkpty" | "startfile" or else
-              Prefix (Attribute, "exec") or else Prefix (Attribute, "spawn") or else Prefix (Attribute, "posix_spawn");
+            if Attribute in "system" | "popen" | "fork" | "forkpty" | "startfile" then return True; end if;
+            if At_End (Attribute, 4) then return True; end if;
+            if Prefix (Attribute, "exec") then return True; end if;
+            if At_End (Attribute, 5) then return True; end if;
+            if Prefix (Attribute, "spawn") then return True; end if;
+            if At_End (Attribute, 11) then return True; end if;
+            return Prefix (Attribute, "posix_spawn");
          end;
       end if;
-      return Name = "concurrent.futures.ProcessPoolExecutor" or else
-        (Prefix (Name, "sqlite3.") and then Tail (Name) in "enable_load_extension" | "load_extension");
+      if Name = "concurrent.futures.ProcessPoolExecutor" then return True; end if;
+      if At_End (Name, 8) then return True; end if;
+      if not Prefix (Name, "sqlite3.") then return False; end if;
+      if Name (Name'Last) = '.' and then Name'Last = Integer'Last then return True; end if;
+      return Tail (Name) in "enable_load_extension" | "load_extension";
    end Denied_Attribute;
+   --  At_End marks exactly where the original raised in Prefix; a state name.
    function State_Name (Name : String; Descendants : Boolean) return Boolean is
-     (Name in "sys.path" | "sys.meta_path" | "sys.path_hooks" | "sys.path_importer_cache" | "sys.modules" or else
-      (Descendants and then (Prefix (Name, "sys.path.") or else Prefix (Name, "sys.meta_path.") or else
-       Prefix (Name, "sys.path_hooks.") or else Prefix (Name, "sys.path_importer_cache.") or else Prefix (Name, "sys.modules."))));
+   begin
+      if Name in "sys.path" | "sys.meta_path" | "sys.path_hooks" | "sys.path_importer_cache" | "sys.modules" then return True; end if;
+      if not Descendants then return False; end if;
+      if At_End (Name, 9) then return True; end if;
+      if Prefix (Name, "sys.path.") then return True; end if;
+      if At_End (Name, 14) then return True; end if;
+      if Prefix (Name, "sys.meta_path.") then return True; end if;
+      if At_End (Name, 15) then return True; end if;
+      if Prefix (Name, "sys.path_hooks.") then return True; end if;
+      if At_End (Name, 24) then return True; end if;
+      if Prefix (Name, "sys.path_importer_cache.") then return True; end if;
+      if At_End (Name, 12) then return True; end if;
+      return Prefix (Name, "sys.modules.");
+   end State_Name;
    function Mutator (Name : String) return Boolean is
      (Name in "append" | "extend" | "insert" | "remove" | "pop" | "clear" | "reverse" | "sort" |
       "update" | "setdefault" | "popitem" | "__setitem__" | "__delitem__" | "__iadd__" | "__imul__" | "__ior__" | "__init__");
-   function Image (N : Natural) return String is
+   function Image (N : Natural) return String
+     with Global => null
+   is
       S : constant String := Natural'Image (N);
    begin return S (S'First + 1 .. S'Last); end Image;
+   --  True exactly when Left & <operands of total length Rest> does not raise:
+   --  a non-null left operand keeps its lower bound, a null one yields the rest.
+   function Fits (Left : String; Rest : Natural) return Boolean is
+     (Rest <= Natural'Last - (if Left'Length = 0 then 0 else Left'Last))
+     with Global => null;
+   --  The same for Left & <non-null literal of length Middle> & <length Right>.
+   function Fits2 (Left : String; Middle, Right : Natural) return Boolean is
+     (Middle <= Natural'Last - (if Left'Length = 0 then 0 else Left'Last) and then
+      Right <= Natural'Last - (if Left'Length = 0 then 0 else Left'Last) - Middle)
+     with Global => null;
 
    function Canonical (Encoded : String; Value : B.Decoded) return Boolean is
       function Digit (C : Character) return Natural is
@@ -88,12 +145,17 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
       return Value.Length = 0 or else Encoded (Encoded'Last) /= '=';
    end Canonical;
 
-   function Closure_Clean (Result_Record, Native_AST : String) return Boolean is
+   function Closure_Clean_Joined (Result_Record, Native_AST : String; Parsed_AST : V.Node) return Boolean
+     with Global => null,
+       Pre => Native_AST'Length <= Natural'Last - 1 - (if Result_Record'Length = 0 then 0 else Result_Record'Last)
+         and then (Parsed_AST.Form = V.Missing or else
+           (Parsed_AST.First <= Natural'Last - 1 - Result_Record'Length and then
+            Parsed_AST.Last <= Natural'Last - 1 - Result_Record'Length))
+   is
       -- Two independent documents share a selector arena, not a rebuilt JSON
       -- root. Every original member remains untouched, including old adjuncts.
       Data : constant String := Result_Record & Character'Val (10) & Native_AST;
       Root : constant V.Node := V.Parse (Result_Record);
-      Parsed_AST : constant V.Node := V.Parse (Native_AST);
       function F (Node : V.Node; Name : String) return V.Node is (V.Field (Data, Node, Name));
       function S (Node : V.Node; Name : String) return String is (V.Text (Data, F (Node, Name)));
       function El (Node : V.Node; Index : Positive) return V.Node is (V.Element (Data, Node, Index));
@@ -115,8 +177,15 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
          while First < Path'Length loop
             pragma Loop_Variant (Increases => First);
             Last := First;
-            while Last < Path'Length and then Path (Path'First + Last) /= '/' loop pragma Loop_Variant (Increases => Last); Last := Last + 1; end loop;
-            if Last = First or else Path (Path'First + First .. Path'First + Last - 1) in "." | ".." then return False; end if;
+            while Last < Path'Length and then Path (Path'First + Last) /= '/' loop
+               pragma Loop_Invariant (Last in First .. Path'Length - 1); pragma Loop_Variant (Increases => Last);
+               Last := Last + 1;
+            end loop;
+            if Last = First then return False; end if;
+            --  The original raised (Path'First + Last) exactly here; refuse.
+            if Last = Path'Length and then Path'Last = Integer'Last then return False; end if;
+            if Path (Path'First + First .. Path'First + Last - 1) = "." or else
+              Path (Path'First + First .. Path'First + Last - 1) = ".." then return False; end if;
             exit when Last = Path'Length;
             First := Last + 1;
             if First = Path'Length then return False; end if;
@@ -142,19 +211,27 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
             Mounted : constant String := V.Text (Data, Found);
             Start : constant String := "/run/worldline-verifiers/";
          begin
+            --  At_End: the original raised in Prefix exactly there; refuse.
+            if At_End (Mounted, Start'Length) then return ""; end if;
             if not Prefix (Mounted, Start) then return ""; end if;
             return Mounted (Mounted'First + Start'Length .. Mounted'Last);
          end;
       end Entry_Name;
       Entry_Path : constant String := Entry_Name;
-      function Parent_Path (Path : String) return String is
+      function Parent_Path (Path : String) return String
+        with Post => Parent_Path'Result'Length = 0 or else
+          (Parent_Path'Result'First = Path'First and then Parent_Path'Result'Last < Path'Last)
+      is
       begin
          for I in reverse Path'Range loop
             if Path (I) = '/' then return Path (Path'First .. I - 1); end if;
          end loop;
          return "";
       end Parent_Path;
-      function To_Path (Module_Name : String) return String is
+      function To_Path (Module_Name : String) return String
+        with Pre => Module_Name'Length = 0 or else Module_Name'Last < Integer'Last,
+          Post => To_Path'Result'First = 1 and then To_Path'Result'Length = Module_Name'Length
+      is
          Result : String (1 .. Module_Name'Length);
       begin
          for I in Result'Range loop
@@ -175,7 +252,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
          type Marks is array (Positive range <>, Natural range <>) of Boolean;
          Pending, Seen : Marks (1 .. File_Count, 0 .. 2) := (others => (others => False));
          Failed : Boolean := False;
-         function File_Index (Path : String) return Natural is
+         function File_Index (Path : String) return Natural
+           with Post => File_Index'Result <= File_Count
+         is
          begin
             for I in 1 .. File_Count loop
                if V.Is_Text (Data, F (El (Files, I), "path"), Path) then return I; end if;
@@ -223,7 +302,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
          -- Full existing resolution order: both search roots, package before
          -- module, extension suffixes before .py, namespace directories,
          -- observed stdlib names, and optional from-import member lookups.
-         procedure Resolve (Name : String; Optional : Boolean; Resolved : out Boolean) is
+         procedure Resolve (Name : String; Optional : Boolean; Resolved : out Boolean)
+           with Always_Terminates
+         is
             Position : Natural := 0;
             Component_End : Natural;
             Selected : Natural;
@@ -233,8 +314,11 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
             Resolved := False;
             if Name = "candidate" then return; end if;
             while Position < Name'Length loop
+               pragma Loop_Variant (Increases => Position);
                Component_End := Position;
                while Component_End < Name'Length and then Name (Name'First + Component_End) /= '.' loop
+                  pragma Loop_Invariant (Component_End in Position .. Name'Length - 1);
+                  pragma Loop_Variant (Increases => Component_End);
                   Component_End := Component_End + 1;
                end loop;
                if Component_End = Position then Failed := Failed or not Optional; return; end if;
@@ -243,14 +327,26 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                   if Namespaces (Location) then
                      declare
                         Root_Path : constant String := (if Location = 1 or else Parent_Path (Entry_Path)'Length = 0 then "" else Parent_Path (Entry_Path) & "/");
+                     begin
+                        --  The original raised exactly at these points; refuse there.
+                        if Component_End > Integer'Last - Name'First then Failed := True; return; end if;
+                        if not Fits (Root_Path, Component_End) then Failed := True; return; end if;
+                     declare
                         Base : constant String := Root_Path & To_Path (Name (Name'First .. Name'First + Component_End - 1));
                      begin
+                        if V.Count (Data, Suffixes) > Natural'Last - 5 then Failed := True; return; end if;
                         for Package_Search in 1 .. 2 loop
                            for K in 1 .. V.Count (Data, Suffixes) + 5 loop
                               declare
                                  Extra : constant Natural := V.Count (Data, Suffixes);
                                  Suffix : constant String := (if K <= Extra then V.Text (Data, El (Suffixes, K)) else
                                    (case K - Extra is when 1 => ".py", when 2 => ".pyc", when 3 => ".pyd", when 4 => ".so", when others => ".zip"));
+                                 Middle : constant Natural := (if Package_Search = 1 then 9 else 0);
+                              begin
+                                 if Suffix'Length > Natural'Last - Middle or else not Fits (Base, Middle + Suffix'Length) then
+                                    Failed := True; return;
+                                 end if;
+                              declare
                                  Candidate : constant String := Base & (if Package_Search = 1 then "/__init__" else "") & Suffix;
                               begin
                                  Selected := File_Index (Candidate);
@@ -261,6 +357,7 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                                     exit;
                                  end if;
                               end;
+                              end;
                            end loop;
                            exit when Selected > 0;
                         end loop;
@@ -269,10 +366,15 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                         else Namespaces (Location) := Directory (Base);
                         end if;
                      end;
+                     end;
                   end if;
                   exit when Selected > 0;
                end loop;
                if Selected = 0 and then Position = 0 then
+                  --  The original raised (Name'First + Component_End) exactly here.
+                  if V.Count (Data, Standard) >= 1 and then Component_End > Integer'Last - Name'First then
+                     Failed := True; return;
+                  end if;
                   for K in 1 .. V.Count (Data, Standard) loop
                      if V.Is_Text (Data, El (Standard, K), Name (Name'First .. Name'First + Component_End - 1)) then return; end if;
                   end loop;
@@ -288,7 +390,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
             Failed := Failed or not Optional;
          end Resolve;
 
-         procedure Wildcard (Module_Name : String) is
+         procedure Wildcard (Module_Name : String)
+           with Always_Terminates
+         is
             File : Natural := 0;
             function Node_At (Nodes, Ref : V.Node) return V.Node is
                Token : constant String := V.Decimal (Data, F (Ref, "node"));
@@ -299,6 +403,8 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                for C of Token loop
                   if C not in '0' .. '9' or else Index > Bound / 10 or else
                      (Index = Bound / 10 and then Character'Pos (C) - 48 > Bound mod 10) then return V.No_Node; end if;
+                  --  The original raised (Index * 10 + Pos) exactly here; no node.
+                  if Index * 10 > Integer'Last - Character'Pos (C) then return V.No_Node; end if;
                   Index := Index * 10 + Character'Pos (C) - 48;
                end loop;
                if Index < Bound then
@@ -324,11 +430,21 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                function A (Item : V.Node; Name : String) return V.Node is (F (F (Item, "fields"), Name));
                function AS (Item : V.Node; Name : String) return String is (V.Text (Data, A (Item, Name)));
                function K (Item : V.Node) return String is (S (Item, "kind"));
+               --  Active is "" or a concatenation that starts at index 1.
                function Alias (Name, Active : String) return Boolean
-                 with Subprogram_Variant => (Increases => Active'Length) is
+                 with Pre => Active'Length = 0 or else Active'First = 1,
+                   Subprogram_Variant => (Increases => Active'Length) is
                begin
                   if Name = "__all__" then return True; end if;
-                  if Contains (Active, "|" & Name & "|") then return False; end if;
+                  --  The original raised Constraint_Error exactly where these
+                  --  texts pass Positive'Last (never for decoded strings of Data).
+                  if Name'Length > Natural'Last - 2 then return True; end if;
+                  case Search (Active, "|" & Name & "|") is
+                     when Present => return False;
+                     --  The original raised in Contains exactly here; an alias.
+                     when Overflowed => return True;
+                     when Absent => null;
+                  end case;
                   for I in 1 .. V.Count (Data, Members) loop
                      declare
                         Item : constant V.Node := Ref (El (Members, I));
@@ -341,14 +457,16 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                                  declare Target : constant V.Node := Ref (El (Targets, J));
                                  begin
                                     if K (Target) = "Name" and then AS (Target, "id") = Name and then
-                                       Alias (AS (Value, "id"), Active & "|" & Name & "|") then return True; end if;
+                                       (Active'Length > Natural'Last - 2 - Name'Length or else
+                                        Alias (AS (Value, "id"), Active & "|" & Name & "|")) then return True; end if;
                                  end;
                               end loop;
                            else
                               declare Target : constant V.Node := Ref (A (Item, "target"));
                               begin
                                  if K (Target) = "Name" and then AS (Target, "id") = Name and then
-                                    Alias (AS (Value, "id"), Active & "|" & Name & "|") then return True; end if;
+                                    (Active'Length > Natural'Last - 2 - Name'Length or else
+                                     Alias (AS (Value, "id"), Active & "|" & Name & "|")) then return True; end if;
                               end;
                            end if;
                         end if;
@@ -356,12 +474,22 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                   end loop;
                   return False;
                end Alias;
-               function Is_Alias (Item : V.Node) return Boolean is
+               --  Valid syntax (checked below before any use) makes every
+               --  field-bearing reference preorder, so a value chain visits at
+               --  most Count (Nodes) + 1 nodes; Fuel = 0 is unreachable there.
+               Chain_Fuel : constant Long_Long_Integer := Long_Long_Integer (V.Count (Data, Nodes)) + 1;
+               function Is_Alias (Item : V.Node; Fuel : Long_Long_Integer := Chain_Fuel) return Boolean
+                 with Subprogram_Variant => (Decreases => Fuel) is
                begin
-                  if K (Item) in "Attribute" | "Subscript" then return Is_Alias (Ref (A (Item, "value"))); end if;
+                  if K (Item) in "Attribute" | "Subscript" then
+                     if Fuel <= 0 then return True; end if;
+                     return Is_Alias (Ref (A (Item, "value")), Fuel - 1);
+                  end if;
                   return K (Item) = "Name" and then Alias (AS (Item, "id"), "");
                end Is_Alias;
-               procedure Literal (Item : V.Node; Single : Boolean := False) is
+               procedure Literal (Item : V.Node; Single : Boolean := False)
+                 with Always_Terminates, Subprogram_Variant => (Decreases => Boolean'Pos (not Single))
+               is
                   Ignored : Boolean;
                begin
                   if K (Item) = "Constant" and then
@@ -369,11 +497,17 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                      V.Is_Text (Data, F (A (Item, "value"), "constantType"), "str")) then
                      if Single then
                         if A (Item, "value").Form = V.String_Value then
-                           Resolve (Module_Name & "." & V.Text (Data, A (Item, "value")), True, Ignored);
+                           declare Member : constant String := V.Text (Data, A (Item, "value")); begin
+                              --  The original raised exactly here; refuse.
+                              if not Fits2 (Module_Name, 1, Member'Length) then Failed := True;
+                              else Resolve (Module_Name & "." & Member, True, Ignored);
+                              end if;
+                           end;
                         else
                            declare Value : constant B.Decoded := B.Base64 (S (A (Item, "value"), "payloadB64"));
                            begin
-                              if Value.Valid then Resolve (Module_Name & "." & Value.Data, True, Ignored);
+                              if Value.Valid and then not Fits2 (Module_Name, 1, Value.Data'Length) then Failed := True;
+                              elsif Value.Valid then Resolve (Module_Name & "." & Value.Data, True, Ignored);
                               else Failed := True;
                               end if;
                            end;
@@ -393,7 +527,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                   else Failed := True;
                   end if;
                end Literal;
-               procedure Target (Item, Value : V.Node; Augmented : Boolean) is
+               procedure Target (Item, Value : V.Node; Augmented : Boolean)
+                 with Always_Terminates
+               is
                begin
                   if K (Item) = "Name" and then AS (Item, "id") = "__all__" then Literal (Value);
                   elsif Augmented and then K (Item) = "Name" and then Alias (AS (Item, "id"), "") then Literal (Value);
@@ -402,6 +538,12 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                end Target;
             begin
                if F (Parsed, "exception").Form /= V.Null_Value then return; end if;
+               --  This package file is Pending, so Examine later refuses an
+               --  invalid syntax anyway (Failed is read only by the final
+               --  verdict); refusing it here first keeps the walk below finite.
+               if not Worldline.Source_Syntax.Valid (V.Slice (Data, Parsed)) then
+                  Failed := True; return;
+               end if;
                for I in 1 .. V.Count (Data, Members) loop
                   declare
                      Item : constant V.Node := Ref (El (Members, I));
@@ -447,7 +589,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
             end;
          end Wildcard;
 
-         procedure Examine (File : Positive; Location : Natural) is
+         procedure Examine (File : Positive; Location : Natural)
+           with Always_Terminates
+         is
             Parsed : constant V.Node := Syntax (File);
             Nodes : constant V.Node := F (Parsed, "nodes");
             Scopes : constant V.Node := F (Parsed, "scopes");
@@ -461,6 +605,8 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                for C of Token loop
                   if C not in '0' .. '9' then return Bound; end if;
                   if Value > Bound / 10 or else (Value = Bound / 10 and then Character'Pos (C) - 48 > Bound mod 10) then return Bound; end if;
+                  --  The original raised (Value * 10 + Pos) exactly here; no index.
+                  if Value * 10 > Integer'Last - Character'Pos (C) then return Bound; end if;
                   Value := Value * 10 + Character'Pos (C) - 48;
                end loop;
                return Value;
@@ -521,16 +667,36 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
             function Match (Name : String; Mode : Positive) return Boolean is
               (case Mode is when 1 => Denied_Attribute (Name), when 2 => State_Name (Name, True),
                when 3 => State_Name (Name, False), when others => Name in "sqlite3.connect" | "sqlite3.Connection");
+            --  Termination witness. Examine's syntax is Valid (checked first):
+            --  node references are preorder and scope parents precede their
+            --  scope, so between two growths of Active (a new binding key)
+            --  at most Count (Nodes) + Count (Scopes) + 1 calls occur; Fuel = 0
+            --  is unreachable for every input reaching this code.
+            Fuel_Full : constant Long_Long_Integer :=
+              Long_Long_Integer (V.Count (Data, Nodes)) + Long_Long_Integer (V.Count (Data, Scopes)) + 4;
             function Any_Origin (Expression : V.Node; Scope_Index : Natural; Suffix : String;
-               Mode : Positive; Active : String; Assignment : Boolean := False) return Boolean;
+               Mode : Positive; Active : String; Fuel : Long_Long_Integer; Assignment : Boolean := False) return Boolean
+              with Pre => Active'Length = 0 or else Active'First = 1,
+                Subprogram_Variant => (Increases => Active'Length, Decreases => Fuel);
             function Binding (Name : String; Scope_Index : Natural; Suffix : String;
-               Mode : Positive; Active : String) return Boolean is
+               Mode : Positive; Active : String; Fuel : Long_Long_Integer) return Boolean
+              with Pre => Active'Length = 0 or else Active'First = 1,
+                Subprogram_Variant => (Increases => Active'Length, Decreases => Fuel)
+            is
                Members : constant V.Node := F (Scope (Scope_Index), "nodes");
                Local : Boolean := Parameter (Ref (F (Scope (Scope_Index), "root")), Name);
                Outer, Imported : Boolean := False;
-               Active_Key : constant String := Character'Val (0) & Image (Scope_Index) & ":" & Name & Character'Val (0);
-               Seen_Binding : constant Boolean := Contains (Active, Active_Key);
             begin
+               --  The original raised Constraint_Error building Active_Key exactly
+               --  here (never for a decoded string of Data); refuse as an origin.
+               if Name'Length > Natural'Last - 3 - Image (Scope_Index)'Length then return True; end if;
+               declare
+               Active_Key : constant String := Character'Val (0) & Image (Scope_Index) & ":" & Name & Character'Val (0);
+               Seen : constant Search_Result := Search (Active, Active_Key);
+               Seen_Binding : constant Boolean := Seen = Present;
+            begin
+               --  The original raised in Contains exactly here; refuse as an origin.
+               if Seen = Overflowed then return True; end if;
                for I in 1 .. V.Count (Data, Members) loop
                   declare
                      Item : constant V.Node := Ref (El (Members, I));
@@ -551,8 +717,20 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                               if Bound = Name and then (Kind = "Import" or else
                                 (V.Decimal (Data, A (Item, "level")) = "0" and then AS (Item, "module")'Length > 0 and then Import_Name /= "*")) then
                                  Imported := True;
-                                 if Match ((if Kind = "Import" then (if As_Name'Length > 0 then Import_Name else Head (Import_Name)) else
-                                   AS (Item, "module") & "." & Import_Name) & Suffix, Mode) then return True; end if;
+                                 declare
+                                    Module : constant String := (if Kind = "Import" then "" else AS (Item, "module"));
+                                 begin
+                                    --  The original raised building these exactly when a
+                                    --  guard holds (never for Data's strings); refuse there.
+                                    if Kind /= "Import" and then not Fits2 (Module, 1, Import_Name'Length) then return True; end if;
+                                    declare
+                                       Qualified : constant String := (if Kind = "Import" then (if As_Name'Length > 0 then Import_Name else Head (Import_Name)) else
+                                         Module & "." & Import_Name);
+                                    begin
+                                       if not Fits (Qualified, Suffix'Length) then return True; end if;
+                                       if Match (Qualified & Suffix, Mode) then return True; end if;
+                                    end;
+                                 end;
                               end if;
                            end;
                         end loop;
@@ -561,8 +739,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                end loop;
                if Outer or else (not Imported and then not Local) then
                   if Parent (Scope_Index) < V.Count (Data, Scopes) then
-                     if Binding (Name, Parent (Scope_Index), Suffix, Mode, Active) then return True; end if;
-                  elsif not Imported and then Match (Name & Suffix, Mode) then return True;
+                     if Fuel <= 0 then return True; end if;
+                     if Binding (Name, Parent (Scope_Index), Suffix, Mode, Active, Fuel - 1) then return True; end if;
+                  elsif not Imported and then (not Fits (Name, Suffix'Length) or else Match (Name & Suffix, Mode)) then return True;
                   end if;
                end if;
                if Seen_Binding then return False; end if;
@@ -578,14 +757,16 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                            declare Target : constant V.Node := Ref (A (Item, "target"));
                            begin
                               if K (Target) = "Name" and then AS (Target, "id") = Name and then
-                                Any_Origin (Value, Scope_Index, Suffix, Mode, Active & Active_Key, True) then return True; end if;
+                                (Active'Length > Natural'Last - Active_Key'Length or else
+                                 Any_Origin (Value, Scope_Index, Suffix, Mode, Active & Active_Key, Fuel_Full, True)) then return True; end if;
                            end;
                         else
                            for J in 1 .. V.Count (Data, Targets) loop
                               declare Target : constant V.Node := Ref (El (Targets, J));
                               begin
                                  if K (Target) = "Name" and then AS (Target, "id") = Name and then
-                                   Any_Origin (Value, Scope_Index, Suffix, Mode, Active & Active_Key, True) then return True; end if;
+                                   (Active'Length > Natural'Last - Active_Key'Length or else
+                                    Any_Origin (Value, Scope_Index, Suffix, Mode, Active & Active_Key, Fuel_Full, True)) then return True; end if;
                               end;
                            end loop;
                         end if;
@@ -593,15 +774,25 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                   end;
                end loop;
                return False;
+               end;
             end Binding;
             function Any_Origin (Expression : V.Node; Scope_Index : Natural; Suffix : String;
-               Mode : Positive; Active : String; Assignment : Boolean := False) return Boolean is
+               Mode : Positive; Active : String; Fuel : Long_Long_Integer; Assignment : Boolean := False) return Boolean is
                Kind : constant String := K (Expression);
             begin
-               if Kind = "Name" then return Binding (AS (Expression, "id"), Scope_Index, Suffix, Mode, Active);
-               elsif Kind = "Attribute" then return Any_Origin (Ref (A (Expression, "value")), Scope_Index, "." & AS (Expression, "attr") & Suffix, Mode, Active, Assignment);
-               elsif Kind = "Subscript" and then not Assignment then return Any_Origin (Ref (A (Expression, "value")), Scope_Index, Suffix, Mode, Active);
-               elsif Kind = "Call" and then Any_Origin (Ref (A (Expression, "func")), Scope_Index, "", 4, Active, Assignment) then
+               if Kind in "Name" | "Attribute" | "Call" or else (Kind = "Subscript" and then not Assignment) then
+                  if Fuel <= 0 then return True; end if;
+               end if;
+               if Kind = "Name" then return Binding (AS (Expression, "id"), Scope_Index, Suffix, Mode, Active, Fuel - 1);
+               elsif Kind = "Attribute" then
+                  declare Attribute : constant String := AS (Expression, "attr"); begin
+                     --  The original raised exactly here (never for Data's strings).
+                     if Attribute'Length > Natural'Last - 1 - Suffix'Length then return True; end if;
+                     return Any_Origin (Ref (A (Expression, "value")), Scope_Index, "." & Attribute & Suffix, Mode, Active, Fuel - 1, Assignment);
+                  end;
+               elsif Kind = "Subscript" and then not Assignment then return Any_Origin (Ref (A (Expression, "value")), Scope_Index, Suffix, Mode, Active, Fuel - 1);
+               elsif Kind = "Call" and then Any_Origin (Ref (A (Expression, "func")), Scope_Index, "", 4, Active, Fuel - 1, Assignment) then
+                  if Suffix'Length > Natural'Last - 18 then return True; end if;
                   return Match ("sqlite3.Connection" & Suffix, Mode);
                end if;
                return False;
@@ -612,18 +803,32 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
             begin
                if not Is_Package then
                   for I in reverse Module_Name'Range loop
+                     pragma Loop_Invariant (Last <= Module_Name'Length);
                      if Module_Name (I) = '.' then Last := I - Module_Name'First; exit; end if;
                      if I = Module_Name'First then Last := 0; end if;
                   end loop;
                end if;
                if Last = 0 then return ""; end if;
-               for I in 0 .. Last - 1 loop if Module_Name (Module_Name'First + I) = '.' then Parts := Parts + 1; end if; end loop;
+               for I in 0 .. Last - 1 loop
+                  pragma Loop_Invariant (Parts <= I + 1);
+                  if Module_Name (Module_Name'First + I) = '.' then
+                     --  The original raised (Parts + 1) exactly here; "" refuses.
+                     if Parts = Natural'Last then return ""; end if;
+                     Parts := Parts + 1;
+                  end if;
+               end loop;
                if Level > Parts then return ""; end if;
                for Removed in 1 .. Level - 1 loop
+                  pragma Loop_Invariant (Last <= Module_Name'Length);
                   for I in reverse 0 .. Last - 1 loop
                      if Module_Name (Module_Name'First + I) = '.' then Last := I; exit; end if;
                   end loop;
                end loop;
+               --  The original raised exactly here; "" is ImportFrom's refusal.
+               if Last = Module_Name'Length and then Module_Name'Last = Integer'Last then return ""; end if;
+               if Name'Length > 0 and then not Fits2 (Module_Name (Module_Name'First .. Module_Name'First + Last - 1), 1, Name'Length) then
+                  return "";
+               end if;
                return Module_Name (Module_Name'First .. Module_Name'First + Last - 1) & (if Name'Length > 0 then "." & Name else "");
             end Relative_Module;
          begin
@@ -645,10 +850,13 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                               declare Name : constant String := AS (Ref (El (A (Item, "names"), J)), "name");
                               begin
                                  Failed := Failed or Denied_Import (Name) or Denied_Attribute (Name);
-                                 Resolve (Name, False, Resolved);
+                                 declare Ignored : Boolean;
+                                 begin Resolve (Name, False, Ignored); end;
                               end;
                            end loop;
                         elsif Kind = "ImportFrom" then
+                           --  The original raised exactly here; refuse.
+                           if Module_Name'Length = Natural'Last then Failed := True; return; end if;
                            declare
                               Level : constant Natural := Number (A (Item, "level"), Module_Name'Length + 1);
                               Name : constant String := (if Level = 0 then AS (Item, "module") else Relative_Module (AS (Item, "module"), Level));
@@ -661,6 +869,8 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                                     declare
                                        Member : constant String := AS (Ref (El (A (Item, "names"), J)), "name");
                                     begin
+                                       --  The original raised exactly here; refuse.
+                                       if not Fits2 (Name, 1, Member'Length) then Failed := True; return; end if;
                                        Failed := Failed or Denied_Import (Name & "." & Member) or Denied_Attribute (Name & "." & Member) or Denied_Name (Member);
                                        if Resolved and then Member /= "*" then
                                           declare Ignored : Boolean;
@@ -673,15 +883,15 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                            end;
                         elsif Kind = "Name" then Failed := Failed or Denied_Name (AS (Item, "id"));
                         end if;
-                        if Kind = "Attribute" then Failed := Failed or Any_Origin (Item, Scope_Index, "", 1, ""); end if;
+                        if Kind = "Attribute" then Failed := Failed or Any_Origin (Item, Scope_Index, "", 1, "", Fuel_Full); end if;
                         if Kind in "Attribute" | "Subscript" | "Name" and then K (Ref (A (Item, "ctx"))) in "Store" | "Del" then
-                           Failed := Failed or Any_Origin (Item, Scope_Index, "", 2, "");
+                           Failed := Failed or Any_Origin (Item, Scope_Index, "", 2, "", Fuel_Full);
                         end if;
                         if Kind = "Call" and then K (Ref (A (Item, "func"))) = "Attribute" then
                            declare Function_Node : constant V.Node := Ref (A (Item, "func"));
                            begin
                               Failed := Failed or (Mutator (AS (Function_Node, "attr")) and then
-                                Any_Origin (Ref (A (Function_Node, "value")), Scope_Index, "", 3, ""));
+                                Any_Origin (Ref (A (Function_Node, "value")), Scope_Index, "", 3, "", Fuel_Full));
                            end;
                         end if;
                      end;
@@ -725,10 +935,14 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
                Total := Total + Decoded.Length;
                for J in 1 .. V.Count (Data, Members) loop
                   declare Member : constant V.Node := El (Members, J);
+                          Member_Root : constant String := S (Member, "rootKey");
+                          Member_Path : constant String := S (Member, "path");
                   begin
-                     if S (Member, "rootKey") & "/" & S (Member, "path") = Path then
-                        if Found or else not Relative (S (Member, "rootKey")) or else Contains (S (Member, "rootKey"), "/") or else
-                           not Relative (S (Member, "path")) or else
+                     --  The original raised exactly at these two guards; refuse there.
+                     if not Fits2 (Member_Root, 1, Member_Path'Length) then return False; end if;
+                     if Member_Root & "/" & Member_Path = Path then
+                        if Found or else not Relative (S (Member, "rootKey")) or else Search (Member_Root, "/") /= Absent or else
+                           not Relative (S (Member, "path")) or else Path'Length > Natural'Last - 25 or else
                            S (Member, "executedAs") /= "/run/worldline-verifiers/" & Path or else
                            S (Member, "sha256") /= B.Digest (Decoded.Data) then return False; end if;
                         Found := True;
@@ -744,7 +958,9 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
          if File_Count /= V.Count (Data, Members) then return False; end if;
          declare Initial : constant Natural := File_Index (Entry_Path);
          begin if Initial = 0 then return False; end if; Pending (Initial, 0) := True; end;
-         loop
+         --  Every working round marks a new Seen pair (3 * File_Count of them),
+         --  so the original loop ran at most 3 * File_Count + 1 rounds.
+         for Round in 0 .. 3 * File_Count loop
             Work := False;
             for I in 1 .. File_Count loop
                for Location in 0 .. 2 loop
@@ -762,6 +978,7 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
          begin
             if Closure.Form /= V.Array_Value then return False; end if;
             for I in 1 .. File_Count loop
+               pragma Loop_Invariant (Seen_Count < I);
                if (for some L in 0 .. 2 => Seen (I, L)) then
                   Seen_Count := Seen_Count + 1;
                   declare
@@ -795,6 +1012,18 @@ package body Worldline.Source_Audit_Native with SPARK_Mode is
         V.Equal (Data, F (F (Audit, "before"), "files"), Data, F (F (Audit, "after"), "files")) and then
         V.Equal (Data, F (F (Audit, "before"), "directories"), Data, F (F (Audit, "after"), "directories")) and then
         Phase_Clean ("before") and then Phase_Clean ("after");
+   end Closure_Clean_Joined;
+   function Closure_Clean (Result_Record, Native_AST : String) return Boolean is
+      Parsed_AST : constant V.Node := V.Parse (Native_AST);
+   begin
+      --  Totalized: the original raised Constraint_Error building the joint
+      --  arena or the rebased AST span exactly when this holds; refuse it.
+      if Native_AST'Length > Natural'Last - 1 - (if Result_Record'Length = 0 then 0 else Result_Record'Last)
+        or else (Parsed_AST.Form /= V.Missing and then
+          (Parsed_AST.First > Natural'Last - 1 - Result_Record'Length or else
+           Parsed_AST.Last > Natural'Last - 1 - Result_Record'Length))
+      then return False; end if;
+      return Closure_Clean_Joined (Result_Record, Native_AST, Parsed_AST);
    end Closure_Clean;
    function Clean (Result_Record : String) return Boolean is
      (Worldline.Source_Syntax_Provider.Authentic (Result_Record) and then

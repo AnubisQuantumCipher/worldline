@@ -1,7 +1,8 @@
 -- Pure policy over captured original manager/launcher/restart facts.
 package Worldline.Manager_Resource_Lifecycle with SPARK_Mode is
    function Unit_Valid (Unit : String) return Boolean
-     with Global => null, Post => (if Unit_Valid'Result then Unit'Length = 54);
+     with Global => null,
+       Post => (if Unit_Valid'Result then Unit'Length = 54 and then Unit (Unit'Last) = 'e');
    function Identity_Valid (Unit, Invocation, Group : String) return Boolean
      with Global => null;
    function Events_State (Events : String) return Natural
