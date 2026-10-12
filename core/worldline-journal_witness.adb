@@ -13,9 +13,12 @@ package body Worldline.Journal_Witness with SPARK_Mode is
    function Decide (Kind : Witness_Kind; Current, Input : E.Bytes)
       return Decision is
       Extents : constant L.Sizes := L.Counts (Current);
-      Whole : constant E.Span := (Input'First, Input'Length);
+      -- An empty Input whose lower bound is not an index raised here in the
+      -- original; it is refused as invalid input.
+      Whole : constant E.Span :=
+        (if Input'First >= 1 then (Input'First, Input'Length) else (1, 0));
    begin
-      if Extents.Status /= L.Parsed or else not OA.Valid (Input, Whole) then
+      if Input'First < 1 or else Extents.Status /= L.Parsed or else not OA.Valid (Input, Whole) then
          return Input_Invalid;
       end if;
       declare
