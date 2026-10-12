@@ -399,13 +399,12 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       end;
    end Acquisitions;
    function Stored_JSON (Data : E.Bytes; Item : E.Span;
-                         L : E.Layer := E.Recovery; Inner_Layer : E.Layer := E.Terminal;
-                         Sorted : Boolean := True) return String is
+                         L : E.Layer := E.Recovery; Inner_Layer : E.Layer := E.Terminal) return String is
       N : constant E.View := E.Decode (Data, Item, L);
    begin
       if N.Form /= E.Bytes_Value or else not E.Bytes_Valid (Data, N.Payload) then return ""; end if;
       declare Raw : constant E.Bytes := E.Materialize (Data, N.Payload); begin
-         return Render (Raw, (Raw'First, Raw'Length), Inner_Layer, True, True, Sorted);
+         return JSON (Raw, (Raw'First, Raw'Length), Inner_Layer, True, True);
       end;
    end Stored_JSON;
    function Stored_Encoding (Data : E.Bytes; Item : E.Span;
@@ -878,6 +877,51 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       end if;
       return EP.Original_Projection (Result_Record, Declared);
    end Derive_Original;
+   -- Every leaf, key and payload view that Render materializes in this tree
+   -- is Bytes_Valid: Materialize is total and would otherwise yield an empty
+   -- leaf where the writer's decoder refused. Spans mirror Render's Key/Value.
+   function Materialized_Valid (Data : E.Bytes; Item : E.Span; L : E.Layer) return Boolean
+     with Global => null, Subprogram_Variant => (Decreases => Item.Length)
+   is
+      N : constant E.View := E.Decode (Data, Item, L);
+   begin
+      case N.Form is
+         when E.Null_Value | E.Boolean_Value => return True;
+         when E.Text_Value | E.World_State_Value | E.Integer_Value | E.Bytes_Value =>
+            return E.Bytes_Valid (Data, N.Payload);
+         when E.Float_Value =>
+            return E.Bytes_Valid (Data, N.Payload) and then E.Materialize (Data, N.Payload)'Length = 8;
+         when E.List_Value | E.Tuple_Value =>
+            for I in E.Count range 0 .. E.Array_Length (Data, N.Children) - 1 loop
+               if not Materialized_Valid (Data, E.Array_Element (Data, N.Children, I), L)
+               then return False; end if;
+            end loop;
+            return True;
+         when E.Object_Value | E.Record_Value =>
+            for I in E.Count range 0 .. E.Array_Length (Data, N.Children) - 1 loop
+               declare
+                  Pair : constant E.Span := E.Array_Element (Data, N.Children, I);
+                  Key_Span : constant E.Span := (if L = E.Terminal then E.Array_Element (Data, Pair, 0)
+                    else Child (Data, Pair, 0, (if L = E.Finalization then E.Terminal else E.Finalization)));
+                  Value_Span : constant E.Span := (if L = E.Terminal then E.Array_Element (Data, Pair, 1)
+                    else Child (Data, Pair, 1, (if L = E.Finalization then E.Terminal else E.Finalization)));
+                  Key : constant E.View := E.Decode (Data, Key_Span,
+                    (if L = E.Finalization then E.Terminal
+                     elsif L = E.Finalization_Record or else N.Form = E.Record_Value then E.Finalization else L));
+               begin
+                  if (if L = E.Terminal then
+                        Key_Span.Length < 2
+                        or else not E.Bytes_Valid (Data, ((Key_Span.First + 1, Key_Span.Length - 2), 1))
+                      else Key.Form not in E.Text_Value | E.Bytes_Value | E.World_State_Value
+                        or else not E.Bytes_Valid (Data, Key.Payload))
+                    or else not Materialized_Valid (Data, Value_Span, L)
+                  then return False; end if;
+               end;
+            end loop;
+            return True;
+         when others => return False;
+      end case;
+   end Materialized_Valid;
    -- Derive's own Record_Only operand domain (evaluation_producer.adb): the
    -- finalization writer's Derive took the original projection exactly when
    -- the row carried no fresh-path source. Such rows keep Derive_Original.
@@ -989,15 +1033,21 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
                                      Arena, (1, Arena'Length)),
               Decoded => (Absent_Sources or else (Envelope and then Acquired'Length > 0)
                           or else Sources_Form = E.List_Value)
+                and then Materialized_Valid (Data, Row, L)
+                and then (not Envelope or else Materialized_Valid (Acquired, Acquired_Root, E.Finalization))
                 and then V.Kind (Expected) /= V.Missing and then V.Kind (Observed) /= V.Missing
                 and then V.Kind (Returned) = V.Object_Value and then V.Kind (Declared) /= V.Missing);
    end Derive_Written;
    -- A stored finalization row: its retained payload and declaration bytes.
    function Derive_Stored (Data : E.Bytes; Item : E.Span; L : E.Layer) return Written_Derivation is
       Row : constant E.Bytes := Stored_Encoding (Data, Field (Data, Item, "payload", L), L);
+      Declaration : constant E.Bytes := Stored_Encoding (Data, Field (Data, Item, "declared", L), L);
+      Declaration_Root : constant E.Span := (Declaration'First, Declaration'Length);
+      Derived : constant Written_Derivation := Derive_Written (Row, (Row'First, Row'Length), E.Terminal,
+        Render (Declaration, Declaration_Root, E.Terminal, True, True, Sorted => False));
    begin
-      return Derive_Written (Row, (Row'First, Row'Length), E.Terminal,
-        Stored_JSON (Data, Field (Data, Item, "declared", L), L, Sorted => False));
+      return (Produced => Derived.Produced,
+              Decoded => Derived.Decoded and then Materialized_Valid (Declaration, Declaration_Root, E.Terminal));
    end Derive_Stored;
    function Owned_Matches (Data : E.Bytes; Owned : E.Span;
                            Produced : EP.Produced_Record;
