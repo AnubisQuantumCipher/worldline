@@ -358,3 +358,190 @@ class PrivateBackendAcquisitionControls(unittest.TestCase):
         self.assertEqual(returned[4]['stdout'], optional_bytes(b'full stdout\x00\xff'))
         self.assertNotIn('private-process-return', [row[2] for row in records])
         staged.close.assert_called_once()
+
+
+class ProtectedSyntaxReturnTransportControls(unittest.TestCase):
+    """Real controller transport with owned backend replies; no native admission claim."""
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix='worldline-syntax-return-')
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.results = [self._backend(phase) for phase in ('before', 'after')]
+
+    def _backend(self, phase):
+        return {'stdout': b'full stdout\x00\xff', 'stderr': b'full stderr\r\n',
+                'reportDirectory': self.root / (phase + '-report-\udcff'),
+                'protectedProviderCapture': {'report': {'sealed': {'bytes':
+                    optional_bytes(b'full sealed artifact\x00\xff')}}},
+                'boundary': {'rolesCompleted': True}, 'exitCode': 0}
+
+    def _acquire(self, observer=None):
+        from worldline.linux import protected_source_parser as parser
+        phases = ('before', 'after')
+        with patch.object(parser, '_read_examiner_source', return_value=b'fixed helper bytes'), \
+             patch.object(parser, '_stage'), patch.object(parser, '_write'), \
+             patch.object(parser.PrivateEvaluator, 'run', side_effect=self.results):
+            return parser.acquire_protected_source_ast(object(),
+                historical_audit={phase: {'runtime': {}, 'files': []} for phase in phases},
+                parser_declaration={'original': 'declaration'},
+                phase_invocations={phase: {'invocationId': phase} for phase in phases},
+                phase_reports={phase: {'directory': self.root / (phase + '-report'),
+                    'binding': {'original': phase}} for phase in phases},
+                work_directory=self.root / 'syntax', acquisition_observer=observer)
+
+    def test_path_only_transport_keeps_full_bytes_backend_and_other_fields(self):
+        from worldline.evaluation_producer import capture, encode
+        from worldline.errors import CoreUnavailable
+        callbacks = []
+        with patch('worldline.raw_observation.private_return_observation',
+                   wraps=private_return_observation) as projection:
+            controller = self._acquire(lambda *args: callbacks.append(args))
+        self.assertEqual(projection.call_count, len(self.results))
+        for phase, backend, callback in zip(('before', 'after'), self.results, callbacks):
+            row = controller['phases'][phase]
+            expected = private_return_observation(backend)['reportDirectory']
+            self.assertIsNot(row['result'], backend)
+            self.assertIsInstance(backend['reportDirectory'], Path)
+            self.assertEqual(row['result']['reportDirectory'], expected)
+            self.assertEqual(base64.b64decode(expected['bytes']['payload'], validate=True),
+                             os.fsencode(backend['reportDirectory']))
+            self.assertEqual(expected['sourceType'], type(backend['reportDirectory']).__qualname__)
+            self.assertEqual(set(row['result']), set(backend))
+            for key in backend.keys() - {'reportDirectory'}:
+                self.assertIs(row['result'][key], backend[key])
+            self.assertEqual(callback[:2], ('private-process-return', 0))
+            self.assertEqual(row['acquisitions'][0]['observation'], capture(callback[2]))
+            self.assertEqual(row['artifact'], backend['protectedProviderCapture']['report']['sealed']['bytes'])
+            self.assertEqual(row['artifactSha256'], hashlib.sha256(b'full sealed artifact\x00\xff').hexdigest())
+            with self.assertRaisesRegex(CoreUnavailable, 'unsupported operand type: .*Path'):
+                capture(backend)
+        captured = json.loads(encode(controller))
+        for phase in ('before', 'after'):
+            self.assertEqual(captured['phases'][phase]['result']['stdout'], optional_bytes(b'full stdout\x00\xff'))
+            self.assertEqual(captured['phases'][phase]['result']['stderr'], optional_bytes(b'full stderr\r\n'))
+
+    def test_external_projection_mutation_cannot_change_retained_path_marker(self):
+        def observer(_kind, _occurrence, observed):
+            observed['reportDirectory']['bytes']['payload'] = 'Y2FsbGJhY2s='
+            observed['reportDirectory']['sourceType'] = 'callback replacement'
+            observed['reportDirectory'] = {'kind': 'callback replacement'}
+        controller = self._acquire(observer)
+        for phase, backend in zip(('before', 'after'), self.results):
+            row = controller['phases'][phase]
+            expected = private_return_observation(backend)['reportDirectory']
+            self.assertEqual(row['result']['reportDirectory'], expected)
+            self.assertEqual(row['acquisitions'][0]['observation']['reportDirectory'], expected)
+            self.assertIsInstance(backend['reportDirectory'], Path)
+
+    def test_callback_replacement_of_backend_field_is_not_overwritten(self):
+        def observer(_kind, _occurrence, _observed):
+            for backend in self.results:
+                backend['reportDirectory'] = 'callback supplied primitive'
+        controller = self._acquire(observer)
+        for phase, backend in zip(('before', 'after'), self.results):
+            self.assertIs(controller['phases'][phase]['result'], backend)
+            self.assertEqual(backend['reportDirectory'], 'callback supplied primitive')
+
+    def test_callback_new_path_remains_in_general_refusal_domain(self):
+        from worldline.evaluation_producer import encode
+        from worldline.errors import CoreUnavailable
+        replacement = self.root / 'callback-other-path'
+        def observer(_kind, _occurrence, _observed):
+            self.results[0]['reportDirectory'] = replacement
+        controller = self._acquire(observer)
+        self.assertIs(controller['phases']['before']['result'], self.results[0])
+        self.assertIs(self.results[0]['reportDirectory'], replacement)
+        with self.assertRaisesRegex(CoreUnavailable, 'unsupported operand type: .*Path'):
+            encode(controller)
+
+    def test_missing_and_nonpath_field_are_not_projected(self):
+        self.results[0].pop('reportDirectory')
+        self.results[1]['reportDirectory'] = {'original': 'primitive observation'}
+        controller = self._acquire()
+        for phase, backend in zip(('before', 'after'), self.results):
+            self.assertIs(controller['phases'][phase]['result'], backend)
+        self.assertNotIn('reportDirectory', controller['phases']['before']['result'])
+        self.assertIs(controller['phases']['after']['result']['reportDirectory'],
+                      self.results[1]['reportDirectory'])
+
+    def test_bytearray_streams_keep_original_general_codec_refusal(self):
+        from worldline.evaluation_producer import encode
+        from worldline.errors import CoreUnavailable
+        self.results[0]['stdout'] = bytearray(b'raw stdout\x00\xff')
+        self.results[1]['stderr'] = bytearray(b'raw stderr\x00\xff')
+        controller = self._acquire()
+        self.assertIs(controller['phases']['before']['result']['stdout'], self.results[0]['stdout'])
+        self.assertIs(controller['phases']['after']['result']['stderr'], self.results[1]['stderr'])
+        for phase in ('before', 'after'):
+            with self.assertRaisesRegex(CoreUnavailable, 'unsupported operand type: bytearray'):
+                encode(controller['phases'][phase]['result'])
+
+    def test_other_path_refuses_before_callback_and_artifact_extraction(self):
+        from worldline.errors import CoreUnavailable
+        self.results[0]['otherPath'] = self.root / 'unsupported-other-field'
+        callbacks = []
+        with self.assertRaisesRegex(CoreUnavailable, 'unsupported operand type: .*Path') as caught:
+            self._acquire(lambda *args: callbacks.append(args))
+        row = caught.exception.protected_source_syntax_capture['phases']['before']
+        self.assertEqual(callbacks, [])
+        self.assertIs(row['result'], self.results[0])
+        self.assertIsNone(row['artifact'])
+        self.assertEqual(row['acquisitions'], [])
+
+    def test_callback_failure_keeps_original_exception_and_partial_raw_result(self):
+        primary = RuntimeError('original callback failure')
+        def observer(*_args):
+            raise primary
+        with self.assertRaises(RuntimeError) as caught:
+            self._acquire(observer)
+        self.assertIs(caught.exception, primary)
+        row = primary.protected_source_syntax_capture['phases']['before']
+        self.assertIs(row['result'], self.results[0])
+        self.assertIsNone(row['artifact'])
+        self.assertIsInstance(row['result']['reportDirectory'], Path)
+        self.assertEqual(len(row['acquisitions']), 1)
+
+    def test_artifact_decode_failure_precedes_result_transport_copy(self):
+        import binascii
+        self.results[0]['protectedProviderCapture']['report']['sealed']['bytes']['payload'] = '!'
+        callbacks = []
+        with self.assertRaises(binascii.Error) as caught:
+            self._acquire(lambda *args: callbacks.append(args))
+        row = caught.exception.protected_source_syntax_capture['phases']['before']
+        self.assertEqual(len(callbacks), 1)
+        self.assertIs(row['result'], self.results[0])
+        self.assertIsInstance(row['result']['reportDirectory'], Path)
+        self.assertEqual(row['artifact']['payload'], '!')
+        self.assertNotIn('artifactSha256', row)
+
+    def test_declared_driver_bytes_match_actual_controller_without_parser_change(self):
+        from worldline.linux import protected_source_parser as parser
+        package = Path(parser.__file__).parent.parent
+        selected = json.loads((package / 'source_syntax_selection.json').read_bytes())
+        self.assertEqual(base64.b64decode(selected['driverBytes']['payload'], validate=True),
+                         Path(parser.__file__).read_bytes())
+        self.assertEqual(base64.b64decode(selected['parserBytes']['payload'], validate=True),
+                         Path(parser.__file__).with_name(parser.HELPER_NAME).read_bytes())
+
+
+    def test_fspath_replacement_does_not_bind_original_marker_to_new_path(self):
+        from worldline.evaluation_producer import encode
+        from worldline.errors import CoreUnavailable
+        backend = self.results[0]
+        replacement = self.root / 'fspath-replacement'
+        class MutatingPath(type(Path())):
+            def __fspath__(self):
+                backend['reportDirectory'] = replacement
+                return super().__fspath__()
+        original = MutatingPath(str(self.root / 'fspath-original-\udcff'))
+        backend['reportDirectory'] = original
+        expected_bytes = os.fsencode(str(original))
+        controller = self._acquire()
+        row = controller['phases']['before']
+        self.assertIs(row['result'], backend)
+        self.assertIs(backend['reportDirectory'], replacement)
+        marker = row['acquisitions'][0]['observation']['reportDirectory']
+        self.assertEqual(marker['sourceType'], type(original).__qualname__)
+        self.assertEqual(base64.b64decode(marker['bytes']['payload'], validate=True), expected_bytes)
+        with self.assertRaisesRegex(CoreUnavailable, 'unsupported operand type: .*Path'):
+            encode(controller)

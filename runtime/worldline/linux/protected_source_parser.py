@@ -226,11 +226,20 @@ def acquire_protected_source_ast(systemd, *, historical_audit, parser_declaratio
                     _admission_guard=guard,
                     _protected_provider_type=ProtectedSyntaxProvider)
             from ..raw_observation import private_return_observation
-            observe('private-process-return', 0, private_return_observation(row['result']))
+            report_directory = row['result'].get('reportDirectory')
+            returned_observation = private_return_observation(row['result'])
+            # The observer receives a mutable projection; retain this field first.
+            directory_observation = (copy.deepcopy(returned_observation['reportDirectory'])
+                                     if isinstance(report_directory, Path) else None)
+            observe('private-process-return', 0, returned_observation)
             row['artifact'] = copy.deepcopy(
                 row['result']['protectedProviderCapture']['report']['sealed']['bytes'])
             row['artifactSha256'] = hashlib.sha256(base64.b64decode(
                 row['artifact']['payload'], validate=True)).hexdigest()
+            if (isinstance(report_directory, Path) and
+                    row['result'].get('reportDirectory') is report_directory):
+                row['result'] = {**row['result'],
+                                 'reportDirectory': directory_observation}
     except BaseException as error:
         controller['exception'] = exception_observation(error)
         error.protected_source_syntax_capture = controller
