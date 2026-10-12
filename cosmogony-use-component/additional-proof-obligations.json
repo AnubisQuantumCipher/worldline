@@ -1,0 +1,218 @@
+{
+  "full_original_native_dependencies": "ALL_COPIED_SRC_UNITS_AND_ALL_ORIGINAL_OBLIGATIONS_REMAIN_REQUIRED",
+  "native_boundary": {
+    "controls": [
+      "version",
+      "all_size_alignment_offsets",
+      "empty_and_full_rosters",
+      "positive_reserve",
+      "fresh_revocation_refusal",
+      "held_child_exhaustion",
+      "ancestor_sibling_aggregate",
+      "same_operation_consumption_after_denial",
+      "consumed_replay_no_second_charge",
+      "release_replay",
+      "changed_binding_refusal",
+      "overflow_refusal",
+      "misalignment",
+      "length_count_mismatch",
+      "invalid_enums",
+      "null_nonempty",
+      "input_output_overlap",
+      "invalid_immutable_grant_roster",
+      "complete_native_raw_redecision"
+    ],
+    "proof_status": "SPARK_OFF_NOT_PROVED_NATIVE_CONTROLS_REQUIRED_NO_EXCEPTION_TO_PHASE_GUARANTEES",
+    "units": [
+      "Cosmogony.Use_Reservations_C_API"
+    ]
+  },
+  "phase_acceptance": false,
+  "project": "cosmogony_core.gpr",
+  "proof_acceptance": false,
+  "reference_body_flow_termination_no_warnings_no_unproved": "REQUIRED",
+  "required_proved": [
+    "Cosmogony.Use_Reservations.Complete",
+    "Cosmogony.Use_Reservations.Grants_Valid",
+    "Cosmogony.Use_Reservations.Canonical_Roster",
+    "Cosmogony.Use_Reservations.Row_Valid",
+    "Cosmogony.Use_Reservations.Roster_Valid",
+    "Cosmogony.Use_Reservations.Charges",
+    "Cosmogony.Use_Reservations.Step",
+    "Cosmogony.Use_Reservations.Count_Reference",
+    "Cosmogony.Use_Reservations.Count",
+    "Cosmogony.Use_Reservations.Existing",
+    "Cosmogony.Use_Reservations.Capacity_Reference",
+    "Cosmogony.Use_Reservations.Capacity",
+    "Cosmogony.Use_Reservations.Fresh_Eligible_Reference",
+    "Cosmogony.Use_Reservations.Fresh_Eligible",
+    "Cosmogony.Use_Reservations.Reference",
+    "Cosmogony.Use_Reservations.Check"
+  ],
+  "scope_composition": "Exact multi-project full proof/report policy integration still OPEN; original Worldline gate cannot by itself prove this component.",
+  "source_inputs": {
+    "cosmogony-c_api.adb": {
+      "mode": "0o644",
+      "sha256": "fb05d1919a01ade070f60c7e63851381e4b1e2c3c97d7fba720663cc9bf83c7d"
+    },
+    "cosmogony-c_api.ads": {
+      "mode": "0o644",
+      "sha256": "73dac61448f012ef928b2fe964ac57769ff8afe0a824e90dcea8f31696bbfe02"
+    },
+    "cosmogony-capabilities.adb": {
+      "mode": "0o644",
+      "sha256": "ccd88bb330876db60ec15abe708a4812face894baf220352ab98cbb31c5121c8"
+    },
+    "cosmogony-capabilities.ads": {
+      "mode": "0o644",
+      "sha256": "aa22f4a0ca193650e6dff620711ab15034034e1974375116d33e33253fc6c71c"
+    },
+    "cosmogony-capability_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "7f0a320b8d75d138689cbcf88bebaa31d4367bcc56562a85271fde6c5bb5e1be"
+    },
+    "cosmogony-capability_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "ffd6f981cd2882f2b82fc86411f8ce594d820558d9a57a2da2b8786e78b2fca5"
+    },
+    "cosmogony-capsule_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "c2b69c3125468660ea3d86dd27a1faa99d140d7351969cfc3d0f80aa3b21be6f"
+    },
+    "cosmogony-capsule_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "df48c497587dd6c94725bbfb0d6e1f51309f22cafbd2aed137c316bb687b8cff"
+    },
+    "cosmogony-capsules.adb": {
+      "mode": "0o644",
+      "sha256": "2ff15ad5b6f591e64233f1074b8386c41d6a353709a4fd8786e9ce0b177acf13"
+    },
+    "cosmogony-capsules.ads": {
+      "mode": "0o644",
+      "sha256": "1e8f1e4ffab7bbbf11172d99ac95f765206bf5cf54be702936ceebad7bd7139a"
+    },
+    "cosmogony-evidence_court.adb": {
+      "mode": "0o644",
+      "sha256": "e7461954b0c268d9aed97df2de7787020ce1b3e5805092aea9c88381078d11d8"
+    },
+    "cosmogony-evidence_court.ads": {
+      "mode": "0o644",
+      "sha256": "ef36578ba866cccd933bc8a6e0785ad9fddece9e913ea1aa24867fe6062c2919"
+    },
+    "cosmogony-evidence_court_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "7a4faa343c350ef3f45c2bc518d608b5b2a5de8a37b67ff957e642a2096f2fc0"
+    },
+    "cosmogony-evidence_court_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "473a3ce6beeabb600ba3673e4edb0049442bd4426e3ac8c6d2ba085e051d8de0"
+    },
+    "cosmogony-genesis.adb": {
+      "mode": "0o644",
+      "sha256": "73fd82a3961a7574fb40dd69032367a5924ce432602d3fd5f69c41f5da8f7fbc"
+    },
+    "cosmogony-genesis.ads": {
+      "mode": "0o644",
+      "sha256": "94b698def945e0ef5fd3f0d095c094a2aab13444d6351dc42da4fde65b009e3b"
+    },
+    "cosmogony-governed_capabilities.adb": {
+      "mode": "0o644",
+      "sha256": "3712fa7e2f953dec168b3ab11f1b11c266aca2927b5b1e16a1755dd7bb5cc9c3"
+    },
+    "cosmogony-governed_capabilities.ads": {
+      "mode": "0o644",
+      "sha256": "1a7c706b19518c8f840054fd69cdd005b17fef52c9e4f6b85c48561ef7ce9a44"
+    },
+    "cosmogony-hierarchy.adb": {
+      "mode": "0o644",
+      "sha256": "346688339b3dd0b5552e7b13da690a351af16ad2610e57b628841b3c4646abe2"
+    },
+    "cosmogony-hierarchy.ads": {
+      "mode": "0o644",
+      "sha256": "f26db86cbd93fbe1e278415e0ac728f7cf63be5d473427fb5fa57823e4b85c82"
+    },
+    "cosmogony-hierarchy_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "395326b49d01c4c0ee1e01c1c2468244228e965557dd2097e0789704862c079a"
+    },
+    "cosmogony-hierarchy_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "d3e86f26d3feea498b712c060518d4e89b763bc30d5af93f10a9f60a004956f3"
+    },
+    "cosmogony-host_profiles.adb": {
+      "mode": "0o644",
+      "sha256": "476371c920f914eb8e1afab87d0f9e60c9fefb3035cc82d8760799c1b48c38ea"
+    },
+    "cosmogony-host_profiles.ads": {
+      "mode": "0o644",
+      "sha256": "ccb032c7bbf5060e33857a67310846e53493095007fb66f81dda10749c66b859"
+    },
+    "cosmogony-resource_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "f37b154f0469d9108719168ebc4754641597631b665f4420e2cf674927c7e66a"
+    },
+    "cosmogony-resource_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "6665c7f3e41782e48964d20a78fa2e64338d1d59146b40d0cd7c320768858843"
+    },
+    "cosmogony-revocable_capabilities.adb": {
+      "mode": "0o644",
+      "sha256": "b30d970cc68fcfab08d69c00ad7ec6e3f4737006f0d0e8578ee16a4251583e4c"
+    },
+    "cosmogony-revocable_capabilities.ads": {
+      "mode": "0o644",
+      "sha256": "afe661a7fee41ecaed839714cd0a5a290d67e8ff3cb99e4d346eac9ef1ea3473"
+    },
+    "cosmogony-revocation_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "be35e8b8ac00d9ced8050590aec23bd714a10f085330c83c0ed43185c0df0ad3"
+    },
+    "cosmogony-revocation_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "85c1b9d200f7c84a7939ce915e110a1c645526f0f55ac50203e70b67139df7ce"
+    },
+    "cosmogony-universe_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "e1d6468c257f828e6f1d73672c24df33d687b0516901cd29a5cf7696d54cd91e"
+    },
+    "cosmogony-universe_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "0ac9aaff62281e1e36e13fc6b97393ad08648c97e81d30196cf6d421fc6efc57"
+    },
+    "cosmogony-universes.adb": {
+      "mode": "0o644",
+      "sha256": "41f063e3c05ce1cd8746d60a4dc603ca684f9dd95d408cfffc4fc561d6bc7d92"
+    },
+    "cosmogony-universes.ads": {
+      "mode": "0o644",
+      "sha256": "686cd47183997f93f34ad46a2e216f39d45652e0fd83e7ac870152cd0e4cf444"
+    },
+    "cosmogony-use_reservations.adb": {
+      "mode": "0o644",
+      "sha256": "b39388e61be1d0597c7fa01691ec8ad03db487a983783d7e0936be4f1cf46dca"
+    },
+    "cosmogony-use_reservations.ads": {
+      "mode": "0o644",
+      "sha256": "2537e9ca0d9f4f079b07115d3763860a215d4a30f8935de175b03509ce6ae417"
+    },
+    "cosmogony-use_reservations_c_api.adb": {
+      "mode": "0o644",
+      "sha256": "d3c43fc5dc43c5176f89a238e2e0c35cd0583305dd31c1b177e855a39988abe7"
+    },
+    "cosmogony-use_reservations_c_api.ads": {
+      "mode": "0o644",
+      "sha256": "788ab3fd1cda64b0890a94eea69de266440638e64a375b317d31b7f7a4a5cee1"
+    },
+    "cosmogony.ads": {
+      "mode": "0o644",
+      "sha256": "f40a93479f5c94f1dcff7a0d9442de440037d887176f74342cff65b706952b63"
+    },
+    "cosmogony_use_reservation.h": {
+      "mode": "0o644",
+      "sha256": "11fc3b9eade2a0aa79ce63b22127cf52eb906929faa1f3b36cec3f850ba1bd25"
+    }
+  },
+  "source_inventory_and_tool_vendor_binding": "REQUIRED_WITH_FRESH_ACTUAL_REPORT",
+  "status": "ADDITIONAL_MANDATORY_SCOPE_DECLARATION_UNPROVEN_NOT_AN_ACCEPTANCE_GATE",
+  "worldline_original_floor_and_policy_sha256": "861a1363d8527c858d5388dcc7196defe5aaca34ac60bb63580a1b0c4141e70f"
+}

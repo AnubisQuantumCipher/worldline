@@ -1,0 +1,12 @@
+with "../core/worldline_core_sources.gpr";
+project Root_Custody_Replay_Controls is
+   for Languages use ("Ada");
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/root-custody-replay-controls";
+   for Exec_Dir use "../obj/root-custody-replay-controls";
+   for Main use ("root_custody_replay_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatVa", "-gnatwa", "-g", "-O0");
+   end Compiler;
+end Root_Custody_Replay_Controls;
