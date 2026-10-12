@@ -28,8 +28,81 @@ def _owned(value):
 
 
 def _owned_acquisition(value):
-    # Acquisition records include full bytes and tuple identities. Use the
-    # journal's existing lossless grammar rather than the JSON result grammar.
+    # Foreign/uncertain trees keep the original whole-root codec and refusal.
+    class _NotBuiltinTree(Exception):
+        pass
+
+    def visit(item, active, *, copy):
+        kind = type(item)
+        if item is None or kind in (bool, int, float, str, bytes):
+            return item  # Float normalization follows whole structural validation.
+        if kind not in (list, tuple, dict):
+            raise _NotBuiltinTree
+        if kind is dict and any(type(key) is not str for key in item):
+            raise _NotBuiltinTree
+        token = id(item)
+        if token in active:
+            raise _NotBuiltinTree
+        active.add(token)
+        try:
+            if not copy:
+                for child in item.values() if kind is dict else item:
+                    visit(child, active, copy=False)
+                return None
+            if kind is dict:
+                return {key: visit(child, active, copy=True)
+                        for key, child in item.items()}
+            children = [visit(child, active, copy=True) for child in item]
+            return tuple(children) if kind is tuple else children
+        finally:
+            active.remove(token)
+
+    def witness(item):
+        kind = type(item)
+        if kind is bytes: return b''
+        if kind is str: return ''
+        if kind is int: return 0
+        if kind is dict:
+            return {key: witness(child) for key, child in item.items()}
+        if kind in (list, tuple):
+            children = [witness(child) for child in item]
+            return tuple(children) if kind is tuple else children
+        return item  # Complete float values, bool and None retain their types.
+
+    def normalize(item, shape):
+        kind = type(item)
+        if type(shape) is not kind:
+            raise _NotBuiltinTree
+        if kind is float:
+            return shape  # The original whole witness codec normalized this leaf.
+        if kind is dict:
+            if tuple(item) != tuple(shape):
+                raise _NotBuiltinTree
+            for key, child in item.items():
+                item[key] = normalize(child, shape[key])
+        elif kind in (list, tuple):
+            if len(item) != len(shape):
+                raise _NotBuiltinTree
+            if kind is tuple:
+                return tuple(normalize(child, normalized)
+                             for child, normalized in zip(item, shape))
+            for index, child in enumerate(item):
+                item[index] = normalize(child, shape[index])
+        return item
+
+    owned = shape = normalized = None
+    try:
+        visit(value, set(), copy=False)
+        owned = visit(value, set(), copy=True)
+        shape = witness(owned)
+        # Exact original codec at the original helper call depth: expanded
+        # tagged/JSON recursion and float refusal precede any publication.
+        normalized = decode(encode(shape))
+        return normalize(owned, normalized)
+    except Exception:
+        owned = shape = normalized = None
+    # Leave the handler before fallback so internal decline is not exposed as
+    # the original exception's context. BaseException interruptions propagate.
     return decode(encode(value))
 
 
