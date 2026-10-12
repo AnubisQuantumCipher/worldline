@@ -87,9 +87,15 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
    is
       Span : H.Identity_Span;
    begin
+      --  SPARK: refusal (Valid False) exactly where the original raised Constraint_Error:
+      --  a constrained actual whose discriminant differs from the one assigned.
+      if Value'Constrained and then Value.Present then
+         Value := (Present => True, Value => (1, 0)); Valid := False; return;
+      end if;
       Value := (Present => False);
       if not Valid or else Null_Is (Data, Item, At_Layer) then return; end if;
       Scalar (Data, Item, Arena, Valid, Span, E.Text_Value, At_Layer);
+      if Valid and then Value'Constrained then Valid := False; end if;
       if Valid then Value := (Present => True, Value => Span); end if;
    end Decode_Identity;
    procedure Decode_Epoch
@@ -99,9 +105,15 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
    is
       Span : H.Identity_Span;
    begin
+      --  SPARK: refusal (Valid False) exactly where the original raised Constraint_Error:
+      --  a constrained actual whose discriminant differs from the one assigned.
+      if Value'Constrained and then Value.Present then
+         Value := (Present => True, Value => (1, 0)); Valid := False; return;
+      end if;
       Value := (Present => False);
       if not Valid or else Null_Is (Data, Item, At_Layer) then return; end if;
       Scalar (Data, Item, Arena, Valid, Span, E.Integer_Value, At_Layer);
+      if Valid and then Value'Constrained then Valid := False; end if;
       if Valid then Value := (Present => True, Value => H.Epoch_Id (Span)); end if;
    end Decode_Epoch;
    procedure Cursor_Fields
@@ -111,10 +123,17 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
       Epoch : H.Optional_Epoch;
       Run : K.Optional_Identity;
    begin
+      --  SPARK: refusal (Valid False) exactly where the original raised Constraint_Error:
+      --  a constrained actual whose discriminant differs from the one assigned.
+      if Value'Constrained and then Value.Present then
+         Value := (Present => True, Value => (Sequence => (Present => False), Run => (1, 0)));
+         Valid := False; return;
+      end if;
       Value := (Present => False);
       Decode_Epoch (Data, Field (Data, Item, "epoch", At_Layer), Arena, Valid, Epoch, At_Layer);
       Decode_Identity (Data, Field (Data, Item, "run", At_Layer), Arena, Valid, Run, At_Layer);
       if not Run.Present then Valid := False; end if;
+      if Valid and then Value'Constrained then Valid := False; end if;
       if Valid then
          Value := (Present => True, Value =>
            (Sequence => Epoch, Run => H.Evaluation_Id (Run.Value)));
@@ -125,6 +144,12 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
       Valid : in out Boolean; Value : out H.Optional_Cursor;
       At_Layer : E.Layer := E.Recovery) is
    begin
+      --  SPARK: refusal (Valid False) exactly where the original raised Constraint_Error:
+      --  a constrained actual whose discriminant differs from the one assigned.
+      if Value'Constrained and then Value.Present then
+         Value := (Present => True, Value => (Sequence => (Present => False), Run => (1, 0)));
+         Valid := False; return;
+      end if;
       Value := (Present => False);
       if not Valid or else Null_Is (Data, Item, At_Layer) then return; end if;
       if not Record_Is (Data, Item, "worldline.evaluation_history", "EvaluationCursor", At_Layer) then
@@ -348,7 +373,8 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
    end Replay_Retry;
 
    function Arena_Last (Data : E.Bytes; Owner : E.Span; Retry : Boolean)
-      return E.Count with Global => null, Post => Arena_Last'Result >= Data'Last is
+      return E.Count with Global => null, Pre => Data'First >= 1,
+        Post => Arena_Last'Result >= Data'Last is
       Needed : E.Count := E.Count'Max
         (Data'Length, M.Arena_Length (Data, RA.Field (Data, Owner, "before_material")));
    begin
@@ -382,6 +408,9 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
                RA.Field (Data, Primary, "authorityMaterial"))
            or else not RA.Equal (Data, Data, RA.Field (Data, Owner, "prepared"), Prepared)
          then return False; end if;
+         --  SPARK: refusal exactly where the original raised Constraint_Error: a null
+         --  Data whose bounds lie outside the index subtype (Arena_Last or this Arena).
+         if Data'First < 1 then return False; end if;
          declare
             Arena : E.Bytes (Data'First .. Arena_Last (Data, Owner, True)) := (others => 0);
             Before : H.History (1 .. M.Row_Count (Data, RA.Field (Data, Owner, "before_material")));
@@ -447,6 +476,9 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
          or else not Original.Present or else not Same_Operands (Original.Raw, Derived)
          or else not CW.Well_Formed (Derived) then return Malformed; end if;
       if Text_Is (Data, RA.Field (Data, Owner, "mode"), "RETRY_EVALUATION") then
+         --  SPARK: refusal exactly where the original raised Constraint_Error: a null
+         --  Data whose bounds lie outside the index subtype (Arena_Last or this Arena).
+         if Data'First < 1 then return Malformed; end if;
          declare
             Arena : E.Bytes (Data'First .. Arena_Last (Data, Owner, True)) := (others => 0);
             Before : H.History (1 .. M.Row_Count (Data, RA.Field (Data, Owner, "before_material")));
@@ -471,6 +503,11 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
          end;
       elsif Text_Is (Data, RA.Field (Data, Owner, "mode"), "ADOPT_REQUIREMENT")
          or else Text_Is (Data, RA.Field (Data, Owner, "mode"), "CHECKPOINT_EQUAL") then
+         --  SPARK: refusal exactly where the original raised Constraint_Error: a null
+         --  Data whose bounds lie outside the index subtype (Arena_Last or this Arena).
+         if Data'First < 1 and then Text_Is (Data, RA.Field (Data, Owner, "mode"), "ADOPT_REQUIREMENT") then
+            return Malformed;
+         end if;
          declare
             Adopt : constant Boolean := Text_Is (Data, RA.Field (Data, Owner, "mode"), "ADOPT_REQUIREMENT");
             Count : constant E.Count := (if Adopt then M.Row_Count

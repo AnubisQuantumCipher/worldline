@@ -206,7 +206,9 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
    procedure Convert10 (Mantissa : U64; Exponent : Integer; Significant : Positive;
                         Value : out U64; Power : out Integer)
      with Pre => Mantissa >= High_Bit and then Exponent in -1137 .. 960
-       and then Significant in 16 | 18
+       and then Significant in 16 | 18,
+       Post => Power = -(Significant - 1 - Power2_To_10 (Exponent + 63)) and then
+         Power in -350 .. 320 and then Value <= 2 ** 62
    is
       P10 : constant Integer := Significant - 1 - Power2_To_10 (Exponent + 63);
       H, L, Scale_Hi : U64;
@@ -275,15 +277,37 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
       Result : String (1 .. 32) := (others => ' ');
       Last : Natural := 0;
       procedure Append (C : Character)
-        with Pre => Last < Result'Length
+        with Pre => Last < Result'Length, Post => Last = Last'Old + 1
       is
       begin Last := Last + 1; Result (Last) := C; end Append;
       function Prefix_Value (Width : Natural) return U64
-        with Pre => Width in 1 .. 17 and then First + Width <= Z'Last + 1
+        with Pre => Width in 1 .. 17 and then First <= Z'Last + 1 - Width and then
+                    (for all K in Z'Range => Z (K) in '0' .. '9'),
+             Post => Prefix_Value'Result < 10 ** 17 and then
+                     (if Z (First) /= '0' then Prefix_Value'Result > 0)
       is
          Value : U64 := 0;
       begin
          for I in Natural range 0 .. Width - 1 loop
+            pragma Loop_Invariant
+              ((I = 0 and then Value < 10 ** 0) or else
+                (I = 1 and then Value < 10 ** 1) or else
+                (I = 2 and then Value < 10 ** 2) or else
+                (I = 3 and then Value < 10 ** 3) or else
+                (I = 4 and then Value < 10 ** 4) or else
+                (I = 5 and then Value < 10 ** 5) or else
+                (I = 6 and then Value < 10 ** 6) or else
+                (I = 7 and then Value < 10 ** 7) or else
+                (I = 8 and then Value < 10 ** 8) or else
+                (I = 9 and then Value < 10 ** 9) or else
+                (I = 10 and then Value < 10 ** 10) or else
+                (I = 11 and then Value < 10 ** 11) or else
+                (I = 12 and then Value < 10 ** 12) or else
+                (I = 13 and then Value < 10 ** 13) or else
+                (I = 14 and then Value < 10 ** 14) or else
+                (I = 15 and then Value < 10 ** 15) or else
+                (I = 16 and then Value < 10 ** 16));
+            pragma Loop_Invariant (if I > 0 and then Z (First) /= '0' then Value > 0);
             Value := Value * 10 + U64 (Character'Pos (Z (First + I)) - Character'Pos ('0'));
          end loop;
          return Value;
@@ -299,29 +323,29 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
       end if;
       Convert10 (V, Exponent, (if Precision >= 18 then 18 else Precision + 1), V, Power);
       while V > 0 loop
-         --  A 64-bit value has at most 20 decimal digits (bounds are static expressions).
+         --  Convert10's result is at most 2**62, so at most 19 decimal digits
+         --  (bounds are static expressions).
          pragma Loop_Invariant
-           ((First = 20) or else
-            (First = 19 and then V <= U64'Last / 10 ** 1) or else
-            (First = 18 and then V <= U64'Last / 10 ** 2) or else
-            (First = 17 and then V <= U64'Last / 10 ** 3) or else
-            (First = 16 and then V <= U64'Last / 10 ** 4) or else
-            (First = 15 and then V <= U64'Last / 10 ** 5) or else
-            (First = 14 and then V <= U64'Last / 10 ** 6) or else
-            (First = 13 and then V <= U64'Last / 10 ** 7) or else
-            (First = 12 and then V <= U64'Last / 10 ** 8) or else
-            (First = 11 and then V <= U64'Last / 10 ** 9) or else
-            (First = 10 and then V <= U64'Last / 10 ** 10) or else
-            (First = 9 and then V <= U64'Last / 10 ** 11) or else
-            (First = 8 and then V <= U64'Last / 10 ** 12) or else
-            (First = 7 and then V <= U64'Last / 10 ** 13) or else
-            (First = 6 and then V <= U64'Last / 10 ** 14) or else
-            (First = 5 and then V <= U64'Last / 10 ** 15) or else
-            (First = 4 and then V <= U64'Last / 10 ** 16) or else
-            (First = 3 and then V <= U64'Last / 10 ** 17) or else
-            (First = 2 and then V <= U64'Last / 10 ** 18) or else
-            (First = 1 and then V <= U64'Last / 10 ** 19) or else
-            (First = 0 and then V = 0));
+           ((First = 20 and then V <= 2 ** 62 / 10 ** 0) or else
+            (First = 19 and then V <= 2 ** 62 / 10 ** 1) or else
+            (First = 18 and then V <= 2 ** 62 / 10 ** 2) or else
+            (First = 17 and then V <= 2 ** 62 / 10 ** 3) or else
+            (First = 16 and then V <= 2 ** 62 / 10 ** 4) or else
+            (First = 15 and then V <= 2 ** 62 / 10 ** 5) or else
+            (First = 14 and then V <= 2 ** 62 / 10 ** 6) or else
+            (First = 13 and then V <= 2 ** 62 / 10 ** 7) or else
+            (First = 12 and then V <= 2 ** 62 / 10 ** 8) or else
+            (First = 11 and then V <= 2 ** 62 / 10 ** 9) or else
+            (First = 10 and then V <= 2 ** 62 / 10 ** 10) or else
+            (First = 9 and then V <= 2 ** 62 / 10 ** 11) or else
+            (First = 8 and then V <= 2 ** 62 / 10 ** 12) or else
+            (First = 7 and then V <= 2 ** 62 / 10 ** 13) or else
+            (First = 6 and then V <= 2 ** 62 / 10 ** 14) or else
+            (First = 5 and then V <= 2 ** 62 / 10 ** 15) or else
+            (First = 4 and then V <= 2 ** 62 / 10 ** 16) or else
+            (First = 3 and then V <= 2 ** 62 / 10 ** 17) or else
+            (First = 2 and then V <= 2 ** 62 / 10 ** 18) or else
+            (First = 1 and then V = 0));
          pragma Loop_Invariant (for all K in Z'Range => Z (K) in '0' .. '9');
          pragma Loop_Variant (Decreases => V);
          First := First - 1; Z (First) := Character'Val (48 + Integer (V mod 10)); V := V / 10;
@@ -331,13 +355,19 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
          if Round = 17 then
             if Z (First + 15) = '9' and then Z (First + 14) = '9' then
                declare J : Natural := 14; V2 : U64; begin
-                  while J > 0 and then Z (First + J - 1) = '9' loop pragma Loop_Variant (Decreases => J); J := J - 1; end loop;
+                  while J > 0 and then Z (First + (J - 1)) = '9' loop
+                     pragma Loop_Invariant (J <= 14);
+                     pragma Loop_Variant (Decreases => J); J := J - 1;
+                  end loop;
                   V2 := (if J = 0 then 1 else Prefix_Value (J) + 1);
                   if Convert2 (V2, Power + N - J) = Positive_Bits then Round := J + 1; end if;
                end;
             elsif DP >= N or else (Z (First + 15) = '0' and then Z (First + 14) = '0' and then Z (First + 13) = '0') then
                declare J : Natural := 13; begin
-                  while J > 1 and then Z (First + J - 1) = '0' loop pragma Loop_Variant (Decreases => J); J := J - 1; end loop;
+                  while J > 1 and then Z (First + (J - 1)) = '0' loop
+                     pragma Loop_Invariant (J <= 13);
+                     pragma Loop_Variant (Decreases => J); J := J - 1;
+                  end loop;
                   if Convert2 (Prefix_Value (J), Power + N - J) = Positive_Bits then Round := J + 1; end if;
                end;
             end if;
@@ -346,6 +376,8 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
          if Z (First + Round) >= '5' then
             declare J : Natural := First + Round - 1; begin
                loop
+                  pragma Loop_Invariant (J >= First and then J <= 19 and then
+                    (for all K in Z'Range => Z (K) in '0' .. '9'));
                   pragma Loop_Variant (Decreases => J);
                   Z (J) := Character'Succ (Z (J));
                   exit when Z (J) <= '9';
@@ -356,13 +388,19 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
             end;
          end if;
       end if;
-      while N > 1 and then Z (First + N - 1) = '0' loop pragma Loop_Variant (Decreases => N); N := N - 1; end loop;
+      while N > 1 and then Z (First + (N - 1)) = '0' loop
+         pragma Loop_Invariant (First + N <= 20);
+         pragma Loop_Variant (Decreases => N); N := N - 1;
+      end loop;
       if Bits >= High_Bit then Append ('-'); end if;
       Exponent := DP - 1;
       if Exponent < -4 or else Exponent >= Precision then
          Append (Z (First)); Append ('.');
          if N = 1 then Append ('0'); else
-            for I in Natural range 1 .. N - 1 loop Append (Z (First + I)); end loop;
+            for I in Natural range 1 .. N - 1 loop
+               pragma Loop_Invariant (Last = Last'Loop_Entry + (I - 1));
+               Append (Z (First + I));
+            end loop;
          end if;
          Append ('e'); Append ((if Exponent < 0 then '-' else '+')); Exponent := abs Exponent;
          if Exponent >= 100 then Append (Character'Val (48 + Exponent / 100)); Exponent := Exponent mod 100; end if;
@@ -370,15 +408,22 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
       else
          if DP <= 0 then Append ('0'); else
             for I in Integer range 0 .. DP - 1 loop
+               pragma Loop_Invariant (Last = Last'Loop_Entry + I);
                Append ((if I < N then Z (First + I) else '0'));
             end loop;
          end if;
          Append ('.');
          if DP <= 0 then
-            for I in Integer range 1 .. -DP loop Append ('0'); end loop;
+            for I in Integer range 1 .. -DP loop
+               pragma Loop_Invariant (Last = Last'Loop_Entry + (I - 1));
+               Append ('0');
+            end loop;
          end if;
          if DP < N then
-            for I in Integer range Integer'Max (DP, 0) .. N - 1 loop Append (Z (First + I)); end loop;
+            for I in Integer range Integer'Max (DP, 0) .. N - 1 loop
+               pragma Loop_Invariant (Last = Last'Loop_Entry + (I - Integer'Max (DP, 0)));
+               Append (Z (First + I));
+            end loop;
          else Append ('0'); end if;
       end if;
       return Result (1 .. Last);
@@ -426,7 +471,8 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
             end;
          when Text_Value => return RA.Ordered_Source_Value_Matches (Data, Data, Selector, Cast_Text, Scoped, Scoped);
          when Blob_Value =>
-            return Text_Valid (Data, Cast_Text, Scoped) and then
+            --  SPARK: refusal exactly where the original failed Archive_Bytes' precondition.
+            return Text_Valid (Data, Cast_Text, Scoped) and then R.Archive_Bytes_Valid (Data, Selector) and then
               R.Archive_Bytes (Data, Selector) = E.Materialize (Data, Text_View (Data, Cast_Text, Scoped).Payload);
          when others => return False;
       end case;

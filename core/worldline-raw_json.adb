@@ -30,10 +30,12 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       Length : Natural := 0;
       Invalid : Boolean := False;
       function Byte (At_Offset : P.Count) return Natural is
-        (if At_Offset < Item.Length then Natural (Data (Item.First + At_Offset)) else 0);
+        (if At_Offset < Item.Length then Natural (Data (Item.First + At_Offset)) else 0)
+        with Pre => P.Valid (Data, Item);
       function Unit_16 (At_Offset : P.Count) return Natural is
         (if Kind = UTF16_LE then Byte (At_Offset) + 256 * Byte (At_Offset + 1)
-         else Byte (At_Offset) * 256 + Byte (At_Offset + 1));
+         else Byte (At_Offset) * 256 + Byte (At_Offset + 1))
+        with Pre => P.Valid (Data, Item) and then At_Offset < P.Count'Last;
       procedure Scalar (Position : in out P.Count; Code : out Natural)
         with Global => (Input => (Data, Item, Kind), In_Out => Invalid),
           Pre => P.Valid (Data, Item) and then Position < Item.Length and then not Invalid,
@@ -198,6 +200,9 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                   return Result;
                end;
             end if;
+            --  SPARK: refusal (not numeric) exactly where the original raised
+            --  Constraint_Error (overflow, or a negative extent for P.Count).
+            if Item.Last - Item.First >= Natural'Last or else Item.Last - Item.First < -1 then return Result; end if;
             if N.After /= P.Count (Item.Last - Item.First + 1) then return Result; end if;
             if Item.Form = V.Integer_Value then
                Result.Kind := Integral;
@@ -265,11 +270,12 @@ package body Worldline.Raw_JSON with SPARK_Mode is
             declare Position : P.Count := Raw'Length; begin
                if Scoped and then Position mod 2 /= 0 then return (Not_Numeric,False,To_Big_Integer (0),0); end if;
                while Position > 0 loop
+                  pragma Loop_Invariant (Position <= Raw'Length and then (if Scoped then Position mod 2 = 0));
                   pragma Loop_Variant (Decreases => Position);
                   if Scoped then
                      Position := Position - 2;
                      declare Hi : constant Integer := Hex (Raw (Raw'First + Position));
-                             Lo : constant Integer := Hex (Raw (Raw'First + Position + 1)); begin
+                             Lo : constant Integer := Hex (Raw (Raw'First + (Position + 1))); begin
                         if Hi < 0 or else Lo < 0 then return (Not_Numeric,False,To_Big_Integer (0),0); end if;
                         Result.Coefficient := Result.Coefficient * To_Big_Integer (256) + To_Big_Integer (Hi * 16 + Lo);
                      end;
@@ -455,11 +461,12 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                      declare Raw : constant P.Bytes := E.Materialize (Archive,Value.Payload); Position : P.Count := Raw'Length; begin
                         if Scoped and then Position mod 2 /= 0 then return False; end if;
                         while Position > 0 loop
+                           pragma Loop_Invariant (Position <= Raw'Length and then (if Scoped then Position mod 2 = 0));
                            pragma Loop_Variant (Decreases => Position);
                            if Scoped then
                               Position := Position - 2;
                               declare Hi : constant Integer := Hex (Raw (Raw'First + Position));
-                                      Lo : constant Integer := Hex (Raw (Raw'First + Position + 1)); begin
+                                      Lo : constant Integer := Hex (Raw (Raw'First + (Position + 1))); begin
                                  if Hi < 0 or else Lo < 0 then return False; end if;
                                  Magnitude := Magnitude * To_Big_Integer (256) + To_Big_Integer (Hi * 16 + Lo);
                               end;
@@ -592,7 +599,9 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       end if;
       return Code;
    end Scalar_Code;
-   function Hex_Unit (C : Natural) return String is
+   function Hex_Unit (C : Natural) return String
+     with Global => null, Post => Hex_Unit'Result'First = 1 and then Hex_Unit'Result'Last = 6
+   is
       Hexes : constant String := "0123456789abcdef";
    begin
       return "\u" & Hexes (C / 4096 mod 16 + 1) & Hexes (C / 256 mod 16 + 1)
@@ -613,9 +622,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
          pragma Loop_Variant (Increases => Offset);
          Width := V.UTF8_Width (Text,Offset);
          if Width = 0 then return ""; end if;
-         --  SPARK: refusals exactly where the original raised Constraint_Error (a width
-         --  past the text in Scalar_Code; overflow of Length).
-         if Width > Text'Length - Offset then return ""; end if;
+         --  SPARK: refusal exactly where the original raised Constraint_Error (overflow of Length).
          declare Piece_Length : constant Natural := ASCII_Piece (Scalar_Code (Text,Offset,Width))'Length; begin
             if Piece_Length > Natural'Last - Length then return ""; end if;
             Length := Length + Piece_Length;
@@ -636,9 +643,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
             pragma Loop_Variant (Increases => Offset);
             Width := V.UTF8_Width (Text,Offset);
             --  SPARK: refusals where the original raised (a zero width repeats one
-            --  piece until Result's index check fails; a width past the text; a
-            --  piece past Result).
-            if Width = 0 or else Width > Text'Length - Offset then return ""; end if;
+            --  piece until Result's index check fails; a piece past Result).
+            if Width = 0 then return ""; end if;
             declare Piece : constant String := ASCII_Piece (Scalar_Code (Text,Offset,Width)); begin
                if Piece'Length > Result'Last - Used then return ""; end if;
                Result (Used + 1 .. Used + Piece'Length) := Piece; Used := Used + Piece'Length;
@@ -668,8 +674,6 @@ package body Worldline.Raw_JSON with SPARK_Mode is
             pragma Loop_Variant (Increases => Offset);
             Width := V.UTF8_Width (Text,Offset);
             if Width = 0 then return False; end if;
-            --  SPARK: refusal where the original raised (index past the text in Scalar_Code).
-            if Width > Text'Length - Offset then return False; end if;
             Code := Scalar_Code (Text,Offset,Width);
             declare Piece : constant String := ASCII_Piece (Code);
             begin
@@ -697,6 +701,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                for K in 1 .. V.Count (Data,Item) loop
                   if Item.Form = V.Object_Value then
                      Key := V.Member_Key (Data,Item,K);
+                     --  SPARK: refusal exactly where Position + 1 raised Constraint_Error.
+                     if Position = Natural'Last then return False; end if;
                      if Key.First /= Position + 1 or else not String_Canonical (Key)
                        or else Byte (Key.Last) /= ':' then return False; end if;
                      if Prior.Form /= V.Missing and then not (V.Text (Data,Prior) < V.Text (Data,Key)) then return False; end if;
@@ -704,6 +710,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                      Child := V.Field (Data,Item,V.Text (Data,Key));
                   else Child := V.Element (Data,Item,K);
                   end if;
+                  --  SPARK: refusal exactly where Position + 1 raised Constraint_Error.
+                  if Position = Natural'Last then return False; end if;
                   if Child.First /= Position + 1 or else not Canonical (Child) then return False; end if;
                   Position := Child.Last;
                   if K < V.Count (Data,Item) then

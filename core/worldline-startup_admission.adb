@@ -117,7 +117,10 @@ package body Worldline.Startup_Admission with SPARK_Mode is
            (for all I in E.Count range 0 .. LL - 1 => Left (Left'First + I) = Right (Right'First + I));
       end;
    end Numeric_Equal;
-   function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean is
+   --  Every recursive call is on a strict sub-span of X (dict value / list element).
+   function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean
+     with Subprogram_Variant => (Decreases => X.Length)
+   is
    begin
       if not S.Valid (A, X) or else not S.Valid (B, Y) then return False; end if;
       if Number (A, X) and then Number (B, Y) then return Numeric_Equal (A, B, X, Y); end if;
