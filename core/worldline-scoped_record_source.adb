@@ -13,6 +13,7 @@ package body Worldline.Scoped_Record_Source with SPARK_Mode is
    -- Byte projections through the fixed base64 composition, never a new arena.
    function Size (Data : E.Bytes; V : E.Byte_View) return E.Count
      with Global => null,
+       Post => (if V.Level > 0 then Size'Result <= (E.Count'Last / 4) * 3),
        Subprogram_Variant => (Decreases => V.Level, Decreases => 0);
    function Octet (Data : E.Bytes; V : E.Byte_View; I : E.Count) return E.Q.Byte
      with Global => null,
@@ -108,7 +109,9 @@ package body Worldline.Scoped_Record_Source with SPARK_Mode is
       Hexadecimal : Boolean := False;
       Good : Boolean := False;
    end record;
-   function Restored (Data : E.Bytes; Item : E.Span; Wrapped : Boolean) return Source_View is
+   function Restored (Data : E.Bytes; Item : E.Span; Wrapped : Boolean) return Source_View
+     with Global => null
+   is
       V : constant E.View := Virtual (Data, Item, Wrapped);
       T : constant E.View := Virtual (Data, Field (Data, V, "type"), Wrapped);
       P : E.View;
@@ -204,9 +207,11 @@ package body Worldline.Scoped_Record_Source with SPARK_Mode is
       -- One full-size decoded image is therefore necessary at this seam.
       -- No fixed cap, partial parse, header/digest trust or second encoding.
       declare
-         Actual : E.Bytes (1 .. Byte_Length (Data, Image));
+         Actual_Length : constant E.Count := Byte_Length (Data, Image);
+         Actual : E.Bytes (1 .. Actual_Length) with Relaxed_Initialization;
       begin
          for I in Actual'Range loop
+            pragma Loop_Invariant (for all K in Actual'First .. I - 1 => Actual (K)'Initialized);
             Actual (I) := Byte_At (Data, Image, I - Actual'First);
          end loop;
          return RA.Ordered_Source_Value_Matches

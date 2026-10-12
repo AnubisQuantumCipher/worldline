@@ -144,7 +144,7 @@ package body Worldline.Excluded_Source_Owner with SPARK_Mode is
                   if Found then return False; end if;
                   Found := True;
                   declare Cursor : E.Count := Start + Name'Length;
-                          First : E.Count := 0; begin
+                          First : E.Count; begin
                      while Cursor < Stop loop
                         pragma Loop_Invariant (Cursor in Start .. Stop);
                         pragma Loop_Variant (Increases => Cursor);
@@ -329,7 +329,8 @@ package body Worldline.Excluded_Source_Owner with SPARK_Mode is
          declare
             type Token_Array is array (1 .. 5) of E.Span;
             Tokens : Token_Array := (others => (1, 0));
-            Cursor, Colon : E.Count := B'First;
+            Cursor : E.Count := B'First;
+            Colon : E.Count;
             Offset, Major, Minor, Inode : Valid_Big_Integer;
          begin
             for T in Tokens'Range loop
@@ -566,21 +567,25 @@ package body Worldline.Excluded_Source_Owner with SPARK_Mode is
       declare B : constant E.Bytes := V.Text_Value (D, Value);
               M : constant E.Bytes := V.Text_Value (D, Middle);
               Cursor : E.Count := 0;
-              function Match (Text : String) return Boolean is
+              Matched : Boolean;
+              procedure Match (Text : String; Found : out Boolean) is
               begin
-                 if Cursor > B'Length or else Text'Length > B'Length - Cursor then return False; end if;
+                 Found := False;
+                 if Cursor > B'Length or else Text'Length > B'Length - Cursor then return; end if;
                  for I in Text'Range loop
-                    if B (B'First + Cursor + E.Count (I - Text'First)) /= Character'Pos (Text (I)) then return False; end if;
+                    if B (B'First + Cursor + E.Count (I - Text'First)) /= Character'Pos (Text (I)) then return; end if;
                  end loop;
-                 Cursor := Cursor + Text'Length; return True;
+                 Cursor := Cursor + Text'Length; Found := True;
               end Match;
       begin
-         if not Match (Prefix) or else Cursor > B'Length or else M'Length > B'Length - Cursor then return False; end if;
+         Match (Prefix, Matched);
+         if not Matched or else Cursor > B'Length or else M'Length > B'Length - Cursor then return False; end if;
          for I in E.Count range 1 .. M'Length loop
             if B (B'First + Cursor + I - 1) /= M (M'First + I - 1) then return False; end if;
          end loop;
          Cursor := Cursor + M'Length;
-         return Match (Suffix) and then Cursor = B'Length;
+         Match (Suffix, Matched);
+         return Matched and then Cursor = B'Length;
       end;
    end Wrapped_Text;
    function Peer_Name (D : E.Bytes; Receipt, Descriptor, Endpoint : E.Span) return Boolean
@@ -989,7 +994,7 @@ package body Worldline.Excluded_Source_Owner with SPARK_Mode is
       Request : constant E.Span := F (D, Frame, "request");
       Path : constant E.Span := F (D, Row, "path");
       Common, Count : E.Count := 0;
-      Denied : Boolean := False;
+      Denied : Boolean;
    begin
       if not Same (D, Path, F (D, Readback, "path")) or else not V.Valid_Text (D, Path) or else
          not V.Is_Sequence (D, Components) or else V.Count (D, Components) = 0 then return False; end if;

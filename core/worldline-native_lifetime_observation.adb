@@ -66,7 +66,8 @@ package body Worldline.Native_Lifetime_Observation with SPARK_Mode is
       if Ready.Form /= J.Object_Value or else Startup.Form /= J.Object_Value or else Total = 0 or else
         not J.Equal (JSON, F (Startup, "runId"), Result_Record, J.Field (Result_Record, Result_Boundary, "runId")) then return False; end if;
       declare
-         Data : String (1 .. Total);
+         Data_Length : constant Natural := Total;
+         Data : String (1 .. Data_Length) := (others => ' ');
          Docs : array (Rows'Range) of N.Node := (others => N.No_Node);
          Kinds : array (Rows'Range) of Natural := (others => 0);
          Pending : array (Rows'Range) of Boolean := (others => False);
@@ -93,7 +94,7 @@ package body Worldline.Native_Lifetime_Observation with SPARK_Mode is
          function Exception_Shape (P : N.Node; Complete : Boolean) return Boolean is
             Base : constant N.Node := A (P, 3);
             Detail : constant N.Node := A (P, 4);
-            Expected_Size : Natural := 0;
+            Expected_Size : Natural;
          begin
             if not Tuple (P, 4) or else A (P, 1).Kind /= N.Bytes_Value or else N.Bytes (Data, A (P, 1))'Length = 0 or else
               T (P, 2) /= "native-boundary-before-return" or else not Tuple (Base, 7) or else not Bool (A (Base, 7)) then return False; end if;

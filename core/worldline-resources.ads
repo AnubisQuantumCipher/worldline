@@ -41,8 +41,9 @@ package Worldline.Resources with SPARK_Mode is
      (Power_Model (Count))
      with Ghost, Global => null,
           Subprogram_Variant => (Decreases => Count),
-          Post => (if Count = 0 then Radix_Power'Result = 1
-                   else Radix_Power'Result = 256 * Radix_Power (Count - 1));
+          Post => Radix_Power'Result = Power_Model (Count)
+            and then (if Count = 0 then Radix_Power'Result = 1
+                      else Radix_Power'Result = 256 * Radix_Power (Count - 1));
 
    --  Independent unsigned interpretation. Padding and zero columns do not
    --  require constructing powers whose contribution is identically zero.
@@ -62,7 +63,6 @@ package Worldline.Resources with SPARK_Mode is
      (Value : Byte_Array; Count : Byte_Count) return Big_Natural is
      (Prefix_Model (Value, Count))
      with Ghost, Global => null,
-          Subprogram_Variant => (Decreases => Count),
           Post => Prefix_Value'Result < Radix_Power (Count);
 
    function Magnitude (Value : Byte_Array) return Big_Natural is
