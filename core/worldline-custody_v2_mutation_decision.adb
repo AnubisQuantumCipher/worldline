@@ -381,7 +381,9 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Add (I.SQL_Byte_Count (Data, Root_Generation));
       if not Good then return; end if;
       declare
-         Value : I.Parsed_Input (Arena_Size, Size.Events + 1, Size.Heads,
+         -- SPARK E0007: a constraint may not read a variable; freeze the extent.
+         Final_Arena : constant E.Count := Arena_Size;
+         Value : I.Parsed_Input (Final_Arena, Size.Events + 1, Size.Heads,
            Size.Roots, Size.Subjects, Size.Alternatives, Size.Blobs);
          State : F.Fold_State (E.Count'Max (1, Size.Roots), Size.Subjects);
          Blank : constant M.Event_Record :=
@@ -800,9 +802,13 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       end;
       if not Good then return; end if;
       declare
-         Value : I.Parsed_Input (Arena_Size, Size.Events + 1, Size.Heads,
+         -- SPARK E0007: constraints may not read variables; freeze the extents.
+         Final_Arena : constant E.Count := Arena_Size;
+         Final_Roots : constant E.Count := Root_Capacity;
+         Final_Subjects : constant E.Count := Subject_Capacity;
+         Value : I.Parsed_Input (Final_Arena, Size.Events + 1, Size.Heads,
            Size.Roots, Size.Subjects, Size.Alternatives, Size.Blobs);
-         State : F.Fold_State (Root_Capacity, Subject_Capacity);
+         State : F.Fold_State (Final_Roots, Final_Subjects);
          Folded : F.Observation;
          Proof : OJ.Journal_Proof;
          Used : E.Count;
@@ -1070,8 +1076,10 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          declare
             New_Alternative : constant Boolean := J.Has_Alternative (Kind);
             Alternative_Count : constant E.Count := Size.Alternatives + (if New_Alternative then 1 else 0);
-            Roots : D.Cells (1 .. State.Root_Count * 16);
-            Subjects : D.Cells (1 .. State.Subject_Count * 9);
+            Root_Cells : constant E.Count := State.Root_Count * 16;
+            Subject_Cells : constant E.Count := State.Subject_Count * 9;
+            Roots : D.Cells (1 .. Root_Cells);
+            Subjects : D.Cells (1 .. Subject_Cells);
             Alternatives : D.Cells (1 .. Alternative_Count * 7);
             Blobs : D.Cells (1 .. Size.Blobs * 3);
             Event : constant D.Event_Columns :=

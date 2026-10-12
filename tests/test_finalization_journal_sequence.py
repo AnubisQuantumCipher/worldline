@@ -16,6 +16,11 @@ def ordinal(number):
     return number.to_bytes((number.bit_length() + 7) // 8, 'little')
 
 
+def event_values(row):
+    # Retained events are mappings; compare every selected value, not dict keys.
+    return tuple(row[name] for name in ('event', 'ordinal', 'invocation', 'phase', 'payload'))
+
+
 class FinalizationObservationSequence(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix='worldline-journal-sequence-')
@@ -113,14 +118,14 @@ class FinalizationObservationSequence(unittest.TestCase):
     def test_append_preserves_every_prior_byte_and_uses_only_ordinal_projection_for_position(self):
         original = b'whole\x00\xffprior\r\n' * 4096
         self.append(b'first', original)
-        before = [tuple(row) for row in self.log._events(self.start.run)]
+        before = [event_values(row) for row in self.log._events(self.start.run)]
         statements = []
         self.log.db.set_trace_callback(statements.append)
         try:
             self.append(b'second', b'whole\x00\xffnew\r\n')
         finally:
             self.log.db.set_trace_callback(None)
-        after = [tuple(row) for row in self.log._events(self.start.run)]
+        after = [event_values(row) for row in self.log._events(self.start.run)]
         self.assertEqual(after[:-1], before)
         self.assertEqual(after[0][-1], original)
         self.assertEqual(after[-1][-1], b'whole\x00\xffnew\r\n')
@@ -136,7 +141,7 @@ class FinalizationObservationSequence(unittest.TestCase):
         self.append(b'event', payload)
         with self.log._transaction():
             self.log._once('captures', self.start.run, b'capture')
-        before = [tuple(row) for row in self.log._events(self.start.run)]
+        before = [event_values(row) for row in self.log._events(self.start.run)]
         self.append(b'event', payload)  # The original exact replay remains idempotent.
         for options in ({'payload': b'different'},
                         {'payload': payload, 'invocation': b'another'},
@@ -147,7 +152,7 @@ class FinalizationObservationSequence(unittest.TestCase):
         with self.assertRaises(WorldlineError) as caught:
             self.append(b'new-event', b'new-payload')
         self.assertEqual(caught.exception.code, 'FINALIZATION_CAPTURE_ALREADY_RETURNED')
-        self.assertEqual([tuple(row) for row in self.log._events(self.start.run)], before)
+        self.assertEqual([event_values(row) for row in self.log._events(self.start.run)], before)
 
     def test_invalid_prefix_rolls_back_new_append_without_rewriting_evidence(self):
         with self.log._transaction():
