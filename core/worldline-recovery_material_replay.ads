@@ -8,7 +8,8 @@ package Worldline.Recovery_Material_Replay with SPARK_Mode is
    function JSON
      (Data : E.Bytes; Item : E.Span; At_Layer : E.Layer := E.Recovery;
       Ensure_ASCII : Boolean := False; Preserve_Bytes : Boolean := False)
-      return String with Global => null;
+      return String with Global => null,
+        Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0));
    function JSON_Valid
      (Data : E.Bytes; Item : E.Span; At_Layer : E.Layer := E.Recovery;
       Ensure_ASCII : Boolean := False; Preserve_Bytes : Boolean := False)
@@ -61,7 +62,7 @@ package Worldline.Recovery_Material_Replay with SPARK_Mode is
       Finalization : out H.Optional_Record; Current : out H.Optional_Cursor;
       Valid : out Boolean; At_Layer : E.Layer := E.Recovery;
       Facts_Data : E.Bytes; Capsules : E.Span)
-     with Global => null;
+     with Global => null, Always_Terminates;
    function Owner_Selected
      (Data : E.Bytes; Saved, Owner : E.Span; Facts_Data : E.Bytes;
       Capsules : E.Span)
