@@ -146,9 +146,12 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       if N.Sign then Value := -Value; end if;
       return Ada.Strings.Fixed.Trim (To_String (Value), Ada.Strings.Both);
    end Decimal;
-   function JSON (Data : E.Bytes; Item : E.Span;
-                  At_Layer : E.Layer := E.Recovery; Ensure_ASCII : Boolean := False;
-                  Preserve_Bytes : Boolean := False) return String is
+   -- Sorted renders object members in key order (the JSON projection);
+   -- otherwise in their retained order, as evaluation_policy.raw_json does.
+   function Render (Data : E.Bytes; Item : E.Span; At_Layer : E.Layer;
+                    Ensure_ASCII, Preserve_Bytes, Sorted : Boolean) return String
+     with Global => null,
+       Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0)) is
       N : constant E.View := E.Decode (Data, Item, At_Layer);
       Length : constant E.Count := E.Array_Length (Data, N.Children);
       type Order_Array is array (E.Count range <>) of E.Count;
@@ -186,8 +189,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          if I = Length then return ""; end if;
          return (if I = 0 then "" else ",") &
            (if N.Form in E.Object_Value | E.Record_Value then Quote (Key (Order (I))) & ":" &
-                JSON (Data, Value (Order (I)), At_Layer, Ensure_ASCII, Preserve_Bytes)
-            else JSON (Data, E.Array_Element (Data, N.Children, I), At_Layer, Ensure_ASCII, Preserve_Bytes)) &
+                Render (Data, Value (Order (I)), At_Layer, Ensure_ASCII, Preserve_Bytes, Sorted)
+            else Render (Data, E.Array_Element (Data, N.Children, I), At_Layer, Ensure_ASCII, Preserve_Bytes, Sorted)) &
            Sequence (I + 1);
       end Sequence;
    begin
@@ -216,7 +219,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          when E.List_Value | E.Tuple_Value | E.Object_Value | E.Record_Value =>
             if N.Form = E.Record_Value and then not Preserve_Bytes then return ""; end if;
             for I in Order'Range loop Order (I) := I; end loop;
-            if N.Form in E.Object_Value | E.Record_Value then
+            if Sorted and then N.Form in E.Object_Value | E.Record_Value then
                for I in Order'Range loop
                   for J in Order'Range loop
                      if J > I and then Key (Order (J)) < Key (Order (I)) then
@@ -231,7 +234,11 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
               (if N.Form in E.Object_Value | E.Record_Value then "}" else "]");
          when others => return "";
       end case;
-   end JSON;
+   end Render;
+   function JSON (Data : E.Bytes; Item : E.Span;
+                  At_Layer : E.Layer := E.Recovery; Ensure_ASCII : Boolean := False;
+                  Preserve_Bytes : Boolean := False) return String is
+     (Render (Data, Item, At_Layer, Ensure_ASCII, Preserve_Bytes, Sorted => True));
    function JSON_Valid (Data : E.Bytes; Item : E.Span;
       At_Layer : E.Layer := E.Recovery; Ensure_ASCII : Boolean := False;
       Preserve_Bytes : Boolean := False) return Boolean is
@@ -392,12 +399,13 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       end;
    end Acquisitions;
    function Stored_JSON (Data : E.Bytes; Item : E.Span;
-                         L : E.Layer := E.Recovery; Inner_Layer : E.Layer := E.Terminal) return String is
+                         L : E.Layer := E.Recovery; Inner_Layer : E.Layer := E.Terminal;
+                         Sorted : Boolean := True) return String is
       N : constant E.View := E.Decode (Data, Item, L);
    begin
       if N.Form /= E.Bytes_Value or else not E.Bytes_Valid (Data, N.Payload) then return ""; end if;
       declare Raw : constant E.Bytes := E.Materialize (Data, N.Payload); begin
-         return JSON (Raw, (Raw'First, Raw'Length), Inner_Layer, True, True);
+         return Render (Raw, (Raw'First, Raw'Length), Inner_Layer, True, True, Sorted);
       end;
    end Stored_JSON;
    function Stored_Encoding (Data : E.Bytes; Item : E.Span;
@@ -695,6 +703,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
      with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0));
    function String_Encoding (Value : String) return String;
    function Lifted (Tag, Value : String) return String;
+   function Lift_Encoding (Data : E.Bytes; Item : E.Span; L : E.Layer := E.Recovery) return String
+     with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0));
    function Terminal_Value_Valid (Data : E.Bytes; Item : E.Span) return Boolean
      with Subprogram_Variant => (Decreases => Item.Length);
    function Terminal_Value_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
@@ -868,6 +878,127 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       end if;
       return EP.Original_Projection (Result_Record, Declared);
    end Derive_Original;
+   -- Derive's own Record_Only operand domain (evaluation_producer.adb): the
+   -- finalization writer's Derive took the original projection exactly when
+   -- the row carried no fresh-path source. Such rows keep Derive_Original.
+   function Written_Without_Sources (Payload : String) return Boolean is
+      function Absent (Name : String) return Boolean is
+        (V.Kind (V.Field (Payload, Name)) in V.Missing | V.Null_Value);
+      function Control (Name : String) return Boolean is
+        (V.Kind (V.Field (Payload, Name)) in V.Missing | V.Null_Value | V.Object_Value);
+      Verifier_Inputs : constant Boolean :=
+        V.Kind (V.Field (Payload, "nativeVerifierInputs")) = V.Object_Value;
+      Protected_Inputs : constant Boolean :=
+        V.Kind (V.Field (Payload, "nativeProtectedInputs")) = V.Object_Value;
+   begin
+      return Absent ("engineInvocationObservation") and then Absent ("engineRawObservations")
+        and then Absent ("rawRunnerResult") and then Absent ("protectedProviderCapture")
+        and then Control ("nativeVerifierInputs") and then Control ("nativeProtectedInputs")
+        and then ((not Verifier_Inputs and then not Protected_Inputs)
+                  or else (V.Kind (V.Field (Payload, "origin")) = V.String_Value
+                           and then V.Text (V.Field (Payload, "origin")) = "engine"));
+   end Written_Without_Sources;
+   -- payload_acquisitions over a retained row member: the versioned envelope
+   -- decodes to its Finalization list; anything else is empty.
+   function Envelope_Acquisitions (Data : E.Bytes; Item : E.Span; L : E.Layer) return E.Bytes is
+      Payload : constant E.View := E.Decode (Data, Field (Data, Item, "payload", L), L);
+   begin
+      if E.Decode (Data, Item, L).Form /= E.Object_Value
+        or else Count (Data, Item, L) /= 2
+        or else not Text_Is (Data, Field (Data, Item, "encoding", L),
+                             "worldline-finalization-acquisitions-v1", L)
+        or else Payload.Form /= E.Text_Value or else not E.Bytes_Valid (Data, Payload.Payload)
+      then return E.Bytes'(1 .. 0 => 0); end if;
+      declare
+         Enc : constant E.Bytes := E.Materialize (Data, Payload.Payload);
+         Span : constant Worldline.Archive_Base64.Span := (Enc'First, Enc'Length);
+      begin
+         if not Worldline.Archive_Base64.Canonical (Enc, Span) then return E.Bytes'(1 .. 0 => 0); end if;
+         declare Raw : E.Bytes (1 .. Worldline.Archive_Base64.Decoded_Length (Enc, Span)); begin
+            Worldline.Archive_Base64.Decode (Enc, Span, Raw);
+            if E.Decode (Raw, (Raw'First, Raw'Length), E.Finalization).Form /= E.List_Value
+            then return E.Bytes'(1 .. 0 => 0); end if;
+            return Raw;
+         end;
+      end;
+   end Envelope_Acquisitions;
+   -- evaluation_producer.operands' fifth operand: the last manager-return
+   -- observation's terminalBytes, or the finalization encoding of its
+   -- terminalCapture; otherwise empty.
+   function Manager_Terminal (Raw : E.Bytes; List : E.Span; L : E.Layer) return E.Bytes is
+      Chosen : E.Span := Empty;
+      Retained_Bytes : Boolean := False;
+   begin
+      for J in E.Count range 0 .. Count (Raw, List, L) - 1 loop
+         declare
+            Item : constant E.Span := Child (Raw, List, J, L);
+            Observation : constant E.Span := Field (Raw, Item, "observation", L);
+            Retained : constant E.Span := Field (Raw, Observation, "terminalBytes", L);
+            Capture : constant E.Span := Field (Raw, Observation, "terminalCapture", L);
+         begin
+            if E.Decode (Raw, Item, L).Form = E.Object_Value
+              and then Text_Is (Raw, Field (Raw, Item, "kind", L), "manager-return", L)
+              and then E.Decode (Raw, Observation, L).Form = E.Object_Value
+            then
+               if E.Decode (Raw, Retained, L).Form = E.Bytes_Value then
+                  Chosen := Retained; Retained_Bytes := True;
+               elsif Capture.Length /= 0 then
+                  Chosen := Capture; Retained_Bytes := False;
+               end if;
+            end if;
+         end;
+      end loop;
+      if Chosen.Length = 0 then return E.Bytes'(1 .. 0 => 0);
+      elsif Retained_Bytes then return Stored_Encoding (Raw, Chosen, L); end if;
+      return Bytes (Lift_Encoding (Raw, Chosen, L));
+   end Manager_Terminal;
+   type Written_Derivation is record
+      Produced : EP.Produced_Record;
+      Decoded : Boolean := False;
+   end record;
+   -- The finalization writer stored record(value, declared): native Derive over
+   -- evaluation_producer.operands. Each JSON operand is raw_json(capture(..)):
+   -- members in their retained order, bytes as the optional_bytes object.
+   -- Decoded is False when a carried source does not decode as the writer's
+   -- payload_acquisitions requires (the writer would have refused the row).
+   function Derive_Written (Data : E.Bytes; Row : E.Span; L : E.Layer; Declared : String)
+      return Written_Derivation is
+      Start : constant E.Span := Field (Data, Row, "engineInvocationObservation", L);
+      Sources : constant E.Span := Field (Data, Row, "engineRawObservations", L);
+      Sources_Form : constant E.Value_Kind := E.Decode (Data, Sources, L).Form;
+      Absent_Sources : constant Boolean := Sources.Length = 0 or else Sources_Form = E.Null_Value;
+      Envelope : constant Boolean := not Absent_Sources and then Sources_Form = E.Object_Value;
+      Acquired : constant E.Bytes :=
+        (if Envelope then Envelope_Acquisitions (Data, Sources, L) else E.Bytes'(1 .. 0 => 0));
+      Acquired_Root : constant E.Span := (Acquired'First, Acquired'Length);
+      Expected : constant String :=
+        (if Start.Length = 0 or else E.Decode (Data, Start, L).Form = E.Null_Value then "null"
+         else Render (Data, Start, L, True, True, Sorted => False));
+      Observed : constant String :=
+        (if Absent_Sources then "null"
+         elsif Envelope then Render (Acquired, Acquired_Root, E.Finalization, True, True, Sorted => False)
+         else Render (Data, Sources, L, True, True, Sorted => False));
+      Returned : constant String := Render (Data, Row, L, True, True, Sorted => False);
+      Terminal : constant E.Bytes :=
+        (if Absent_Sources then E.Bytes'(1 .. 0 => 0)
+         elsif Envelope then Manager_Terminal (Acquired, Acquired_Root, E.Finalization)
+         else Manager_Terminal (Data, Sources, L));
+      Arena : constant E.Bytes (1 .. Terminal'Length) := Terminal;
+   begin
+      return (Produced => EP.Derive (Expected, Observed, Returned, Declared, "", "",
+                                     Arena, (1, Arena'Length)),
+              Decoded => (Absent_Sources or else (Envelope and then Acquired'Length > 0)
+                          or else Sources_Form = E.List_Value)
+                and then V.Kind (Expected) /= V.Missing and then V.Kind (Observed) /= V.Missing
+                and then V.Kind (Returned) = V.Object_Value and then V.Kind (Declared) /= V.Missing);
+   end Derive_Written;
+   -- A stored finalization row: its retained payload and declaration bytes.
+   function Derive_Stored (Data : E.Bytes; Item : E.Span; L : E.Layer) return Written_Derivation is
+      Row : constant E.Bytes := Stored_Encoding (Data, Field (Data, Item, "payload", L), L);
+   begin
+      return Derive_Written (Row, (Row'First, Row'Length), E.Terminal,
+        Stored_JSON (Data, Field (Data, Item, "declared", L), L, Sorted => False));
+   end Derive_Stored;
    function Owned_Matches (Data : E.Bytes; Owned : E.Span;
                            Produced : EP.Produced_Record;
                            L : E.Layer := E.Recovery) return Boolean;
@@ -879,8 +1010,13 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       Facts_Data : E.Bytes; Capsules : E.Span) with Always_Terminates is
       Payload : constant String := Stored_JSON (Data, Field (Data, Item, "payload", L), L);
       Declared : constant String := Stored_JSON (Data, Field (Data, Item, "declared", L), L);
-      Produced : constant EP.Produced_Record :=
-        Derive_Original (Payload, Declared, Facts_Data, Capsules);
+      -- A finalization row's wire is the writer's Derive over its retained
+      -- sources; rows the writer projected without sources keep the original.
+      Derived : constant Written_Derivation :=
+        (if Finalization and then not Written_Without_Sources (Payload)
+         then Derive_Stored (Data, Item, L)
+         else (Derive_Original (Payload, Declared, Facts_Data, Capsules), True));
+      Produced : constant EP.Produced_Record := Derived.Produced;
       B : T.Attempt_Binding;
       Check, Source, Payload_Span, Declared_Span, Execution, Verifier : T.Span;
       EX : T.Optional_Execution := (Present => False);
@@ -917,7 +1053,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          Put (Data, Field (Data, Item, "verifier", L), Arena, Verifier, Valid, L);
          VE := (True, T.Verifier_Identity (Verifier));
       end if;
-      if V.Kind (Payload) /= V.Object_Value or else not W.Well_Formed (Produced.Raw)
+      if V.Kind (Payload) /= V.Object_Value or else not Derived.Decoded
+        or else not W.Well_Formed (Produced.Raw)
         or else not Check_Metadata (Data, Item, Payload, Capture_Source, Invocation, L)
         or else (if Finalization then not Owned_Matches (Data, Field (Data, Item, "wire", L), Produced, L)
                  else not Carried_Extras_Valid (Data, Item, L))
@@ -2160,8 +2297,18 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             then return False; end if;
          end;
       end if;
-      return Owned_Matches (Data, Agent,
-        Derive_Original (Payload, Engine_Declaration (True), Facts_Data, Capsules));
+      if Written_Without_Sources (Payload) then
+         return Owned_Matches (Data, Agent,
+           Derive_Original (Payload, Engine_Declaration (True), Facts_Data, Capsules));
+      end if;
+      -- The writer's record(actual_agent, ENGINE_DECLARATIONS['agent']) over the
+      -- retained mapped record, its sources and the declaration's field order.
+      declare
+         Derived : constant Written_Derivation := Derive_Written (Data, Agent_Record, E.Recovery,
+           "{""format"":""exit"",""profile"":null,""bundle_declared"":false,""origin"":""agent""}");
+      begin
+         return Derived.Decoded and then Owned_Matches (Data, Agent, Derived.Produced);
+      end;
    end Agent_Matches;
    function Agent_Admitted (Data : E.Bytes; Agent : E.Span) return Boolean is
       Raw : W.Raw_Record;
@@ -2501,8 +2648,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
      ("[""str""," & V.Quote (Base64 (Bytes (Value))) & "]");
    function Lifted (Tag, Value : String) return String is
      ("[""array"",[" & String_Encoding (Tag) & "," & Value & "]]");
-   function Lift_Encoding (Data : E.Bytes; Item : E.Span; L : E.Layer := E.Recovery) return String
-     with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0)) is
+   function Lift_Encoding (Data : E.Bytes; Item : E.Span; L : E.Layer := E.Recovery) return String is
       N : constant E.View := E.Decode (Data, Item, L);
       function Parts (I : E.Count) return String
         with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(0),
