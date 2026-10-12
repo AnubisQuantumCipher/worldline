@@ -59,15 +59,35 @@ package Worldline.Archive_Base64 with SPARK_Mode is
            when others => True))))
    with Global => null;
 
+   --  Only the span and the terminal padding are read. The local condition is
+   --  tested first, so a run-time-checked call (-gnata) costs O(1) instead of
+   --  re-validating the whole span on every call; a canonical span satisfies
+   --  it, and the original canonical precondition remains a sufficient case.
    function Decoded_Length (Data : Q.Byte_Array; Item : Span)
       return Q.Byte_Count is
      (if Item.Length = 0 then 0
       else (Item.Length / 4) * 3 - Padding (Data, Item))
-   with Global => null, Pre => Canonical (Data, Item),
+   with Global => null,
+     Pre => (Span_Valid (Data, Item) and then
+             (Item.Length = 0 or else Item.Length >= 4))
+            or else Canonical (Data, Item),
      Post => Decoded_Length'Result <= Item.Length;
+
+   --  The two sextets that output byte Offset is projected from lie inside
+   --  the span and are alphabet digits (never padding).
+   function Byte_Readable
+     (Data : Q.Byte_Array; Item : Span; Offset : Q.Byte_Count) return Boolean is
+     (Span_Valid (Data, Item) and then Offset / 3 < Item.Length / 4 and then
+      Is_Digit (Data (Item.First + ((Offset / 3) * 4 + Offset mod 3))) and then
+      Is_Digit (Data (Item.First + ((Offset / 3) * 4 + Offset mod 3 + 1))))
+   with Global => null;
 
    -- Projection of every output byte, in original byte order. Full-span
    -- canonicality prevents any selected sextet from designating padding.
+   -- Byte_Readable states exactly what the projection reads and is tested
+   -- first, so a run-time-checked call (-gnata) costs O(1) rather than a
+   -- full-span re-validation per byte (quadratic decoding under checks); the
+   -- original canonical precondition remains a sufficient case unchanged.
    function Decoded_Byte
      (Data : Q.Byte_Array; Item : Span; Offset : Q.Byte_Count) return Q.Byte is
      (case Offset mod 3 is
@@ -81,7 +101,8 @@ package Worldline.Archive_Base64 with SPARK_Mode is
           (Digit (Data (Item.First + ((Offset / 3) * 4 + 2))) mod 4) * 64 +
           Digit (Data (Item.First + ((Offset / 3) * 4 + 3))))
    with Global => null,
-     Pre => Canonical (Data, Item) and then Offset < Decoded_Length (Data, Item);
+     Pre => Byte_Readable (Data, Item, Offset)
+            or else (Canonical (Data, Item) and then Offset < Decoded_Length (Data, Item));
 
    -- Complete output, with no silent truncation and no output allocation cap.
    -- The supplied Ada array's validity/ownership remains language-level;
