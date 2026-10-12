@@ -511,11 +511,17 @@ package body Worldline.Runner_Lifecycle_Bytes with SPARK_Mode is
          if D (I) /= 0 then Nonzero := True; end if;
          if I >= 3 and then D (I) /= 0 then Fraction := True; end if;
       end loop;
-      Fraction := Fraction or else D (2) mod 2 /= 0;
-      --  Binary64 sign, zero, exponent and fraction; positive infinity passes,
-      --  either signed zero and every NaN payload fail exactly Python > 0.
+      --  Binary64 big-endian hex: digit 0 is the sign and the top three
+      --  exponent bits, digits 1 and 2 the remaining eight exponent bits, and
+      --  digits 3 .. 15 the whole 52-bit fraction. An all-ones exponent is
+      --  exactly D (0) = 7 (positive), D (1) = 15 and D (2) = 15; with a zero
+      --  fraction it is +inf, otherwise NaN. Positive infinity and every
+      --  positive finite value pass, either signed zero, every negative value
+      --  and every NaN payload fail, exactly Python > 0. The earlier text took
+      --  the lowest exponent bit for a fraction bit and admitted exponent 7fe,
+      --  so +inf was refused and the largest finite positives were called NaN.
       return D (0) < 8 and then Nonzero and then
-        not (D (0) = 7 and then D (1) = 15 and then D (2) >= 14 and then Fraction);
+        not (D (0) = 7 and then D (1) = 15 and then D (2) = 15 and then Fraction);
    end Positive_Float_Bits;
    function Positive_Float_Hex (Data : E.Bytes; Item : E.Span) return Boolean is
       Value : constant E.View := E.Decode (Data, Item, E.Finalization);

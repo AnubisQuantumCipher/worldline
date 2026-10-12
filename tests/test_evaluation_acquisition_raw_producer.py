@@ -156,6 +156,90 @@ class NativeAcquisitionClosure(unittest.TestCase):
         changed['observation']['unrecognizedResource'] = 'must not be erased'
         self.assertFalse(self.decide([changed]))
 
+    def failed_cgroup_read(self, error=None):
+        """The real producer's record for a read that raised; read_bytes' own context
+        manager has closed the handle. This is the Source20 first original error's
+        shape: memory.events vanished with the unit's cgroup between `systemctl show`
+        and the read, and the retained ENOENT observation kept finalization from ever
+        closing an otherwise finished workload."""
+        from unittest.mock import patch
+        from worldline.linux.systemd import SystemdAdapter
+        adapter = object.__new__(SystemdAdapter)
+        observations = []
+        failure = FileNotFoundError(2, 'No such file or directory') if error is None else error
+        with patch.object(Path, 'read_bytes', side_effect=failure):
+            with adapter.acquisition_scope(observations.append):
+                result = adapter._cgroup_value('/owned-fixture', 'memory.events')
+        self.assertIsNone(result)
+        self.assertEqual(len(observations), 1)
+        self.assertEqual(set(observations[0]), {'schemaVersion', 'site', 'controlGroup',
+            'name', 'path', 'readReturned', 'bytes', 'exception'})
+        self.assertIs(observations[0]['readReturned'], False)
+        self.assertIsNone(observations[0]['bytes'])
+        self.assertEqual(observations[0]['exception']['kind'], 'exception-observation')
+        self.assertEqual(observations[0]['exception']['exceptionType'], type(failure).__qualname__)
+        return {'kind': 'agent-control-acquisition', 'observation': observations[0]}
+
+    def test_original_failed_cgroup_read_is_ended_not_live(self):
+        # A read that returned by raising has nothing left to clean up. Its complete
+        # retained exception observation is the terminal fact, exactly as the
+        # agent-native producer already reads it (honest absence). The owner and
+        # every process acquisition still have to close on their own evidence.
+        for error in (FileNotFoundError(2, 'No such file or directory'),
+                      PermissionError(13, 'Permission denied'),
+                      OSError(5, 'Input/output error')):
+            with self.subTest(error=type(error).__name__):
+                failed = self.failed_cgroup_read(error)
+                self.assertTrue(self.decide([failed]))
+                self.assertTrue(self.decide([self.cgroup_read(), failed]))
+                self.assertTrue(self.decide([failed, copy.deepcopy(failed)]))
+        failed = self.failed_cgroup_read()
+        control = {'kind': 'agent-control-acquisition', 'observation': {
+            'site': 'systemd-show', 'processCreatedObserved': True,
+            'processWaitReturnObserved': True, 'processWaitReturncode': 0,
+            'stdoutReachedEof': True, 'stderrReachedEof': False}}
+        self.assertFalse(self.decide([failed, control]))
+        self.owner['cleanupStarted'] = False
+        self.assertFalse(self.decide([failed]))
+
+    def test_failed_cgroup_read_partial_or_contradictory_shape_refuses(self):
+        failed = self.failed_cgroup_read()
+        for name in failed['observation']:
+            changed = copy.deepcopy(failed)
+            del changed['observation'][name]
+            with self.subTest(missing=name):
+                self.assertFalse(self.decide([changed]))
+        replacements = [
+            ('bytes', {'encoding': 'base64', 'payload': ''}),   # bytes beside a failure
+            ('bytes', {'encoding': 'base64', 'payload': 'bWF4Cg=='}),
+            ('exception', None), ('exception', 'FileNotFoundError'),
+            ('exception', {'type': 'OSError', 'message': 'not the producer record'}),
+            ('readReturned', True), ('readReturned', None), ('readReturned', 0),
+            ('site', 'unrecognized-file-read'), ('schemaVersion', 2), ('schemaVersion', True),
+            ('controlGroup', ''), ('controlGroup', None), ('name', ''), ('name', b'memory.events'),
+            ('path', b''), ('path', '/sys/fs/cgroup/owned-fixture/memory.events')]
+        for name, value in replacements:
+            changed = copy.deepcopy(failed)
+            changed['observation'][name] = value
+            with self.subTest(field=name, value=value):
+                self.assertFalse(self.decide([changed]))
+        for key in failed['observation']['exception']:
+            changed = copy.deepcopy(failed)
+            del changed['observation']['exception'][key]
+            with self.subTest(missing_exception_field=key):
+                self.assertFalse(self.decide([changed]))
+        for key, value in [('kind', 'exception'), ('schemaVersion', 2), ('schemaVersion', 0),
+                           ('exceptionType', ''), ('exceptionType', None),
+                           ('exception', None), ('exceptionGraph', []), ('exceptionGraph', None),
+                           ('root', 1), ('root', -1), ('root', None), ('extra', True)]:
+            changed = copy.deepcopy(failed)
+            changed['observation']['exception'][key] = value
+            with self.subTest(exception_field=key, value=value):
+                self.assertFalse(self.decide([changed]))
+        changed = copy.deepcopy(failed)
+        changed['observation']['unrecognizedResource'] = 'must not be erased'
+        self.assertFalse(self.decide([changed]))
+
     def test_successful_file_read_does_not_hide_process_wait_or_eof_failure(self):
         acquired = self.cgroup_read()
         control = {'kind': 'agent-control-acquisition', 'observation': {

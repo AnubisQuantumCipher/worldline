@@ -135,38 +135,59 @@ package body Worldline.Runner_Acquisition_Bytes with SPARK_Mode is
    end Owner_Closed;
    function Controls_Ended (Data : E.Bytes; Acquisitions : E.View) return Boolean is
       Size : constant E.Count := E.Array_Length (Data, Acquisitions.Children);
-      function Successful_Cgroup_Read (Value : E.Span) return Boolean is
+      --  A cgroup file read is the synchronous Path.read_bytes callback inside
+      --  the original _cgroup_value producer. Its context manager closes the
+      --  handle whether the read returned a payload or raised, so BOTH complete
+      --  original record shapes are ENDED acquisitions with nothing left to
+      --  clean up: the successful read (readReturned true, canonical bytes,
+      --  null exception) and the failed read (readReturned false, null bytes,
+      --  the complete exception-observation object the producer retains, for
+      --  example ENOENT when the unit's cgroup was removed between
+      --  `systemctl show` and the read). The agent-native producer already
+      --  reads the failed shape as honest absence; refusing it here left a
+      --  finished workload permanently non-quiescent (the Source20 first
+      --  original error, observed operands retained). Anything else -- a
+      --  missing or extra field, bytes beside a failure, an exception beside
+      --  a success, a partial exception object -- stays refused, and extra
+      --  process fields still never route around the unchanged wait/EOF
+      --  predicate.
+      function Small_Integer_Is (Item : E.Span; Zero : Boolean) return Boolean is
+         Value : constant E.View := E.Decode (Data, Item, E.Finalization);
+      begin
+         if Value.Form /= E.Integer_Value or else Value.Sign or else
+           not E.Bytes_Valid (Data, Value.Payload) then return False; end if;
+         declare
+            Magnitude : constant E.Bytes := E.Materialize (Data, Value.Payload);
+         begin
+            --  Little-endian magnitude without trailing zero: 0 is empty and 1
+            --  is the single byte 1.
+            if Zero then return Magnitude'Length = 0; end if;
+            return Magnitude'Length = 1 and then Magnitude (Magnitude'First) = 1;
+         end;
+      end Small_Integer_Is;
+      function Cgroup_Read_Shape (Value : E.Span) return Boolean is
          Root : constant E.View := E.Decode (Data, Value, E.Finalization);
          Fields : constant E.Count := E.Array_Length (Data, Root.Children);
-         Schema : constant E.View := E.Decode
-           (Data, V.Field (Data, Value, "schemaVersion"), E.Finalization);
          Group : constant E.View := E.Decode
            (Data, V.Field (Data, Value, "controlGroup"), E.Finalization);
          Name : constant E.View := E.Decode
            (Data, V.Field (Data, Value, "name"), E.Finalization);
          Path : constant E.View := E.Decode
            (Data, V.Field (Data, Value, "path"), E.Finalization);
-         Raw : constant E.Span := V.Field (Data, Value, "bytes");
-         Bytes : constant E.View := E.Decode (Data, Raw, E.Finalization);
-         Payload : constant E.View := E.Decode
-           (Data, V.Field (Data, Raw, "payload"), E.Finalization);
       begin
-         --  This existing callback follows synchronous Path.read_bytes return,
-         --  including its context-manager close. It is not a process callback.
-         --  Match its complete original shape; extra process fields must never
-         --  turn this case into a way around the unchanged wait/EOF predicate.
+         --  The complete original shape shared by both read outcomes. Every
+         --  one of the eight original fields is required and no other field
+         --  is admitted, so a process record relabelled "cgroup-read" or a
+         --  record carrying an unrecognized resource is refused.
          if Root.Form /= E.Object_Value or else
-           Schema.Form /= E.Integer_Value or else Schema.Sign or else
-           not E.Bytes_Valid (Data, Schema.Payload) or else
+           not Small_Integer_Is (V.Field (Data, Value, "schemaVersion"), Zero => False) or else
            not V.Text_Is (Data, V.Field (Data, Value, "site"), "cgroup-read") or else
            Group.Form /= E.Text_Value or else not V.Truth (Data, Group.Raw) or else
            Name.Form /= E.Text_Value or else not V.Truth (Data, Name.Raw) or else
            Path.Form /= E.Bytes_Value or else not V.Truth (Data, Path.Raw) or else
-           not V.Is_True (Data, Value, "readReturned") or else
-           E.Decode (Data, V.Field (Data, Value, "exception"), E.Finalization).Form /= E.Null_Value or else
-           Bytes.Form /= E.Object_Value or else E.Array_Length (Data, Bytes.Children) /= 2 or else
-           not V.Text_Is (Data, V.Field (Data, Raw, "encoding"), "base64") or else
-           Payload.Form /= E.Text_Value or else not E.Bytes_Valid (Data, Payload.Payload)
+           V.Field (Data, Value, "readReturned").Length = 0 or else
+           V.Field (Data, Value, "bytes").Length = 0 or else
+           V.Field (Data, Value, "exception").Length = 0
          then return False; end if;
          if Fields > 0 then
             for J in E.Count range 0 .. Fields - 1 loop
@@ -185,14 +206,79 @@ package body Worldline.Runner_Acquisition_Bytes with SPARK_Mode is
                end;
             end loop;
          end if;
+         return True;
+      end Cgroup_Read_Shape;
+      function Successful_Cgroup_Read (Value : E.Span) return Boolean is
+         Raw : constant E.Span := V.Field (Data, Value, "bytes");
+         Bytes : constant E.View := E.Decode (Data, Raw, E.Finalization);
+         Payload : constant E.View := E.Decode
+           (Data, V.Field (Data, Raw, "payload"), E.Finalization);
+      begin
+         --  The read returned a payload: canonical base64 bytes, no exception.
+         if not V.Is_True (Data, Value, "readReturned") or else
+           E.Decode (Data, V.Field (Data, Value, "exception"), E.Finalization).Form /= E.Null_Value or else
+           Bytes.Form /= E.Object_Value or else E.Array_Length (Data, Bytes.Children) /= 2 or else
+           not V.Text_Is (Data, V.Field (Data, Raw, "encoding"), "base64") or else
+           Payload.Form /= E.Text_Value or else not E.Bytes_Valid (Data, Payload.Payload)
+         then return False; end if;
          declare
-            Version : constant E.Bytes := E.Materialize (Data, Schema.Payload);
             Encoded : constant E.Bytes := E.Materialize (Data, Payload.Payload);
+            --  Slide the materialized leaf to a known lower bound so the span
+            --  (1, Length) is in range by construction; the bytes are the same.
+            Window : constant E.Bytes (1 .. Encoded'Length) := Encoded;
          begin
-            return Version'Length = 1 and then Version (Version'First) = 1 and then
-              Worldline.Archive_Base64.Canonical (Encoded, (Encoded'First, Encoded'Length));
+            return Worldline.Archive_Base64.Canonical (Window, (1, Window'Length));
          end;
       end Successful_Cgroup_Read;
+      function Exception_Observation (Item : E.Span) return Boolean is
+         Root : constant E.View := E.Decode (Data, Item, E.Finalization);
+         Fields : constant E.Count := E.Array_Length (Data, Root.Children);
+         Kind_Text : constant E.View := E.Decode
+           (Data, V.Field (Data, Item, "exceptionType"), E.Finalization);
+         Message : constant E.View := E.Decode
+           (Data, V.Field (Data, Item, "exception"), E.Finalization);
+         Graph : constant E.View := E.Decode
+           (Data, V.Field (Data, Item, "exceptionGraph"), E.Finalization);
+      begin
+         --  The complete original exception_observation record: schema 1, its
+         --  own kind, a named exception type, the message text, a non-empty
+         --  causal graph and root 0. A bare type/message pair or a partial
+         --  object is not that record.
+         if Root.Form /= E.Object_Value or else
+           not Small_Integer_Is (V.Field (Data, Item, "schemaVersion"), Zero => False) or else
+           not V.Text_Is (Data, V.Field (Data, Item, "kind"), "exception-observation") or else
+           Kind_Text.Form /= E.Text_Value or else not V.Truth (Data, Kind_Text.Raw) or else
+           Message.Form /= E.Text_Value or else
+           Graph.Form /= E.List_Value or else E.Array_Length (Data, Graph.Children) = 0 or else
+           not Small_Integer_Is (V.Field (Data, Item, "root"), Zero => True)
+         then return False; end if;
+         if Fields > 0 then
+            for J in E.Count range 0 .. Fields - 1 loop
+               declare
+                  Pair : constant E.View := E.Decode
+                    (Data, E.Array_Element (Data, Root.Children, J), E.Terminal);
+                  Key : constant E.View := E.Decode
+                    (Data, E.Array_Element (Data, Pair.Children, 0), E.Terminal);
+               begin
+                  if Pair.Form /= E.List_Value or else E.Array_Length (Data, Pair.Children) /= 2 or else
+                    not (V.Text_Is (Data, Key, "schemaVersion") or else V.Text_Is (Data, Key, "kind") or else
+                         V.Text_Is (Data, Key, "exceptionType") or else V.Text_Is (Data, Key, "exception") or else
+                         V.Text_Is (Data, Key, "exceptionGraph") or else V.Text_Is (Data, Key, "root"))
+                  then return False; end if;
+               end;
+            end loop;
+         end if;
+         return True;
+      end Exception_Observation;
+      function Failed_Cgroup_Read (Value : E.Span) return Boolean is
+        --  The read returned by raising: no bytes, the complete retained
+        --  exception observation. The handle is closed; nothing remains live.
+        (V.Is_False (Data, Value, "readReturned") and then
+         E.Decode (Data, V.Field (Data, Value, "bytes"), E.Finalization).Form = E.Null_Value and then
+         Exception_Observation (V.Field (Data, Value, "exception")));
+      function Cgroup_Read_Ended (Value : E.Span) return Boolean is
+        (Cgroup_Read_Shape (Value) and then
+         (Successful_Cgroup_Read (Value) or else Failed_Cgroup_Read (Value)));
    begin
       if Size > 0 then
          for I in E.Count range 0 .. Size - 1 loop
@@ -203,12 +289,15 @@ package body Worldline.Runner_Acquisition_Bytes with SPARK_Mode is
             begin
                if V.Text_Is (Data, V.Field (Data, Item, "kind"), "agent-control-acquisition") then
                   if V.Text_Is (Data, V.Field (Data, Value, "site"), "cgroup-read") then
-                     if not Successful_Cgroup_Read (Value) then return False; end if;
+                     if not Cgroup_Read_Ended (Value) then return False; end if;
                   else
                   if Created.Form /= E.Boolean_Value then return False; end if;
+                  --  An observed wait carries the actual integer return of
+                  --  process.wait(). A null or absent returncode beside a
+                  --  claimed wait is absence, never an observed exit.
                   if Created.Boolean_Bit and then
                     (not V.Is_True (Data, Value, "processWaitReturnObserved") or else
-                     E.Decode (Data, V.Field (Data, Value, "processWaitReturncode"), E.Finalization).Form = E.Invalid or else
+                     E.Decode (Data, V.Field (Data, Value, "processWaitReturncode"), E.Finalization).Form /= E.Integer_Value or else
                      not V.Is_True (Data, Value, "stdoutReachedEof") or else
                      not V.Is_True (Data, Value, "stderrReachedEof")) then return False; end if;
                   end if;
