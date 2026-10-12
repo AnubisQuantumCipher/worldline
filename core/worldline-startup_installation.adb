@@ -18,8 +18,10 @@ package body Worldline.Startup_Installation with SPARK_Mode is
 
    --  Project archive byte views directly. In particular, neither raw installed
    --  files nor the full source envelope are materialized into a second array.
-   function Length (D : E.Bytes; X : E.Byte_View) return E.Count;
-   function Byte_At (D : E.Bytes; X : E.Byte_View; I : E.Count) return E.Q.Byte;
+   function Length (D : E.Bytes; X : E.Byte_View) return E.Count
+     with Subprogram_Variant => (Decreases => X.Level);
+   function Byte_At (D : E.Bytes; X : E.Byte_View; I : E.Count) return E.Q.Byte
+     with Subprogram_Variant => (Decreases => X.Level);
    function Length (D : E.Bytes; X : E.Byte_View) return E.Count is
       Prior : E.Byte_View;
       N, Padding : E.Count;
@@ -51,6 +53,9 @@ package body Worldline.Startup_Installation with SPARK_Mode is
    end Byte_At;
    function Payload (D : E.Bytes; X : E.Span; Name : String := "value") return E.Byte_View is
      (E.Decode (D, S.A.Field (D, X, Name), E.Operation).Payload);
+   --  One shared view of a path's bytes: the root-shape contract below and
+   --  every walker that relies on it name the same function application.
+   function Path_View (D : E.Bytes; Path : E.Span) return E.Byte_View is (Payload (D, Path));
    function Equal (D : E.Bytes; A, B : E.Byte_View) return Boolean is
      (Length (D, A) = Length (D, B) and then
       (for all I in E.Count range 1 .. Length (D, A) =>
@@ -82,9 +87,16 @@ package body Worldline.Startup_Installation with SPARK_Mode is
        Byte_At (D, X, Length (D, X) - 1) /= Character'Pos ('/') then 1 else 0);
    function Suffix_Skip (Suffix : String) return E.Count is
      (if Suffix'Length > 0 and then Suffix (Suffix'First) = '/' then 1 else 0);
+   --  The joined raw path fits the index type (always so for an empty suffix).
+   function Join_Fits (D : E.Bytes; X : E.Byte_View; Suffix : String) return Boolean is
+     (Suffix'Length = 0 or else Length (D, X) <= E.Count'Last - 1 - E.Count (Suffix'Length));
    function Raw_Length (D : E.Bytes; X : E.Byte_View; Suffix : String) return E.Count is
-     (Length (D, X) + Join_Separator (D, X, Suffix) + E.Count (Suffix'Length) - Suffix_Skip (Suffix));
-   function Raw_Byte (D : E.Bytes; X : E.Byte_View; Suffix : String; I : E.Count) return E.Q.Byte is
+     (Length (D, X) + Join_Separator (D, X, Suffix) + E.Count (Suffix'Length) - Suffix_Skip (Suffix))
+     with Pre => Join_Fits (D, X, Suffix);
+   function Raw_Byte (D : E.Bytes; X : E.Byte_View; Suffix : String; I : E.Count) return E.Q.Byte
+     with Pre => Join_Fits (D, X, Suffix) and then I < Raw_Length (D, X, Suffix),
+       Post => (if I < Length (D, X) then Raw_Byte'Result = Byte_At (D, X, I))
+   is
       N : constant E.Count := Length (D, X);
       Separator : constant E.Count := Join_Separator (D, X, Suffix);
    begin
@@ -92,12 +104,32 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       elsif Separator = 1 and then I = N then return Character'Pos ('/');
       else return Character'Pos (Suffix (Suffix'First + Integer (I - N - Separator + Suffix_Skip (Suffix)))); end if;
    end Raw_Byte;
+   --  Termination measures for the cursor walkers (ghost; never executed in release).
+   function Cursor_Steps (C : Path_Cursor) return E.Count is
+     (E.Count'Min (C.Roots, 2) + (if C.Finished then 0 else 1) + (if C.In_Component then 0 else 1))
+     with Ghost;
+   function Cursor_Bounded (D : E.Bytes; X : E.Byte_View; Suffix : String; C : Path_Cursor) return Boolean is
+     (Join_Fits (D, X, Suffix) and then C.Roots <= 2 and then C.Offset <= Raw_Length (D, X, Suffix) and then
+      (if C.In_Component then C.Offset < C.Stop and then C.Stop <= Raw_Length (D, X, Suffix)))
+     with Ghost;
+   --  What Canonical_Absolute establishes about the root of an accepted path:
+   --  a leading slash, and no third slash after exactly two (or a second after
+   --  exactly one). Ancestors' component walk advances past the root only
+   --  because of this.
+   function Root_Shape (D : E.Bytes; P : E.Byte_View) return Boolean is
+     (Length (D, P) >= 1 and then Byte_At (D, P, 0) = Character'Pos ('/') and then
+      (if Length (D, P) >= 2 and then Byte_At (D, P, 1) = Character'Pos ('/')
+       then (if Length (D, P) > 2 then Byte_At (D, P, 2) /= Character'Pos ('/'))
+       else (if Length (D, P) > 1 then Byte_At (D, P, 1) /= Character'Pos ('/'))))
+     with Ghost;
    procedure Initialize (D : E.Bytes; X : E.Byte_View; Suffix : String; C : out Path_Cursor) is
       N : constant E.Count := Raw_Length (D, X, Suffix);
       Start, Slashes : E.Count := 0;
    begin
       C := (others => <>);
       while Start < N and then Raw_Byte (D, X, Suffix, Start) = Character'Pos ('/') loop
+         pragma Loop_Invariant (Slashes = Start);
+         pragma Loop_Variant (Increases => Start);
          Slashes := Slashes + 1; Start := Start + 1;
       end loop;
       C.Offset := Start;
@@ -121,11 +153,18 @@ package body Worldline.Startup_Installation with SPARK_Mode is
          return;
       end if;
       loop
+         pragma Loop_Invariant (C.Offset >= C.Offset'Loop_Entry and then
+           (if C.Offset'Loop_Entry <= N then C.Offset <= N));
+         pragma Loop_Variant (Increases => C.Offset);
          while C.Offset < N and then Raw_Byte (D, X, Suffix, C.Offset) = Character'Pos ('/') loop
+            pragma Loop_Invariant (C.Offset >= C.Offset'Loop_Entry);
+            pragma Loop_Variant (Increases => C.Offset);
             C.Offset := C.Offset + 1;
          end loop;
          First := C.Offset;
          while C.Offset < N and then Raw_Byte (D, X, Suffix, C.Offset) /= Character'Pos ('/') loop
+            pragma Loop_Invariant (C.Offset >= First);
+            pragma Loop_Variant (Increases => C.Offset);
             C.Offset := C.Offset + 1;
          end loop;
          exit when C.Offset = First or else C.Offset - First /= 1 or else
@@ -153,6 +192,10 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       if Length (D, B) > E.Count'Last - Suffix'Length - 1 then return False; end if;
       Initialize (D, A, "", CA); Initialize (D, B, Suffix, CB);
       loop
+         pragma Loop_Invariant (Cursor_Bounded (D, A, "", CA) and then Cursor_Bounded (D, B, Suffix, CB));
+         pragma Loop_Variant (Decreases => Raw_Length (D, A, "") - CA.Offset,
+                              Decreases => Raw_Length (D, B, Suffix) - CB.Offset,
+                              Decreases => Cursor_Steps (CA) + Cursor_Steps (CB));
          Next_Path (D, A, "", CA, PA, BA); Next_Path (D, B, Suffix, CB, PB, BB);
          if PA /= PB then return False; end if;
          if not PA then return True; end if;
@@ -160,14 +203,18 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       end loop;
    end Paths_Match;
    function Path_Bytes_Equivalent (Left, Right : E.Bytes) return Boolean is
-      A : constant E.Byte_View := ((Left'First, Left'Length), 0);
-      B : constant E.Byte_View := ((Right'First, Right'Length), 0);
+      A : constant E.Byte_View := (((if Left'Length = 0 then 1 else Left'First), Left'Length), 0);
+      B : constant E.Byte_View := (((if Right'Length = 0 then 1 else Right'First), Right'Length), 0);
       CA, CB : Path_Cursor;
       PA, PB : Boolean;
       BA, BB : E.Q.Byte;
    begin
       Initialize (Left, A, "", CA); Initialize (Right, B, "", CB);
       loop
+         pragma Loop_Invariant (Cursor_Bounded (Left, A, "", CA) and then Cursor_Bounded (Right, B, "", CB));
+         pragma Loop_Variant (Decreases => Raw_Length (Left, A, "") - CA.Offset,
+                              Decreases => Raw_Length (Right, B, "") - CB.Offset,
+                              Decreases => Cursor_Steps (CA) + Cursor_Steps (CB));
          Next_Path (Left, A, "", CA, PA, BA); Next_Path (Right, B, "", CB, PB, BB);
          if PA /= PB then return False; end if;
          if not PA then return True; end if;
@@ -201,29 +248,45 @@ package body Worldline.Startup_Installation with SPARK_Mode is
      (Same_Number (D, F (D, A, Name), F (D, B, Name)));
    function Protected_Identity (D : E.Bytes; Identity : E.Span; Directory : Boolean) return Boolean is
       Mode : constant V.Count_Result := Number (D, F (D, Identity, "mode"));
+      --  One evaluation of the (pure) uid lookup, still only after the
+      --  preceding conjuncts hold, so the discriminant check is visible.
+      function Zero (R : V.Count_Result) return Boolean is (R.Present and then R.Value = 0);
    begin
       return Identity_Valid (D, Identity) and then Mode.Present and then
-        Number (D, F (D, Identity, "uid")).Present and then
-        Number (D, F (D, Identity, "uid")).Value = 0 and then
+        Zero (Number (D, F (D, Identity, "uid"))) and then
         Mode.Value / 16 mod 2 = 0 and then Mode.Value / 2 mod 2 = 0 and then
         Mode.Value / 4096 mod 16 = (if Directory then 4 else 8);
    end Protected_Identity;
-   function Canonical_Absolute (D : E.Bytes; Path : E.Span) return Boolean is
+   function Canonical_Absolute (D : E.Bytes; Path : E.Span) return Boolean
+     with Post => (if Canonical_Absolute'Result then Root_Shape (D, Path_View (D, Path)))
+   is
       C : Path_Cursor;
       Present : Boolean;
       Value : E.Q.Byte;
       I : E.Count := 0;
    begin
       if not V.Valid_Text (D, Path) then return False; end if;
-      declare P : constant E.Byte_View := Payload (D, Path); N : constant E.Count := Length (D, P); begin
+      declare P : constant E.Byte_View := Path_View (D, Path); N : constant E.Count := Length (D, P); begin
          if N = 0 or else Byte_At (D, P, 0) /= Character'Pos ('/') then return False; end if;
          Initialize (D, P, "", C);
          loop
+            pragma Loop_Invariant (I <= N);
+            pragma Loop_Invariant (Cursor_Bounded (D, P, "", C));
+            pragma Loop_Invariant (C'Loop_Entry.Offset in 1 .. N
+              and then C'Loop_Entry.Roots = (if C'Loop_Entry.Offset = 2 then 2 else 1)
+              and then (C'Loop_Entry.Offset = N or else Byte_At (D, P, C'Loop_Entry.Offset) /= Character'Pos ('/')));
+            pragma Loop_Invariant (if I <= C'Loop_Entry.Roots then
+              C.Roots = C'Loop_Entry.Roots - I and then C.Offset = C'Loop_Entry.Offset and then
+              not C.In_Component and then not C.Had_Component and then not C.Finished and then C.Absolute);
+            pragma Loop_Invariant (if I > C'Loop_Entry.Roots then
+              N > C'Loop_Entry.Roots and then Byte_At (D, P, C'Loop_Entry.Roots) /= Character'Pos ('/'));
+            pragma Loop_Variant (Increases => I);
             Next_Path (D, P, "", C, Present, Value); exit when not Present;
             if I = N or else Value /= Byte_At (D, P, I) or else Value = 0 then return False; end if;
             I := I + 1;
          end loop;
          if I /= N then return False; end if;
+         pragma Assert (Root_Shape (D, P));
          for J in E.Count range 0 .. N - 1 loop
             if Byte_At (D, P, J) = Character'Pos ('.') and then J + 1 < N and then
               Byte_At (D, P, J + 1) = Character'Pos ('.') and then
@@ -236,12 +299,16 @@ package body Worldline.Startup_Installation with SPARK_Mode is
    function Ancestors (D : E.Bytes; Path, Components : E.Span) return Boolean is
    begin
       if not Canonical_Absolute (D, Path) or else not V.Is_Sequence (D, Components) then return False; end if;
-      declare P : constant E.Byte_View := Payload (D, Path); N : constant E.Count := Length (D, P);
+      declare P : constant E.Byte_View := Path_View (D, Path); N : constant E.Count := Length (D, P);
               Roots : constant E.Count := (if N >= 2 and then Byte_At (D, P, 1) = Character'Pos ('/') then 2 else 1);
               Stop : E.Count := Roots; Found : E.Count; begin
+         pragma Assert (N >= 1 and then (if N > Roots then Byte_At (D, P, Roots) /= Character'Pos ('/')));
          loop
+            pragma Loop_Invariant (Stop in Roots .. N);
+            pragma Loop_Variant (Increases => Stop);
             Found := 0;
             for I in E.Count range 1 .. V.Count (D, Components) loop
+               pragma Loop_Invariant (Found < I);
                declare C : constant E.Span := V.Element (D, Components, I - 1);
                        CP : constant E.Span := F (D, C, "path"); begin
                   if V.Valid_Text (D, CP) and then Length (D, Payload (D, CP)) = Stop and then
@@ -256,10 +323,18 @@ package body Worldline.Startup_Installation with SPARK_Mode is
             if Found /= 1 then return False; end if;
             exit when Stop = N;
             if Stop = Roots then
-               while Stop < N and then Byte_At (D, P, Stop) /= Character'Pos ('/') loop Stop := Stop + 1; end loop;
+               while Stop < N and then Byte_At (D, P, Stop) /= Character'Pos ('/') loop
+                  pragma Loop_Invariant (Stop >= Stop'Loop_Entry);
+                  pragma Loop_Variant (Increases => Stop);
+                  Stop := Stop + 1;
+               end loop;
             else
                Stop := Stop + 1;
-               while Stop < N and then Byte_At (D, P, Stop) /= Character'Pos ('/') loop Stop := Stop + 1; end loop;
+               while Stop < N and then Byte_At (D, P, Stop) /= Character'Pos ('/') loop
+                  pragma Loop_Invariant (Stop >= Stop'Loop_Entry);
+                  pragma Loop_Variant (Increases => Stop);
+                  Stop := Stop + 1;
+               end loop;
             end if;
             exit when Stop = N; -- Final component is checked as file/directory separately.
          end loop;
@@ -320,7 +395,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
    end Mode_Matches;
    function Digest_Matches (D : E.Bytes; Raw, Digest : E.Span) return Boolean is
       Context : SHA.Context := SHA.Initial;
-      Block : Attest.Byte_Array (0 .. SHA.Block_Bytes - 1);
+      Block : Attest.Byte_Array (0 .. SHA.Block_Bytes - 1) := [others => 0];
       Used : Natural := 0;
    begin
       if not V.Valid_Bytes (D, Raw) or else not V.Valid_Text (D, Digest) then return False; end if;
@@ -328,7 +403,13 @@ package body Worldline.Startup_Installation with SPARK_Mode is
               H : constant E.Byte_View := Payload (D, Digest);
               N : constant E.Count := Length (D, R) / 2; begin
          if Length (D, H) /= 64 then return False; end if;
+         --  SHA-256 is defined only for messages below 2**61 bytes (attest's
+         --  Max_Message_Bytes); no digest can match a longer one.
+         if N > E.Count (SHA.Max_Message_Bytes) then return False; end if;
          for I in E.Count range 1 .. N loop
+            pragma Loop_Invariant (Used < SHA.Block_Bytes);
+            pragma Loop_Invariant (E.Count (Used) <= I - 1 and then
+              SHA.Absorbed (Context) = Interfaces.Unsigned_64 (I - 1 - E.Count (Used)));
             Block (Used) := Attest.Byte (Hex_Digit (Byte_At (D, R, (I - 1) * 2)) * 16 +
               Hex_Digit (Byte_At (D, R, (I - 1) * 2 + 1)));
             Used := Used + 1;
@@ -378,6 +459,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
          not Canonical_Absolute (D, Root) or else not Path_Equivalent (D, Root, F (D, Tree, "selector")) or else
          not Protected_Identity (D, F (D, Tree, "identity"), True) or else not Ancestors (D, Root, Components) then return False; end if;
       for I in E.Count range 1 .. V.Count (D, Entries) loop
+         pragma Loop_Invariant (Regulars < I);
          declare Tree_Entry : constant E.Span := V.Element (D, Entries, I - 1);
                  Path : constant E.Span := F (D, Tree_Entry, "path");
                  Relative : constant E.Span := F (D, Tree_Entry, "relative"); Found : E.Count := 0; begin
@@ -385,13 +467,13 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                Same_Text (D, Root, Path) then return False; end if;
             declare R : constant E.Byte_View := Payload (D, Relative);
                     P : constant E.Byte_View := Payload (D, Path);
-                    B : constant E.Byte_View := Payload (D, Root);
+                    B : constant E.Byte_View := Path_View (D, Root);
                     BN : constant E.Count := Length (D, B);
                     Separator : constant E.Count :=
                       (if Byte_At (D, B, BN - 1) = Character'Pos ('/') then 0 else 1);
                     RN : constant E.Count := Length (D, R); begin
                if RN = 0 or else Byte_At (D, R, 0) = Character'Pos ('/') or else
-                 BN > Length (D, P) or else Length (D, P) - BN /= RN + Separator or else
+                 BN > Length (D, P) or else Length (D, P) - BN - Separator /= RN or else
                  (for some K in E.Count range 1 .. BN =>
                     Byte_At (D, B, K - 1) /= Byte_At (D, P, K - 1)) or else
                  (Separator = 1 and then Byte_At (D, P, BN) /= Character'Pos ('/')) or else
@@ -405,6 +487,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                if Bytecode_Name (D, Path) then return False; end if;
                Regulars := Regulars + 1;
                for J in E.Count range 1 .. S.Member_Count (D, Expected) loop
+                  pragma Loop_Invariant (Found < J);
                   if Raw_Key_Matches (D, Pair_Part (D, Expected, J - 1, 0), Relative) then
                      if not Manifest_File (D, Tree_Entry, Pair_Part (D, Expected, J - 1, 1)) then return False; end if;
                      Found := Found + 1;
@@ -416,7 +499,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       end loop;
       -- Every observed directory below this root is also an rglob entry;
       -- ancestors cannot serve as an unenumerated remainder of the tree.
-      declare R : constant E.Byte_View := Payload (D, Root);
+      declare R : constant E.Byte_View := Path_View (D, Root);
               RN : constant E.Count := Length (D, R);
               Root_Slash : constant Boolean := Byte_At (D, R, RN - 1) = Character'Pos ('/'); begin
          for I in E.Count range 1 .. V.Count (D, Components) loop
@@ -429,6 +512,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                        (for all K in E.Count range 1 .. RN => Byte_At (D, R, K - 1) = Byte_At (D, P, K - 1)) and then
                        (Root_Slash or else Byte_At (D, P, RN) = Character'Pos ('/')) then
                         for J in E.Count range 1 .. V.Count (D, Entries) loop
+                           pragma Loop_Invariant (Found < J);
                            declare Entry_Value : constant E.Span := V.Element (D, Entries, J - 1); begin
                               if Same_Text (D, F (D, Entry_Value, "path"), Path) and then
                                 S.Text_Is (D, F (D, Entry_Value, "kind"), "DIRECTORY") then Found := Found + 1; end if;
@@ -466,13 +550,17 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       end loop;
       return Result;
    end Installed_Entry;
+   --  An envelope byte I is the hex digit pair at 2*I, 2*I+1 of the hex view,
+   --  so every envelope offset (and every word in it) stays below this.
+   Hex_Limit : constant E.Count := E.Count'Last / 2;
    type Word_Span is record
       First, Length : E.Count := 0;
-   end record;
+   end record with Dynamic_Predicate => First <= Hex_Limit and then Length <= Hex_Limit - First;
    type Line_Parts is array (1 .. 5) of Word_Span;
    function Envelope_Byte (D : E.Bytes; Hex : E.Byte_View; I : E.Count) return E.Q.Byte is
      (Hex_Digit (Byte_At (D, Hex, I * 2)) * 16 +
-      Hex_Digit (Byte_At (D, Hex, I * 2 + 1)));
+      Hex_Digit (Byte_At (D, Hex, I * 2 + 1)))
+     with Pre => I < Hex_Limit;
    procedure Next_Line (D : E.Bytes; Hex : E.Byte_View; Offset : in out E.Count;
      Parts : out Line_Parts; Fields : out Natural; Valid : out Boolean)
    is
@@ -481,6 +569,9 @@ package body Worldline.Startup_Installation with SPARK_Mode is
    begin
       Parts := (others => (0, 0)); Fields := 1; Valid := False;
       while Offset < N and then Envelope_Byte (D, Hex, Offset) /= 10 loop
+         pragma Loop_Invariant (Offset >= Offset'Loop_Entry);
+         pragma Loop_Invariant (Fields in 1 .. 5 and then First <= Offset);
+         pragma Loop_Variant (Increases => Offset);
          if Envelope_Byte (D, Hex, Offset) = 9 then
             if Fields = 5 then return; end if;
             Parts (Fields) := (First, Offset - First); Fields := Fields + 1; First := Offset + 1;
@@ -518,6 +609,8 @@ package body Worldline.Startup_Installation with SPARK_Mode is
          if not Valid or else Fields /= 1 or else
            not Envelope_Text (D, Envelope, Parts (1), "WORLDLINE-APPROVED-SOURCE-ENVELOPE-V1") then return False; end if;
          while Offset < Length (D, Envelope) / 2 loop
+            pragma Loop_Invariant (Interpreter_Count <= Offset and then Helper_Count <= Offset and then Entry_Count <= Offset);
+            pragma Loop_Variant (Increases => Offset);
             Next_Line (D, Envelope, Offset, Parts, Fields, Valid);
             if not Valid then return False; end if;
             if Fields = 5 and then Envelope_Text (D, Envelope, Parts (1), "FILE") and then
@@ -528,7 +621,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                Envelope_Text (D, Envelope, Parts (2), "SOURCE") or else
                Envelope_Text (D, Envelope, Parts (2), "EXTENSION") or else
                Envelope_Text (D, Envelope, Parts (2), "CACHE")) then
-               declare Found : E.Count := 0;
+               declare Found : Boolean := False;
                        Trees : constant E.Span := F (D, Inventory, "trees");
                        Files : constant E.Span := F (D, Inventory, "files");
                        procedure Check (Entry_Value : E.Span) is
@@ -556,7 +649,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                              for I in E.Count range 1 .. Parts (5).Length loop
                                 if Envelope_Byte (D, Envelope, Parts (5).First + I - 1) /= Byte_At (D, H, I - 1) then return; end if;
                              end loop;
-                             Found := Found + 1;
+                             Found := True;
                           end;
                        end Check;
                begin
@@ -566,7 +659,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                         for J in E.Count range 1 .. V.Count (D, Entries) loop Check (V.Element (D, Entries, J - 1)); end loop;
                      end;
                   end loop;
-                  if Found = 0 then return False; end if;
+                  if not Found then return False; end if;
                   if Envelope_Text (D, Envelope, Parts (2), "INTERPRETER") then
                      if not Envelope_Hex_Path (D, Envelope, Parts (3), F (D, Source, "interpreter")) then return False; end if;
                      Interpreter_Count := Interpreter_Count + 1;
@@ -609,6 +702,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       for I in E.Count range 1 .. S.Member_Count (Data, Expected_Trees) loop
          declare Found : E.Count := 0; begin
             for J in E.Count range 1 .. V.Count (Data, Trees) loop
+               pragma Loop_Invariant (Found < J);
                declare Tree : constant E.Span := V.Element (Data, Trees, J - 1); begin
                   if Raw_Key_Matches (Data, Pair_Part (Data, Expected_Trees, I - 1, 0), F (Data, Tree, "selector")) then
                      if not Tree_Matches (Data, Tree, Pair_Part (Data, Expected_Trees, I - 1, 1), Components) then return False; end if;
@@ -622,6 +716,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       for I in E.Count range 1 .. S.Member_Count (Data, Expected_Files) loop
          declare Found : E.Count := 0; begin
             for J in E.Count range 1 .. V.Count (Data, Files) loop
+               pragma Loop_Invariant (Found < J);
                declare Entry_Value : constant E.Span := V.Element (Data, Files, J - 1); begin
                   if Raw_Key_Matches (Data, Pair_Part (Data, Expected_Files, I - 1, 0), F (Data, Entry_Value, "selector")) then
                      if not S.Text_Is (Data, F (Data, Entry_Value, "kind"), "REGULAR") or else
@@ -666,7 +761,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
               not Worldline.Startup_Source_Custody.Role_Selected (Data, Source, Helper, "EXECUTABLE")
             then return False; end if;
             declare B : constant E.Bytes := V.Bytes_Value (Data, Raw); begin
-               if Canonical_Artifacts.Scoped_Archive_JSON_Matches (B, Data, (B'First, B'Length), Config) /=
+               if Canonical_Artifacts.Scoped_Archive_JSON_Matches (B, Data, ((if B'Length = 0 then 1 else B'First), B'Length), Config) /=
                  Canonical_Artifacts.Typed_Tree_Matches_Source_Custody_Open then return False; end if;
             end;
          end;
@@ -710,6 +805,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                  Found : E.Count := 0; begin
             if Installed_Entry (Data, Inventory, Expected).Length = 0 then return False; end if;
             for J in E.Count range 1 .. S.Member_Count (Data, Resolutions) loop
+               pragma Loop_Invariant (Found < J);
                declare Other_Key : constant E.Span := Pair_Part (Data, Resolutions, J - 1, 0);
                        K : constant E.View := E.Decode (Data, Key, E.Operation);
                        O : constant E.View := E.Decode (Data, Other_Key, E.Operation); begin
@@ -733,8 +829,10 @@ package body Worldline.Startup_Installation with SPARK_Mode is
      (E.C.P.Valid (A, Left) and then E.C.P.Valid (B, Right) and then
       Left.Length = Right.Length and then
       (for all I in E.Count range 1 .. Left.Length =>
-        A (Left.First + I - 1) = B (Right.First + I - 1)));
-   function Semantic_Same (A, B : E.Bytes; Left, Right : E.Span) return Boolean is
+        A (Left.First + (I - 1)) = B (Right.First + (I - 1))));
+   function Semantic_Same (A, B : E.Bytes; Left, Right : E.Span) return Boolean
+     with Subprogram_Variant => (Decreases => Left.Length)
+   is
       N : E.Count;
    begin
       if not S.Valid (A, Left) or else not S.Valid (B, Right) then return False; end if;
@@ -746,6 +844,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
             declare Key : constant E.View := E.Decode (A, Pair_Part (A, Left, I - 1, 0), E.Operation);
                     Found : E.Count := 0; begin
                for J in E.Count range 1 .. N loop
+                  pragma Loop_Invariant (Found < J);
                   declare Other : constant E.View := E.Decode (B, Pair_Part (B, Right, J - 1, 0), E.Operation); begin
                      if Key.Form = E.Text_Value and then Other.Form = E.Text_Value and then
                        Cross_View (A, B, Key.Payload, Other.Payload) then
@@ -783,9 +882,11 @@ package body Worldline.Startup_Installation with SPARK_Mode is
    end Directory_Stable;
    function Entries_Stable
      (A, B : E.Bytes; Left, Right : E.Span; Trees : Boolean;
-      Selectors : Boolean := False) return Boolean;
+      Selectors : Boolean := False) return Boolean
+     with Subprogram_Variant => (Decreases => Left.Length);
    function Entry_Stable
      (A, B : E.Bytes; Left, Right : E.Span; Tree : Boolean) return Boolean
+     with Subprogram_Variant => (Decreases => Left.Length)
    is
       Directory : constant Boolean := Tree or else S.Text_Is (A, F (A, Left, "kind"), "DIRECTORY");
    begin
@@ -796,6 +897,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
          declare Key : constant E.View := E.Decode (A, Pair_Part (A, Left, I - 1, 0), E.Operation);
                  Found : E.Count := 0; begin
             for J in E.Count range 1 .. S.Member_Count (B, Right) loop
+               pragma Loop_Invariant (Found < J);
                declare Other : constant E.View := E.Decode (B, Pair_Part (B, Right, J - 1, 0), E.Operation);
                        Value : constant E.Span := Pair_Part (A, Left, I - 1, 1);
                        Other_Value : constant E.Span := Pair_Part (B, Right, J - 1, 1); begin
@@ -826,6 +928,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       for I in E.Count range 1 .. V.Count (A, Left) loop
          declare Entry_Value : constant E.Span := V.Element (A, Left, I - 1); Found : E.Count := 0; begin
             for J in E.Count range 1 .. V.Count (B, Right) loop
+               pragma Loop_Invariant (Found < J);
                declare Other : constant E.Span := V.Element (B, Right, J - 1); begin
                   if Semantic_Same (A, B, F (A, Entry_Value, Name), F (B, Other, Name)) then
                      if not Entry_Stable (A, B, Entry_Value, Other, Trees) then return False; end if;
@@ -845,6 +948,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
       for I in E.Count range 1 .. V.Count (A, Left) loop
          declare Found : E.Count := 0; begin
             for J in E.Count range 1 .. V.Count (B, Right) loop
+               pragma Loop_Invariant (Found < J);
                if Semantic_Same (A, B, V.Element (A, Left, I - 1), V.Element (B, Right, J - 1)) then Found := Found + 1; end if;
             end loop;
             if Found /= 1 then return False; end if;
@@ -866,6 +970,7 @@ package body Worldline.Startup_Installation with SPARK_Mode is
                  Value : constant E.Span := Pair_Part (Before_Data, A, I - 1, 1);
                  Found : E.Count := 0; begin
             for J in E.Count range 1 .. S.Member_Count (After_Data, B) loop
+               pragma Loop_Invariant (Found < J);
                declare Other : constant E.View := E.Decode (After_Data, Pair_Part (After_Data, B, J - 1, 0), E.Operation);
                        Other_Value : constant E.Span := Pair_Part (After_Data, B, J - 1, 1); begin
                   if Key.Form = E.Text_Value and then Other.Form = E.Text_Value and then
