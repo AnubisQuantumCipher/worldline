@@ -180,18 +180,24 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
       end if;
    end Power_Of_Ten;
    function Floor_Divide (N : Integer; D : Positive) return Integer is
-     (N / D - (if N < 0 and then N rem D /= 0 then 1 else 0));
+     (N / D - (if N < 0 and then N rem D /= 0 then 1 else 0))
+     with Pre => D > 1;
    function Power10_To_2 (N : Integer) return Integer
    is (Floor_Divide (N * 108853, 32768))
      with Pre => N in -348 .. 347;
    function Power2_To_10 (N : Integer) return Integer
    is (Floor_Divide (N * 78913, 262144))
      with Pre => N in -1074 .. 1023;
-   function Leading_Zeros (Value : U64) return Natural is
+   function Leading_Zeros (Value : U64) return Natural
+     with Post => Leading_Zeros'Result <= 64 and then
+       (if Value /= 0 then Leading_Zeros'Result <= 63 and then
+          Interfaces.Shift_Left (Value, Leading_Zeros'Result) >= High_Bit)
+   is
       V : U64 := Value;
       N : Natural := 0;
    begin
       while N < 64 and then (V and High_Bit) = 0 loop
+         pragma Loop_Invariant (V = Interfaces.Shift_Left (Value, N) and then (V = 0) = (Value = 0));
          pragma Loop_Variant (Increases => N);
          V := Interfaces.Shift_Left (V, 1); N := N + 1;
       end loop;
@@ -293,6 +299,30 @@ package body Worldline.SQLite_Parameter_Source with SPARK_Mode is
       end if;
       Convert10 (V, Exponent, (if Precision >= 18 then 18 else Precision + 1), V, Power);
       while V > 0 loop
+         --  A 64-bit value has at most 20 decimal digits (bounds are static expressions).
+         pragma Loop_Invariant
+           ((First = 20) or else
+            (First = 19 and then V <= U64'Last / 10 ** 1) or else
+            (First = 18 and then V <= U64'Last / 10 ** 2) or else
+            (First = 17 and then V <= U64'Last / 10 ** 3) or else
+            (First = 16 and then V <= U64'Last / 10 ** 4) or else
+            (First = 15 and then V <= U64'Last / 10 ** 5) or else
+            (First = 14 and then V <= U64'Last / 10 ** 6) or else
+            (First = 13 and then V <= U64'Last / 10 ** 7) or else
+            (First = 12 and then V <= U64'Last / 10 ** 8) or else
+            (First = 11 and then V <= U64'Last / 10 ** 9) or else
+            (First = 10 and then V <= U64'Last / 10 ** 10) or else
+            (First = 9 and then V <= U64'Last / 10 ** 11) or else
+            (First = 8 and then V <= U64'Last / 10 ** 12) or else
+            (First = 7 and then V <= U64'Last / 10 ** 13) or else
+            (First = 6 and then V <= U64'Last / 10 ** 14) or else
+            (First = 5 and then V <= U64'Last / 10 ** 15) or else
+            (First = 4 and then V <= U64'Last / 10 ** 16) or else
+            (First = 3 and then V <= U64'Last / 10 ** 17) or else
+            (First = 2 and then V <= U64'Last / 10 ** 18) or else
+            (First = 1 and then V <= U64'Last / 10 ** 19) or else
+            (First = 0 and then V = 0));
+         pragma Loop_Invariant (for all K in Z'Range => Z (K) in '0' .. '9');
          pragma Loop_Variant (Decreases => V);
          First := First - 1; Z (First) := Character'Val (48 + Integer (V mod 10)); V := V / 10;
       end loop;

@@ -348,7 +348,7 @@ package body Worldline.Recovery_Owner_Replay with SPARK_Mode is
    end Replay_Retry;
 
    function Arena_Last (Data : E.Bytes; Owner : E.Span; Retry : Boolean)
-      return E.Count with Global => null is
+      return E.Count with Global => null, Post => Arena_Last'Result >= Data'Last is
       Needed : E.Count := E.Count'Max
         (Data'Length, M.Arena_Length (Data, RA.Field (Data, Owner, "before_material")));
    begin

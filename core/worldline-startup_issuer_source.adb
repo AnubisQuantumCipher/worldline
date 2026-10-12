@@ -270,7 +270,7 @@ package body Worldline.Startup_Issuer_Source with SPARK_Mode is
    end Universe_Record;
    function Hex_Image (Sum : H.SHA.Digest) return String is
       Hex_Characters : constant String := "0123456789abcdef";
-      Result : String (1 .. 64) := (others => '0');
+      Result : String (1 .. 64) := [others => '0'];
    begin
       for I in Sum'Range loop
          Result (1 + (I - Sum'First) * 2) := Hex_Characters (Integer (Sum (I) / 16) + 1);

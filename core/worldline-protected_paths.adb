@@ -2,7 +2,9 @@ with Worldline.Producer_Values;
 package body Worldline.Protected_Paths with SPARK_Mode is
    package V renames Worldline.Producer_Values;
    type Scalars is array (Natural range <>) of Natural;
-   function Decode (Text : String) return Scalars is
+   function Decode (Text : String) return Scalars
+     with Post => Decode'Result'Last < Decode'Result'First or else
+       (Decode'Result'First = 0 and then Decode'Result'Last < Natural'Last) is
       Buffer : Scalars (0 .. Text'Length) with Relaxed_Initialization;
       Count : Natural := 0;
       I : Natural := 0;
@@ -19,6 +21,7 @@ package body Worldline.Protected_Paths with SPARK_Mode is
          end if;
          if Width > Text'Length - I then return (1 .. 0 => 0); end if;
          for J in 1 .. Width - 1 loop
+            pragma Loop_Invariant (if J = 1 then Code < 32 elsif J = 2 then Code < 2048 else Code < 131072);
             Code := Code * 64 + Character'Pos (Text (Text'First + I + J)) mod 64;
          end loop;
          Buffer (Count) := Code;
@@ -30,7 +33,9 @@ package body Worldline.Protected_Paths with SPARK_Mode is
    end Decode;
    function Glob (Pattern, Path : Scalars; P, N : Natural) return Boolean
      with Subprogram_Variant => (Decreases =>
-       Pattern'Length - Natural'Min (P, Pattern'Length)) is
+       Pattern'Length - Natural'Min (P, Pattern'Length)),
+       Pre => (Pattern'Last < Pattern'First or else (Pattern'First = 0 and then Pattern'Last < Natural'Last)) and then
+              (Path'Last < Path'First or else (Path'First = 0 and then Path'Last < Natural'Last)) is
       After : Natural;
       First : Natural;
       I : Natural;
@@ -52,6 +57,7 @@ package body Worldline.Protected_Paths with SPARK_Mode is
          After := First;
          if After < Pattern'Length and then Pattern (After) = 93 then After := After + 1; end if;
          while After < Pattern'Length and then Pattern (After) /= 93 loop
+            pragma Loop_Invariant (After >= First);
             pragma Loop_Variant (Increases => After);
             After := After + 1;
          end loop;
@@ -59,6 +65,7 @@ package body Worldline.Protected_Paths with SPARK_Mode is
             Included := False;
             I := First;
             while I < After loop
+               pragma Loop_Invariant (I >= First);
                pragma Loop_Variant (Increases => I);
                if After - I >= 3 and then Pattern (I + 1) = 45 then
                   if Pattern (I) <= Pattern (I + 2) and then
@@ -78,13 +85,18 @@ package body Worldline.Protected_Paths with SPARK_Mode is
    function Matches (Pattern, Path : String) return Boolean is
       Last : Natural := Pattern'Length;
    begin
-      while Last > 0 and then Pattern (Pattern'First + Last - 1) = '/' loop
+      while Last > 0 and then Pattern (Pattern'First + (Last - 1)) = '/' loop
+         pragma Loop_Invariant (Last <= Pattern'Length);
          pragma Loop_Variant (Decreases => Last);
          Last := Last - 1;
       end loop;
       declare
-         Base : constant String := Pattern (Pattern'First .. Pattern'First + Last - 1);
+         Base : constant String := Pattern (Pattern'First .. Pattern'First + (Last - 1));
       begin
+         --  SPARK: refusal exactly where the original raised Constraint_Error (the
+         --  upper bound of Base & "/" past Positive'Last).
+         if Path /= Base and then Path'Length > Last and then Last > 0 and then
+           Base'Last = Positive'Last then return False; end if;
          return Path = Base or else
            (Path'Length > Last and then Path (Path'First .. Path'First + Last) = Base & "/") or else
            Glob (Decode (Pattern), Decode (Path), 0, 0);

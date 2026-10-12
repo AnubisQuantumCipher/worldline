@@ -414,7 +414,14 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
         Cells (Value.Alternative_SQL, Value.Alternative_Count) and then Cells (Value.Blob_SQL, Value.Blob_Count);
    end Parsed_Spans_Valid;
    procedure Decode_Into (Data : E.Bytes; Envelope : E.Span; Value : out Parsed_Input;
-                          Decoded_Used : out E.Count; Grown : Boolean) is
+                          Decoded_Used : out E.Count; Grown : Boolean)
+     with Global => null, Always_Terminates,
+       Post => Decoded_Used = Value.Arena_Used and then
+         (if Value.Status = Parsed then
+            Parsed_Spans_Valid (Value) and then N.Valid (Value.Arena, Value.Symbols) and then
+            (if Grown then Value.Decoded_Event_Count < Value.Event_Count and then
+               Value.Event_Count - Value.Decoded_Event_Count = 1))
+   is
       Size : constant Sizes := Counts (Data, Envelope);
       Used : E.Count := Data'Length;
       Good : Boolean := True;
@@ -486,7 +493,8 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          end loop;
          return Result;
       end Digest;
-      procedure Intern (Arena : in out E.Bytes; Name : String; Result : out S.SQL_Cell) is
+      procedure Intern (Arena : in out E.Bytes; Name : String; Result : out S.SQL_Cell)
+        with Global => (In_Out => (Used, Good)), Pre => Arena'First = 1 is
          Span : E.Span := (1, 0);
       begin
          if Name'Length > Arena'Length - Used then Good := False;
@@ -508,6 +516,8 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
    begin
       Decoded_Used := 0; Value.Decoded_Event_Count := 0; Value.Arena_Used := 0;
       Value.Status := Malformed;
+      --  SPARK: whole-arena initialization; every byte is overwritten by the copy below.
+      Value.Arena := [others => 0];
       for I in Value.Arena'Range loop
          Value.Arena (I) := (if I <= Data'Length then Data (Data'First + (I - 1)) else 0);
       end loop;
@@ -678,6 +688,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Used : E.Count;
    begin
       Decode_Into (Data, Envelope, Value, Used, False);
+      pragma Assert (Used = Value.Arena_Used);
    end Decode;
    procedure Decode_Grown (Data : E.Bytes; Envelope : E.Span; Value : out Parsed_Input; Used : out E.Count) is
    begin

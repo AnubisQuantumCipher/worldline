@@ -1,5 +1,6 @@
 package body Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
    use type S.K.Facts;
+   use type S.L.Liveness;
    function Decode_History (Data : Q.Byte_Array; Raw : Raw_History_Array) return S.History_Array is
       Result : S.History_Array (Raw'Range) with Relaxed_Initialization;
    begin
@@ -28,10 +29,18 @@ package body Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       return Result;
    end Decode_Projection;
    function Decode_Facts (Data : Q.Byte_Array; Raw : Raw_Facts_Array) return S.Facts_Array is
-      Result : S.Facts_Array (Raw'Range) with Relaxed_Initialization;
+      --  SPARK: an explicit full value; every element is overwritten by the loop
+      --  below before it is read.
+      Result : S.Facts_Array (Raw'Range) :=
+        [others => (Current => (Policy_Epoch => (Present => False), others => (Present => False)),
+                    Retained => (Resource_Epoch => (Present => False), others => (Present => False)),
+                    Current_Epoch | Cgroup_Owner | Cgroup_Group_Write | Cgroup_Other_Write |
+                    Genesis_Root_Count => (Present => False),
+                    Phase => S.K.Journal_Phase'First,
+                    others => (Present => False))];
    begin
       for I in Raw'Range loop
-         pragma Loop_Invariant (for all J in Raw'Range => (if J < I then Result (J)'Initialized and then Result (J) = O.Decode (Data, Raw (J))));
+         pragma Loop_Invariant (for all J in Raw'Range => (if J < I then Result (J) = O.Decode (Data, Raw (J))));
          Result (I) := O.Decode (Data, Raw (I));
       end loop;
       return Result;
@@ -69,6 +78,9 @@ package body Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
          pragma Loop_Invariant
            (for all J in Rows'Range => (if J > I then not S.L.Same (Data,
              W.Decode (Data, Rows (J)).Bound.Reservation, W.Decode (Data, Raw.Request.Original).Reservation)));
+         pragma Loop_Invariant
+           (Selected_Reference (Data, Raw, History, Rows, Facts, Rows'Length) =
+            Selected_Reference (Data, Raw, History, Rows, Facts, I - Rows'First + 1));
          if S.L.Same (Data, W.Decode (Data, Rows (I)).Bound.Reservation,
                       W.Decode (Data, Raw.Request.Original).Reservation) then
             return (Status => S.L.Liveness'Pos (S.Classify

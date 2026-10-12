@@ -19,7 +19,7 @@ package body Worldline.Source_Syntax with SPARK_Mode is
          for C of Text loop
             if C not in '0' .. '9' or else Index > Bound / 10 or else
               (Index = Bound / 10 and then Character'Pos (C) - 48 > Bound mod 10) then return Bound; end if;
-            Index := Index * 10 + Character'Pos (C) - 48;
+            Index := Index * 10 + (Character'Pos (C) - 48);
          end loop;
          return Index;
       end Index_Of;

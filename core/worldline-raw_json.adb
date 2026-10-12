@@ -35,7 +35,10 @@ package body Worldline.Raw_JSON with SPARK_Mode is
         (if Kind = UTF16_LE then Byte (At_Offset) + 256 * Byte (At_Offset + 1)
          else Byte (At_Offset) * 256 + Byte (At_Offset + 1));
       procedure Scalar (Position : in out P.Count; Code : out Natural)
-        with Global => (Input => (Data, Item, Kind), In_Out => Invalid) is
+        with Global => (Input => (Data, Item, Kind), In_Out => Invalid),
+          Pre => P.Valid (Data, Item) and then Position < Item.Length and then not Invalid,
+          Post => Code <= 16#10FFFF# and then
+            (if not Invalid then Position'Old < Position and then Position <= Item.Length) is
          Width : P.Count;
          Next : Natural;
          U : Interfaces.Unsigned_32;
@@ -92,10 +95,13 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       end if;
       Offset := Start;
       while Offset < Item.Length loop
+         pragma Loop_Invariant (not Invalid);
          pragma Loop_Variant (Decreases => Item.Length - Offset);
          declare C : Natural; begin
             Scalar (Offset,C);
             if Invalid then return (0,False,""); end if;
+            --  SPARK: refusal exactly where the original raised Constraint_Error (overflow).
+            if Length > Natural'Last - Width (C) then return (0,False,""); end if;
             Length := Length + Width (C);
          end;
       end loop;
@@ -105,21 +111,35 @@ package body Worldline.Raw_JSON with SPARK_Mode is
          --  SPARK: a constraint may not read a variable; the computed extent
          --  is frozen into a constant first.
          Final_Length : constant Natural := Length;
-         Text : String (1 .. Final_Length);
+         --  SPARK: this pass re-decodes exactly the scalars the first pass summed
+         --  (same Data, Item, Kind; Invalid False), so every position is written
+         --  before the result is read.
+         Text : String (1 .. Final_Length) := [others => Character'Val (0)];
          Used : Natural := 0;
+         Overrun : Boolean := False;
+         --  SPARK: Overrun marks exactly the emission on which the original raised
+         --  Constraint_Error (index check on Text); the caller then refuses.
          procedure Emit (B : Natural) is
-         begin Used := Used + 1; Text (Used) := Character'Val (B); end Emit;
+         begin
+            if Used >= Final_Length then Overrun := True; return; end if;
+            Used := Used + 1; Text (Used) := Character'Val (B);
+         end Emit;
       begin
          Offset := Start;
          while Offset < Item.Length loop
+            pragma Loop_Invariant (not Invalid and then not Overrun and then Used <= Final_Length);
             pragma Loop_Variant (Decreases => Item.Length - Offset);
             declare C : Natural; begin
                Scalar (Offset,C);
+               --  SPARK: refusal where the original raised (a non-advancing scalar
+               --  repeats Emit (0) until Text's index check fails).
+               if Invalid then return (0,False,""); end if;
                if C < 128 then Emit (C);
                elsif C < 2048 then Emit (192 + C / 64); Emit (128 + C mod 64);
                elsif C < 65536 then Emit (224 + C / 4096); Emit (128 + C / 64 mod 64); Emit (128 + C mod 64);
                else Emit (240 + C / 262144); Emit (128 + C / 4096 mod 64); Emit (128 + C / 64 mod 64); Emit (128 + C mod 64);
                end if;
+               if Overrun then return (0,False,""); end if;
             end;
          end loop;
          return (Length,True,Text);
@@ -289,9 +309,12 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       end if;
    end Numbers_Equal;
 
+   --  Termination: a container's members start after it (Producer_Values Field/Element
+   --  Posts); a non-container ends the recursion.
    function JSON_Trees_Equal
      (Left_Data, Right_Data : String; Left, Right : V.Node) return Boolean
-     with Subprogram_Variant => (Decreases => Left.Last - Natural'Min (Left.First,Left.Last));
+     with Subprogram_Variant => (Decreases => (if Left.Form in V.Array_Value | V.Object_Value then 1 else 0),
+                                 Increases => Left.First);
    function JSON_Trees_Equal
      (Left_Data, Right_Data : String; Left, Right : V.Node) return Boolean is
    begin
@@ -331,7 +354,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       Scoped, Python_Equality : Boolean; Object_Order_Independent : Boolean := False;
       At_Layer : E.Layer := E.Operation)
       return Boolean
-     with Subprogram_Variant => (Decreases => Item.Last - Natural'Min (Item.First,Item.Last));
+     with Subprogram_Variant => (Decreases => (if Item.Form in V.Array_Value | V.Object_Value then 1 else 0),
+                                 Increases => Item.First);
    function Match_Tree
      (Data : String; Item : V.Node; Archive : P.Bytes; Encoded : P.Span;
       Scoped, Python_Equality : Boolean; Object_Order_Independent : Boolean := False;
@@ -552,12 +576,19 @@ package body Worldline.Raw_JSON with SPARK_Mode is
      (JSON_Data, Archive_Data : P.Bytes; JSON_Value, Encoded : P.Span) return Boolean is
      (Matches (JSON_Data,Archive_Data,JSON_Value,Encoded,True,True,True));
 
-   function Scalar_Code (Text : String; Offset, Width : Natural) return Natural is
+   function Scalar_Code (Text : String; Offset, Width : Natural) return Natural
+     with Global => null,
+       Pre => Width in 1 .. 4 and then Offset < Text'Length and then Width <= Text'Length - Offset,
+       Post => Scalar_Code'Result < 2 ** 21
+   is
       Code : Natural := Character'Pos (Text (Text'First + Offset));
    begin
       if Width > 1 then
          Code := Code mod (if Width = 2 then 32 elsif Width = 3 then 16 else 8);
-         for K in 1 .. Width - 1 loop Code := Code * 64 + Character'Pos (Text (Text'First + Offset + K)) mod 64; end loop;
+         for K in 1 .. Width - 1 loop
+            pragma Loop_Invariant (if K = 1 then Code < 32 elsif K = 2 then Code < 2048 else Code < 131072);
+            Code := Code * 64 + Character'Pos (Text (Text'First + (Offset + K))) mod 64;
+         end loop;
       end if;
       return Code;
    end Scalar_Code;
@@ -582,17 +613,34 @@ package body Worldline.Raw_JSON with SPARK_Mode is
          pragma Loop_Variant (Increases => Offset);
          Width := V.UTF8_Width (Text,Offset);
          if Width = 0 then return ""; end if;
-         Length := Length + ASCII_Piece (Scalar_Code (Text,Offset,Width))'Length;
+         --  SPARK: refusals exactly where the original raised Constraint_Error (a width
+         --  past the text in Scalar_Code; overflow of Length).
+         if Width > Text'Length - Offset then return ""; end if;
+         declare Piece_Length : constant Natural := ASCII_Piece (Scalar_Code (Text,Offset,Width))'Length; begin
+            if Piece_Length > Natural'Last - Length then return ""; end if;
+            Length := Length + Piece_Length;
+         end;
          Offset := Offset + Width;
       end loop;
+      --  SPARK: refusal exactly where the original raised (Final_Length + 2 overflow).
+      if Length > Natural'Last - 2 then return ""; end if;
       declare
          Final_Length : constant Natural := Length;
-         Result : String (1 .. Final_Length + 2); Used : Natural := 1;
+         --  SPARK: the second pass emits exactly the pieces the first pass summed,
+         --  so positions 2 .. Final_Length + 1 are written before the result is read.
+         Result : String (1 .. Final_Length + 2) := [others => ' ']; Used : Natural := 1;
       begin
          Result (1) := '"'; Offset := 0;
          while Offset < Text'Length loop
+            pragma Loop_Invariant (Used in 1 .. Result'Last);
+            pragma Loop_Variant (Increases => Offset);
             Width := V.UTF8_Width (Text,Offset);
+            --  SPARK: refusals where the original raised (a zero width repeats one
+            --  piece until Result's index check fails; a width past the text; a
+            --  piece past Result).
+            if Width = 0 or else Width > Text'Length - Offset then return ""; end if;
             declare Piece : constant String := ASCII_Piece (Scalar_Code (Text,Offset,Width)); begin
+               if Piece'Length > Result'Last - Used then return ""; end if;
                Result (Used + 1 .. Used + Piece'Length) := Piece; Used := Used + Piece'Length;
             end;
             Offset := Offset + Width;
@@ -610,14 +658,18 @@ package body Worldline.Raw_JSON with SPARK_Mode is
          Offset : Natural := 0;
          Position : Natural := Item.First;
          Width, Code : Natural;
+         --  SPARK: a piece reaching past Data refuses exactly where the original
+         --  slice raised Constraint_Error.
          function Consume (Piece : String) return Boolean is
-           (Piece'Length <= Item.Last - Position and then
-             Data (Data'First + Position .. Data'First + Position + Piece'Length - 1) = Piece);
+           (Piece'Length <= Item.Last - Position and then Position <= Data'Length - Piece'Length and then
+             Data (Data'First + Position .. Data'First + (Position + Piece'Length - 1)) = Piece);
       begin
          while Offset < Text'Length loop
             pragma Loop_Variant (Increases => Offset);
             Width := V.UTF8_Width (Text,Offset);
             if Width = 0 then return False; end if;
+            --  SPARK: refusal where the original raised (index past the text in Scalar_Code).
+            if Width > Text'Length - Offset then return False; end if;
             Code := Scalar_Code (Text,Offset,Width);
             declare Piece : constant String := ASCII_Piece (Code);
             begin
@@ -629,7 +681,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
          return Position = Item.Last - 1;
       end String_Canonical;
       function Canonical (Item : V.Node) return Boolean
-        with Subprogram_Variant => (Decreases => Item.Last - Natural'Min (Item.First,Item.Last));
+        with Subprogram_Variant => (Decreases => (if Item.Form in V.Array_Value | V.Object_Value then 1 else 0),
+                                    Increases => Item.First);
       function Canonical (Item : V.Node) return Boolean is
          Position : Natural := Item.First;
          Child, Key : V.Node;

@@ -79,10 +79,10 @@ package body Worldline.Lifetime_Values with SPARK_Mode is
       Cursor : Natural;
       Child : Node;
    begin
-      if Parent.Kind /= Tuple_Value or else Index > Parent.Count then return No_Node; end if;
       --  SPARK: the first child position must be representable (the original
       --  raised Constraint_Error in its declarative part on exactly these inputs).
       if Parent.First > Natural'Last - 9 then return No_Node; end if;
+      if Parent.Kind /= Tuple_Value or else Index > Parent.Count then return No_Node; end if;
       Cursor := Parent.First + 9;
       for I in 1 .. Index loop
          pragma Loop_Invariant (Cursor > Parent.First);
@@ -97,6 +97,8 @@ package body Worldline.Lifetime_Values with SPARK_Mode is
    begin
       if Item.Kind not in Bytes_Value | Text_Value | Integer_Value | Unavailable_Value or else
         Item.First = 0 or else Item.Last > Data'Length or else Item.Last - Item.First < 8 then return ""; end if;
+      --  SPARK: refusal exactly where the original raised (lower slice bound overflow).
+      if Data'First > Positive'Last - (Item.First + 8) then return ""; end if;
       return Data (Data'First + (Item.First + 8) .. Data'First + (Item.Last - 1));
    end Bytes;
    function Text (Data : String; Item : Node) return String is
@@ -131,18 +133,23 @@ package body Worldline.Lifetime_Values with SPARK_Mode is
       Item.Last <= Data'Length and then Byte_At (Data, Item.Last) < 128);
    function Positive_Integer (Data : String; Item : Node) return Boolean is
      (Nonnegative (Data, Item) and then (Item.Last > Item.First + 9 or else Byte_At (Data, Item.Last) /= 0));
+   --  SPARK: the original's Nonnegative raised Constraint_Error for an integer node
+   --  whose First + 8 overflows or whose sign byte lies past Data.
+   function Malformed_Integer (Data : String; Item : Node) return Boolean is
+     (Item.Kind = Integer_Value and then
+      (Item.First > Natural'Last - 8 or else (Item.Last - Item.First > 8 and then Item.Last > Data'Length)));
    function Compare (Data : String; L, R : Node) return Integer is
       LP : constant Boolean := Nonnegative (Data, L);
       RP : constant Boolean := Nonnegative (Data, R);
    begin
+      --  SPARK: refusal (Compare's own incomparable result) exactly where the
+      --  original raised while elaborating LP/RP.
+      if Malformed_Integer (Data, L) or else Malformed_Integer (Data, R) then return 0; end if;
       if L.Kind /= Integer_Value or else R.Kind /= Integer_Value then return 0; end if;
       if LP /= RP then return (if LP then 1 else -1); end if;
       if L.Last - L.First /= R.Last - R.First then
          return (if (L.Last - L.First > R.Last - R.First) = LP then 1 else -1);
       end if;
-      --  SPARK: a comparable pair lies within Data (the original raised
-      --  Constraint_Error in Nonnegative above on exactly these inputs).
-      if L.Last > Data'Length or else R.Last > Data'Length then return 0; end if;
       for I in 0 .. L.Last - L.First - 9 loop
          if Byte_At (Data, L.Last - I) /= Byte_At (Data, R.Last - I) then
             return (if Byte_At (Data, L.Last - I) > Byte_At (Data, R.Last - I) then 1 else -1);
