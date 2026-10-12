@@ -1,0 +1,41 @@
+{
+  "Main_observation_seconds": 1000,
+  "actual_completed_outer_waits": [],
+  "actual_elapsed_seconds": 1000.512851569998,
+  "at": "2026-10-12T15:30:54.643520+00:00",
+  "errors": [
+    {
+      "at": "2026-10-12T15:30:54.181807+00:00",
+      "message": "Main finite tail observation deadline, not a domain limit",
+      "type": "TimeoutError"
+    },
+    {
+      "actual_stderr": "",
+      "actual_stdout": "",
+      "actual_stop_returncode": 0,
+      "cleanup_owned_unit": "codex-worldline-codex-takeover-20261012-acquisition-regression-tests-v1.scope"
+    },
+    {
+      "actual_cleanup_Popen_wait": -15,
+      "cleanup_owned_outer_pid": 3806005,
+      "unknown_or_failed_target_not_promoted": true
+    }
+  ],
+  "no_domain_limit_or_gate_changed": true,
+  "original_proposal": {
+    "bytes": 486521,
+    "mode": 420,
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/reviewed-launch-proposal.json",
+    "sha256": "a3ea2e0ab2347d87077355edb2d811e73e02ba9a8b9ae64c9c345c9396f721f1"
+  },
+  "phase_acceptance": false,
+  "prior_mutable_adoption": {
+    "bytes": 7351,
+    "mode": 420,
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/review/root-source-binding-adoption-v1/adoption.json",
+    "sha256": "cbd316cfcd0b5808716ecb3e8619068a44aab7d8ae3e3d33a464bffc5aaf6c63"
+  },
+  "requested_qualified_original_tail": [
+    "acquisition-regression-tests"
+  ]
+}

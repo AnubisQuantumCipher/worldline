@@ -1,0 +1,52 @@
+{
+  "Main_observation_seconds": 1000,
+  "actual_completed_outer_waits": [
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/outer_capture.py",
+        "native-build",
+        "06d18f7edebe75ea0cf81eff9eb04c975d8f8865da38bafc7b9d07f8a7b93f59"
+      ],
+      "actual_outer_directory": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/review/root-outer-capture-v1/961c02126eb84f7cadaacb86af2863db",
+      "actual_outer_pid": 61463,
+      "at": "2026-10-12T17:32:08.734897+00:00",
+      "elapsed_seconds_since_Main_start": 115.72256187399762,
+      "mode": "native-build",
+      "responded_original_challenges": [
+        "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/review/root-live-lane-v1/attempts/native-build/17c38dc91aaf437ba65d70c85ceb4377/challenge-6527f525bda7494d9115046483bdc2ce/challenge.json"
+      ]
+    }
+  ],
+  "actual_elapsed_seconds": 115.72574488599639,
+  "at": "2026-10-12T17:32:08.738069+00:00",
+  "complete_original_prefix_still_required": [
+    "native-build",
+    "native-component-tests",
+    "pending-build",
+    "build",
+    "entry-component-tests"
+  ],
+  "errors": [],
+  "no_domain_limit_or_gate_changed": true,
+  "original_failed_aggregate_observer_not_reclassified": true,
+  "original_proposal": {
+    "bytes": 501887,
+    "mode": 420,
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/reviewed-launch-proposal.json",
+    "sha256": "8cf6329249b7cc39888f75b0ab8b2096d0a19dcc88a56feec36486a56f2ddbe3"
+  },
+  "phase_acceptance": false,
+  "prior_mutable_adoption": {
+    "bytes": 4255,
+    "mode": 420,
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/review/root-source-binding-adoption-v1/adoption.json",
+    "sha256": "c46d886387fca594bd977fb73885f6638180a91a31942d27d71e428cabcca56c"
+  },
+  "requested_qualified_original_prefix": [
+    "native-build"
+  ],
+  "single_original_action_observation_only": true
+}

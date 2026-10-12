@@ -1,0 +1,94 @@
+"""Full child/root source DTO grammar. Genuine custody is a caller obligation."""
+from __future__ import annotations
+from dataclasses import dataclass
+from . import resource_run_ledger as L
+@dataclass(frozen=True,slots=True,kw_only=True)
+class ProcessObservation:
+    raw_status:bytes
+    raw_stat:bytes
+    raw_cgroup:bytes
+    raw_maps:bytes
+    raw_cmdline:bytes
+    raw_pidfd_info:bytes
+    namespace:bytes
+    cgroup:bytes
+    actual_unit:bytes
+    invocation:bytes
+    source_lease:bytes
+    pidfd_wait:bytes
+    host_pid:int
+    start_tick:int
+    parent_pid:int
+    parent_start_tick:int
+    real_uid:int
+    effective_uid:int
+    saved_uid:int
+    real_gid:int
+    effective_gid:int
+    saved_gid:int
+@dataclass(frozen=True,slots=True,kw_only=True)
+class RootController:
+    bound:L.RunBinding
+    process:ProcessObservation
+    requester_uid:int
+    requester_gid:int
+    raw_manager:bytes
+    raw_channel:bytes
+    owner_endpoint:bytes
+    expected_owner_endpoint:bytes
+    source_lease:bytes
+    expected_source_lease:bytes
+    worker_image:bytes
+    expected_worker_image:bytes
+    handler_plan:bytes
+    expected_handler_plan:bytes
+    raw_request:bytes
+    requester:bytes
+    dispatch:bytes
+    running_event:bytes
+    expected_running_event:bytes
+    store_genesis:bytes
+    expected_store_genesis:bytes
+    current_source:bytes
+@dataclass(frozen=True,slots=True,kw_only=True)
+class TaskOrigin:
+    action:str
+    root:L.RunBinding
+    child:L.RunBinding
+    task_id:bytes
+    root_world:bytes|None
+    child_world:bytes|None
+    root_instance:bytes
+    child_instance:bytes
+    world_store:bytes
+    full_world_ancestry:bytes
+    original_workload:bytes
+    sandbox:bytes
+    adapter:bytes
+    context:bytes
+    mission:bytes
+    stdin:bytes
+    credential_source:bytes
+    executable_source:bytes
+    configuration:bytes
+    owner_plan:bytes
+    native_cost_input:bytes
+    raw_request:bytes
+    requester:bytes
+    cause:bytes
+    root_dispatch:bytes
+    root_running_event:bytes
+    task_journal:bytes
+    task_intent:bytes
+    task_reservation_event:bytes|None
+    task_launch_event:bytes|None
+    parent_namespace_source:bytes
+    fd_lineage:bytes
+    source_lease:bytes
+@dataclass(frozen=True,slots=True,kw_only=True)
+class NamespaceObservation:
+    identity:bytes
+    parent:bytes|None
+    raw_nsfs:bytes
+    raw_get_parent:bytes
+    source_lease:bytes

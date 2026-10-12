@@ -1,0 +1,16 @@
+{
+  "pid": 3982111,
+  "starttime": "5672637",
+  "stat_before": "3982111 (python3) R 3980996 3980996 3980996 0 -1 4194304 593 0 0 0 0 0 0 0 20 0 1 0 5672637 16760832 1822 18446744073709551615 187650645164032 187650645166904 281474512827776 0 0 0 0 0 0 0 0 0 17 0 0 0 0 0 0 187650645294472 187650645295120 187651571724288 281474512831236 281474512831517 281474512831517 281474512834535 0\n",
+  "stat_after": "3982111 (python3) R 3980996 3980996 3980996 0 -1 4194304 626 0 0 0 0 0 0 0 20 0 1 0 5672637 16777216 1918 18446744073709551615 187650645164032 187650645166904 281474512827776 0 0 0 0 0 0 0 0 0 17 0 0 0 0 0 0 187650645294472 187650645295120 187651571724288 281474512831236 281474512831517 281474512831517 281474512834535 0\n",
+  "cmdline": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-current-first-incomplete-diagnostic-v1/observe_first_error.py",
+    "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-current-first-incomplete-diagnostic-v1/run/observation"
+  ],
+  "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/codex-worldline-current-first-incomplete-d4d6476dbbc64420918d1861d5ac6c19.scope\n",
+  "resolved_executable": "/usr/bin/python3.14",
+  "executed_file_sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+  "limits": "Limit                     Soft Limit           Hard Limit           Units     \nMax cpu time              unlimited            unlimited            seconds   \nMax file size             unlimited            unlimited            bytes     \nMax data size             unlimited            unlimited            bytes     \nMax stack size            8388608              unlimited            bytes     \nMax core file size        0                    0                    bytes     \nMax resident set          unlimited            unlimited            bytes     \nMax processes             128053               128053               processes \nMax open files            524288               524288               files     \nMax locked memory         67108864             67108864             bytes     \nMax address space         unlimited            unlimited            bytes     \nMax file locks            unlimited            unlimited            locks     \nMax pending signals       128053               128053               signals   \nMax msgqueue size         819200               819200               bytes     \nMax nice priority         0                    0                    \nMax realtime priority     0                    0                    \nMax realtime timeout      200000               200000               us        \n"
+}

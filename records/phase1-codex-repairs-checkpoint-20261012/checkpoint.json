@@ -1,0 +1,42 @@
+{
+  "base_public_commit": "59d714328d060f203fd85a2934e0507041ed63cf",
+  "created_utc": "2026-10-12T17:36:56.675755+00:00",
+  "current_evidence_scope": "native-build only; subsequent active work is outside this snapshot",
+  "full_strict_proof_accepted": false,
+  "notes": [
+    "Source reviews do not establish acceptance.",
+    "Prior-source and donor proofs do not transfer to current source.",
+    "Absolute paths in captured records are original locators; copy-receipts maps packaged evidence.",
+    "No release, installation, deployment or active session mutation.",
+    "Prior published files remain byte-identical."
+  ],
+  "open": [
+    "remaining semantic/authority defects",
+    "complete all-unit build",
+    "same-source full strict proof",
+    "same-source complete original runtime and additions",
+    "original timeout",
+    "ownership/reclamation and literal Old/M4",
+    "authentic protected/world/child execution",
+    "independent final acceptance",
+    "accepted final publication"
+  ],
+  "phase_one_accepted": false,
+  "predecessor_evidence_scope": "native/pending/shared builds and component/serializer passes; acquisition deadline failure and separate diagnostic OOM",
+  "scope": "Non-final archival branch checkpoint. Complete committed source trees and selected settled evidence only.",
+  "sources": [
+    {
+      "commit": "0d1b894cfff2b4d7d0ca470d24f3e7d1035d78c7",
+      "git_tree": "aa94f927506ff4f73d8245ee73aa881a53efcfdc",
+      "label": "predecessor",
+      "path": "sources/predecessor"
+    },
+    {
+      "commit": "c85f80868999093e96b5528305e72768cca5a59c",
+      "git_tree": "2ae6c1d6a089b839ab30631ef01c9fb9c05399f3",
+      "label": "current",
+      "path": "sources/current"
+    }
+  ],
+  "timeout_closed": false
+}

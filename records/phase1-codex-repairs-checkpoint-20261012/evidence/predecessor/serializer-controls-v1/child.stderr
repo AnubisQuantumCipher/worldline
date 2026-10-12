@@ -1,0 +1,16 @@
+test_captured_stream_writes_are_chunked_with_complete_output (test_diagnostic_value_stream.SerializerControls.test_captured_stream_writes_are_chunked_with_complete_output) ... ok
+test_complete_original_scalar_container_path_dataclass_grammar (test_diagnostic_value_stream.SerializerControls.test_complete_original_scalar_container_path_dataclass_grammar) ... ok
+test_complete_owned_abi_snapshot_pointer_address_no_dereference (test_diagnostic_value_stream.SerializerControls.test_complete_owned_abi_snapshot_pointer_address_no_dereference) ... ok
+test_cycle_refuses_without_partial_row (test_diagnostic_value_stream.SerializerControls.test_cycle_refuses_without_partial_row) ... ok
+test_full_base64_chunk_boundaries_no_padding_join_change (test_diagnostic_value_stream.SerializerControls.test_full_base64_chunk_boundaries_no_padding_join_change) ... ok
+test_invalid_late_value_has_no_partial_row (test_diagnostic_value_stream.SerializerControls.test_invalid_late_value_has_no_partial_row) ... ok
+test_nan_refuses_without_partial_row (test_diagnostic_value_stream.SerializerControls.test_nan_refuses_without_partial_row) ... ok
+test_nonstring_site_keeps_original_json_site_semantics (test_diagnostic_value_stream.SerializerControls.test_nonstring_site_keeps_original_json_site_semantics) ... ok
+test_original_record_latches_failure_preserves_caller_outcome (test_diagnostic_value_stream.SerializerControls.test_original_record_latches_failure_preserves_caller_outcome) ... ok
+test_stream_failure_first_error_retained (test_diagnostic_value_stream.SerializerControls.test_stream_failure_first_error_retained) ... ok
+test_whole_unicode_escaping_and_surrogates_across_chunks (test_diagnostic_value_stream.SerializerControls.test_whole_unicode_escaping_and_surrogates_across_chunks) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.005s
+
+OK

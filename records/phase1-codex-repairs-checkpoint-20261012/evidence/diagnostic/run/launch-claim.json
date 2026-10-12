@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-12T16:10:47.839131+00:00",
+  "unit": "codex-worldline-current-first-incomplete-d4d6476dbbc64420918d1861d5ac6c19.scope",
+  "scope_argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-current-first-incomplete-d4d6476dbbc64420918d1861d5ac6c19.scope",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-current-first-incomplete-diagnostic-v1/receiver.py",
+    "child"
+  ],
+  "window_preimage": {
+    "path": "/home/sicarii/Documents/Codex/2026-09-30/how-do-u-feel-about-the/work/worldline-build-proof-window.json",
+    "sha256": "8ed2a906a7c5c26150c41b5d93ef131c0d49bb3ecd586cdcb5af01ac22943ce8",
+    "bytes": 433302,
+    "mode": 420
+  },
+  "diagnostic_identity": "eed670fc235c425588e96ba8ab7d6c29",
+  "campaign_credit": false
+}

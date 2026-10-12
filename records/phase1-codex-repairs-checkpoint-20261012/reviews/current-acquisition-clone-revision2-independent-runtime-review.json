@@ -1,0 +1,256 @@
+{
+  "schema": "worldline-acquisition-clone-revision2-independent-runtime-patch-review-v1",
+  "reviewer_agent": "/root/takeover_runtime_review",
+  "author_agent": "/root/takeover_proof_review",
+  "actual_model_selection": "openai-codex/gpt-6.1-sol:ultra",
+  "model_provenance": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/actual-takeover-runtime-review-adapter-provenance.json",
+    "sha256": "f366461dec8eaed2c789ad594bdc6db191afc47813722ac5ad61091fe5f1040e",
+    "bytes": 3321,
+    "mode": 384
+  },
+  "reviewed_at": "2026-10-12T16:58:13.015251+00:00",
+  "disposition": "QUALIFIED_EXACT_UNINTEGRATED_ACQUISITION_CLONE_PATCH_SOURCE_SEMANTICS_ONLY",
+  "qualified": true,
+  "source_only": true,
+  "blocking_findings": [],
+  "patch": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/patch.diff",
+    "sha256": "37b17a4c04afda295bfb50ddb700bfff201abf1fb11f7765f907005b8a65ad5b",
+    "bytes": 19323,
+    "mode": 420
+  },
+  "manifest": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/manifest.json",
+    "sha256": "958a6709e35d369094ae1387783da90dc9835160f28862e150bbc6bf0316da84",
+    "bytes": 10134,
+    "mode": 420
+  },
+  "author_note": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/author-note.md",
+    "sha256": "e16b4e2e22a9e003aa6e0ccd27319c448d7e1c2c9d057994e14c818d7803c436",
+    "bytes": 6129,
+    "mode": 420
+  },
+  "inverse": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/inverse.diff",
+    "sha256": "a0d5ae5c81d728967ea46df7e9676b2cb3733295962266604d0cbc1750e4508d",
+    "bytes": 19323,
+    "mode": 420
+  },
+  "base_commit": "0d1b894cfff2b4d7d0ca470d24f3e7d1035d78c7",
+  "base": {
+    "runtime/worldline/finalization_writer.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source/runtime/worldline/finalization_writer.py",
+      "sha256": "dc7c80217a6073519787e0e5b59736628aec5708f775ea40d7639594fc30bb60",
+      "bytes": 22510,
+      "mode": 420
+    },
+    "tests/test_finalization_journal_sequence.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source/tests/test_finalization_journal_sequence.py",
+      "sha256": "ea2ffc21de4aa36bb03f3162322981bbc4fe352d23266e8611ff9421b8cc23d8",
+      "bytes": 9125,
+      "mode": 420
+    }
+  },
+  "preimages": {
+    "runtime/worldline/finalization_writer.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/preimages/runtime/worldline/finalization_writer.py",
+      "sha256": "dc7c80217a6073519787e0e5b59736628aec5708f775ea40d7639594fc30bb60",
+      "bytes": 22510,
+      "mode": 420
+    },
+    "tests/test_finalization_journal_sequence.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/preimages/tests/test_finalization_journal_sequence.py",
+      "sha256": "ea2ffc21de4aa36bb03f3162322981bbc4fe352d23266e8611ff9421b8cc23d8",
+      "bytes": 9125,
+      "mode": 420
+    }
+  },
+  "postimages": {
+    "runtime/worldline/finalization_writer.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/postimages/runtime/worldline/finalization_writer.py",
+      "sha256": "e18f35c850f5f95f60922704caa18c15acf23ef1d8eeea6eba94f9e65d1de84b",
+      "bytes": 25486,
+      "mode": 420
+    },
+    "tests/test_finalization_journal_sequence.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/postimages/tests/test_finalization_journal_sequence.py",
+      "sha256": "b45ff1bc2b153d03592bf40dec05c2810ab414fce1e1beed6e159982c8c961ad",
+      "bytes": 24303,
+      "mode": 420
+    }
+  },
+  "unchanged_codec_inputs": {
+    "runtime/worldline/finalization_journal.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source/runtime/worldline/finalization_journal.py",
+      "sha256": "df75ed0beb5d5672369df4a79a4e69bb00b0906b1983937bef67a0bd4bf9bd2b",
+      "bytes": 36945,
+      "mode": 420
+    },
+    "runtime/worldline/evaluation_terminal.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source/runtime/worldline/evaluation_terminal.py",
+      "sha256": "9f5e97446797f09633008c3d8c1f7d6759b674122681887e73a7a6e78db53033",
+      "bytes": 45564,
+      "mode": 420
+    },
+    "runtime/worldline/evaluation_pending.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source/runtime/worldline/evaluation_pending.py",
+      "sha256": "559dc067399ade18658116727cbe2f364f718791cb299bd563765075de5569fa",
+      "bytes": 25594,
+      "mode": 420
+    }
+  },
+  "retained_revision1_rejection": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/reviews/current-acquisition-clone-patch-independent-runtime-review.json",
+    "sha256": "20cff8a8bd1c7e90b0a896377b093112274ffb127a793a5e34c30c3e14572d64",
+    "bytes": 12535,
+    "mode": 420
+  },
+  "identity_readback": {
+    "all_final_manifest_pins_match": true,
+    "exact_forward_inverse_match_pre_postimages": true,
+    "original_test_ast_bodies_assertions_unchanged": true,
+    "source_syntax_parse_only": true
+  },
+  "findings": [
+    {
+      "boundary": "Previous depth/publication blocker",
+      "conclusion": "Addressed by source",
+      "evidence": "Witness built from detached raw copy preserves list/tuple/dict nesting, dictionary keys/order and leaf types; unchanged decode(encode(shape)) at postimage:100 runs from helper call level before normalization and invocation_raw publication:296. Expanded-codec recursion/refusal thus precedes return; any ordinary failure falls back outside handler at :106 with provisional roots cleared."
+    },
+    {
+      "boundary": "Whole original domain and first refusal",
+      "conclusion": "Source correspondence supported",
+      "evidence": "Nonexact types/string keys and cycles route whole original root; eligibility/copy has no foreign protocol dispatch. Witness retains full float values and complete keys, so whole codec structural lifting precedes float normalization. Original root fallback supplies original first refusal/context. BaseException is not swallowed. No fixed depth/size/value/occurrence admissibility cap introduced."
+    },
+    {
+      "boundary": "Complete values and ownership",
+      "conclusion": "Source correspondence supported",
+      "evidence": "Only transient witness elides byte/string/integer payloads, retaining their exact kinds and structural positions. Returned data retains full detached snapshot leaves; every mutable occurrence is independently rebuilt. Float leaves come from the original witness codec; type/key-order/extent correspondence checked during finishing. Witness is never journaled/attached/offered to authority."
+    },
+    {
+      "boundary": "Original storage, caller and authority behavior",
+      "conclusion": "Unchanged",
+      "evidence": "Persisted encode/decode/envelope, invocation_raw publication/persistence order, interruption path, native guards and failure latch source remain unchanged except helper implementation. Actual callers remain invocation_raw and interrupted; no accepted case or campaign fixture/threshold/proof scope is removed."
+    },
+    {
+      "boundary": "Meaningful additive controls",
+      "conclusion": "Present, UNRUN",
+      "evidence": "Existing original test bodies/assertions preserved. Added controls compare original full codec on whole values, floats packed-bit patterns, foreign hooks, key/refusal ordering, alias detachment, cycles, interruption context and original-oracle acyclic depth under matching caller contexts. Real invocation_raw control asserts no publication/latch/persistence on original depth refusal."
+    }
+  ],
+  "source_integration_recommendation": "Source semantics supports Root-only sequential integration into the sole authorized candidate for unchanged original verification. This opinion does not qualify the integrated product or authorize target admission by itself.",
+  "recommendation_scope": "SOURCE_INTEGRATION_FOR_REQUIRED_ORIGINAL_VERIFICATION_ONLY",
+  "patch_risk_assessment": {
+    "schemaVersion": 1,
+    "patch": {
+      "repository": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source",
+      "sourceType": "patch_file",
+      "base": "0d1b894cfff2b4d7d0ca470d24f3e7d1035d78c7",
+      "head": "immutable revision-2 postimages at /home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2",
+      "changedFiles": [
+        "runtime/worldline/finalization_writer.py",
+        "tests/test_finalization_journal_sequence.py"
+      ],
+      "sha256": "37b17a4c04afda295bfb50ddb700bfff201abf1fb11f7765f907005b8a65ad5b"
+    },
+    "recommendation": "merge",
+    "workflowLabel": "human_review_required",
+    "impact": {
+      "rating": "high",
+      "rationale": "Shared acquisition/interruption retention affects complete authority-evidence snapshots and error state."
+    },
+    "regressionLikelihood": {
+      "rating": "moderate",
+      "rationale": "Source correspondence addresses material domain/ownership/refusal boundaries; additive execution remains pending."
+    },
+    "regressionProtection": {
+      "rating": "none",
+      "rationale": "Original controls preserved and meaningful new depth/float/ownership controls present, but no target checks ran at proposed head.",
+      "exactHeadChecksPassed": false
+    },
+    "recoverability": {
+      "rating": "easy",
+      "rationale": "Unintegrated patch with exact pre/postimages and inverse; original codec and persisted format unchanged."
+    },
+    "confidence": {
+      "rating": "moderate",
+      "rationale": "Exact source reviewed; qualification excludes execution, performance, proof and full acceptance."
+    },
+    "applicability": {
+      "status": "confirmed",
+      "rationale": "Actual sampled production helper serves invocation_raw and interrupted."
+    },
+    "statusQuoRisk": {
+      "rating": "high",
+      "rationale": "Retained original campaign deadline and separate diagnostic OOM remain open."
+    },
+    "autoMergeExclusions": [
+      "persistent_state",
+      "broad_shared_default",
+      "other"
+    ],
+    "affectedRuntimeRoots": [
+      "EngineFinalizationWriter.invocation_raw",
+      "EngineFinalizationWriter.interrupted"
+    ],
+    "materialBoundaries": [
+      {
+        "id": "depth_refusal_before_publication",
+        "invariant": "Original expanded-codec refusal precedes writer publication.",
+        "runtimeRoot": "EngineFinalizationWriter.invocation_raw",
+        "counterexample": "Revision-1 acyclic exact builtin depth accepted by direct visit but refused by original expanded codec.",
+        "legitimateControl": "Revision2 witness keeps leaf/container kinds/keys/nesting and invokes unchanged whole codec at helper call level before normalization/publication; uncertainty falls back to original root. New original-oracle depth/writer-state controls are UNRUN.",
+        "result": "supported"
+      },
+      {
+        "id": "full_value_and_alias_ownership",
+        "invariant": "Every full value and each mutable occurrence survives independently without borrowed mutable descendants.",
+        "runtimeRoot": "EngineFinalizationWriter._owned_acquisition",
+        "counterexample": "Repeated shared list/dict/tuple descendants and complete bytes/surrogates/arbitrary integers.",
+        "legitimateControl": "Detached visit copies each occurrence, active ancestor set only detects cycles; normalize uses complete snapshot leaves and witness float normalization. Witness bulk placeholders cannot be published.",
+        "result": "supported"
+      },
+      {
+        "id": "foreign_refusal_and_float_order",
+        "invariant": "Original foreign hooks, float normalization and first refusal/context are preserved.",
+        "runtimeRoot": "EngineFinalizationWriter._owned_acquisition",
+        "counterexample": "Unsupported subclass/overridden items/duplicate key/cycle, plus earlier floating candidate and later original-refused deep subtree.",
+        "legitimateControl": "Exact-kind eligibility introduces no foreign dispatch; full structural witness precedes normalized float use; original-root fallback exits handler with provisional refs cleared. BaseException propagates. Original persisted codec remains unchanged.",
+        "result": "supported"
+      }
+    ],
+    "validation": [
+      {
+        "name": "Exact final artifact correspondence and preserved original tests",
+        "status": "passed",
+        "protects": "Identity/source-only correspondence; no executed guarantee."
+      },
+      {
+        "name": "Original controls plus added clone/depth/float/publication checks",
+        "status": "skipped",
+        "protects": "UNRUN; required in original unchanged entry-component-tests and matching final original campaign."
+      }
+    ],
+    "unknowns": [
+      {
+        "summary": "Integrated original checks, strict proof/full runtime, performance and original deadline closure remain unverified.",
+        "decisionCritical": false
+      }
+    ],
+    "evidencePlan": []
+  },
+  "markdown_report": "Source-only qualified. Revision2 preserves the original structural/refusal boundary through the unchanged witness codec before publication, then returns complete detached values and normalized floats. Foreign/cyclic/uncertain inputs retain whole-root fallback outside the handler. Original codec, tests and authority/limits remain unchanged. Added controls are meaningful but UNRUN. No performance, timeout, proof/runtime or Phase One acceptance.",
+  "required_original_verification": "Original entry-component-tests including unchanged originals/additive controls, all original matching-source build/full strict proof/full runtime plus additions and all acceptance obligations remain required. No selected test success may replace them.",
+  "target_execution": false,
+  "product_or_candidate_edit": false,
+  "source_patch_edit": false,
+  "target_admission_qualified": false,
+  "integrated_source_qualified": false,
+  "performance_acceptance": false,
+  "original_timeout_closed": false,
+  "proof_acceptance": false,
+  "runtime_acceptance": false,
+  "phase_acceptance": false
+}

@@ -1,0 +1,52 @@
+{
+  "Main_observation_seconds": 1000,
+  "actual_completed_outer_waits": [
+    {
+      "actual_outer_Popen_wait": 0,
+      "actual_outer_argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/outer_capture.py",
+        "pending-build",
+        "f8f7471295d2f0a7d8cd1bd2555c6023b4fafbc10c6aaf0fe6f1efea8d2892e4"
+      ],
+      "actual_outer_directory": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/review/root-outer-capture-v1/b1571d35210b447e8cbcd145d1a267b5",
+      "actual_outer_pid": 3660481,
+      "at": "2026-10-12T14:33:24.076687+00:00",
+      "elapsed_seconds_since_Main_start": 100.78798527999606,
+      "mode": "pending-build",
+      "responded_original_challenges": [
+        "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/review/root-live-lane-v1/attempts/pending-build/1ca9ec1e10bd4087817ca54f05bcd18b/challenge-88bdd6fcd01047dbb4f2febdde96a452/challenge.json"
+      ]
+    }
+  ],
+  "actual_elapsed_seconds": 100.79016092399979,
+  "at": "2026-10-12T14:33:24.078854+00:00",
+  "complete_original_prefix_still_required": [
+    "native-build",
+    "native-component-tests",
+    "pending-build",
+    "build",
+    "entry-component-tests"
+  ],
+  "errors": [],
+  "no_domain_limit_or_gate_changed": true,
+  "original_failed_aggregate_observer_not_reclassified": true,
+  "original_proposal": {
+    "bytes": 486521,
+    "mode": 420,
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/reviewed-launch-proposal.json",
+    "sha256": "a3ea2e0ab2347d87077355edb2d811e73e02ba9a8b9ae64c9c345c9396f721f1"
+  },
+  "phase_acceptance": false,
+  "prior_mutable_adoption": {
+    "bytes": 4714,
+    "mode": 420,
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/review/root-source-binding-adoption-v1/adoption.json",
+    "sha256": "199c91e308c6dab01066b9a10fcfba585f74bbdb098f27f269f533570c13ac29"
+  },
+  "requested_qualified_original_prefix": [
+    "pending-build"
+  ],
+  "single_original_action_observation_only": true
+}

@@ -1,0 +1,235 @@
+{
+  "time_utc": "2026-10-12T16:46:20.912434+00:00",
+  "goal_thread": "01a12665-43dd-7732-be5f-b7c5bec8be96",
+  "goal_status": "active",
+  "source": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source",
+  "commit": "0d1b894cfff2b4d7d0ca470d24f3e7d1035d78c7",
+  "tree": "aa94f927506ff4f73d8245ee73aa881a53efcfdc",
+  "git_status": "",
+  "claude_coordinator_pid": 46783,
+  "claude_coordinator_state": "T (stopped)",
+  "source_freeze": "Sealed diagnostic candidate; final acceptance remains open",
+  "fresh_campaigns_on_checkpoint": {
+    "native-build": {
+      "scope_wait": 0,
+      "child_wait": {
+        "at": "2026-10-12T14:28:02.911895+00:00",
+        "pid": 3646856,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/source/native/build_guard.py",
+          "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/native-artifacts"
+        ],
+        "returncode": 0,
+        "additional_timeout_seconds": null,
+        "additional_deadline_expired": false,
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+      },
+      "inputs_unchanged": true,
+      "Main_errors": [],
+      "result": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/native-build-v1/result.json",
+      "Main_observation": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/Main-original-qualified-single-prefix-action-execution-v1/native-build/Main-complete-owned-prefix-observation.json"
+    },
+    "native-component-tests": {
+      "scope_wait": 0,
+      "child_wait": {
+        "at": "2026-10-12T14:30:45.534823+00:00",
+        "pid": 3656385,
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "-m",
+          "unittest",
+          "-v",
+          "test_examiner_native_guard",
+          "test_examiner_native_generators"
+        ],
+        "returncode": 0,
+        "additional_timeout_seconds": null,
+        "additional_deadline_expired": false,
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+      },
+      "inputs_unchanged": true,
+      "Main_errors": [],
+      "result": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/native-component-tests-v1/result.json",
+      "Main_observation": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/Main-original-qualified-single-prefix-action-execution-v1/native-component-tests/Main-complete-owned-prefix-observation.json"
+    },
+    "pending-build": {
+      "scope_wait": 0,
+      "child_wait": {
+        "at": "2026-10-12T14:33:01.680880+00:00",
+        "pid": 3666625,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "pending-component/pending.gpr"
+        ],
+        "returncode": 0,
+        "additional_timeout_seconds": null,
+        "additional_deadline_expired": false,
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+      },
+      "inputs_unchanged": true,
+      "Main_errors": [],
+      "result": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/pending-build-v1/result.json",
+      "Main_observation": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/Main-original-qualified-single-prefix-action-execution-v1/pending-build/Main-complete-owned-prefix-observation.json"
+    },
+    "build": {
+      "scope_wait": 0,
+      "child_wait": {
+        "at": "2026-10-12T14:40:26.276164+00:00",
+        "pid": 3676627,
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "-p",
+          "-j2",
+          "-P",
+          "core/worldline_core.gpr"
+        ],
+        "returncode": 0,
+        "additional_timeout_seconds": null,
+        "additional_deadline_expired": false,
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+      },
+      "inputs_unchanged": true,
+      "Main_errors": [],
+      "result": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/build-v1/result.json",
+      "Main_observation": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/Main-original-qualified-single-prefix-action-execution-v1/build/Main-complete-owned-prefix-observation.json"
+    },
+    "entry-component-tests": {
+      "scope_wait": 0,
+      "child_wait": {
+        "at": "2026-10-12T14:44:56.582260+00:00",
+        "pid": 3707626,
+        "argv": [
+          "/usr/bin/python3",
+          "-m",
+          "unittest",
+          "-v",
+          "test_examiner_entry_code",
+          "test_examiner_entry_retention",
+          "test_examiner_bound_loader",
+          "test_finalization_journal_sequence",
+          "test_tagged_object_cursor",
+          "test_private_evaluator",
+          "test_kernel_role_observer",
+          "test_namespace_lifetime",
+          "test_private_acquisition_terminal",
+          "test_evaluation_terminal",
+          "test_raw_observation"
+        ],
+        "returncode": 0,
+        "additional_timeout_seconds": null,
+        "additional_deadline_expired": false,
+        "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+      },
+      "inputs_unchanged": true,
+      "Main_errors": [],
+      "result": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/entry-component-tests-v1/result.json",
+      "Main_observation": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/Main-original-qualified-single-prefix-action-execution-v1/entry-component-tests/Main-complete-owned-prefix-observation.json"
+    },
+    "serializer-controls": {
+      "status": "ACTUAL_PASS",
+      "child_wait": 0,
+      "scope_wait": 0,
+      "outer_wait": 0,
+      "tests_observed": 11,
+      "result": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/serializer-controls-v1/result.json",
+      "result_sha256": "635594bbe0d8fe2e56c36f3e63db45b0be767007bf387b5f8ffd2b3632ebe194",
+      "main_terminal_sha256": "9812d25acc2143b412f781e14e9d7c2be78b3dcb4ba545a9516f3a777be01aee",
+      "phase_acceptance": false
+    }
+  },
+  "active_inherited_reservations": [],
+  "new_source_work_owners": {
+    "root": "sole product integration and original execution owner",
+    "takeover_proof_review": "one minimal acquisition-clone proposal outside product source",
+    "takeover_acceptance_review": "independent bounded diagnosis and correction-scope judgement",
+    "takeover_runtime_review": "final exact diagnostic outcome and OOM evidence retention"
+  },
+  "preserved_evidence": [
+    "first-demonstrated-blocker.json",
+    "runtime-row4-evidence",
+    "inherited-diffs",
+    "worktree-inventory.json",
+    "cancelled-inherited-waiters.json",
+    "takeover-stop-receipt.json",
+    "actual-takeover-user-event-0.json",
+    "native-goal-seed.json"
+  ],
+  "inherited_diagnostic_settlement": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/inherited-job-settlement-readback-final.json",
+  "next_action": "Correct the independently demonstrated depth/refusal/publication defect in the one acquisition-clone proposal, obtain independent patch qualification, then freeze one successor and rerun the full original required campaigns from the beginning. No product source or original campaign limits changed.",
+  "execution_candidate": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate",
+  "author_freeze_sha256": "6e6cfc4b71a8c9282744ff6b5ef9b41504d38c6d2418b996852f294e76d6e3c0",
+  "prefix_collector": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/review/root-batch-terminal-v1/actual-results-and-window-release.json",
+  "window_release": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/review/root-batch-terminal-v1/coordination-release.json",
+  "execution_window": "released by original diagnostic collector after actual terminal and unchanged-input readback",
+  "phase_acceptance": false,
+  "later_campaigns": "All-unit build, full strict proof and complete final runtime/additions remain UNLAUNCHED on this frozen source.",
+  "active_current_action": {
+    "mode": "acquisition-regression-tests",
+    "state": "MAIN_OBSERVATION_DEADLINE_REACHED_TARGET_OUTCOME_UNKNOWN",
+    "main_terminal": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/Main-original-qualified-tail-execution-v1/acquisition-regression-tests/Main-complete-owned-tail-observation.json",
+      "sha256": "3947aa3ae8219bb4c5e8a9b2d5c61aa50722ae5e6427cd9f25758e50bb033253",
+      "bytes": 1488,
+      "mode": 384
+    },
+    "missing_actual_child_wait": true,
+    "missing_actual_scope_wait": true,
+    "actual_owned_outer_cleanup_wait": -15,
+    "actual_owned_scope_stop_returncode": 0,
+    "full_suite_pass": false
+  },
+  "current_candidate_cannot_proceed": "Original acquisition-regression-tests did not complete within unchanged Main1000 observation limit. Actual child/scope waits and original result are absent, so dependency success cannot be established. No later required action is launched.",
+  "current_custody_collection": {
+    "bytes": 207883,
+    "mode": 384,
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/tail-transfer/timeout-custody-recovery-v1/Main-owned-collections/actual-current-root-recovery-v1/custody-only-partial-ownership-collection.json",
+    "sha256": "34804ebadda08050f622a9497bda5392d9bfa908da8141ec059bf6b4f39fe01b"
+  },
+  "current_custody_release": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/tail-transfer/timeout-custody-recovery-v1/Main-owned-collections/actual-current-root-recovery-v1/coordination-custody-only-release.json",
+  "active_diagnostic": {
+    "directory": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-current-first-incomplete-diagnostic-v1",
+    "state": "TERMINAL_SCOPE_OOM_CHILD_WAIT_UNKNOWN",
+    "main_terminal": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-current-first-incomplete-diagnostic-v1/run/Main-terminal.json",
+      "sha256": "7cd77c93f38689323c2e0cf07d48234295f24d1488bd853aab56ee490fd5e909",
+      "bytes": 1485,
+      "mode": 384
+    },
+    "collection": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-current-first-incomplete-diagnostic-v1/collection.json",
+      "sha256": "1c8375227fce34ac369072ef443902d1c461733efd0740d782c9e8fe33c2e304",
+      "bytes": 126165,
+      "mode": 384
+    },
+    "actual_scope_wait": -15,
+    "actual_child_wait": "UNKNOWN",
+    "inputs_unchanged": true,
+    "Main_errors": [],
+    "systemd_result_observed": "oom-kill",
+    "systemd_MemoryPeak_observed": 8589934592,
+    "systemd_MemoryMax_observed": 8589934592,
+    "last_sampled_product_path": "finalization_writer.interrupted -> _owned_acquisition -> finalization_journal.encode/lift",
+    "underlying_primary_exception": "UNKNOWN",
+    "campaign_credit": false,
+    "original_campaign_deadline_not_reclassified": true
+  },
+  "current_clone_proposal": {
+    "revision_1": "REJECTED_UNINTEGRATED",
+    "review": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/reviews/current-acquisition-clone-patch-independent-runtime-review.json",
+      "sha256": "20cff8a8bd1c7e90b0a896377b093112274ffb127a793a5e34c30c3e14572d64",
+      "bytes": 12535,
+      "mode": 420
+    },
+    "demonstrated_patch_defect": "Acyclic nested exact builtin trees can pass direct cloning while the original expanded codec raises RecursionError, moving refusal after writer publication.",
+    "revision_2": "AUTHORING_SAME_MINIMAL_CORRECTION",
+    "product_successor_created": false,
+    "tests": "UNRUN"
+  }
+}

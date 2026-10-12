@@ -1,0 +1,48 @@
+{
+  "schema": "worldline-phase1-independent-runtime-fixture-delta-review-v1",
+  "reviewer": "/root/takeover_runtime_review",
+  "qualified": true,
+  "qualification": "QUALIFIED_EXACT_JOURNAL_EVENT_MAPPING_FIXTURE_CORRECTION_SOURCE_ONLY",
+  "scope": "Only tests/test_finalization_journal_sequence.py relative to b29f26decbe13b0753c114abc6fa012d960c3942; no qualification of the full working tree, native frame, source selection, build, proof, runtime result or Phase One acceptance",
+  "source_root": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source",
+  "base_commit": "b29f26decbe13b0753c114abc6fa012d960c3942",
+  "base_file_sha256": "620b19e5d06e241cbe4cc61e3c94761e34d4ba328ea622fdb0d16c3b1e234c17",
+  "reviewed_file_sha256": "ea2ffc21de4aa36bb03f3162322981bbc4fe352d23266e8611ff9421b8cc23d8",
+  "reviewed_git_diff_sha256": "25e78725e9d46bfd844c195d50f6a6ec610c85fe1b777d545e940c67807228e4",
+  "product_dependency": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source/runtime/worldline/finalization_journal.py",
+    "sha256": "df75ed0beb5d5672369df4a79a4e69bb00b0906b1983937bef67a0bd4bf9bd2b",
+    "reviewed_relation": "_events SELECT event,ordinal,invocation,phase,payload, followed by dict(row) for each ordered retained event"
+  },
+  "diagnosis": "The old sqlite3.Row tuple conversion read selected values. The repaired product returns plain mappings for authentic recovery archive grammar, so tuple(row) reads keys. event_values explicitly reads every original selected value in the original SELECT order. Reverting the product would reintroduce RECOVERY_PACKET_TYPE.",
+  "preservation": {
+    "helper_fields_exact": ["event", "ordinal", "invocation", "phase", "payload"],
+    "all_original_snapshot_values_and_payload_bytes_preserved": true,
+    "event_order_preserved": true,
+    "prior_row_comparison_preserved": true,
+    "exact_replay_conflict_and_capture_boundary_assertions_preserved": true,
+    "ordinal_only_query_assertions_preserved": true,
+    "sql_SELECT_all_sqlite_row_tuple_snapshots_unchanged": true,
+    "syntax_AST_parse_succeeded": true,
+    "full_module_AST_identical_after_only_removing_helper_and_normalizing_event_values_calls_to_prior_tuple_calls": true,
+    "literal_assertion_AST_unchanged_without_normalization": false,
+    "literal_assertion_AST_note": "The final exact-replay assertEqual argument contains one of the deliberately corrected snapshot comprehensions. Its assertion operator, expected prior snapshot, fault inputs and expected refusal codes are unchanged. No assertion was deleted or weakened."
+  },
+  "retained_failure": {
+    "directory": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/runtime-row4-evidence",
+    "record_sha256": "077963709622b9cc289757d4f48e9eac566a34824d0acf852a6e28f62f73ecd9",
+    "stderr_sha256": "b3b57471ee6bdb34d83c1301c7fc4e452d407f5e3fb93f422ac1f556b296a05b",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diagnosis_sha256": "72e5a938a236609b41ecc85ee3896bef86cfc8e70d1c52f279df377994305b68",
+    "first_current_runtime_failure": "Original journal assertion received string payload instead of original payload bytes because tuple(dict_row) selected keys"
+  },
+  "required_future_execution": "Rebind the reviewed sole successor in the existing original native receiving path, provide authentic same-candidate native artifacts and exact original entry-mode environment including WORLDLINE_PRIVATE_EVALUATOR_TEST=1, and rerun the complete original entry mode under original Main/child/scope/dependency/collector conditions. Retain every failure and skip as observed. Source-only fixture qualification is not successful execution.",
+  "known_campaign_runner_coverage_gap": "planned-compact.json dropped the original entry-component-tests and acquisition-regression-tests additional_environment values. The original candidate/planned-actions.json and run_checks.py require WORLDLINE_PRIVATE_EVALUATOR_TEST=1. Run-4 entry mode omitted it and reported skipped=23. Those survey controls do not establish original complete runtime coverage.",
+  "other_working_tree_delta_not_reviewed_here": "core/worldline-custody_v2_mutation_decision.adb constant-bound E0007 change is a separate review obligation",
+  "non_claims": [
+    "No test, build, native action, prover, protected fixture or actor was executed by this review",
+    "No successful native wait, fresh goal observation, resource admission, collector release or source transfer was authored",
+    "No final proof, whole-source review or Phase One acceptance",
+    "No qualification of any execution metadata authored by this reviewer"
+  ]
+}

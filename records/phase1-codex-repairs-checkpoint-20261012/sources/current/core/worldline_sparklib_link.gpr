@@ -1,0 +1,10 @@
+with "sparklib.gpr";
+
+abstract project Worldline_Sparklib_Link is
+   for Source_Files use ();
+
+   --  Aggregate libraries cannot directly import a library project.
+   --  Resolve the real archive through the same SPARKlib project as the sources.
+   Archive := SPARKlib'Project_Dir & SPARKlib'Library_Dir
+     & "/lib" & SPARKlib'Library_Name & ".a";
+end Worldline_Sparklib_Link;

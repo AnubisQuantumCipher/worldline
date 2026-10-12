@@ -1,0 +1,74 @@
+{
+  "schema": "worldline-single-failure-driven-successor-freeze-v1",
+  "recorded_at": "2026-10-12T16:59:34.933995+00:00",
+  "sole_active_source": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/source",
+  "branch": "codex/phase1-acquisition-clone-20261012",
+  "commit": "c85f80868999093e96b5528305e72768cca5a59c",
+  "tree": "2ae6c1d6a089b839ab30631ef01c9fb9c05399f3",
+  "git_status": "",
+  "predecessor": {
+    "source": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/source",
+    "commit": "0d1b894cfff2b4d7d0ca470d24f3e7d1035d78c7",
+    "exact_full_inventory_preserved": true,
+    "inventory": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/source-inputs/stable-source-inventory.json",
+      "sha256": "ce57b55f5cacf32f92807e7fd32e407c76cf34c8d0a79c81121b276490e9be51",
+      "bytes": 231256,
+      "mode": 420
+    },
+    "sealed_execution_copy_preserved": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate"
+  },
+  "patch": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/patch.diff",
+    "sha256": "37b17a4c04afda295bfb50ddb700bfff201abf1fb11f7765f907005b8a65ad5b",
+    "bytes": 19323,
+    "mode": 420
+  },
+  "manifest": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/acquisition-clone/revision-2/manifest.json",
+    "sha256": "958a6709e35d369094ae1387783da90dc9835160f28862e150bbc6bf0316da84",
+    "bytes": 10134,
+    "mode": 420
+  },
+  "independent_source_semantics_review": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/reviews/current-acquisition-clone-revision2-independent-runtime-review.json",
+    "sha256": "9565175169e8986f222d33b54db6e9f9a070b3e8988a54ab4f6a52348ba5fb10",
+    "bytes": 14509,
+    "mode": 420
+  },
+  "actual_failure": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-first-demonstrated-blocker.json",
+    "sha256": "a1cfc45e9822d1958bc134806d871d5c69e11d686942316a2e9772464ade26be",
+    "bytes": 1716,
+    "mode": 420
+  },
+  "separate_diagnostic": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/reviews/current-acquisition-diagnostic-terminal-runtime-review-v1/diagnosis.json",
+    "sha256": "81a87e820609910c0f8aaedd4a871116a6d1c90cfdfb5fa3b1c049d42973e08f",
+    "bytes": 40399,
+    "mode": 384
+  },
+  "changed_source_files": {
+    "runtime/worldline/finalization_writer.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/source/runtime/worldline/finalization_writer.py",
+      "sha256": "e18f35c850f5f95f60922704caa18c15acf23ef1d8eeea6eba94f9e65d1de84b",
+      "bytes": 25486,
+      "mode": 420
+    },
+    "tests/test_finalization_journal_sequence.py": {
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/source/tests/test_finalization_journal_sequence.py",
+      "sha256": "b45ff1bc2b153d03592bf40dec05c2810ab414fce1e1beed6e159982c8c961ad",
+      "bytes": 24303,
+      "mode": 420
+    }
+  },
+  "single_execution_owner": "/root",
+  "source15_immutable": true,
+  "parallel_product_successors": false,
+  "full_required_campaigns": "UNLAUNCHED_ON_THIS_COMMIT",
+  "historical_pass_transfer": false,
+  "original_guarantees": "OPEN_UNCHANGED",
+  "original_deadline_cause": "OPEN",
+  "hidden_primary_exception": "UNKNOWN",
+  "phase_acceptance": false
+}

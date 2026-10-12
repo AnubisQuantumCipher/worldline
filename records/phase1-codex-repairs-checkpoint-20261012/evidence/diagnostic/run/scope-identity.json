@@ -1,0 +1,24 @@
+{
+  "pid": 3980996,
+  "starttime": "5671458",
+  "stat_before": "3980996 (systemd-run) S 3975940 3980996 3980996 0 -1 4194304 651 0 0 0 0 0 0 0 20 0 1 0 5671458 11304960 1333 18446744073709551615 187650239168512 187650239259416 281474177707824 0 0 0 0 0 0 1 0 0 17 4 0 0 0 0 0 187650239362192 187650239369712 187650549997568 281474177708821 281474177709128 281474177709128 281474177712099 0\n",
+  "stat_after": "3980996 (systemd-run) S 3975940 3980996 3980996 0 -1 4194304 651 0 0 0 0 0 0 0 20 0 1 0 5671458 11304960 1333 18446744073709551615 187650239168512 187650239259416 281474177707824 0 0 0 0 0 0 1 0 0 17 4 0 0 0 0 0 187650239362192 187650239369712 187650549997568 281474177708821 281474177709128 281474177709128 281474177712099 0\n",
+  "cmdline": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--unit=codex-worldline-current-first-incomplete-d4d6476dbbc64420918d1861d5ac6c19.scope",
+    "-p",
+    "MemoryMax=8G",
+    "-p",
+    "MemorySwapMax=0",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-current-first-incomplete-diagnostic-v1/receiver.py",
+    "child"
+  ],
+  "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/app-org.chromium.Chromium-4472.scope\n",
+  "resolved_executable": "/usr/bin/systemd-run",
+  "executed_file_sha256": "b540a415eab4452328905f9443652f69b0ec357917218c21c0327c5e147bc35f",
+  "limits": "Limit                     Soft Limit           Hard Limit           Units     \nMax cpu time              unlimited            unlimited            seconds   \nMax file size             unlimited            unlimited            bytes     \nMax data size             unlimited            unlimited            bytes     \nMax stack size            8388608              unlimited            bytes     \nMax core file size        0                    0                    bytes     \nMax resident set          unlimited            unlimited            bytes     \nMax processes             128053               128053               processes \nMax open files            524288               524288               files     \nMax locked memory         67108864             67108864             bytes     \nMax address space         unlimited            unlimited            bytes     \nMax file locks            unlimited            unlimited            locks     \nMax pending signals       128053               128053               signals   \nMax msgqueue size         819200               819200               bytes     \nMax nice priority         0                    0                    \nMax realtime priority     0                    0                    \nMax realtime timeout      200000               200000               us        \n"
+}

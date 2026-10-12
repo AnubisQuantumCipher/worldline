@@ -1,0 +1,24 @@
+{
+  "schema": "worldline-current-frozen-candidate-demonstrated-blocker-v1",
+  "observed_at": "2026-10-12T15:34:23.088701+00:00",
+  "source_commit": "0d1b894cfff2b4d7d0ca470d24f3e7d1035d78c7",
+  "source_tree": "aa94f927506ff4f73d8245ee73aa881a53efcfdc",
+  "candidate": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate",
+  "reason": "Original acquisition-regression-tests did not complete within unchanged Main1000 observation limit. Actual child/scope waits and original result are absent, so dependency success cannot be established. No later required action is launched.",
+  "main_terminal": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/Main-original-qualified-tail-execution-v1/acquisition-regression-tests/Main-complete-owned-tail-observation.json",
+    "sha256": "3947aa3ae8219bb4c5e8a9b2d5c61aa50722ae5e6427cd9f25758e50bb033253",
+    "bytes": 1488,
+    "mode": 384
+  },
+  "raw_child_stderr": {
+    "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/execution-transfer/native-receiver/candidate/evidence/acquisition-regression-tests-v1/child.stderr",
+    "sha256": "2a63f719822f30366099d7ebd748417d48f7df5efc6a3ddba018dc31b0b07f8b",
+    "bytes": 364085921,
+    "mode": 420
+  },
+  "cause": "OPEN: Main observation deadline established; underlying source performance/call-site cause not yet established",
+  "no_new_successor": true,
+  "next_action": "Retain interrupted custody via exact existing independently reviewed recovery path; diagnose incomplete acquisition execution before smallest correction and one successor.",
+  "phase_acceptance": false
+}

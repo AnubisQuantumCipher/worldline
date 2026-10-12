@@ -1,0 +1,37 @@
+{
+  "time_utc": "2026-10-12T13:38:33.550519+00:00",
+  "candidate_commit": "b29f26decbe13b0753c114abc6fa012d960c3942",
+  "candidate_tree": "3dd0629b40bf0c3bb5c837c36d0018577eb9b22a",
+  "evidence_commit": "16f43c2",
+  "evidence_tree": "3dd0629b40bf0c3bb5c837c36d0018577eb9b22a",
+  "dirty": "",
+  "demonstrated_blocker": "SPARK E0007: variable in constraint, mutation_decision.adb original lines 384,803,805,1073,1074",
+  "actual_campaign": "full-project diagnostic flow, not full strict proof",
+  "actual_exit": 1,
+  "full_strict_on_inherited_tree": "UNLAUNCHED",
+  "cause": "Constraints directly read mutable arena/capacity/count state. Freeze the same values in constants immediately before declarations.",
+  "smallest_correction": "Only the three same-unit constant-binding hunks from 4a847c3d35f34dd54886aeb27835872665140790",
+  "review": "Actual GPT-6.1 ultra /root/takeover_proof_review independently recommended these same-unit hunks; full acceptance remains open",
+  "files": [
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/proof-floor-v1/meta.txt",
+      "retained": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/first-blocker-evidence/meta.txt",
+      "sha256": "8ecc8142aeab2ad5bc9a111e0ce58e81975fc774fab50b042784bec1376c8f36"
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/proof-floor-v1/flow.stderr",
+      "retained": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/first-blocker-evidence/flow.stderr",
+      "sha256": "bf5e3c2cc88898c12e39c69438d09c7ab22a8c72b90e373b492df48eb23e7d9c"
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/evidence/proof-floor-v1/flow.stdout",
+      "retained": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/first-blocker-evidence/flow.stdout",
+      "sha256": "4eb3c9173be3c071e5c486399bec7f4c52e019a7b67cf722a5279e2ba3190c6c"
+    },
+    {
+      "source": "/home/sicarii/Work/worldline-phase1-claude-20261012/source/core/worldline-custody_v2_mutation_decision.adb",
+      "retained": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/first-blocker-evidence/worldline-custody_v2_mutation_decision.adb",
+      "sha256": "a3b7da98f6825a868aa5edf7ee023a228b2cbdc5a71aa62d304723c8bbb5799a"
+    }
+  ]
+}

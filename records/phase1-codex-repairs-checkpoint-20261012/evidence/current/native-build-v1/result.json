@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-12T17:32:08.119758+00:00",
+  "scope_wait": 0,
+  "inputs_unchanged": true,
+  "native_artifacts_before": {},
+  "native_artifacts_after": {
+    "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/native-artifacts/libworldline_examiner_guard.so": {
+      "sha256": "42ad04b274095121f7feb9f1f8824614dad99179b2cb83459fc1a9cd29f4fa29",
+      "bytes": 149864,
+      "mode": 493
+    },
+    "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/native-artifacts/build.json": {
+      "sha256": "cf52a8f56b4ec8efc224f0513b32d47cdaa01a9bca77886780f6d732abe1bdb3",
+      "bytes": 392,
+      "mode": 420
+    }
+  },
+  "native_inputs_unchanged": true,
+  "child_wait": {
+    "at": "2026-10-12T17:31:44.877637+00:00",
+    "pid": 68680,
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/source/native/build_guard.py",
+      "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/acquisition-clone-successor-v1/execution-transfer/native-receiver/candidate/native-artifacts"
+    ],
+    "returncode": 0,
+    "additional_timeout_seconds": null,
+    "additional_deadline_expired": false,
+    "meaning": "actual subprocess.Popen.wait return value; no proof acceptance"
+  },
+  "original_targets": "OPEN_UNCHANGED",
+  "no_proof_claim": true
+}

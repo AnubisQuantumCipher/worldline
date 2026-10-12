@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/usr/bin/systemctl",
+    "--user",
+    "show",
+    "codex-worldline-current-first-incomplete-d4d6476dbbc64420918d1861d5ac6c19.scope",
+    "-p",
+    "ActiveState",
+    "-p",
+    "SubState",
+    "-p",
+    "ControlGroup",
+    "-p",
+    "MainPID"
+  ],
+  "stdout": "ActiveState=failed\nSubState=failed\nControlGroup=\n",
+  "stderr": "",
+  "returncode": 0
+}

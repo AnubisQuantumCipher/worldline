@@ -1,0 +1,11 @@
+with "../core/worldline_core_sources.gpr";
+project Tests is
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/transition-tests";
+   for Exec_Dir use "../obj/transition-tests";
+   for Main use ("test_transition.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+end Tests;
