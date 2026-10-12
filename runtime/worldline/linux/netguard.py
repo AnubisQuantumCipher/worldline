@@ -354,10 +354,8 @@ class AllowlistProxy(socketserver.ThreadingUnixStreamServer):
                 'handlerErrors': [exception_observation(item) for item in self._handler_errors]}
 
     def quiescent(self) -> bool:
-        with self._owned_lock:
-            return (self._stopping and not self._thread.is_alive()
-                    and all(not item.is_alive() for item in self._owned_threads)
-                    and all(item.fileno() == -1 for item in self._owned_sockets))
+        from ..runner_lifecycle import allowed
+        return allowed('proxy-ended', self.quiescence_observation())
 
     def stop(self) -> None:
         # This is a bounded teardown grace, not a new active connection timer.
@@ -399,7 +397,12 @@ class AllowlistProxy(socketserver.ThreadingUnixStreamServer):
             self.socket_path.unlink()
         except OSError:
             pass
-        if not self.quiescent():
+        complete = False
+        def observe_complete():
+            nonlocal complete
+            complete = self.quiescent()
+        attempt(observe_complete)
+        if not complete:
             error = WorldlineError('AGENT_PROXY_NOT_QUIESCENT',
                 'owned proxy work remains live after bounded teardown', self.quiescence_observation())
             if failure is None:

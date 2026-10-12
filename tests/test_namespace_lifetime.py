@@ -594,5 +594,58 @@ class NamespaceRestrictionIntegration(unittest.TestCase):
             self.assertIn(b'failures="0"', (report / 'report').read_bytes())
 
 
+class PidfdReadinessControls(unittest.TestCase):
+    def test_actual_high_pidfd_live_wait_terminal_and_closed_refusal(self):
+        import select
+        from worldline.linux.namespace_lifetime import pidfd_ready
+        # The installed CPython _PyIsSelectable_fd uses the installed libc
+        # FD_SETSIZE of 1024. Verify the actual select refusal on a real pidfd;
+        # do not allocate a synthetic process handle or change resource limits.
+        process = subprocess.Popen(
+            (TRUSTED_INTERPRETER, '-I', '-S', '-c',
+             "import sys; assert sys.stdin.buffer.read(1) == b'x'"),
+            stdin=subprocess.PIPE, stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL, close_fds=True)
+        pidfd = high = None
+        try:
+            pidfd = os.pidfd_open(process.pid)
+            high = fcntl.fcntl(pidfd, fcntl.F_DUPFD_CLOEXEC, 1024)
+            self.assertGreaterEqual(high, 1024)
+            self.assertFalse(os.get_inheritable(high))
+            self.assertIsNone(process.poll())
+            with self.assertRaisesRegex(ValueError, 'filedescriptor out of range in select'):
+                select.select([high], [], [], 0)
+            self.assertFalse(pidfd_ready(pidfd))
+            self.assertFalse(pidfd_ready(high))
+            os.fstat(high)  # Readiness did not take or close the held reference.
+            process.stdin.write(b'x')
+            process.stdin.flush()
+            process.stdin.close()
+            self.assertEqual(process.wait(timeout=20), 0)
+            self.assertTrue(pidfd_ready(pidfd))
+            self.assertTrue(pidfd_ready(high))
+            os.close(high)
+            closed, high = high, None
+            # No descriptor is opened between this close and the invalid check.
+            with self.assertRaises(OSError) as raised:
+                pidfd_ready(closed)
+            self.assertEqual(raised.exception.errno, errno.EBADF)
+        finally:
+            for descriptor in (high, pidfd):
+                if descriptor is not None:
+                    os.close(descriptor)
+            if not process.stdin.closed:
+                process.stdin.close()
+            if process.poll() is None:
+                process.kill()
+            process.wait(timeout=20)
+
+    def test_pidfd_negative_and_non_descriptor_type_refuse(self):
+        from worldline.linux.namespace_lifetime import pidfd_ready
+        for descriptor, error in ((-1, ValueError), ('not-a-file-descriptor', TypeError)):
+            with self.subTest(descriptor=descriptor), self.assertRaises(error):
+                pidfd_ready(descriptor)
+
+
 if __name__ == '__main__':
     unittest.main()

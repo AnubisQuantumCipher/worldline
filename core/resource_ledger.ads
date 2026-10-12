@@ -121,25 +121,56 @@ package Resource_Ledger with SPARK_Mode is
 
    --  Closed recurrence independent of the iterative Prefix_Total producer.
    --  No public validity/capacity precondition or numeric bound is added.
-   function Total_Reference
+   --  One predecessor definition evaluation; no checked wrapper calls itself
+   --  from its Post. Reference equality makes the model-based recurrence
+   --  equivalent to the original public-call recurrence on the whole domain.
+   --  The independent model body and every variant remain in proof scope.
+   function Total_Model
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
       return Valid_Big_Integer is
      (if Count = 0 then To_Big_Integer (0)
-      else Total_Reference (Data, Rows, Count - 1) +
+      else Total_Model (Data, Rows, Count - 1) +
         Row_Reference (Data, Rows, Count - 1))
    with Ghost, Global => null,
      Subprogram_Variant => (Decreases => Count);
 
-   function Prefix_Total
+   function Total_Reference
+     (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
+      return Valid_Big_Integer is
+     (Total_Model (Data, Rows, Count))
+   with Ghost, Global => null,
+     Subprogram_Variant => (Decreases => Count),
+     Post => Total_Reference'Result =
+       (if Count = 0 then To_Big_Integer (0)
+        else Total_Model (Data, Rows, Count - 1) +
+          Row_Reference (Data, Rows, Count - 1)) and then
+       Total_Reference'Result = Total_Model (Data, Rows, Count),
+     Annotate => (GNATprove, Inline_For_Proof);
+
+   --  Executed checked bridge; its body preserves every original public-body
+   --  assertion and the iterative-worker correspondence. No new caller Pre.
+   function Prefix_Total_Checked
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
       return Valid_Big_Integer
    with Ghost, Global => null,
      Subprogram_Variant => (Decreases => Count),
+     Post => Prefix_Total_Checked'Result = Total_Model (Data, Rows, Count),
+     Annotate => (GNATprove, Inline_For_Proof);
+
+   function Prefix_Total
+     (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
+      return Valid_Big_Integer is
+     (Prefix_Total_Checked (Data, Rows, Count))
+   with Ghost, Global => null,
+     Subprogram_Variant => (Decreases => Count),
      Post => Prefix_Total'Result =
        (if Count = 0 then To_Big_Integer (0)
-        else Prefix_Total (Data, Rows, Count - 1) +
+        else Total_Model (Data, Rows, Count - 1) +
           Row_Reference (Data, Rows, Count - 1)) and then
-       Prefix_Total'Result = Total_Reference (Data, Rows, Count);
+       Prefix_Total'Result = Total_Reference (Data, Rows, Count),
+     --  Prefix_Total = Total_Reference = Total_Model for every Count, so the
+     --  predecessor substitution preserves the exact signed ordered sum.
+     Annotate => (GNATprove, Inline_For_Proof);
 
    --  This is an exact storage relation, not a bound on accepted integers.
    --  The supplied total arena must hold every ordered partial sum. A caller

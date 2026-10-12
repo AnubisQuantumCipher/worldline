@@ -66,7 +66,7 @@ class Revalidator:
                     removed.append(entry.name)
         return removed
 
-    def revalidate(self, world_value: str) -> dict[str, Any]:
+    def revalidate(self, world_value: str, *, owner_admission=None) -> dict[str, Any]:
         world = self.store.world(world_value)
         if world.state is not WorldState.VALID:
             raise WorldlineError("INVALID_CANDIDATE", f"only a VALID world can be revalidated, got {world.state.value}; fork a new candidate")
@@ -112,13 +112,18 @@ class Revalidator:
         # 2–4. Evaluate the candidate's bytes against the CURRENT requirements and bind the
         #      resulting context to this exact world.
         parent = self.store.world(world.parent_instance) if world.parent_instance else None
-        entry = self._evaluate(
+        from .evaluation_terminal import TerminalJournal
+        terminal = getattr(self.store, 'evaluation_terminal', None)
+        if type(terminal) is not TerminalJournal:
+            raise WorldlineError('EVALUATION_AUTHORITY_UNAVAILABLE', 'durable pending/terminal custody is not provisioned')
+        entry = self.evaluate_retained(terminal=terminal, content_identity=world.content_id,
             source_dir=payload,
             subject={"instanceId": world.instance_id, "alias": world.alias, "baseRoot": world.base_root, "rootSetHash": world.root_set_hash, "missionHash": world.mission_hash},
             prime_at_fork={"instanceId": world.parent_instance, "contentId": world.parent_content, "generation": None if parent is None else parent.instance_id},
             protected_delta=lambda: Delta.compute_all(base_manifests, candidate_manifests, self.core),
             source="revalidation",
             declared=candidate_manifests,
+            owner_admission=owner_admission,
         )
         entry = {"worldInstance": world.instance_id, "worldContentId": world.content_id, **entry}
         key = f"validation:{world.instance_id}"
@@ -136,7 +141,31 @@ class Revalidator:
         protected-paths check is evaluated on what would change in PRIME (current -> staged).
         Called by the transaction manager during prepare; a FAIL leaves the kernel's
         STAGED_UNTESTED refusal in force."""
-        entry = self._evaluate(
+        return self._validate_staged_bound(staging_payload, candidate, current_manifests,
+                                           staged_manifests, staged_content_root)
+
+    def validate_staged_for_subject(self, staging_payload: Path, candidate: Any,
+                                    current_manifests: Any, staged_manifests: Any,
+                                    staged_content_root: str, *, subject_instance: str) -> dict[str, Any]:
+        """Owned default adapter; the original positional vehicle is preserved.
+
+        Resolve the full evidence subject from the actual store, rather than
+        treating the return vehicle or a callback's result as its identity. The
+        same staged bytes and current-to-staged protected delta are evaluated.
+        No positive custody or confinement fact is inferred from this lookup.
+        """
+        subject = self.store.world(subject_instance)
+        return self._validate_staged_bound(staging_payload, subject, current_manifests,
+                                           staged_manifests, staged_content_root)
+
+    def _validate_staged_bound(self, staging_payload: Path, candidate: Any,
+                               current_manifests: Any, staged_manifests: Any,
+                               staged_content_root: str) -> dict[str, Any]:
+        from .evaluation_terminal import TerminalJournal
+        terminal = getattr(self.store, 'evaluation_terminal', None)
+        if type(terminal) is not TerminalJournal:
+            raise WorldlineError('EVALUATION_AUTHORITY_UNAVAILABLE', 'durable staged capture custody is not provisioned')
+        entry = self.evaluate_retained(terminal=terminal, content_identity=candidate.content_id,
             source_dir=staging_payload,
             subject={"instanceId": candidate.instance_id, "alias": candidate.alias, "baseRoot": candidate.base_root, "rootSetHash": candidate.root_set_hash, "missionHash": candidate.mission_hash, "stagedContentRoot": staged_content_root},
             prime_at_fork={"instanceId": candidate.parent_instance, "contentId": candidate.parent_content, "generation": None},
@@ -149,7 +178,7 @@ class Revalidator:
     def evaluate_retained(self, *, terminal, content_identity: str, source_dir: Path,
                           subject: dict[str, Any], prime_at_fork: dict[str, Any],
                           protected_delta: Any, source: str,
-                          declared: Mapping[str, CapturedManifest] | None = None) -> dict[str, Any]:
+                          declared: Mapping[str, CapturedManifest] | None = None, owner_admission=None) -> dict[str, Any]:
         """Explicit private producer path. It is not the default authority path.
         The writer observes this actual evaluator invocation and preserves its
         complete result stream. Deployment/custody/full-wire gates still apply.
@@ -158,7 +187,7 @@ class Revalidator:
         authoritative = self.store.world(subject['instanceId'])
         if authoritative.instance_id != subject['instanceId'] or authoritative.content_id != content_identity:
             raise WorldlineError('EVALUATION_CONTENT_BINDING_MISMATCH', 'stored world identity differs from explicit evaluation binding')
-        writer = EngineEvaluationWriter(terminal, authoritative.content_id)
+        writer = EngineEvaluationWriter(terminal, authoritative.content_id, owner_admission=owner_admission)
         try:
             return self._evaluate(source_dir=source_dir, subject=subject,
                 prime_at_fork=prime_at_fork, protected_delta=protected_delta,

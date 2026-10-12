@@ -139,7 +139,14 @@ class RuntimeController:
         capabilities: CapabilityRegistry,
         *,
         core: Core | None = None,
+        startup_lease=None,
     ) -> None:
+        self.startup_lease = startup_lease
+        if startup_lease is not None:
+            from .protected_startup import StartupLease
+            if type(startup_lease) is not StartupLease:
+                raise WorldlineError('PROTECTED_STARTUP_REQUIRED', 'an actual retained startup lease is required')
+            startup_lease.validate_controller(paths, store, core)
         self.paths = paths
         self.store = store
         # First, before anything that acts outside the store (releasing admission reservations,
@@ -165,7 +172,8 @@ class RuntimeController:
         # The service manager is the authority on what is still running, so anything it no
         # longer has is released here, at start, before any admission is answered.
         try:
-            self._reconciled_at_start = self.admission.reconcile()
+            self._reconciled_at_start = (self.admission.reconcile() if startup_lease is None
+                                        else startup_lease.reconcile_admission(self))
         except WorldlineError as exc:
             # A ledger that cannot be read must not stop the daemon from starting. It is
             # reported by doctor and refuses admissions until it is dealt with.
@@ -175,7 +183,10 @@ class RuntimeController:
             self._reconcile_error = None
         self.watcher: InotifyWatcher | None = None
         self.tracker: PrimeChangeTracker | None = None
-        self._refresh_watcher()
+        if startup_lease is None or startup_lease.operation_head_creation is None:
+            self._refresh_watcher()
+        else:
+            startup_lease.operation_head_provisioning()
         self.roots = RootManager(paths, store, core=self.core, watcher=self.watcher)
         self.checkpoint = CheckpointManager(
             paths,
@@ -203,6 +214,7 @@ class RuntimeController:
             anchor=self.anchors,
             config=config,
             validator=self.revalidator.validate_staged,
+            staged_subject_validator=self.revalidator.validate_staged_for_subject,
         )
         # A quarantined transaction stops everything that freezes or publishes PRIME, not only
         # prepare and commit (review of 56a7146).
@@ -222,6 +234,12 @@ class RuntimeController:
         # anchor are then signed, and the witness brought up to date by appending. A rollback, a
         # rewrite or a coverage mismatch signs nothing, leaves the witness as it was and raises an
         # alarm that doctor reports and the promotion guard refuses on (OB-083, OB-089).
+        if startup_lease is not None and startup_lease.operation_head_creation is not None:
+            # Owner provisioning builds the actual existing-store controller but
+            # emits no anchor, metadata, recovery, watcher or endpoint effect.
+            startup_lease.operation_head_provisioning()
+            self._anchor_start = {"state": "OFFLINE_OWNER_CONSTRUCTION"}
+            return
         try:
             started = self.anchors.startup(verify_chains=self.store.verify_chains, items=self.store.anchor_items,
                                            canonical=self.store.canonical_for)
@@ -415,6 +433,9 @@ class RuntimeController:
         daemon.register("anchor.status", self._anchor_status)
         daemon.register("revalidate", self._revalidate, mutating=True)
         daemon.register("validation.status", self._validation_status)
+        daemon.register("owner.retry", self._owner_retry, mutating=True, owner_only=True)
+        daemon.register("owner.adopt", self._owner_adopt, mutating=True, owner_only=True)
+        daemon.register("owner.recover", self._owner_recover, mutating=True, owner_only=True)
 
     def _register_roots(self, args: dict[str, Any], context: RequestContext) -> dict[str, Any]:
         allowed = {"roots", "kind", "primary", "confirmed"}
@@ -661,6 +682,21 @@ class RuntimeController:
         if set(args) != {"transactionId"} or not isinstance(args["transactionId"], str):
             raise InvalidRequest("collapse.commit requires transactionId")
         transaction = self.store.transaction_record(args["transactionId"])
+        principal=getattr(self,'canonical_operation_principal',None)
+        if principal is not None:
+            from .protected_operations import current_scope,OperationScope
+            from .protected_startup import require
+            from .canonical_followup import after_committed
+            scope=current_scope()
+            require(type(scope) is OperationScope and scope.principal is principal,
+                'FULL_BROKER_ORIGINAL_OPERATION_SCOPE_REQUIRED')
+            try:
+                result=principal.broker().commit(scope.operation,args['transactionId'])
+            finally:
+                protected_warnings=self._rebuild_watcher_and_retry(context.daemon)
+            previous=result.get('postCommit') or {}
+            result={**result,'postCommit':{**previous,'warnings':[*(previous.get('warnings') or []),*protected_warnings]}}
+            return after_committed(principal,transaction,context,result)
         warnings: list[dict[str, Any]] = []
         try:
             try:
@@ -824,7 +860,7 @@ class RuntimeController:
         if set(args) != {"world"} or not isinstance(args["world"], str):
             raise InvalidRequest("validation requires world")
         world = self.store.world(args["world"])
-        context, source = effective_context(self.store, world)
+        context, source = None, None
         current: dict[str, Any] | None
         try:
             current = current_requirements(self.store, self.config, self.core)
@@ -835,6 +871,8 @@ class RuntimeController:
             current_error = None
         problems: list[str] = []
         try:
+            context, source = effective_context(self.store, world,
+                requirement_hash=None if current is None else current['requirementHash'])
             verify_context(context, candidate_instance=world.instance_id, core=self.core)
         except WorldlineError as exc:
             problems.append(exc.code)
@@ -866,6 +904,14 @@ class RuntimeController:
         if not getattr(reservation, "unit", None):
             return None
         reading = self.systemd.resource_telemetry(reservation.unit)
+        if getattr(reservation, "workload", "").startswith("check:"):
+            from .linux.systemd import SystemdAdapter
+            identity = SystemdAdapter.persisted_workload_identity(
+                reservation.unit, getattr(reservation, "workload_identity", None))
+            observed = reading.get("workloadIdentity")
+            if identity is None or observed != {"unit": identity.unit,
+                    "invocationId": identity.invocation_id, "controlGroup": identity.control_group}:
+                return None
         return reading.get("currentMemoryBytes") if reading.get("state") == "OBSERVED" else None
 
     def _reservation_is_live(self, reservation: Any) -> bool | None:
@@ -882,6 +928,19 @@ class RuntimeController:
         unit = getattr(reservation, "unit", None)
         if not unit:
             return True
+        if getattr(reservation, "workload", "").startswith("check:"):
+            from .linux.systemd import WorkloadTerminalObservation
+            try:
+                observed = self.systemd.reservation_observation(reservation)
+            except Exception:
+                return None
+            if not isinstance(observed, WorkloadTerminalObservation) or observed.unit != unit:
+                return None
+            if observed.state == "MANAGER_WORKLOAD_LIVE":
+                return True
+            if observed.state in {"MANAGER_CGROUP_EMPTY", "MANAGER_CGROUP_REMOVED"}:
+                return False
+            return None
         try:
             metadata = self.systemd.metadata(unit)
         except WorldlineError:
@@ -1075,7 +1134,11 @@ class RuntimeController:
             if payload is not None and payload.is_dir() and any(
                     not (payload / "manifests" / f"{root['root_key']}.json").is_file() for root in roots):
                 missing.append("manifest")
-            context, source = effective_context(self.store, world)
+            try:
+                context, source = effective_context(self.store, world, requirement_hash=current)
+            except WorldlineError as exc:
+                context, source = None, None
+                row['evaluationAuthorityError'] = exc.code
             evaluated = context.get("requirementHash") if isinstance(context, dict) else None
             if missing:
                 worlds["notRevalidatable"].append({**row, "missing": missing})
@@ -1331,3 +1394,29 @@ class RuntimeController:
                 for root in roots
             ],
         }
+
+    def _owner_retry(self,args,context):
+        if set(args)!={'world','reason'} or type(args['world']) is not str or type(args['reason']) is not str:
+            raise InvalidRequest('owner.retry requires exact world and reason')
+        from .protected_owner import installed_owner
+        request=context.retain_peer()
+        if request is None:raise WorldlineError('OWNER_ORIGINAL_REQUESTER_UNAVAILABLE','original connected client required')
+        try:return installed_owner(self).retry(request,args['world'],args['reason'])
+        finally:request.close()
+
+    def _owner_adopt(self,args,context):
+        if set(args)!={'world','reason','expectedRequirement'} or any(type(args[k]) is not str for k in args):
+            raise InvalidRequest('owner.adopt requires exact world, reason and expectedRequirement')
+        from .protected_owner import installed_owner
+        request=context.retain_peer()
+        if request is None:raise WorldlineError('OWNER_ORIGINAL_REQUESTER_UNAVAILABLE','original connected client required')
+        try:return installed_owner(self).prepare_adopt(request,args['world'],args['reason'],args['expectedRequirement'])
+        finally:request.close()
+
+    def _owner_recover(self,args,context):
+        if set(args)!={'intent'} or type(args['intent']) is not str:raise InvalidRequest('owner.recover requires exact intent')
+        from .protected_owner import installed_owner
+        request=context.retain_peer()
+        if request is None:raise WorldlineError('OWNER_ORIGINAL_REQUESTER_UNAVAILABLE','original connected client required')
+        try:return installed_owner(self).recover(request,args['intent'])
+        finally:request.close()

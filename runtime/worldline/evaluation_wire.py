@@ -123,31 +123,7 @@ class Authority:
 
 def missing_record(): return OwnedRecord(bytes(ctypes.sizeof(Raw)), 0)
 
-def record(result, declared):
-    from .completion_observations import observations
-    from .finalize import evaluation_presence
-    from .report_facts import report_facts
-    facts = observations(result)
-    # D27: unknown agent ceiling measurement is not supervised success.
-    supervisor, stopped = facts.supervisor, facts.supervisor_stopped
-    if facts.source == 'agent':
-        resource = result.get('resources')
-        ceiling = resource.get('ceilingFired') if isinstance(resource, Mapping) else None
-        if ceiling is True: stopped = True
-        elif ceiling is not False: supervisor = 'OTHER'
-    isolation = result.get('profile') == 'private-evaluator-v1' and isinstance(result.get('evaluatorBoundary'), Mapping)
-    f = report_facts(result)
-    presence = evaluation_presence(result, declared)
-    raw = Raw((U8 * 14)(EVALUATION_ORIGINS[facts.source], EVALUATION_STATUSES[facts.status],
-        EVALUATION_CHANNELS[facts.channel], EVALUATION_STAGES[facts.stage], int(facts.exit_present),
-        int(facts.exit_integer), EVALUATION_SUPERVISION[supervisor], int(stopped), int(facts.bundle_present),
-        int(facts.bundle_is_mapping), int(facts.bundle_stable), int(facts.bundle_changed),
-        int(facts.unsatisfied_imports), int(isolation)),
-        int(result.get('format') in ('junit', 'gnatprove', 'worldline-benchmark-v1')),
-        (U8 * 14)(*(int(x) for x in f)),
-        (U8 * 5)(*(int(getattr(presence, name)) for name in presence.__dataclass_fields__)))
-    # No current producer establishes complete v6 confinement. Neither a
-    # report/audit label nor observed namespace equality may invent it.
-    # This explicit unmeasured value blocks External promotion until the
-    # required custody/confinement producer is implemented and reviewed.
-    return OwnedRecord(bytes(raw), 0)
+def record(result, declared, *, core=None):
+    from .core import Core
+    from .evaluation_producer import derive
+    return derive(Core.shared() if core is None else core, result, declared)

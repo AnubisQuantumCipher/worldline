@@ -7,6 +7,7 @@ proof. Raw reads, writes, failures and owned process cleanup remain observations
 from __future__ import annotations
 
 import base64
+import errno
 import fcntl
 import json
 import os
@@ -18,6 +19,7 @@ import subprocess
 import sys
 import threading
 import time
+from types import MethodType
 
 # linux/nsfs.h, asm-generic/ioctl.h; supported Linux UAPI, no fallback.
 NS_GET_PARENT = 46850
@@ -35,6 +37,26 @@ class NamespaceRestrictionFailure(ValueError):
 def require(condition, message):
     if not condition:
         raise NamespaceRestrictionFailure(message)
+
+
+def pidfd_ready(descriptor):
+    """Nonblocking readiness of the same held pidfd; never own or reopen it."""
+    poller = select.poll()
+    poller.register(descriptor, select.POLLIN)
+    events = poller.poll(0)
+    if not events:
+        return False
+    if len(events) != 1:
+        raise OSError(errno.EIO, 'unexpected held-pidfd poll result')
+    observed, mask = events[0]
+    if observed != descriptor:
+        raise OSError(errno.EIO, 'held-pidfd poll returned another descriptor')
+    if mask & select.POLLNVAL:
+        raise OSError(errno.EBADF, 'held pidfd is not open')
+    terminal = select.POLLIN | select.POLLHUP
+    if mask & select.POLLERR or mask & ~terminal or not mask & terminal:
+        raise OSError(errno.EIO, 'unexpected held-pidfd poll events')
+    return True
 
 
 def raw(value):
@@ -372,6 +394,70 @@ def finish_process(process, record, deadline, *, maximum_output, kill=False, cle
                 stream.close()
 
 
+def _role_try_wait(process, wait_flags, _waitpid=os.waitpid):
+    # Popen's POSIX _try_wait synthesizes (pid, 0) on ECHILD. Preserve its
+    # compatibility result, but never retain that synthetic zero as a wait.
+    try:
+        result = _waitpid(process.pid, wait_flags)
+    except ChildProcessError as error:
+        process._unavailable_wait_status = True
+        process.wait_record['waitAttempts'].append({
+            'operation': 'waitpid', 'pid': process.pid, 'flags': wait_flags,
+            'returned': False, 'rawStatus': None, 'returnedPid': None,
+            'observed_ns': time.monotonic_ns(), 'exception': failure(error),
+            'errno': error.errno})
+        return process.pid, 0
+    except OSError as error:
+        process.wait_record['waitAttempts'].append({
+            'operation': 'waitpid', 'pid': process.pid, 'flags': wait_flags,
+            'returned': False, 'rawStatus': None, 'returnedPid': None,
+            'observed_ns': time.monotonic_ns(), 'exception': failure(error),
+            'errno': error.errno})
+        raise
+    process._unavailable_wait_status = False
+    if result[0] == process.pid:
+        process._wait_status_from_try = True
+        process.wait_record['waitAttempts'].append({
+            'operation': 'waitpid', 'pid': process.pid, 'flags': wait_flags,
+            'returned': True, 'rawStatus': result[1], 'returnedPid': result[0],
+            'observed_ns': time.monotonic_ns(), 'exception': None, 'errno': None})
+    return result
+
+
+def _role_handle_exitstatus(process, status, _clock=time.monotonic_ns):
+    unavailable = process._unavailable_wait_status
+    process._original_handle_exitstatus(status)
+    process.wait_record['returncode'] = process.returncode
+    if not unavailable:
+        if not process._wait_status_from_try:
+            # Popen._internal_poll calls this hook after a real waitpid.
+            # The hook does not expose that call's flags.
+            process.wait_record['waitAttempts'].append({
+                'operation': 'waitpid', 'api': 'Popen._handle_exitstatus',
+                'pid': process.pid, 'flags': None, 'returned': True,
+                'rawStatus': status, 'returnedPid': process.pid,
+                'observed_ns': _clock(), 'exception': None, 'errno': None})
+        process.wait_record.update(waitReturned=True, rawWaitStatus=status,
+                                   waitObserved_ns=_clock())
+    process._unavailable_wait_status = False
+    process._wait_status_from_try = False
+
+
+def _role_process(*arguments, wait_record, **options):
+    """Keep the original spawn factory and retain its actual POSIX wait results."""
+    process = subprocess.Popen(*arguments, **options)
+    process.wait_record = wait_record
+    original = getattr(process, '_handle_exitstatus', None)
+    if callable(original) and callable(getattr(process, '_try_wait', None)):
+        process._original_handle_exitstatus = original
+        process._unavailable_wait_status = False
+        process._wait_status_from_try = False
+        process._try_wait = MethodType(_role_try_wait, process)
+        process._handle_exitstatus = MethodType(_role_handle_exitstatus, process)
+    # A child adapter without POSIX wait methods supplies no raw wait evidence.
+    return process
+
+
 class NamespaceLease:
     """Bootstrap-owned N2 FD; the seed is reaped before any role starts."""
     def __init__(self, *, argv, run_id, expected_parent, deadline, maximum,
@@ -428,7 +514,7 @@ class NamespaceLease:
             reply = receive_packet(channel, self.deadline, self.maximum_request, self.record)
             require(isinstance(reply, dict) and reply.get('state') == 'unshared',
                     'namespace seed did not create its child namespace')
-            require(not select.select([child_pidfd], [], [], 0)[0], 'namespace seed exited before mapping')
+            require(not pidfd_ready(child_pidfd), 'namespace seed exited before mapping')
             identity = process_identity(capture.read('stat', parent=child_proc))
             require(identity['pid'] == process.pid and identity['ppid'] == os.getpid(),
                     'namespace seed identity/parent differs')
@@ -452,7 +538,7 @@ class NamespaceLease:
             capture.read(_QUOTA)
             capture.write(_QUOTA, b'0\n')
             require(capture.read(_QUOTA).strip() == b'0', 'parent namespace quota was not restricted')
-            require(not select.select([child_pidfd], [], [], 0)[0]
+            require(not pidfd_ready(child_pidfd)
                     and process_identity(capture.read('stat', parent=child_proc)) == identity,
                     'namespace seed changed during mapping')
             verify = os.open('ns/user', os.O_RDONLY | os.O_CLOEXEC, dir_fd=child_proc)
@@ -493,7 +579,10 @@ class NamespaceLease:
     def spawn_role(self, command, *, deadline, **options):
         """Hold ownership until Popen has inherited its own namespace reference."""
         row = {'descriptor': None, 'command': list(command),
-               'spawnReturned': False, 'exception': None}
+               'spawnReturned': False, 'exception': None, 'kernelObservationId': None,
+               'role': None, 'waitScope': 'owned-role-launcher-child',
+               'waitReturned': False, 'rawWaitStatus': None, 'waitObserved_ns': None,
+               'returncode': None, 'waitAttempts': []}
         acquired = self.lock.acquire(timeout=remaining(deadline))
         require(acquired, 'namespace descriptor borrower did not become available')
         try:
@@ -502,7 +591,8 @@ class NamespaceLease:
             require(self.descriptor is not None, 'namespace descriptor lease is closed')
             require(len(command) > 3 and tuple(command[1:3]) == ('--userns', str(self.descriptor))
                     and command[-1] == str(self.descriptor), 'role command differs from owned descriptor')
-            process = subprocess.Popen(command, pass_fds=(self.descriptor,), close_fds=True, **options)
+            process = _role_process(command, wait_record=row, pass_fds=(self.descriptor,),
+                                    close_fds=True, **options)
             row.update(spawnReturned=True, pid=process.pid)
             return process
         except BaseException as error:
@@ -510,6 +600,12 @@ class NamespaceLease:
             raise
         finally:
             self.lock.release()
+
+    def bind_role(self, process, observation):
+        """Bind the owned launcher's wait to its original kernel startup receipt."""
+        row = process.wait_record
+        row['kernelObservationId'] = observation['kernelObservationId']
+        row['role'] = observation['role']
 
     def close(self, *, timeout=20):
         acquired = self.lock.acquire(timeout=timeout)
@@ -623,7 +719,7 @@ def _descriptor_reader(channel, namespace_fd, process_fd, pidfd,
         send_packet(channel, value, deadline, maximum_request, transport)
 
     def live(capture, phase):
-        ready = bool(select.select([pidfd], [], [], 0)[0])
+        ready = pidfd_ready(pidfd)
         record.setdefault('subjectLiveness', []).append({'phase': phase, 'pidfdReady': ready})
         require(not ready, 'descriptor subject exited')
         fields = parse_fields(capture.read('/proc/self/fdinfo/' + str(pidfd)))

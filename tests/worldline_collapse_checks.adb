@@ -57,7 +57,8 @@ package body Worldline_Collapse_Checks is
       Expected_Root_Set => Rs (5), Candidate_Root_Set => Rs (5),
       Expected_Staged_Root => St (6), Actual_Staged_Root => St (6),
       Staged_Content_Root => Cr (7), Tested_Root => Cr (7),
-      Current_Requirement => Rq (8), Evaluated_Requirement => Rq (8),
+      Current_Requirement => Rq (8), Resulting_Requirement => Rq (8),
+      Evaluated_Requirement => Rq (8),
       Declared_Verifiers => Vs (9), Executed_Verifiers => Vs (9),
       Staged_Evaluated_Requirement => (others => <>),
       Staged_Executed_Verifiers => (others => <>),
@@ -224,6 +225,19 @@ package body Worldline_Collapse_Checks is
          Zeroed.Staged_Roster_Complete := False;
          Check (Decide (Zeroed) /= Authorized, "the zeroed request was authorized");
       end;
+      -- Additive original K1 resulting-policy condition, independent of the
+      -- unchanged evaluated/current pair and every prior denial assertion.
+      for P in Phase loop
+         R := Good; R.Request_Phase := P;
+         if P = Prepare then R.Actual_Staged_Root := (others => <>); end if;
+         Expect (R, Authorized, "resulting requirement positive");
+         R.Resulting_Requirement := Rq (9);
+         Expect (R, Requirement_Changed, "resulting judge changed");
+         R.Resulting_Requirement := (others => <>);
+         Expect (R, Identity_Absent, "resulting requirement absent");
+         R.Current_Requirement := (others => <>);
+         Expect (R, Identity_Absent, "both requirement identities absent");
+      end loop;
    end Typed_Decisions;
 
    --  The wire: a Well_Formed good request decides as the typed one does, and
@@ -252,7 +266,8 @@ package body Worldline_Collapse_Checks is
       Put (R.Expected_Root_Set, 5); Put (R.Candidate_Root_Set, 5);
       Put (R.Expected_Staged_Root, 6); Put (R.Actual_Staged_Root, 6);
       Put (R.Staged_Content_Root, 7); Put (R.Tested_Root, 7);
-      Put (R.Current_Requirement, 8); Put (R.Evaluated_Requirement, 8);
+      Put (R.Current_Requirement, 8); Put (R.Resulting_Requirement, 8);
+      Put (R.Evaluated_Requirement, 8);
       Put (R.Declared_Verifiers, 9); Put (R.Executed_Verifiers, 9);
       Put (R.Registered_Watch_Set, 10); Put (R.Watched_Set, 10);
       return R;
@@ -292,6 +307,38 @@ package body Worldline_Collapse_Checks is
          Check (Worldline.C_API.Collapse_Decide (Bad'Unchecked_Access) = 255,
                 "malformed wire request was decided");
       end loop;
+      -- New raw slot controls preserve the original malformed-request loop.
+      Bad := Base;
+      Put (Bad.Resulting_Requirement, 9);
+      Check (Well_Formed (Bad), "changed resulting wire identity malformed");
+      Check (Worldline.C_API.Collapse_Decide (Bad'Unchecked_Access) =
+             Interfaces.Unsigned_8 (Decision'Pos (Requirement_Changed)),
+             "changed resulting wire identity authorized");
+      Bad := Base;
+      Bad.Resulting_Requirement := (Present => 0, Value => [others => 0]);
+      Check (Worldline.C_API.Collapse_Decide (Bad'Unchecked_Access) =
+             Interfaces.Unsigned_8 (Decision'Pos (Identity_Absent)),
+             "absent resulting wire identity authorized");
+      Bad.Resulting_Requirement := (Present => 0, Value => [others => 1]);
+      Check (not Well_Formed (Bad), "absent nonzero resulting wire identity accepted");
+      Bad.Resulting_Requirement := (Present => 1, Value => [others => 0]);
+      Check (not Well_Formed (Bad), "present zero resulting wire identity accepted");
+      Bad.Resulting_Requirement.Present := 2;
+      Check (not Well_Formed (Bad), "invalid resulting presence accepted");
+      Bad := Base;
+      Bad.Evaluation_Mode := 1;
+      Bad.Roster_Complete := 0;
+      Bad.Evaluated_Requirement := (Present => 0, Value => [others => 0]);
+      Bad.Executed_Verifiers := (Present => 0, Value => [others => 0]);
+      Put (Bad.Expected_Checkpoint, 11);
+      Put (Bad.Witnessed_Checkpoint, 11);
+      Check (not Well_Formed (Bad), "checkpoint carries ignored resulting identity");
+      Check (Worldline.C_API.Collapse_Decide (Bad'Unchecked_Access) = 255,
+             "checkpoint ignored resulting identity was decided");
+      Bad.Resulting_Requirement := (Present => 0, Value => [others => 0]);
+      Check (Well_Formed (Bad), "checkpoint absence control malformed");
+      Check (Worldline.C_API.Collapse_Decide (Bad'Unchecked_Access) = 0,
+             "checkpoint absence control not authorized");
    end Wire;
 
    procedure Run is

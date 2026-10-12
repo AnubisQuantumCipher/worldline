@@ -11,6 +11,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <marshal.h>
+#include <dlfcn.h>
 #include <errno.h>
 #include <limits.h>
 #include <stddef.h>
@@ -66,6 +67,16 @@ static const struct sock_filter process_filter[] = {
     BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | ENOSYS),
     BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_ptrace, 0, 1),
     BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_setns, 0, 1),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+    /* Keep the original user-namespace refusal projection while denying
+     * every unshare call. This ERRNO return is not a quota measurement;
+     * authentic namespace/quota observations remain separately required. */
+    BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_unshare, 0, 4),
+    BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(struct seccomp_data, args[0])),
+    BPF_JUMP(BPF_JMP | BPF_JSET | BPF_K, CLONE_NEWUSER, 1, 0),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | EPERM),
+    BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ERRNO | ENOSPC),
     BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, SYS_clone, 1, 0),
     BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
     /* Little-endian AArch64: this is the low word of the flags register. */
@@ -80,6 +91,10 @@ _Static_assert(sizeof(process_filter) / sizeof(process_filter[0]) <= USHRT_MAX,
 static int process_filter_installed;
 static int no_new_privs_result;
 static long process_filter_result;
+static int process_filter_errno;
+static const unsigned int process_filter_operation = SECCOMP_SET_MODE_FILTER;
+static const unsigned int process_filter_flags = SECCOMP_FILTER_FLAG_TSYNC;
+static char process_filter_b64[4 * ((sizeof(process_filter) + 2) / 3) + 1];
 
 static void
 process_filter_failure(const char *stage, long result, int saved_errno)
@@ -101,20 +116,41 @@ install_process_filter(void)
         .len = (unsigned short)(sizeof(process_filter) / sizeof(process_filter[0])),
         .filter = (struct sock_filter *)process_filter
     };
+    /* Retain an exact JSON-safe encoding of the immutable syscall input once. */
+    static const char alphabet[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    const unsigned char *input = (const unsigned char *)program.filter;
+    size_t output = 0;
+    for (size_t i = 0; i < sizeof(process_filter); i += 3) {
+        unsigned int a = input[i];
+        unsigned int b = i + 1 < sizeof(process_filter) ? input[i + 1] : 0;
+        unsigned int c = i + 2 < sizeof(process_filter) ? input[i + 2] : 0;
+        process_filter_b64[output++] = alphabet[a >> 2];
+        process_filter_b64[output++] = alphabet[((a & 3) << 4) | (b >> 4)];
+        process_filter_b64[output++] = i + 1 < sizeof(process_filter)
+            ? alphabet[((b & 15) << 2) | (c >> 6)] : '=';
+        process_filter_b64[output++] = i + 2 < sizeof(process_filter)
+            ? alphabet[c & 63] : '=';
+    }
+    process_filter_b64[output] = '\0';
     no_new_privs_result = prctl(PR_SET_NO_NEW_PRIVS, 1UL, 0UL, 0UL, 0UL);
     if (no_new_privs_result != 0)
         process_filter_failure("no-new-privs", no_new_privs_result, errno);
-    process_filter_result = syscall(SYS_seccomp, SECCOMP_SET_MODE_FILTER,
-                                    SECCOMP_FILTER_FLAG_TSYNC, &program);
+    process_filter_result = syscall(SYS_seccomp, process_filter_operation,
+                                    process_filter_flags, &program);
+    process_filter_errno = process_filter_result == -1 ? errno : 0;
     /* TSYNC may return a positive failing TID. errno is not valid in that case. */
     if (process_filter_result != 0)
-        process_filter_failure("thread-sync-filter", process_filter_result, errno);
+        process_filter_failure("thread-sync-filter", process_filter_result,
+                               process_filter_errno);
     process_filter_installed = 1;
 }
 
 static PyObject *
 process_filter_status(void)
 {
+    int no_new_privs = prctl(PR_GET_NO_NEW_PRIVS, 0UL, 0UL, 0UL, 0UL);
+    int no_new_privs_errno = no_new_privs == -1 ? errno : 0;
     Py_ssize_t count = (Py_ssize_t)(sizeof(process_filter) / sizeof(process_filter[0]));
     PyObject *rows = PyList_New(count);
     if (rows == NULL)
@@ -129,7 +165,10 @@ process_filter_status(void)
         }
         PyList_SET_ITEM(rows, i, value);
     }
-    PyObject *result = Py_BuildValue("{s:s,s:s,s:I,s:O,s:i,s:l,s:O,s:O,s:O}",
+    /* These are the exact immutable input bytes passed to the successful TSYNC
+     * call, not a kernel retrieval or a re-encoded instruction projection. */
+    PyObject *result = Py_BuildValue(
+        "{s:s,s:s,s:I,s:O,s:i,s:l,s:O,s:O,s:O,s:s,s:i,s:I,s:I,s:i,s:i}",
         "policyId", "worldline-examiner-thread-group-only-v1",
         "architecture", "linux-aarch64-little-endian-lp64",
         "auditArch", (unsigned int)AUDIT_ARCH_AARCH64,
@@ -137,7 +176,13 @@ process_filter_status(void)
         "noNewPrivsResult", no_new_privs_result,
         "seccompResult", process_filter_result,
         "threadSync", Py_True, "instructions", rows,
-        "independentKernelProgramObservation", Py_False);
+        "independentKernelProgramObservation", Py_False,
+        "programB64", process_filter_b64,
+        "seccompErrno", process_filter_errno,
+        "seccompOperation", process_filter_operation,
+        "seccompFlags", process_filter_flags,
+        "noNewPrivs", no_new_privs,
+        "noNewPrivsErrno", no_new_privs_errno);
     Py_DECREF(rows);
     return result;
 }
@@ -2503,6 +2548,9 @@ status(PyObject *self, PyObject *ignored)
     return report;
 }
 
+#include "workload_boundary.h"
+#include "protected_report_custody.h"
+
 static PyMethodDef methods[] = {
     {"attach_lifetime", attach_lifetime, METH_VARARGS,
      "Attach the fixed daemon retention stream during trusted bootstrap only."},
@@ -2515,6 +2563,9 @@ static PyMethodDef methods[] = {
     {"bind_generator", bind_generator, METH_VARARGS, "Bind a fixed owned stdlib generator during trusted bootstrap."},
     {"bind_cached_generator", bind_cached_generator, METH_O, "Bind a fixed captured startup generator after owned-source correspondence."},
     {"activate", activate, METH_NOARGS, "Activate native compile/exec checks once."},
+    {"bind_workload", bind_workload, METH_VARARGS, "Bind the actual owned helper and entry once."},
+    {"run_workload", run_workload, METH_NOARGS, "Invoke the held workload and retain its actual outcome."},
+    {"run_entry", run_entry, METH_O, "Evaluate only the held entry from the active owned helper."},
     {"contains", contains, METH_O, "Observe actual native code identity; never register it."},
     {"status", status, METH_NOARGS, "Return component observations, not confinement evidence."},
     {NULL, NULL, 0, NULL}
@@ -2549,6 +2600,8 @@ initialize_module(void)
 __attribute__((constructor)) static void
 install_before_python(void)
 {
+    if (wl_bind_exit_providers() < 0)
+        _exit(125);
     /* Loading this library late is a refused process, never a Python fallback. */
     const char *version = Py_GetVersion();
     if (Py_IsInitialized() || strncmp(version, PY_VERSION " ", sizeof(PY_VERSION)) != 0)
@@ -2559,6 +2612,12 @@ install_before_python(void)
         PyImport_AppendInittab("_worldline_examiner_guard", initialize_module) != 0 ||
         PySys_AddAuditHook(audit_hook, &state) != 0)
         _exit(125);
+    int report_exit_registration = atexit(wl_protected_report_at_exit);
+    if (report_exit_registration != 0) {
+        struct stat endpoint;
+        if (lstat("/run/worldline-protected-report.sock", &endpoint) == 0)
+            wl_report_diagnostic(11, report_exit_registration, 0);
+    }
     frozen_tables[0] = _PyImport_FrozenBootstrap;
     frozen_tables[1] = _PyImport_FrozenStdlib;
     frozen_tables[2] = _PyImport_FrozenTest;

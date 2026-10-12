@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "gate_config": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "gate_head": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "installation_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "issuer_head": {
+      "type": "object"
+    },
+    "journals": {
+      "additionalProperties": false,
+      "properties": {
+        "full-use-reservations": {
+          "additionalProperties": false,
+          "properties": {
+            "initial_envelope": {
+              "type": "object"
+            },
+            "path": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "initial_envelope"
+          ],
+          "type": "object"
+        },
+        "recovery-full-journal": {
+          "additionalProperties": false,
+          "properties": {
+            "initial_envelope": {
+              "type": "object"
+            },
+            "path": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "initial_envelope"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "recovery-full-journal",
+        "full-use-reservations"
+      ],
+      "type": "object"
+    },
+    "owner_authorization": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema": {
+      "const": "worldline.owner-provisioned-genesis-v1"
+    },
+    "store": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "initial_head": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "schema": {
+          "type": "array"
+        },
+        "version": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "identity",
+        "schema",
+        "version",
+        "initial_head"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "installation_id",
+    "owner_authorization",
+    "store",
+    "gate_config",
+    "gate_head",
+    "issuer_head",
+    "journals"
+  ],
+  "type": "object"
+}

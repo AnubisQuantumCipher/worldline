@@ -10,10 +10,13 @@ def main():
     if len(sys.argv) != 2:
         raise SystemExit('expected a fresh external native-artifact directory')
     source = Path(__file__).resolve().parent / 'examiner_guard.c'
-    header = source.with_name('lifetime_stream.h')
+    source_files = (source, source.with_name('lifetime_stream.h'),
+                    source.with_name('workload_boundary.h'),
+                    source.with_name('generator_templates.h'),
+                    source.with_name('protected_report_custody.h'))
     inputs = {item.name: {'bytes': item.stat().st_size,
                          'sha256': hashlib.sha256(item.read_bytes()).hexdigest()}
-              for item in (source, header)}
+              for item in source_files}
     requested = Path(sys.argv[1]).absolute()
     # Require a real existing parent; compare resolved objects, not a lexical
     # path that could point back into the frozen source through a symlink.
@@ -38,7 +41,7 @@ def main():
         raise SystemExit(child.returncode)
     if inputs != {item.name: {'bytes': item.stat().st_size,
                              'sha256': hashlib.sha256(item.read_bytes()).hexdigest()}
-                  for item in (source, header)}:
+                  for item in source_files}:
         raise SystemExit('native source inputs changed during compilation')
     # ELF inspection has its own retained output. It does not load the library.
     subprocess.run(['/usr/bin/readelf', '--file-header', '--dynamic', '--wide', str(artifact)],

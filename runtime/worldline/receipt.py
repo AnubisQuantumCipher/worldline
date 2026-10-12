@@ -100,6 +100,12 @@ class ReceiptBuilder:
                 "Foreign writes are measured by comparing a capture of live PRIME with the PRIME record's components; writes the watcher reported before preparation become PRIME generations, not contamination.",
             ],
         }
+        # Protected writes bind the actual operation scope before computing
+        # the receipt identity. Ordinary stores retain their original bytes.
+        from .protected_operations import canonical_metadata
+        requester = canonical_metadata(self.store)
+        if requester is not None:
+            receipt["requesterBinding"] = requester
         preimage = dict(receipt)
         preimage.pop("receiptId")
         receipt["receiptId"] = "WL:" + self.core.hash_bytes(

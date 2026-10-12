@@ -41,7 +41,7 @@ root = Path(sys.argv[1]).resolve()
 # the gate that writes the manifest and the check that reads it cannot disagree.
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(root))
-from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY, SummaryError, contract_problems, parse_summary  # noqa: E402
+from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY, SummaryError, contract_problems, parse_summary, source_paths  # noqa: E402
 # The pinned contracts are checked before the manifest is written, so the gate never prints
 # PASSED for a tree whose contracts changed (review of 0ee1112).
 if contract_problems(root):
@@ -61,15 +61,7 @@ total = parsed["total"]
 justified = parsed["justified"]
 unproved = parsed["unproved"]
 
-sources: dict[str, Path] = {
-    "worldline.gpr": root / "worldline.gpr",
-    "attest/attest.ads": root / "core/attest/attest.ads",
-    "attest/attest-sha256.ads": root / "core/attest/attest-sha256.ads",
-    "attest/attest-sha256.adb": root / "core/attest/attest-sha256.adb",
-}
-for pattern in ("*.ads", "*.adb", "*.gpr", "*.h"):
-    for path in sorted((root / "core").glob(pattern)):
-        sources[f"core/{path.name}"] = path
+sources = source_paths(root)
 
 missing = [key for key, path in sources.items() if not path.is_file()]
 if missing:

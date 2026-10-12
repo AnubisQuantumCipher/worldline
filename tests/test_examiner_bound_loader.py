@@ -695,6 +695,214 @@ class BoundLoaderOriginalIntegration(unittest.TestCase):
         from test_private_evaluator import PrivateEvaluatorIntegration
         PrivateEvaluatorIntegration.setUp(self)
 
+    def _private_workload_case(self, source, label, fail_event=None):
+        from worldline.linux import native_lifetime as wire
+        from worldline.trusted import TRUSTED_INTERPRETER
+        (self.verifier / 'exam.py').write_text(source)
+        report = self.base / (label + '-report')
+        report.mkdir(mode=0o700)
+        spec = evaluator.PrivateEvaluationSpec(
+            str(uuid.uuid4()), {'/logical/private-check': self.source}, self.verifier,
+            (TRUSTED_INTERPRETER, evaluator.VERIFIER_MOUNT + '/exam.py'), '/logical/private-check',
+            report, self.base / (label + '-run'), timeout_seconds=60)
+        observed = []
+        def observe(kind, occurrence, value):
+            observed.append((kind, occurrence, value))
+            if (kind == 'private-kernel-role-observation' and fail_event is not None
+                    and value.get('eventKind') == fail_event):
+                raise OSError('controlled workload evidence retention failure')
+        result, failure = None, None
+        try:
+            result = evaluator.PrivateEvaluator(self.adapter).run(spec,
+                resource_properties=('MemoryMax=1G', 'TasksMax=64', 'CPUQuota=100%', 'IOAccounting=yes'),
+                _acquisition_observer=observe)
+        except Exception as error:
+            failure = error
+        boundary_path = spec.runtime / 'boundary.json'
+        boundary = json.loads(boundary_path.read_text()) if boundary_path.is_file() else None
+        records = [value for kind, _, value in observed if kind == 'private-kernel-role-observation']
+        packets = {}
+        for row in records:
+            if 'eventKind' in row and row.get('transferObjects'):
+                packets[row['recordId']] = row
+        communicate = [value for kind, _, value in observed if kind == 'private-communicate-acquisition']
+        # Retain complete native wire and actual stdout/stderr, without repeating
+        # every identical procfs byte sample for every packet in this test log.
+        print('WORLDLINE_PRIVATE_PRIMARY_CONTROL ' + json.dumps({
+            'case': label, 'runId': spec.run_id, 'failEvent': fail_event,
+            'boundary': boundary, 'communication': communicate,
+            'failureType': None if failure is None else type(failure).__qualname__,
+            'retentionFailed': False if failure is None else retention_failed(failure),
+            'packets': [{'recordId': row['recordId'], 'eventKind': row['eventKind'],
+                         'sequence': row['sequence'], 'startupRecordId': row.get('startupRecordId'),
+                         'transferObjects': row['transferObjects'],
+                         'transferDescriptorsClosed': row.get('transferDescriptorsClosed'),
+                         'terminal': row.get('terminal')} for row in packets.values()],
+            'cleanup': [row for row in records if row['kind'] in
+                        ('native-lifetime-held-descriptor-cleanup', 'native-lifetime-process-outcome')],
+            'sourceUnchanged': (self.source / 'source.txt').read_text() == 'ordinary source\n',
+        }, sort_keys=True), flush=True)
+        decoded = [(row, wire.decode_record(base64.b64decode(row['transferObjects'][0]['bytes']['payload'])))
+                   for row in packets.values() if row['transferObjects'][0].get('bytes') is not None]
+        self.assertEqual((self.source / 'source.txt').read_text(), 'ordinary source\n')
+        cleanups = [row for row in records if row['kind'] == 'native-lifetime-held-descriptor-cleanup']
+        self.assertTrue(cleanups)
+        self.assertTrue(all(item['closed'] for row in cleanups for item in row['descriptorCloses']))
+        return result, failure, boundary, records, decoded, communicate
+
+    def test_actual_workload_primary_domains_survive_daemon_terminal_retention_failure(self):
+        from native_workload_controls import CASES, NativeWorkloadControls
+        from worldline.linux import native_lifetime as wire
+        suffix = b'WORLDLINE_NATIVE_LIFETIME_FAILED at native finalization\n'
+        for label, source in CASES.items():
+            with self.subTest(case=label):
+                reference = NativeWorkloadControls.reference(self, source, 'private:' + label)
+                baseline, error, boundary, records, decoded, communication = self._private_workload_case(
+                    source, 'primary-' + label)
+                self.assertIsNone(error)
+                self.assertEqual(baseline['exitCode'], reference.returncode)
+                self.assertEqual(baseline['stdout'], reference.stdout)
+                self.assertEqual(boundary['examinerReturnCode'], reference.returncode)
+                joined = next(row for row in records if row['kind'] == 'native-lifetime-process-outcome')
+                self.assertEqual(joined['fixedBootstrapExaminerWait'], reference.returncode)
+                self.assertEqual(joined['actualBootstrapWait'], reference.returncode)
+                self.assertTrue(joined['observerServicesJoined'])
+                primary = next(value for row, value in decoded if row['eventKind'] == wire.WORKLOAD_OUTCOME)
+                self.assertEqual(primary[8], 'none' if label == 'return' else 'entry')
+                original_exit = next(value for row, value in decoded if row['eventKind'] == wire.PROCESS_EXIT)
+                failed, failure, failed_boundary, failed_records, failed_decoded, communication = self._private_workload_case(
+                    source, 'retained-primary-' + label, fail_event=wire.TERMINAL)
+                self.assertIsNone(failed)
+                self.assertIsNotNone(failure)
+                self.assertTrue(retention_failed(failure))
+                expected = reference.returncode if original_exit[2] != 0 else 125
+                self.assertEqual(failed_boundary['examinerReturnCode'], expected)
+                acquired = next(row for row in communication if row['communicateReturned'])
+                self.assertEqual(acquired['launcherReturncode'], expected)
+                self.assertEqual(base64.b64decode(acquired['stdout']['payload']), baseline['stdout'])
+                self.assertEqual(base64.b64decode(acquired['stderr']['payload']), baseline['stderr'] + suffix)
+                retained_primary = next(value for row, value in failed_decoded if row['eventKind'] == wire.WORKLOAD_OUTCOME)
+                self.assertEqual(retained_primary[8], primary[8])
+                failed_exit = next(value for row, value in failed_decoded if row['eventKind'] == wire.PROCESS_EXIT)
+                self.assertEqual(failed_exit, original_exit)
+                terminal_ids = {row['recordId'] for row in failed_records if row['kind'] == 'native-lifetime-terminal'}
+                self.assertFalse(any(row['kind'] == 'native-lifetime-acknowledgement'
+                                     and row['retainedRecordId'] in terminal_ids for row in failed_records))
+
+    def test_actual_root_failure_survives_argv_restoration_and_outcome_retention_failure(self):
+        from worldline.linux import native_lifetime as wire
+        for label, ending in (('ordinary', 'raise ValueError("original root primary")\n'),
+                              ('system-exit', 'raise SystemExit(7)\n')):
+            source = 'import sys\nsys.argv.clear()\n' + ending
+            with self.subTest(case=label):
+                baseline, error, boundary, records, decoded, communication = self._private_workload_case(
+                    source, 'cleanup-primary-' + label)
+                self.assertIsNone(error)
+                outcome = next(value for row, value in decoded if row['eventKind'] == wire.WORKLOAD_OUTCOME)
+                self.assertEqual(outcome[8], 'entry')
+                self.assertEqual(outcome[7][0], b'IndexError')
+                self.assertNotIn(b'IndexError: list assignment index out of range', baseline['stderr'])
+                failed, failure, failed_boundary, records, decoded, communication = self._private_workload_case(
+                    source, 'outcome-primary-' + label, fail_event=wire.WORKLOAD_OUTCOME)
+                self.assertIsNone(failed)
+                self.assertTrue(retention_failed(failure))
+                self.assertEqual(failed_boundary['examinerReturnCode'], baseline['exitCode'])
+                original_entry = [value for row, value in decoded if row['eventKind'] == wire.RESULT
+                                  and value[5] is not None and value[5][0] in (b'ValueError', b'SystemExit')]
+                self.assertTrue(original_entry)
+                self.assertFalse(any(row['kind'] == 'native-lifetime-process-outcome' for row in records))
+
+    def test_actual_cleanup_mutation_keeps_primary_object_and_both_snapshot_epochs(self):
+        from worldline.linux import native_lifetime as wire
+        source = ('import sys\n'
+                  'error = ValueError("before actual restoration")\n'
+                  'class RestoreArgs(list):\n'
+                  '    def __setitem__(self, key, value):\n'
+                  '        error.args = ("after actual restoration",)\n'
+                  '        raise LookupError("actual secondary restoration")\n'
+                  'sys.argv = RestoreArgs(sys.argv)\n'
+                  'raise error\n')
+        result, failure, boundary, records, decoded, communication = self._private_workload_case(
+            source, 'mutated-primary')
+        self.assertIsNone(failure)
+        self.assertNotEqual(result['exitCode'], 0)
+        entry = next(value for row, value in decoded if row['eventKind'] == wire.RESULT
+                     and value[5] is not None and value[5][0] == b'ValueError')
+        outcome = next(value for row, value in decoded if row['eventKind'] == wire.WORKLOAD_OUTCOME)
+        self.assertEqual(entry[5][2][0], (True, ('before actual restoration',)))
+        self.assertEqual(outcome[5][2][0], (True, ('after actual restoration',)))
+        self.assertEqual(outcome[7][0], b'LookupError')
+        self.assertEqual(outcome[8], 'entry')
+        self.assertIn(b'ValueError: after actual restoration\n', result['stderr'])
+        self.assertNotIn(b'LookupError: actual secondary restoration\n', result['stderr'])
+        joined = next(row for row in records if row['kind'] == 'native-lifetime-process-outcome')
+        self.assertTrue(joined['nativeTerminal']['entryPrimarySnapshotsDifferAcrossCleanup'])
+        self.assertTrue(joined['examinerWaitMatchesInterpreter'] and joined['bootstrapWaitMatchesExaminer'])
+
+    def test_actual_secondary_finalizer_mutation_joins_held_primary_identity(self):
+        from worldline.linux import native_lifetime as wire
+        for mutate in (False, True):
+            source = ('import sys\n'
+                      'error = ValueError("before reference release")\n'
+                      'class RestoreFailure(LookupError):\n'
+                      '    def __del__(self):\n'
+                      f'        if {mutate!r}:\n'
+                      '            self.__context__.args = ("after reference release",)\n'
+                      '            print("actual restoration finalizer ran")\n'
+                      'class RestoreArgs(list):\n'
+                      '    def __setitem__(self, key, value):\n'
+                      '        raise RestoreFailure("actual finalizable restoration")\n'
+                      'sys.argv = RestoreArgs(sys.argv)\n'
+                      'raise error\n')
+            with self.subTest(finalizer_mutates=mutate):
+                result, failure, boundary, records, decoded, communication = self._private_workload_case(
+                    source, 'secondary-finalizer-' + str(mutate))
+                self.assertIsNone(failure)
+                outcome = next(value for row, value in decoded if row['eventKind'] == wire.WORKLOAD_OUTCOME)
+                entry = next(value for row, value in decoded
+                             if row['eventKind'] == wire.RESULT and value[0] == outcome[2])
+                final = next(value for row, value in decoded
+                             if row['eventKind'] == wire.RESULT and value[0] == outcome[1])
+                self.assertEqual(entry[5][2][0], (True, ('before reference release',)))
+                self.assertEqual(outcome[5][2][0], (True, ('before reference release',)))
+                expected = 'after reference release' if mutate else 'before reference release'
+                self.assertEqual(final[5][2][0], (True, (expected,)))
+                self.assertEqual(entry[9][1], outcome[10][0])
+                self.assertEqual(outcome[10][0], outcome[10][2])
+                self.assertEqual(final[9][1], outcome[10][2])
+                self.assertEqual(outcome[7][0], b'RestoreFailure')
+                self.assertNotEqual(outcome[10][1], outcome[10][2])
+                self.assertEqual(result['exitCode'], 1)
+                self.assertIn(('ValueError: ' + expected + '\n').encode(), result['stderr'])
+                self.assertNotIn(b'RestoreFailure: actual finalizable restoration', result['stderr'])
+                self.assertEqual(b'actual restoration finalizer ran\n' in result['stdout'], mutate)
+                joined = next(row for row in records if row['kind'] == 'native-lifetime-process-outcome')
+                self.assertTrue(joined['examinerWaitMatchesInterpreter'] and joined['bootstrapWaitMatchesExaminer'])
+
+    def test_actual_cold_reporting_keeps_native_imports_through_interpreter_exit(self):
+        from worldline.linux import native_lifetime as wire
+        source = ('import sys\n'
+                  'sys.modules.pop("traceback", None)\n'
+                  'print("complete cold reporting stdout")\n'
+                  'raise ValueError("actual cold reporting primary")\n')
+        result, failure, boundary, records, decoded, communication = self._private_workload_case(
+            source, 'cold-owned-reporting')
+        self.assertIsNone(failure)
+        self.assertEqual(result['exitCode'], 1)
+        self.assertEqual(result['stdout'], b'complete cold reporting stdout\n')
+        self.assertTrue(result['stderr'].endswith(b'ValueError: actual cold reporting primary\n'))
+        outcome = next(value for row, value in decoded if row['eventKind'] == wire.WORKLOAD_OUTCOME)
+        final = next(row for row, value in decoded if row['eventKind'] == wire.RESULT and value[0] == outcome[1])
+        reporting = [(row, value) for row, value in decoded if row['eventKind'] == wire.ATTEMPT
+                     and row['sequence'] > final['sequence']
+                     and ((value[0] == 'source-compile' and value[5].endswith('/traceback.py'))
+                          or (value[0] == 'frozen-code' and value[4] == ('traceback',)))]
+        self.assertTrue(reporting, 'actual interpreter reporting must use retained owned acquisition')
+        self.assertTrue(all(type(value[6]) is bytes and value[6] for row, value in reporting))
+        joined = next(row for row in records if row['kind'] == 'native-lifetime-process-outcome')
+        self.assertFalse(joined['nativeTerminal']['nativeViolationObserved'])
+        self.assertTrue(joined['examinerWaitMatchesInterpreter'] and joined['bootstrapWaitMatchesExaminer'])
+
     def _run_retention_diagnostic(self, method_name):
         """Retain actual failed-control values, then re-raise its assertion.
 

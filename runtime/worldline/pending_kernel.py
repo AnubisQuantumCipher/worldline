@@ -77,9 +77,13 @@ class Plan:
 
 
 class PendingKernel:
-    """Owned buffers live through the call. Raw foreign pointer validity is
-    outside the SPARK core; ABI/native/storage correspondence is still required.
-    Loading a library is not authentication of an observation or its producer.
+    """Each call owns its request, rows, arena and exclusive result storage.
+
+    The arena's ctypes view retains its bytearray allocation, and all four local
+    objects remain live and unchanged until the native call and result extraction
+    finish. C_API maps read-only typed views; analyzed SPARK performs the original
+    single byte/journal snapshot. Numeric checks do not prove arbitrary pointer
+    validity or authenticate a producer. Loading a library is not authentication.
     """
 
     def __init__(self, library: Path):
@@ -124,8 +128,10 @@ class PendingKernel:
                       target: tuple[bytes, bytes] | None, proposed_epoch: bytes,
                       replay: bool) -> Plan:
         # Capture the ordered roster before sizing or packing it. Every encoded
-        # scalar is then copied into owned ctypes rows/request/arena kept alive
-        # through the call and result-span copy. No foreign arena is borrowed.
+        # scalar is then packed into private rows/request/arena kept alive through
+        # the call and result-span extraction. No foreign allocation is borrowed.
+        # Nothing resizes or mutates the arena after its ctypes view is created;
+        # result is a separate exclusive allocation, never an input overlay.
         records = tuple(rows)
         arena = bytearray()
 
@@ -157,7 +163,7 @@ class PendingKernel:
             span, (store_id, subject, content, run))
         proposed_span = span(proposed_epoch)
         authority_cursor, target_cursor = cursor(authority), cursor(target)
-        data = (C.c_ubyte * len(arena)).from_buffer_copy(arena)
+        data = (C.c_ubyte * len(arena)).from_buffer(arena)
         request = Request(1, int(replay), C.cast(data, C.c_void_p), len(arena),
                           C.cast(wire, C.c_void_p), len(records), store_span, subject_span,
                           content_span, run_span, proposed_span, authority_cursor, target_cursor)

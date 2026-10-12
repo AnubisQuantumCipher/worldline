@@ -1,25 +1,14 @@
-with Ada.Unchecked_Conversion;
-with System.Storage_Elements;
+with System;
 with Resource_Quantities;
 with Resource_Admission;
 
-package body Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
+package body Worldline.Resource_Policy_C_API with SPARK_Mode => On is
    use type U8;
    use type Size;
-   use type System.Address;
-   use System.Storage_Elements;
    package Q renames Resource_Quantities;
    package P renames Resource_Admission;
    use type Q.Byte_Count;
 
-   type Byte_Access is access all Q.Byte;
-   type Input_Access is access all Input_C;
-   type Disk_Access is access all Disk_C;
-   type Result_Access is access all Result_C;
-   function As_Byte is new Ada.Unchecked_Conversion (System.Address, Byte_Access);
-   function As_Input is new Ada.Unchecked_Conversion (System.Address, Input_Access);
-   function As_Disk is new Ada.Unchecked_Conversion (System.Address, Disk_Access);
-   function As_Result is new Ada.Unchecked_Conversion (System.Address, Result_Access);
 
    function ABI_Version return Interfaces.Unsigned_32 is (1);
 
@@ -40,50 +29,52 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
       VD : constant Disk_C := (others => VQ);
       VR : constant Result_C := (Disk_Index => 0, others => 0);
    begin
+      pragma Compile_Time_Error (VQ.First'Position /= 0, "Quantity.First");
+      pragma Compile_Time_Error (VQ.Length'Position /= 8, "Quantity.Length");
+      pragma Compile_Time_Error (VQ.Negative'Position /= 16, "Quantity.Negative");
+      pragma Compile_Time_Error (VO.Present'Position /= 0, "Optional.Present");
+      pragma Compile_Time_Error (VO.Value'Position /= 8, "Optional.Value");
+      pragma Compile_Time_Error (VI.Outstanding_Count'Position /= 0, "Input.Outstanding");
+      pragma Compile_Time_Error (VI.Concurrency_Limit'Position /= 24, "Input.Concurrency");
+      pragma Compile_Time_Error (VI.Memory_Pressure'Position /= 56, "Input.Pressure");
+      pragma Compile_Time_Error
+        (VI.Memory_Pressure_Ceiling'Position /= 88, "Input.Ceiling");
+      pragma Compile_Time_Error (VI.Disk_Byte_Floor'Position /= 112, "Input.Disk_Bytes");
+      pragma Compile_Time_Error (VI.Disk_Inode_Floor'Position /= 136, "Input.Disk_Inodes");
+      pragma Compile_Time_Error (VI.Available_Memory'Position /= 160, "Input.Available");
+      pragma Compile_Time_Error (VI.Withheld_Memory'Position /= 184, "Input.Withheld");
+      pragma Compile_Time_Error (VI.Memory_Floor'Position /= 208, "Input.Floor");
+      pragma Compile_Time_Error (VI.Requested_Memory'Position /= 232, "Input.Requested");
+      pragma Compile_Time_Error (VD.Free_Bytes'Position /= 0, "Disk.Bytes");
+      pragma Compile_Time_Error (VD.Free_Inodes'Position /= 24, "Disk.Inodes");
+      pragma Compile_Time_Error (VR.Status'Position /= 0, "Result.Status");
+      pragma Compile_Time_Error (VR.Failed_Gate'Position /= 1, "Result.Gate");
+      pragma Compile_Time_Error (VR.Field'Position /= 2, "Result.Field");
+      pragma Compile_Time_Error (VR.Disk_Present'Position /= 3, "Result.Disk_Present");
+      pragma Compile_Time_Error (VR.Disk_Index'Position /= 8, "Result.Disk_Index");
       case Selector is
          when 1 =>
             return (case Field is
-              when 1 => VQ.First'Position, when 2 => VQ.Length'Position,
-              when 3 => VQ.Negative'Position, when others => Size'Last);
+              when 1 => 0, when 2 => 8, when 3 => 16, when others => Size'Last);
          when 2 =>
             return (case Field is
-              when 1 => VO.Present'Position, when 2 => VO.Value'Position,
-              when others => Size'Last);
+              when 1 => 0, when 2 => 8, when others => Size'Last);
          when 3 =>
             return (case Field is
-              when 1 => VI.Outstanding_Count'Position,
-              when 2 => VI.Concurrency_Limit'Position,
-              when 3 => VI.Memory_Pressure'Position,
-              when 4 => VI.Memory_Pressure_Ceiling'Position,
-              when 5 => VI.Disk_Byte_Floor'Position,
-              when 6 => VI.Disk_Inode_Floor'Position,
-              when 7 => VI.Available_Memory'Position,
-              when 8 => VI.Withheld_Memory'Position,
-              when 9 => VI.Memory_Floor'Position,
-              when 10 => VI.Requested_Memory'Position,
-              when others => Size'Last);
+              when 1 => 0, when 2 => 24, when 3 => 56, when 4 => 88,
+              when 5 => 112, when 6 => 136, when 7 => 160, when 8 => 184,
+              when 9 => 208, when 10 => 232, when others => Size'Last);
          when 4 =>
             return (case Field is
-              when 1 => VD.Free_Bytes'Position,
-              when 2 => VD.Free_Inodes'Position, when others => Size'Last);
+              when 1 => 0, when 2 => 24, when others => Size'Last);
          when 5 =>
             return (case Field is
-              when 1 => VR.Status'Position, when 2 => VR.Failed_Gate'Position,
-              when 3 => VR.Field'Position, when 4 => VR.Disk_Present'Position,
-              when 5 => VR.Disk_Index'Position, when others => Size'Last);
+              when 1 => 0, when 2 => 1, when 3 => 2, when 4 => 3, when 5 => 8,
+              when others => Size'Last);
          when others => return Size'Last;
       end case;
    end Layout_Offset;
 
-   function Extent_Valid
-     (Address : System.Address; Length : Size; Alignment : Size := 1)
-      return Boolean is
-     (Length <= Size (Storage_Offset'Last) and then
-      (Length = 0 or else
-        (Address /= System.Null_Address and then
-         To_Integer (Address) mod Integer_Address (Alignment) = 0 and then
-         Integer_Address (Length - 1) <=
-           Integer_Address'Last - To_Integer (Address))));
 
    function Shape (V : Quantity_C) return Boolean is
      (V.Negative <= 1 and then V.First >= 1 and then
@@ -94,44 +85,62 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
 
    function Decode (V : Quantity_C) return Q.Quantity is
      ((Negative => V.Negative = 1, First => Q.Byte_Index (V.First),
-       Length => Q.Byte_Count (V.Length)));
-   function Decode (V : Optional_C) return Q.Optional_Quantity is
-     (if V.Present = 0 then (Present => False)
-      else (Present => True, Value => Decode (V.Value)));
-
-   function Decode_Data (Address : System.Address; Length : Size)
-      return Q.Byte_Array
+       Length => Q.Byte_Count (V.Length)))
+   with Pre => Shape (V);
+   function Decode (V : Optional_C) return Q.Optional_Quantity
+     with Pre => Shape (V)
    is
-      Value : Q.Byte_Array (1 .. Q.Byte_Count (Length));
+   begin
+      if V.Present = 0 then
+         return (Present => False);
+      else
+         return (Present => True, Value => Decode (V.Value));
+      end if;
+   end Decode;
+
+   procedure Read_Byte (Source : Q.Byte; Item : out Q.Byte) is
+   begin
+      Item := Source;
+   end Read_Byte;
+
+   procedure Read_Input (Source : not null access constant Input_C; Item : out Input_C)
+   is
+   begin
+      Item := Source.all;
+   end Read_Input;
+
+   procedure Read_Disk (Source : not null access constant Disk_Array; Index : Q.Byte_Index; Item : out Disk_C)
+     with Pre => Index in Source'Range
+   is
+   begin
+      Item := Source (Index);
+   end Read_Disk;
+
+
+   procedure Decode_Data
+     (Source : not null access constant Q.Byte_Array; Value : out Q.Byte_Array)
+     with Pre => Source'First = 1 and then Value'First = 1
+       and then Value'Length = Source'Length
+   is
    begin
       for I in Value'Range loop
-         Value (I) := As_Byte (Address + Storage_Offset (I - 1)).all;
+         Read_Byte (Source (I), Value (I));
       end loop;
-      return Value;
    end Decode_Data;
 
    function Admit
-     (Data : System.Address; Data_Length : Size;
-      Input : System.Address; Disks : System.Address; Disk_Count : Size;
-      Result : System.Address) return U8
+     (Data : not null access constant Resource_Quantities.Byte_Array;
+      Input : not null access constant Input_C;
+      Disks : not null access constant Disk_Array;
+      Result : out Result_C) return U8
    is
-      Disk_Size : constant Size := Disk_C'Object_Size / System.Storage_Unit;
    begin
-      if Data_Length > Size (Q.Byte_Count'Last) or else
-        Disk_Count > Size (Q.Byte_Count'Last) or else
-        Disk_Count > Size (Storage_Offset'Last) / Disk_Size or else
-        not Extent_Valid (Data, Data_Length) or else
-        not Extent_Valid (Input, Input_C'Object_Size / System.Storage_Unit,
-                         Input_C'Alignment) or else
-        not Extent_Valid (Result, Result_C'Object_Size / System.Storage_Unit,
-                         Result_C'Alignment) or else
-        not Extent_Valid (Disks, Disk_Count * Disk_Size, Disk_C'Alignment)
-      then
-         return 255;
-      end if;
+      Result := (Disk_Index => 0, others => 0);
+      if Data'First /= 1 or else Disks'First /= 1 then return 255; end if;
       declare
-         V : constant Input_C := As_Input (Input).all;
+         V : Input_C;
       begin
+         Read_Input (Input, V);
          if not Shape (V.Outstanding_Count) or else
            not Shape (V.Concurrency_Limit) or else not Shape (V.Memory_Pressure)
            or else not Shape (V.Memory_Pressure_Ceiling) or else
@@ -149,13 +158,16 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
                Decode (V.Disk_Byte_Floor), Decode (V.Disk_Inode_Floor),
                Decode (V.Available_Memory), Decode (V.Withheld_Memory),
                Decode (V.Memory_Floor), Decode (V.Requested_Memory));
-            Rows : P.Disk_Array (1 .. Q.Byte_Count (Disk_Count));
+            Blank : constant Q.Quantity :=
+              (Negative => False, First => 1, Length => 0);
+            Rows : P.Disk_Array (1 .. Q.Byte_Count (Disks'Length)) :=
+              (others => (Free_Bytes => Blank, Free_Inodes => Blank));
          begin
             for I in Rows'Range loop
                declare
-                  Row : constant Disk_C := As_Disk
-                    (Disks + Storage_Offset (Size (I - 1) * Disk_Size)).all;
+                  Row : Disk_C;
                begin
+                  Read_Disk (Disks, I, Row);
                   if not Shape (Row.Free_Bytes) or else
                     not Shape (Row.Free_Inodes)
                   then
@@ -165,15 +177,18 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
                end;
             end loop;
             declare
-               Arena : constant Q.Byte_Array := Decode_Data (Data, Data_Length);
-               D : constant P.Decision := P.Admit (Arena, State, Rows);
+               Arena : Q.Byte_Array (1 .. Q.Byte_Count (Data'Length));
+               D : P.Decision;
             begin
-               As_Result (Result).all :=
-                 (Status => P.Check_Status'Pos (D.Check.Status),
-                  Failed_Gate => P.Gate'Pos (D.Failed_Gate),
-                  Field => P.Quantity_Field'Pos (D.Check.Field),
-                  Disk_Present => Boolean'Pos (D.Disk.Present),
-                  Disk_Index => (if D.Disk.Present then Size (D.Disk.Value) else 0));
+               Decode_Data (Data, Arena);
+               D := P.Admit (Arena, State, Rows);
+               Result :=
+                  (Status => P.Check_Status'Pos (D.Check.Status),
+                   Failed_Gate => P.Gate'Pos (D.Failed_Gate),
+                   Field => P.Quantity_Field'Pos (D.Check.Field),
+                   Disk_Present => Boolean'Pos (D.Disk.Present),
+                   Disk_Index =>
+                     (if D.Disk.Present then Size (D.Disk.Value) else 0));
                return 0;
             end;
          end;

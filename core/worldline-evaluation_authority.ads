@@ -1,5 +1,6 @@
 with Worldline.Collapse;
 with Worldline.Collapse_Wire;
+with Worldline.Identities;
 with Evaluation_Completion;
 with Evaluation_Completion_Roster;
 with Worldline.Evaluation_Wire;
@@ -22,10 +23,14 @@ package Worldline.Evaluation_Authority with SPARK_Mode is
    use type Worldline.Collapse.Evaluation_Mode;
    function Dependencies (Request : C.Raw_Request) return Raw_Dependency is
      (if not C.Well_Formed (Request) then Invalid_Collapse
-      elsif C.Decode (Request).Mode = Worldline.Collapse.Checkpoint_Return then
-        (if Worldline.Collapse.Primary_Covers (C.Decode (Request))
+      elsif Request.Evaluation_Mode = 1 then
+        (if Worldline.Identities.Same
+           (C.Content_Root (Request.Tested_Root),
+            C.Content_Root (Request.Staged_Content_Root))
          then No_Raw_Evidence else Staged_Only)
-      elsif Worldline.Collapse.Primary_Covers (C.Decode (Request))
+      elsif Worldline.Identities.Same
+        (C.Content_Root (Request.Tested_Root),
+         C.Content_Root (Request.Staged_Content_Root))
       then Primary_Only else Primary_And_Staged) with Global => null;
    --  These are evidence dependencies only, never an authorization verdict.
    --  Checkpoint return with primary coverage has no raw evaluation/agent

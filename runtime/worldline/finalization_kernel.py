@@ -192,16 +192,25 @@ class FinalizationKernel:
             raise KernelRefused('FINALIZATION_ROSTER_EXTENT_UNREPRESENTABLE')
         owned_rows, owned_plans = (Row * len(values))(*values), (Required_Row * len(plans))(*plans)
         data = (C.c_uint8 * len(arena)).from_buffer_copy(arena)
-        request.data, request.data_length = C.cast(data, C.c_void_p), len(arena)
-        request.rows, request.row_count = C.cast(owned_rows, C.c_void_p), len(values)
-        request.required, request.required_count = C.cast(owned_plans, C.c_void_p), len(plans)
-        return request, (data, owned_rows, owned_plans)
+        # byref casts carry the same array addresses without asking cast()
+        # to add each array to its own _objects dictionary. Retain the complete
+        # original copied owners explicitly on the descriptor and in the
+        # unchanged returned tuple; neither raw spans nor bytes are shared.
+        owners = (data, owned_rows, owned_plans)
+        request._transport_owners = owners
+        request.data, request.data_length = C.cast(C.byref(data), C.c_void_p), len(arena)
+        request.rows, request.row_count = C.cast(C.byref(owned_rows), C.c_void_p), len(values)
+        request.required, request.required_count = C.cast(C.byref(owned_plans), C.c_void_p), len(plans)
+        return request, owners
 
     def _invoke(self, operation, start, inputs=None, capture=None, seal=None):
         try:
             request, owners = self._pack(operation, start, inputs, capture, seal)
             result = Result()
-            if self.call(C.byref(request), C.byref(result)) != 0:
+            # The tuple is the complete live read-only native-call extent;
+            # result is newly allocated exclusive output. No owners are copied.
+            native_call_owners = (request, owners, result)
+            if self.call(C.byref(native_call_owners[0]), C.byref(native_call_owners[2])) != 0:
                 raise KernelRefused('FINALIZATION_NATIVE_TRANSPORT_REFUSED')
             if result.reason != 0:
                 raise KernelRefused('FINALIZATION_NATIVE_RELATION_REFUSED')
@@ -263,13 +272,16 @@ class FinalizationKernel:
             Cursor(1, x.start.sequence, x.start.run),
             Capture(bound, x.source_id, x.context,
                 EXECUTION.index(sealed.classification.state), OUTCOME.index(sealed.classification.outcome)),
-            C.cast(rows, C.c_void_p), len(rows), 0,
+            C.cast(C.byref(rows), C.c_void_p), len(rows), 0,
             Capture(bound, x.source_id, x.context, 0, 0), None, 0, None, 0,
-            C.cast(plans, C.c_void_p), len(plans), x.start.declaration,
+            C.cast(C.byref(plans), C.c_void_p), len(plans), x.start.declaration,
             x.inputs.root, x.post_root, x.completion, bound)
         # owned[2] is the original attach() row convention. The data owner is
         # the very same object as native_request.data; all owners survive call.
         owners = (native_owners[0], None, rows, None, None, plans, native_owners)
+        # The projection may itself outlive the wrapper's other references.
+        # This tuple contains its full original owners, never the descriptor.
+        projection._transport_owners = owners
         return PreparedFinalization(native_request, native_owners, sealed,
             projection, owners, terminal, typed)
 
@@ -307,7 +319,13 @@ def decide_mixed(authority, request, primary, staged, agent):
     staged = staged if needs['staged'] else None
     agent = agent if needs['agent'] else None
     raw_agent = None if agent is None else agent.native()
-    code = int(call(C.byref(request), *arguments(primary), *arguments(staged),
-        None if raw_agent is None else C.byref(raw_agent),
-        0 if agent is None else agent.confinement))
+    # Keep every selected descriptor, arena, row/plan/raw/confinement owner,
+    # context and independent metadata arena reachable for the complete call.
+    # ctypes may release the GIL: callers must not mutate these private owners
+    # concurrently. Inputs may share read-only storage; there is no output view.
+    native_call_owners = (request, primary, staged, agent, raw_agent)
+    code = int(call(C.byref(native_call_owners[0]),
+        *arguments(native_call_owners[1]), *arguments(native_call_owners[2]),
+        None if native_call_owners[4] is None else C.byref(native_call_owners[4]),
+        0 if native_call_owners[3] is None else native_call_owners[3].confinement))
     return COLLAPSE_DECISIONS.get(code, 'INVALID_REQUEST')

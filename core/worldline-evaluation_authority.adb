@@ -1,4 +1,52 @@
 package body Worldline.Evaluation_Authority with SPARK_Mode is
+   --  Retain the complete original equation as a separate total proof
+   --  obligation. Its Decode terms stay in this body, outside callers of
+   --  the public dependency expression. No authorization result is changed.
+   function Original_Dependencies (Request : C.Raw_Request)
+      return Raw_Dependency is
+     (if not C.Well_Formed (Request) then Invalid_Collapse
+      elsif C.Decode (Request).Mode = Worldline.Collapse.Checkpoint_Return then
+        (if Worldline.Collapse.Primary_Covers (C.Decode (Request))
+         then No_Raw_Evidence else Staged_Only)
+      elsif Worldline.Collapse.Primary_Covers (C.Decode (Request))
+      then Primary_Only else Primary_And_Staged) with Ghost, Global => null;
+
+   procedure Lemma_Dependencies_Equivalent (Request : C.Raw_Request)
+     with Ghost, Global => null, Always_Terminates,
+       Post => Dependencies (Request) = Original_Dependencies (Request);
+
+   procedure Lemma_Dependencies_Equivalent (Request : C.Raw_Request) is
+      use type Worldline.Identities.Optional_Content_Root;
+   begin
+      if not C.Well_Formed (Request) then
+         pragma Assert (Dependencies (Request) = Invalid_Collapse);
+         pragma Assert (Original_Dependencies (Request) = Invalid_Collapse);
+      else
+         declare
+            Decoded : constant Worldline.Collapse.Collapse_Request :=
+              C.Decode (Request);
+         begin
+            pragma Assert
+              (Decoded.Mode =
+                 (if Request.Evaluation_Mode = 1
+                  then Worldline.Collapse.Checkpoint_Return
+                  else Worldline.Collapse.Candidate_Evaluation));
+            pragma Assert
+              (Decoded.Tested_Root = C.Content_Root (Request.Tested_Root));
+            pragma Assert
+              (Decoded.Staged_Content_Root =
+                 C.Content_Root (Request.Staged_Content_Root));
+            pragma Assert
+              (Worldline.Collapse.Primary_Covers (Decoded) =
+                 Worldline.Identities.Same
+                   (C.Content_Root (Request.Tested_Root),
+                    C.Content_Root (Request.Staged_Content_Root)));
+         end;
+      end if;
+      pragma Assert
+        (Dependencies (Request) = Original_Dependencies (Request));
+   end Lemma_Dependencies_Equivalent;
+
    function Report_Of (Raw : W.Raw_Record) return Byte is
       Value : constant W.Decode_Result := W.Decode (Raw);
    begin

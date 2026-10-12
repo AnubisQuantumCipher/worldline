@@ -221,6 +221,10 @@ class CompletionKernel:
         request = Request(1, 2 if required is not None else int(history is not None), address(data), len(arena), address(js), len(js),
             current_wire, captured_wire, address(cs), len(cs), int(retained is not None), retained_wire,
             address(rs), len(rs), address(hs), len(hs), address(required_wire), len(required_wire), policy_wire, before_root, after_root, completion_wire, observed_wire)
+        # Descriptor custody survives independently of this marshalling frame.
+        # Inputs are private live C owners, read-only until the synchronous
+        # native call returns; response is fresh and exclusively writable.
+        request._transport_owners = (data, js, cs, rs, hs, required_wire)
         response = Result()
         if self.call(C.byref(request), C.byref(response)) != 0:
             raise KernelRefused('COMPLETION_TRANSPORT_REFUSED')

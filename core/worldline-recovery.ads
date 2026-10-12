@@ -7,7 +7,7 @@ package Worldline.Recovery with SPARK_Mode is
    subtype Byte_Index is Byte_Count range 1 .. Byte_Count'Last;
    type Identity_Bytes is array (Byte_Index range <>) of Interfaces.Unsigned_8;
    type Optional_Marker
-     (Present : Boolean := False; Length : Byte_Count := 0)
+     (Present : Boolean; Length : Byte_Count)
    is record
       case Present is
          when False => null;

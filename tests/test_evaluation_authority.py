@@ -210,7 +210,7 @@ class EvaluationAuthorityTests(unittest.TestCase):
                   "expected_base": 3, "candidate_base": 3, "expected_delta": 4, "candidate_delta": 4,
                   "expected_root_set": 5, "candidate_root_set": 5, "expected_staged_root": 6,
                   "actual_staged_root": 6, "staged_content_root": 7, "tested_root": 7,
-                  "current_requirement": 8, "evaluated_requirement": 8, "declared_verifiers": 9,
+                  "current_requirement": 8, "resulting_requirement": 8, "evaluated_requirement": 8, "declared_verifiers": 9,
                   "executed_verifiers": 9, "registered_watch_set": 10, "watched_set": 10}
 
         def put(field, byte: int) -> None:

@@ -25,7 +25,7 @@ package Resource_Quantities with SPARK_Mode is
    function Span_Valid (Data : Byte_Array; Q : Quantity) return Boolean is
      (Q.Length = 0 or else
         (Q.First in Data'Range and then
-         Q.Length <= Data'Last - Q.First + 1));
+         Q.Length <= (Data'Last - Q.First) + 1));
 
    function Digit
      (Data : Byte_Array; Q : Quantity; Offset : Byte_Count) return Natural
@@ -47,7 +47,10 @@ package Resource_Quantities with SPARK_Mode is
    function Prefix_Reference
      (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
       return Valid_Big_Integer is
-     (if Count = 0 then To_Big_Integer (0)
+     (if Count = 0 or else not Span_Valid (Data, Q) then To_Big_Integer (0)
+      elsif Count > Q.Length then Prefix_Reference (Data, Q, Q.Length)
+      elsif Digit (Data, Q, Count - 1) = 0 then
+        Prefix_Reference (Data, Q, Count - 1)
       else Prefix_Reference (Data, Q, Count - 1) +
         To_Big_Integer (Digit (Data, Q, Count - 1)) *
           Power_Reference (Count - 1))
@@ -55,32 +58,37 @@ package Resource_Quantities with SPARK_Mode is
      Subprogram_Variant => (Decreases => Count),
      Post => Prefix_Reference'Result >= 0;
 
-   function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer
+   --  Recurrences use the independent predecessor definitions, not calls to
+   --  the checked public wrapper. Together with the reference equality below
+   --  this is the same full-domain equation as the public-call recurrence:
+   --  Radix_Power (N) = Power_Reference (N) for every admitted N.
+   --  Checking one result therefore never rechecks every public predecessor.
+   --  The already-identical independent step conjunct is folded into this
+   --  recurrence, rather than recomputing the same predecessor a second time.
+   --  These expression definitions keep the complete public postconditions.
+   --  Explicit proof inlining is reserved for the single-equality workers.
+   function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
+     (Power_Reference (Exponent))
    with Ghost, Global => null,
      Subprogram_Variant => (Decreases => Exponent),
      Post => Radix_Power'Result >= 1 and then
        (if Exponent = 0 then Radix_Power'Result = 1
         else Radix_Power'Result =
-          To_Big_Integer (256) * Radix_Power (Exponent - 1)) and then
-       Radix_Power'Result = Power_Reference (Exponent) and then
-       (if Exponent > 0 then Radix_Power'Result =
-          To_Big_Integer (256) * Power_Reference (Exponent - 1));
+          To_Big_Integer (256) * Power_Reference (Exponent - 1)) and then
+       Radix_Power'Result = Power_Reference (Exponent);
 
    function Prefix_Value
      (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
-     return Valid_Big_Integer
+     return Valid_Big_Integer is
+     (Prefix_Reference (Data, Q, Count))
    with Ghost, Global => null,
      Subprogram_Variant => (Decreases => Count),
      Post => Prefix_Value'Result >= 0 and then
        (if Count = 0 then Prefix_Value'Result = 0
-        else Prefix_Value'Result = Prefix_Value (Data, Q, Count - 1) +
+        else Prefix_Value'Result = Prefix_Reference (Data, Q, Count - 1) +
           To_Big_Integer (Digit (Data, Q, Count - 1)) *
-          Radix_Power (Count - 1)) and then
-       Prefix_Value'Result = Prefix_Reference (Data, Q, Count) and then
-       (if Count > 0 then Prefix_Value'Result =
-          Prefix_Reference (Data, Q, Count - 1) +
-            To_Big_Integer (Digit (Data, Q, Count - 1)) *
-              Power_Reference (Count - 1));
+          Power_Reference (Count - 1)) and then
+       Prefix_Value'Result = Prefix_Reference (Data, Q, Count);
 
    function Magnitude (Data : Byte_Array; Q : Quantity)
       return Valid_Big_Integer

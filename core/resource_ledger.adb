@@ -1,3 +1,4 @@
+
 package body Resource_Ledger with SPARK_Mode is
    use type Byte;
 
@@ -438,8 +439,7 @@ package body Resource_Ledger with SPARK_Mode is
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
       return Valid_Big_Integer
    with Ghost, Global => null,
-     Post => Prefix_Total_Worker'Result = Total_Reference (Data, Rows, Count),
-     Annotate => (GNATprove, Inline_For_Proof)
+     Post => Prefix_Total_Worker'Result = Total_Reference (Data, Rows, Count)
    is
       Result : Valid_Big_Integer := To_Big_Integer (0);
    begin
@@ -465,13 +465,335 @@ package body Resource_Ledger with SPARK_Mode is
       return Result;
    end Prefix_Total_Worker;
 
-   --  Every original public recursive Post and variant is unchanged. This
-   --  expression exposes the independently specified actual worker to proof;
-   --  it does not call a smaller public producer in the executable body.
-   function Prefix_Total
+   --  Checked correspondence for the actual iterative total worker.  This
+   --  total Ghost procedure has no caller restriction and no assumed theorem.
+   procedure Total_Worker_Recurrence
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
-      return Valid_Big_Integer is
-     (Prefix_Total_Worker (Data, Rows, Count));
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Count = 0 then Prefix_Total_Worker (Data, Rows, Count) = 0
+        else Prefix_Total_Worker (Data, Rows, Count) =
+          Prefix_Total_Worker (Data, Rows, Count - 1) +
+            Row_Reference (Data, Rows, Count - 1))
+   is
+      Current : constant Valid_Big_Integer :=
+        Prefix_Total_Worker (Data, Rows, Count);
+   begin
+      pragma Assert (Current = Total_Reference (Data, Rows, Count));
+      if Count > 0 then
+         declare
+            Previous : constant Valid_Big_Integer :=
+              Prefix_Total_Worker (Data, Rows, Count - 1);
+         begin
+            pragma Assert
+              (Previous = Total_Reference (Data, Rows, Count - 1));
+            pragma Assert
+              (Total_Reference (Data, Rows, Count) =
+                 Total_Reference (Data, Rows, Count - 1) +
+                   Row_Reference (Data, Rows, Count - 1));
+            pragma Assert
+              (Current = Previous + Row_Reference (Data, Rows, Count - 1));
+         end;
+      else
+         pragma Assert (Current = 0);
+      end if;
+   end Total_Worker_Recurrence;
+
+   --  Total guarded theorem over independent full column equations.  The
+   --  Natural difference is taken only in the branch that proves its order.
+   procedure Ordered_Magnitude_Columns
+     (Left_Low, Right_Low, Place : Valid_Big_Integer;
+      Left_Digit, Right_Digit : Natural)
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Place > 0 and then Left_Low >= 0 and then Left_Low < Place
+           and then Right_Low >= 0 and then Right_Low < Place
+           and then Left_Digit <= 255 and then Right_Digit <= 255
+        then
+          (if Left_Digit < Right_Digit then
+             Left_Low + To_Big_Integer (Left_Digit) * Place <
+               Right_Low + To_Big_Integer (Right_Digit) * Place
+           elsif Left_Digit > Right_Digit then
+             Left_Low + To_Big_Integer (Left_Digit) * Place >
+               Right_Low + To_Big_Integer (Right_Digit) * Place))
+   is
+   begin
+      if Place > 0 and then Left_Low >= 0 and then Left_Low < Place
+        and then Right_Low >= 0 and then Right_Low < Place
+        and then Left_Digit <= 255 and then Right_Digit <= 255
+      then
+         if Left_Digit < Right_Digit then
+            declare
+               Difference : constant Natural := Right_Digit - Left_Digit;
+               Extra : constant Valid_Big_Integer :=
+                 Column_Product (Difference, Place);
+               Gap : constant Valid_Big_Integer := Place - Left_Low;
+            begin
+               pragma Assert (Difference > 0);
+               pragma Assert (Extra >= Place and then Gap > 0);
+               pragma Assert
+                 ((Right_Low + To_Big_Integer (Right_Digit) * Place) -
+                    (Left_Low + To_Big_Integer (Left_Digit) * Place) =
+                      Right_Low + Gap + (Extra - Place));
+               pragma Assert (Right_Low + Gap + (Extra - Place) > 0);
+            end;
+         elsif Left_Digit > Right_Digit then
+            declare
+               Difference : constant Natural := Left_Digit - Right_Digit;
+               Extra : constant Valid_Big_Integer :=
+                 Column_Product (Difference, Place);
+               Gap : constant Valid_Big_Integer := Place - Right_Low;
+            begin
+               pragma Assert (Difference > 0);
+               pragma Assert (Extra >= Place and then Gap > 0);
+               pragma Assert
+                 ((Left_Low + To_Big_Integer (Left_Digit) * Place) -
+                    (Right_Low + To_Big_Integer (Right_Digit) * Place) =
+                      Left_Low + Gap + (Extra - Place));
+               pragma Assert (Left_Low + Gap + (Extra - Place) > 0);
+            end;
+         end if;
+      end if;
+   end Ordered_Magnitude_Columns;
+
+   --  Bridge a real write and its complete before image to the closed prefix
+   --  equation.  Counts outside represented storage retain Digit's zero rule.
+   procedure Written_Prefix_Step
+     (Before, After : Byte_Array; Count : Byte_Count; Octet : Natural)
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Count < Byte_Count'Last and then
+           (if Count > 0 then
+              (for all K in 0 .. Count - 1 =>
+                 Digit (Before, Whole (Before), K) =
+                   Digit (After, Whole (After), K)))
+           and then Digit (After, Whole (After), Count) = Octet
+        then Prefix_Reference (After, Whole (After), Count + 1) =
+          Prefix_Reference (Before, Whole (Before), Count) +
+            To_Big_Integer (Octet) * Power_Reference (Count))
+   is
+   begin
+      if Count < Byte_Count'Last and then
+        (if Count > 0 then
+           (for all K in 0 .. Count - 1 =>
+              Digit (Before, Whole (Before), K) =
+                Digit (After, Whole (After), K)))
+        and then Digit (After, Whole (After), Count) = Octet
+      then
+         Equal_Prefix (Before, After, Whole (Before), Whole (After), Count);
+         pragma Assert
+           (Prefix_Reference (After, Whole (After), Count + 1) =
+              Prefix_Reference (After, Whole (After), Count) +
+                To_Big_Integer (Digit (After, Whole (After), Count)) *
+                  Power_Reference (Count));
+      end if;
+   end Written_Prefix_Step;
+
+   --  The complete unchanged slot, including padding and the signed descriptor,
+   --  determines the same full value in another equal-bounds arena.
+   procedure Quantity_Slot_Frame
+     (Before, After : Byte_Array; Slot : Output_Span; Item : Quantity)
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Before'First = After'First and then Before'Last = After'Last
+           and then Canonical_In_Slot (Before, Slot, Item)
+           and then (for all I in Before'Range =>
+             (if Contains (Slot, I) then Before (I) = After (I)))
+        then Canonical_In_Slot (After, Slot, Item) and then
+          Span_Valid (After, Item) and then
+          Value (After, Item) = Value (Before, Item))
+   is
+   begin
+      if Before'First = After'First and then Before'Last = After'Last
+        and then Canonical_In_Slot (Before, Slot, Item)
+        and then (for all I in Before'Range =>
+          (if Contains (Slot, I) then Before (I) = After (I)))
+      then
+         pragma Assert (Span_Valid (After, Item));
+         pragma Assert
+           (if Item.Length > 0 then
+              (for all K in 0 .. Item.Length - 1 =>
+                 Contains (Slot, Item.First + K) and then
+                   Digit (Before, Item, K) = Digit (After, Item, K)));
+         Equal_Prefix (Before, After, Item, Item, Item.Length);
+         pragma Assert
+           (Magnitude (Before, Item) = Magnitude (After, Item));
+         pragma Assert (Value (Before, Item) = Value (After, Item));
+         pragma Assert (Canonical_In_Slot (After, Slot, Item));
+      end if;
+   end Quantity_Slot_Frame;
+
+   --  Explicit checked induction step for the actual detail validator.  The
+   --  ordinal and row-index forms remain distinct, with their exact crosswalk.
+   procedure Checked_Detail_Step
+     (Data, Detail_Data : Byte_Array; Rows : Reservation_Array;
+      Details : Quantity_Array; Offset : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Details'Length = Rows'Length and then Offset < Rows'Length
+           and then
+             (for all J in Rows'Range =>
+                (if J - Rows'First < Offset then
+                   Span_Valid (Detail_Data, Details (Details'First + (J - Rows'First)))
+                   and then Value
+                     (Detail_Data, Details (Details'First + (J - Rows'First))) =
+                       Withheld_Reference (Data, Rows (J))))
+           and then Span_Valid (Detail_Data, Details (Details'First + Offset))
+           and then Value (Detail_Data, Details (Details'First + Offset)) =
+             Withheld_Reference (Data, Rows (Rows'First + Offset))
+        then
+          (for all J in Rows'Range =>
+             (if J - Rows'First < Offset + 1 then
+                Span_Valid (Detail_Data, Details (Details'First + (J - Rows'First)))
+                and then Value
+                  (Detail_Data, Details (Details'First + (J - Rows'First))) =
+                    Withheld_Reference (Data, Rows (J)))))
+   is
+   begin
+      if Details'Length = Rows'Length and then Offset < Rows'Length
+        and then
+          (for all J in Rows'Range =>
+             (if J - Rows'First < Offset then
+                Span_Valid (Detail_Data, Details (Details'First + (J - Rows'First)))
+                and then Value
+                  (Detail_Data, Details (Details'First + (J - Rows'First))) =
+                    Withheld_Reference (Data, Rows (J))))
+        and then Span_Valid (Detail_Data, Details (Details'First + Offset))
+        and then Value (Detail_Data, Details (Details'First + Offset)) =
+          Withheld_Reference (Data, Rows (Rows'First + Offset))
+      then
+         for J in Rows'Range loop
+            pragma Loop_Invariant
+              (for all K in Rows'Range =>
+                 (if K < J and then K - Rows'First < Offset + 1 then
+                    Span_Valid (Detail_Data, Details (Details'First + (K - Rows'First)))
+                    and then Value
+                      (Detail_Data, Details (Details'First + (K - Rows'First))) =
+                        Withheld_Reference (Data, Rows (K))));
+            if J - Rows'First < Offset + 1 then
+               if J - Rows'First = Offset then
+                  pragma Assert (J = Rows'First + Offset);
+               else
+                  pragma Assert (J - Rows'First < Offset);
+               end if;
+               pragma Assert
+                 (Span_Valid (Detail_Data, Details (Details'First + (J - Rows'First))));
+               pragma Assert
+                 (Value (Detail_Data, Details (Details'First + (J - Rows'First))) =
+                    Withheld_Reference (Data, Rows (J)));
+            end if;
+         end loop;
+      end if;
+   end Checked_Detail_Step;
+
+   --  Preserve every earlier retained detail through the actual disjoint
+   --  current-slot write.  Full bytes and descriptors, never sampled values.
+   procedure Retained_Detail_Frame
+     (Before, After : Byte_Array; Rows : Reservation_Array;
+      Slots : Span_Array; Details : Quantity_Array; Offset : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Before'First = After'First and then Before'Last = After'Last
+           and then Offset < Rows'Length
+           and then Layout_Valid (Before, Slots, Details, Rows'Length)
+           and then
+             (for all I in Before'Range =>
+                (if not Contains (Slots (Slots'First + Offset), I) then
+                   Before (I) = After (I)))
+           and then
+             (for all J in Rows'Range =>
+                (if J - Rows'First < Offset then
+                   Canonical_In_Slot
+                     (Before, Slots (Slots'First + (J - Rows'First)),
+                      Details (Details'First + (J - Rows'First)))))
+        then
+          (for all J in Rows'Range =>
+             (if J - Rows'First < Offset then
+                Canonical_In_Slot
+                  (After, Slots (Slots'First + (J - Rows'First)),
+                   Details (Details'First + (J - Rows'First))) and then
+                Value (After, Details (Details'First + (J - Rows'First))) =
+                  Value (Before, Details (Details'First + (J - Rows'First))))))
+   is
+   begin
+      if Before'First = After'First and then Before'Last = After'Last
+        and then Offset < Rows'Length
+        and then Layout_Valid (Before, Slots, Details, Rows'Length)
+        and then
+          (for all I in Before'Range =>
+             (if not Contains (Slots (Slots'First + Offset), I) then
+                Before (I) = After (I)))
+        and then
+          (for all J in Rows'Range =>
+             (if J - Rows'First < Offset then
+                Canonical_In_Slot
+                  (Before, Slots (Slots'First + (J - Rows'First)),
+                   Details (Details'First + (J - Rows'First)))))
+      then
+         for J in Rows'Range loop
+            pragma Loop_Invariant
+              (for all K in Rows'Range =>
+                 (if K < J and then K - Rows'First < Offset then
+                    Canonical_In_Slot
+                      (After, Slots (Slots'First + (K - Rows'First)),
+                       Details (Details'First + (K - Rows'First))) and then
+                    Value (After, Details (Details'First + (K - Rows'First))) =
+                      Value (Before, Details (Details'First + (K - Rows'First)))));
+            if J - Rows'First < Offset then
+               declare
+                  Prior : constant Output_Span :=
+                    Slots (Slots'First + (J - Rows'First));
+                  Changed : constant Output_Span := Slots (Slots'First + Offset);
+                  Item : constant Quantity :=
+                    Details (Details'First + (J - Rows'First));
+               begin
+                  pragma Assert (Disjoint (Prior, Changed));
+                  pragma Assert
+                    (for all I in Before'Range =>
+                       (if Contains (Prior, I) then not Contains (Changed, I)));
+                  pragma Assert
+                    (for all I in Before'Range =>
+                       (if Contains (Prior, I) then Before (I) = After (I)));
+                  Quantity_Slot_Frame (Before, After, Prior, Item);
+               end;
+            end if;
+         end loop;
+      end if;
+   end Retained_Detail_Frame;
+
+
+   --  The public expression executes this checked bridge. Both its body and
+   --  its equivalent recurrence Post use the independent predecessor, without
+   --  reentering the public checker. All original body assertions still run.
+   function Prefix_Total_Checked
+     (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
+      return Valid_Big_Integer
+   is
+      Result : Valid_Big_Integer := To_Big_Integer (0);
+   begin
+      if Count = 0 then
+         Result := To_Big_Integer (0);
+         pragma Assert
+           (Total_Reference (Data, Rows, Count) = To_Big_Integer (0));
+      else
+         declare
+            Previous : constant Valid_Big_Integer :=
+              Total_Reference (Data, Rows, Count - 1);
+            Step : constant Valid_Big_Integer :=
+              Row_Reference (Data, Rows, Count - 1);
+         begin
+            pragma Assert
+              (Previous = Total_Reference (Data, Rows, Count - 1));
+            Result := Previous + Step;
+            pragma Assert
+              (Total_Reference (Data, Rows, Count) =
+                 Total_Reference (Data, Rows, Count - 1) + Step);
+         end;
+      end if;
+      pragma Assert (Result = Total_Reference (Data, Rows, Count));
+      pragma Assert (Result = Prefix_Total_Worker (Data, Rows, Count));
+      return Result;
+   end Prefix_Total_Checked;
 
    function Storage_Sufficient
      (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
@@ -505,10 +827,225 @@ package body Resource_Ledger with SPARK_Mode is
       return True;
    end Storage_Sufficient;
 
+   --  Opaque checked-prefix of the detail validator. Callers hide the body
+   --  and use congruence on Count. The lemmas below are where it unfolds.
+   function Details_Checked
+     (Data, Detail_Data : Byte_Array; Rows : Reservation_Array;
+      Details : Quantity_Array; Count : Byte_Count) return Boolean is
+     (Details'Length = Rows'Length and then
+        (for all J in Rows'Range =>
+           (if J - Rows'First < Count then
+              Span_Valid
+                (Detail_Data, Details (Details'First + (J - Rows'First)))
+              and then Value
+                (Detail_Data, Details (Details'First + (J - Rows'First))) =
+                  Withheld_Reference (Data, Rows (J)))))
+   with Ghost, Global => null;
+
+   procedure Lengths_From_Layout
+     (Data : Byte_Array; Slots : Span_Array; Details : Quantity_Array;
+      Row_Count : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Layout_Valid (Data, Slots, Details, Row_Count),
+     Post => Slots'Length = Row_Count and then Details'Length = Row_Count
+   is
+   begin
+      pragma Assert (Slots'Length = Row_Count);
+      pragma Assert (Details'Length = Row_Count);
+   end Lengths_From_Layout;
+
+   procedure Details_Checked_Zero
+     (Data, Detail_Data : Byte_Array; Rows : Reservation_Array;
+      Details : Quantity_Array)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Details'Length = Rows'Length,
+     Post => Details_Checked (Data, Detail_Data, Rows, Details, 0)
+   is
+   begin
+      pragma Assert
+        (Details_Checked (Data, Detail_Data, Rows, Details, 0));
+   end Details_Checked_Zero;
+
+   procedure Close_Detail_Step
+     (Data, Detail_Data : Byte_Array; Rows : Reservation_Array;
+      Details : Quantity_Array; Offset : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Details_Checked (Data, Detail_Data, Rows, Details, Offset)
+       and then Offset < Rows'Length
+       and then Span_Valid
+         (Detail_Data, Details (Details'First + Offset))
+       and then Value (Detail_Data, Details (Details'First + Offset)) =
+         Withheld_Reference (Data, Rows (Rows'First + Offset)),
+     Post => Details_Checked (Data, Detail_Data, Rows, Details, Offset + 1)
+   is
+   begin
+      pragma Assert (Details'Length = Rows'Length);
+      Checked_Detail_Step (Data, Detail_Data, Rows, Details, Offset);
+      pragma Assert
+        (for all J in Rows'Range =>
+           (if J - Rows'First < Offset + 1 then
+              Span_Valid
+                (Detail_Data, Details (Details'First + (J - Rows'First)))
+              and then Value
+                (Detail_Data, Details (Details'First + (J - Rows'First))) =
+                  Withheld_Reference (Data, Rows (J))));
+      pragma Assert
+        (Details_Checked (Data, Detail_Data, Rows, Details, Offset + 1));
+   end Close_Detail_Step;
+
+   procedure Open_Details_Checked
+     (Data, Detail_Data : Byte_Array; Rows : Reservation_Array;
+      Details : Quantity_Array; Count : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Count = Rows'Length
+       and then Details_Checked (Data, Detail_Data, Rows, Details, Count),
+     Post =>
+       (for all J in Rows'Range =>
+          Span_Valid
+            (Detail_Data, Details (Details'First + (J - Rows'First)))
+          and then Value
+            (Detail_Data, Details (Details'First + (J - Rows'First))) =
+              Withheld_Reference (Data, Rows (J)))
+   is
+   begin
+      pragma Assert
+        (for all J in Rows'Range => J - Rows'First < Count);
+      pragma Assert
+        (for all J in Rows'Range =>
+           Span_Valid
+             (Detail_Data, Details (Details'First + (J - Rows'First)))
+           and then Value
+             (Detail_Data, Details (Details'First + (J - Rows'First))) =
+               Withheld_Reference (Data, Rows (J)));
+   end Open_Details_Checked;
+
+   --  The detail-slot index is a machine-integer addition. Prove it in this
+   --  tiny context; do not restate it in a caller's precondition.
+   procedure Index_In_Details
+     (Rows : Reservation_Array; Details : Quantity_Array)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Details'Length = Rows'Length,
+     Post =>
+       (for all I in Rows'Range =>
+          (Details'First + (I - Rows'First)) in Details'Range)
+   is
+   begin
+      pragma Assert
+        (for all I in Rows'Range => I - Rows'First < Rows'Length);
+      pragma Assert
+        (for all I in Rows'Range => I - Rows'First < Details'Length);
+      pragma Assert
+        (for all I in Rows'Range =>
+           (Details'First + (I - Rows'First)) in Details'Range);
+   end Index_In_Details;
+
+   --  Public success formula, proved here from facts the caller already
+   --  holds. The precondition does not repeat the detail index. Expression
+   --  bodies stay hidden so the case split stays propositional.
+   function Conforms_Success
+     (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
+      Detail_Data, Total_Data : Byte_Array; Details : Quantity_Array;
+      Total : Quantity; Status : Result_Status) return Boolean
+   with Ghost, Global => null,
+     Pre => Rows_Valid (Data, Rows)
+       and then Layout_Valid (Detail_Data, Slots, Details, Rows'Length)
+       and then Storage_Sufficient (Data, Rows, Slots, Total_Data'Length)
+       and then Status = Computed
+       and then Span_Valid (Total_Data, Total)
+       and then Value (Total_Data, Total) =
+         Prefix_Total (Data, Rows, Rows'Length)
+       and then Details'Length = Rows'Length
+       and then Slots'Length = Rows'Length
+       and then Details_Checked
+         (Data, Detail_Data, Rows, Details, Rows'Length)
+       and then Output_Representation
+         (Detail_Data, Total_Data, Slots, Details, Total),
+     Post => Conforms_Success'Result =
+       ((if not Rows_Valid (Data, Rows) then Status = Invalid_Input
+         elsif not Layout_Valid (Detail_Data, Slots, Details, Rows'Length) then
+           Status = Invalid_Output_Layout
+         elsif not Storage_Sufficient (Data, Rows, Slots, Total_Data'Length) then
+           Status = Insufficient_Storage
+         else Status = Computed) and then
+        (if Status = Computed then
+           Span_Valid (Total_Data, Total) and then
+           Value (Total_Data, Total) = Prefix_Total (Data, Rows, Rows'Length)
+           and then
+           (for all I in Rows'Range =>
+              Span_Valid
+                (Detail_Data, Details (Details'First + (I - Rows'First)))
+              and then Value
+                (Detail_Data, Details (Details'First + (I - Rows'First))) =
+                  Withheld_Reference (Data, Rows (I)))
+           and then Output_Representation
+             (Detail_Data, Total_Data, Slots, Details, Total)
+         else Total = Empty and then
+           (for all I in Details'Range => Details (I) = Empty) and then
+           (for all I in Detail_Data'Range => Detail_Data (I) = 0) and then
+           (for all I in Total_Data'Range => Total_Data (I) = 0)))
+   is
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Rows_Valid);
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Layout_Valid);
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body",
+         Output_Representation);
+   begin
+      pragma Assert (Status = Computed);
+      pragma Assert (Rows_Valid (Data, Rows));
+      pragma Assert
+        (Layout_Valid (Detail_Data, Slots, Details, Rows'Length));
+      pragma Assert
+        (Storage_Sufficient (Data, Rows, Slots, Total_Data'Length));
+      pragma Assert (Details'Length = Rows'Length);
+      pragma Assert (Slots'Length = Rows'Length);
+      Index_In_Details (Rows, Details);
+      Open_Details_Checked
+        (Data, Detail_Data, Rows, Details, Rows'Length);
+      pragma Assert
+        ((if not Rows_Valid (Data, Rows) then Status = Invalid_Input
+          elsif not Layout_Valid (Detail_Data, Slots, Details, Rows'Length)
+          then
+            Status = Invalid_Output_Layout
+          elsif not Storage_Sufficient (Data, Rows, Slots, Total_Data'Length)
+          then
+            Status = Insufficient_Storage
+          else Status = Computed)
+         and then
+         (if Status = Computed then
+            Span_Valid (Total_Data, Total) and then
+            Value (Total_Data, Total) =
+              Prefix_Total (Data, Rows, Rows'Length)
+            and then
+            (for all I in Rows'Range =>
+               Span_Valid
+                 (Detail_Data, Details (Details'First + (I - Rows'First)))
+               and then Value
+                 (Detail_Data, Details (Details'First + (I - Rows'First))) =
+                   Withheld_Reference (Data, Rows (I)))
+            and then Output_Representation
+              (Detail_Data, Total_Data, Slots, Details, Total)
+          else Total = Empty and then
+            (for all I in Details'Range => Details (I) = Empty) and then
+            (for all I in Detail_Data'Range => Detail_Data (I) = 0) and then
+            (for all I in Total_Data'Range => Total_Data (I) = 0)));
+      return True;
+   end Conforms_Success;
+
    function Result_Conforms
      (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
       Detail_Data, Total_Data : Byte_Array; Details : Quantity_Array;
-      Total : Quantity; Status : Result_Status) return Boolean is
+      Total : Quantity; Status : Result_Status) return Boolean
+   is
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Details_Checked);
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Layout_Valid);
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body",
+         Output_Representation);
+      Completed : Byte_Count := 0 with Ghost;
    begin
       if not Rows_Valid (Data, Rows) then
          if Status /= Invalid_Input then
@@ -529,31 +1066,72 @@ package body Resource_Ledger with SPARK_Mode is
          then
             return False;
          end if;
+         Lengths_From_Layout
+           (Detail_Data, Slots, Details, Rows'Length);
+         pragma Assert (Details'Length = Rows'Length);
+         pragma Assert (Slots'Length = Rows'Length);
+         Details_Checked_Zero (Data, Detail_Data, Rows, Details);
          for I in Rows'Range loop
+            pragma Loop_Invariant (Completed = I - Rows'First);
+            pragma Loop_Invariant (Details'Length = Rows'Length);
+            pragma Loop_Invariant (Slots'Length = Rows'Length);
             pragma Loop_Invariant
-              (for all J in Rows'Range =>
-                 (if J < I then
-                    Span_Valid
-                      (Detail_Data, Details (Details'First + (J - Rows'First)))
-                    and then Value
-                      (Detail_Data, Details (Details'First + (J - Rows'First))) =
-                        Withheld_Reference (Data, Rows (J))));
+              (Details_Checked (Data, Detail_Data, Rows, Details, Completed));
             declare
                Item : constant Quantity := Details
                  (Details'First + (I - Rows'First));
+               Offset : constant Byte_Count := I - Rows'First;
             begin
                if not Span_Valid (Detail_Data, Item) or else
                  Value (Detail_Data, Item) /= Withheld_Reference (Data, Rows (I))
                then
                   return False;
                end if;
+               pragma Assert (Completed = Offset);
+               pragma Assert (Details'Length = Rows'Length);
+               pragma Assert (Offset < Rows'Length);
+               pragma Assert
+                 (Details_Checked
+                    (Data, Detail_Data, Rows, Details, Offset));
+               Close_Detail_Step
+                 (Data, Detail_Data, Rows, Details, Offset);
+               Completed := Offset + 1;
+               pragma Assert
+                 (Details_Checked
+                    (Data, Detail_Data, Rows, Details, Completed));
             end;
          end loop;
+         pragma Assert (Completed = Rows'Length);
+         Open_Details_Checked
+           (Data, Detail_Data, Rows, Details, Completed);
          if not Output_Representation
            (Detail_Data, Total_Data, Slots, Details, Total)
          then
             return False;
          end if;
+         --  Both original By operands remain checked. Non-short-circuit
+         --  "and" evaluates both operands; neither is an assumed premise.
+         pragma Assert_And_Cut
+           ((Conforms_Success
+                 (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+                  Status)
+               and then Details'Length = Rows'Length
+               and then Slots'Length = Rows'Length)
+            and (Rows_Valid (Data, Rows)
+               and then Layout_Valid
+                 (Detail_Data, Slots, Details, Rows'Length)
+               and then Storage_Sufficient
+                 (Data, Rows, Slots, Total_Data'Length)
+               and then Status = Computed
+               and then Span_Valid (Total_Data, Total)
+               and then Value (Total_Data, Total) =
+                 Prefix_Total (Data, Rows, Rows'Length)
+               and then Details'Length = Rows'Length
+               and then Slots'Length = Rows'Length
+               and then Details_Checked
+                 (Data, Detail_Data, Rows, Details, Rows'Length)
+               and then Output_Representation
+                 (Detail_Data, Total_Data, Slots, Details, Total)));
          return True;
       end if;
       return Total = Empty and then
@@ -596,8 +1174,28 @@ package body Resource_Ledger with SPARK_Mode is
             Bounded_Prefix (Left_Data, Left, Offset);
             Bounded_Prefix (Right_Data, Right, Offset);
             if Digit (Left_Data, Left, Offset) < Digit (Right_Data, Right, Offset) then
+               Ordered_Magnitude_Columns
+                 (Prefix_Reference (Left_Data, Left, Offset),
+                  Prefix_Reference (Right_Data, Right, Offset),
+                  Power_Reference (Offset), Digit (Left_Data, Left, Offset),
+                  Digit (Right_Data, Right, Offset));
+               pragma Assert
+                 (Prefix_Reference (Left_Data, Left, Offset + 1) <
+                    Prefix_Reference (Right_Data, Right, Offset + 1));
+               pragma Assert
+                 (Magnitude (Left_Data, Left) < Magnitude (Right_Data, Right));
                return Less;
             elsif Digit (Left_Data, Left, Offset) > Digit (Right_Data, Right, Offset) then
+               Ordered_Magnitude_Columns
+                 (Prefix_Reference (Left_Data, Left, Offset),
+                  Prefix_Reference (Right_Data, Right, Offset),
+                  Power_Reference (Offset), Digit (Left_Data, Left, Offset),
+                  Digit (Right_Data, Right, Offset));
+               pragma Assert
+                 (Prefix_Reference (Left_Data, Left, Offset + 1) >
+                    Prefix_Reference (Right_Data, Right, Offset + 1));
+               pragma Assert
+                 (Magnitude (Left_Data, Left) > Magnitude (Right_Data, Right));
                return Greater;
             end if;
             pragma Assert
@@ -745,6 +1343,67 @@ package body Resource_Ledger with SPARK_Mode is
                       Output'Length), Result)
         else Result = Empty and then (for all I in Output'Range => Output (I) = 0));
 
+   --  The stored octet is the Digit of the whole arena at that offset.
+   procedure Written_Digit
+     (Data : Byte_Array; Offset : Byte_Count; Octet : Natural)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Offset < Data'Length and then Octet <= 255
+       and then Data (Data'First + Offset) = Byte (Octet),
+     Post => Digit (Data, Whole (Data), Offset) = Octet
+   is
+   begin
+      pragma Assert (Data'Length > 0);
+      pragma Assert (Span_Valid (Data, Whole (Data)));
+      pragma Assert (Whole (Data).First = Data'First);
+      pragma Assert (Offset < Whole (Data).Length);
+      pragma Assert
+        (Digit (Data, Whole (Data), Offset) =
+           Natural (Data (Data'First + Offset)));
+      pragma Assert (Natural (Byte (Octet)) = Octet);
+      pragma Assert (Digit (Data, Whole (Data), Offset) = Octet);
+   end Written_Digit;
+
+   --  Offsets past the arena are Digit zero, including a zero column that
+   --  was not stored because the output has no such byte.
+   procedure Absent_Digit
+     (Data : Byte_Array; Offset : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Offset >= Data'Length,
+     Post => Digit (Data, Whole (Data), Offset) = 0
+   is
+   begin
+      pragma Assert (Offset >= Whole (Data).Length);
+      pragma Assert (Digit (Data, Whole (Data), Offset) = 0);
+   end Absent_Digit;
+
+   procedure Produced_Step
+     (Before, After : Byte_Array; Offset : Byte_Count; Octet : Natural;
+      Prior, Produced : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Offset < Byte_Count'Last
+       and then Produced =
+         Prior + To_Big_Integer (Octet) * Power_Reference (Offset)
+       and then Prior = Prefix_Reference (Before, Whole (Before), Offset)
+       and then (if Offset > 0 then
+                   (for all K in 0 .. Offset - 1 =>
+                      Digit (Before, Whole (Before), K) =
+                        Digit (After, Whole (After), K)))
+       and then Digit (After, Whole (After), Offset) = Octet,
+     Post => Produced =
+       Prefix_Reference (After, Whole (After), Offset + 1)
+   is
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Reference);
+   begin
+      Written_Prefix_Step (Before, After, Offset, Octet);
+      pragma Assert
+        (Prefix_Reference (After, Whole (After), Offset + 1) =
+           Prefix_Reference (Before, Whole (Before), Offset) +
+             To_Big_Integer (Octet) * Power_Reference (Offset));
+      pragma Assert
+        (Produced = Prefix_Reference (After, Whole (After), Offset + 1));
+   end Produced_Step;
+
    procedure Binary
      (Left_Data, Right_Data : Byte_Array; Left, Right : Quantity;
       Negate_Right : Boolean; Output : out Byte_Array;
@@ -762,6 +1421,12 @@ package body Resource_Ledger with SPARK_Mode is
       Prior_Produced : Valid_Big_Integer := To_Big_Integer (0) with Ghost;
       Prior_Carry : Natural range 0 .. 1 := 0 with Ghost;
       Completed : Byte_Count := 0 with Ghost;
+      --  Inputs are immutable for this call. Reuse the exact mathematical
+      --  reference in checked proof checks instead of reconstructing the
+      --  same large values at every column.
+      Expected : constant Valid_Big_Integer :=
+        Binary_Reference
+          (Left_Data, Right_Data, Left, Right, Negate_Right) with Ghost;
    begin
       Output := (others => 0);
       Result := Empty;
@@ -807,8 +1472,7 @@ package body Resource_Ledger with SPARK_Mode is
                    Prefix_Reference (Right_Data, Right, Offset) = Produced -
                      To_Big_Integer (Carry) * Power_Reference (Offset));
             pragma Loop_Invariant
-              (abs Binary_Reference
-                 (Left_Data, Right_Data, Left, Right, Negate_Right)
+              (abs Expected
                    mod Power_Reference (Offset) = Produced);
             pragma Loop_Invariant
               (for all I in Output'Range =>
@@ -874,11 +1538,11 @@ package body Resource_Ledger with SPARK_Mode is
             pragma Assert (Produced >= 0);
             pragma Assert (Produced < Power_Reference (Offset + 1));
             pragma Assert
-              (abs Binary_Reference
-                 (Left_Data, Right_Data, Left, Right, Negate_Right)
+              (abs Expected
                    mod Power_Reference (Offset + 1) = Produced);
             if Offset < Output'Length then
                Output (Output'First + Offset) := Byte (Octet);
+               Written_Digit (Output, Offset, Octet);
                Equal_Prefix (Before_Output, Output,
                              Whole (Before_Output), Whole (Output), Offset);
             elsif Octet /= 0 then
@@ -891,27 +1555,25 @@ package body Resource_Ledger with SPARK_Mode is
                   pragma Assert (Produced = Prior_Produced + Contribution);
                end;
                pragma Assert
-                 (abs Binary_Reference
-                    (Left_Data, Right_Data, Left, Right, Negate_Right) >=
+                 (abs Expected >=
                       Radix_Power (Output'Length));
                Output := (others => 0);
                return;
+            else
+               Absent_Digit (Output, Offset);
             end if;
-            pragma Assert
-              (Produced = Prefix_Reference
-                 (Output, Whole (Output), Offset + 1));
+            Produced_Step
+              (Before_Output, Output, Offset, Octet, Prior_Produced, Produced);
             Completed := Offset + 1;
          end loop;
       end if;
       pragma Assert (Completed = Count);
       pragma Assert
         (if Add_Magnitudes then
-           abs Binary_Reference
-             (Left_Data, Right_Data, Left, Right, Negate_Right) =
+           abs Expected =
                Produced + To_Big_Integer (Carry) * Power_Reference (Count)
          else
-           abs Binary_Reference
-             (Left_Data, Right_Data, Left, Right, Negate_Right) =
+           abs Expected =
                Produced - To_Big_Integer (Carry) * Power_Reference (Count));
       if not Add_Magnitudes then
          pragma Assert (Carry = 0);
@@ -921,19 +1583,23 @@ package body Resource_Ledger with SPARK_Mode is
            (if I - Output'First >= Count then Output (I) = 0));
       if Add_Magnitudes and then Carry /= 0 then
          if Count < Output'Length then
+            Prior_Produced := Produced;
             Before_Output := Output;
             Output (Output'First + Count) := Byte (Carry);
+            Written_Digit (Output, Count, Carry);
             Equal_Prefix (Before_Output, Output,
                           Whole (Before_Output), Whole (Output), Count);
-            Produced := Produced + To_Big_Integer (Carry) * Power_Reference (Count);
+            Produced :=
+              Prior_Produced + To_Big_Integer (Carry) * Power_Reference (Count);
+            Produced_Step
+              (Before_Output, Output, Count, Carry, Prior_Produced, Produced);
             Completed := Count + 1;
             pragma Assert
               (Produced = Prefix_Reference (Output, Whole (Output), Completed));
          else
             Power_Monotone (Output'Length, Count);
             pragma Assert
-              (abs Binary_Reference
-                 (Left_Data, Right_Data, Left, Right, Negate_Right) >=
+              (abs Expected >=
                    Radix_Power (Output'Length));
             Output := (others => 0);
             return;
@@ -944,11 +1610,9 @@ package body Resource_Ledger with SPARK_Mode is
       Padded_Prefix (Output, Whole (Output), Output'Length);
       pragma Assert
         (Magnitude (Output, Whole (Output)) =
-           abs Binary_Reference
-             (Left_Data, Right_Data, Left, Right, Negate_Right));
+           abs Expected);
       pragma Assert
-        (abs Binary_Reference
-           (Left_Data, Right_Data, Left, Right, Negate_Right) <
+        (abs Expected <
              Radix_Power (Output'Length));
       Canonicalize (Output, Negative, Result);
       pragma Assert
@@ -1028,12 +1692,201 @@ package body Resource_Ledger with SPARK_Mode is
           then Detail_Data (I) = 0)))
    with Ghost, Global => null;
 
-   procedure Compute
+   --  One row ordinal from the proved row-indexed canonical fact.
+   --  The body stays hidden so this is instantiation, not a second proof
+   --  of Canonical_In_Slot's conjuncts.
+   procedure Canonical_At_Ordinal
+     (Detail_Data : Byte_Array; Rows : Reservation_Array;
+      Slots : Span_Array; Details : Quantity_Array; Ordinal : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Ordinal < Rows'Length
+       and then Slots'Length = Rows'Length
+       and then Details'Length = Rows'Length
+       and then
+         (for all I in Rows'Range =>
+            Canonical_In_Slot
+              (Detail_Data, Slots (Slots'First + (I - Rows'First)),
+               Details (Details'First + (I - Rows'First)))),
+     Post => Canonical_In_Slot
+       (Detail_Data, Slots (Slots'First + Ordinal),
+        Details (Details'First + Ordinal))
+   is
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Canonical_In_Slot);
+   begin
+      pragma Assert ((Rows'First + Ordinal) in Rows'Range);
+      pragma Assert
+        (Canonical_In_Slot
+           (Detail_Data, Slots (Slots'First + Ordinal),
+            Details (Details'First + Ordinal)));
+   end Canonical_At_Ordinal;
+
+   --  Success correspondence lives here so the final Post does not reopen
+   --  Compute's whole proof context. The public Post is unchanged.
+   procedure Finish_Computed
+     (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
+      Detail_Data, Total_Data : Byte_Array; Details : Quantity_Array;
+      Total : Quantity)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Processed_Conforms
+       (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+        Rows'Length),
+     Post => Result_Conforms
+       (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total, Computed)
+   is
+      Seen : Byte_Count := 0 with Ghost;
+   begin
+      pragma Assert (Rows_Valid (Data, Rows));
+      pragma Assert
+        (Layout_Valid (Detail_Data, Slots, Details, Rows'Length));
+      pragma Assert (Span_Valid (Total_Data, Total));
+      pragma Assert
+        (Value (Total_Data, Total) =
+           Prefix_Total (Data, Rows, Rows'Length));
+      pragma Assert
+        (Canonical_In_Slot
+           (Total_Data,
+            ((if Total_Data'Length = 0 then 1 else Total_Data'First),
+             Total_Data'Length), Total));
+      for I in Rows'Range loop
+         pragma Loop_Invariant (Seen = I - Rows'First);
+         pragma Loop_Invariant
+           (for all J in Rows'Range =>
+              (if J - Rows'First < Seen then
+                 Canonical_In_Slot
+                   (Detail_Data, Slots (Slots'First + (J - Rows'First)),
+                    Details (Details'First + (J - Rows'First)))
+                 and then Span_Valid
+                   (Detail_Data,
+                    Details (Details'First + (J - Rows'First)))
+                 and then Value
+                   (Detail_Data,
+                    Details (Details'First + (J - Rows'First))) =
+                     Withheld_Reference (Data, Rows (J))
+                 and then abs Withheld_Reference (Data, Rows (J)) <
+                   Radix_Power
+                     (Slots (Slots'First + (J - Rows'First)).Length)
+                 and then abs Prefix_Total
+                   (Data, Rows, (J - Rows'First) + 1) <
+                     Radix_Power (Total_Data'Length)));
+         pragma Assert (I - Rows'First < Rows'Length);
+         pragma Assert
+           (Canonical_In_Slot
+              (Detail_Data, Slots (Slots'First + (I - Rows'First)),
+               Details (Details'First + (I - Rows'First))));
+         pragma Assert
+           (Span_Valid
+              (Detail_Data, Details (Details'First + (I - Rows'First))));
+         pragma Assert
+           (Value
+              (Detail_Data, Details (Details'First + (I - Rows'First))) =
+              Withheld_Reference (Data, Rows (I)));
+         pragma Assert
+           (abs Withheld_Reference (Data, Rows (I)) <
+              Radix_Power (Slots (Slots'First + (I - Rows'First)).Length));
+         pragma Assert
+           (abs Prefix_Total (Data, Rows, (I - Rows'First) + 1) <
+              Radix_Power (Total_Data'Length));
+         Seen := (I - Rows'First) + 1;
+      end loop;
+      pragma Assert (Seen = Rows'Length);
+      pragma Assert
+        (for all I in Rows'Range =>
+           Span_Valid
+             (Detail_Data, Details (Details'First + (I - Rows'First)))
+           and then Value
+             (Detail_Data, Details (Details'First + (I - Rows'First))) =
+               Withheld_Reference (Data, Rows (I))
+           and then abs Withheld_Reference (Data, Rows (I)) <
+             Radix_Power (Slots (Slots'First + (I - Rows'First)).Length)
+           and then abs Prefix_Total (Data, Rows, (I - Rows'First) + 1) <
+             Radix_Power (Total_Data'Length));
+      pragma Assert
+        (Storage_Sufficient (Data, Rows, Slots, Total_Data'Length));
+      pragma Assert
+        (for all I in Detail_Data'Range =>
+           (if not (for some S in Slots'Range => Contains (Slots (S), I)) then
+              Detail_Data (I) = 0));
+      pragma Assert (Slots'Length = Rows'Length);
+      pragma Assert (Details'Length = Rows'Length);
+      pragma Assert
+        (for all I in Rows'Range =>
+           Canonical_In_Slot
+             (Detail_Data, Slots (Slots'First + (I - Rows'First)),
+              Details (Details'First + (I - Rows'First))));
+      for S in Slots'Range loop
+         pragma Loop_Invariant
+           (for all T in Slots'Range =>
+              (if T < S then
+                 Canonical_In_Slot
+                   (Detail_Data, Slots (T),
+                    Details (Details'First + (T - Slots'First)))));
+         declare
+            Ordinal : constant Byte_Count := S - Slots'First;
+         begin
+            pragma Assert (Ordinal < Rows'Length);
+            pragma Assert (S = Slots'First + Ordinal);
+            Canonical_At_Ordinal
+              (Detail_Data, Rows, Slots, Details, Ordinal);
+            pragma Assert
+              (Canonical_In_Slot
+                 (Detail_Data, Slots (S),
+                  Details (Details'First + (S - Slots'First))));
+         end;
+      end loop;
+      pragma Assert
+        (for all S in Slots'Range =>
+           Canonical_In_Slot
+             (Detail_Data, Slots (S),
+              Details (Details'First + (S - Slots'First))));
+      pragma Assert
+        (Output_Representation
+           (Detail_Data, Total_Data, Slots, Details, Total));
+      pragma Assert
+        (Result_Conforms
+           (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+            Computed));
+   end Finish_Computed;
+
+   procedure Computed_Status
+     (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
+      Detail_Data, Total_Data : Byte_Array; Details : Quantity_Array;
+      Total : Quantity; Status : Result_Status)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Status = Computed
+       and then Result_Conforms
+         (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+          Computed),
+     Post => Result_Conforms
+       (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total, Status)
+   is
+   begin
+      pragma Assert (Status = Computed);
+      pragma Assert
+        (Result_Conforms
+           (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+            Status));
+   end Computed_Status;
+
+   --  The row loop stays here so Compute's post is a call, not this path.
+   --  Success stops at Processed_Conforms. Finish_Computed is Compute's step.
+   procedure Produce
      (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
       Detail_Data, Total_Data : out Byte_Array;
       Details : out Quantity_Array; Total : out Quantity;
       Status : out Result_Status)
+   with Global => null, Always_Terminates,
+     Post =>
+       (if Status = Computed then
+          Processed_Conforms
+            (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+             Rows'Length)
+        else
+          Result_Conforms
+            (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+             Status))
    is
+      Before_Detail_Data : Byte_Array (Detail_Data'Range) with Ghost;
       Workspace : Byte_Array (Total_Data'Range);
       Item, New_Total : Quantity := Empty;
       Success : Boolean := False;
@@ -1065,6 +1918,7 @@ package body Resource_Ledger with SPARK_Mode is
               (if Slot.Length = 0 then Slot.First - 1
                else Slot.First + (Slot.Length - 1));
          begin
+            Before_Detail_Data := Detail_Data;
             Compute_Row (Data, Rows (I), Detail_Data (Slot.First .. Last),
                          Item, Success);
             if not Success then
@@ -1077,6 +1931,12 @@ package body Resource_Ledger with SPARK_Mode is
                Total := Empty;
                return;
             end if;
+            pragma Assert
+              (for all K in Detail_Data'Range =>
+                 (if not Contains (Slot, K) then
+                    Before_Detail_Data (K) = Detail_Data (K)));
+            Retained_Detail_Frame
+              (Before_Detail_Data, Detail_Data, Rows, Slots, Details, Offset);
             Lift_Slice (Detail_Data, Slot, Item);
             pragma Assert (Span_Valid (Total_Data, Total));
             pragma Assert (Span_Valid (Detail_Data, Item));
@@ -1102,6 +1962,12 @@ package body Resource_Ledger with SPARK_Mode is
             Total_Data := Workspace;
             Total := New_Total;
             pragma Assert
+              (Details (Details'First + Offset) = Item);
+            pragma Assert
+              (Value (Detail_Data, Details (Details'First + Offset)) =
+                 Withheld_Reference (Data, Rows (I)));
+            Checked_Detail_Step (Data, Detail_Data, Rows, Details, Offset);
+            pragma Assert
               (Processed_Conforms
                  (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
                   Offset + 1));
@@ -1112,6 +1978,29 @@ package body Resource_Ledger with SPARK_Mode is
            (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
             Rows'Length));
       Status := Computed;
+      pragma Assert (Status = Computed);
+      pragma Assert
+        (Processed_Conforms
+           (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+            Rows'Length));
+   end Produce;
+
+   procedure Compute
+     (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
+      Detail_Data, Total_Data : out Byte_Array;
+      Details : out Quantity_Array; Total : out Quantity;
+      Status : out Result_Status)
+   is
+   begin
+      Produce
+        (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total, Status);
+      if Status = Computed then
+         Finish_Computed
+           (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total);
+         Computed_Status
+           (Data, Rows, Slots, Detail_Data, Total_Data, Details, Total,
+            Status);
+      end if;
    end Compute;
    procedure Compute_Headroom
      (Data : Byte_Array; Available, Withheld, Floor : Quantity;

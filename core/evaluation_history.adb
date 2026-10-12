@@ -72,29 +72,7 @@ package body Evaluation_History with SPARK_Mode is
       end if;
       Answer.Completed_Failure := Find_Completed_Failure (A, H, F, Q);
 
-      if not Head.Present then
-         Answer.Reason := Evidence_Absent;
-      elsif not Cursor_Matches (A, Q.Current_Head, Head.Value)
-        or else not Cursor_Matches (A, Q.Prepared_Evidence, Head.Value)
-      then
-         Answer.Reason := Evidence_Superseded;
-      elsif not Q.Requirement.Present or else
-            not Head.Value.Requirement.Present
-      then
-         Answer.Reason := Requirement_Absent;
-      elsif not Same_Identity (A, Identity_Span (Head.Value.Requirement.Value), Identity_Span (Q.Requirement.Value)) then
-         Answer.Reason := Requirement_Changed;
-      elsif Head.Value.State = Rollback_Fence then
-         Answer.Reason := Evidence_Fenced;
-      elsif Head.Value.State /= Completed then
-         Answer.Reason := Evaluation_Incomplete;
-      elsif Answer.Completed_Failure.Kind /= Absent then
-         Answer.Reason := Evidence_Fail_Terminal;
-      elsif Head.Value.Outcome /= Passed then
-         Answer.Reason := Evaluation_Incomplete;
-      else
-         Answer.Reason := Ready;
-      end if;
+      Answer.Reason := Head_Decision (A, Head, Q, Answer.Completed_Failure);
       return Answer;
    end Select_Evidence;
 end Evaluation_History;

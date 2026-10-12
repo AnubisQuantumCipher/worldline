@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import base64
-import binascii
 import hashlib
 import time
 
@@ -16,7 +14,7 @@ import tempfile
 from typing import Any, Mapping, Sequence
 
 from .canonical import atomic_write_json
-from .core import Core, EvaluationFacts, EvidencePresence
+from .core import Core, EvidencePresence
 from .delta import Delta
 from .environment import EnvironmentCapture, OwnedProcess, capture_dependencies, evidence_manifest
 from .project import protected_matches
@@ -28,7 +26,6 @@ from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .manifest import CapturedManifest, Manifest
 from .model import World, WorldState
 from .paths import WorldlinePaths, secure_directory
-from .report import MAX_REPORT_BYTES
 from .store import StateStore
 from .trusted import trusted_inline
 
@@ -73,126 +70,6 @@ def stopped_supervision(supervision: Mapping[str, Any]) -> bool:
     return bool(supervision.get("stoppedByManager")) or supervision.get("result") == "stopped"
 
 
-def _private_role_observed(observation: Any, role: str) -> bool:
-    if not isinstance(observation, Mapping) or type(role) is not str:
-        return False
-    expected = {"examiner": 0, "worker": 1, "candidate": 2}.get(role)
-    if expected is None:
-        return False
-    status, namespaces = observation.get("status"), observation.get("namespaces")
-    if not isinstance(status, Mapping) or not isinstance(namespaces, Mapping):
-        return False
-    if (observation.get("role") != role
-            or type(observation.get("uid")) is not int or observation["uid"] != expected
-            or type(observation.get("gid")) is not int or observation["gid"] != expected
-            or status.get("NoNewPrivs") != "1" or status.get("Groups") != ""
-            or observation.get("reportMounted") is not (role == "examiner")
-            or observation.get("brokerMounted") is not (role == "examiner")
-            or observation.get("workerBrokerMounted") is not (role == "worker")):
-        return False
-    for key in ("CapEff", "CapPrm", "CapBnd", "CapAmb"):
-        value = status.get(key)
-        if not isinstance(value, str) or re.fullmatch(r"0+", value) is None:
-            return False
-    for key in ("Uid", "Gid"):
-        value = status.get(key)
-        if not isinstance(value, str) or value.split() != [str(expected)] * 4:
-            return False
-    for key in ("pid", "mnt", "user"):
-        value = namespaces.get(key)
-        if not isinstance(value, str) or re.fullmatch(key + r":\[[0-9]+\]", value) is None:
-            return False
-    return True
-
-
-def _private_report_verified(result: Mapping[str, Any], *, execution: str, integrity: str) -> bool:
-    """Verify report provenance for either a completed passing or failing examination.
-
-    Labels alone confer no authority. The producer must establish these facts before building
-    the result; persisted evidence is bound and rechecked again at promotion.
-    """
-    if (result.get("profile") != "private-evaluator-v1" or result.get("origin") != "supervisor"
-            or execution != "COMPLETED" or integrity != "VERIFIED"
-            or type(result.get("exitCode")) is not int or result["exitCode"] < 0):
-        return False
-    channel, supervision = result.get("resultChannel"), result.get("supervision")
-    boundary, report = result.get("evaluatorBoundary"), result.get("privateReport")
-    snapshot, executed = result.get("candidateSnapshot"), result.get("executedVerifierSet")
-    if any(not isinstance(value, Mapping) for value in
-           (channel, supervision, boundary, report, snapshot, executed)):
-        return False
-    if (channel.get("accepted") is not True
-            or channel.get("recordProducer") != "daemon-outside-sandbox"
-            or supervision.get("kind") != "SUPERVISED" or supervision.get("started") is not True
-            or supervision.get("stoppedByManager") is not False
-            or supervision.get("result") != ("success" if result["exitCode"] == 0 else "failure")
-            or type(supervision.get("launcherExit")) is not int
-            or supervision["launcherExit"] != result["exitCode"]
-            or supervision.get("exitCode") not in (None, "exited")
-            or (supervision.get("exitStatus") is not None
-                and (type(supervision["exitStatus"]) is not int
-                     or supervision["exitStatus"] != result["exitCode"]))
-            or boundary.get("profileId") != result["profile"]
-            or ("error" in boundary and boundary["error"] is not None)
-            or type(boundary.get("examinerReturnCode")) is not int
-            or boundary["examinerReturnCode"] != result["exitCode"]
-            or type(boundary.get("bootstrapExitCode")) is not int
-            or boundary["bootstrapExitCode"] != result["exitCode"]
-            or not isinstance(boundary.get("managerBootstrapProperties"), Mapping)
-            or boundary["managerBootstrapProperties"].get("NoNewPrivileges") != "no"
-            or boundary.get("rolesCompleted") is not True or boundary.get("reportMountExclusive") is not True
-            or report.get("collection") != "private-directory"):
-        return False
-    for report_key, expected in (
-            ("runId", boundary.get("runId")), ("checkId", result.get("id")),
-            ("candidateIdentity", snapshot.get("rootSetHash")),
-            ("verifierIdentity", executed.get("identity"))):
-        if (not isinstance(expected, str) or not expected or "\x00" in expected
-                or report.get(report_key) != expected):
-            return False
-    digest = report.get("sha256")
-    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
-        return False
-    if type(report.get("sizeBytes")) is not int or not 0 < report["sizeBytes"] <= MAX_REPORT_BYTES:
-        return False
-    payload_b64 = report.get("payloadB64")
-    if (not isinstance(payload_b64, str)
-            or len(payload_b64) > ((MAX_REPORT_BYTES + 2) // 3) * 4):
-        return False
-    try:
-        payload = base64.b64decode(payload_b64, validate=True)
-    except (binascii.Error, ValueError):
-        return False
-    if len(payload) != report["sizeBytes"] or hashlib.sha256(payload).hexdigest() != digest:
-        return False
-    examiner, workers = boundary.get("examiner"), boundary.get("workers")
-    if not _private_role_observed(examiner, "examiner") or not isinstance(workers, list):
-        return False
-    worker_roles = []
-    candidate_roles = []
-    for worker in workers:
-        if not isinstance(worker, Mapping) or type(worker.get("returncode")) is not int:
-            return False
-        observation = worker.get("observation")
-        role = worker.get("principal", "worker")
-        if not _private_role_observed(observation, role) or role not in ("worker", "candidate"):
-            return False
-        if (observation["namespaces"]["user"] != examiner["namespaces"]["user"]
-                or any(observation["namespaces"][key] == examiner["namespaces"][key]
-                       for key in ("pid", "mnt"))
-                or observation.get("uidMap") != examiner.get("uidMap")
-                or observation.get("gidMap") != examiner.get("gidMap")):
-            return False
-        (worker_roles if role == "worker" else candidate_roles).append(observation)
-    for candidate in candidate_roles:
-        for worker in worker_roles:
-            # Earlier role namespaces may have exited and the kernel can reuse
-            # their namespace inode numbers. Identity separation is the stable
-            # cross-run fact; live namespace separation is checked by bootstrap.
-            if candidate["uid"] == worker["uid"] or candidate["gid"] == worker["gid"]:
-                return False
-    from .examiner_audit import report_audit_clean
-    return report_audit_clean(result)
 
 
 @dataclass(frozen=True)
@@ -239,78 +116,29 @@ def runner_agent_record(record: Any) -> tuple[Any, bool]:
     return record, False
 
 
-def check_declarations(requirement: Mapping[str, Any] | None) -> dict[str, CheckDeclaration]:
-    """Per-check declarations from a requirement record (`requirements()`/`current_requirements()`).
-
-    A missing or malformed requirement yields no declarations, and a check with no declaration
-    is never admitted: the absence is carried to the kernel as Declaration_Matches = False.
-    """
-    if not isinstance(requirement, Mapping):
-        return {}
-    policy = requirement.get("policy")
-    canonical = policy.get("canonical") if isinstance(policy, Mapping) else None
-    if not isinstance(canonical, Mapping):
-        return {}
-    bundles = {
-        str(entry.get("checkId"))
-        for entry in (requirement.get("verifiers") or ())
-        if isinstance(entry, Mapping) and entry.get("checkId") is not None
-    }
-    declared: dict[str, CheckDeclaration] = {}
-    for item in canonical.get("checks") or ():
-        if isinstance(item, Mapping) and isinstance(item.get("id"), str) and item["id"]:
-            # The canonical policy always states the profile (validation.canonical_checks); a
-            # check without one has no declaration rather than a defaulted one (1.9.0).
-            profile = item.get("profile")
-            if not isinstance(profile, str) or not isinstance(item.get("format"), str):
-                continue
-            declared[item["id"]] = CheckDeclaration(item["format"], profile, item["id"] in bundles)
-    if canonical.get("protected"):
-        declared["protected-paths"] = ENGINE_DECLARATIONS["protected-paths"]
-    return declared
+def check_declarations(requirement: Mapping[str, Any] | None, *,
+                       core: Core | None = None) -> dict[str, CheckDeclaration]:
+    """Render declarations natively derived from the complete current policy."""
+    from .evaluation_policy import project
+    return project(requirement, core=core)[2]
 
 
-def required_roster(requirement: Mapping[str, Any] | None) -> tuple[list[str], bool]:
-    """The promotion roster a requirement record imposes, and whether an empty one was declared.
-
-    Required policy checks plus the engine's protected-paths check when the policy protects any
-    path. An empty roster counts as declared only when a policy file was actually read
-    (`sourceSha256` present); a project with no policy has declared nothing, and nothing is not
-    a pass.
-    """
-    policy = requirement.get("policy") if isinstance(requirement, Mapping) else None
-    if not isinstance(policy, Mapping):
-        return [], False
-    required = sorted({str(item) for item in (policy.get("requiredChecks") or ())})
-    canonical = policy.get("canonical")
-    if isinstance(canonical, Mapping) and canonical.get("protected") and "protected-paths" not in required:
-        required.append("protected-paths")
-    return required, isinstance(policy.get("sourceSha256"), str) and bool(policy.get("sourceSha256"))
+def required_roster(requirement: Mapping[str, Any] | None, *,
+                    core: Core | None = None) -> tuple[list[str], bool]:
+    """Render the native full policy roster; missing is distinct from empty."""
+    from .evaluation_policy import project
+    required, empty, _declarations = project(requirement, core=core)
+    return required, empty
 
 
-def _declaration_matches(result: Mapping[str, Any], declared: CheckDeclaration | None) -> bool:
-    """The record is the kind of result the declaration names, with no default filling a gap."""
-    if declared is None or declared.format is None or result.get("format") != declared.format:
-        return False
-    if declared.origin is not None:
-        return result.get("origin") == declared.origin and "profile" not in result
-    return isinstance(result.get("profile"), str) and result["profile"] == declared.profile
 
 
-def evaluation_presence(result: Mapping[str, Any], declared: CheckDeclaration | None) -> EvidencePresence:
-    """Typed evidence facts for one record. Each is a question about a specific field, so an
-    empty or partial record cannot pass by being non-empty."""
-    executed = result.get("executedVerifierSet")
-    identity = executed.get("identity") if isinstance(executed, Mapping) else None
-    identifier = result.get("id")
-    return EvidencePresence(
-        record_identified=isinstance(identifier, str) and bool(identifier),
-        verdict_recorded=isinstance(result.get("status"), str),
-        binding_established=execution_binding(result) != "UNESTABLISHED",
-        declaration_matches=_declaration_matches(result, declared),
-        bundle_identified=declared is not None and (
-            not declared.bundle_declared or (isinstance(identity, str) and bool(identity))),
-    )
+def evaluation_presence(result: Mapping[str, Any], declared: CheckDeclaration | None,
+                        *, core: Core | None = None) -> EvidencePresence:
+    """Render typed presence derived by the native raw producer."""
+    from .evaluation_wire import record
+    raw = record(result, declared, core=core).native()
+    return EvidencePresence(*(bool(value) for value in raw.presence))
 
 
 def refusal_reason(evaluation: Mapping[str, Any]) -> str:
@@ -375,9 +203,9 @@ def evaluation_record(result: Mapping[str, Any], *, declared: CheckDeclaration |
     """
     from .evaluation_wire import Authority, record
     core = core or Core.shared()
-    owned = record(result, declared)
+    owned = record(result, declared, core=core)
     execution, outcome, integrity, report_integrity, admissible = Authority(core).evaluate(owned)
-    presence = evaluation_presence(result, declared)
+    presence = EvidencePresence(*(bool(value) for value in owned.native().presence))
     report_based = result.get("format") in ("junit", "gnatprove", "worldline-benchmark-v1")
     return {
         "bundleIntegrity": integrity,
@@ -677,6 +505,10 @@ class Finalizer:
                 # whether the candidate changed them; neither is the candidate's to rewrite. The
                 # synthetic check is part of the evidence manifest like any other check.
                 touched = sorted({op["pathDisplay"] for op in delta.value["operations"] if protected_matches(tuple(protected), op["pathDisplay"])})
+                from .evaluation_terminal import bytes_value
+                from .evaluation_policy import protected_status
+                expected_policy = bytes_value(_finalization_writer.start.policy)
+                native_protected_status = protected_status(self.core, expected_policy, delta.value)
                 check_results.append(
                     {
                         "id": "protected-paths",
@@ -687,9 +519,13 @@ class Finalizer:
                         # this verdict itself from facts it owns. See evaluation_record.
                         "origin": "engine",
                         "covers": list(protected),
-                        "status": "FAIL" if touched else "PASS",
+                        "status": native_protected_status,
                         "touched": touched,
                         "reason": ("the candidate changed protected paths: " + ", ".join(touched)) if touched else "no protected path changed",
+                        "nativeProtectedInputs": {
+                            "expectedRequirement": expected_policy,
+                            "delta": delta.value,
+                        },
                     }
                 )
                 required_checks.append("protected-paths")

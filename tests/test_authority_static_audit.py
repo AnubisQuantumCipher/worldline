@@ -25,13 +25,7 @@ SAVED_FIELDS = {"admissibleForPromotion", "executionStatus", "evaluationOutcome"
 
 # (module, enclosing function) -> (how many, why it is not an authorization).
 ALLOWED_COMPARISONS = {
-    ("finalize.py", "_private_report_verified"): (1,
-        "report integrity is an input fact to Evaluation.Admissible; requiring the kernel's own"
-        " COMPLETED classification here can only make a report less trusted"),
     ("finalize.py", "refusal_reason"): (2, "diagnostic text for a check the kernel already refused"),
-    ("finalize.py", "evaluation_record"): (1,
-        "the Python mapping of raw fields to the kernel's finite categories (the declared"
-        " unproved boundary)"),
     ("validation.py", "effective_evidence"): (1,
         "selects which evaluation speaks for a world (Phase 1 item 5, one effective evaluation);"
         " promotion still recomputes every check of the selected evaluation in the kernel"),
@@ -153,8 +147,12 @@ class NoPythonAdmissibility(unittest.TestCase):
 
     def test_the_roster_and_the_per_check_verdict_are_kernel_calls(self) -> None:
         self.assertIn("evaluation_roster_complete", calls("finalize.py", "roster_decision"))
-        self.assertIn("evaluation_admissible", calls("finalize.py", "evaluation_record"))
-        self.assertIn("evaluation_classify", calls("finalize.py", "evaluation_record"))
+        self.assertIn("record", calls("finalize.py", "evaluation_record"))
+        self.assertIn("Authority", calls("finalize.py", "evaluation_record"))
+        self.assertIn("evaluate", calls("finalize.py", "evaluation_record"))
+        self.assertIn("derive", calls("evaluation_wire.py", "record"))
+        self.assertIn("wl_evaluation_wire_classify", calls("evaluation_wire.py", "evaluate"))
+        self.assertIn("wl_evaluation_wire_admit", calls("evaluation_wire.py", "evaluate"))
 
 
 # 1.9.0 (typed absence): the modules that produce collapse inputs never state "nothing" as a

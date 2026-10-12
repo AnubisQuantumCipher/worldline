@@ -70,6 +70,7 @@ class RawRequiredFailureControls(RequiredFailureControls):
 
     def bound_request(self):
         request = replace(RawDependencyControls.checkpoint(), mode='CANDIDATE_EVALUATION',
+            resulting_requirement=RawDependencyControls.checkpoint().current_requirement,
             evaluated_requirement=RawDependencyControls.checkpoint().current_requirement,
             executed_verifiers=RawDependencyControls.checkpoint().declared_verifiers,
             expected_checkpoint=None, witnessed_checkpoint=None)
@@ -220,7 +221,8 @@ class RawRequiredFailureControls(RequiredFailureControls):
         request = replace(request, expected_subject=manager._identity(subject_digest), evidence_subject=manager._identity(subject_digest),
             expected_root_set=manager._identity(subject.root_set_hash), candidate_root_set=manager._identity(subject.root_set_hash),
             staged_content_root=manager._identity(root), tested_root=manager._identity(root),
-            current_requirement=manager._identity(policy['requirementHash']), evaluated_requirement=manager._identity(policy['requirementHash']),
+            current_requirement=manager._identity(policy['requirementHash']),
+            resulting_requirement=manager._identity(policy['requirementHash']), evaluated_requirement=manager._identity(policy['requirementHash']),
             declared_verifiers=manager._identity(declared), executed_verifiers=manager._identity(declared))
         return manager, subject, policy, chosen, request, agent
 
@@ -228,7 +230,7 @@ class RawRequiredFailureControls(RequiredFailureControls):
         from worldline.evaluation_context import bind_selected
         manager, subject, policy, chosen, request, agent = self.producer_case()
         bind_selected(manager, chosen, values=request, subject=subject, candidate=subject,
-            authoritative_requirement=policy, authoritative_roots=[], agent=agent,
+            authoritative_requirement=policy, resulting_requirement=policy, authoritative_roots=[], agent=agent,
             agent_record={'ordinary-agent': True}, role='primary', prepared_cursor=chosen.cursor)
         self.assertEqual(self.core.collapse_decide_with_evaluation(request,
             primary=chosen.raw, staged=None, agent=agent), 'AUTHORIZED')
@@ -242,7 +244,7 @@ class RawRequiredFailureControls(RequiredFailureControls):
         # Carrying the old hash is insufficient: the typed full-policy equality
         # sees the actual source records before legacy Collapse can authorize.
         bind_selected(manager, chosen, values=request, subject=subject, candidate=subject,
-            authoritative_requirement=current, authoritative_roots=[], agent=agent,
+            authoritative_requirement=current, resulting_requirement=policy, authoritative_roots=[], agent=agent,
             agent_record={'ordinary-agent': True}, role='primary', prepared_cursor=chosen.cursor)
         self.assertEqual(self.core.collapse_decide_with_evaluation(request,
             primary=chosen.raw, staged=None, agent=agent), 'INVALID_REQUEST')
@@ -369,7 +371,7 @@ class RawRequiredFailureControls(RequiredFailureControls):
             from worldline.evaluation_context import bind_selected
             request, agent = manager.staged_fixture_values
             bind_selected(manager, selected, values=request, subject=subject, candidate=subject,
-                authoritative_requirement=policy, authoritative_roots=[], agent=agent,
+                authoritative_requirement=policy, resulting_requirement=policy, authoritative_roots=[], agent=agent,
                 agent_record=subject.evidence['checks'][0], role='primary',
                 prepared_cursor=refreshed['evaluationCursor'])
             self.assertEqual(self.core.collapse_decide_with_evaluation(request,
@@ -474,7 +476,7 @@ class RawRequiredFailureControls(RequiredFailureControls):
             expected_parent=h(1), candidate_parent=h(1), expected_subject=h(2), evidence_subject=h(2),
             expected_base=h(3), candidate_base=h(3), expected_delta=h(4), candidate_delta=h(4),
             expected_root_set=h(5), candidate_root_set=h(5), expected_staged_root=h(6), actual_staged_root=h(6),
-            staged_content_root=h(7), tested_root=h(7), current_requirement=h(8), evaluated_requirement=h(8),
+            staged_content_root=h(7), tested_root=h(7), current_requirement=h(8), resulting_requirement=h(8), evaluated_requirement=h(8),
             declared_verifiers=h(9), executed_verifiers=h(9), staged_evaluated_requirement=None,
             staged_executed_verifiers=None, staged_examined_root=None, expected_checkpoint=None, witnessed_checkpoint=None,
             registered_watch_set=h(10), watched_set=h(10), generation_before=41, generation_after=41)
@@ -526,7 +528,7 @@ class RawDependencyControls(unittest.TestCase):
             expected_parent=h(1), candidate_parent=h(1), expected_subject=h(2), evidence_subject=h(2),
             expected_base=h(3), candidate_base=h(3), expected_delta=h(4), candidate_delta=h(4),
             expected_root_set=h(5), candidate_root_set=h(5), expected_staged_root=h(6), actual_staged_root=h(6),
-            staged_content_root=h(7), tested_root=h(7), current_requirement=h(8), evaluated_requirement=None,
+            staged_content_root=h(7), tested_root=h(7), current_requirement=h(8), resulting_requirement=None, evaluated_requirement=None,
             declared_verifiers=h(9), executed_verifiers=None, staged_evaluated_requirement=None,
             staged_executed_verifiers=None, staged_examined_root=None, expected_checkpoint=h(2), witnessed_checkpoint=h(2),
             registered_watch_set=h(10), watched_set=h(10), generation_before=41, generation_after=41)

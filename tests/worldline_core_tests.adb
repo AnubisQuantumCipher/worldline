@@ -323,7 +323,7 @@ begin
         (C_Value'Unchecked_Access, 1, null) = 255,
       "null presence accepted");
 
-   Check (Worldline.C_API.ABI_Generation = 5, "ABI generation is not 5");
+   Check (Worldline.C_API.ABI_Generation = 6, "ABI generation is not 6");
    Check
      (Worldline.C_API.Layout_Size (0) = Worldline.Collapse_Wire.Raw_Request'Size / 8
       and then Worldline.C_API.Layout_Size (3) = 5

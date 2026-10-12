@@ -57,6 +57,9 @@ package Worldline.Collapse with SPARK_Mode is
       Staged_Content_Root, Tested_Root    : Optional_Content_Root;
       --  The current PRIME's requirement / the one the evidence was bound to.
       Current_Requirement, Evaluated_Requirement : Optional_Requirement_Id;
+      --  Independently recomputed from the staged policy/verifier tree, never
+      --  copied from the evaluation or current live requirement.
+      Resulting_Requirement : Optional_Requirement_Id;
       --  The policy's declared verifier roster / what the runner executed.
       Declared_Verifiers, Executed_Verifiers : Optional_Verifier_Set_Id;
       --  The staged-merge evaluation, when one ran.
@@ -98,7 +101,8 @@ package Worldline.Collapse with SPARK_Mode is
       Prime_Changed,
       Watch_Incomplete,
       Checkpoint_Mismatch,
-      Evidence_Subject_Mismatch);
+      Evidence_Subject_Mismatch,
+      Requirement_Changed);
 
    --  Both sides present and different: the only situation a *_Mismatch code
    --  may report.
@@ -144,6 +148,7 @@ package Worldline.Collapse with SPARK_Mode is
       and then (case R.Mode is
                   when Candidate_Evaluation =>
                     R.Current_Requirement.Present
+                    and then R.Resulting_Requirement.Present
                     and then R.Evaluated_Requirement.Present
                     and then R.Declared_Verifiers.Present
                     and then R.Executed_Verifiers.Present,
@@ -180,7 +185,8 @@ package Worldline.Collapse with SPARK_Mode is
    function Evidence_Holds (R : Collapse_Request) return Boolean is
      ((case R.Mode is
          when Candidate_Evaluation =>
-           Same (R.Current_Requirement, R.Evaluated_Requirement)
+           Same (R.Current_Requirement, R.Resulting_Requirement)
+           and then Same (R.Current_Requirement, R.Evaluated_Requirement)
            and then R.Roster_Complete
            and then Same (R.Declared_Verifiers, R.Executed_Verifiers),
          when Checkpoint_Return =>
@@ -260,6 +266,10 @@ package Worldline.Collapse with SPARK_Mode is
                         Request.Mode = Checkpoint_Return
                         and then Differ (Request.Expected_Checkpoint,
                                          Request.Witnessed_Checkpoint))
+            and then (if Decide'Result = Requirement_Changed then
+                        Request.Mode = Candidate_Evaluation
+                        and then Differ (Request.Current_Requirement,
+                                         Request.Resulting_Requirement))
             and then (if Decide'Result = Staged_Untested then
                         not Covered (Request));
 

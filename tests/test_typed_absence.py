@@ -1234,5 +1234,23 @@ class R_RoundThreeRepairs(_InProcess):
         self.assertEqual(raised.exception.code, "XATTR_NOT_APPLICABLE")
 
 
+class ResultingRequirementCommit(_InProcess):
+    def test_original_positive_commit_retains_the_measured_staged_requirement(self) -> None:
+        from worldline.validation import requirements_for_tree
+
+        candidate = self.candidate("resulting-requirement-positive")
+        prepared = self.transaction.prepare(candidate.alias)
+        _path, before = self.record(prepared.transaction_id)
+        current = current_requirements(self.store, self.transaction.config, self.core)
+        resulting = requirements_for_tree(self.store, self.transaction.config,
+            Path(before["stagingPayload"]), self.store.roots(), self.core)
+        self.assertEqual(before["decisionInputs"]["resultingRequirement"], resulting)
+        self.assertEqual(current["requirementHash"], resulting["requirementHash"])
+        self.assertEqual(self.transaction.commit(prepared.transaction_id)["state"], "COMMITTED")
+        _path, after = self.record(prepared.transaction_id)
+        self.assertEqual(after["commitRequirementHash"], current["requirementHash"])
+        self.assertEqual(after["decisionInputsAtCommit"]["resultingRequirement"], resulting)
+
+
 if __name__ == "__main__":
     unittest.main()

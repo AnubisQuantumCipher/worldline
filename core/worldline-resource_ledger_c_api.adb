@@ -1,27 +1,14 @@
-with Ada.Unchecked_Conversion;
-with System.Storage_Elements;
+with System;
 with Resource_Quantities;
 with Resource_Ledger;
 
-package body Worldline.Resource_Ledger_C_API with SPARK_Mode => Off is
+package body Worldline.Resource_Ledger_C_API with SPARK_Mode => On is
    use type U8;
    use type Size;
-   use type System.Address;
-   use System.Storage_Elements;
    package Q renames Resource_Quantities;
    package L renames Resource_Ledger;
    use type Q.Byte_Count;
 
-   type Byte_Access is access all Q.Byte;
-   type Row_Access is access all Row_C;
-   type Quantity_Access is access all Quantity_C;
-   type Result_Access is access all Result_C;
-   function As_Byte is new Ada.Unchecked_Conversion (System.Address, Byte_Access);
-   function As_Row is new Ada.Unchecked_Conversion (System.Address, Row_Access);
-   function As_Quantity is new Ada.Unchecked_Conversion
-     (System.Address, Quantity_Access);
-   function As_Result is new Ada.Unchecked_Conversion
-     (System.Address, Result_Access);
 
    function ABI_Version return Interfaces.Unsigned_32 is (1);
    function Layout_Size (Selector : U8) return Size is
@@ -39,37 +26,35 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => Off is
                              Output_First => 1, Output_Length => 0);
       VT : constant Result_C := (Status => 0, Total => VQ);
    begin
+      pragma Compile_Time_Error (VQ.First'Position /= 0, "Quantity.First");
+      pragma Compile_Time_Error (VQ.Length'Position /= 8, "Quantity.Length");
+      pragma Compile_Time_Error (VQ.Negative'Position /= 16, "Quantity.Negative");
+      pragma Compile_Time_Error (VO.Present'Position /= 0, "Optional.Present");
+      pragma Compile_Time_Error (VO.Value'Position /= 8, "Optional.Value");
+      pragma Compile_Time_Error (VR.Reserved'Position /= 0, "Row.Reserved");
+      pragma Compile_Time_Error (VR.Used'Position /= 24, "Row.Used");
+      pragma Compile_Time_Error (VR.Output_First'Position /= 56, "Row.Output_First");
+      pragma Compile_Time_Error (VR.Output_Length'Position /= 64, "Row.Output_Length");
+      pragma Compile_Time_Error (VT.Status'Position /= 0, "Result.Status");
+      pragma Compile_Time_Error (VT.Total'Position /= 8, "Result.Total");
       case Selector is
          when 1 =>
             return (case Field is
-              when 1 => VQ.First'Position, when 2 => VQ.Length'Position,
-              when 3 => VQ.Negative'Position, when others => Size'Last);
+              when 1 => 0, when 2 => 8, when 3 => 16, when others => Size'Last);
          when 2 =>
             return (case Field is
-              when 1 => VO.Present'Position, when 2 => VO.Value'Position,
-              when others => Size'Last);
+              when 1 => 0, when 2 => 8, when others => Size'Last);
          when 3 =>
             return (case Field is
-              when 1 => VR.Reserved'Position, when 2 => VR.Used'Position,
-              when 3 => VR.Output_First'Position,
-              when 4 => VR.Output_Length'Position, when others => Size'Last);
+              when 1 => 0, when 2 => 24, when 3 => 56, when 4 => 64,
+              when others => Size'Last);
          when 4 =>
             return (case Field is
-              when 1 => VT.Status'Position, when 2 => VT.Total'Position,
-              when others => Size'Last);
+              when 1 => 0, when 2 => 8, when others => Size'Last);
          when others => return Size'Last;
       end case;
    end Layout_Offset;
 
-   function Extent_Valid
-     (Address : System.Address; Length : Size; Alignment : Size := 1)
-      return Boolean is
-     (Length <= Size (Storage_Offset'Last) and then
-      (Length = 0 or else
-        (Address /= System.Null_Address and then
-         To_Integer (Address) mod Integer_Address (Alignment) = 0 and then
-         Integer_Address (Length - 1) <=
-           Integer_Address'Last - To_Integer (Address))));
 
    function Shape (V : Quantity_C) return Boolean is
      (V.Negative <= 1 and then V.First >= 1 and then
@@ -79,80 +64,88 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => Off is
      (V.Present <= 1 and then (V.Present = 0 or else Shape (V.Value)));
    function Decode (V : Quantity_C) return Q.Quantity is
      ((Negative => V.Negative = 1, First => Q.Byte_Index (V.First),
-       Length => Q.Byte_Count (V.Length)));
-   function Decode (V : Optional_C) return Q.Optional_Quantity is
-     (if V.Present = 0 then (Present => False)
-      else (Present => True, Value => Decode (V.Value)));
+       Length => Q.Byte_Count (V.Length)))
+   with Pre => Shape (V);
+   function Decode (V : Optional_C) return Q.Optional_Quantity
+     with Pre => Shape (V)
+   is
+   begin
+      if V.Present = 0 then
+         return (Present => False);
+      else
+         return (Present => True, Value => Decode (V.Value));
+      end if;
+   end Decode;
    function Encode (V : Q.Quantity) return Quantity_C is
      ((First => Size (V.First), Length => Size (V.Length),
        Negative => Boolean'Pos (V.Negative)));
 
-   function Copy_Data (Address : System.Address; Length : Size)
-      return Q.Byte_Array
+   procedure Read_Byte (Source : Q.Byte; Item : out Q.Byte) is
+   begin
+      Item := Source;
+   end Read_Byte;
+
+
+   procedure Read_Row (Source : not null access constant Row_Array; Index : Q.Byte_Index; Item : out Row_C)
+     with Pre => Index in Source'Range
    is
-      Value : Q.Byte_Array (1 .. Q.Byte_Count (Length));
+   begin
+      Item := Source (Index);
+   end Read_Row;
+
+   procedure Read_Quantity (Source : not null access constant Quantity_C; Item : out Quantity_C)
+   is
+   begin
+      Item := Source.all;
+   end Read_Quantity;
+
+
+
+   procedure Copy_Data
+     (Source : not null access constant Q.Byte_Array; Value : out Q.Byte_Array)
+     with Pre => Source'First = 1 and then Value'First = 1
+       and then Value'Length = Source'Length
+   is
    begin
       for I in Value'Range loop
-         Value (I) := As_Byte (Address + Storage_Offset (I - 1)).all;
+         Read_Byte (Source (I), Value (I));
       end loop;
-      return Value;
    end Copy_Data;
 
-   procedure Write_Data (Address : System.Address; Value : Q.Byte_Array) is
-   begin
-      for I in Value'Range loop
-         As_Byte (Address + Storage_Offset (I - Value'First)).all := Value (I);
-      end loop;
-   end Write_Data;
 
    function Compute
-     (Data : System.Address; Data_Length : Size;
-      Rows : System.Address; Row_Count : Size;
-      Detail_Data : System.Address; Detail_Length : Size;
-      Total_Data : System.Address; Total_Length : Size;
-      Details : System.Address; Result : System.Address) return U8
+     (Data : not null access constant Resource_Quantities.Byte_Array;
+      Rows : not null access constant Row_Array;
+      Detail_Arena, Total_Arena : out Resource_Quantities.Byte_Array;
+      Typed_Details : out Resource_Ledger.Quantity_Array;
+      Total : out Resource_Quantities.Quantity;
+      Status : out Resource_Ledger.Result_Status) return U8
    is
-      Row_Size : constant Size := Row_C'Object_Size / System.Storage_Unit;
-      Quantity_Size : constant Size := Quantity_C'Object_Size / System.Storage_Unit;
    begin
-      if Data_Length > Size (Q.Byte_Count'Last) or else
-        Detail_Length > Size (Q.Byte_Count'Last) or else
-        Total_Length > Size (Q.Byte_Count'Last) or else
-        Row_Count > Size (Q.Byte_Count'Last) or else
-        Row_Count > Size (Storage_Offset'Last) / Row_Size or else
-        Row_Count > Size (Storage_Offset'Last) / Quantity_Size or else
-        not Extent_Valid (Data, Data_Length) or else
-        not Extent_Valid (Detail_Data, Detail_Length) or else
-        not Extent_Valid (Total_Data, Total_Length) or else
-        not Extent_Valid (Rows, Row_Count * Row_Size, Row_C'Alignment) or else
-        not Extent_Valid (Details, Row_Count * Quantity_Size,
-                         Quantity_C'Alignment) or else
-        not Extent_Valid (Result, Result_C'Object_Size / System.Storage_Unit,
-                         Result_C'Alignment)
-      then
-         return 255;
-      end if;
+      if Data'First /= 1 or else Rows'First /= 1 or else Detail_Arena'First /= 1 or else Total_Arena'First /= 1 or else Typed_Details'First /= 1 or else Typed_Details'Length /= Rows'Length then Detail_Arena := (others => 0); Total_Arena := (others => 0);
+         Typed_Details := (others => L.Empty); Total := L.Empty; Status := L.Invalid_Input; return 255; end if;
       declare
-         Arena : constant Q.Byte_Array := Copy_Data (Data, Data_Length);
-         Typed_Rows : L.Reservation_Array (1 .. Q.Byte_Count (Row_Count));
-         Slots : L.Span_Array (Typed_Rows'Range);
-         Detail_Arena : Q.Byte_Array (1 .. Q.Byte_Count (Detail_Length));
-         Total_Arena : Q.Byte_Array (1 .. Q.Byte_Count (Total_Length));
-         Typed_Details : L.Quantity_Array (Typed_Rows'Range);
-         Total : Q.Quantity;
-         Status : L.Result_Status;
+         Arena : Q.Byte_Array (1 .. Q.Byte_Count (Data'Length));
+         Blank_Row : constant L.Reservation_Row :=
+           (Reserved => L.Empty, Used => (Present => False));
+         Blank_Slot : constant L.Output_Span := (First => 1, Length => 0);
+         Typed_Rows : L.Reservation_Array (1 .. Q.Byte_Count (Rows'Length)) :=
+           (others => Blank_Row);
+         Slots : L.Span_Array (Typed_Rows'Range) := (others => Blank_Slot);
       begin
+         Copy_Data (Data, Arena);
          for I in Typed_Rows'Range loop
             declare
-               V : constant Row_C := As_Row
-                 (Rows + Storage_Offset (Size (I - 1) * Row_Size)).all;
+               V : Row_C;
             begin
+               Read_Row (Rows, I, V);
                if not Shape (V.Reserved) or else not Shape (V.Used) or else
                  V.Output_First < 1 or else
                  V.Output_First > Size (Q.Byte_Count'Last) or else
                  V.Output_Length > Size (Q.Byte_Count'Last)
                then
-                  return 255;
+                  Detail_Arena := (others => 0); Total_Arena := (others => 0);
+         Typed_Details := (others => L.Empty); Total := L.Empty; Status := L.Invalid_Input; return 255;
                end if;
                Typed_Rows (I) := (Decode (V.Reserved), Decode (V.Used));
                Slots (I) := (Q.Byte_Index (V.Output_First),
@@ -161,65 +154,41 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => Off is
          end loop;
          L.Compute (Arena, Typed_Rows, Slots, Detail_Arena, Total_Arena,
                     Typed_Details, Total, Status);
-         Write_Data (Detail_Data, Detail_Arena);
-         Write_Data (Total_Data, Total_Arena);
-         for I in Typed_Details'Range loop
-            As_Quantity
-              (Details + Storage_Offset (Size (I - 1) * Quantity_Size)).all :=
-                Encode (Typed_Details (I));
-         end loop;
-         As_Result (Result).all :=
-           (Status => L.Result_Status'Pos (Status), Total => Encode (Total));
          return 0;
       end;
    exception
-      when others => return 255;
+      when others => Detail_Arena := (others => 0); Total_Arena := (others => 0);
+         Typed_Details := (others => L.Empty); Total := L.Empty; Status := L.Invalid_Input; return 255;
    end Compute;
    function Headroom
-     (Data : System.Address; Data_Length : Size;
-      Available, Withheld, Floor : System.Address;
-      Output : System.Address; Output_Length : Size;
-      Result : System.Address) return U8
+     (Data : not null access constant Resource_Quantities.Byte_Array;
+      Available, Withheld, Floor : not null access constant Quantity_C;
+      Output_Arena : out Resource_Quantities.Byte_Array;
+      Typed_Result : out Resource_Quantities.Quantity;
+      Status : out Resource_Ledger.Result_Status) return U8
    is
-      Quantity_Size : constant Size := Quantity_C'Object_Size / System.Storage_Unit;
    begin
-      if Data_Length > Size (Q.Byte_Count'Last) or else
-        Output_Length > Size (Q.Byte_Count'Last) or else
-        not Extent_Valid (Data, Data_Length) or else
-        not Extent_Valid (Output, Output_Length) or else
-        not Extent_Valid (Available, Quantity_Size, Quantity_C'Alignment) or else
-        not Extent_Valid (Withheld, Quantity_Size, Quantity_C'Alignment) or else
-        not Extent_Valid (Floor, Quantity_Size, Quantity_C'Alignment) or else
-        not Extent_Valid (Result, Result_C'Object_Size / System.Storage_Unit,
-                         Result_C'Alignment)
-      then
-         return 255;
-      end if;
+      if Data'First /= 1 or else Output_Arena'First /= 1 then Output_Arena := (others => 0); Typed_Result := L.Empty; Status := L.Invalid_Input; return 255; end if;
       declare
-         A : constant Quantity_C := As_Quantity (Available).all;
-         W : constant Quantity_C := As_Quantity (Withheld).all;
-         F : constant Quantity_C := As_Quantity (Floor).all;
+         A, W, F : Quantity_C;
       begin
+         Read_Quantity (Available, A);
+         Read_Quantity (Withheld, W);
+         Read_Quantity (Floor, F);
          if not Shape (A) or else not Shape (W) or else not Shape (F) then
-            return 255;
+            Output_Arena := (others => 0); Typed_Result := L.Empty; Status := L.Invalid_Input; return 255;
          end if;
          declare
-            Arena : constant Q.Byte_Array := Copy_Data (Data, Data_Length);
-            Output_Arena : Q.Byte_Array (1 .. Q.Byte_Count (Output_Length));
-            Typed_Result : Q.Quantity;
-            Status : L.Result_Status;
-         begin
+            Arena : Q.Byte_Array (1 .. Q.Byte_Count (Data'Length));
+            begin
+            Copy_Data (Data, Arena);
             L.Compute_Headroom
               (Arena, Decode (A), Decode (W), Decode (F),
                Output_Arena, Typed_Result, Status);
-            Write_Data (Output, Output_Arena);
-            As_Result (Result).all :=
-              (Status => L.Result_Status'Pos (Status),
-               Total => Encode (Typed_Result));
             return 0;
          end;
       end;
    exception
-      when others => return 255;
+      when others => Output_Arena := (others => 0); Typed_Result := L.Empty; Status := L.Invalid_Input; return 255;
    end Headroom;
 end Worldline.Resource_Ledger_C_API;

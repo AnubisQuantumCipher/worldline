@@ -1,6 +1,10 @@
+with Worldline.Scoped_Archive;
+with Worldline.Archive_Text;
 with Attest.SHA256;
 with Interfaces;
 with SPARK.Big_Integers;
+with Exact_Decimal;
+with Decimal_Binary64;
 
 package body Canonical_Artifacts with SPARK_Mode is
    use type Interfaces.Unsigned_64;
@@ -10,13 +14,18 @@ package body Canonical_Artifacts with SPARK_Mode is
 
    function Byte_At (A : Bytes; S : Span; O : Count) return Natural is
      (if P.Valid (A, S) and then O < S.Length
-      then Natural (A (S.First + O)) else 0);
+      then Natural (A (S.First + O)) else 0)
+     with Global => null,
+       Post => Byte_At'Result <= Natural (P.Byte'Last);
    function Match (A : Bytes; S : Span; O : Count; Text : String)
       return Boolean is
      (P.Valid (A, S) and then O <= S.Length
       and then Text'Length <= S.Length - O
       and then (for all K in Text'Range =>
-        Byte_At (A, S, O + Count (K - Text'First)) = Character'Pos (Text (K))));
+        Byte_At (A, S, O + Count (K - Text'First)) = Character'Pos (Text (K))))
+     with Global => null,
+       Post => (if Match'Result then P.Valid (A, S) and then
+         O <= S.Length and then Text'Length <= S.Length - O);
    function Part (Whole : Span; First, After : Count) return Span is
    begin
       if First > After or else After > Whole.Length or else First = After then
@@ -37,7 +46,12 @@ package body Canonical_Artifacts with SPARK_Mode is
       After : Count := 0;
    end record;
    No_Scalar : constant Scalar := (False, 0, 0);
-   function Character_At (A : Bytes; S : Span; O : Count) return Scalar is
+   function Character_At (A : Bytes; S : Span; O : Count) return Scalar
+     with Global => null,
+       Post => (if Character_At'Result.Valid then P.Valid (A, S)
+         and then O < Character_At'Result.After
+         and then Character_At'Result.After <= S.Length)
+   is
       B, C, D, E, Value : Natural;
       Size : Count;
    begin
@@ -94,7 +108,14 @@ package body Canonical_Artifacts with SPARK_Mode is
       return (True, Value, O + 4);
    end Character_At;
 
-   function String_Node (A : Bytes; S : Span; From : Count) return Node is
+   function String_Node (A : Bytes; S : Span; From : Count) return Node
+     with Global => null,
+       Post => (if String_Node'Result.Valid then P.Valid (A, S)
+         and then String_Node'Result.First = From
+         and then From < String_Node'Result.After
+         and then String_Node'Result.After <= S.Length
+         and then String_Node'Result.Form = String_Value)
+   is
       O : Count := From;
       C : Scalar;
    begin
@@ -102,6 +123,8 @@ package body Canonical_Artifacts with SPARK_Mode is
         or else Byte_At (A, S, From) /= Character'Pos ('"') then return No_Node; end if;
       O := O + 1;
       while O < S.Length loop
+         pragma Loop_Invariant (P.Valid (A, S));
+         pragma Loop_Invariant (From < O and then O <= S.Length);
          pragma Loop_Variant (Decreases => S.Length - O);
          if Byte_At (A, S, O) = Character'Pos ('"') then
             return (True, String_Value, From, O + 1);
@@ -134,30 +157,53 @@ package body Canonical_Artifacts with SPARK_Mode is
       return I = L.After - 1 and then J < R.After - 1;
    end Key_Less;
 
-   function Prefix (A : Bytes; S : Span; From : Count) return Node is
+   --  The mode is internal: public evaluation Prefix always selects False.
+   --  Genesis numbers retain the private Integer_Value node shape; the
+   --  fractional/exponent syntax is distinguished before typed-tree dispatch.
+   function Prefix_Of (A : Bytes; S : Span; From : Count; Genesis : Boolean)
+     return Node
+     with Global => null,
+       Post => (if Prefix_Of'Result.Valid then
+         P.Valid (A, S) and then Prefix_Of'Result.First = From
+         and then From < Prefix_Of'Result.After
+         and then Prefix_Of'Result.After <= S.Length
+         and then Prefix_Of'Result.Form /= Invalid_Value),
+       Subprogram_Variant => (Decreases => S.Length - Count'Min (From, S.Length));
+   function Prefix_Of (A : Bytes; S : Span; From : Count; Genesis : Boolean)
+     return Node is
       O : Count := From;
       Child, Key, Previous : Node := No_Node;
       B : Natural;
-      Negative : Boolean := False;
+      Negative, Zero_Head : Boolean := False;
    begin
       if not P.Valid (A, S) or else From >= S.Length then return No_Node; end if;
       B := Byte_At (A, S, From);
       if B = Character'Pos ('"') then return String_Node (A, S, From);
-      elsif Match (A, S, From, "null") then return (True, Null_Value, From, From + 4);
-      elsif Match (A, S, From, "true") then return (True, Boolean_Value, From, From + 4);
-      elsif Match (A, S, From, "false") then return (True, Boolean_Value, From, From + 5);
+      elsif Match (A, S, From, "null") then
+         pragma Assert (From < From + 4);
+         return (True, Null_Value, From, From + 4);
+      elsif Match (A, S, From, "true") then
+         pragma Assert (From < From + 4);
+         return (True, Boolean_Value, From, From + 4);
+      elsif Match (A, S, From, "false") then
+         pragma Assert (From < From + 5);
+         return (True, Boolean_Value, From, From + 5);
       elsif B = Character'Pos ('[') then
          O := O + 1;
          if O < S.Length and then Byte_At (A, S, O) = Character'Pos (']') then
+            pragma Assert (From < O + 1);
             return (True, Array_Value, From, O + 1);
          end if;
          while O < S.Length loop
+            pragma Loop_Invariant (P.Valid (A, S));
+            pragma Loop_Invariant (From < O and then O <= S.Length);
             pragma Loop_Variant (Decreases => S.Length - O);
-            Child := Prefix (A, S, O);
+            Child := Prefix_Of (A, S, O, Genesis);
             if not Child.Valid then return No_Node; end if;
             O := Child.After;
             if O >= S.Length then return No_Node; end if;
             if Byte_At (A, S, O) = Character'Pos (']') then
+               pragma Assert (From < O + 1);
                return (True, Array_Value, From, O + 1);
             elsif Byte_At (A, S, O) /= Character'Pos (',') then return No_Node;
             end if;
@@ -167,9 +213,12 @@ package body Canonical_Artifacts with SPARK_Mode is
       elsif B = Character'Pos ('{') then
          O := O + 1;
          if O < S.Length and then Byte_At (A, S, O) = Character'Pos ('}') then
+            pragma Assert (From < O + 1);
             return (True, Object_Value, From, O + 1);
          end if;
          while O < S.Length loop
+            pragma Loop_Invariant (P.Valid (A, S));
+            pragma Loop_Invariant (From < O and then O <= S.Length);
             pragma Loop_Variant (Decreases => S.Length - O);
             Key := String_Node (A, S, O);
             if not Key.Valid or else (Previous.Valid and then not Key_Less (A, S, Previous, Key))
@@ -178,11 +227,12 @@ package body Canonical_Artifacts with SPARK_Mode is
             O := Key.After;
             if O >= S.Length or else Byte_At (A, S, O) /= Character'Pos (':') then return No_Node; end if;
             O := O + 1;
-            Child := Prefix (A, S, O);
+            Child := Prefix_Of (A, S, O, Genesis);
             if not Child.Valid then return No_Node; end if;
             O := Child.After;
             if O >= S.Length then return No_Node; end if;
             if Byte_At (A, S, O) = Character'Pos ('}') then
+               pragma Assert (From < O + 1);
                return (True, Object_Value, From, O + 1);
             elsif Byte_At (A, S, O) /= Character'Pos (',') then return No_Node;
             end if;
@@ -196,18 +246,50 @@ package body Canonical_Artifacts with SPARK_Mode is
          end if;
          B := Byte_At (A, S, O);
          if B = Character'Pos ('0') then
-            if Negative then return No_Node; end if;
-            return (True, Integer_Value, From, O + 1);
-         elsif B not in Character'Pos ('1') .. Character'Pos ('9') then return No_Node;
-         end if;
-         O := O + 1;
-         while O < S.Length and then Byte_At (A, S, O) in Character'Pos ('0') .. Character'Pos ('9') loop
-            pragma Loop_Variant (Decreases => S.Length - O);
+            Zero_Head := True;
             O := O + 1;
-         end loop;
+         elsif B in Character'Pos ('1') .. Character'Pos ('9') then
+            O := O + 1;
+            while O < S.Length and then Byte_At (A, S, O) in
+              Character'Pos ('0') .. Character'Pos ('9') loop
+               pragma Loop_Invariant (From < O and then O <= S.Length);
+               pragma Loop_Variant (Decreases => S.Length - O);
+               O := O + 1;
+            end loop;
+         else return No_Node;
+         end if;
+         --  Nonfloat evaluation/genesis integers need no Big_Integer parse.
+         if Genesis and then O < S.Length and then Byte_At (A, S, O) in
+           Character'Pos ('.') | Character'Pos ('e') | Character'Pos ('E')
+         then
+            declare
+               Number : constant Exact_Decimal.Number := Exact_Decimal.Parse (A, S, From);
+            begin
+               if not Number.Valid or else not Number.Floating then return No_Node; end if;
+               declare
+                  C : constant Decimal_Binary64.Conversion := Decimal_Binary64.Convert (Number);
+               begin
+                  if not C.Valid or else not Decimal_Binary64.Spelling_Matches
+                    (A, Part (S, From, Number.After), C.Encoding) then return No_Node; end if;
+               end;
+               return (True, Integer_Value, From, Number.After);
+            end;
+         end if;
+         if Negative and then Zero_Head then return No_Node; end if;
+         pragma Assert (From < O);
          return (True, Integer_Value, From, O);
       end if;
-   end Prefix;
+   end Prefix_Of;
+   function Prefix (A : Bytes; S : Span; From : Count) return Node is
+     (Prefix_Of (A, S, From, False));
+   function Genesis_Prefix (A : Bytes; S : Span; From : Count) return Node is
+     (Prefix_Of (A, S, From, True))
+     with Global => null,
+       Post => (if Genesis_Prefix'Result.Valid then
+         P.Valid (A, S) and then Genesis_Prefix'Result.First = From
+         and then From < Genesis_Prefix'Result.After
+         and then Genesis_Prefix'Result.After <= S.Length
+         and then Genesis_Prefix'Result.Form /= Invalid_Value);
    function Canonical (A : Bytes; S : Span) return Boolean is
       N : constant Node := Prefix (A, S, 0);
    begin
@@ -217,8 +299,19 @@ package body Canonical_Artifacts with SPARK_Mode is
      (N.Valid and then N.Form = String_Value and then N.After > N.First
       and then N.After - N.First >= 2 and then N.After - N.First - 2 = Text'Length
       and then Match (A, S, N.First + 1, Text));
-   function Field (A : Bytes; S : Span; Name : String) return Member is
-      Whole : constant Node := Prefix (A, S, 0);
+   function Field_Of (A : Bytes; S : Span; Name : String; Genesis : Boolean)
+      return Member
+     with Global => null,
+       Post => (if Field_Of'Result.Found then
+         P.Valid (A, S) and then Field_Of'Result.Value.Valid
+         and then Field_Of'Result.First < Field_Of'Result.After
+         and then Field_Of'Result.After <= S.Length
+         and then Field_Of'Result.Value.First < Field_Of'Result.Value.After
+         and then Field_Of'Result.Value.After <= S.Length);
+   function Field_Of (A : Bytes; S : Span; Name : String; Genesis : Boolean)
+      return Member
+   is
+      Whole : constant Node := Prefix_Of (A, S, 0, Genesis);
       O, First : Count;
       Key, Value : Node;
    begin
@@ -226,17 +319,69 @@ package body Canonical_Artifacts with SPARK_Mode is
       then return No_Member; end if;
       O := 1;
       while O < S.Length - 1 loop
+         pragma Loop_Invariant (O in 1 .. S.Length);
+         pragma Loop_Invariant (P.Valid (A, S));
          pragma Loop_Variant (Decreases => S.Length - O);
          First := O; Key := String_Node (A, S, O);
          if not Key.Valid or else Key.After >= S.Length then return No_Member; end if;
-         Value := Prefix (A, S, Key.After + 1);
+         Value := Prefix_Of (A, S, Key.After + 1, Genesis);
          if not Value.Valid then return No_Member; end if;
          if String_Is (A, S, Key, Name) then return (True, Value, First, Value.After); end if;
          O := Value.After;
          if O < S.Length - 1 then O := O + 1; end if;
       end loop;
       return No_Member;
-   end Field;
+   end Field_Of;
+   function Field (A : Bytes; S : Span; Name : String) return Member is
+     (Field_Of (A, S, Name, False));
+   function Canonical_JSON_Field (A : Bytes; S : Span; Name : String) return Span is
+      Document : Span := S;
+   begin
+      if not P.Valid (A, S) then return (1, 0); end if;
+      if S.Length > 0 and then Byte_At (A, S, S.Length - 1) = Character'Pos (ASCII.LF)
+      then Document := Part (S, 0, S.Length - 1); end if;
+      declare
+         M : constant Member := Field_Of (A, Document, Name, True);
+      begin
+         if not M.Found then return (1, 0); end if;
+         return Part (Document, M.Value.First, M.Value.After);
+      end;
+   end Canonical_JSON_Field;
+   function JSON_Prefix (A : Bytes; S : Span; From : Count) return JSON_Node is
+      N : constant Node := Genesis_Prefix (A, S, From);
+      Form : JSON_Kind;
+      O : Count;
+   begin
+      if not N.Valid then return No_JSON_Node; end if;
+      case N.Form is
+         when Invalid_Value => return No_JSON_Node;
+         when Null_Value => Form := Null_JSON_Value;
+         when Boolean_Value => Form := Boolean_JSON_Value;
+         when String_Value => Form := String_JSON_Value;
+         when Array_Value => Form := Array_JSON_Value;
+         when Object_Value => Form := Object_JSON_Value;
+         when Integer_Value =>
+            Form := Integer_JSON_Value;
+            O := N.First;
+            while O < N.After loop
+               pragma Loop_Invariant (O in N.First .. N.After);
+               pragma Loop_Variant (Decreases => N.After - O);
+               if Byte_At (A, S, O) in Character'Pos ('.') | Character'Pos ('e') |
+                 Character'Pos ('E')
+               then Form := Float_JSON_Value; exit; end if;
+               O := O + 1;
+            end loop;
+      end case;
+      return (True, Form, N.First, N.After);
+   end JSON_Prefix;
+   function Canonical_JSON_Valid (A : Bytes; S : Span) return Boolean is
+      N : constant JSON_Node := JSON_Prefix (A, S, 0);
+   begin
+      if not N.Valid then return False; end if;
+      return N.After = S.Length or else
+        (N.After < S.Length and then S.Length - N.After = 1 and then
+         Byte_At (A, S, N.After) = Character'Pos (ASCII.LF));
+   end Canonical_JSON_Valid;
    function Root_Matches (A : Bytes; S : Span; Digest : Worldline.Hash) return Boolean is
       N : constant Node := Prefix (A, S, 0);
       Tag : constant String := "sha256:";
@@ -365,6 +510,9 @@ package body Canonical_Artifacts with SPARK_Mode is
       if not Whole.Valid or else Whole.Form /= Array_Value or else Whole.After /= S.Length or else S.Length < 2
       then return No_Node; end if;
       while O < S.Length - 1 loop
+         pragma Loop_Invariant (O in 1 .. S.Length);
+         pragma Loop_Invariant (K < O);
+         pragma Loop_Invariant (P.Valid (A, S));
          pragma Loop_Variant (Decreases => S.Length - O);
          N := Prefix (A, S, O);
          if not N.Valid then return No_Node; end if;
@@ -374,7 +522,10 @@ package body Canonical_Artifacts with SPARK_Mode is
       end loop;
       return No_Node;
    end Element;
-   function Elements (A : Bytes; S : Span) return Count is
+   function Elements (A : Bytes; S : Span) return Count
+     with Global => null,
+       Post => Elements'Result <= S.Length
+   is
       Whole : constant Node := Prefix (A, S, 0);
       O : Count := 1;
       K : Count := 0;
@@ -383,6 +534,9 @@ package body Canonical_Artifacts with SPARK_Mode is
       if not Whole.Valid or else Whole.Form /= Array_Value or else Whole.After /= S.Length or else S.Length < 2
       then return 0; end if;
       while O < S.Length - 1 loop
+         pragma Loop_Invariant (O in 1 .. S.Length);
+         pragma Loop_Invariant (K < O);
+         pragma Loop_Invariant (P.Valid (A, S));
          pragma Loop_Variant (Decreases => S.Length - O);
          N := Prefix (A, S, O);
          if not N.Valid then return 0; end if;
@@ -459,8 +613,18 @@ package body Canonical_Artifacts with SPARK_Mode is
             if Elements (A, Tagged_Value) /= 2 or else not String_Is (A, Tagged_Value, Tag, "array")
               or else not Value.Valid or else Value.Form /= Array_Value then return False; end if;
             Data := Part (Tagged_Value, Value.First, Value.After);
+            --  A shorter payload cannot satisfy Other_Offset = Data.Length - 1:
+            --  Other_Offset starts at 1 and never decreases. Refuse before the
+            --  loop so the existing invariant is not a new length cap.
+            if Data.Length < 2 then
+               return False;
+            end if;
             O := 1; Other_Offset := 1;
             while O < JSON_Value.Length - 1 loop
+               pragma Loop_Invariant (JSON_Value.Length >= 2 and then Data.Length >= 2);
+               pragma Loop_Invariant (O in 1 .. JSON_Value.Length);
+               pragma Loop_Invariant (Other_Offset in 1 .. Data.Length);
+               pragma Loop_Invariant (P.Valid (A, JSON_Value));
                pragma Loop_Variant (Decreases => JSON_Value.Length - O);
                Child := Prefix (A, JSON_Value, O); Value := Prefix (A, Data, Other_Offset);
                if not Child.Valid or else not Value.Valid or else not Tagged_Matches
@@ -480,6 +644,11 @@ package body Canonical_Artifacts with SPARK_Mode is
             if Data.Length < 2 then return False; end if;
             O := 1;
             while O < JSON_Value.Length - 1 loop
+               pragma Loop_Invariant (JSON_Value.Length >= 2 and then Data.Length >= 2);
+               pragma Loop_Invariant (O in 1 .. JSON_Value.Length);
+               pragma Loop_Invariant (Members < O);
+               pragma Loop_Invariant (Data_Count <= Data.Length);
+               pragma Loop_Invariant (P.Valid (A, JSON_Value));
                pragma Loop_Variant (Decreases => JSON_Value.Length - O);
                Key := String_Node (A, JSON_Value, O);
                if not Key.Valid or else Key.After >= JSON_Value.Length then return False; end if;
@@ -487,6 +656,8 @@ package body Canonical_Artifacts with SPARK_Mode is
                if not Child.Valid then return False; end if;
                Position := 0; Matches := 0; Other_Offset := 1;
                while Position < Data_Count loop
+                  pragma Loop_Invariant (Position <= Data_Count and then Data_Count <= Data.Length);
+                  pragma Loop_Invariant (Matches <= Position);
                   pragma Loop_Invariant (Other_Offset in 1 .. Data.Length - 1);
                   pragma Loop_Variant (Decreases => Data_Count - Position);
                   -- Data was completely parsed above. Follow its immutable
@@ -557,9 +728,14 @@ package body Canonical_Artifacts with SPARK_Mode is
       Fill : Natural := 0;
       procedure Feed (Value : Natural) is
       begin
+         -- Checked obligations on genuine callers, never assumed admission.
+         pragma Assert (Fill < Buffer'Length);
+         pragma Assert (Value <= Natural (Attest.Byte'Last));
          Buffer (Fill) := Attest.Byte (Value);
          Fill := Fill + 1;
          if Fill = Buffer'Length then
+            pragma Assert
+              (SHA.Absorbed (C) <= SHA.Max_Message_Bytes - U64 (Buffer'Length));
             SHA.Update (C, Buffer);
             Fill := 0;
          end if;
@@ -585,8 +761,25 @@ package body Canonical_Artifacts with SPARK_Mode is
       if U64 (S.Length - (Skip_After - Skip_First)) >
         SHA.Max_Message_Bytes - U64 (Tag'Length)
       then return (False, Worldline.Zero_Hash); end if;
-      for K in Tag'Range loop Feed (Character'Pos (Tag (K))); end loop;
+      pragma Assert (Skip_First <= Skip_After and then Skip_After <= S.Length);
+      for K in Tag'Range loop
+         Feed (Character'Pos (Tag (K)));
+         pragma Loop_Invariant (Fill < Buffer'Length);
+         pragma Loop_Invariant
+           (SHA.Absorbed (C) <= SHA.Max_Message_Bytes - U64 (Fill));
+         pragma Loop_Invariant
+           (SHA.Absorbed (C) + U64 (Fill) = U64 (K - Tag'First) + 1);
+      end loop;
       while O < S.Length loop
+         pragma Loop_Invariant (O <= S.Length);
+         pragma Loop_Invariant (Fill < Buffer'Length);
+         pragma Loop_Invariant (Skip_First <= Skip_After and then Skip_After <= S.Length);
+         pragma Loop_Invariant (O <= Skip_First or else O >= Skip_After);
+         pragma Loop_Invariant
+           (SHA.Absorbed (C) <= SHA.Max_Message_Bytes - U64 (Fill));
+         pragma Loop_Invariant
+           (SHA.Absorbed (C) + U64 (Fill) = U64 (Tag'Length) +
+             U64 (O - (if O >= Skip_After then Skip_After - Skip_First else 0)));
          pragma Loop_Variant (Decreases => S.Length - O);
          if O = Skip_First and then Skip_First < Skip_After then
             O := Skip_After;
@@ -594,6 +787,8 @@ package body Canonical_Artifacts with SPARK_Mode is
             Feed (Byte_At (A, S, O)); O := O + 1;
          end if;
       end loop;
+      pragma Assert (Fill < Buffer'Length);
+      pragma Assert (SHA.Absorbed (C) <= SHA.Max_Message_Bytes - U64 (Fill));
       if Fill > 0 then SHA.Update (C, Buffer (0 .. Fill - 1)); end if;
       return (True, SHA.Final (C));
    end Artifact_Hash;
@@ -621,4 +816,375 @@ package body Canonical_Artifacts with SPARK_Mode is
         and then Validation.Found and then Tagged_Matches
           (A, Part (Evidence, Validation.Value.First, Validation.Value.After), Context);
    end Bindings;
+   function JSON_Text_Matches
+     (JSON_Data, Archive_Data : Bytes; J : Span; V : Worldline.Scoped_Archive.E.View)
+     return Boolean with Global => null
+   is
+      package E renames Worldline.Scoped_Archive.E;
+      package Text renames Worldline.Archive_Text;
+      use type E.Value_Kind;
+      use type Text.Decode_Status;
+      N : constant Node := Prefix (JSON_Data, J, 0);
+      O : Count := 1;
+      B : Count := 0;
+      Ch : Scalar;
+   begin
+      if not N.Valid or else N.Form /= String_Value or else
+        N.After /= J.Length or else V.Form /= E.Text_Value or else
+        not E.Bytes_Valid (Archive_Data, V.Payload) then return False; end if;
+      declare
+         Raw : constant Bytes := E.Materialize (Archive_Data, V.Payload);
+         R : Text.Scalar_Result;
+      begin
+         while O < J.Length - 1 loop
+            pragma Loop_Invariant (O in 1 .. J.Length - 1);
+            pragma Loop_Invariant (B <= Raw'Length);
+            pragma Loop_Variant (Decreases => J.Length - O);
+            Ch := Character_At (JSON_Data, J, O);
+            R := Text.Read (Raw, (Raw'First, Raw'Length), B);
+            if not Ch.Valid or else R.Status /= Text.Decoded or else
+              Ch.Code /= Natural (R.Value) then return False; end if;
+            O := Ch.After;
+            B := R.Next_Offset;
+         end loop;
+         return O = J.Length - 1 and then B = Raw'Length;
+      end;
+   end JSON_Text_Matches;
+
+   function Operation_Archive_JSON_Matches
+     (JSON_Data, Archive_Data : Bytes; JSON_Value, Encoded : Span) return Boolean
+   is
+      package O renames Worldline.Scoped_Archive.A;
+      package E renames O.E;
+      use type E.Value_Kind;
+      function Match_Tree (J, Archive : Span) return Boolean
+        with Global => (Input => (JSON_Data, Archive_Data)),
+          Subprogram_Variant => (Decreases => J.Length);
+      function Match_Tree (J, Archive : Span) return Boolean is
+         N : constant Node := Genesis_Prefix (JSON_Data, J, 0);
+         V : constant E.View := E.Decode (Archive_Data, Archive, E.Operation);
+         At_JSON : Count := 1;
+         Count_JSON : Count := 0;
+         Children : Count;
+         Child, Key : Node;
+         Pair : E.View;
+         Next_Value : Span;
+         Found : Boolean;
+      begin
+         if not N.Valid or else N.After /= J.Length then return False; end if;
+         case N.Form is
+            when Null_Value => return V.Form = E.Null_Value;
+            when Boolean_Value => return V.Form = E.Boolean_Value and then
+              V.Boolean_Bit = Match (JSON_Data, J, 0, "true");
+            when String_Value => return JSON_Text_Matches (JSON_Data, Archive_Data, J, V);
+            when Integer_Value =>
+               declare
+                  Number : constant Exact_Decimal.Number := Exact_Decimal.Parse (JSON_Data, J, 0);
+               begin
+                  if not Number.Valid or else Number.After /= J.Length then return False; end if;
+                  if Number.Floating then
+                     if V.Form /= E.Float_Value or else
+                       not E.Bytes_Valid (Archive_Data, V.Payload) then return False; end if;
+                     declare
+                        C : constant Decimal_Binary64.Conversion :=
+                          Decimal_Binary64.Convert (Number);
+                        Raw : constant Bytes := E.Materialize (Archive_Data, V.Payload);
+                        Encoding : U64 := 0;
+                     begin
+                        if not C.Valid or else Raw'Length /= 8 or else
+                          not Decimal_Binary64.Spelling_Matches (JSON_Data, J, C.Encoding)
+                        then return False; end if;
+                        for I in Raw'Range loop
+                           pragma Loop_Invariant (Encoding <= 16#00FF_FFFF_FFFF_FFFF#);
+                           Encoding := Encoding * 256 + U64 (Raw (I));
+                        end loop;
+                        return Encoding = C.Encoding;
+                     end;
+                  else
+                     if V.Form /= E.Integer_Value or else V.Sign /= Number.Negative or else
+                       not E.Bytes_Valid (Archive_Data, V.Payload) then return False; end if;
+                     declare
+                        Raw : constant Bytes := E.Materialize (Archive_Data, V.Payload);
+                        At_Byte : Count := Raw'Length;
+                        Magnitude : Big_Integer := To_Big_Integer (0);
+                     begin
+                        while At_Byte > 0 loop
+                           pragma Loop_Invariant (At_Byte <= Raw'Length);
+                           pragma Loop_Variant (Decreases => At_Byte);
+                           At_Byte := At_Byte - 1;
+                           Magnitude := Magnitude * To_Big_Integer (256) +
+                             To_Big_Integer (Integer (Raw (Raw'First + At_Byte)));
+                        end loop;
+                        return Magnitude = Number.Coefficient;
+                     end;
+                  end if;
+               end;
+            when Array_Value | Object_Value =>
+               if (N.Form = Array_Value and then V.Form /= E.List_Value) or else
+                 (N.Form = Object_Value and then V.Form /= E.Object_Value)
+               then return False; end if;
+               Children := E.Array_Length (Archive_Data, V.Children);
+               while At_JSON < J.Length - 1 loop
+                  pragma Loop_Invariant (At_JSON in 1 .. J.Length - 1);
+                  pragma Loop_Invariant (Count_JSON < At_JSON);
+                  pragma Loop_Variant (Decreases => J.Length - At_JSON);
+                  if N.Form = Object_Value then
+                     Key := Prefix (JSON_Data, J, At_JSON);
+                     if not Key.Valid or else Key.Form /= String_Value or else
+                       Key.After >= J.Length then return False; end if;
+                     Found := False;
+                     Next_Value := (1, 0);
+                     if Children > 0 then
+                        for I in Count range 0 .. Children - 1 loop
+                           Pair := E.Decode (Archive_Data,
+                             E.Array_Element (Archive_Data, V.Children, I), E.Finalization);
+                           if Pair.Form /= E.List_Value or else
+                             E.Array_Length (Archive_Data, Pair.Children) /= 2
+                           then return False; end if;
+                           if JSON_Text_Matches (JSON_Data, Archive_Data,
+                             Part (J, Key.First, Key.After),
+                             E.Decode (Archive_Data,
+                               E.Array_Element (Archive_Data, Pair.Children, 0), E.Operation))
+                           then
+                              if Found then return False; end if;
+                              Found := True;
+                              Next_Value := E.Array_Element (Archive_Data, Pair.Children, 1);
+                           end if;
+                        end loop;
+                     end if;
+                     if not Found then return False; end if;
+                     At_JSON := Key.After + 1;
+                  else
+                     if Count_JSON >= Children then return False; end if;
+                     Next_Value := E.Array_Element (Archive_Data, V.Children, Count_JSON);
+                  end if;
+                  Child := Genesis_Prefix (JSON_Data, J, At_JSON);
+                  if not Child.Valid or else Child.After <= Child.First or else
+                    Child.After - Child.First >= J.Length or else
+                    not Match_Tree (Part (J, Child.First, Child.After), Next_Value)
+                  then return False; end if;
+                  At_JSON := Child.After;
+                  Count_JSON := Count_JSON + 1;
+                  if At_JSON < J.Length - 1 then At_JSON := At_JSON + 1; end if;
+               end loop;
+               return At_JSON = J.Length - 1 and then Count_JSON = Children;
+            when Invalid_Value => return False;
+         end case;
+      end Match_Tree;
+   begin
+      if not P.Valid (JSON_Data, JSON_Value) or else not P.Valid (Archive_Data, Encoded) or else
+        not O.Valid (Archive_Data, Encoded) then return False; end if;
+      return Match_Tree (JSON_Value, Encoded);
+   end Operation_Archive_JSON_Matches;
+
+   function Scoped_Matches_Of
+     (JSON_Data, Archive_Data : Bytes; JSON_Value, Encoded : Span;
+      Preserve_Object_Order : Boolean) return Genesis_Correspondence
+     with Global => null,
+       Post => (if Scoped_Matches_Of'Result = Typed_Tree_Matches_Source_Custody_Open then
+         P.Valid (JSON_Data, JSON_Value) and then P.Valid (Archive_Data, Encoded));
+   function Scoped_Matches_Of
+     (JSON_Data, Archive_Data : Bytes; JSON_Value, Encoded : Span;
+      Preserve_Object_Order : Boolean) return Genesis_Correspondence
+   is
+      A : Bytes renames JSON_Data;
+      package S renames Worldline.Scoped_Archive;
+      package E renames S.E;
+      use type E.Value_Kind;
+      File_Value : Span := JSON_Value;
+
+      function Text_Matches (J : Span; V : E.View) return Boolean is
+        (JSON_Text_Matches (A, Archive_Data, J, V));
+
+      function Match_Tree (J, Encoded : Span) return Boolean
+        with Global => (Input => (JSON_Data, Archive_Data, Preserve_Object_Order)),
+          Subprogram_Variant => (Decreases => J.Length);
+      function Match_Tree (J, Encoded : Span) return Boolean is
+         N : constant Node := Genesis_Prefix (A, J, 0);
+         Typ : constant E.View := E.Decode
+           (Archive_Data, S.A.Field (Archive_Data, Encoded, "type"), E.Operation);
+         Payload : E.View;
+         O : Count := 1;
+         K : Count := 0;
+         Child, Key : Node;
+         Pair : E.View;
+         Next_Value : Span;
+      begin
+         if not N.Valid or else N.After /= J.Length then return False; end if;
+         case N.Form is
+            when Null_Value | Boolean_Value | String_Value =>
+               Payload := E.Decode
+                 (Archive_Data, S.A.Field (Archive_Data, Encoded, "value"), E.Operation);
+               if N.Form = Null_Value then
+                  return E.Text_Is (Archive_Data, Typ, "NoneType") and then Payload.Form = E.Null_Value;
+               elsif N.Form = Boolean_Value then
+                  return E.Text_Is (Archive_Data, Typ, "bool") and then Payload.Form = E.Boolean_Value
+                    and then Payload.Boolean_Bit = Match (A, J, 0, "true");
+               else
+                  return E.Text_Is (Archive_Data, Typ, "str") and then Text_Matches (J, Payload);
+               end if;
+            when Integer_Value =>
+               declare
+                  Number : constant Exact_Decimal.Number := Exact_Decimal.Parse (A, J, 0);
+               begin
+                  if not Number.Valid or else Number.After /= J.Length then return False; end if;
+                  if Number.Floating then
+                     if not E.Text_Is (Archive_Data, Typ, "float") then return False; end if;
+                     declare
+                        C : constant Decimal_Binary64.Conversion := Decimal_Binary64.Convert (Number);
+                        V : constant E.View := E.Decode
+                          (Archive_Data, S.A.Field (Archive_Data, Encoded, "bits"), E.Operation);
+                        Encoded_Bits : U64 := 0;
+                     begin
+                        if not C.Valid or else V.Form /= E.Text_Value or else
+                          not E.Bytes_Valid (Archive_Data, V.Payload) or else
+                          not Decimal_Binary64.Spelling_Matches (A, J, C.Encoding)
+                        then return False; end if;
+                        declare
+                           Raw : constant Bytes := E.Materialize (Archive_Data, V.Payload);
+                        begin
+                           if Raw'Length /= 16 then return False; end if;
+                           for K in Raw'Range loop
+                              pragma Loop_Invariant
+                                (Encoded_Bits <= 16#0FFF_FFFF_FFFF_FFFF#);
+                              declare
+                                 D : constant Integer := Hex (Natural (Raw (K)));
+                              begin
+                                 if D < 0 then return False; end if;
+                                 Encoded_Bits := Encoded_Bits * 16 + U64 (D);
+                              end;
+                           end loop;
+                        end;
+                        return C.Encoding = Encoded_Bits;
+                     end;
+                  end if;
+                  if not E.Text_Is (Archive_Data, Typ, "integer") then return False; end if;
+                  declare
+                     Sign : constant E.View := E.Decode
+                       (Archive_Data, S.A.Field (Archive_Data, Encoded, "negative"), E.Operation);
+                     Mag : constant E.View := E.Decode
+                       (Archive_Data, S.A.Field (Archive_Data, Encoded, "magnitude"), E.Operation);
+                     Negative : constant Boolean := Number.Negative;
+                     Binary_Value : Big_Integer := To_Big_Integer (0);
+                     At_Byte : Count := 0;
+                  begin
+                     if Sign.Form /= E.Boolean_Value or else Sign.Boolean_Bit /= Negative
+                       or else Mag.Form /= E.Text_Value or else
+                       not E.Bytes_Valid (Archive_Data, Mag.Payload) then return False; end if;
+                     declare
+                        Raw : constant Bytes := E.Materialize (Archive_Data, Mag.Payload);
+                     begin
+                        if Raw'Length mod 2 /= 0 then return False; end if;
+                        At_Byte := Raw'Length;
+                        while At_Byte > 0 loop
+                           pragma Loop_Invariant (At_Byte <= Raw'Length and then At_Byte mod 2 = 0);
+                           pragma Loop_Variant (Decreases => At_Byte);
+                           At_Byte := At_Byte - 2;
+                           declare
+                              Hi : constant Integer := Hex (Natural (Raw (Raw'First + At_Byte)));
+                              Lo : constant Integer := Hex (Natural (Raw (Raw'First + (At_Byte + 1))));
+                           begin
+                              if Hi < 0 or else Lo < 0 then return False; end if;
+                              Binary_Value := Binary_Value * To_Big_Integer (256) +
+                                To_Big_Integer (Hi * 16 + Lo);
+                           end;
+                        end loop;
+                     end;
+                     return Number.Coefficient = Binary_Value;
+                  end;
+               end;
+            when Array_Value | Object_Value =>
+               if N.Form = Array_Value then
+                  if not E.Text_Is (Archive_Data, Typ, "list") then return False; end if;
+                  Payload := E.Decode (Archive_Data, S.A.Field (Archive_Data, Encoded, "items"), E.Operation);
+                  if Payload.Form /= E.List_Value then return False; end if;
+               else
+                  if not E.Text_Is (Archive_Data, Typ, "dict") then return False; end if;
+                  Payload := E.Decode (Archive_Data, S.A.Field (Archive_Data, Encoded, "fields"), E.Operation);
+                  if Payload.Form /= E.Object_Value then return False; end if;
+               end if;
+               while O < J.Length - 1 loop
+                  pragma Loop_Invariant (O in 1 .. J.Length - 1);
+                  pragma Loop_Invariant (K < O);
+                  pragma Loop_Variant (Decreases => J.Length - O);
+                  Next_Value := E.Array_Element (Archive_Data, Payload.Children, K);
+                  if N.Form = Object_Value then
+                     Key := Prefix (A, J, O);
+                     if not Key.Valid or else Key.Form /= String_Value or else
+                       Key.After >= J.Length then return False; end if;
+                     if Preserve_Object_Order then
+                        Pair := E.Decode (Archive_Data, Next_Value, E.Finalization);
+                        if Pair.Form /= E.List_Value or else
+                          E.Array_Length (Archive_Data, Pair.Children) /= 2 or else
+                          not Text_Matches (Part (J, Key.First, Key.After), E.Decode
+                            (Archive_Data, E.Array_Element (Archive_Data, Pair.Children, 0), E.Operation))
+                        then return False; end if;
+                        Next_Value := E.Array_Element (Archive_Data, Pair.Children, 1);
+                     else
+                        --  Canonical JSON sorts names; original S.record keeps
+                        --  dict insertion order. Find the unique decoded name,
+                        --  without rewriting either original archive allocation.
+                        declare
+                           Found : Boolean := False;
+                           Children : constant Count := E.Array_Length (Archive_Data, Payload.Children);
+                        begin
+                           if Children > 0 then
+                              for I in Count range 0 .. Children - 1 loop
+                                 Pair := E.Decode (Archive_Data,
+                                   E.Array_Element (Archive_Data, Payload.Children, I), E.Finalization);
+                                 if Pair.Form /= E.List_Value or else
+                                   E.Array_Length (Archive_Data, Pair.Children) /= 2
+                                 then return False; end if;
+                                 if Text_Matches (Part (J, Key.First, Key.After), E.Decode
+                                   (Archive_Data, E.Array_Element (Archive_Data, Pair.Children, 0), E.Operation))
+                                 then
+                                    if Found then return False; end if;
+                                    Found := True;
+                                    Next_Value := E.Array_Element (Archive_Data, Pair.Children, 1);
+                                 end if;
+                              end loop;
+                           end if;
+                           if not Found then return False; end if;
+                        end;
+                     end if;
+                     O := Key.After + 1;
+                  end if;
+                  Child := Genesis_Prefix (A, J, O);
+                  if not Child.Valid or else Child.After <= Child.First or else
+                    Child.After - Child.First >= J.Length or else
+                    not Match_Tree (Part (J, Child.First, Child.After), Next_Value)
+                  then return False; end if;
+                  O := Child.After;
+                  K := K + 1;
+                  if O < J.Length - 1 then O := O + 1; end if;
+               end loop;
+               return O = J.Length - 1 and then K = E.Array_Length (Archive_Data, Payload.Children);
+            when Invalid_Value => return False;
+         end case;
+      end Match_Tree;
+   begin
+      if not P.Valid (A, File_Value) then return JSON_Grammar_Unimplemented_Or_Invalid; end if;
+      if File_Value.Length > 0 and then
+        Byte_At (A, File_Value, File_Value.Length - 1) = Character'Pos (ASCII.LF)
+      then File_Value := Part (File_Value, 0, File_Value.Length - 1); end if;
+      declare
+         Root : constant Node := Genesis_Prefix (A, File_Value, 0);
+      begin
+         if not Root.Valid or else Root.After /= File_Value.Length then
+            return JSON_Grammar_Unimplemented_Or_Invalid;
+         end if;
+      end;
+      if not S.Valid (Archive_Data, Encoded) then return Scoped_Archive_Invalid; end if;
+      if not Match_Tree (File_Value, Encoded) then return Typed_Tree_Differs; end if;
+      return Typed_Tree_Matches_Source_Custody_Open;
+   end Scoped_Matches_Of;
+
+   function Scoped_Archive_JSON_Matches
+     (JSON_Data, Archive_Data : Bytes; JSON_Value, Encoded : Span)
+      return Genesis_Correspondence
+   is (Scoped_Matches_Of (JSON_Data, Archive_Data, JSON_Value, Encoded, False));
+
+   function Genesis_Archive_Matches
+     (A : Bytes; Genesis_File, Genesis_Row : Span) return Genesis_Correspondence
+   is (Scoped_Matches_Of (A, A, Genesis_File, Genesis_Row, True));
 end Canonical_Artifacts;

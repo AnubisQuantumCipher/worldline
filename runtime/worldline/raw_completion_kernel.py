@@ -49,8 +49,16 @@ class RawCompletionKernel(CompletionKernel):
         return PreparedRawEvaluation(request, raw, confinement, owned)
 
     def classify(self, prepared):
+        # Keep every original owner live through the actual native extent.
+        # Mutation by another thread during this call is outside the admitted
+        # foreign premise; none of these inputs is a writable native output.
+        call_owners = (prepared.request, prepared.raw, prepared.confinement,
+                       prepared.owned, prepared.context, prepared.context_owners,
+                       prepared.metadata_context, prepared.metadata_owners)
         output = Result()
-        if self.raw_call(*prepared.arguments(), C.byref(output)) != 0:
+        status = self.raw_call(*prepared.arguments(), C.byref(output))
+        del call_owners
+        if status != 0:
             raise KernelRefused('RAW_COMPLETION_TRANSPORT_REFUSED')
         if output.reason >= len(REASONS) or REASONS[output.reason] not in ('Retain_Terminal', 'Already_Retained'):
             raise KernelRefused('RAW_COMPLETION_BINDING_REFUSED')
@@ -134,4 +142,7 @@ class RawCompletionKernel(CompletionKernel):
         request = Request(1, 2 if required is not None else int(history is not None), address(data), len(arena), address(js), len(js),
             current_wire, captured_wire, address(cs), len(cs), int(retained is not None), retained_wire,
             address(rs), len(rs), address(hs), len(hs), address(required_wire), len(required_wire), policy_wire, before_root, after_root, completion_wire, observed_wire)
-        return request, (data, js, cs, rs, hs, required_wire)
+        # Preserve the exact original allocations; retain references, not
+        # another snapshot. Native observers may share read-only storage.
+        request._transport_owners = (data, js, cs, rs, hs, required_wire)
+        return request, request._transport_owners

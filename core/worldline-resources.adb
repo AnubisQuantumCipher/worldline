@@ -105,36 +105,34 @@ package body Worldline.Resources with SPARK_Mode is
          Whole : constant Valid_Big_Integer := Low + Place * Tail;
          Quotient : constant Valid_Big_Integer := Whole / Place;
          Remainder : constant Valid_Big_Integer := Whole mod Place;
+         Below_Difference : constant Valid_Big_Integer := Tail - Quotient;
+         Above_Difference : constant Valid_Big_Integer := Quotient - Tail;
       begin
          pragma Assert (Whole >= 0);
          pragma Assert (Quotient >= 0);
          pragma Assert (Remainder >= 0 and then Remainder < Place);
          pragma Assert (Whole = Place * Quotient + Remainder);
-         if Quotient < Tail then
-            declare
-               Difference : constant Valid_Big_Integer := Tail - Quotient;
-            begin
-               pragma Assert (Difference >= 1);
-               Positive_Multiple (Place, Difference);
-               pragma Assert
-                 (Place * Tail = Place * Quotient + Place * Difference);
-               pragma Assert (Remainder = Low + Place * Difference);
-               pragma Assert (Remainder >= Place);
-               pragma Assert (False);
-            end;
-         elsif Quotient > Tail then
-            declare
-               Difference : constant Valid_Big_Integer := Quotient - Tail;
-            begin
-               pragma Assert (Difference >= 1);
-               Positive_Multiple (Place, Difference);
-               pragma Assert
-                 (Place * Quotient = Place * Tail + Place * Difference);
-               pragma Assert (Low = Remainder + Place * Difference);
-               pragma Assert (Low >= Place);
-               pragma Assert (False);
-            end;
-         end if;
+         --  Positive_Multiple is total. Execute both witnesses outside the
+         --  contradiction hypotheses, retaining every guarded assertion.
+         --  No declarations or calls are hidden in an unreachable branch.
+         Positive_Multiple (Place, Below_Difference);
+         Positive_Multiple (Place, Above_Difference);
+         pragma Assert (if Quotient < Tail then Below_Difference >= 1);
+         pragma Assert
+           (if Quotient < Tail then
+              Place * Tail = Place * Quotient + Place * Below_Difference);
+         pragma Assert
+           (if Quotient < Tail then Remainder = Low + Place * Below_Difference);
+         pragma Assert (if Quotient < Tail then Remainder >= Place);
+         pragma Assert (if Quotient < Tail then False);
+         pragma Assert (if Quotient > Tail then Above_Difference >= 1);
+         pragma Assert
+           (if Quotient > Tail then
+              Place * Quotient = Place * Tail + Place * Above_Difference);
+         pragma Assert
+           (if Quotient > Tail then Low = Remainder + Place * Above_Difference);
+         pragma Assert (if Quotient > Tail then Low >= Place);
+         pragma Assert (if Quotient > Tail then False);
          pragma Assert (Quotient = Tail);
          pragma Assert (Remainder = Low);
       end;
@@ -485,6 +483,228 @@ package body Worldline.Resources with SPARK_Mode is
       end;
    end Sum_Modulus;
 
+   --  Total checked Ghost bridges specialize the existing full addition
+   --  theorem to the two-input prefixes used by equality and reservation.
+   --  Their conditional Posts are proof goals, never imported assumptions.
+   procedure Sum_Prefix_Step
+     (Left, Right, Result : Byte_Array; Offset : Byte_Count; Incoming : Natural)
+     with Ghost, Global => null, Always_Terminates,
+          Post => (if Offset < Byte_Count'Last and then Incoming <= 1
+            and then Prefix_Value (Left, Offset) + Prefix_Value (Right, Offset)
+              = Prefix_Value (Result, Offset)
+                + To_Big_Integer (Incoming) * Radix_Power (Offset) then
+            Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1)
+              = Prefix_Value (Result, Offset)
+                + To_Big_Integer
+                    ((Digit_At (Left, Offset) + Digit_At (Right, Offset)
+                      + Incoming) mod 256) * Radix_Power (Offset)
+                + To_Big_Integer
+                    ((Digit_At (Left, Offset) + Digit_At (Right, Offset)
+                      + Incoming) / 256) * Radix_Power (Offset + 1)
+            and then
+              (if Digit_At (Result, Offset) =
+                    (Digit_At (Left, Offset) + Digit_At (Right, Offset)
+                     + Incoming) mod 256 then
+                Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1)
+                  = Prefix_Value (Result, Offset + 1)
+                    + To_Big_Integer
+                        ((Digit_At (Left, Offset) + Digit_At (Right, Offset)
+                          + Incoming) / 256) * Radix_Power (Offset + 1)))
+   is
+   begin
+      if Offset = Byte_Count'Last or else Incoming > 1 then
+         return;
+      end if;
+      if Prefix_Value (Left, Offset) + Prefix_Value (Right, Offset) /=
+        Prefix_Value (Result, Offset)
+          + To_Big_Integer (Incoming) * Radix_Power (Offset) then
+         return;
+      end if;
+      Prefix_Step (Left, Offset);
+      Prefix_Step (Right, Offset);
+      Prefix_Step (Result, Offset);
+      declare
+         X : constant Big_Natural := Prefix_Value (Left, Offset);
+         Y : constant Big_Natural := Prefix_Value (Right, Offset);
+         Low : constant Big_Natural := Prefix_Value (Result, Offset);
+         Place : constant Big_Positive := Radix_Power (Offset);
+         Next_Place : constant Big_Positive := Radix_Power (Offset + 1);
+         L : constant Natural := Digit_At (Left, Offset);
+         R : constant Natural := Digit_At (Right, Offset);
+         Sum : constant Natural := L + R + Incoming;
+         Wanted : constant Natural := Sum mod 256;
+         Next : constant Natural := Sum / 256;
+      begin
+         Addition_Column (X, Y, 0, Low, Place, L, R, 0, Incoming);
+         pragma Assert (X + Y + 0 = Low + To_Big_Integer (Incoming) * Place);
+         pragma Assert (L + R + 0 + Incoming = Sum);
+         pragma Assert (0 + To_Big_Integer (0) * Place = 0);
+         pragma Assert (Next_Place = 256 * Place);
+         pragma Assert
+           (Prefix_Value (Left, Offset + 1) = X + To_Big_Integer (L) * Place);
+         pragma Assert
+           (Prefix_Value (Right, Offset + 1) = Y + To_Big_Integer (R) * Place);
+         pragma Assert
+           (Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1)
+              = Low + To_Big_Integer (Wanted) * Place
+                + To_Big_Integer (Next) * Next_Place);
+         if Digit_At (Result, Offset) = Wanted then
+            pragma Assert
+              (Prefix_Value (Result, Offset + 1) =
+                 Low + To_Big_Integer (Wanted) * Place);
+            pragma Assert
+              (Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1)
+                 = Prefix_Value (Result, Offset + 1)
+                   + To_Big_Integer (Next) * Next_Place);
+         end if;
+      end;
+   end Sum_Prefix_Step;
+
+   --  Column equation in a context that does not reopen the caller's proof
+   --  state. Prefix_Value and Radix_Power stay contracted, not unfolded.
+   procedure Close_Reserve_Column
+     (Original, Requested, Before, After : Byte_Array;
+      Offset : Byte_Count; Incoming : Natural)
+   with Ghost, Global => null, Always_Terminates,
+        Pre => Offset < Byte_Count'Last and then Incoming <= 1
+          and then Prefix_Value (Original, Offset) + Prefix_Value (Requested, Offset)
+            = Prefix_Value (Before, Offset)
+              + To_Big_Integer (Incoming) * Radix_Power (Offset)
+          and then (if Offset > 0 then
+                      (for all Lower in 0 .. Offset - 1 =>
+                         Digit_At (Before, Lower) = Digit_At (After, Lower)))
+          and then Digit_At (After, Offset) =
+            (Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+             + Incoming) mod 256,
+        Post => Prefix_Value (After, Offset + 1)
+          + To_Big_Integer
+              ((Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+                + Incoming) / 256) * Radix_Power (Offset + 1)
+          = Prefix_Value (Original, Offset + 1)
+            + Prefix_Value (Requested, Offset + 1)
+   is
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Value);
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Radix_Power);
+      Sum : constant Natural := Digit_At (Original, Offset)
+        + Digit_At (Requested, Offset) + Incoming;
+      Wanted : constant Natural := Sum mod 256;
+      Next : constant Natural := Sum / 256;
+      Low : constant Big_Natural := Prefix_Value (Before, Offset);
+      Place : constant Big_Positive := Radix_Power (Offset);
+      Next_Place : constant Big_Positive := Radix_Power (Offset + 1);
+   begin
+      Sum_Prefix_Step (Original, Requested, Before, Offset, Incoming);
+      Matching_Prefix (Before, After, Offset);
+      Prefix_Step (After, Offset);
+      pragma Assert (Prefix_Value (After, Offset) = Low);
+      pragma Assert
+        (Prefix_Value (After, Offset + 1) =
+           Low + To_Big_Integer (Wanted) * Place);
+      pragma Assert (Next_Place = 256 * Place);
+      pragma Assert
+        (Prefix_Value (Original, Offset + 1) + Prefix_Value (Requested, Offset + 1)
+           = Low + To_Big_Integer (Wanted) * Place
+             + To_Big_Integer (Next) * Next_Place);
+      pragma Assert
+        (Prefix_Value (After, Offset + 1) + To_Big_Integer (Next) * Next_Place
+           = Prefix_Value (Original, Offset + 1)
+             + Prefix_Value (Requested, Offset + 1));
+   end Close_Reserve_Column;
+
+   procedure Close_Mismatch_Column
+     (Left, Right, Result : Byte_Array; Offset : Byte_Count; Carry : Natural)
+   with Ghost, Global => null, Always_Terminates,
+        Pre => Offset < Byte_Count'Last and then Carry <= 1
+          and then Prefix_Value (Left, Offset) + Prefix_Value (Right, Offset)
+            = Prefix_Value (Result, Offset)
+              + To_Big_Integer (Carry) * Radix_Power (Offset),
+        Post => (Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1))
+          mod Radix_Power (Offset + 1)
+          = Prefix_Value (Result, Offset)
+            + To_Big_Integer
+                ((Digit_At (Left, Offset) + Digit_At (Right, Offset) + Carry)
+                 mod 256) * Radix_Power (Offset)
+   is
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Value);
+      pragma Annotate
+        (GNATprove, Hide_Info, "Expression_Function_Body", Radix_Power);
+      Place : constant Big_Positive := Radix_Power (Offset);
+      Next_Place : constant Big_Positive := Radix_Power (Offset + 1);
+      Low : constant Big_Natural := Prefix_Value (Result, Offset);
+      Sum : constant Natural := Digit_At (Left, Offset)
+        + Digit_At (Right, Offset) + Carry;
+      Wanted : constant Natural := Sum mod 256;
+      Next : constant Natural := Sum / 256;
+      Extended : constant Big_Natural := Low + To_Big_Integer (Wanted) * Place;
+   begin
+      Sum_Prefix_Step (Left, Right, Result, Offset, Carry);
+      pragma Assert (Radix_Power (Offset + 1) = 256 * Radix_Power (Offset));
+      pragma Assert (Next_Place = 256 * Place);
+      pragma Assert (Low < Place);
+      pragma Assert (Wanted <= 255);
+      Extended_Digit_Bound (Low, Place, Wanted);
+      pragma Assert (Extended < 256 * Place);
+      pragma Assert (Extended < Next_Place);
+      pragma Assert
+        (Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1)
+           = Extended + To_Big_Integer (Next) * Next_Place);
+      pragma Assert
+        ((Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1))
+           mod Next_Place = Extended);
+   end Close_Mismatch_Column;
+
+   procedure Reserve_Prefix_Step
+     (Original, Requested, Before, After : Byte_Array;
+      Offset : Byte_Count; Incoming : Natural)
+     with Ghost, Global => null, Always_Terminates,
+          Post => (if Offset < Byte_Count'Last and then Incoming <= 1
+            and then Prefix_Value (Original, Offset) + Prefix_Value (Requested, Offset)
+              = Prefix_Value (Before, Offset)
+                + To_Big_Integer (Incoming) * Radix_Power (Offset)
+            and then
+              (if Offset > 0 then
+                (for all Lower in 0 .. Offset - 1 =>
+                   Digit_At (Before, Lower) = Digit_At (After, Lower)))
+            and then Digit_At (After, Offset) =
+              (Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+               + Incoming) mod 256 then
+            Prefix_Value (After, Offset + 1)
+              + To_Big_Integer
+                  ((Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+                    + Incoming) / 256) * Radix_Power (Offset + 1)
+              = Prefix_Value (Original, Offset + 1)
+                + Prefix_Value (Requested, Offset + 1))
+   is
+   begin
+      if Offset = Byte_Count'Last or else Incoming > 1 then
+         return;
+      end if;
+      if Prefix_Value (Original, Offset) + Prefix_Value (Requested, Offset) /=
+        Prefix_Value (Before, Offset)
+          + To_Big_Integer (Incoming) * Radix_Power (Offset) then
+         return;
+      end if;
+      if Offset > 0 and then
+        not (for all Lower in 0 .. Offset - 1 =>
+               Digit_At (Before, Lower) = Digit_At (After, Lower)) then
+         return;
+      end if;
+      declare
+         Wanted : constant Natural :=
+           (Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+            + Incoming) mod 256;
+      begin
+         if Digit_At (After, Offset) /= Wanted then
+            return;
+         end if;
+         Close_Reserve_Column
+           (Original, Requested, Before, After, Offset, Incoming);
+      end;
+   end Reserve_Prefix_Step;
+
    procedure Mismatching_Sum_Column
      (Left, Right, Result : Byte_Array; Offset : Byte_Count; Carry : Natural)
      with Ghost, Global => null, Always_Terminates,
@@ -524,9 +744,7 @@ package body Worldline.Resources with SPARK_Mode is
          pragma Assert (Wanted /= D);
          pragma Assert (Next_Place = 256 * Place);
          pragma Assert (Extended < Next_Place);
-         pragma Assert
-           (Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1)
-            = Extended + To_Big_Integer (Next) * Next_Place);
+         Close_Mismatch_Column (Left, Right, Result, Offset, Carry);
          Remainder_From_Witness (Extended, Next_Place, To_Big_Integer (Next));
          pragma Assert
            ((Prefix_Value (Left, Offset + 1) + Prefix_Value (Right, Offset + 1))
@@ -654,18 +872,16 @@ package body Worldline.Resources with SPARK_Mode is
       Previous : Borrow := 0;
       Remainder_Value : Big_Natural := 0 with Ghost;
       Column : Column_Result;
+      --  Carry the radix position through the loop instead of overwriting an
+      --  initial value before use. Column witnesses below are initialized
+      --  constants, never uninitialized Valid_Big_Integer objects.
+      Position : Big_Positive := 1 with Ghost;
    begin
       if Count = 0 then
          return True;
       end if;
-      declare
-         --  These Ghost lifetimes enclose the loop. GNATprove does not support
-         --  iteration-local non-scalar objects before a loop invariant.
-         Remainder_Digit : Big_Natural := 0 with Ghost;
-         Position : Big_Positive := 1 with Ghost;
-         Contribution : Big_Natural := 0 with Ghost;
-      begin
-         for Offset in 0 .. Count - 1 loop
+      for Offset in 0 .. Count - 1 loop
+            pragma Assert (Position = Radix_Power (Offset));
             Column := Subtract_Column
               (Byte (Digit_At (Available, Offset)),
                Byte (Digit_At (Withheld, Offset)),
@@ -676,24 +892,30 @@ package body Worldline.Resources with SPARK_Mode is
             Prefix_Step (Floor, Offset);
             Prefix_Step (Requested, Offset);
             Extended_Digit_Bound
-              (Remainder_Value, Radix_Power (Offset), Natural (Column.Remainder));
+              (Remainder_Value, Position, Natural (Column.Remainder));
             Subtraction_Column
               (Prefix_Value (Available, Offset),
                Prefix_Value (Withheld, Offset) + Prefix_Value (Floor, Offset)
                  + Prefix_Value (Requested, Offset),
-               Remainder_Value, Radix_Power (Offset),
+               Remainder_Value, Position,
                Digit_At (Available, Offset), Digit_At (Withheld, Offset),
                Digit_At (Floor, Offset), Digit_At (Requested, Offset),
                Previous, Column.Next, Natural (Column.Remainder));
-            Remainder_Digit := To_Big_Integer (Natural (Column.Remainder));
-            Position := Radix_Power (Offset);
-            Contribution := Remainder_Digit * Position;
-            pragma Assert (Remainder_Digit >= 0);
-            pragma Assert (Position > 0);
-            pragma Assert (Contribution >= 0);
-            pragma Assert (Remainder_Value >= 0);
-            Remainder_Value := Remainder_Value + Contribution;
+            declare
+               Remainder_Digit : constant Big_Natural :=
+                 To_Big_Integer (Natural (Column.Remainder)) with Ghost;
+               Contribution : constant Big_Natural :=
+                 Remainder_Digit * Position with Ghost;
+            begin
+               pragma Assert (Remainder_Digit >= 0);
+               pragma Assert (Position > 0);
+               pragma Assert (Contribution >= 0);
+               pragma Assert (Remainder_Value >= 0);
+               Remainder_Value := Remainder_Value + Contribution;
+            end;
             Previous := Column.Next;
+            Position := 256 * Position;
+            pragma Loop_Invariant (Position = Radix_Power (Offset + 1));
             pragma Loop_Invariant
               (Remainder_Value < Radix_Power (Offset + 1));
             pragma Loop_Invariant
@@ -703,7 +925,6 @@ package body Worldline.Resources with SPARK_Mode is
                  + Prefix_Value (Floor, Offset + 1)
                  + Prefix_Value (Requested, Offset + 1) + Remainder_Value);
          end loop;
-      end;
       Complete_Prefix (Available, Count);
       Complete_Prefix (Withheld, Count);
       Complete_Prefix (Floor, Count);
@@ -741,6 +962,7 @@ package body Worldline.Resources with SPARK_Mode is
               (Prefix_Value (Left, Offset), Prefix_Value (Right, Offset),
                0, Prefix_Value (Result, Offset), Radix_Power (Offset),
                Digit_At (Left, Offset), Digit_At (Right, Offset), 0, Carry);
+            Sum_Prefix_Step (Left, Right, Result, Offset, Carry);
             Carry := Sum / 256;
          end;
          pragma Loop_Invariant
@@ -807,6 +1029,8 @@ package body Worldline.Resources with SPARK_Mode is
                pragma Assert (Sum = Digit_At (Original, Offset)
                                     + Digit_At (Requested, Offset) + Carry);
                State.Outstanding (Index) := Byte (Sum mod 256);
+               Reserve_Prefix_Step
+                 (Original, Requested, Before_Step, State.Outstanding, Offset, Carry);
                Carry := Sum / 256;
                Matching_Prefix (Before_Step, State.Outstanding, Offset);
                Prefix_Step (State.Outstanding, Offset);

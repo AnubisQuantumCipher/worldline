@@ -26,20 +26,42 @@ package Worldline.Resources with SPARK_Mode is
    --  domain: neither is converted to the narrower Natural exponent of **.
    --  These are executable Ghost definitions, with their own required proof
    --  and termination obligations; no imported theorem is introduced.
-   function Radix_Power (Count : Byte_Count) return Big_Positive is
-     (if Count = 0 then 1 else 256 * Radix_Power (Count - 1))
+   --  Definition and checked recurrence are separate: the public Post still
+   --  checks its predecessor, but its body does not run that checker again.
+   function Power_Model (Count : Byte_Count) return Big_Positive is
+     (if Count = 0 then 1 else 256 * Power_Model (Count - 1))
      with Ghost, Global => null,
           Subprogram_Variant => (Decreases => Count);
 
-   function Prefix_Value
-     (Value : Byte_Array; Count : Byte_Count) return Big_Natural is
-     (if Count = 0 then 0
-      else Prefix_Value (Value, Count - 1)
-        + To_Big_Integer (Digit_At (Value, Count - 1))
-          * Radix_Power (Count - 1))
+   function Radix_Power (Count : Byte_Count) return Big_Positive is
+     (Power_Model (Count))
      with Ghost, Global => null,
           Subprogram_Variant => (Decreases => Count),
-          Post => Prefix_Value'Result < Radix_Power (Count);
+          Post => (if Count = 0 then Radix_Power'Result = 1
+                   else Radix_Power'Result = 256 * Radix_Power (Count - 1)),
+          Annotate => (GNATprove, Inline_For_Proof);
+
+   --  Independent unsigned interpretation. Padding and zero columns do not
+   --  require constructing powers whose contribution is identically zero.
+   function Prefix_Model
+     (Value : Byte_Array; Count : Byte_Count) return Big_Natural is
+     (if Count = 0 then 0
+      elsif Digit_At (Value, Count - 1) = 0 then
+        Prefix_Model (Value, Count - 1)
+      else Prefix_Model (Value, Count - 1)
+        + To_Big_Integer (Digit_At (Value, Count - 1))
+          * Power_Model (Count - 1))
+     with Ghost, Global => null,
+          Subprogram_Variant => (Decreases => Count),
+          Post => Prefix_Model'Result < Power_Model (Count);
+
+   function Prefix_Value
+     (Value : Byte_Array; Count : Byte_Count) return Big_Natural is
+     (Prefix_Model (Value, Count))
+     with Ghost, Global => null,
+          Subprogram_Variant => (Decreases => Count),
+          Post => Prefix_Value'Result < Radix_Power (Count),
+          Annotate => (GNATprove, Inline_For_Proof);
 
    function Magnitude (Value : Byte_Array) return Big_Natural is
      (Prefix_Value (Value, Value'Length))

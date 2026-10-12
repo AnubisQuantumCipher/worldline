@@ -19,7 +19,8 @@ from .finalize import evaluation_record, CheckDeclaration, evaluation_presence
 EXECUTION_NAMES = {name.upper(): name for name in EXECUTION}
 
 class EngineEvaluationWriter:
-    def __init__(self, terminal, content_identity: str):
+    def __init__(self, terminal, content_identity: str, *, owner_admission=None):
+        self.owner_admission = owner_admission
         self.terminal = terminal
         self.content_identity = content_identity
         self.handle = None
@@ -38,8 +39,14 @@ class EngineEvaluationWriter:
         self.terminal.enable_raw_capture()
         # Called after the actual input-manifest capture, before checks execute.
         # Scratch directory IDs remain distinct from this full run identity.
-        self.handle = self.terminal.pending.begin(subject['instanceId'], self.content_identity,
+        if self.owner_admission is None:
+            self.handle = self.terminal.pending.begin(subject['instanceId'], self.content_identity,
                                                   current['requirementHash'])
+        else:
+            from .protected_owner import OwnerAdmission
+            if type(self.owner_admission) is not OwnerAdmission:
+                raise TerminalRefused('OWNER_ADMISSION_SOURCE_UNAVAILABLE')
+            self.handle = self.owner_admission.begin(self.terminal,subject,current,measured,core)
         epoch = self.handle.epoch
         self.bound = BoundValue(identity(self.handle.store_id), identity(self.handle.subject),
             identity(self.handle.content), identity(self.handle.run),
@@ -215,14 +222,39 @@ class EngineEvaluationWriter:
         return captured
 
     def invocation_started(self, *, world_instance, check, invocation, candidate_snapshot, verifier_entries):
-        observed = {'worldInstance': world_instance, 'checkId': check, 'invocationId': invocation,
-                    'candidateSnapshot': candidate_snapshot, 'verifierEntries': list(verifier_entries),
-                    'evaluationRun': self.handle.run}
+        from .evaluation_terminal import bytes_value
+        observed = bytes_value(value_bytes({
+            'worldInstance': world_instance, 'checkId': check, 'invocationId': invocation,
+            'candidateSnapshot': candidate_snapshot, 'verifierEntries': list(verifier_entries),
+            'evaluationRun': self.handle.run}))
         # A failed new start must not attach its exception to a previous
         # same-check invocation that happened to occupy this convenience map.
         self.invocations.pop((world_instance, check), None)
         self.terminal.observe_start(self.bound, invocation, observed)
         self.invocations[(world_instance, check)] = (invocation, observed)
+
+    def protected_invocation(self, *, world_instance, check, invocation):
+        """Return the exact durable start for an active provider invocation."""
+        from .evaluation_terminal import bytes_value
+        item = self.invocations.get((world_instance, check))
+        if self.retained or item is None or item[0] != invocation:
+            raise TerminalRefused('ENGINE_INVOCATION_START_MISSING')
+        _context, stream = self.terminal.captured_stream(self.bound)
+        retained = [row for row in stream if row[0] == invocation]
+        if len(retained) != 1:
+            raise TerminalRefused('ENGINE_INVOCATION_START_MISSING')
+        _invocation, started, finished = retained[0]
+        if (finished is not None or started.get('worldInstance') != world_instance
+                or started.get('checkId') != check
+                or started.get('invocationId') != invocation
+                or started.get('evaluationRun') != self.handle.run
+                or value_bytes(started) != value_bytes(item[1])):
+            raise TerminalRefused('ENGINE_INVOCATION_START_CONFLICT')
+        # Idempotent exact retention rechecks the original pending admission,
+        # journal identity and open-stream guard before any provider launch.
+        # It neither creates a new invocation nor supplies custody authority.
+        self.terminal.observe_start(self.bound, invocation, started)
+        return bytes_value(value_bytes(started))
 
     def invocation_result(self, *, world_instance, check, result):
         item = self.invocations.get((world_instance, check))

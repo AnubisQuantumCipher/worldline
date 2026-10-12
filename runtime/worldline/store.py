@@ -20,6 +20,10 @@ from .core import Core, hash_bytes_from_id, hash_id
 from .errors import NotFound, WorldlineError
 from .model import NONTERMINAL_STATES, World, WorldState, utc_now
 from .paths import WorldlinePaths
+from .ordinary_receipt_policy import (
+    actual_requester, append_postflight, append_preflight, event_policy, receipt_policy, receipt_schema, reserved_claim,
+    receipt_predecessor, verify_columns,
+)
 
 _LOG = logging.getLogger("worldline.store")
 
@@ -27,6 +31,7 @@ _LOG = logging.getLogger("worldline.store")
 # actor and kind; a line naming one of these would read as WORLDLINE's own record (or, for
 # "user", the operator's), so it is refused at ingestion and here. The kinds are every kind a
 # WORLDLINE writer appends (pinned by tests/test_causal.py against the writers themselves).
+# Historical informational exports only; the native policy owns runtime membership.
 RESERVED_EVENT_ACTORS = frozenset({"worldline", "system", "user"})
 RESERVED_EVENT_KINDS = frozenset({
     "mission", "agent-invocation", "agent-invocation-result", "file-delta", "collapse-receipt",
@@ -36,14 +41,8 @@ RESERVED_EVENT_KINDS = frozenset({
 
 
 def reserved_event_claim(event: dict[str, Any]) -> str | None:
-    """Why an event may not be appended as an agent's claim, or None."""
-    actor = event.get("actor")
-    if isinstance(actor, str) and actor.strip().casefold() in RESERVED_EVENT_ACTORS:
-        return f"actor {actor!r} is reserved for WORLDLINE and the operator"
-    kind = str(event.get("kind", "event"))
-    if kind.strip().casefold() in RESERVED_EVENT_KINDS:
-        return f"kind {kind!r} is reserved for WORLDLINE's own records"
-    return None
+    """Original Unicode field observation; the native roster owns refusal."""
+    return reserved_claim(event)
 
 
 _CANONICAL_NAME = re.compile(r"[0-9a-f]{64}\.json")
@@ -213,8 +212,14 @@ def _json_load(value: bytes | str | None, default: Any) -> Any:
 
 class StateStore:
     def __init__(self, paths: WorldlinePaths, core: Core | None = None, *, evaluation_terminal=None,
-                 evaluation_finalization=None) -> None:
+                 evaluation_finalization=None, startup_lease=None) -> None:
         self.paths = paths
+        self.startup_lease = startup_lease
+        if startup_lease is not None:
+            from .protected_startup import StartupLease
+            if type(startup_lease) is not StartupLease or core is None:
+                raise WorldlineError('PROTECTED_STARTUP_REQUIRED', 'an actual retained startup lease and selected core are required')
+            startup_lease.validate_store(paths, STORE_SCHEMA_VERSION)
         # Explicit real-store dependency. The default reader refuses when the
         # durable producer has not been provisioned; no meta-list fallback.
         if evaluation_terminal is not None:
@@ -231,14 +236,16 @@ class StateStore:
         self.evaluation_finalization = evaluation_finalization
         self._owns_finalization = False
         self._owns_evaluation = False
-        self.paths.ensure()
+        if startup_lease is None:
+            self.paths.ensure()
         self.core = core or Core.shared()
         self._lock = RLock()
         # Called with (eventId, canonical bytes) for every causal event appended, under the store
         # lock (1.9.2, OB-088): the controller anchors each event as it is chained.
         self.on_causal_append: Callable[[str, bytes], Any] | None = None
         self._connection = sqlite3.connect(
-            self.paths.database,
+            (self.paths.database if startup_lease is None else self.paths.database.as_uri() + '?mode=rw'),
+            uri=startup_lease is not None,
             timeout=30.0,
             isolation_level=None,
             check_same_thread=False,
@@ -246,7 +253,12 @@ class StateStore:
         self._connection.row_factory = sqlite3.Row
         try:
             self._configure()
-            self._create_schema()
+            if startup_lease is None:
+                self._create_schema()
+            else:
+                # Protected owner provisioning is already complete. A restart
+                # never migrates/resets state or creates missing schema here.
+                startup_lease.validate_store(paths, STORE_SCHEMA_VERSION)
             self._secure_database_files()
             if (self.evaluation_finalization is None
                     and os.path.lexists(self.paths.state / 'evaluation-finalization.db')):
@@ -323,6 +335,29 @@ class StateStore:
             else:
                 self._connection.execute("COMMIT")
 
+    def retain_client_request(self, observation: dict[str, Any]) -> None:
+        """Retain complete observations using the existing FULL-sync transaction.
+
+        A distinct key for every dispatch preserves old rows and original schema,
+        migrations, causal and receipt byte contracts. Root custody/authorization
+        must independently authenticate the relay and re-read the original fd.
+        """
+        key = "clientRequestObservation:" + observation["observationId"]
+        value = canonical_bytes(observation)
+        with self.transaction() as connection:
+            if connection.execute("SELECT 1 FROM meta WHERE key=?", (key,)).fetchone() is not None:
+                raise WorldlineError("CLIENT_OBSERVATION_DUPLICATE", "request observation id is already retained")
+            connection.execute("INSERT INTO meta(key,value) VALUES (?,?)", (key, value))
+
+    def client_request_observations(self) -> list[dict[str, Any]]:
+        # Full roster in actual insertion order, including observations whose
+        # handler later refused. No filtered actor/current-policy selection.
+        with self._lock:
+            rows = self._connection.execute(
+                "SELECT value FROM meta WHERE key GLOB 'clientRequestObservation:*' ORDER BY rowid"
+            ).fetchall()
+        return [_json_load(row["value"], None) for row in rows]
+
     def close(self) -> None:
         with self._lock:
             error = None
@@ -351,6 +386,9 @@ class StateStore:
         This persisted identity and owned SQLite file are not a protected
         anti-rollback authority. That production custody obligation remains.
         """
+        if self.startup_lease is not None:
+            self.startup_lease.intact()
+            self.startup_lease._existing_state()
         from .evaluation_pending import text
         from .finalization_journal import FinalizationJournal
         with self._lock:
@@ -754,15 +792,12 @@ class StateStore:
         """Chain one causal event. Only WORLDLINE's own writers pass `worldline_authored`; any
         other caller (agent ingestion) is refused a reserved actor or kind, so no new ingestion
         path can enter a record that reads as WORLDLINE's (1.9.2, OB-091, defence in depth)."""
-        if event.get("schemaVersion") != SCHEMA_VERSION:
-            raise WorldlineError("INVALID_SCHEMA", "causal event schemaVersion must be literal 1")
-        if not worldline_authored:
-            refused = reserved_event_claim(event)
-            if refused is not None:
-                raise WorldlineError("RESERVED_EVENT_CLAIM", f"causal event refused: {refused}",
-                                     {"actor": event.get("actor"), "kind": event.get("kind")})
-        elif "origin" not in event:
+        authored, schema_source = event_policy(self.core, event, worldline_authored)
+        if authored and "origin" not in event:
             event = {**event, "origin": "worldline"}
+        requester = actual_requester(self)
+        if requester is not None:
+            event = {**event, 'requesterBinding': requester}
         world_instance = str(event.get("worldInstance", ""))
         self.world(world_instance)
         payload = canonical_bytes(event)
@@ -773,11 +808,15 @@ class StateStore:
             ).fetchone()
             previous = CHAIN_GENESIS if previous_row is None else hash_bytes_from_id(previous_row["chain_hash"])
             chain = self.core.causal_link(previous, event_root)
+            principal = getattr(self, 'canonical_operation_principal', None)
+            intent = append_preflight(self, "events", event, payload, previous, chain, requester, schema_source)
+            if principal is not None:
+                principal.canonical.preflight('events', event, event_root, previous, chain)
             event_id = hash_id(chain)
             path = self.paths.events / f"{chain.hex()}.json"
             atomic_write(path, payload)
             ordinal = 0 if previous_row is None else int(previous_row["ordinal"]) + 1
-            self._connection.execute(
+            cursor = self._connection.execute(
                 """INSERT INTO causal_events
                 (event_id,world_instance,ordinal,kind,actor,tool,reason,path_b64,path_display,
                  line_start,line_end,predecessor,event_root,chain_hash,canonical_path,created_at)
@@ -790,6 +829,9 @@ class StateStore:
                     str(path), utc_now(),
                 ),
             )
+            append_postflight(self, intent, cursor)
+            if principal is not None:
+                principal.canonical.acknowledge('events')
             observer = self.on_causal_append
             if observer is not None:
                 try:
@@ -904,42 +946,28 @@ class StateStore:
         return result
 
     def append_receipt(self, receipt: dict[str, Any]) -> dict[str, str]:
-        if receipt.get("schemaVersion") != SCHEMA_VERSION:
-            raise WorldlineError("INVALID_SCHEMA", "receipt schemaVersion must be literal 1")
-        required = {
-            "schemaVersion", "receiptId", "previousReceipt", "parentWorld", "candidateWorld",
-            "baseState", "candidateDelta", "foreignWorldContamination", "mergeSet",
-            "invariantPreservation", "atomicCollapse", "beforeRoot", "afterRoot",
-            "transactionId", "nonClaims",
-        }
-        # 1.3.0 receipts name the evidence that authorized the bytes; 1.2 receipts (already on
-        # the chain, and any produced while recovering a 1.2-prepared record) lack the field.
-        optional = {"evidenceBinding"}
-        if not required <= set(receipt) or not set(receipt) <= required | optional:
-            raise WorldlineError(
-                "INVALID_RECEIPT",
-                "collapse receipt fields do not match schema",
-                {"missing": sorted(required - set(receipt)), "extra": sorted(set(receipt) - required)},
-            )
+        schema_source = receipt_schema(self.core, receipt)
+        requester = actual_requester(self)
+        receipt_policy(self.core, receipt, requester, schema_source)
         payload = canonical_bytes(receipt)
         root = self.core.hash_bytes(b"worldline-receipt-record-v1" + payload)
         with self._lock:
             previous_row = self._connection.execute(
                 "SELECT receipt_id,chain_hash FROM receipts ORDER BY rowid DESC LIMIT 1"
             ).fetchone()
-        expected_previous_id = None if previous_row is None else previous_row["receipt_id"]
-        if receipt["previousReceipt"] != expected_previous_id:
-            raise WorldlineError(
-                "RECEIPT_PREDECESSOR_MISMATCH",
-                "receipt does not name the current predecessor",
-                {"expected": expected_previous_id, "supplied": receipt["previousReceipt"]},
-            )
+        predecessor = receipt_predecessor(self.core, receipt["previousReceipt"], previous_row)
         previous_hash = CHAIN_GENESIS if previous_row is None else hash_bytes_from_id(previous_row["chain_hash"])
         chain = self.core.receipt_link(previous_hash, root)
+        with self._lock:
+            intent = append_preflight(self, "receipts", receipt, payload, previous_hash, chain,
+                                      requester, schema_source, predecessor)
+        principal = getattr(self, 'canonical_operation_principal', None)
+        if principal is not None:
+            principal.canonical.preflight('receipts', receipt, root, previous_hash, chain)
         path = self.paths.receipts / f"{chain.hex()}.json"
         atomic_write(path, payload)
         with self._lock:
-            self._connection.execute(
+            cursor = self._connection.execute(
                 """INSERT INTO receipts
                 (receipt_id,previous_receipt,transaction_id,receipt_root,chain_hash,canonical_path,created_at)
                 VALUES(?,?,?,?,?,?,?)""",
@@ -948,6 +976,9 @@ class StateStore:
                     hash_id(root), hash_id(chain), str(path), utc_now(),
                 ),
             )
+            append_postflight(self, intent, cursor)
+        if principal is not None:
+            principal.canonical.acknowledge('receipts')
         return {"receiptRoot": hash_id(root), "chainHash": hash_id(chain)}
 
     def receipts(self) -> list[dict[str, Any]]:
@@ -1030,7 +1061,7 @@ class StateStore:
                 "reason": event.get("reason"), "path_b64": event.get("pathB64"), "path_display": event.get("pathDisplay"),
                 "line_start": event.get("lineStart"), "line_end": event.get("lineEnd"),
             }
-            differing = sorted(name for name, value in columns.items() if row[name] != value)
+            differing = verify_columns(self.core, "events", row, event, payload, columns, previous)
             if differing:
                 raise WorldlineError("CAUSAL_CHAIN_INVALID", f"causal event {row['event_id']}: row columns differ from the chained event",
                                      {"eventId": row["event_id"], "columns": differing})
@@ -1052,8 +1083,9 @@ class StateStore:
             chain = self.core.receipt_link(previous, root)
             if hash_id(root) != row["receipt_root"] or hash_id(chain) != row["chain_hash"]:
                 raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt chain broke at {row['receipt_id']}", {"receiptId": row["receipt_id"]})
-            differing = sorted(name for name, value in (("receipt_id", receipt.get("receiptId")), ("transaction_id", receipt.get("transactionId")),
-                                                          ("previous_receipt", receipt.get("previousReceipt"))) if row[name] != value)
+            columns = {"receipt_id": receipt.get("receiptId"), "transaction_id": receipt.get("transactionId"),
+                       "previous_receipt": receipt.get("previousReceipt")}
+            differing = verify_columns(self.core, "receipts", row, receipt, payload, columns, previous)
             if differing:
                 raise WorldlineError("RECEIPT_CHAIN_INVALID", f"receipt {row['receipt_id']}: row columns differ from the chained receipt",
                                      {"receiptId": row["receipt_id"], "columns": differing})
@@ -1061,6 +1093,44 @@ class StateStore:
             previous_receipt = row["receipt_id"]
             receipt_count += 1
         return {"causalEvents": causal_count, "receipts": receipt_count}
+
+    def replay_native_chains(self, *, receipt_anchors, causal_anchors):
+        """Replay complete canonical rows through the actual Append kernels.
+
+        The protected caller supplies independently retained authentic anchors.
+        This method transports actual canonical-file measurements and every DB
+        row. It does not authenticate supplied anchors or the receipt's semantic
+        relationship to requester/transaction/physical PRIME by matching hashes.
+        Legacy verify_chains remains unchanged pending full caller integration.
+        """
+        from .chain_authority import ChainAnchors, ChainRow, replay_chain
+        if (type(receipt_anchors) is not ChainAnchors or receipt_anchors.kind != 'RECEIPT'
+                or type(causal_anchors) is not ChainAnchors or causal_anchors.kind != 'CAUSAL'):
+            raise WorldlineError('CHAIN_ANCHORS_INVALID', 'typed receipt and causal anchors required')
+        with self._lock:
+            receipts = self._connection.execute('SELECT * FROM receipts ORDER BY rowid').fetchall()
+            events = self._connection.execute('SELECT * FROM causal_events ORDER BY rowid').fetchall()
+            receipt_ids = {row['receipt_id']: row['chain_hash'] for row in receipts}
+            complete_receipts = []
+            for row in receipts:
+                payload = self.read_canonical('receipts', row['canonical_path'], chain_hash=row['chain_hash'])
+                if row['previous_receipt'] is None:
+                    previous = CHAIN_GENESIS
+                elif row['previous_receipt'] in receipt_ids:
+                    previous = hash_bytes_from_id(receipt_ids[row['previous_receipt']])
+                else:
+                    previous = None
+                complete_receipts.append(ChainRow(previous,
+                    self.core.hash_bytes(b'worldline-receipt-record-v1' + payload),
+                    hash_bytes_from_id(row['receipt_root']), hash_bytes_from_id(row['chain_hash'])))
+            complete_events = []
+            for row in events:
+                payload = self.read_canonical('events', row['canonical_path'], chain_hash=row['chain_hash'])
+                complete_events.append(ChainRow(hash_bytes_from_id(row['predecessor']),
+                    self.core.hash_bytes(b'worldline-event-v1' + payload),
+                    hash_bytes_from_id(row['event_root']), hash_bytes_from_id(row['chain_hash'])))
+            return {'receipts': replay_chain(complete_receipts, receipt_anchors, core=self.core),
+                    'causal': replay_chain(complete_events, causal_anchors, core=self.core)}
 
     def anchor_items(self) -> dict[str, Any]:
         """Every receipt and causal event as (identity, sha256 of its canonical bytes), read

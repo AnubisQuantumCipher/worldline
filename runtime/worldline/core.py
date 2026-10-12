@@ -52,12 +52,13 @@ COLLAPSE_DECISIONS: dict[int, str] = {
     18: "WATCH_INCOMPLETE",
     19: "CHECKPOINT_MISMATCH",
     20: "EVIDENCE_SUBJECT_MISMATCH",
+    21: "REQUIREMENT_CHANGED",
     255: "INVALID_REQUEST",
 }
 
 # The ABI generation this runtime was written against (wl_abi_version). Record layouts and the
 # meaning of every exported code belong to it; a library reporting another is refused at load.
-ABI_VERSION = 5
+ABI_VERSION = 6
 
 # Which evidence speaks for the bytes that would become live (Worldline.Collapse.Evaluation_Mode).
 EVALUATION_MODES = {"CANDIDATE_EVALUATION": 0, "CHECKPOINT_RETURN": 1}
@@ -100,7 +101,7 @@ class COptionalCounter(ctypes.Structure):
     _fields_ = [("present", ctypes.c_uint8), ("value_le", ctypes.c_uint8 * 8)]
 
 
-# Layout 5 (1.9.0), in the order of Worldline.Collapse_Wire.Raw_Request.
+# Layout 6 (resulting requirement), in the order of Worldline.Collapse_Wire.Raw_Request.
 COLLAPSE_HASH_FIELDS = (
     "expected_parent",
     "candidate_parent",
@@ -117,6 +118,7 @@ COLLAPSE_HASH_FIELDS = (
     "staged_content_root",
     "tested_root",
     "current_requirement",
+    "resulting_requirement",
     "evaluated_requirement",
     "declared_verifiers",
     "executed_verifiers",
@@ -241,6 +243,7 @@ class CollapseInput:
     staged_content_root: bytes | None
     tested_root: bytes | None
     current_requirement: bytes | None
+    resulting_requirement: bytes | None
     evaluated_requirement: bytes | None
     declared_verifiers: bytes | None
     executed_verifiers: bytes | None

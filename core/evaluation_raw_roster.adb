@@ -22,14 +22,9 @@ package body Evaluation_Raw_Roster with SPARK_Mode is
       Rows : Measured_Array; Check : T.Check_Identity) return Boolean is
       C : W.Wire_Classification;
    begin
-      --  The existing total existential is actually evaluated. Its
-      --  negation proves absence across the complete retained raw stream.
-      if not Failure_For_Check_Reference (A, Binding, Rows, Check) then
-         return False;
-      end if;
       for I in Rows'Range loop
-         if Row_Bound (A, Rows (I), Binding)
-           and then T.P.Same (A, T.Span (Rows (I).Item.Check), T.Span (Check))
+         if T.P.Same (A, T.Span (Rows (I).Item.Check), T.Span (Check))
+           and then Row_Bound (A, Rows (I), Binding)
          then
             C := W.Classify_Wire (Rows (I).Raw);
             if C.Status = 0 and then C.Execution = E.Execution_State'Pos (E.Completed)
@@ -37,8 +32,8 @@ package body Evaluation_Raw_Roster with SPARK_Mode is
          end if;
          pragma Loop_Invariant
            (for all J in Rows'First .. I =>
-              not (Row_Bound (A, Rows (J), Binding)
-               and then T.P.Same (A, T.Span (Rows (J).Item.Check), T.Span (Check))
+              not (T.P.Same (A, T.Span (Rows (J).Item.Check), T.Span (Check))
+               and then Row_Bound (A, Rows (J), Binding)
                and then W.Well_Formed (Rows (J).Raw)
                and then E.Expected_Classification (W.Decode (Rows (J).Raw).Value.Facts).Execution = E.Completed
                and then E.Expected_Classification (W.Decode (Rows (J).Raw).Value.Facts).Result = E.Failed));

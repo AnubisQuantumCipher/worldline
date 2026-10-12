@@ -210,6 +210,7 @@ package Evaluation_Completion with SPARK_Mode is
    function Results_Valid
      (A : Bytes; Rows : Result_Array; Binding : Attempt_Binding) return Boolean
      with Global => null,
+          Subprogram_Variant => (Decreases => Rows'Length),
           Post => Results_Valid'Result = Results_Reference (A, Rows, Binding);
    function Same_Results (A : Bytes; L, R : Result_Array) return Boolean
      with Global => null,
@@ -346,25 +347,66 @@ package Evaluation_Completion with SPARK_Mode is
         and then Row.State = Project_Reference (A, Retained.Value).Value.State
         and then Row.Outcome = Project_Reference (A, Retained.Value).Value.Outcome)
      with Global => null;
+   --  Full arbitrary-input history stage. Base is a pure prior decision,
+   --  never an authority flag. An absent run is an actual named refusal here.
+   function History_Update_Reference
+     (A : Bytes; Journal : R.Journal; History : H.History; Run : Run_Identity;
+      Retained : Optional_Terminal; Base : Decision) return Decision is
+     (if Base not in Retain_Terminal | Already_Retained then Base
+      elsif not History_Reference (A, Journal, History) then History_Invalid
+      elsif History_Index (Journal, History, Find_Run (A, Journal, Run)) = 0
+        then History_Invalid
+      elsif not Retained_Summary_Matches
+        (A, History (History_Index (Journal, History, Find_Run (A, Journal, Run))), Retained)
+        then History_Conflict
+      else Base)
+     with Global => null;
+   function History_Update_Check
+     (A : Bytes; Journal : R.Journal; History : H.History; Run : Run_Identity;
+      Retained : Optional_Terminal; Base : Decision) return Decision
+     with Global => null,
+       Post => History_Update_Check'Result =
+         History_Update_Reference (A, Journal, History, Run, Retained, Base)
+         and then (if History_Update_Check'Result in Retain_Terminal | Already_Retained then
+           History_Index (Journal, History, Find_Run (A, Journal, Run)) /= 0
+           and then History_Index (Journal, History, Find_Run (A, Journal, Run)) in History'Range);
+
    function Update_Reference
      (A : Bytes; Journal : R.Journal; Current : Cursor;
       Capture : Terminal_Record; Captured_Results : Result_Array;
       Retained : Optional_Terminal; Retained_Results : Result_Array;
       History : H.History) return Decision is
-     (if Reference (A, Journal, Current, Capture, Captured_Results,
+     (History_Update_Reference
+       (A, Journal, History, Capture.Binding.Run, Retained,
+        Reference (A, Journal, Current, Capture, Captured_Results,
+                   Retained, Retained_Results)))
+     with Global => null;
+
+   --  Checked whole-domain correspondence to the exact original equation.
+   --  This theorem is required for proof; neither its declaration nor a source
+   --  comparison establishes it. There is no assumed precondition.
+   procedure Update_Composition_Equality
+     (A : Bytes; Journal : R.Journal; Current : Cursor;
+      Capture : Terminal_Record; Captured_Results : Result_Array;
+      Retained : Optional_Terminal; Retained_Results : Result_Array;
+      History : H.History)
+     with Ghost, Global => null, Always_Terminates,
+       Post => Update_Reference
+            (A, Journal, Current, Capture, Captured_Results,
+             Retained, Retained_Results, History) =
+         (if Reference (A, Journal, Current, Capture, Captured_Results,
                     Retained, Retained_Results) not in Retain_Terminal | Already_Retained
       then Reference (A, Journal, Current, Capture, Captured_Results,
                       Retained, Retained_Results)
-      elsif not History_Reference (A, Journal, History) then History_Invalid
-      elsif History_Index (Journal, History, Find_Run (A, Journal, Capture.Binding.Run)) = 0
+      elsif not History_Reference (A, Journal, History) or else
+        History_Index (Journal, History, Find_Run (A, Journal, Capture.Binding.Run)) = 0
       then History_Invalid
       elsif not Retained_Summary_Matches
         (A, History (History_Index (Journal, History,
                      Find_Run (A, Journal, Capture.Binding.Run))), Retained)
       then History_Conflict
       else Reference (A, Journal, Current, Capture, Captured_Results,
-                      Retained, Retained_Results))
-     with Global => null;
+                      Retained, Retained_Results));
 
    --  All supplied history is retained. Only the selected pending row can
    --  change; its run/epoch/requirement remain bound to the retained intent.

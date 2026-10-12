@@ -136,11 +136,6 @@ package body Resource_Quantities with SPARK_Mode is
       return Result;
    end Radix_Power_Worker;
 
-   --  The public declaration, including every original recursive Post
-   --  conjunct and numeric variant, remains byte-for-byte unchanged.
-   function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
-     (Radix_Power_Worker (Exponent));
-
    --  Full-domain independent prefix equation; no span/length Pre is added.
    --  The moved loop, all assertions and all original variants remain below.
    function Prefix_Value_Worker
@@ -200,11 +195,6 @@ package body Resource_Quantities with SPARK_Mode is
       end if;
       return Result;
    end Prefix_Value_Worker;
-
-   function Prefix_Value
-     (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
-      return Valid_Big_Integer is
-     (Prefix_Value_Worker (Data, Q, Count));
 
    function Magnitude (Data : Byte_Array; Q : Quantity)
       return Valid_Big_Integer is

@@ -597,6 +597,7 @@ class NativeGuardControls(unittest.TestCase):
 
 
 from native_lifetime_controls import NativeLifetimeControls
+from native_workload_controls import NativeWorkloadControls
 
 
 if __name__ == '__main__':

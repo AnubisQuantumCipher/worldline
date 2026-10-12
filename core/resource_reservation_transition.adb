@@ -86,6 +86,8 @@ package body Resource_Reservation_Transition with SPARK_Mode is
      (Data : Byte_Array; Q : Quantity; First, Stop : Byte_Count)
       return Valid_Big_Integer is
      (if First = Stop then To_Big_Integer (0)
+      elsif Digit (Data, Q, Stop - 1) = 0 then
+        Prefix_Tail (Data, Q, First, Stop - 1)
       else Prefix_Tail (Data, Q, First, Stop - 1)
         + To_Big_Integer (Digit (Data, Q, Stop - 1))
           * Power_Reference (Stop - First - 1))
@@ -163,6 +165,58 @@ package body Resource_Reservation_Transition with SPARK_Mode is
              + To_Big_Integer (Column mod 256));
    end Column_Quotient;
 
+   --  Total checked producers isolate full signed-bound obligations from
+   --  callers' contradiction hypotheses. No Pre, axiom or domain restriction.
+   procedure Unique_Negative_Bound (Difference : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Difference < 0 then Difference <= -1
+       and then To_Big_Integer (256) * Difference <= -256)
+   is
+   begin
+      if Difference < 0 then
+         pragma Assert (Difference <= -1);
+         pragma Assert (To_Big_Integer (256) * Difference <= -256);
+      end if;
+   end Unique_Negative_Bound;
+
+   procedure Unique_Positive_Bound (Difference : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Difference > 0 then Difference >= 1
+       and then To_Big_Integer (256) * Difference >= 256)
+   is
+   begin
+      if Difference > 0 then
+         pragma Assert (Difference >= 1);
+         pragma Assert (To_Big_Integer (256) * Difference >= 256);
+      end if;
+   end Unique_Positive_Bound;
+
+   procedure Factor_Negative_Bound
+     (Difference, Factor : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Factor >= 1 and then Difference < 0 then
+       Difference <= -1 and then Difference * Factor <= -Factor)
+   is
+   begin
+      if Factor >= 1 and then Difference < 0 then
+         pragma Assert (Difference <= -1);
+         pragma Assert (Difference * Factor <= -Factor);
+      end if;
+   end Factor_Negative_Bound;
+
+   procedure Factor_Positive_Bound
+     (Difference, Factor : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Factor >= 1 and then Difference > 0 then
+       Difference >= 1 and then Difference * Factor >= Factor)
+   is
+   begin
+      if Factor >= 1 and then Difference > 0 then
+         pragma Assert (Difference >= 1);
+         pragma Assert (Difference * Factor >= Factor);
+      end if;
+   end Factor_Positive_Bound;
+
    --  An explicit signed quotient and the unique small remainder. The caller
    --  supplies a whole-value equation only as a hypothesis inside a guarded
    --  contradiction branch; it never assumes the producer's desired result.
@@ -182,21 +236,10 @@ package body Resource_Reservation_Transition with SPARK_Mode is
       pragma Assert
         (To_Big_Integer (256) * Difference =
            To_Big_Integer (Column mod 256) - To_Big_Integer (Digit_Value));
-      if Difference < 0 then
-         pragma Assert (Difference <= -1);
-         pragma Assert (To_Big_Integer (256) * Difference <= -256);
-         pragma Assert
-           (To_Big_Integer (Column mod 256) - To_Big_Integer (Digit_Value)
-              > -256);
-         pragma Assert (False);
-      elsif Difference > 0 then
-         pragma Assert (Difference >= 1);
-         pragma Assert (To_Big_Integer (256) * Difference >= 256);
-         pragma Assert
-           (To_Big_Integer (Column mod 256) - To_Big_Integer (Digit_Value)
-              < 256);
-         pragma Assert (False);
-      end if;
+      --  The original bound producers are total and have no Pre. Keep
+      --  their checked calls outside the impossible contradiction branches.
+      Unique_Negative_Bound (Difference);
+      Unique_Positive_Bound (Difference);
       pragma Assert (Difference = 0);
       pragma Assert
         (To_Big_Integer (Column mod 256) = To_Big_Integer (Digit_Value));
@@ -277,15 +320,10 @@ package body Resource_Reservation_Transition with SPARK_Mode is
       end if;
       pragma Assert (Difference * Factor = 0);
       pragma Assert (Factor >= 1);
-      if Difference < 0 then
-         pragma Assert (Difference <= -1);
-         pragma Assert (Difference * Factor <= -Factor);
-         pragma Assert (False);
-      elsif Difference > 0 then
-         pragma Assert (Difference >= 1);
-         pragma Assert (Difference * Factor >= Factor);
-         pragma Assert (False);
-      end if;
+      --  Preserve both original total bound producers and their proof
+      --  obligations without a call guarded by an impossible sign case.
+      Factor_Negative_Bound (Difference, Factor);
+      Factor_Positive_Bound (Difference, Factor);
       pragma Assert (Difference = 0);
    end Positive_Factor_Cancellation;
 
@@ -586,10 +624,98 @@ package body Resource_Reservation_Transition with SPARK_Mode is
       end case;
    end Change_Conserved;
 
+   function Operation_Row_Status
+     (Data : Byte_Array; Before : Ledger_State; R : Request) return Result_Status is
+   begin
+      case R.Kind is
+         when Unknown_Operation => return Unknown_Kind;
+         when Reserve =>
+            if not State_Shape (Data, Before) then return Invalid_Before;
+            elsif not Request_Shape (Data, Before, R) then return Request_Invalid;
+            elsif Compare (Data, R.Expected_Epoch.Value, Before.Epoch.Value) /= Equal then
+               return Stale_Reserve_Epoch;
+            elsif Before.Selected.Present then return Slot_Already_Exists;
+            end if;
+         when Consume | Release =>
+            if not State_Shape (Data, Before) then return Invalid_Before;
+            elsif not Request_Shape (Data, Before, R) then return Request_Invalid;
+            elsif not Before.Selected.Present then return Reservation_Absent;
+            elsif not Same_Identity (Data, R.Requester, Before.Selected.Value.Binding.Owner) then
+               return Wrong_Owner;
+            elsif not Same_Identity (Data, R.Reservation, Before.Selected.Value.Binding.Reservation) then
+               return Reservation_Mismatch;
+            elsif not Same_Identity (Data, R.Operation, Before.Selected.Value.Binding.Operation) then
+               return Operation_Mismatch;
+            elsif Before.Selected.Phase = Released then return Already_Released;
+            elsif Before.Selected.Phase = Consumed then return Already_Consumed;
+            end if;
+      end case;
+      return Ready;
+   end Operation_Row_Status;
+
+   function Final_Transition_Status
+     (Data : Byte_Array; Before, Proposed : Ledger_State; R : Request) return Result_Status is
+   begin
+      if not Change_Conserved (Data, Before, Proposed, R) then
+         return Transition_Conservation_Mismatch;
+      elsif R.Kind = Reserve and then Compare (Data, Proposed.Total, R.Ceiling) = Greater then
+         return Limit_Exceeded;
+      end if;
+      return Ready;
+   end Final_Transition_Status;
+
+   procedure Decision_Composition_Equality
+     (Data : Byte_Array; Before, Proposed : Ledger_State;
+      High_Water : High_Water_Observation; R : Request) is
+   begin
+      pragma Assert (Decision_Reference (Data, Before, Proposed, High_Water, R) =
+         (if R.Kind = Unknown_Operation then Unknown_Kind
+      elsif not State_Shape (Data, Before) then Invalid_Before
+      elsif not State_Shape (Data, Proposed) then Invalid_Proposed
+      elsif not High_Water.Epoch.Present then Observation_Absent
+      elsif not Context_Valid (Data, High_Water.Scope) or else
+        not Epoch_Valid (Data, High_Water.Epoch) then Observation_Invalid
+      elsif not Same_Context (Data, Before.Scope, High_Water.Scope)
+        then Observation_Scope_Mismatch
+      elsif Value (Data, Before.Epoch.Value) /= Value (Data, High_Water.Epoch.Value)
+        then High_Water_Mismatch
+      elsif not Request_Shape (Data, Before, R) then Request_Invalid
+      elsif R.Kind = Reserve and then
+        Value (Data, R.Expected_Epoch.Value) /= Value (Data, Before.Epoch.Value)
+        then Stale_Reserve_Epoch
+      elsif R.Kind = Reserve and then Before.Selected.Present then Slot_Already_Exists
+      elsif R.Kind in Consume | Release and then not Before.Selected.Present
+        then Reservation_Absent
+      elsif R.Kind in Consume | Release and then not Same_Identity
+        (Data, R.Requester, Before.Selected.Value.Binding.Owner) then Wrong_Owner
+      elsif R.Kind in Consume | Release and then not Same_Identity
+        (Data, R.Reservation, Before.Selected.Value.Binding.Reservation)
+        then Reservation_Mismatch
+      elsif R.Kind in Consume | Release and then not Same_Identity
+        (Data, R.Operation, Before.Selected.Value.Binding.Operation)
+        then Operation_Mismatch
+      elsif R.Kind in Consume | Release and then Before.Selected.Phase = Released
+        then Already_Released
+      elsif R.Kind in Consume | Release and then Before.Selected.Phase = Consumed
+        then Already_Consumed
+      elsif not Conserved_Reference (Data, Before) then Before_Conservation_Mismatch
+      elsif not Same_Context (Data, Before.Scope, Proposed.Scope) then Context_Changed
+      elsif Value (Data, Before.Other_Reservations) /=
+        Value (Data, Proposed.Other_Reservations) then Remainder_Changed
+      elsif not Proposed_Row_Reference (Data, Before, Proposed, R)
+        then Proposed_Row_Mismatch
+      elsif Value (Data, Proposed.Epoch.Value) /= Value (Data, Before.Epoch.Value) + 1
+        then Epoch_Not_Successor
+      elsif not Conserved_Reference (Data, Proposed) then Proposed_Conservation_Mismatch
+      else Original_Final_Equation (Data, Before, Proposed, R)));
+   end Decision_Composition_Equality;
+
    function Check
      (Data : Byte_Array; Before, Proposed : Ledger_State;
       High_Water : High_Water_Observation; R : Request) return Result_Status is
+      Row_Status : Result_Status;
    begin
+      Decision_Composition_Equality (Data, Before, Proposed, High_Water, R);
       if R.Kind = Unknown_Operation then
          return Unknown_Kind;
       elsif not State_Shape (Data, Before) then
@@ -608,32 +734,10 @@ package body Resource_Reservation_Transition with SPARK_Mode is
       elsif not Request_Shape (Data, Before, R) then
          return Request_Invalid;
       end if;
-      case R.Kind is
-         when Unknown_Operation => return Unknown_Kind;
-         when Reserve =>
-            if Compare (Data, R.Expected_Epoch.Value, Before.Epoch.Value) /= Equal then
-               return Stale_Reserve_Epoch;
-            elsif Before.Selected.Present then
-               return Slot_Already_Exists;
-            end if;
-         when Consume | Release =>
-            if not Before.Selected.Present then
-               return Reservation_Absent;
-            elsif not Same_Identity
-              (Data, R.Requester, Before.Selected.Value.Binding.Owner) then
-               return Wrong_Owner;
-            elsif not Same_Identity
-              (Data, R.Reservation, Before.Selected.Value.Binding.Reservation) then
-               return Reservation_Mismatch;
-            elsif not Same_Identity
-              (Data, R.Operation, Before.Selected.Value.Binding.Operation) then
-               return Operation_Mismatch;
-            elsif Before.Selected.Phase = Released then
-               return Already_Released;
-            elsif Before.Selected.Phase = Consumed then
-               return Already_Consumed;
-            end if;
-      end case;
+      Row_Status := Operation_Row_Status (Data, Before, R);
+      if Row_Status /= Ready then
+         return Row_Status;
+      end if;
       if not Conserved (Data, Before) then
          return Before_Conservation_Mismatch;
       elsif not Same_Context (Data, Before.Scope, Proposed.Scope) then
@@ -646,12 +750,8 @@ package body Resource_Reservation_Transition with SPARK_Mode is
          return Epoch_Not_Successor;
       elsif not Conserved (Data, Proposed) then
          return Proposed_Conservation_Mismatch;
-      elsif not Change_Conserved (Data, Before, Proposed, R) then
-         return Transition_Conservation_Mismatch;
-      elsif R.Kind = Reserve and then Compare (Data, Proposed.Total, R.Ceiling) = Greater then
-         return Limit_Exceeded;
       else
-         return Ready;
+         return Final_Transition_Status (Data, Before, Proposed, R);
       end if;
    end Check;
 

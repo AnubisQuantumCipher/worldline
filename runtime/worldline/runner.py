@@ -7,9 +7,11 @@ from pathlib import Path
 import shutil
 import sqlite3
 import time
+import sys
 import threading
 from typing import Any, Callable
 import uuid
+import struct
 
 from . import SCHEMA_VERSION
 from .agents.base import AgentAdapter, AgentContext
@@ -32,6 +34,45 @@ from .paths import WorldlinePaths, secure_directory
 from .services import ServiceManager
 from .project import ProjectConfig
 from .store import StateStore, reserved_event_claim
+
+def _wait_capture(value):
+    kind = type(value)
+    if (kind is type(None) or kind is bool or kind is int or kind is float
+            or kind is str or kind is bytes):
+        return {'type': kind.__name__, 'value': value}
+    return {'type': 'python-actual-reference-v1', 'reference': id(value),
+            'typeReference': id(kind)}
+
+
+def _timer_capture(timeout, *, core=None):
+    from .runner_lifecycle import allowed
+    kind = type(timeout)
+    capture = {'timeoutType': 'NoneType'}
+    if kind is int:
+        capture.update(timeoutType='int', timeoutIntegerHex=hex(timeout))
+    elif kind is bool:
+        capture.update(timeoutType='bool', timeoutValue=timeout)
+    elif kind is float:
+        capture['timeoutType'] = 'float'
+        capture['timeoutFloatHex'] = timeout.hex()
+        capture['timeoutFloatBits'] = struct.pack('>d', timeout).hex()
+    elif kind is not type(None):
+        capture.update(timeoutType='python-actual-protocol-v1',
+                       timeoutReference=id(timeout), timeoutTypeReference=id(kind))
+    if allowed('capture-timer-protocol', capture, core=core):
+        capture['timeoutProtocol'] = {'operator': 'gt', 'operand': 0,
+                                      'returnedTruth': bool(timeout > 0)}
+    return capture
+
+
+def _controller_stop_capture(unit, *, core=None):
+    from .runner_lifecycle import allowed
+    capture = {'controllerUnit': _wait_capture(unit)}
+    if allowed('capture-controller-stop-protocol', capture, core=core):
+        capture['controllerUnitProtocol'] = {'operator': 'truth',
+                                             'returnedTruth': bool(unit)}
+    return capture
+
 
 
 def materialize_private_copies(
@@ -127,6 +168,7 @@ class _AgentAcquisition:
         self._launcher_cleanup_attempted = False
         self._proxy_cleanup_attempted = False
         self._guard_release_attempted = False
+        self._guard_release_return_observed = False
         self._ownership_lock = threading.RLock()
         self._unclosed_commands = []
         self._controller_calls = {}
@@ -137,6 +179,7 @@ class _AgentAcquisition:
         self._tail_join_attempted = False
         self._tail_errors = []
         self._tail_observations = []
+        self._controller_calls_after_closure = []
 
         # Real writer registration happens before any producer is started.
         # Legacy injected cleanup fixtures keep their original callback API.
@@ -188,23 +231,19 @@ class _AgentAcquisition:
             if ended:
                 return
 
-    def systemd_call(self, action, *args, cancel_event=None, **kwargs):
+    def systemd_call(self, action, *args, cancel_event=None, _raw_retainer=None, **kwargs):
         if isinstance(self.runner.systemd, SystemdAdapter):
             def owned(value):
-                if value.get('processCreatedObserved') is True and (
-                        value.get('processWaitReturnObserved') is not True
-                        or value.get('stdoutReachedEof') is not True
-                        or value.get('stderrReachedEof') is not True):
-                    # A helper's exception return is not proof that its child
-                    # and pipe producers ended. Keep the exact identity/facts;
-                    # its full output is retained through the raw callback.
-                    with self._ownership_lock:
-                        self._unclosed_commands.append({key: value.get(key) for key in (
-                            'site', 'argv', 'processPidObserved', 'processWaitReturnObserved',
-                            'processWaitReturncode', 'stdoutReachedEof', 'stderrReachedEof')})
+                # Retain every original returned command observation, not a
+                # Python-selected list of allegedly unclosed producers.
+                with self._ownership_lock:
+                    self._unclosed_commands.append(dict(value))
             def observed(value):
-                self.writer.invocation_raw(world_instance=self.subject, check='agent',
-                    kind='agent-control-acquisition', observed=value)
+                if _raw_retainer is not None:
+                    _raw_retainer(value)
+                else:
+                    self.writer.invocation_raw(world_instance=self.subject, check='agent',
+                        kind='agent-control-acquisition', observed=value)
             with SystemdAdapter.acquisition_scope(self.runner.systemd, observed,
                     cancel_event=cancel_event, _ownership_observer=owned):
                 return action(*args, **kwargs)
@@ -213,29 +252,45 @@ class _AgentAcquisition:
         return action(*args, **kwargs)
 
     def controller_call(self, action, unit):
-        """Register an active-generation controller query before invoking it.
-
-        No provider is replaced and no controller argument is coerced. Calls
-        arriving after capture closure retain their former external semantics;
-        their separate lifecycle/serialization obligation remains open.
-        """
+        """Own actual controller calls, including calls after immutable closure."""
         from .finalization_writer import EngineFinalizationWriter
+        from .raw_observation import exception_observation
         token = None
+        late = None
         if isinstance(self.writer, EngineFinalizationWriter):
             with self.writer.journal.lock:
-                if self.writer._acquisition_generation is None:
-                    token = str(uuid.uuid4())
-                    with self._ownership_lock:
-                        self._controller_calls[token] = {'unit': unit, 'kind': 'controller-stop'}
+                token = str(uuid.uuid4())
+                with self._ownership_lock:
+                    self._controller_calls[token] = {'unit': unit, 'kind': 'controller-stop'}
+                    if self.writer._acquisition_generation is not None:
+                        late = {'token': token, 'unit': unit, 'kind': 'controller-stop',
+                            'callbackReturned': False, 'exception': None,
+                            'controlAcquisitions': []}
+                        self._controller_calls_after_closure.append(late)
         if token is None:
             return action(unit)
         try:
-            return self.systemd_call(action, unit)
+            if late is None:
+                return self.systemd_call(action, unit)
+            def retain(value):
+                with self._ownership_lock:
+                    late['controlAcquisitions'].append(dict(value))
+            # An immutable writer cannot accept new raw events. Keep the exact
+            # callback semantics and locally own its complete actual facts;
+            # native generation currentness rejects the stale closed frontier.
+            result = self.systemd_call(action, unit, _raw_retainer=retain)
+            late['callbackReturned'] = True
+            return result
+        except BaseException as failure:
+            if late is not None:
+                late['exception'] = exception_observation(failure)
+            raise
         finally:
             with self._ownership_lock:
                 self._controller_calls.pop(token)
 
     def quiescence_observation(self):
+        from .admission import _Guard
         proxy = (self.proxy.quiescence_observation()
                  if isinstance(self.proxy, AllowlistProxy) else None)
         with self._ownership_lock:
@@ -243,6 +298,14 @@ class _AgentAcquisition:
             controllers = list(self._controller_calls.items())
             eof = None if self._stream_eof is None else dict(self._stream_eof)
             tail_errors = [repr(item) for item in self._tail_errors]
+            late_controllers = [dict(item, controlAcquisitions=list(item['controlAcquisitions']))
+                                for item in self._controller_calls_after_closure]
+        launcher_streams = ([] if self.unit is None else [
+            {'name': name, 'present': stream is not None,
+             'closed': None if stream is None else stream.closed}
+            for name in ('stdin', 'stdout', 'stderr')
+            for stream in (getattr(self.unit.launcher, name, None),)])
+        wait_capture = _wait_capture(self.exit_code)
         return {'cleanupStarted': self.cleanup_started, 'unclosedCommands': unclosed,
             'activeControllerCalls': controllers,
             'streamEofObserved': eof, 'launcherStreamsClosed': self._streams_closed,
@@ -256,30 +319,45 @@ class _AgentAcquisition:
                            for item in self._tail_threads],
             'tailErrors': tail_errors,
             'proxyPresent': self.proxy is not None, 'proxyClosed': self.proxy_closed,
-            'proxy': proxy, 'guardReleased': self.guard_released}
+            'proxy': proxy, 'guardReleased': self.guard_released,
+            'guardPresent': self.guard is not None,
+            'guardOwned': isinstance(self.guard, _Guard),
+            'guardDecisionPresent': (self.guard.decision is not None
+                                     if isinstance(self.guard, _Guard) else None),
+            'guardReleaseReturnObserved': self._guard_release_return_observed,
+            'launcherStreams': launcher_streams,
+            'subject': self.subject,
+            'actualUnit': None if self.unit is None else self.unit.unit,
+            'launcherReturncode': wait_capture.get('value', wait_capture),
+            'launcherReturncodeCapture': wait_capture,
+            'controllerCallsAfterClosure': late_controllers,
+            'guardReleaseAttempted': self._guard_release_attempted,
+            'launcherCleanupAttempted': self._launcher_cleanup_attempted,
+            'managerAttempted': self._manager_attempted,
+            'threadErrors': [repr(item) for item in self.thread_errors],
+            'tailObservations': list(self._tail_observations)}
+
+    def _lifecycle(self, action, observation=None):
+        from .runner_lifecycle import allowed
+        return allowed(action, self.quiescence_observation() if observation is None else observation,
+                       core=getattr(self.runner, 'core', None))
 
     def quiescent(self):
-        with self._ownership_lock:
-            commands_closed = not self._unclosed_commands and not self._controller_calls
-            streams_complete = self._stream_eof is None or all(self._stream_eof.values())
-        return (commands_closed and self.cleanup_started and (self.unit is None or self.wait_observed)
-                and (self.timer is None or not self.timer.is_alive())
-                and (self.sampler is None or not self.sampler.is_alive())
-                and all(not item.is_alive() for item in self.threads)
-                and all(not item.is_alive() for item in self._tail_threads)
-                and streams_complete and (self.unit is None or self._streams_closed)
-                and (self.proxy is None or
-                     (self.proxy_closed and (not isinstance(self.proxy, AllowlistProxy)
-                                            or self.proxy.quiescent()))))
+        return self._lifecycle('quiescent')
 
     def wait(self):
         result = self.unit.launcher.wait()
         # Own the actual return before persistence can fail. None never stands
         # in for an unobserved process exit.
         self.exit_code, self.wait_observed = result, True
+        from .finalization_journal import encode as encode_finalization
+        wait_archive = (encode_finalization(result)
+            if type(result) in (type(None), bool, int, float, str, bytes) else None)
         self.writer.invocation_raw(world_instance=self.subject, check='agent',
             kind='agent-launcher-wait', observed={'unit': self.unit.unit,
-                'returncode': result, 'waitReturnObserved': True})
+                'returncode': result, 'returncodeCapture': _wait_capture(result),
+                'waitValueArchive': wait_archive,
+                'waitReturnObserved': True})
         return result
 
     def cancel_timer(self):
@@ -290,9 +368,6 @@ class _AgentAcquisition:
             self.timer = None
 
     def finish(self, original=None, *, stopped=False):
-        if self.finished and self.quiescent():
-            return self.supervision
-        self.cleanup_started = True
         error = original
         def record_failure(failure, label):
             nonlocal error
@@ -306,8 +381,13 @@ class _AgentAcquisition:
             except BaseException as failure:
                 record_failure(failure, label)
                 return None
+        def decide(action):
+            return attempt(lambda: self._lifecycle(action), 'native owned ' + action + ' policy') is True
+        if decide('finished'):
+            return self.supervision
+        self.cleanup_started = True
         attempt(self.cancel_timer, 'owned timer cleanup')
-        if self.unit is not None and not self.wait_observed and not self._launcher_cleanup_attempted:
+        if decide('stop-launcher'):
             self._launcher_cleanup_attempted = True
             attempt(lambda: self.systemd_call(self.runner.systemd.stop, self.unit.unit), 'owned workload stop')
             attempt(self.wait, 'owned launcher wait/acquisition retention')
@@ -337,7 +417,7 @@ class _AgentAcquisition:
                         'owned acquisition quiescence')
         for failure in self.thread_errors:
             record_failure(failure, 'owned acquisition')
-        if self.unit is not None and self.wait_observed and not self._manager_attempted:
+        if decide('observe-manager'):
             self._manager_attempted = True
             self.supervision = attempt(lambda: self.systemd_call(self.runner.systemd.outcome,
                 self.unit, self.exit_code, stopped=stopped,
@@ -345,7 +425,7 @@ class _AgentAcquisition:
                     world_instance=self.subject, check='agent',
                     kind='agent-supervision-acquisition', occurrence=occurrence, observed=record)),
                 'manager acquisition')
-        if self.unit is not None and self.wait_observed and all(not item.is_alive() for item in self.threads):
+        if decide('drain-tails'):
             # Outcome above retains its original opportunity to read stderr,
             # through the original stream. Only afterward can recovery consume
             # the remaining tail. A dead reader is never taken as EOF.
@@ -381,9 +461,7 @@ class _AgentAcquisition:
                 tail_errors = tuple(self._tail_errors)
             for failure in tail_errors:
                 record_failure(failure, 'owned stream tail acquisition')
-            with self._ownership_lock:
-                eof = self._stream_eof is None or all(self._stream_eof.values())
-            if eof and all(not item.is_alive() for item in self._tail_threads):
+            if decide('close-streams'):
                 # Outcome's last stderr observation happens above. Only ended
                 # readers with their actual EOF observation reach this close;
                 # closing a live/incomplete producer is not used to invent EOF.
@@ -392,7 +470,7 @@ class _AgentAcquisition:
                 for stream in streams:
                     if stream is not None:
                         attempt(stream.close, 'owned launcher stream close')
-                self._streams_closed = all(stream is None or stream.closed for stream in streams)
+                self._streams_closed = decide('streams-closed')
         if self.proxy is not None:
             def close_proxy():
                 if self.proxy_started or isinstance(self.proxy, AllowlistProxy):
@@ -407,7 +485,8 @@ class _AgentAcquisition:
             if not self._proxy_cleanup_attempted:
                 self._proxy_cleanup_attempted = True
                 attempt(close_proxy, 'owned proxy cleanup')
-            elif isinstance(self.proxy, AllowlistProxy) and self.proxy.quiescent():
+            elif isinstance(self.proxy, AllowlistProxy) and attempt(
+                    self.proxy.quiescent, 'native owned proxy quiescence policy'):
                 # A previously blocked handler may have actually ended since
                 # the retained refusal. Do not repeat the bounded grace or an
                 # arbitrary caller's cleanup callback merely because of nesting.
@@ -419,17 +498,19 @@ class _AgentAcquisition:
                     check='agent', kind='agent-proxy-cleanup',
                     observed=self.proxy.quiescence_observation()), 'owned proxy observation')
         if self.guard is not None:
-            if self.quiescent():
+            if decide('quiescent'):
                 def release_guard():
                     self.guard.release()
-                    self.guard_released = True
-                if not self.guard_released and not self._guard_release_attempted:
+                    self._guard_release_return_observed = True
+                    self.guard_released = decide('guard-released')
+                if decide('release-guard'):
                     self._guard_release_attempted = True
                     attempt(release_guard, 'owned admission release')
             elif error is not None:
                 error.add_note('owned admission retained because acquisition is not quiescent')
-        self.finished = self.quiescent() and (self.guard is None or self.guard_released)
-        if not self.finished and error is None:
+        completed = decide('finished')
+        self.finished = completed
+        if not completed and error is None:
             record_failure(WorldlineError('AGENT_ACQUISITION_NOT_QUIESCENT',
                 'owned acquisition cleanup remains incomplete', self.quiescence_observation()),
                 'owned acquisition quiescence')
@@ -467,24 +548,37 @@ class AgentRunner:
         self._timed_out: set[str] = set()
         self._cancel_lock = threading.Lock()
         self._acquisitions_by_job = {}
+        self._cancel_observations = {}
 
     def cancel(self, job_id: str, unit: str | None) -> None:
         with self._cancel_lock:
             self._cancelled.add(job_id)
             owner = self._acquisitions_by_job.get(job_id) if type(job_id) is str else None
-        if unit:
-            # Do not add equality calls to custom identity objects. The owned
-            # default job/unit pair is an exact built-in string observation.
-            if (owner is not None and type(owner.unit) is SystemdProcess
-                    and type(unit) is str and type(owner.unit.unit) is str
-                    and owner.unit.unit == unit):
+        from .runner_lifecycle import allowed
+        core = getattr(self, 'core', None)
+        if allowed('stop-controller', _controller_stop_capture(unit, core=core), core=core):
+            acquired = None if owner is None else owner.unit
+            name = acquired.unit if type(acquired) is SystemdProcess else None
+            route = {'ownerPresent': owner is not None,
+                'ownerUnitType': id(type(acquired)), 'systemdProcessType': id(SystemdProcess),
+                'requestedType': id(type(unit)), 'stringType': id(str),
+                'ownerUnitNameType': id(type(name)),
+                'ownerUnitName': name if type(name) is str else None,
+                'requestedUnit': unit if type(unit) is str else None}
+            if allowed('route-controller', route, core=getattr(self, 'core', None)):
                 owner.controller_call(self.systemd.stop, unit)
             else:
                 self.systemd.stop(unit)
 
     def _was_cancelled(self, job_id: str) -> bool:
+        from .runner_lifecycle import allowed, membership_capture
         with self._cancel_lock:
-            return job_id in self._cancelled
+            observed = membership_capture(self._cancelled, job_id, core=getattr(self, 'core', None))
+            if type(job_id) is str:
+                if not hasattr(self, '_cancel_observations'):
+                    self._cancel_observations = {}
+                self._cancel_observations[job_id] = observed
+            return allowed('membership', observed, core=getattr(self, 'core', None))
 
     def _forget_cancel(self, job_id: str) -> None:
         with self._cancel_lock:
@@ -497,15 +591,16 @@ class AgentRunner:
         from .finalization_writer import EngineFinalizationWriter
         from .manifest import Manifest
         from .validation import requirements
+        from .runner_lifecycle import allowed
         world = self.store.world(world_value)
-        if world.state is WorldState.FINALIZING:
+        entry = {'worldState': world.state.value, 'publicationPending': None}
+        if allowed('query-publication', entry, core=self.core):
+            journal = self.store.ensure_finalization_journal()
+            entry['publicationPending'] = journal.publication_pending(world.instance_id)
+        if allowed('recover-run', entry, core=self.core):
             journal = self.store.ensure_finalization_journal()
             return journal.recover(self.store, world.instance_id)
-        if world.state in (WorldState.VALID, WorldState.DEGRADED):
-            journal = self.store.ensure_finalization_journal()
-            if journal.publication_pending(world.instance_id):
-                return journal.recover(self.store, world.instance_id)
-        if world.state is not WorldState.MUTABLE:
+        if not allowed('start-run', entry, core=self.core):
             raise WorldlineError('INVALID_TRANSITION', 'agent execution requires a MUTABLE world')
         roots = self.store.roots()
         if not roots:
@@ -549,12 +644,19 @@ class AgentRunner:
             except BaseException as cleanup:
                 if cleanup is not original:
                     original.add_note('owned acquisition cleanup also failed: ' + repr(cleanup))
-            if owned.thread_errors:
+            try:
+                mark_job_dead = owned._lifecycle('mark-job-dead')
+            except BaseException as policy_error:
+                original.add_note('native stream-error lifecycle policy also failed: ' + repr(policy_error))
+                mark_job_dead = False
+            if mark_job_dead:
                 # Preserve the original stream-error lifecycle behavior, while
                 # keeping a later store write from replacing the primary error.
                 try:
                     world = self.store.world(world_value)
-                    if world.state is WorldState.MUTABLE:
+                    from .runner_lifecycle import allowed
+                    if allowed('mark-world-dead', {**owned.quiescence_observation(),
+                            'worldState': world.state.value}, core=self.core):
                         world.transition(WorldState.DEAD, self.core)
                         self.store.save_world(world)
                 except BaseException as persistence_error:
@@ -566,10 +668,17 @@ class AgentRunner:
                     original.add_note('owned stream-error job update also failed: ' + repr(persistence_error))
             raise
         finally:
-            if owned.finished and owned.job_id is not None:
-                with self._cancel_lock:
-                    if self._acquisitions_by_job.get(owned.job_id) is owned:
-                        self._acquisitions_by_job.pop(owned.job_id)
+            primary = sys.exception()
+            try:
+                forget = owned._lifecycle('forget-owner')
+                if forget and owned.job_id is not None:
+                    with self._cancel_lock:
+                        if self._acquisitions_by_job.get(owned.job_id) is owned:
+                            self._acquisitions_by_job.pop(owned.job_id)
+            except BaseException as policy_error:
+                if primary is None:
+                    raise
+                primary.add_note('native acquisition registration cleanup also failed: ' + repr(policy_error))
         owned.finish()
         return result
 
@@ -646,6 +755,14 @@ class AgentRunner:
             network=policy,
             netguard_source=None if proxy is None else proxy.socket_path,
         )
+        principal = getattr(self.store, 'canonical_operation_principal', None)
+        if principal is not None:
+            # Complete actual original adapter/context/spec/mission observation,
+            # before reservation/dispatch. No supplied plan or root UID replaces
+            # the active authentic request, grant/use or native child authority.
+            principal.original_workload_material(self, world, adapter, mission,
+                context, project, spec, self.sandbox.build_argv(spec),
+                low_priority=low_priority, timeout=timeout)
         raw_path = self.paths.logs / f"{world.instance_id}.agent.jsonl"
         stderr_path = self.paths.logs / f"{world.instance_id}.agent.stderr"
         job_id = str(uuid.uuid4())
@@ -657,6 +774,9 @@ class AgentRunner:
             sandbox={"backend": "overlayfs+bubblewrap", "adapter": adapter.name},
         )
         _owned_agent.job_id = job_id
+        _finalization_writer.invocation_raw(world_instance=world.instance_id, check='agent',
+            kind='agent-job-created', observed={'jobId': job_id,
+                'worldInstance': world.instance_id, 'state': 'STARTING'})
         with self._cancel_lock:
             self._acquisitions_by_job[job_id] = _owned_agent
         self.store.append_causal_event(
@@ -696,6 +816,10 @@ class AgentRunner:
         _owned_agent.unit = unit
         with _owned_agent._ownership_lock:
             _owned_agent._stream_eof = {'stdout': False, 'stderr': False}
+        _finalization_writer.invocation_raw(world_instance=world.instance_id, check='agent',
+            kind='agent-job-launch-association', observed={'jobId': job_id,
+                'worldInstance': world.instance_id, 'unit': unit.unit,
+                'launchedAtUs': unit.launched_at_us})
         guard.attach_unit(unit.unit)
 
         # What the kernel ACTUALLY took, read back rather than assumed, and what the workload
@@ -801,7 +925,10 @@ class AgentRunner:
             pid=main_pid,
         )
         timer: threading.Timer | None = None
-        if timeout is not None and timeout > 0:
+        from .runner_lifecycle import allowed as lifecycle_allowed
+        if lifecycle_allowed('activate-timer',
+                _timer_capture(timeout, core=getattr(self, 'core', None)),
+                core=getattr(self, 'core', None)):
             def expire() -> None:
                 with self._cancel_lock:
                     self._timed_out.add(job_id)
@@ -901,11 +1028,19 @@ class AgentRunner:
         exit_code = _owned_agent.wait()
         _owned_agent.cancel_timer()
         cancelled = self._was_cancelled(job_id)
+        from .runner_lifecycle import allowed, membership_capture
         with self._cancel_lock:
-            timed_out = job_id in self._timed_out
+            timed_out_observed = membership_capture(self._timed_out, job_id, core=self.core)
+            timed_out = allowed('membership', timed_out_observed, core=self.core)
+            cancelled_observed = self._cancel_observations.pop(job_id)
+            stop_membership = {'job': job_id, 'unit': unit.unit,
+                'cancelled': cancelled_observed, 'timedOut': timed_out_observed}
             self._timed_out.discard(job_id)
+        _finalization_writer.invocation_raw(world_instance=world.instance_id, check='agent',
+            kind='agent-stop-membership-observation', observed=stop_membership)
         self._forget_cancel(job_id)
-        stopped = cancelled or timed_out
+        from .runner_lifecycle import allowed
+        stopped = allowed('stopped', {'stopMembership': stop_membership}, core=self.core)
         supervision = _owned_agent.finish(stopped=stopped)
         if parsed_events == 0:
             self.store.append_causal_event(
@@ -924,58 +1059,83 @@ class AgentRunner:
         # Durable evidence, for the case sampling missed. The manager's own record of why the
         # unit ended outlives the unit, so a ceiling that fired is still provable after the
         # cgroup is gone.
-        observed = resources.get("observed") if isinstance(resources.get("observed"), dict) else {}
-        manager_result = supervision.get("result") if isinstance(supervision, dict) else None
-        resources["ceilingFired"] = (
-            True if observed.get("hitMemoryCeiling") or observed.get("oomKilled") or manager_result == "oom-kill"
-            else (None if observed.get("state") != "OBSERVED" and manager_result is None else False))
-        resources["ceilingEvidence"] = (
-            "cgroup memory.events sampled during the run" if observed.get("hitMemoryCeiling") else
-            ("the service manager recorded Result=oom-kill" if manager_result == "oom-kill" else
-             ("nothing was measured" if resources["ceilingFired"] is None else "no ceiling event was recorded")))
-        if supervision["kind"] == "LAUNCH_FAILED":
+        agent_result = None
+        agent_argv = None
+        def prepare_agent_prefix():
+            nonlocal agent_argv
+            agent_argv = list(argv)
+            return agent_argv
+        def prepare_agent_result(status):
+            nonlocal agent_result
+            agent_result = {
+                "id": "agent",
+                "kind": "build",
+                "required": True,
+                "format": "exit",
+                "covers": [],
+                "argv": agent_argv,
+                "exitCode": exit_code,
+                # Trusted via the supervisor's own outcome for this unit, not via a result channel:
+                # the agent writes no framed record, its verdict IS the exit status the manager
+                # observed. Stated explicitly so evaluation_record does not have to infer it.
+                "origin": "agent",
+                "status": status,
+                "rawEventHash": hash_id(self.core.hash_file(raw_path)),
+                "stderrHash": hash_id(self.core.hash_file(stderr_path)),
+                "network": proxy.summary() if proxy is not None else {"policy": policy},
+                "supervision": supervision,
+                # Measurement, not identity. Telemetry is recorded on the evidence and never hashed,
+                # so an otherwise identical verification is not invalidated because this run happened
+                # to peak 40 MiB higher than the last one.
+                "resources": resources,
+            }
+            return agent_result
+        from .runner_outcome import terminal_outcome, _builtin_archive
+        terminal = terminal_outcome(self.core, cancelled=cancelled, timed_out=timed_out,
+            exit_code=exit_code, supervision=supervision, resources=resources,
+            stop_membership=stop_membership, prepare_agent_prefix=prepare_agent_prefix,
+            prepare_agent_result=prepare_agent_result,
+            source_observer=lambda value: _finalization_writer.invocation_raw(
+                world_instance=world.instance_id, check='agent',
+                kind='agent-terminal-source-objects', observed=value),
+            protocol_observer=lambda value: _finalization_writer.invocation_raw(
+                world_instance=world.instance_id, check='agent',
+                kind='agent-terminal-protocol-source', observed=value))
+        if terminal["launchFailed"]:
             first = (supervision.get("launcherStderr") or "").strip().splitlines()
             raise WorldlineError(
                 "UNIT_LAUNCH_FAILED",
                 "the user manager never started the transient unit" + (f": {first[0]}" if first else ""),
                 {"unit": unit.unit, "launcherExit": exit_code, "supervision": supervision},
             )
-        agent_result = {
-            "id": "agent",
-            "kind": "build",
-            "required": True,
-            "format": "exit",
-            "covers": [],
-            "argv": list(argv),
-            "exitCode": exit_code,
-            # Trusted via the supervisor's own outcome for this unit, not via a result channel:
-            # the agent writes no framed record, its verdict IS the exit status the manager
-            # observed. Stated explicitly so evaluation_record does not have to infer it.
-            "origin": "agent",
-            "status": "FAIL" if stopped or supervision["kind"] != "SUPERVISED" else ("PASS" if exit_code == 0 else "FAIL"),
-            "rawEventHash": hash_id(self.core.hash_file(raw_path)),
-            "stderrHash": hash_id(self.core.hash_file(stderr_path)),
-            "network": proxy.summary() if proxy is not None else {"policy": policy},
-            "supervision": supervision,
-            # Measurement, not identity. Telemetry is recorded on the evidence and never hashed,
-            # so an otherwise identical verification is not invalidated because this run happened
-            # to peak 40 MiB higher than the last one.
-            "resources": resources,
-        }
-        if cancelled:
+        if terminal["reason"] == "USER_CANCELLED":
             agent_result["reason"] = "USER_CANCELLED: the operator stopped this world before the agent finished"
-        elif timed_out:
+        elif terminal["reason"] == "TIMEOUT":
             agent_result["reason"] = f"TIMEOUT: the agent exceeded the {timeout:g} s limit and was stopped"
-        elif resources.get("ceilingFired"):
+        elif terminal["reason"] == "RESOURCE_LIMIT_EXCEEDED":
             agent_result["reason"] = (
                 f"RESOURCE_LIMIT_EXCEEDED: the workload reached a resource ceiling this policy set"
                 f" ({resources['ceilingEvidence']})")
-        elif supervision["kind"] == "INDETERMINATE":
+        elif terminal["reason"] == "SUPERVISION_INDETERMINATE":
             agent_result["reason"] = f"SUPERVISION_INDETERMINATE: the manager's journal did not establish that {unit.unit} ran ({supervision['source']})"
         check_results = [agent_result]
+        from .finalization_journal import encode as encode_finalization
         _finalization_writer.invocation_raw(world_instance=world.instance_id, check='agent',
             kind='manager-return', observed={'unit': unit.unit, 'exitCode': exit_code,
-                                           'supervision': supervision, 'resources': resources})
+                                           'supervision': supervision, 'resources': resources,
+                                           'terminalCapture': terminal['capture'],
+                                           'terminalBytes': encode_finalization(terminal['capture']),
+                                           'resourceContainerFinalArchive': _builtin_archive(resources),
+                                           'resultReference': str(id(agent_result)),
+                                           'resultTypeReference': str(id(type(agent_result))),
+                                           'resourceReference': str(id(resources)),
+                                           'resourceTypeReference': str(id(type(resources))),
+                                           'supervisionReference': str(id(supervision)),
+                                           'supervisionTypeReference': str(id(type(supervision))),
+                                           'prefixReference': str(id(agent_argv)),
+                                           'prefixTypeReference': str(id(type(agent_argv))),
+                                           'launcherExitReference': str(id(exit_code)),
+                                           'launcherExitTypeReference': str(id(type(exit_code)))})
         _finalization_writer.invocation_result(world_instance=world.instance_id,
                                                check='agent', result=agent_result)
         candidate_snapshot = None

@@ -69,6 +69,18 @@ class EngineFinalizationWriter:
             self._require_acquisitions_open()
             self._agent_acquisitions.append(owner)
 
+    def _native_acquisition_state(self):
+        from .evaluation_policy import acquisitions_closed
+        owners = []
+        for owner in self._agent_acquisitions:
+            owners.append(owner.quiescence_observation())
+        # Capture every retained raw observation, including original exception
+        # and duplicate records. This list is not a saved completion verdict.
+        acquired = [item for values in self.raw_observations.values() for item in values]
+        subject = getattr(self.start, 'subject', None)
+        return acquisitions_closed(self.core,
+            None if subject is None else text(subject), owners, acquired), owners
+
     def _close_acquisitions(self):
         # Every asynchronous agent owner is registered before effects. Each
         # owner derives quiescence from actual thread/process/socket state; no
@@ -80,11 +92,12 @@ class EngineFinalizationWriter:
             if self._acquisition_failure is not None:
                 raise WorldlineError('FINALIZATION_ACQUISITION_RETENTION_FAILED',
                     'an actual raw acquisition was not retained') from self._acquisition_failure
-            if any(not owner.finished or not owner.quiescent() for owner in self._agent_acquisitions):
+            closed, owners = self._native_acquisition_state()
+            if not closed:
                 raise WorldlineError('FINALIZATION_ACQUISITION_NOT_QUIESCENT',
                     'an owned acquisition still lacks actual terminal cleanup')
             value = _owned_acquisition({'state': 'closed', 'run': self.start.run,
-                'owners': [owner.quiescence_observation() for owner in self._agent_acquisitions],
+                'owners': owners,
                 'rawEvents': self._raw_events})
             self.journal.observe(self.start, b'acquisition-generation-closed:' + self.start.run,
                 self.start.run, 'acquisition-generation-closed', value)
@@ -95,31 +108,17 @@ class EngineFinalizationWriter:
     def _require_acquisitions_closed(self):
         with self.journal.lock:
             if (self._acquisition_generation is None or self._acquisition_failure is not None
-                    or any(not owner.finished or not owner.quiescent()
-                           for owner in self._agent_acquisitions)):
+                    or not self._native_acquisition_state()[0]):
                 raise WorldlineError('FINALIZATION_ACQUISITION_NOT_QUIESCENT',
                                      'capture and seal require the owned closed generation')
 
     def begin(self, *, world, roots, requirement, known_components, required_checks):
-        from .finalize import (ENGINE_DECLARATIONS, CheckDeclaration,
-                               check_declarations, required_roster)
+        from .evaluation_policy import project
         if self.start is not None:
             raise WorldlineError('FINALIZATION_WRITER_ALREADY_BEGUN', 'start is immutable')
         requirement = _owned(requirement)
-        declarations = check_declarations(requirement)
-        declarations['agent'] = ENGINE_DECLARATIONS['agent']
-        if requirement['policy']['canonical'].get('protected'):
-            declarations['protected-paths'] = ENGINE_DECLARATIONS['protected-paths']
-        declarations['verifiers-modified'] = CheckDeclaration('engine', None, False, origin='engine')
-        declarations['evaluation-complete'] = CheckDeclaration('engine', None, False, origin='engine')
-        required, empty = required_roster(requirement)
-        # Preserve the applicable policy roster, its order, and all engine-owned
-        # required checks. The whole declaration is frozen before effects.
-        for name in required_checks:
-            if name not in required:
-                required.append(name)
-        if 'verifiers-modified' not in required:
-            required.append('verifiers-modified')
+        required, empty, declarations = project(requirement, core=self.core,
+            additional=required_checks, finalization=True)
         frozen_required = tuple((identity(name), value_bytes(
             None if declarations.get(name) is None else asdict(declarations[name])))
             for name in required)
@@ -189,6 +188,16 @@ class EngineFinalizationWriter:
             self.invocations[(world_instance, check)] = (invocation, observed)
             self.invocation_order.append((invocation, observed))
 
+    def protected_invocation(self, *, world_instance, check, invocation):
+        """Copy the retained independent start before any provider launch."""
+        with self.journal.lock:
+            self._require_acquisitions_open()
+            item = self.invocations.get((world_instance, check))
+            if item is None or item[0] != invocation:
+                raise WorldlineError('FINALIZATION_INVOCATION_START_MISSING',
+                                     'the protected provider needs its exact retained start')
+            return _owned(item[1])
+
     def invocation_result(self, *, world_instance, check, result):
         item = self.invocations.get((world_instance, check))
         if item is None:
@@ -232,7 +241,7 @@ class EngineFinalizationWriter:
         value = _owned(value)
         check = value.get('id')
         declared = self.declarations.get(str(check))
-        wire = record(value, declared)
+        wire = record(value, declared, core=self.core)
         execution, outcome, _bundle, _report, _admitted = Authority(self.core).evaluate(wire)
         names = {name.upper(): name for name in EXECUTION}
         if execution not in names:
@@ -264,30 +273,26 @@ class EngineFinalizationWriter:
             raise WorldlineError('FINALIZATION_CAPTURE_STATE_INVALID', 'actual input is absent or capture returned')
         context = _owned(context)
         rows = _owned(list(results))
-        # Each actual check return is preserved positionally. Additional owned
-        # engine records do not erase an invocation or a duplicate check row.
-        return_index = 0
-        for row in rows:
-            if return_index < len(self.invocation_order):
-                invocation, started = self.invocation_order[return_index]
-                returned = self.actual_returns.get(invocation)
-                if returned is not None and row.get('id') == started['checkId']:
-                    original = returned['result']
-                    if any(key not in row or value_bytes(row[key]) != value_bytes(val)
-                           for key, val in original.items()
-                           if key not in ('executionBinding', 'evaluation')):
-                        raise WorldlineError('FINALIZATION_RETURN_PREFIX_CHANGED', 'actual returned row was rewritten')
-                    row['engineInvocationObservation'] = started
-                    row['rawRunnerResult'] = original
-                    row['engineRawObservations'] = acquisitions_payload(
-                        self.raw_observations.get(invocation, []))
-                    return_index += 1
-        if return_index != len(self.invocation_order):
-            raise WorldlineError('FINALIZATION_INVOCATION_HAS_NO_RETURN', 'the whole ordered invocation stream is incomplete')
+        from .evaluation_policy import capture_plan
+        plan = capture_plan(self.core, rows=rows, invocations=self.invocation_order,
+            returns=self.actual_returns, expected_requirement=bytes_value(self.start.policy),
+            context=context)
+        # The native ordered relation includes every actual invocation and
+        # duplicate. Python only attaches the independently retained operands
+        # at native-selected positional indices; no return is filtered away.
+        for (invocation, started), row_index in zip(self.invocation_order, plan['returnRows']):
+            row = rows[row_index - 1]
+            row['engineInvocationObservation'] = started
+            row['rawRunnerResult'] = self.actual_returns[invocation]['result']
+            row['engineRawObservations'] = acquisitions_payload(
+                self.raw_observations.get(invocation, []))
         self._close_acquisitions()
         rows.append({'id': 'verifiers-modified', 'origin': 'engine', 'format': 'engine',
-                     'required': True, 'status': 'FAIL' if context['verifiersModifiedByCandidate'] else 'PASS',
-                     'modified': context['verifiersModifiedByCandidate']})
+                     'required': True, 'status': 'FAIL' if plan['verifiersModified'] else 'PASS',
+                     'modified': context['verifiersModifiedByCandidate'],
+                     'nativeVerifierInputs': {
+                         'expectedRequirement': bytes_value(self.start.policy),
+                         'returnedContext': context}})
         typed = tuple(self._row(row) for row in rows)
         for row in typed:
             self.journal.record_result(self.start, identity(str(uuid.uuid4())), self.start.run, row)

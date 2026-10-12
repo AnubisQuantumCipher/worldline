@@ -332,7 +332,7 @@ def requirement_hash(value: Mapping[str, Any], core: Core | None = None) -> str:
     any change to a check's id, argv, cwd, required flag, result format, covered paths or the
     protected list changes it. The raw policy digest is carried for diagnosis only."""
     hashed = {k: v for k, v in value.items() if k != "requirementHash"}
-    hashed["policy"] = {k: v for k, v in dict(value.get("policy") or {}).items() if k not in ("sourceSha256", "warnings")}
+    hashed["policy"] = {k: v for k, v in dict(value.get("policy") or {}).items() if k not in ("sourceSha256", "warnings", "sourceObservation")}
     return _digest(hashed, core)
 
 
@@ -497,6 +497,29 @@ def content_differences(candidate: Mapping[str, Any], staged: Mapping[str, Any])
                 import base64
                 out.append(f"{root_key[:12]}:{base64.b64decode(key).decode('utf-8', 'replace')}")
     return out
+
+
+def requirements_for_tree(store: Any, config: Any, payload: Path,
+                          roots: Sequence[Mapping[str, Any]], core: Core | None = None) -> dict[str, Any]:
+    """Requirement the exact staged tree would install, independently of live PRIME.
+
+    Use every registered root and the existing policy/verifier-domain producer;
+    no current/evaluated hash is substituted on absence or decoding failure.
+    """
+    primary = next((r for r in roots if r["primary_root"]), None)
+    if primary is None:
+        raise WorldlineError("NO_PRIMARY_ROOT", "no primary root is registered")
+    sources = {r["root_key"]: Path(payload) / r["root_key"] for r in roots}
+    for root_key, source in sources.items():
+        if not source.is_dir():
+            raise WorldlineError("STAGED_ROOT_ABSENT", "resulting requirement lacks a registered root",
+                                 {"rootKey": root_key, "path": str(source)})
+    for root_key, source in sources.items():
+        if not source.is_dir():
+            raise WorldlineError("STAGED_ROOT_ABSENT", "resulting requirement lacks a registered root",
+                                 {"rootKey": root_key, "path": str(source)})
+    project = ProjectConfig.load(sources[primary["root_key"]], store)
+    return requirements(project, roots, sources, config, project.source_sha256, core)
 
 
 def current_requirements(store: Any, config: Any, core: Core | None = None) -> dict[str, Any]:

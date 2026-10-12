@@ -50,27 +50,45 @@ package body Attest.SHA256 with SPARK_Mode is
    -- Compress --
    ----------------
 
-   procedure Compress (H : in out State; B : Block) is
+   procedure Compress (H : in out State; B : Block)
+     with Global => null,
+          Depends => (H => (H, B)),
+          Always_Terminates
+   is
       W : Schedule := [others => 0];
       A, Bb, Cc, D, E, F, G, Hh, T1, T2 : Unsigned_32;
    begin
-      for I in 0 .. 15 loop
-         W (I) := Shift_Left (Unsigned_32 (B (4 * I)),     24) or
-                  Shift_Left (Unsigned_32 (B (4 * I + 1)), 16) or
-                  Shift_Left (Unsigned_32 (B (4 * I + 2)),  8) or
-                              Unsigned_32 (B (4 * I + 3));
-      end loop;
+      declare
+         I : Natural := 0;
+      begin
+         while I <= 15 loop
+            pragma Loop_Invariant (I in 0 .. 15 + 1);
+            pragma Loop_Variant (Increases => I);
+            W (I) := Shift_Left (Unsigned_32 (B (4 * I)),     24) or
+                     Shift_Left (Unsigned_32 (B (4 * I + 1)), 16) or
+                     Shift_Left (Unsigned_32 (B (4 * I + 2)),  8) or
+                                 Unsigned_32 (B (4 * I + 3));
+            I := I + 1;
+         end loop;
+      end;
 
-      for I in 16 .. 63 loop
-         W (I) := Theta1 (W (I - 2)) + W (I - 7) +
-                  Theta0 (W (I - 15)) + W (I - 16);
-      end loop;
+      declare
+         I : Natural := 16;
+      begin
+         while I <= Schedule'Last loop
+            pragma Loop_Invariant (I in 16 .. Schedule'Last + 1);
+            pragma Loop_Variant (Increases => I);
+            W (I) := ((Theta1 (W (I - 2)) + W (I - 7)) +
+                      Theta0 (W (I - 15))) + W (I - 16);
+            I := I + 1;
+         end loop;
+      end;
 
       A  := H (0); Bb := H (1); Cc := H (2); D  := H (3);
       E  := H (4); F  := H (5); G  := H (6); Hh := H (7);
 
       for I in Schedule'Range loop
-         T1 := Hh + Sigma1 (E) + Ch (E, F, G) + K (I) + W (I);
+         T1 := (((Hh + Sigma1 (E)) + Ch (E, F, G)) + K (I)) + W (I);
          T2 := Sigma0 (A) + Maj (A, Bb, Cc);
          Hh := G;  G := F;  F := E;  E := D + T1;
          D  := Cc; Cc := Bb; Bb := A; A := T1 + T2;
@@ -145,19 +163,34 @@ package body Attest.SHA256 with SPARK_Mode is
          L := L + 1;
       end loop;
 
-      for J in 0 .. 7 loop
-         W.Buf (Block_Bytes - 8 + J) :=
-           Byte (Shift_Right (Bits, 8 * (7 - J)) and 16#FF#);
-      end loop;
+      declare
+         J : Natural := 0;
+      begin
+         while J <= 7 loop
+            pragma Loop_Invariant (J in 0 .. 7 + 1);
+            pragma Loop_Variant (Increases => J);
+            W.Buf (Block_Bytes - 8 + J) :=
+              Byte (Shift_Right (Bits, 8 * (7 - J)) and 16#FF#);
+            J := J + 1;
+         end loop;
+      end;
 
       Compress (W.H, W.Buf);
 
-      for I in State_Index loop
-         D (4 * I)     := Low_Byte (W.H (I), 24);
-         D (4 * I + 1) := Low_Byte (W.H (I), 16);
-         D (4 * I + 2) := Low_Byte (W.H (I), 8);
-         D (4 * I + 3) := Low_Byte (W.H (I), 0);
-      end loop;
+      declare
+         I : Natural := State_Index'First;
+      begin
+         while I <= State_Index'Last loop
+            pragma Loop_Invariant
+              (I in State_Index'First .. State_Index'Last + 1);
+            pragma Loop_Variant (Increases => I);
+            D (4 * I)     := Low_Byte (W.H (I), 24);
+            D (4 * I + 1) := Low_Byte (W.H (I), 16);
+            D (4 * I + 2) := Low_Byte (W.H (I), 8);
+            D (4 * I + 3) := Low_Byte (W.H (I), 0);
+            I := I + 1;
+         end loop;
+      end;
 
       return D;
    end Final;

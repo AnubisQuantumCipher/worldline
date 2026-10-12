@@ -314,13 +314,15 @@ class _Capture:
             if descriptor is not None:
                 os.close(descriptor)
 
-    def namespace(self, process_fd, name, stack, subject):
+    def namespace(self, process_fd, name, stack, subject, descriptors=None):
         item = {'subject': subject, 'name': name, 'returned': False, 'exception': None}
         self.record['namespaces'].append(item)
         try:
             self.check()
             descriptor = os.open('ns/' + name, os.O_RDONLY | os.O_CLOEXEC, dir_fd=process_fd)
             stack.callback(os.close, descriptor)
+            if descriptors is not None:
+                descriptors[name] = descriptor
             item['object'] = _object(os.fstat(descriptor))
             if name == 'user':
                 owner = bytearray(struct.calcsize('=I'))
@@ -352,6 +354,7 @@ class _Subject:
         stack.callback(os.close, self.proc)
         self.identity = None
         self.namespaces = {}
+        self.namespace_fds = {}
         self.live()
         self.identity = process_identity(capture.read(self.proc, 'stat', pid))
         _require(self.identity['pid'] == pid, 'proc stat is from a different subject')
@@ -364,12 +367,13 @@ class _Subject:
         self.cmdline = capture.read(self.proc, 'cmdline', pid)
         self.mounts = mount_table(capture.read(self.proc, 'mountinfo', pid))
         for name in _NAMESPACES:
-            self.namespaces[name] = capture.namespace(self.proc, name, stack, pid)
+            self.namespaces[name] = capture.namespace(
+                self.proc, name, stack, pid, self.namespace_fds)
         self.recheck()
 
     def live(self):
         self.capture.check()
-        ready = bool(select.select([self.pidfd], [], [], 0)[0])
+        ready = namespace_policy.pidfd_ready(self.pidfd)
         self.capture.record.setdefault('liveness', []).append(
             {'pid': self.pid, 'observed_ns': time.monotonic_ns(), 'pidfdReady': ready})
         _require(not ready, 'observed process has exited')
@@ -385,7 +389,10 @@ class _Subject:
         for name, expected in self.namespaces.items():
             descriptor = os.open('ns/' + name, os.O_RDONLY | os.O_CLOEXEC, dir_fd=self.proc)
             try:
-                _require(_same_object(_object(os.fstat(descriptor)), expected['object']),
+                actual_object = _object(os.fstat(descriptor))
+                self.capture.record.setdefault('namespaceRechecks', []).append(
+                    {'pid': self.pid, 'name': name, 'object': actual_object})
+                _require(_same_object(actual_object, expected['object']),
                          'process namespace changed during capture')
             finally:
                 os.close(descriptor)
@@ -397,6 +404,10 @@ class KernelRoleObserver:
         self.plan = plan
         self.maximum_bytes, self.maximum_request = maximum_bytes, maximum_request
         self.handshake_seconds, self.observer = handshake_seconds, observer
+        self.protected_provider = None
+        self.lifecycle_peers = {}
+        self.lifecycle_eof = set()
+        self.lifecycle_channels = {}
         self.path = os.path.join(plan['runtime'], 'role-observer.sock')
         self.records, self.roles, self.seen = [], {}, set()
         self.failure = None
@@ -487,12 +498,18 @@ class KernelRoleObserver:
                 sources.extend((self.plan['nativeGuard'], self.plan['nativePreparationSocket'],
                                 self.plan['nativeLifetimeSocket']))
             sources.extend(root['frozen'] for root in self.plan['roots'])
+            sources.extend(mount['source'] for mount in self.plan.get('protectedSourceMounts', []))
+            if 'protectedReportSocket' in self.plan:
+                sources.append(self.plan['protectedReportSocket'])
             if self.plan.get('toolchain'):
                 sources.append(self.plan['toolchain']['source'])
             for source in sources:
                 descriptor = os.open(source, os.O_PATH | os.O_CLOEXEC | os.O_NOFOLLOW)
                 self.stack.callback(os.close, descriptor)
                 self.sources[source] = (descriptor, _object(os.fstat(descriptor)))
+            if self.observer is not None:
+                retain_observation(lambda value: self.observer('private-role-source-objects', 0, value),
+                    {source: dict(identity) for source, (_descriptor, identity) in self.sources.items()})
             self.thread = threading.Thread(target=self._serve, name='worldline-kernel-role-observer')
             try:
                 self.thread.start()
@@ -712,6 +729,8 @@ class KernelRoleObserver:
         record = self._record('role-descriptor-reader')
         record['producer'] = 'daemon-owned-kernel-reader-subprocess'
         record['targetIdentity'] = dict(subject.identity)
+        record['subjectPidfdNumber'] = subject.pidfd
+        record['subjectPidfdObject'] = _object(os.fstat(subject.pidfd))
         role_record['descriptorReader'] = record
         deadline = subject.capture.deadline
         capture = None
@@ -858,18 +877,147 @@ class KernelRoleObserver:
         result.append(current)
         return result, held
 
+    def _lifecycle_event(self, event, primary=None):
+        """Deliver owned descriptor activity, preserving an original failure."""
+        provider = self.protected_provider
+        if provider is None:
+            return
+        startup = self.native_startup
+        peer = event.get('peerCredentials')
+        event['startupRecordId'] = (
+            startup['recordId'] if startup is not None and peer == list(startup['peer']) else None)
+        try:
+            provider.lifecycle_channel(event)
+        except BaseException as error:
+            if primary is None:
+                raise
+            primary.add_note('protected lifecycle capture also failed: ' + str(error))
+            primary._worldline_retention_failed = True
+
+    def _lifecycle_channel_id(self, channel):
+        if self.protected_provider is None:
+            return None
+        channel_id = self.lifecycle_channels.get(channel)
+        if channel_id is None:
+            channel_id = str(uuid.uuid4())
+            self.lifecycle_channels[channel] = channel_id
+            descriptor = channel.fileno()
+            peer = self.lifecycle_peers.get(channel)
+            self._lifecycle_event({
+                'channel': 'native-lifetime', 'channelId': channel_id,
+                'operation': 'acquire', 'api': 'socket.fileno', 'fd': descriptor,
+                'return': descriptor, 'returned': True, 'errno': None,
+                'exception': None, 'peerCredentials': None if peer is None else list(peer),
+                'observed_ns': time.monotonic_ns()})
+        return channel_id
+
+    def _close_lifecycle_channel(self, channel):
+        descriptor = channel.fileno()
+        primary = sys.exception()
+        if descriptor >= 0:
+            try:
+                self._lifecycle_channel_id(channel)
+            except BaseException as error:
+                if primary is None:
+                    self._remember_failure(error)
+                else:
+                    primary.add_note('owned lifecycle descriptor acquisition also failed: ' + str(error))
+        event = {'channel': 'native-lifetime', 'operation': 'close',
+                 'api': 'socket.close', 'fd': descriptor, 'return': None,
+                 'returned': False, 'errno': None, 'exception': None,
+                 'observed_ns': time.monotonic_ns()}
+        event['channelId'] = self.lifecycle_channels.get(channel)
+        peer = self.lifecycle_peers.pop(channel, None)
+        event['peerCredentials'] = None if peer is None else list(peer)
+        had_eof = channel in self.lifecycle_eof
+        self.lifecycle_eof.discard(channel)
+        startup = self.native_startup
+        if (descriptor >= 0 and had_eof and startup is not None
+                and peer == tuple(startup['peer'])):
+            shutdown = {
+                'channel': 'native-lifetime', 'operation': 'shutdown',
+                'api': 'socket.shutdown', 'fd': descriptor, 'how': socket.SHUT_RD,
+                'apiReturn': None, 'return': None, 'returned': False, 'errno': None,
+                'exception': None, 'peerCredentials': list(peer),
+                'returnConvention': 'successful-Python-socket-wrapper',
+                'observed_ns': time.monotonic_ns()}
+            shutdown['channelId'] = event['channelId']
+            shutdown_failure = None
+            try:
+                shutdown['apiReturn'] = channel.shutdown(socket.SHUT_RD)
+                shutdown.update(returned=True, errno=0)
+                shutdown['return'] = 0
+            except BaseException as error:
+                shutdown['return'] = -1
+                shutdown['errno'] = getattr(error, 'errno', None)
+                shutdown['exception'] = exception_observation(error)
+                shutdown_failure = error
+                if primary is None:
+                    self._remember_failure(error)
+                else:
+                    primary.add_note('owned lifecycle read shutdown also failed: ' + str(error))
+            try:
+                self._lifecycle_event(shutdown, primary or shutdown_failure)
+            except BaseException as error:
+                # Capture failure cannot abandon the owned socket close.
+                self._remember_failure(error)
+        try:
+            event['return'] = channel.close()
+            event['returned'] = True
+        except BaseException as error:
+            event['errno'] = getattr(error, 'errno', None)
+            event['exception'] = exception_observation(error)
+            primary = error
+            raise
+        finally:
+            self.lifecycle_channels.pop(channel, None)
+            # A repeated socket.close on fd=-1 has no owned kernel descriptor.
+            if descriptor >= 0:
+                self._lifecycle_event(event, primary)
+
     def _packet(self, connection, capture, owned, peer, *, allow_eof=False):
         packet = {'bytes': None, 'flags': None, 'ancillary': [], 'exception': None}
         capture.record.setdefault('packets', []).append(packet)
+        lifecycle = self.protected_provider is not None and connection is self.lifetime_active
+        received = None
+        if lifecycle:
+            self.lifecycle_peers[connection] = tuple(peer)
+            channel_id = self._lifecycle_channel_id(connection)
         try:
             while True:
                 capture.check()
+                # Only a real protected lifecycle channel contributes its
+                # socket FD to lifecycle evidence. Ordinary packet acquisition
+                # does not require that unrelated interface before recvmsg has
+                # delivered descriptors whose ownership must be registered.
+                descriptor = connection.fileno() if lifecycle else None
                 try:
                     payload, ancillary, flags, _address = connection.recvmsg(
                         self.maximum_request + 1, self.maximum_request, socket.MSG_CMSG_CLOEXEC)
+                    if lifecycle:
+                        received = {
+                            'channel': 'native-lifetime', 'operation': 'read',
+                            'api': 'socket.recvmsg', 'fd': descriptor,
+                            'return': len(payload), 'returned': True, 'errno': None,
+                            'exception': None, 'bytes': optional_bytes(payload),
+                            'flags': flags, 'peerCredentials': list(peer),
+                            'recordId': capture.record.get('recordId'),
+                            'observed_ns': time.monotonic_ns()}
                     break
                 except TimeoutError:
                     continue
+                except BaseException as error:
+                    if lifecycle:
+                        received = {
+                            'channel': 'native-lifetime', 'operation': 'read',
+                            'api': 'socket.recvmsg', 'fd': descriptor,
+                            'return': None, 'returned': False,
+                            'errno': getattr(error, 'errno', None),
+                            'exception': exception_observation(error), 'bytes': None,
+                            'peerCredentials': list(peer),
+                            'recordId': capture.record.get('recordId'),
+                            'observed_ns': time.monotonic_ns()}
+                    raise
             packet['bytes'], packet['flags'] = optional_bytes(payload), flags
             descriptors, credentials, malformed = [], [], False
             for level, kind, data in ancillary:
@@ -902,6 +1050,14 @@ class KernelRoleObserver:
         except BaseException as error:
             packet['exception'], packet['errno'] = exception_observation(error), getattr(error, 'errno', None)
             raise
+        finally:
+            # Run after all delivered SCM_RIGHTS have registered owned closes.
+            # The raw receive result, not allow_eof/terminal labels, is evidence.
+            if received is not None:
+                received['channelId'] = channel_id
+                if received['returned'] and received['return'] == 0 and sys.exception() is None:
+                    self.lifecycle_eof.add(connection)
+                self._lifecycle_event(received, sys.exception())
 
     def _mount_handle(self, connection, subject, row, peer, record):
         item = {'mount': row, 'effective': None, 'fdinfoMountId': None,
@@ -950,11 +1106,18 @@ class KernelRoleObserver:
                      '/opt/worldline-gnat', '/run/worldline-loader-policy.json',
                      '/run/worldline-examiner-loader.py', NATIVE_MOUNT, NATIVE_PREPARATION_MOUNT,
                      NATIVE_LIFETIME_MOUNT]
+        if 'protectedReportSocket' in plan:
+            forbidden.append('/run/worldline-protected-report.sock')
         if role == 'examiner':
             expected.extend((('/run/worldline-verifiers', plan['verifier'], True),
                              ('/run/worldline-report', plan['report'], False),
                              ('/run/worldline-broker.sock', os.path.join(plan['runtime'], 'broker.sock'), False)))
             expected.extend((root['target'], root['frozen'], True) for root in plan['roots'])
+            expected.extend((mount['target'], mount['source'], True)
+                            for mount in plan.get('protectedSourceMounts', []))
+            if 'protectedReportSocket' in plan:
+                expected.append(('/run/worldline-protected-report.sock',
+                                 plan['protectedReportSocket'], True))
             if 'loaderPolicy' in plan:
                 expected.extend((('/run/worldline-loader-policy.json', plan['loaderPolicy'], True),
                                  ('/run/worldline-examiner-loader.py', plan['loaderHelper'], True)))
@@ -1021,12 +1184,32 @@ class KernelRoleObserver:
         record['reportDirectoryMountRootsAtStartup'] = aliases
         _require(aliases == (['/run/worldline-report'] if role == 'examiner' else []),
                  'unexpected report-directory mount root')
+        record['protectedSourceMountRootsAtStartup'] = []
+        for mount in plan.get('protectedSourceMounts', []):
+            _source_fd, source_identity = self.sources[mount['source']]
+            aliases = [item['mount']['target'] for item in handles
+                       if _same_object(source_identity, item['effective'])]
+            record['protectedSourceMountRootsAtStartup'].append({
+                'plannedSource': mount['source'], 'plannedTarget': mount['target'],
+                'source': source_identity, 'mountRoots': aliases})
+            _require(aliases == ([mount['target']] if role == 'examiner' else []),
+                     'unexpected protected-source mount root')
+        if 'protectedReportSocket' in plan:
+            _socket_fd, socket_identity = self.sources[plan['protectedReportSocket']]
+            aliases = [item['mount']['target'] for item in handles
+                       if _same_object(socket_identity, item['effective'])]
+            record['protectedReportSocketMountRootsAtStartup'] = aliases
+            _require(aliases == (['/run/worldline-protected-report.sock']
+                                 if role == 'examiner' else []),
+                     'unexpected protected-report socket mount root')
         after = mount_table(subject.capture.read(subject.proc, 'mountinfo', subject.pid))
         _require(after == subject.mounts, 'role mount topology changed during object inspection')
 
     def _native_mapping(self, subject, record):
         source, identity = self.sources[self.plan['nativeGuard']]
-        _require(_object(os.fstat(source)) == identity, 'native source object changed before mapping observation')
+        current_source = _object(os.fstat(source))
+        record['nativeSourceCurrent'] = current_source
+        _require(current_source == identity, 'native source object changed before mapping observation')
         rows = native_mapping_rows(subject.capture.read(subject.proc, 'maps', subject.pid))
         selected = [row for row in rows if row['inode'] == identity['inode']
                     and row['deviceMajor'] == os.major(identity['device'])
@@ -1444,7 +1627,7 @@ class KernelRoleObserver:
             self._retain(record)
             # Do not perform new proc reads after the complete record has been
             # retained. The held pidfd alone checks liveness before the ACK.
-            ready = bool(select.select([subject.pidfd], [], [], 0)[0])
+            ready = namespace_policy.pidfd_ready(subject.pidfd)
             _require(not ready, 'examiner exited before entry retention acknowledgement')
             response = {'schemaVersion': 1, 'operation': 'examiner-entry-retained',
                 'runId': self.plan['runId'], 'startupRecordId': startup['recordId'],
@@ -1572,6 +1755,9 @@ class KernelRoleObserver:
                 subject.live()
                 response = self._acknowledgement(role, record)
                 self._retain(record)
+                if self.protected_provider is not None:
+                    self.protected_provider.role_started(
+                        record, subject.pidfd, dict(subject.namespace_fds))
                 if role == 'examiner' and 'nativeGuard' in self.plan:
                     with self.lock:
                         _require(self.native_startup is None, 'native examiner startup already published')
@@ -1587,7 +1773,7 @@ class KernelRoleObserver:
                 # Retained complete proc reads precede the permission to
                 # proceed. Check the still-held process handle again without
                 # reopening a numeric PID after the retention callback.
-                ready = bool(select.select([subject.pidfd], [], [], 0)[0])
+                ready = namespace_policy.pidfd_ready(subject.pidfd)
                 _require(not ready, 'role exited before acknowledgement')
                 self.seen.add(key)
                 self.roles[record['recordId']] = role
@@ -1716,7 +1902,8 @@ class KernelRoleObserver:
                     if self.stop.is_set():
                         return
                     raise
-                with connection:
+                with ExitStack() as lifetime_owner:
+                    lifetime_owner.callback(self._close_lifecycle_channel, connection)
                     with self.lock:
                         self.lifetime_active = connection
                     connection.settimeout(0.1)
@@ -1752,18 +1939,52 @@ class KernelRoleObserver:
             completed = None if startup is None else self.lifetime_completions.get(startup['recordId'])
             _require(completed is not None and completed['retainedToNativeFinalization'] is True,
                      'examiner lacks complete ordered native lifetime termination')
+            original_status = completed.get('interpreterOriginalStatus')
+            examiner_wait = boundary.get('examinerReturnCode')
+            bootstrap_wait = boundary.get('bootstrapExitCode')
+            # Linux ordinary exit retains the low-order byte (installed
+            # bits/waitstatus.h). A negative Popen wait denotes a signal and
+            # cannot be substituted for an interpreter's returned int.
+            normalized_status = (original_status & 0xff) if type(original_status) is int else None
+            native_refusal = (original_status == 0 and type(original_status) is int
+                              and examiner_wait == 125 and type(examiner_wait) is int
+                              and (completed.get('nativeViolationObserved') is True
+                                   or completed['pendingOperations'] != 0))
+            exit_matches = (type(examiner_wait) is int and examiner_wait >= 0
+                            and normalized_status is not None
+                            and (examiner_wait == normalized_status or native_refusal))
+            bootstrap_matches = (type(bootstrap_wait) is int and type(examiner_wait) is int
+                                 and bootstrap_wait == (examiner_wait if examiner_wait >= 0 else 1))
             outcome = self._record('native-lifetime-process-outcome')
             outcome.update(scope='retained-native-terminal-and-existing-process-wait-join',
                 startupRecordId=startup['recordId'], nativeTerminal=completed,
                 fixedBootstrapExaminerWait=boundary.get('examinerReturnCode'),
                 actualBootstrapWait=boundary.get('bootstrapExitCode'),
+                interpreterOriginalStatus=original_status,
+                interpreterNormalizedExitStatus=normalized_status,
+                examinerWaitMatchesInterpreter=exit_matches,
+                bootstrapWaitMatchesExaminer=bootstrap_matches,
+                observedNativeRefusalOverride=native_refusal,
                 observerServicesJoined=True, protectedCustody=False,
-                cleanReportedProcess=(completed['cleanReportedTerminal']
+                cleanReportedProcess=(completed['cleanReportedTerminal'] and exit_matches and bootstrap_matches
                     and type(boundary.get('examinerReturnCode')) is int
                     and boundary['examinerReturnCode'] == 0
                     and type(boundary.get('bootstrapExitCode')) is int
                     and boundary['bootstrapExitCode'] == 0))
             self._retain(outcome)
+            _require(exit_matches and bootstrap_matches,
+                     'native interpreter exit does not join the actual process waits')
+        if self.protected_provider is not None:
+            setup = boundary.get('namespaceLifetimeSetup')
+            borrows = setup.get('roleBorrows', []) if isinstance(setup, dict) else []
+            waits = []
+            if isinstance(borrows, list):
+                for borrow in borrows:
+                    if isinstance(borrow, dict):
+                        record_id = borrow.get('kernelObservationId')
+                        waits.append({**borrow, 'recordId': record_id,
+                                      'kernelRole': self.roles.get(record_id)})
+            self.protected_provider.role_waits(waits)
         return self.records
 
     def _close(self):
@@ -1787,7 +2008,10 @@ class KernelRoleObserver:
             event = {'channel': name, 'returned': False, 'exception': None}
             closure['closes'].append(event)
             try:
-                channel.close()
+                if name == 'active-lifetime':
+                    self._close_lifecycle_channel(channel)
+                else:
+                    channel.close()
                 event['returned'] = True
             except BaseException as error:
                 event['exception'] = exception_observation(error)

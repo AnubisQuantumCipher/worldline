@@ -21,8 +21,8 @@ from __future__ import annotations
 
 import base64
 import array
-from dataclasses import dataclass
-from contextlib import contextmanager
+from dataclasses import dataclass, replace
+from contextlib import contextmanager, nullcontext
 import fcntl
 import hashlib
 import json
@@ -841,6 +841,12 @@ class _NativeExaminerCode(_RegisteredExaminerCode):
             for label in self._GENERATORS:
                 guard.bind_cached_generator(label)
             self.generators_bound = True
+            # The actual workload helper is compiled from native-owned support
+            # bytes. The earlier namespace remains only the bootstrap decoder.
+            support_code = guard.compile_source(support['path'])
+            namespace = {'__name__': '_worldline_loader_support', '__file__': LOADER_HELPER_MOUNT,
+                         '__package__': '', '__spec__': None}
+            exec(support_code, namespace)
             code = guard.compile_source(binding['path'])
             self._codes[id(code)] = (code, tuple(binding.items()))
             self.loader_support, self.loader_policy = namespace, policy
@@ -905,6 +911,13 @@ class _NativeExaminerCode(_RegisteredExaminerCode):
 
     def activate(self):
         self.guard.activate()
+
+    def run_workload(self, code, path):
+        # Bind and invoke from the same live bootstrap frame, before workload
+        # code can mutate it. The C caller acquires outcomes from actual calls.
+        arguments = (self.guard, self, code, path, _read_examiner_source)
+        self.guard.bind_workload(self.loader_support['_native_workload'], arguments, code, path)
+        return self.guard.run_workload()
 
 
 def copy_frozen_tree(source: Path, destination: Path) -> str:
@@ -993,6 +1006,9 @@ class PrivateEvaluationSpec:
     bubblewrap_executable: Path | None = None
     # Independently supplied held-descriptor identities, never a clean flag.
     verifier_digests: Mapping[str, str] | None = None
+    # Exact independently retained invocation-start record; direct legacy utilities
+    # keep their original interface and do not acquire protected-provider authority.
+    protected_invocation: Mapping[str, Any] | None = None
 
 
 def _validate_spec(spec: PrivateEvaluationSpec) -> None:
@@ -1382,12 +1398,15 @@ class PrivateEvaluator:
                     primary._worldline_retention_failed = True
         return str(path), binding, observations
 
-    def run(self, spec: PrivateEvaluationSpec, *, resource_properties: Sequence[str] = (), _supervision_observer=None, _acquisition_observer=None) -> dict[str, Any]:
+    def run(self, spec: PrivateEvaluationSpec, *, resource_properties: Sequence[str] = (), _supervision_observer=None, _acquisition_observer=None, _admission_guard=None, _protected_provider_type=None, _protected_invocation_resolver=None) -> dict[str, Any]:
         """Run a trusted Python examiner. Never interpret or admit its report here."""
         from ..errors import WorldlineError
         try:
             return self._run(spec, resource_properties, **({} if _supervision_observer is None else {'_supervision_observer': _supervision_observer}),
-                **({} if _acquisition_observer is None else {'_acquisition_observer': _acquisition_observer}))
+                **({} if _acquisition_observer is None else {'_acquisition_observer': _acquisition_observer}),
+                **({} if _admission_guard is None else {'_admission_guard': _admission_guard}),
+                **({} if _protected_provider_type is None else {'_protected_provider_type': _protected_provider_type}),
+                **({} if _protected_invocation_resolver is None else {'_protected_invocation_resolver': _protected_invocation_resolver}))
         except (BackendFailure, OSError, ValueError, ImportError) as exc:
             if _supervision_observer is not None or _acquisition_observer is not None:
                 from ..raw_observation import retention_failed
@@ -1401,9 +1420,11 @@ class PrivateEvaluator:
                 details['examinerLoaderObservations'] = exc.examiner_loader_observations
             if hasattr(exc, 'examiner_native_observations'):
                 details['examinerNativeObservations'] = exc.examiner_native_observations
+            if hasattr(exc, 'protected_provider_capture'):
+                details['protectedProviderCapture'] = exc.protected_provider_capture
             raise WorldlineError(getattr(exc, "code", "PRIVATE_EVALUATOR_FAILED"), str(exc), details) from exc
 
-    def _run(self, spec: PrivateEvaluationSpec, resource_properties: Sequence[str], *, _supervision_observer=None, _acquisition_observer=None) -> dict[str, Any]:
+    def _run(self, spec: PrivateEvaluationSpec, resource_properties: Sequence[str], *, _supervision_observer=None, _acquisition_observer=None, _admission_guard=None, _protected_provider_type=None, _protected_invocation_resolver=None) -> dict[str, Any]:
         _validate_spec(spec)
         bubblewrap = _bubblewrap_identity(spec.bubblewrap_executable)
         spec.runtime.mkdir(mode=0o700)
@@ -1422,6 +1443,7 @@ class PrivateEvaluator:
         entry_binding, entry_observation = self._entry_source(spec, _acquisition_observer)
         loader_observations = None
         native_observation = None
+        protected_provider = None
         try:
             native_path, native_binding, native_observation = self._native_artifact(
                 spec, _acquisition_observer)
@@ -1491,20 +1513,42 @@ class PrivateEvaluator:
                                      "executables": identities,
                                      "identityScope": "listed executable bytes; not a complete installation attestation"}
             from .kernel_role_observer import KernelRoleObserver
-            with KernelRoleObserver(plan, maximum_bytes=MAX_TREE_BYTES,
+            from .protected_report_provider import ProtectedReportProvider
+            provider_type = ProtectedReportProvider if _protected_provider_type is None else _protected_provider_type
+            if _protected_invocation_resolver is not None:
+                # The genuine launch owner resolves the exact durable start at
+                # its provider/role boundary. Acquisition-only collection never
+                # crosses this boundary and cannot create provider authority.
+                if spec.protected_invocation is not None:
+                    _refuse('explicit and deferred invocation starts conflict',
+                            'PRIVATE_INVOCATION_START_CONFLICT')
+                started = _protected_invocation_resolver()
+                if not isinstance(started, Mapping):
+                    _refuse('deferred invocation start is unavailable',
+                            'PRIVATE_INVOCATION_START_MISSING')
+                spec = replace(spec, protected_invocation=started)
+            provider_context = (nullcontext(None) if spec.protected_invocation is None else
+                provider_type(spec, plan, audit_before, _acquisition_observer))
+            with provider_context as protected_provider, KernelRoleObserver(plan, maximum_bytes=MAX_TREE_BYTES,
                                     maximum_request=MAX_REQUEST_BYTES,
                                     handshake_seconds=BOOTSTRAP_HANDSHAKE_SECONDS,
                                     observer=_acquisition_observer) as role_observer:
+                role_observer.protected_provider = protected_provider
                 plan['roleObservationSocket'] = role_observer.path
                 result = self._launch_and_collect(
                     spec, plan, resource_properties, role_observer, audit_before,
                     _supervision_observer=_supervision_observer,
-                    _acquisition_observer=_acquisition_observer)
+                    _acquisition_observer=_acquisition_observer,
+                    **({} if _admission_guard is None else {'_admission_guard': _admission_guard}))
                 result['boundary']['daemonExaminerEntrySource'] = entry_observation
                 result['boundary']['daemonExaminerLoaderObservations'] = loader_observations
                 result['boundary']['daemonExaminerNativeObservations'] = [native_observation]
+                if protected_provider is not None:
+                    result['protectedProviderCapture'] = protected_provider.collect(result, role_observer)
                 return result
         except BaseException as error:
+            if protected_provider is not None:
+                error.protected_provider_capture = protected_provider.record
             error.examiner_entry_observation = entry_observation
             if loader_observations is not None:
                 error.examiner_loader_observations = loader_observations
@@ -1513,19 +1557,42 @@ class PrivateEvaluator:
             raise
 
     def _launch_and_collect(self, spec, plan, resource_properties, role_observer, audit_before,
-                            *, _supervision_observer=None, _acquisition_observer=None):
+                            *, _supervision_observer=None, _acquisition_observer=None, _admission_guard=None):
         helper = Path(plan['helper'])
         plan['bootstrapDeadlineMonotonic'] = time.monotonic() + BOOTSTRAP_HANDSHAKE_SECONDS
+        if _acquisition_observer is not None:
+            from ..raw_observation import retain_observation
+            retain_observation(lambda value: _acquisition_observer('private-role-plan', 0, value),
+                {**plan, 'trustedInterpreter': TRUSTED_INTERPRETER})
         plan_path = spec.runtime / "plan.json"
         plan_path.write_text(json.dumps(plan), encoding="utf-8")
         plan_path.chmod(0o600)
         process = self.systemd.launch_private_evaluator(
             spec.run_id, plan_path, helper, resource_properties=resource_properties)
+        if _admission_guard is not None:
+            _admission_guard.attach_process(process)
+        primary = None
+        try:
+            return self._collect_launched(spec, process, role_observer, audit_before,
+                _supervision_observer=_supervision_observer,
+                _acquisition_observer=_acquisition_observer,
+                **({} if _admission_guard is None else {'_admission_guard': _admission_guard}))
+        except BaseException as error:
+            primary = error
+            raise
+        finally:
+            if _admission_guard is not None:
+                _admission_guard.process_settled(process, primary=primary,
+                                               after_failure=primary is not None)
+
+    def _collect_launched(self, spec, process, role_observer, audit_before,
+                          *, _supervision_observer=None, _acquisition_observer=None, _admission_guard=None):
         if _acquisition_observer is not None:
             return self._collect_observed(spec, process, _acquisition_observer,
                                           _supervision_observer=_supervision_observer,
                                           _audit_before=audit_before,
-                                          _role_observer=role_observer)
+                                          _role_observer=role_observer,
+                                          **({} if _admission_guard is None else {'_admission_guard': _admission_guard}))
         try:
             deadline = role_observer.plan['bootstrapDeadlineMonotonic']
             while not (spec.runtime / "bootstrap-ready").exists():
@@ -1538,13 +1605,20 @@ class PrivateEvaluator:
             role_observer.arm(unit_properties)
             (spec.runtime / "bootstrap-go").write_text("GO\n")
             stdout, stderr = process.launcher.communicate(timeout=spec.timeout_seconds + 20)
-        except subprocess.TimeoutExpired:
-            self.systemd.stop(process.unit)
-            process.launcher.communicate(timeout=20)
-            _refuse("supervised private evaluator exceeded its deadline", "PRIVATE_EVALUATOR_TIMEOUT")
-        except BaseException:
-            self.systemd.stop(process.unit)
-            process.launcher.communicate(timeout=20)
+        except subprocess.TimeoutExpired as primary:
+            if _admission_guard is None:
+                self.systemd.stop(process.unit)
+                process.launcher.communicate(timeout=20)
+                _refuse("supervised private evaluator exceeded its deadline", "PRIVATE_EVALUATOR_TIMEOUT")
+            self._cleanup_supplied_guard(process, primary)
+            raise BackendFailure("PRIVATE_EVALUATOR_TIMEOUT",
+                                 "supervised private evaluator exceeded its deadline") from primary
+        except BaseException as primary:
+            if _admission_guard is None:
+                self.systemd.stop(process.unit)
+                process.launcher.communicate(timeout=20)
+                raise
+            self._cleanup_supplied_guard(process, primary)
             raise
         supervision = self.systemd.outcome(process, process.launcher.returncode,
             **({} if _supervision_observer is None else {'_raw_observer': _supervision_observer}))
@@ -1565,11 +1639,31 @@ class PrivateEvaluator:
                                   "after": self._audit_copy(spec, 'after', None),
                                   "mount": VERIFIER_MOUNT}}
 
+    def _cleanup_supplied_guard(self, process, primary):
+        # Stop and terminal wait are independent attempts. Neither cleanup
+        # error replaces the collection error or skips the remaining attempt.
+        try:
+            self.systemd.stop(process.unit)
+        except BaseException as cleanup:
+            primary.add_note("private evaluator stop also failed: " + str(cleanup))
+        try:
+            process.launcher.communicate(timeout=20)
+        except BaseException as cleanup:
+            primary.add_note("private evaluator terminal wait also failed: " + str(cleanup))
+
     def _collect_observed(self, spec, process, observer, *, _supervision_observer=None,
-                          _audit_before=None, _role_observer=None):
-        from ..raw_observation import cleanup_call, retention_failed
+                          _audit_before=None, _role_observer=None, _admission_guard=None):
+        from ..raw_observation import cleanup_call, retention_failed, retain_observation
         acquisition = _PrivateAcquisitions(spec, process, observer)
         try:
+            # The full launch owner supplies its live role observer. Direct
+            # acquisition callers own communication/boundary reads only; they
+            # cannot originate a launch association for a process they did not
+            # launch here. Preserve their original event shapes and ordinals.
+            if _role_observer is not None:
+                retain_observation(lambda value: observer('private-launch-association', 0, value),
+                    {'unit': process.unit, 'runId': spec.run_id,
+                     'launchedAtUs': getattr(process, 'launched_at_us', None)})
             # Direct acquisition-only callers retain their original interface.
             # Every real _run launch supplies its cumulative observer deadline.
             deadline = (time.monotonic() + BOOTSTRAP_HANDSHAKE_SECONDS if _role_observer is None
@@ -1591,6 +1685,9 @@ class PrivateEvaluator:
             acquisition.cleanup_communicate(20, site='timeout-cleanup')
             if retention_failed(primary):
                 raise
+            if _admission_guard is not None:
+                raise BackendFailure("PRIVATE_EVALUATOR_TIMEOUT",
+                                     "supervised private evaluator exceeded its deadline") from primary
             _refuse("supervised private evaluator exceeded its deadline", "PRIVATE_EVALUATOR_TIMEOUT")
         except BaseException:
             cleanup_call(lambda: self.systemd.stop(process.unit))
@@ -1713,6 +1810,11 @@ def _sandbox(plan: Mapping[str, Any], role: str, roots: Sequence[Mapping[str, An
             command.extend(('--ro-bind', plan['nativeGuard'], NATIVE_GUARD_MOUNT,
                             '--ro-bind', plan['nativePreparationSocket'], NATIVE_PREPARATION_MOUNT,
                             '--ro-bind', plan['nativeLifetimeSocket'], NATIVE_LIFETIME_MOUNT))
+        if 'protectedReportSocket' in plan:
+            command.extend(('--ro-bind', plan['protectedReportSocket'],
+                            '/run/worldline-protected-report.sock'))
+        for source in plan.get('protectedSourceMounts', []):
+            command.extend(('--ro-bind', source['source'], source['target']))
         if plan.get("toolchain"):
             command.extend(("--ro-bind", plan["toolchain"]["source"], TOOLCHAIN_MOUNT))
     elif role == "worker":
@@ -1809,6 +1911,7 @@ def _run_role(command: Sequence[str], role: str, timeout: int, *,
                         _refuse("invalid helper startup frame")
                     observation = json.loads(frame)
                     _validate_observation(observation, role)
+                    namespace_lease.bind_role(process, observation)
                     if on_observed is not None:
                         on_observed(observation)
                     if native_lifetime_plan is not None:
@@ -2693,9 +2796,7 @@ def _role(role: str, payload: Sequence[str], run_id: str, namespace_fd: int) -> 
     if role != "examiner":
         os.execv(payload[0], list(payload))
     # The observation connection and every transfer descriptor are closed before entry code.
-    with registry.loader_support['BoundImports'](registry.loader_policy, registry, _read_examiner_source):
-        registry.activate()
-        registry.run_main(code, payload[1])
+    registry.run_workload(code, payload[1])
 
 
 if __name__ == "__main__":

@@ -214,6 +214,120 @@ package body Evaluation_Epoch with SPARK_Mode is
       end;
    end Positive_Multiple;
 
+   --  Total checked-body source obligation: positive place values preserve
+   --  distinct digit columns. Ordered natural differences avoid underflow;
+   --  Scale_Column and Positive_Multiple expose the strict positive gap.
+   --  This Ghost theorem has no imported or assumed premise.
+   procedure Distinct_Columns
+     (Low, Place : Valid_Big_Integer; Left_Digit, Right_Digit : Natural)
+   with Ghost, Global => null, Always_Terminates,
+     Post => (if Place > 0 and then Left_Digit /= Right_Digit then
+       Low + To_Big_Integer (Left_Digit) * Place /=
+         Low + To_Big_Integer (Right_Digit) * Place)
+   is
+   begin
+      if Place <= 0 or else Left_Digit = Right_Digit then
+         return;
+      end if;
+      declare
+         Left_Column : constant Valid_Big_Integer :=
+           Scale_Column (Left_Digit, Place);
+         Right_Column : constant Valid_Big_Integer :=
+           Scale_Column (Right_Digit, Place);
+      begin
+         if Left_Digit < Right_Digit then
+            declare
+               Difference : constant Natural := Right_Digit - Left_Digit;
+               Gap : constant Valid_Big_Integer :=
+                 Scale_Column (Difference, Place);
+            begin
+               pragma Assert (Difference >= 1);
+               pragma Assert
+                 (To_Big_Integer (Right_Digit) =
+                    To_Big_Integer (Left_Digit) + To_Big_Integer (Difference));
+               pragma Assert (Gap = Place * To_Big_Integer (Difference));
+               Positive_Multiple (Place, To_Big_Integer (Difference));
+               pragma Assert (Gap >= Place and then Gap > 0);
+               pragma Assert (Right_Column = Left_Column + Gap);
+               pragma Assert (Low + Left_Column < Low + Right_Column);
+            end;
+         else
+            declare
+               Difference : constant Natural := Left_Digit - Right_Digit;
+               Gap : constant Valid_Big_Integer :=
+                 Scale_Column (Difference, Place);
+            begin
+               pragma Assert (Difference >= 1);
+               pragma Assert
+                 (To_Big_Integer (Left_Digit) =
+                    To_Big_Integer (Right_Digit) + To_Big_Integer (Difference));
+               pragma Assert (Gap = Place * To_Big_Integer (Difference));
+               Positive_Multiple (Place, To_Big_Integer (Difference));
+               pragma Assert (Gap >= Place and then Gap > 0);
+               pragma Assert (Left_Column = Right_Column + Gap);
+               pragma Assert (Low + Left_Column > Low + Right_Column);
+            end;
+         end if;
+         pragma Assert (Low + Left_Column /= Low + Right_Column);
+      end;
+   end Distinct_Columns;
+
+   --  Total contradiction lemmas for Remainder_From_Witness. Each keeps the
+   --  original Difference derivation in a reachable branch (no contradictory
+   --  context) and states the original False conclusion as its theorem: the
+   --  joint quotient/remainder hypotheses with that ordering are impossible.
+   procedure Quotient_Below_Contradiction
+     (Low, Place, Tail, Quotient, Remainder : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => not (Place > 0 and then Low >= 0
+                  and then Remainder >= 0 and then Remainder < Place
+                  and then Low + Place * Tail = Place * Quotient + Remainder
+                  and then Quotient < Tail)
+   is
+   begin
+      if Place > 0 and then Low >= 0
+        and then Low + Place * Tail = Place * Quotient + Remainder
+        and then Quotient < Tail
+      then
+         declare
+            Difference : constant Valid_Big_Integer := Tail - Quotient;
+         begin
+            pragma Assert (Difference >= 1);
+            Positive_Multiple (Place, Difference);
+            pragma Assert
+              (Place * Tail = Place * Quotient + Place * Difference);
+            pragma Assert (Remainder = Low + Place * Difference);
+            pragma Assert (Remainder >= Place);
+         end;
+      end if;
+   end Quotient_Below_Contradiction;
+
+   procedure Quotient_Above_Contradiction
+     (Low, Place, Tail, Quotient, Remainder : Valid_Big_Integer)
+   with Ghost, Global => null, Always_Terminates,
+     Post => not (Place > 0 and then Low >= 0 and then Low < Place
+                  and then Remainder >= 0
+                  and then Low + Place * Tail = Place * Quotient + Remainder
+                  and then Quotient > Tail)
+   is
+   begin
+      if Place > 0 and then Remainder >= 0
+        and then Low + Place * Tail = Place * Quotient + Remainder
+        and then Quotient > Tail
+      then
+         declare
+            Difference : constant Valid_Big_Integer := Quotient - Tail;
+         begin
+            pragma Assert (Difference >= 1);
+            Positive_Multiple (Place, Difference);
+            pragma Assert
+              (Place * Quotient = Place * Tail + Place * Difference);
+            pragma Assert (Low = Remainder + Place * Difference);
+            pragma Assert (Low >= Place);
+         end;
+      end if;
+   end Quotient_Above_Contradiction;
+
    procedure Remainder_From_Witness
      (Low, Place, Tail : Valid_Big_Integer)
    with Ghost, Global => null, Always_Terminates,
@@ -235,31 +349,10 @@ package body Evaluation_Epoch with SPARK_Mode is
          pragma Assert (Quotient >= 0);
          pragma Assert (Remainder >= 0 and then Remainder < Place);
          pragma Assert (Whole = Place * Quotient + Remainder);
-         if Quotient < Tail then
-            declare
-               Difference : constant Valid_Big_Integer := Tail - Quotient;
-            begin
-               pragma Assert (Difference >= 1);
-               Positive_Multiple (Place, Difference);
-               pragma Assert
-                 (Place * Tail = Place * Quotient + Place * Difference);
-               pragma Assert (Remainder = Low + Place * Difference);
-               pragma Assert (Remainder >= Place);
-               pragma Assert (False);
-            end;
-         elsif Quotient > Tail then
-            declare
-               Difference : constant Valid_Big_Integer := Quotient - Tail;
-            begin
-               pragma Assert (Difference >= 1);
-               Positive_Multiple (Place, Difference);
-               pragma Assert
-                 (Place * Quotient = Place * Tail + Place * Difference);
-               pragma Assert (Low = Remainder + Place * Difference);
-               pragma Assert (Low >= Place);
-               pragma Assert (False);
-            end;
-         end if;
+         pragma Assert (Low + Place * Tail = Place * Quotient + Remainder);
+         Quotient_Below_Contradiction (Low, Place, Tail, Quotient, Remainder);
+         Quotient_Above_Contradiction (Low, Place, Tail, Quotient, Remainder);
+         pragma Assert (not (Quotient < Tail) and then not (Quotient > Tail));
          pragma Assert (Quotient = Tail);
          pragma Assert (Remainder = Low);
       end;
@@ -445,6 +538,11 @@ package body Evaluation_Epoch with SPARK_Mode is
               mod Radix_Power (Offset + 1) = Wanted);
          pragma Assert
            ((Magnitude (Data, Before) + 1) mod Radix_Power (Offset + 1) = Wanted);
+         Distinct_Columns
+           (Low, Place, Digit (Data, After, Offset), Column mod 256);
+         pragma Assert
+           (Prefix_Value (Data, After, Offset + 1) =
+              Low + To_Big_Integer (Digit (Data, After, Offset)) * Place);
          pragma Assert (Prefix_Value (Data, After, Offset + 1) /= Wanted);
          pragma Assert (Magnitude (Data, After) /= Magnitude (Data, Before) + 1);
       end;
@@ -452,19 +550,9 @@ package body Evaluation_Epoch with SPARK_Mode is
 
    function Same_Value (Data : Byte_Array; Left, Right : Quantity) return Boolean is
    begin
-      --  Full executable digit equality is sufficient even when distinct
-      --  owned spans carry the same epoch. Empty and signed-zero quantities
-      --  still use the original nonnegative/valid guards. Unequal lengths,
-      --  differing digits and other inputs retain the original comparison.
-      if Nonnegative_Valid (Data, Left) and then
-        Nonnegative_Valid (Data, Right) and then
-        Left.Length = Right.Length and then
-        (Left.Length = 0 or else
-           (for all Offset in Byte_Count range 0 .. Left.Length - 1 =>
-              Digit (Data, Left, Offset) = Digit (Data, Right, Offset)))
-      then
-         return True;
-      end if;
+      --  Use the complete original Compare value equation for every valid
+      --  nonnegative representation, including padding and signed zero.
+      --  No independent digit shortcut bypasses its mathematical Post.
       return Nonnegative_Valid (Data, Left) and then
         Nonnegative_Valid (Data, Right) and then Compare (Data, Left, Right) = Equal;
    end Same_Value;

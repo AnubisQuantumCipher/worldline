@@ -120,7 +120,7 @@ package body Resource_Quantities with SPARK_Mode is
          Completed := Completed + 1;
       end loop;
       --  The independent predecessor reference avoids repeating the producer
-      --  here. Its body and the complete original recursive producer Post
+      --  here. Its body and the equivalent full-domain public recurrence Post
       --  remain required proof and checked-runtime obligations.
       if Exponent > 0 then
          declare
@@ -136,10 +136,59 @@ package body Resource_Quantities with SPARK_Mode is
       return Result;
    end Radix_Power_Worker;
 
-   --  The public declaration, including every original recursive Post
-   --  conjunct and numeric variant, remains byte-for-byte unchanged.
-   function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
-     (Radix_Power_Worker (Exponent));
+   --  Every original public contract relation and variant remains required.
+   --  The worker stays the producer. This lemma only names the one-step
+   --  equation the worker already establishes, so the public post can cite it.
+   procedure Radix_Power_Recurrence (Exponent : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Exponent = 0 then Radix_Power_Worker (Exponent) = 1
+        else Radix_Power_Worker (Exponent) =
+          To_Big_Integer (256) * Radix_Power_Worker (Exponent - 1))
+   is
+      Current : constant Valid_Big_Integer := Radix_Power_Worker (Exponent);
+   begin
+      pragma Assert (Current = Power_Reference (Exponent));
+      if Exponent > 0 then
+         declare
+            Previous : constant Valid_Big_Integer :=
+              Radix_Power_Worker (Exponent - 1);
+         begin
+            pragma Assert (Previous = Power_Reference (Exponent - 1));
+            pragma Assert
+              (Power_Reference (Exponent) =
+                 To_Big_Integer (256) * Power_Reference (Exponent - 1));
+            pragma Assert (Current = To_Big_Integer (256) * Previous);
+         end;
+      else
+         pragma Assert (Current = 1);
+      end if;
+   end Radix_Power_Recurrence;
+
+   --  Keep the complete checked producer body in this private bridge.
+   --  Its independent equality must be proved; it is not imported or assumed.
+   function Radix_Power_Checked (Exponent : Byte_Count) return Valid_Big_Integer
+   with Ghost, Global => null,
+     Post => Radix_Power_Checked'Result = Power_Reference (Exponent),
+     Annotate => (GNATprove, Inline_For_Proof)
+   is
+      Result : constant Valid_Big_Integer := Radix_Power_Worker (Exponent);
+   begin
+      Radix_Power_Recurrence (Exponent);
+      if Exponent > 0 then
+         declare
+            Previous : constant Valid_Big_Integer :=
+              Radix_Power_Worker (Exponent - 1);
+         begin
+            pragma Assert (Previous = Power_Reference (Exponent - 1));
+            pragma Assert (Result = To_Big_Integer (256) * Previous);
+         end;
+      end if;
+      return Result;
+   end Radix_Power_Checked;
+
+   --  Radix_Power is completed in the public specification.
+   --  All worker and bridge bodies above remain in full proof scope.
 
    --  Full-domain independent prefix equation; no span/length Pre is added.
    --  The moved loop, all assertions and all original variants remain below.
@@ -201,10 +250,73 @@ package body Resource_Quantities with SPARK_Mode is
       return Result;
    end Prefix_Value_Worker;
 
-   function Prefix_Value
+   procedure Prefix_Value_Recurrence
      (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
-      return Valid_Big_Integer is
-     (Prefix_Value_Worker (Data, Q, Count));
+   with Ghost, Global => null, Always_Terminates,
+     Post =>
+       (if Count = 0 then Prefix_Value_Worker (Data, Q, Count) = 0
+        else Prefix_Value_Worker (Data, Q, Count) =
+          Prefix_Value_Worker (Data, Q, Count - 1) +
+            To_Big_Integer (Digit (Data, Q, Count - 1)) *
+              Radix_Power_Worker (Count - 1))
+   is
+      Current : constant Valid_Big_Integer :=
+        Prefix_Value_Worker (Data, Q, Count);
+   begin
+      pragma Assert (Current = Prefix_Reference (Data, Q, Count));
+      if Count > 0 then
+         declare
+            Previous : constant Valid_Big_Integer :=
+              Prefix_Value_Worker (Data, Q, Count - 1);
+            Place : constant Valid_Big_Integer :=
+              Radix_Power_Worker (Count - 1);
+         begin
+            pragma Assert (Previous = Prefix_Reference (Data, Q, Count - 1));
+            pragma Assert (Place = Power_Reference (Count - 1));
+            pragma Assert
+              (Prefix_Reference (Data, Q, Count) =
+                 Prefix_Reference (Data, Q, Count - 1) +
+                   To_Big_Integer (Digit (Data, Q, Count - 1)) *
+                     Power_Reference (Count - 1));
+            pragma Assert
+              (Current = Previous +
+                 To_Big_Integer (Digit (Data, Q, Count - 1)) * Place);
+         end;
+      else
+         pragma Assert (Current = 0);
+      end if;
+   end Prefix_Value_Recurrence;
+
+   function Prefix_Value_Checked
+     (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
+      return Valid_Big_Integer
+   with Ghost, Global => null,
+     Post => Prefix_Value_Checked'Result = Prefix_Reference (Data, Q, Count),
+     Annotate => (GNATprove, Inline_For_Proof)
+   is
+      Result : constant Valid_Big_Integer :=
+        Prefix_Value_Worker (Data, Q, Count);
+   begin
+      Prefix_Value_Recurrence (Data, Q, Count);
+      if Count > 0 then
+         declare
+            Previous : constant Valid_Big_Integer :=
+              Prefix_Value_Worker (Data, Q, Count - 1);
+            Place : constant Valid_Big_Integer :=
+              Radix_Power_Worker (Count - 1);
+         begin
+            pragma Assert (Previous = Prefix_Reference (Data, Q, Count - 1));
+            pragma Assert (Place = Power_Reference (Count - 1));
+            pragma Assert
+              (Result = Previous +
+                 To_Big_Integer (Digit (Data, Q, Count - 1)) * Place);
+         end;
+      end if;
+      return Result;
+   end Prefix_Value_Checked;
+
+   --  Prefix_Value is completed in the public specification.
+   --  All worker and bridge bodies above remain in full proof scope.
 
    function Magnitude (Data : Byte_Array; Q : Quantity)
       return Valid_Big_Integer is

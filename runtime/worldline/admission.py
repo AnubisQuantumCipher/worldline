@@ -17,7 +17,7 @@ hashed, so a fluctuation cannot invalidate an otherwise identical verification.
 A snapshot is not a reservation. Two requests that each observe 20 GB free and each take 16 GB is
 the failure this module exists to prevent, so admission is a transaction rather than a probe:
 
-    observe -> lock -> account outstanding reservations -> reserve -> authorize -> unlock
+    lock -> observe -> account outstanding reservations -> reserve -> authorize -> unlock
 
 The reservation exists before the workload is spawned and is released deterministically when it
 terminates, including when the daemon never saw it terminate — `reconcile` drops any reservation
@@ -32,7 +32,9 @@ import fcntl
 import json
 import os
 import time
+import tempfile
 import uuid
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Iterable, Mapping, Sequence
@@ -41,6 +43,15 @@ from .errors import CoreUnavailable, WorldlineError
 from .resource_ledger import compute_ledger as kernel_compute_ledger
 from .resource_ledger import compute_headroom as kernel_compute_headroom
 from .resource_policy import PolicyDecision, decide_policy as kernel_decide_policy
+from . import ordinary_reservation_lifecycle as reservation_native
+
+
+def _reservation_policy(operation, *args, **kwargs):
+    """Consume native plans; protocol exceptions retain their original type."""
+    # Only the owned native transport boundary translates its own failures.
+    # Original acquisition operators execute outside any CoreUnavailable catch.
+    with reservation_native.resource_error_context():
+        return operation(*args, **kwargs)
 
 ADMITTED = "ADMITTED"
 RESOURCES_UNAVAILABLE = "RESOURCES_UNAVAILABLE"
@@ -336,18 +347,23 @@ class Reservation:
     tasks: int
     created_at_ms: int
     owner_pid: int
+    workload_identity: dict[str, str] | None = None
 
     def as_dict(self) -> dict[str, Any]:
-        return {"reservationId": self.reservation_id, "workload": self.workload, "unit": self.unit,
+        result = {"reservationId": self.reservation_id, "workload": self.workload, "unit": self.unit,
                 "memoryBytes": self.memory_bytes, "tasks": self.tasks,
                 "createdAtMs": self.created_at_ms, "ownerPid": self.owner_pid}
+        if self.workload_identity is not None:
+            result["workloadIdentity"] = self.workload_identity
+        return result
 
     @classmethod
     def from_dict(cls, value: Mapping[str, Any]) -> "Reservation":
         return cls(reservation_id=str(value["reservationId"]), workload=str(value.get("workload", "")),
                    unit=value.get("unit"), memory_bytes=int(value.get("memoryBytes", 0)),
                    tasks=int(value.get("tasks", 0)), created_at_ms=int(value.get("createdAtMs", 0)),
-                   owner_pid=int(value.get("ownerPid", 0)))
+                   owner_pid=int(value.get("ownerPid", 0)),
+                   workload_identity=value.get("workloadIdentity"))
 
 
 class Ledger:
@@ -373,22 +389,47 @@ class Ledger:
 
         def __enter__(self) -> "Ledger._Locked":
             descriptor = os.open(self.ledger.lock_path, os.O_RDWR | os.O_CREAT | os.O_APPEND | os.O_CLOEXEC, 0o600)
-            os.fchmod(descriptor, 0o600)  # also a lock left 0644 by an older build
-            self.handle = os.fdopen(descriptor, "a+b")
             try:
+                os.fchmod(descriptor, 0o600)  # also a lock left 0644 by an older build
+                self.handle = os.fdopen(descriptor, "a+b")
+                descriptor = None  # the stream owns the lock descriptor
                 fcntl.flock(self.handle.fileno(), fcntl.LOCK_EX)
-            except OSError:
-                self.handle.close()
+            except BaseException as primary:
+                try:
+                    if self.handle is not None:
+                        self.handle.close()
+                    elif descriptor is not None:
+                        os.close(descriptor)
+                except BaseException as cleanup:
+                    primary.add_note("admission lock close also failed: " + str(cleanup))
+                self.handle = None
                 raise
             return self
 
         def __exit__(self, *exc: Any) -> None:
             if self.handle is not None:
+                primary = exc[1] if len(exc) > 1 else None
+                cleanup_primary = None
                 try:
-                    fcntl.flock(self.handle.fileno(), fcntl.LOCK_UN)
+                    try:
+                        fcntl.flock(self.handle.fileno(), fcntl.LOCK_UN)
+                    except BaseException as cleanup:
+                        if primary is not None:
+                            primary.add_note("admission unlock also failed: " + str(cleanup))
+                        else:
+                            cleanup_primary = cleanup
                 finally:
-                    self.handle.close()
+                    try:
+                        self.handle.close()
+                    except BaseException as cleanup:
+                        retained = primary if primary is not None else cleanup_primary
+                        if retained is not None:
+                            retained.add_note("admission lock close also failed: " + str(cleanup))
+                        else:
+                            cleanup_primary = cleanup
                     self.handle = None
+                if primary is None and cleanup_primary is not None:
+                    raise cleanup_primary
 
     def locked(self) -> "Ledger._Locked":
         return Ledger._Locked(self)
@@ -440,12 +481,51 @@ class Ledger:
     def _store(self, reservations: Sequence[Reservation]) -> None:
         document = {"schemaVersion": 1, "updatedAtMs": int(time.time() * 1000),
                     "reservations": [r.as_dict() for r in reservations]}
-        temporary = self.path.with_suffix(".tmp")
-        descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_CLOEXEC, 0o600)
-        os.fchmod(descriptor, 0o600)
-        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
-            stream.write(json.dumps(document, indent=2) + "\n")
-        os.replace(temporary, self.path)
+        # Serialize before acquiring a temporary file. Success requires both
+        # the new file and the replacement directory entry to be flushed.
+        content = json.dumps(document, indent=2) + "\n"
+        directory = os.open(self.directory, os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC)
+        temporary = None
+        descriptor = None
+        stream = None
+        primary = None
+        try:
+            descriptor, temporary = tempfile.mkstemp(prefix=".admission-ledger-", dir=self.directory)
+            os.fchmod(descriptor, 0o600)
+            stream = os.fdopen(descriptor, "w", encoding="utf-8")
+            descriptor = None  # stream now owns it, including failed flushes
+            stream.write(content)
+            stream.flush()
+            os.fsync(stream.fileno())
+            stream.close()
+            stream = None
+            os.replace(temporary, self.path)
+            temporary = None  # replacement may be uncertain if directory fsync fails
+            os.fsync(directory)
+        except BaseException as error:
+            primary = error
+            raise
+        finally:
+            cleanup_primary = None
+            def cleanup(operation, description):
+                nonlocal cleanup_primary
+                try:
+                    operation()
+                except BaseException as error:
+                    retained = primary if primary is not None else cleanup_primary
+                    if retained is not None:
+                        retained.add_note(description + " also failed: " + str(error))
+                    else:
+                        cleanup_primary = error
+            if stream is not None:
+                cleanup(stream.close, "admission temporary stream close")
+            if descriptor is not None:
+                cleanup(lambda: os.close(descriptor), "admission temporary descriptor close")
+            if temporary is not None:
+                cleanup(lambda: os.unlink(temporary), "admission temporary removal")
+            cleanup(lambda: os.close(directory), "admission directory close")
+            if primary is None and cleanup_primary is not None:
+                raise cleanup_primary
 
     # -- operations, each taking the lock unless one is already held -----------------------------
     def outstanding(self) -> list[Reservation]:
@@ -459,40 +539,49 @@ class Ledger:
     def release(self, reservation_id: str) -> bool:
         with self.locked():
             current = self._load()
-            remaining = [r for r in current if r.reservation_id != reservation_id]
-            if len(remaining) == len(current):
+            plan = _reservation_policy(reservation_native.release_plan,
+                                       [r.reservation_id for r in current], reservation_id)
+            if not plan.proceed:
                 return False
-            self._store(remaining)
-            return True
-
-    def release_exact(self, reservation_id: str) -> bool:
-        """Kernel-backed path for the authority's already-normalized string ID.
-
-        The original direct release API below its own lock remains unchanged;
-        custom Python equality is a separate unresolved authority domain.
-        """
-        from .reservation_lifecycle import release_plan
-        with self.locked():
-            current = self._load()
-            try:
-                removed = release_plan([r.reservation_id for r in current], reservation_id)
-            except CoreUnavailable as exc:
-                raise WorldlineError(RESOURCE_STATE_UNKNOWN,
-                                     f"reservation release plan unavailable: {exc}") from exc
-            if not any(removed):
-                return False
-            self._store([r for r, drop in zip(current, removed) if not drop])
+            self._store([r for r, action in zip(current, plan.mask) if action == 0])
             return True
 
     def attach_unit(self, reservation_id: str, unit: str) -> None:
-        if not isinstance(unit, str) or not unit or "\n" in unit or "/" in unit:
+        if not _reservation_policy(reservation_native.unit_valid, unit):
             raise WorldlineError(RESOURCE_POLICY_INVALID, f"a reservation cannot name this unit: {unit!r}")
         with self.locked():
             current = self._load()
+            plan = _reservation_policy(reservation_native.attach_unit_plan, current, reservation_id, unit)
             self._store([
-                Reservation(r.reservation_id, r.workload, unit, r.memory_bytes, r.tasks, r.created_at_ms, r.owner_pid)
-                if r.reservation_id == reservation_id else r
-                for r in current
+                Reservation(r.reservation_id, r.workload, unit, r.memory_bytes, r.tasks, r.created_at_ms, r.owner_pid,
+                            r.workload_identity if action == 2 else None)
+                if action != 0 else r
+                for r, action in zip(current, plan.mask)
+            ])
+
+    def attach_process_identity(self, reservation_id: str, identity: Any) -> None:
+        from .linux.systemd import WorkloadIdentity
+        if not _reservation_policy(reservation_native.probe, isinstance(identity, WorkloadIdentity)):
+            raise WorldlineError(RESOURCE_STATE_UNKNOWN, "check workload identity was not observed")
+        with self.locked():
+            current = self._load()
+            membership = _reservation_policy(reservation_native.identity_match, current, reservation_id)
+            if not membership.proceed:
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN, "check reservation/unit identity differs")
+            unit_observation = reservation_native.comparison(
+                current[membership.position - 1].unit, identity.unit, "ne")
+            unit_join = _reservation_policy(
+                reservation_native.decide, "identity-unit",
+                unitObservation=unit_observation)
+            if not unit_join.proceed:
+                raise WorldlineError(RESOURCE_STATE_UNKNOWN, "check reservation/unit identity differs")
+            witness = {"unit": identity.unit, "invocationId": identity.invocation_id,
+                       "controlGroup": identity.control_group}
+            plan = _reservation_policy(reservation_native.identity_update, current, reservation_id)
+            self._store([
+                Reservation(r.reservation_id, r.workload, r.unit, r.memory_bytes, r.tasks,
+                            r.created_at_ms, r.owner_pid, witness)
+                if action != 0 else r for r, action in zip(current, plan.mask)
             ])
 
     def reconcile(self, is_live: Callable[[Reservation], bool | None]) -> list[Reservation]:
@@ -511,15 +600,11 @@ class Ledger:
                 except Exception:  # noqa: BLE001
                     return None
             observations = [verdict(r) for r in current]
-            from .reservation_lifecycle import reconcile_plan
-            try:
-                removed = reconcile_plan([r.reservation_id for r in current], observations)
-            except CoreUnavailable as exc:
-                raise WorldlineError(RESOURCE_STATE_UNKNOWN,
-                                     f"reservation reconciliation plan unavailable: {exc}") from exc
+            plan = _reservation_policy(reservation_native.reconcile_plan, observations)
+            removed = tuple(action != 0 for action in plan.mask)
             dropped = [r for r, drop in zip(current, removed) if drop]
             live = [r for r, drop in zip(current, removed) if not drop]
-            if dropped:
+            if plan.proceed:
                 self._store(live)
             return dropped
 
@@ -643,7 +728,7 @@ class AdmissionAuthority:
         raise WorldlineError(RESOURCE_STATE_UNKNOWN, "resource policy result has no known refusal reason")
 
     def admit(self, *, workload: str, policy: ResourcePolicy, memory_bytes: int | None = None) -> Decision:
-        """observe -> lock -> account -> reserve -> authorize. The lock spans all four."""
+        """lock -> observe -> account -> reserve -> authorize -> unlock."""
         if not isinstance(workload, str) or not workload:
             return Decision(RESOURCE_POLICY_INVALID, "a workload name is required")
         # A policy with no declared ceiling is the default, and refusing it would stop every
@@ -667,13 +752,15 @@ class AdmissionAuthority:
             return Decision(RESOURCE_POLICY_INVALID, f"requested memory exceeds the permitted maximum: {request_bytes}",
                             policy=policy.canonical())
 
-        state = self._observer()
-        if state.state != "OBSERVED":
-            return Decision(RESOURCE_STATE_UNKNOWN,
-                            f"the machine's resource state could not be observed: {state.reason}",
-                            state=state.as_dict(), policy=policy.canonical())
-
         with self.ledger.locked() as handle:
+            # Observe only after acquiring the same lock as ledger accounting
+            # and reservation. A pre-lock snapshot cannot be combined with
+            # newly sampled usage after waiting for another admission.
+            state = self._observer()
+            if state.state != "OBSERVED":
+                return Decision(RESOURCE_STATE_UNKNOWN,
+                                f"the machine's resource state could not be observed: {state.reason}",
+                                state=state.as_dict(), policy=policy.canonical())
             try:
                 loaded = self.ledger._load()
             except WorldlineError as exc:
@@ -684,7 +771,13 @@ class AdmissionAuthority:
             # destroyed the accounting for every workload that was still running, and promised
             # their capacity to someone else. Reconciliation is the only thing that removes a
             # record, and it refuses to act on an answer it did not get.
-            current = [r for r in loaded if self._is_live(r) is not False]
+            try:
+                plan = _reservation_policy(reservation_native.reconcile_plan,
+                                           [self._is_live(r) for r in loaded])
+            except WorldlineError as exc:
+                return Decision(RESOURCE_STATE_UNKNOWN, str(exc),
+                                state=state.as_dict(), policy=policy.canonical())
+            current = [r for r, action in zip(loaded, plan.mask) if action == 0]
             try:
                 withheld, detail = self.outstanding_withheld(current)
             except CoreUnavailable as exc:
@@ -758,19 +851,17 @@ class AdmissionAuthority:
                         state=state.as_dict(), policy=policy.canonical())
 
     def release(self, reservation_id: str | None) -> bool:
-        if not bool(reservation_id):
+        if not _reservation_policy(reservation_native.gate, reservation_id):
             return False
-        normalized = str(reservation_id)
-        if type(normalized) is str:
-            return self.ledger.release_exact(normalized)
-        # Preserve the existing custom-comparison domain if __str__ returned
-        # a string subclass. This legacy path remains an authority obligation;
-        # it is never selected as a fallback after a kernel refusal.
-        return self.ledger.release(normalized)
+        return self.ledger.release(str(reservation_id))
 
     def attach_unit(self, reservation_id: str | None, unit: str) -> None:
-        if reservation_id:
+        if _reservation_policy(reservation_native.gate, reservation_id):
             self.ledger.attach_unit(str(reservation_id), unit)
+
+    def attach_process_identity(self, reservation_id: str | None, identity: Any) -> None:
+        if _reservation_policy(reservation_native.gate, reservation_id):
+            self.ledger.attach_process_identity(str(reservation_id), identity)
 
     def reconcile(self) -> list[Reservation]:
         return self.ledger.reconcile(self._is_live)
@@ -780,7 +871,9 @@ class AdmissionAuthority:
         state = self._observer()
         try:
             loaded = self.ledger.outstanding()
-            current = [r for r in loaded if self._is_live(r) is not False]
+            plan = _reservation_policy(reservation_native.reconcile_plan,
+                                       [self._is_live(r) for r in loaded])
+            current = [r for r, action in zip(loaded, plan.mask) if action == 0]
             ledger_error = None
         except WorldlineError as exc:
             current, ledger_error = [], str(exc.args[1] if len(exc.args) > 1 else exc)
@@ -841,7 +934,8 @@ class Gate:
 
     Every place that spawns supervised work holds one of these, and holds it as a context
     manager, so the reservation exists before the workload does and is released on every exit
-    path including the ones nobody thought about. Anything that still escapes — a daemon killed
+    path once its owned workload is known to have ended. Unsettled check cleanup retains capacity.
+    Anything that still escapes — a daemon killed
     mid-run — is caught by `reconcile`, because the service manager knows what is running and
     the ledger does not.
 
@@ -869,6 +963,8 @@ class _Guard:
         self.workload = workload
         self.memory_bytes = memory_bytes
         self.decision: Decision | None = None
+        self._release_deferred = False
+        self._after_process_failure = False
 
     def __enter__(self) -> Decision:
         decision = self.gate.admit(self.workload, memory_bytes=self.memory_bytes)
@@ -883,10 +979,111 @@ class _Guard:
         if self.decision is not None:
             self.gate.authority.attach_unit(self.decision.reservation_id, unit)
 
+    def attach_process(self, process: Any) -> None:
+        """Retain the actual acquired manager unit before consuming its result.
+
+        Once a process exists, an exceptional path cannot release capacity
+        without an observed terminal wait. Unsettled failed persistence leaves
+        the reservation held; it does not invent a successful attachment.
+        """
+        self._release_deferred = True
+        try:
+            from .linux.systemd import SystemdProcess
+            if isinstance(process, SystemdProcess):
+                process.capture_workload_identity()
+            self.attach_unit(process.unit)
+            if isinstance(process, SystemdProcess):
+                if process.workload_identity is not None:
+                    self.gate.authority.attach_process_identity(
+                        self.decision.reservation_id, process.workload_identity)
+        except BaseException as primary:
+            self._stop_after_failure(process, primary)
+            raise
+
+    def process_settled(self, process: Any, *, primary: BaseException | None = None,
+                        after_failure: bool = False) -> None:
+        # --pipe normally waits for the actual service. An exceptional path
+        # requires separate matching unit/cgroup facts, even if the launcher
+        # has a returncode. None of these observations is a numeric grant or
+        # a protected complete-descendant-custody witness.
+        self._after_process_failure = _reservation_policy(
+            reservation_native.failure_merge, self._after_process_failure, after_failure)
+        from .linux.systemd import SystemdProcess, WorkloadTerminalObservation
+        if not _reservation_policy(reservation_native.probe, isinstance(process, SystemdProcess)):
+            return
+        try:
+            observed = process.manager.terminal_observation(
+                process, after_failure=self._after_process_failure)
+        except BaseException as cleanup:
+            if primary is not None:
+                primary.add_note("admitted check terminal observation also failed: " + str(cleanup))
+            return
+        try:
+            if not _reservation_policy(reservation_native.probe, isinstance(observed, WorkloadTerminalObservation)):
+                return
+            unit_observation = reservation_native.comparison(observed.unit, process.unit, "eq")
+            unit_match = unit_observation["eq"]
+            if not _reservation_policy(reservation_native.probe, unit_match):
+                return
+            code_observation = reservation_native.comparison(
+                observed.launcher_returncode, process.launcher.returncode, "eq")
+            code_match = code_observation["eq"]
+            if not _reservation_policy(reservation_native.probe, code_match):
+                return
+            # Membership is an actual original Python protocol observation,
+            # not a supplied success flag or reconstructed manager witness.
+            state_member = bool(observed.state in {"NORMAL_PIPE_COMPLETION", "MANAGER_CGROUP_EMPTY", "MANAGER_CGROUP_REMOVED"})
+            settled = _reservation_policy(
+                reservation_native.decide, "guard-settled", stateMember=state_member,
+                managerCapture=observed.raw_capture,
+                unitObservation=unit_observation, codeObservation=code_observation,
+                originalState=reservation_native.original(observed.state))
+            if settled.proceed:
+                self._release_deferred = False
+        except BaseException as cleanup:
+            if primary is not None:
+                primary.add_note("admitted check terminal observation also failed: " + str(cleanup))
+            else:
+                raise
+
+    def _stop_after_failure(self, process: Any, primary: BaseException) -> None:
+        self._after_process_failure = True
+        try:
+            process.stop()
+        except BaseException as cleanup:
+            primary.add_note("admitted check stop also failed: " + str(cleanup))
+        try:
+            process.launcher.communicate(timeout=20)
+        except BaseException as cleanup:
+            primary.add_note("admitted check terminal wait also failed: " + str(cleanup))
+        self.process_settled(process, primary=primary, after_failure=True)
+
+    @contextmanager
+    def owned_process(self, process: Any):
+        self.attach_process(process)
+        primary = None
+        try:
+            yield process
+        except BaseException as error:
+            primary = error
+            self._stop_after_failure(process, error)
+            raise
+        finally:
+            self.process_settled(process, primary=primary)
+
     def release(self) -> None:
-        if self.decision is not None:
+        disposition = _reservation_policy(reservation_native.decide, "guard-release",
+                                         decisionPresent=self.decision is not None,
+                                         deferred=bool(self._release_deferred))
+        if disposition.proceed:
             self.gate.authority.release(self.decision.reservation_id)
             self.decision = None
 
     def __exit__(self, *exc: Any) -> None:
-        self.release()
+        primary = exc[1] if len(exc) > 1 else None
+        try:
+            self.release()
+        except BaseException as cleanup:
+            if primary is None:
+                raise
+            primary.add_note("admission reservation release also failed: " + str(cleanup))

@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 
 import base64
-from decimal import Decimal, InvalidOperation
 import json
 from pathlib import Path
 import re
@@ -12,7 +11,6 @@ import subprocess
 import time
 from typing import Any, Mapping, Sequence
 import uuid
-import xml.etree.ElementTree as ET
 
 from .executed import UNIDENTIFIED, VERIFIER_MOUNT, ExecutionVerifierSet
 from .resolution import resolve_token, root_prefixes
@@ -81,6 +79,21 @@ class CheckRunner:
                         **({} if _observation_writer is None else {"_observation_writer": _observation_writer}),
                     )
                 )
+                # Syntax comes from the real protected read-only parser before
+                # invocation_result owns immutable original result bytes.
+                from .evaluation_producer import acquire
+                source_work = self.paths.overlays / world_instance / 'source-syntax-acquisitions'
+                if results[-1].get('examinerAudit') is not None:
+                    secure_directory(self.paths.overlays / world_instance)
+                    secure_directory(source_work)
+                results[-1] = acquire(results[-1], systemd=self.systemd,
+                    gate=self.gate, work_directory=source_work,
+                    source_context={'worldInstance': world_instance, 'checkId': check.id,
+                                    'candidateSnapshot': candidate_snapshot},
+                    acquisition_observer=(None if _observation_writer is None else
+                        lambda kind, occurrence, observed: _observation_writer.invocation_raw(
+                            world_instance=world_instance, check=check.id, kind=kind,
+                            occurrence=occurrence, observed=observed)))
             except BaseException as original:
                 if _observation_writer is not None:
                     try:
@@ -255,47 +268,48 @@ class CheckRunner:
         if _observation_writer is not None:
             from .raw_observation import guarded_cleanup
         started_ns = time.monotonic_ns()
-        with (self.gate.guard(f"check:{check.id}") if _observation_writer is None else
-              guarded_cleanup(self.gate.guard(f"check:{check.id}"))) as _decision:
+        guard = self.gate.guard(f"check:{check.id}")
+        with (guard if _observation_writer is None else guarded_cleanup(guard)) as _decision:
             process = self.systemd.launch(
                 run_id,
                 self.sandbox.build_argv(spec),
                 description=f"WORLDLINE check {check.id}",
                 resource_properties=self.gate.unit_properties(),
             )
-            if _observation_writer is None:
-                examiner_stdout, examiner_stderr = process.launcher.communicate(timeout=600)
-            else:
-                from .raw_observation import optional_bytes, retain_observation, exception_observation
-                observe = lambda record: _observation_writer.invocation_raw(
-                    world_instance=world_instance, check=check.id,
-                    kind='legacy-process-exception', observed=record)
-                try:
+            with guard.owned_process(process):
+                if _observation_writer is None:
                     examiner_stdout, examiner_stderr = process.launcher.communicate(timeout=600)
-                except BaseException as original:
-                    try:
-                        retain_observation(observe, {
-                            'exception': exception_observation(original),
-                            'stdout': optional_bytes(getattr(original, 'output', None)),
-                            'stderr': optional_bytes(getattr(original, 'stderr', None)),
-                            'processReturnObserved': False})
-                    except BaseException as retention_error:
-                        original.add_note('available process observation retention also failed: ' + str(retention_error))
-                        original._worldline_retention_failed = True
-                    raise
-                retain_observation(lambda record: _observation_writer.invocation_raw(
-                    world_instance=world_instance, check=check.id,
-                    kind='legacy-process-return', observed=record),
-                    {'stdout': optional_bytes(examiner_stdout), 'stderr': optional_bytes(examiner_stderr),
-                     'launcherReturncode': process.launcher.returncode, 'processReturnObserved': True})
-            # Supervisor-owned facts, from the service manager's own journal entries for this
-            # unit. The candidate cannot write these: they are the manager's record of a process
-            # it supervised, not anything reported from inside the sandbox.
-            supervision = self.systemd.outcome(process, process.launcher.returncode,
-                **({} if _observation_writer is None else {'_raw_observer':
-                    lambda occurrence, record: _observation_writer.invocation_raw(
+                else:
+                    from .raw_observation import optional_bytes, retain_observation, exception_observation
+                    observe = lambda record: _observation_writer.invocation_raw(
                         world_instance=world_instance, check=check.id,
-                        kind='legacy-supervision-acquisition', occurrence=occurrence, observed=record)}))
+                        kind='legacy-process-exception', observed=record)
+                    try:
+                        examiner_stdout, examiner_stderr = process.launcher.communicate(timeout=600)
+                    except BaseException as original:
+                        try:
+                            retain_observation(observe, {
+                                'exception': exception_observation(original),
+                                'stdout': optional_bytes(getattr(original, 'output', None)),
+                                'stderr': optional_bytes(getattr(original, 'stderr', None)),
+                                'processReturnObserved': False})
+                        except BaseException as retention_error:
+                            original.add_note('available process observation retention also failed: ' + str(retention_error))
+                            original._worldline_retention_failed = True
+                        raise
+                    retain_observation(lambda record: _observation_writer.invocation_raw(
+                        world_instance=world_instance, check=check.id,
+                        kind='legacy-process-return', observed=record),
+                        {'stdout': optional_bytes(examiner_stdout), 'stderr': optional_bytes(examiner_stderr),
+                         'launcherReturncode': process.launcher.returncode, 'processReturnObserved': True})
+                # Supervisor-owned facts, from the service manager's own journal entries for this
+                # unit. The candidate cannot write these: they are the manager's record of a process
+                # it supervised, not anything reported from inside the sandbox.
+                supervision = self.systemd.outcome(process, process.launcher.returncode,
+                    **({} if _observation_writer is None else {'_raw_observer':
+                        lambda occurrence, record: _observation_writer.invocation_raw(
+                            world_instance=world_instance, check=check.id,
+                            kind='legacy-supervision-acquisition', occurrence=occurrence, observed=record)}))
         duration_ns = time.monotonic_ns() - started_ns
         executed: dict[str, Any] | None = None
         if staged is not None:
@@ -491,11 +505,14 @@ class CheckRunner:
             if _observation_writer is not None:
                 from .raw_observation import (guarded_cleanup, retain_observation,
                     private_return_observation)
-            with (self.gate.guard(f"check:{check.id}") if _observation_writer is None else
-                  guarded_cleanup(self.gate.guard(f"check:{check.id}"))):
+            guard = self.gate.guard(f"check:{check.id}")
+            with (guard if _observation_writer is None else guarded_cleanup(guard)):
                 observed = PrivateEvaluator(self.systemd).run(
-                    spec, resource_properties=self.gate.unit_properties(),
-                    **({} if _observation_writer is None else {'_supervision_observer':
+                    spec, resource_properties=self.gate.unit_properties(), _admission_guard=guard,
+                    **({} if _observation_writer is None else {'_protected_invocation_resolver':
+                        lambda: _observation_writer.protected_invocation(
+                            world_instance=world_instance, check=check.id, invocation=run_id),
+                        '_supervision_observer':
                         lambda occurrence, record: _observation_writer.invocation_raw(
                             world_instance=world_instance, check=check.id,
                             kind='private-supervision-acquisition', occurrence=occurrence, observed=record),
@@ -590,6 +607,8 @@ class CheckRunner:
                 "supervision": None if observed is None else observed.get("supervision"),
                 "evaluatorBoundary": None if observed is None else observed.get("boundary"),
                 "examinerAudit": None if observed is None else observed.get("examinerAudit"),
+                "protectedProviderCapture": (None if observed is None else
+                                             observed.get("protectedProviderCapture")),
             }
         assert observed is not None and report is not None and private_report is not None
         supervision = observed["supervision"]
@@ -607,6 +626,7 @@ class CheckRunner:
             "stderrB64": base64.b64encode(stderr).decode("ascii"),
             "candidateSnapshot": dict(candidate_snapshot),
             "executedVerifierSet": executed,
+            "protectedProviderCapture": observed.get("protectedProviderCapture"),
             "origin": "supervisor",
             "resultChannel": {
                 "accepted": True, "recordProducer": "daemon-outside-sandbox",
@@ -821,89 +841,8 @@ class CheckRunner:
         stderr: bytes,
         result: bytes | None,
     ) -> dict[str, Any]:
-        payload = result if result is not None else stdout
-        if check.format == "exit":
-            return {"status": "PASS" if exit_code == 0 else "FAIL"}
-        if check.format == "junit":
-            if result is None:
-                return {"status": "FAIL", "reason": "JUnit result file is missing", "tests": None}
-            if b"<!DOCTYPE" in result.upper():
-                return {"status": "FAIL", "reason": "JUnit DTD is not allowed", "tests": None}
-            try:
-                root = ET.fromstring(result)
-                if root.tag not in ("testsuite", "testsuites"):
-                    raise ValueError("root must be testsuite or testsuites")
-                suites = [root] if root.tag == "testsuite" else list(root.iter("testsuite"))
-                if not suites:
-                    raise ValueError("no testsuite elements")
-                totals = {
-                    name: sum(int(suite.attrib.get(name, "0")) for suite in suites)
-                    for name in ("tests", "failures", "errors", "skipped")
-                }
-                if (totals["tests"] <= 0 or any(value < 0 for value in totals.values())
-                        or totals["failures"] + totals["errors"] + totals["skipped"] > totals["tests"]):
-                    raise ValueError("test counts are empty or inconsistent")
-            except (ET.ParseError, ValueError) as exc:
-                return {"status": "FAIL", "reason": f"invalid JUnit XML: {exc}", "tests": None}
-            status = "PASS" if exit_code == 0 and totals["failures"] == 0 and totals["errors"] == 0 else "FAIL"
-            return {"status": status, **totals}
-        if check.format == "gnatprove":
-            if check.profile == "private-evaluator-v1" and result is None:
-                return {"status": "FAIL", "reason": "private GNATprove report is missing", "total": None}
-            text = payload.decode("utf-8", "replace")
-            total_line = next((line for line in text.splitlines() if line.startswith("Total")), None)
-            if total_line is None:
-                return {"status": "FAIL", "reason": "gnatprove Total row is missing", "total": None}
-            fields = re.sub(r"\([0-9]+%\)", "", total_line).split()
-            if len(fields) != 6:
-                return {"status": "FAIL", "reason": "gnatprove Total row is invalid", "total": None}
-            try:
-                counts = [0 if value == "." else int(value) for value in fields[1:]]
-            except ValueError:
-                return {"status": "FAIL", "reason": "gnatprove Total counts are invalid", "total": None}
-            total, justified, unproved = counts[0], counts[3], counts[4]
-            if total <= 0 or any(count < 0 for count in counts) or sum(counts[1:]) != total:
-                return {"status": "FAIL", "reason": "gnatprove Total counts are empty or inconsistent", "total": None}
-            return {
-                "status": "PASS" if exit_code == 0 and justified == 0 and unproved == 0 else "FAIL",
-                "total": total,
-                "justified": justified,
-                "unproved": unproved,
-            }
-        if check.format == "worldline-benchmark-v1":
-            if result is None:
-                return {"status": "FAIL", "reason": "benchmark result file is missing"}
-            try:
-                value = json.loads(result.decode("utf-8", "strict"))
-            except (UnicodeError, json.JSONDecodeError) as exc:
-                return {"status": "FAIL", "reason": f"invalid benchmark JSON: {exc}"}
-            required = {"metric", "unit", "baseline", "candidate", "direction"}
-            if (not isinstance(value, dict) or set(value) != required
-                    or value["direction"] not in {"higher-is-better", "lower-is-better"}
-                    or not isinstance(value["metric"], str) or not value["metric"]
-                    or not isinstance(value["unit"], str) or not value["unit"]):
-                return {"status": "FAIL", "reason": "benchmark schema is invalid"}
-            try:
-                baseline = Decimal(str(value["baseline"]))
-                candidate = Decimal(str(value["candidate"]))
-            except InvalidOperation:
-                return {"status": "FAIL", "reason": "benchmark values are not numeric"}
-            if not baseline.is_finite() or not candidate.is_finite():
-                return {"status": "FAIL", "reason": "benchmark values are not finite"}
-            improvement = (
-                candidate > baseline
-                if value["direction"] == "higher-is-better"
-                else candidate < baseline
-            )
-            percentage = None if baseline == 0 else str(((candidate - baseline) / abs(baseline) * Decimal(100)).normalize())
-            return {
-                "status": "PASS" if exit_code == 0 else "FAIL",
-                "metric": value["metric"],
-                "unit": value["unit"],
-                "baseline": str(value["baseline"]),
-                "candidate": str(value["candidate"]),
-                "direction": value["direction"],
-                "improved": improvement,
-                "percentage": percentage,
-            }
-        raise WorldlineError("INVALID_CHECK_FORMAT", f"unsupported check format: {check.format}")
+        from .report_parser import parse
+        from .core import Core
+        core = getattr(self, "core", None)
+        return parse(Core.shared() if core is None else core, check, exit_code,
+                     stdout, stderr, result)

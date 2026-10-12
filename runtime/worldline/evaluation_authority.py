@@ -13,6 +13,7 @@ from .evaluation_history import EvaluationCursor, EvaluationRecord, EvaluationQu
 from .evaluation_pending import identity, text
 from .evaluation_terminal import TerminalJournal, value_bytes, bytes_value
 from .errors import WorldlineError
+from .recovery_material import AuthorityMaterial
 
 @dataclass
 class SelectedEvaluation:
@@ -25,6 +26,8 @@ class SelectedEvaluation:
     typed_rows: tuple
     retained_stream: tuple
     observed: dict
+    # Existing constructor fixtures remain accepted; packet capture refuses None.
+    authority_material: object = None
 
 def _refuse(code, detail):
     raise WorldlineError(code, detail)
@@ -35,15 +38,10 @@ def _cursor(value):
         _refuse('EVALUATION_CURSOR_INVALID', 'prepared cursor is not an exact record')
     return EvaluationCursor(value['epoch'], value['run'])
 
-def _read_finalization(store, world, core):
-    from .finalization_journal import FinalizationJournal, decode
+def _classify_finalization_material(found, world, core, kernel):
+    """Replay the original full finalization path, with no live-store lookup."""
+    from .finalization_journal import decode
     from .validation import verify_context
-    journal = getattr(store, 'evaluation_finalization', None)
-    if journal is None:
-        return None, None, None
-    if type(journal) is not FinalizationJournal:
-        _refuse('FINALIZATION_AUTHORITY_UNAVAILABLE', 'the real finalization journal is not provisioned')
-    found = journal.retained(world.instance_id)
     if found is None:
         return None, None, None
     start, sealed, events = found
@@ -52,7 +50,6 @@ def _read_finalization(store, world, core):
         # A real reserved intent without a seal remains an incomplete attempt;
         # it cannot manufacture final content or a completed finalization row.
         return None, None, cursor
-    journal.acknowledge(store, world.instance_id)
     rows = [bytes_value(row.payload) for row in sealed.value.capture.results]
     if any(type(row) is not dict for row in rows):
         _refuse('FINALIZATION_CAPTURE_INVALID', 'a full retained finalization row is malformed')
@@ -65,7 +62,7 @@ def _read_finalization(store, world, core):
             raise WorldlineError('FINALIZATION_CAPTURE_INVALID', 'the full retained declaration is malformed') from exc
         if record(payload, declaration) != retained_row.wire:
             _refuse('FINALIZATION_RAW_PROJECTION_CHANGED', 'the actual full raw projection differs from its retained bytes')
-    prepared = journal.kernel.prepare_finalization(sealed.value)
+    prepared = kernel.prepare_finalization(sealed.value)
     headers, stream, acquisitions = [], [], []
     starts, returns = {}, {}
     for event in events:
@@ -112,16 +109,56 @@ def _read_finalization(store, world, core):
               ((headers[0], tuple(stream)), tuple(acquisitions)), observed)
     return final, values, cursor
 
-def _read(store, world, current_requirement, *, prepared=None, core=None):
+
+def _read_finalization_material(store, world, core):
+    from .finalization_journal import FinalizationJournal
+    journal = getattr(store, 'evaluation_finalization', None)
+    if journal is None:
+        return None, None, None, None
+    if type(journal) is not FinalizationJournal:
+        _refuse('FINALIZATION_AUTHORITY_UNAVAILABLE', 'the real finalization journal is not provisioned')
+    found = journal.retained(world.instance_id)
+    # Keep the original cursor validation before acknowledge, and acknowledge
+    # before row/context classification. Malformed text must not publish first.
+    # Unsealed starts retain their whole material without manufacturing a row.
+    if found is not None:
+        start, sealed, _events = found
+        EvaluationCursor(int.from_bytes(start.epoch, 'little'), text(start.run))
+        if sealed is not None:
+            journal.acknowledge(store, world.instance_id)
+    result = _classify_finalization_material(found, world, core, journal.kernel)
+    return (*result, found)
+
+
+def _read_finalization(store, world, core):
+    """Preserve the original private three-value read interface."""
+    return _read_finalization_material(store, world, core)[:3]
+
+def _read_material(world, current_requirement, authority_material, *, prepared, core,
+                   kernel=None, wire=None, finalization_values=None, _owner_collect=False):
+    """The same native classification/selection path over retained full data.
+
+    This is a replay consumer, not a TerminalJournal double or a protected
+    producer. No live requirement, current cursor or history is substituted.
+    """
     from .finalize import CheckDeclaration, check_declarations, required_roster
     from .validation import verify_context
-    terminal = getattr(store, 'evaluation_terminal', None)
-    if type(terminal) is not TerminalJournal:
-        _refuse('EVALUATION_AUTHORITY_UNAVAILABLE', 'the durable evaluation producer is not provisioned')
-    core = core or store.core
-    kernel, wire = RawCompletionKernel(Path(core.library_path)), Authority(core)
-    finalization, finalization_values, finalization_cursor = _read_finalization(store, world, core)
-    journal, actual_current, material, retained_streams = terminal.authority_material_full(world.instance_id)
+    from .finalization_kernel import FinalizationKernel
+    if type(authority_material) is not AuthorityMaterial:
+        _refuse('RECOVERY_PACKET_MATERIAL', 'complete retained authority material is absent')
+    terminal = authority_material.terminal
+    if type(terminal) is not tuple or len(terminal) != 4:
+        _refuse('RECOVERY_PACKET_MATERIAL', 'complete retained terminal schema differs')
+    journal, actual_current, material, retained_streams = terminal
+    kernel = RawCompletionKernel(Path(core.library_path)) if kernel is None else kernel
+    wire = Authority(core) if wire is None else wire
+    if finalization_values is None:
+        found = authority_material.finalization
+        finalization_kernel = (FinalizationKernel(Path(core.library_path))
+                               if found is not None and found[1] is not None else None)
+        finalization_values = _classify_finalization_material(
+            found, world, core, finalization_kernel)
+    finalization, finalization_values, finalization_cursor = finalization_values
     current = None if actual_current is None else EvaluationCursor(
         int.from_bytes(actual_current[0], 'little'), text(actual_current[1]))
     if current is None:
@@ -233,6 +270,10 @@ def _read(store, world, current_requirement, *, prepared=None, core=None):
                        retained_streams.get(summary.run), observed))
     # The complete list is passed in original order. No requirement/verdict
     # filter precedes Head_Reference; any current-requirement FAIL is retained.
+    if _owner_collect:
+        # Full classification data only; no evidence selection or authority.
+        return OwnerProjection(tuple(records), finalization, current, tuple(values),
+                               finalization_values, authority_material)
     selected = select_history(tuple(records), finalization,
         EvaluationQuery(world.instance_id, world.content_id, current_requirement, current, prior), core=core)
     if selected.reason != 'READY':
@@ -252,7 +293,123 @@ def _read(store, world, current_requirement, *, prepared=None, core=None):
         _refuse('EVALUATION_CAPTURE_INVALID', 'READY lacks the corresponding complete raw capture')
     return SelectedEvaluation(context, source, rows,
         {'epoch': current.epoch, 'run': current.run}, raw, capture,
-        tuple(typed_rows), retained_stream, observed)
+        tuple(typed_rows), retained_stream, observed, authority_material)
+
+
+
+def _read(store, world, current_requirement, *, prepared=None, core=None):
+    terminal = getattr(store, 'evaluation_terminal', None)
+    if type(terminal) is not TerminalJournal:
+        _refuse('EVALUATION_AUTHORITY_UNAVAILABLE', 'the durable evaluation producer is not provisioned')
+    core = core or store.core
+    # Preserve original ABI construction before finalization/history acquisition.
+    kernel, wire = RawCompletionKernel(Path(core.library_path)), Authority(core)
+    finalization, values, cursor, finalization_material = _read_finalization_material(store, world, core)
+    full = terminal.authority_material_full(world.instance_id)
+    # Full ordered material is retained even when finalization is unsealed and
+    # history speaks. Every old failure, incomplete row, duplicate and raw byte
+    # remains in the packet; this is data, not a provenance assertion.
+    material = AuthorityMaterial(tuple(full), finalization_material,
+                                 getattr(terminal.pending, 'store', None))
+    return _read_material(world, current_requirement, material, prepared=prepared, core=core,
+                          kernel=kernel, wire=wire,
+                          finalization_values=(finalization, values, cursor))
+
+
+def _replay_producer_gates(world, material, core):
+    """Re-run original native producer relations before the raw reader replay.
+
+    Durable SQLite acknowledgment/outbox/custody are not inferred from this
+    DTO. Their authenticated retention remains the protected issuer's job.
+    """
+    from .completion_kernel import CompletionKernel, HistoryValue, CaptureValue, CheckValue
+    from .pending_kernel_v2 import Intent
+    from .finalization_kernel import FinalizationKernel
+    from .finalization_values import StartValue, SealedValue, UnsealedResult
+    from .finalization_journal import bytes_record
+    if type(material) is not AuthorityMaterial or type(material.terminal) is not tuple or len(material.terminal) != 4:
+        _refuse('RECOVERY_PACKET_MATERIAL', 'complete retained authority material is absent')
+    journal, current, rows, streams = material.terminal
+    if (type(journal) is not tuple or type(rows) is not tuple or type(streams) is not dict
+            or len(journal) != len(rows)
+            or (current is not None and (type(current) is not tuple or len(current) != 2
+                or any(type(value) is not bytes for value in current)))):
+        _refuse('RECOVERY_PACKET_MATERIAL', 'complete retained terminal shape differs')
+    if journal and type(material.pending_store) is not bytes:
+        _refuse('RECOVERY_PACKET_PENDING_STORE', 'the independent retained pending-store identity is absent')
+    history, retained_runs = [], []
+    for intent, row in zip(journal, rows):
+        if (type(intent) is not Intent or type(row) is not tuple or len(row) != 2
+                or type(row[0]) is not HistoryValue or intent.linked is not True
+                or intent.store_id != material.pending_store):
+            _refuse('RECOVERY_PACKET_MATERIAL', 'the complete pending/history correspondence differs')
+        summary, retained = row
+        if ((summary.subject, summary.content, summary.requirement, summary.run, summary.epoch)
+                != (intent.subject, intent.content, intent.requirement, intent.run, intent.epoch)):
+            _refuse('RECOVERY_PACKET_MATERIAL', 'a retained history identity differs from the original intent')
+        if retained is None:
+            if summary != HistoryValue(intent.subject, intent.content, intent.requirement,
+                    intent.run, intent.epoch, 'PENDING', None):
+                _refuse('RECOVERY_PACKET_MATERIAL', 'an unretained intent manufactures a terminal summary')
+        else:
+            if type(retained) is not tuple or len(retained) != 3:
+                _refuse('RECOVERY_PACKET_MATERIAL', 'a retained terminal record is incomplete')
+            stored, capture, results = retained
+            if (type(capture) is not CaptureValue or type(results) is not tuple
+                    or any(type(result) is not CheckValue for result in results)):
+                _refuse('RECOVERY_PACKET_MATERIAL', 'a full terminal raw record has an unexpected DTO type')
+            expected = HistoryValue(capture.bound.subject, capture.bound.content,
+                capture.bound.requirement, capture.bound.run, capture.bound.epoch,
+                'COMPLETED' if capture.state == 'Completed' else 'ERROR', capture.outcome)
+            if summary != expected or stored != summary:
+                _refuse('RECOVERY_PACKET_MATERIAL', 'the retained terminal summary differs from its full capture')
+            retained_runs.append(summary.run)
+        history.append(summary)
+    if set(streams) != set(retained_runs):
+        _refuse('RECOVERY_PACKET_MATERIAL', 'the full raw invocation-stream domain differs')
+    producer = CompletionKernel(Path(core.library_path))
+    for summary, retained in rows:
+        if retained is None:
+            continue
+        _stored, capture, results = retained
+        plan = producer.decide(journal, current=current, capture=capture,
+            results=results, retained=capture, retained_results=results, history=tuple(history))
+        if (plan.reason not in ('Retain_Terminal', 'Already_Retained')
+                or plan.selected < 1 or plan.selected > len(journal)
+                or journal[plan.selected - 1].run != summary.run or plan.summary != summary):
+            _refuse('RECOVERY_PACKET_MATERIAL', 'the original native terminal relation refuses retained data')
+    found = material.finalization
+    if found is not None:
+        if type(found) is not tuple or len(found) != 3:
+            _refuse('RECOVERY_PACKET_MATERIAL', 'the complete retained finalization shape differs')
+        start, sealed, events = found
+        if type(start) is not StartValue or type(events) is not tuple or start.subject != identity(world.instance_id):
+            _refuse('RECOVERY_PACKET_MATERIAL', 'the original finalization start differs')
+        finalization = FinalizationKernel(Path(core.library_path))
+        finalization.validate_start(start)
+        if sealed is not None:
+            if (type(sealed) is not SealedValue or sealed.value.capture.start != start
+                    or finalization.seal(sealed.value) != sealed):
+                _refuse('RECOVERY_PACKET_MATERIAL', 'the original native finalization seal differs')
+            results = tuple(bytes_record(event['payload'], UnsealedResult)
+                for event in events if event['phase'] == 'result')
+            if results != sealed.value.capture.results:
+                _refuse('RECOVERY_PACKET_MATERIAL', 'the full retained finalization result sequence differs')
+
+
+def read_material(world, current_requirement, material, *, prepared, core):
+    """Replay retained native inputs, keeping custody as an external obligation."""
+    from .pending_kernel import KernelRefused
+    from .evaluation_terminal import TerminalRefused
+    try:
+        _replay_producer_gates(world, material, core)
+        return _read_material(world, current_requirement, material, prepared=prepared, core=core)
+    except WorldlineError:
+        raise
+    except (KeyError, IndexError, AttributeError, TypeError, ValueError, OverflowError,
+            KernelRefused, TerminalRefused) as exc:
+        raise WorldlineError('RECOVERY_PACKET_MATERIAL_INVALID',
+                            'complete retained raw authority could not be replayed') from exc
 
 
 def read(store, world, current_requirement, *, prepared=None, core=None):
@@ -264,3 +421,40 @@ def read(store, world, current_requirement, *, prepared=None, core=None):
         raise
     except (KeyError, TypeError, ValueError, OverflowError, KernelRefused, TerminalRefused) as exc:
         raise WorldlineError('EVALUATION_CAPTURE_INVALID', 'complete retained raw capture could not be validated') from exc
+
+@dataclass(frozen=True)
+class OwnerProjection:
+    records: tuple
+    finalization: object
+    current: object
+    values: tuple
+    finalization_values: object
+    authority_material: object
+
+def owner_projection(store, world, requirement, *, core=None, material=None):
+    """Replay every original producer/classifier without bypassing FAIL selection.
+    This returns data for the separate owner rule, not default evidence.
+    """
+    core=core or store.core
+    if material is None:
+        terminal=getattr(store,'evaluation_terminal',None)
+        if type(terminal) is not TerminalJournal:
+            _refuse('OWNER_TERMINAL_CUSTODY_UNAVAILABLE','existing terminal journal required')
+        _final,_values,_cursor,final=_read_finalization_material(store,world,core)
+        material=AuthorityMaterial(tuple(terminal.authority_material_full(world.instance_id)),final,terminal.pending.store)
+    _replay_producer_gates(world,material,core)
+    return _read_material(world,requirement,material,prepared=None,core=core,_owner_collect=True)
+
+def selected_owner_projection(world, projection):
+    """Projection only after the protected owner consumer's native audit READY.
+    Calling this data helper is not permission. Original context joins remain.
+    """
+    if type(projection) is not OwnerProjection or not projection.records or projection.current is None:
+        _refuse('OWNER_RETRY_PROJECTION_INVALID','complete classified retry head required')
+    chosen=projection.records[-1]
+    context,rows,raw,capture,typed,stream,observed=projection.values[-1]
+    if type(context) is not dict or raw is None:
+        _refuse('OWNER_RETRY_CAPTURE_INVALID','complete original raw capture required')
+    return SelectedEvaluation(context,'owner-retry:'+chosen.run,rows,
+        {'epoch':projection.current.epoch,'run':projection.current.run},raw,capture,
+        tuple(typed),stream,observed,projection.authority_material)

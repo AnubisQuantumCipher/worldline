@@ -191,4 +191,5 @@ package Evaluation_Raw_Roster with SPARK_Mode is
      with Global => null,
        Post => Any_Completed_Failure'Result =
          (for some I in History'Range => Captured_Failure (A, Rows, Required, History (I), Current));
+   pragma No_Inline (Reference);
 end Evaluation_Raw_Roster;

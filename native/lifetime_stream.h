@@ -9,7 +9,8 @@
 #include <sys/stat.h>
 #include <time.h>
 
-enum wl_kind { WL_HELLO = 1, WL_ATTEMPT, WL_RESULT, WL_ACTIVATION, WL_TERMINAL };
+enum wl_kind { WL_HELLO = 1, WL_ATTEMPT, WL_RESULT, WL_ACTIVATION, WL_TERMINAL,
+               WL_WORKLOAD_OUTCOME, WL_PROCESS_EXIT };
 enum wl_tag { WL_NONE, WL_FALSE, WL_TRUE, WL_INTEGER, WL_TEXT, WL_BYTES,
               WL_TUPLE, WL_UNAVAILABLE };
 #define WL_MAGIC_SIZE (sizeof("WLNLv001") - 1)
@@ -19,6 +20,7 @@ enum wl_tag { WL_NONE, WL_FALSE, WL_TRUE, WL_INTEGER, WL_TEXT, WL_BYTES,
 
 struct wl_stream {
     int descriptor, attempted, attached, failed, busy;
+    int python_finalized, exit_attempted, exit_busy, exit_status;
     uint64_t sequence, deadline_ns, outstanding;
     unsigned char previous[WL_TOKEN_SIZE];
 };
@@ -29,7 +31,7 @@ struct wl_operation {
     struct wl_operation *parent;
     PyThreadState *thread;
     struct generator_route *result_route;
-    int begun;
+    int begun, workload_result;
 };
 
 struct wl_record {
@@ -660,6 +662,15 @@ wl_optional_object(struct wl_record *record, PyObject *value)
 }
 
 static void
+wl_object_identity(struct wl_record *record, PyObject *object)
+{
+    if (object == NULL)
+        wl_tag(record, WL_NONE);
+    else
+        wl_unsigned(record, (uint64_t)(uintptr_t)object);
+}
+
+static void
 wl_exception(struct wl_record *record, PyObject *primary)
 {
     if (primary == NULL) {
@@ -716,6 +727,14 @@ wl_exception(struct wl_record *record, PyObject *primary)
         wl_signed(record, error->written);
         /* OSError subclasses can carry additional native or Python fields. */
         if (Py_TYPE(primary) != (PyTypeObject *)PyExc_OSError)
+            record->complete = 0;
+    } else if (PyObject_TypeCheck(primary, (PyTypeObject *)PyExc_SystemExit)) {
+        /* Observe the direct field, never invoke a subclass attribute/conversion.
+         * CPython retains ownership of actual SystemExit handling and printing. */
+        wl_tuple(record, 2);
+        wl_ascii(record, "SystemExit");
+        wl_optional_object(record, ((PySystemExitObject *)primary)->code);
+        if (Py_TYPE(primary) != (PyTypeObject *)PyExc_SystemExit)
             record->complete = 0;
     } else {
         wl_ascii(record, "base-fields-only-not-a-subclass-object-snapshot");
@@ -797,7 +816,7 @@ wl_finish(struct wl_operation *operation, PyObject *result)
     }
     lifetime.busy = state.lifetime_operation = 1;
     struct wl_record record = wl_record_open();
-    wl_tuple(&record, 9);
+    wl_tuple(&record, operation->workload_result ? 10 : 9);
     wl_unsigned(&record, operation->identity);
     wl_tag(&record, result == NULL ? WL_FALSE : WL_TRUE);
     wl_unsigned(&record, (uint64_t)state.phase);
@@ -825,6 +844,14 @@ wl_finish(struct wl_operation *operation, PyObject *result)
     wl_tag(&record, record.complete ? WL_TRUE : WL_FALSE);
     wl_tag(&record, state.violated ? WL_TRUE : WL_FALSE);
     wl_ascii(&record, state.first_failure);
+    if (operation->workload_result) {
+        /* The primary is held here. This identity joins observations of the
+         * same live object across callback-capable helper/reference cleanup.
+         * It is not a claim of protected memory or a complete object copy. */
+        wl_tuple(&record, 2);
+        wl_ascii(&record, "native-held-primary-at-result");
+        wl_object_identity(&record, primary);
+    }
     int retained = wl_exchange(WL_RESULT, &record);
     if (PyThread_tss_set(&lifetime_operation_key, operation->parent) != 0)
         _exit(125); /* A stack frame must never remain reachable after return. */
@@ -845,12 +872,73 @@ wl_finish(struct wl_operation *operation, PyObject *result)
     return result;
 }
 
+static int (*wl_next_bytes_main)(int, char **);
+static void (*wl_next_exit)(int);
+static char *wl_main_provider, *wl_exit_provider;
+
+static int
+wl_bind_exit_providers(void)
+{
+    if (wl_next_bytes_main != NULL && wl_next_exit != NULL)
+        return 0;
+    void *main_symbol = dlsym(RTLD_NEXT, "Py_BytesMain");
+    void *exit_symbol = dlsym(RTLD_NEXT, "exit");
+    void *immediate_symbol = dlsym(RTLD_NEXT, "_Exit");
+    Dl_info main_info, python_info, exit_info, immediate_info;
+    if (main_symbol == NULL || exit_symbol == NULL || immediate_symbol == NULL ||
+        main_symbol == (void *)Py_BytesMain || exit_symbol == (void *)exit ||
+        !dladdr(main_symbol, &main_info) || !dladdr((void *)Py_GetVersion, &python_info) ||
+        !dladdr(exit_symbol, &exit_info) || !dladdr(immediate_symbol, &immediate_info) ||
+        main_info.dli_fbase != python_info.dli_fbase ||
+        exit_info.dli_fbase != immediate_info.dli_fbase ||
+        main_info.dli_saddr != main_symbol || exit_info.dli_saddr != exit_symbol ||
+        main_info.dli_fname == NULL || exit_info.dli_fname == NULL)
+        return -1;
+    char *main_name = strdup(main_info.dli_fname), *exit_name = strdup(exit_info.dli_fname);
+    if (main_name == NULL || exit_name == NULL) {
+        free(main_name);
+        free(exit_name);
+        return -1;
+    }
+    wl_main_provider = main_name;
+    wl_exit_provider = exit_name;
+    wl_next_bytes_main = (int (*)(int, char **))main_symbol;
+    wl_next_exit = (void (*)(int))exit_symbol;
+    return 0;
+}
+
 static void
 wl_at_exit(void)
 {
-    if (!lifetime.attached || lifetime.descriptor < 0)
-        return;
-    /* After Python finalization: only C-owned state and direct syscalls below. */
+    /* Mark only. The original interpreter decides its actual exit status after
+     * finalization, including its ordinary SystemExit and flush-error paths. */
+    if (lifetime.attached) {
+        if (lifetime.python_finalized)
+            lifetime.failed = 1;
+        lifetime.python_finalized = 1;
+    }
+}
+
+static int
+wl_interpreter_exit(int original, const char *site)
+{
+    if (!lifetime.attached || !lifetime.python_finalized)
+        return original;            /* abrupt/early exits have no invented terminal */
+    if (lifetime.exit_busy)
+        _exit(original != 0 ? original : 125); /* incomplete, never recurse */
+    if (lifetime.exit_attempted)
+        return lifetime.exit_status;
+    lifetime.exit_attempted = lifetime.exit_busy = 1;
+    /* Python is gone. Only retained C values and native operations below. */
+    struct wl_record exit_record = wl_record_open();
+    wl_tuple(&exit_record, 6);
+    wl_ascii(&exit_record, "native-interpreter-exit");
+    wl_ascii(&exit_record, site);
+    wl_signed(&exit_record, original);
+    wl_tag(&exit_record, WL_TRUE);
+    wl_ascii(&exit_record, wl_main_provider);
+    wl_ascii(&exit_record, wl_exit_provider);
+    int exit_retained = wl_exchange(WL_PROCESS_EXIT, &exit_record);
     struct wl_record record = wl_record_open();
     wl_tuple(&record, 7);
     wl_ascii(&record, "native-finalized");
@@ -864,11 +952,33 @@ wl_at_exit(void)
     if (wl_close(lifetime.descriptor) < 0)
         result = -1;
     lifetime.descriptor = -1;
-    if (result < 0 || lifetime.outstanding || lifetime.failed || state.violated) {
+    int failed = exit_retained < 0 || result < 0 || lifetime.outstanding ||
+                 lifetime.failed || state.violated;
+    if (failed) {
         const char message[] = "WORLDLINE_NATIVE_LIFETIME_FAILED at native finalization\n";
         (void)write(STDERR_FILENO, message, sizeof(message) - 1);
-        _exit(125);
     }
+    lifetime.exit_status = original != 0 ? original : (failed ? 125 : original);
+    lifetime.exit_busy = 0;
+    return lifetime.exit_status;
+}
+
+int
+Py_BytesMain(int argc, char **argv)
+{
+    if (wl_bind_exit_providers() < 0)
+        _exit(125);
+    int original = wl_next_bytes_main(argc, argv);
+    return wl_interpreter_exit(original, "Py_BytesMain-return");
+}
+
+void
+exit(int status)
+{
+    if (wl_bind_exit_providers() < 0)
+        _exit(status != 0 ? status : 125);
+    wl_next_exit(wl_interpreter_exit(status, "libc-exit-after-python-finalization"));
+    _exit(status != 0 ? status : 125); /* A returning exit provider is not a normal exit. */
 }
 
 static PyObject *

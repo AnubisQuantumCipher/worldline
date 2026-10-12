@@ -256,6 +256,48 @@ package Resource_Reservation_Transition with SPARK_Mode is
            Present_Identity_Valid (Data, R.Operation)))
    with Global => null;
 
+   --  Complete standalone row/operation stage, including malformed inputs.
+   function Operation_Row_Reference
+     (Data : Byte_Array; Before : Ledger_State; R : Request) return Result_Status is
+     (if R.Kind = Unknown_Operation then Unknown_Kind
+      elsif not State_Shape (Data, Before) then Invalid_Before
+      elsif not Request_Shape (Data, Before, R) then Request_Invalid
+      elsif R.Kind = Reserve then
+        (if Value (Data, R.Expected_Epoch.Value) /= Value (Data, Before.Epoch.Value)
+         then Stale_Reserve_Epoch
+         elsif Before.Selected.Present then Slot_Already_Exists else Ready)
+      elsif not Before.Selected.Present then Reservation_Absent
+      elsif not Same_Identity (Data, R.Requester, Before.Selected.Value.Binding.Owner) then Wrong_Owner
+      elsif not Same_Identity (Data, R.Reservation, Before.Selected.Value.Binding.Reservation)
+        then Reservation_Mismatch
+      elsif not Same_Identity (Data, R.Operation, Before.Selected.Value.Binding.Operation)
+        then Operation_Mismatch
+      elsif Before.Selected.Phase = Released then Already_Released
+      elsif Before.Selected.Phase = Consumed then Already_Consumed
+      else Ready) with Ghost, Global => null;
+   function Operation_Row_Status
+     (Data : Byte_Array; Before : Ledger_State; R : Request) return Result_Status
+     with Global => null,
+       Post => Operation_Row_Status'Result = Operation_Row_Reference (Data, Before, R);
+
+   --  Full actual change check and ceiling stage. Invalid ceiling spans are
+   --  ordinary helper inputs; Compare's Invalid result never becomes Greater.
+   function Final_Transition_Reference
+     (Data : Byte_Array; Before, Proposed : Ledger_State; R : Request) return Result_Status is
+     (if not Change_Reference (Data, Before, Proposed, R)
+        then Transition_Conservation_Mismatch
+      elsif R.Kind = Reserve and then Span_Valid (Data, Proposed.Total)
+        and then Span_Valid (Data, R.Ceiling)
+        and then Value (Data, Proposed.Total) > Value (Data, R.Ceiling)
+        then Limit_Exceeded
+      else Ready) with Ghost, Global => null;
+   function Final_Transition_Status
+     (Data : Byte_Array; Before, Proposed : Ledger_State; R : Request) return Result_Status
+     with Global => null,
+       Post => Final_Transition_Status'Result = Final_Transition_Reference (Data, Before, Proposed, R)
+         and then (if Final_Transition_Status'Result = Ready then
+           Change_Reference (Data, Before, Proposed, R));
+
    --  Complete closed first-refusal equation, independent of Check/Apply and
    --  their desired theorem. Mathematical equality is not a trusted admission
    --  Boolean. All selectors are guarded over the complete variant domain.
@@ -263,6 +305,52 @@ package Resource_Reservation_Transition with SPARK_Mode is
      (Data : Byte_Array; Before, Proposed : Ledger_State;
       High_Water : High_Water_Observation; R : Request) return Result_Status is
      (if R.Kind = Unknown_Operation then Unknown_Kind
+      elsif not State_Shape (Data, Before) then Invalid_Before
+      elsif not State_Shape (Data, Proposed) then Invalid_Proposed
+      elsif not High_Water.Epoch.Present then Observation_Absent
+      elsif not Context_Valid (Data, High_Water.Scope) or else
+        not Epoch_Valid (Data, High_Water.Epoch) then Observation_Invalid
+      elsif not Same_Context (Data, Before.Scope, High_Water.Scope)
+        then Observation_Scope_Mismatch
+      elsif Value (Data, Before.Epoch.Value) /= Value (Data, High_Water.Epoch.Value)
+        then High_Water_Mismatch
+      elsif not Request_Shape (Data, Before, R) then Request_Invalid
+      elsif Operation_Row_Reference (Data, Before, R) /= Ready
+        then Operation_Row_Reference (Data, Before, R)
+      elsif not Conserved_Reference (Data, Before) then Before_Conservation_Mismatch
+      elsif not Same_Context (Data, Before.Scope, Proposed.Scope) then Context_Changed
+      elsif Value (Data, Before.Other_Reservations) /=
+        Value (Data, Proposed.Other_Reservations) then Remainder_Changed
+      elsif not Proposed_Row_Reference (Data, Before, Proposed, R)
+        then Proposed_Row_Mismatch
+      elsif Value (Data, Proposed.Epoch.Value) /= Value (Data, Before.Epoch.Value) + 1
+        then Epoch_Not_Successor
+      elsif not Conserved_Reference (Data, Proposed) then Proposed_Conservation_Mismatch
+      else Final_Transition_Reference (Data, Before, Proposed, R))
+   with Ghost, Global => null;
+   --  The complete historical first-refusal equation remains a checked
+   --  universal proof obligation, including its late change consequence.
+   --  Exact original final equation, factored only to state its independent
+   --  supplied-value domain. The composition theorem must prove this helper's
+   --  value-read prerequisites from its unchanged preceding guards.
+   function Original_Final_Equation
+     (Data : Byte_Array; Before, Proposed : Ledger_State; R : Request)
+      return Result_Status is
+     (if not Change_Reference (Data, Before, Proposed, R)
+        then Transition_Conservation_Mismatch
+      elsif R.Kind = Reserve and then
+        Value (Data, Proposed.Total) > Value (Data, R.Ceiling) then Limit_Exceeded
+      else Ready)
+     with Ghost, Global => null,
+       Pre => Span_Valid (Data, Proposed.Total) and then
+         (if R.Kind = Reserve then Span_Valid (Data, R.Ceiling));
+
+   procedure Decision_Composition_Equality
+     (Data : Byte_Array; Before, Proposed : Ledger_State;
+      High_Water : High_Water_Observation; R : Request)
+     with Ghost, Global => null, Always_Terminates,
+       Post => Decision_Reference (Data, Before, Proposed, High_Water, R) =
+         (if R.Kind = Unknown_Operation then Unknown_Kind
       elsif not State_Shape (Data, Before) then Invalid_Before
       elsif not State_Shape (Data, Proposed) then Invalid_Proposed
       elsif not High_Water.Epoch.Present then Observation_Absent
@@ -300,12 +388,8 @@ package Resource_Reservation_Transition with SPARK_Mode is
       elsif Value (Data, Proposed.Epoch.Value) /= Value (Data, Before.Epoch.Value) + 1
         then Epoch_Not_Successor
       elsif not Conserved_Reference (Data, Proposed) then Proposed_Conservation_Mismatch
-      elsif not Change_Reference (Data, Before, Proposed, R)
-        then Transition_Conservation_Mismatch
-      elsif R.Kind = Reserve and then
-        Value (Data, Proposed.Total) > Value (Data, R.Ceiling) then Limit_Exceeded
-      else Ready)
-   with Ghost, Global => null;
+      else Original_Final_Equation (Data, Before, Proposed, R));
+
    function Check
      (Data : Byte_Array; Before, Proposed : Ledger_State;
       High_Water : High_Water_Observation; R : Request) return Result_Status

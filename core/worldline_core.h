@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include "worldline_journal_witness_v1.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,11 +46,12 @@ extern "C" {
 #define WL_COLLAPSE_WATCH_INCOMPLETE 18u
 #define WL_COLLAPSE_CHECKPOINT_MISMATCH 19u
 #define WL_COLLAPSE_EVIDENCE_SUBJECT_MISMATCH 20u
+#define WL_COLLAPSE_REQUIREMENT_CHANGED 21u
 #define WL_COLLAPSE_INVALID_REQUEST 255u
 
 /* ABI generation of the library (wl_abi_version). It changes whenever a record layout or the
  * meaning of an exported code changes; the runtime refuses a library that reports another. */
-#define WL_ABI_VERSION 5u
+#define WL_ABI_VERSION 6u
 
 /* Separately versioned recovery selector. Caller-owned readable buffers must
  * remain live/unchanged for the complete call. Presence is exactly 0 or 1;
@@ -68,7 +70,7 @@ uint8_t wl_recovery_select(
 
 /* Layout version of struct wl_collapse_request. The runtime and the library ship together;
  * a runtime built for a different layout must not call wl_collapse_decide. */
-#define WL_COLLAPSE_REQUEST_VERSION 5u
+#define WL_COLLAPSE_REQUEST_VERSION 6u
 
 #define WL_PHASE_COMMIT 0u
 #define WL_PHASE_PREPARE 1u
@@ -94,7 +96,7 @@ struct wl_optional_counter {
     uint8_t value_le[8];
 };
 
-/* Layout 5 (1.9.0). All bytes; no padding and no reserved bytes. A request that is not
+/* Layout 6 (resulting requirement). All bytes; no padding and no reserved bytes. A request that is not
  * well formed -- a Boolean or enum out of range, a present byte other than 0 or 1, an absent
  * value with a nonzero byte, a present all-zero hash, or a slot the mode or phase does not
  * consult that is not empty -- is WL_COLLAPSE_INVALID_REQUEST. Prepare must leave
@@ -123,6 +125,7 @@ struct wl_collapse_request {
     struct wl_optional_hash staged_content_root;
     struct wl_optional_hash tested_root;
     struct wl_optional_hash current_requirement;
+    struct wl_optional_hash resulting_requirement;
     struct wl_optional_hash evaluated_requirement;
     struct wl_optional_hash declared_verifiers;
     struct wl_optional_hash executed_verifiers;
@@ -452,6 +455,342 @@ uint8_t wl_collapse_decide_raw_evaluation_v3(const void *request,
     const void *primary_context, const void *staged, const void *staged_raw,
     const void *staged_confinement, const void *staged_context,
     const void *agent, uint8_t agent_confinement);
+
+/* action: refuse=0 consumed=1 unused-existing=2 intent-existing=3 offline-create=4. */
+/* refuse position: generic=0 consumed-missing=1 intent-missing=2 intent-changed=3
+   unused-differs=4 envelope-changed=5 heads-changed=6. Transport 0 is not permission. */
+/* Fixed original-client source custody: action refuse=0 bootstrap=1 actor=2
+ * complete=3. Input/status are real disjoint live allocations; input remains
+ * immutable for this synchronous call and is captured once into native-owned
+ * bytes. No pointer/receipt/source-owner label is an authority enrollment. */
+int wl_excluded_source_owner_decide_v1(const unsigned char *input, size_t length, uint64_t *status);
+
+int wl_startup_admission_decide_v1(const unsigned char *input, size_t length, const unsigned char *name, size_t name_length, uint64_t *status, uint64_t *position);
+int wl_startup_owner_admission_decide_v1(const unsigned char *input, size_t length, const unsigned char *name, size_t name_length, uint64_t *status, uint64_t *position);
+int wl_startup_admission_transition_v1(const unsigned char *before, size_t before_length, const unsigned char *after, size_t after_length, const unsigned char *name, size_t name_length, uint64_t before_action, uint64_t after_action, uint64_t *status, uint64_t *position);
+int wl_startup_owner_admission_transition_v1(const unsigned char *before, size_t before_length, const unsigned char *after, size_t after_length, const unsigned char *name, size_t name_length, uint64_t before_action, uint64_t after_action, uint64_t *status, uint64_t *position);
+
+
+/* Full original typed scoped/native records remain independently versioned.
+ * All complete allocations must stay live and immutable through native capture;
+ * numeric extents cannot establish memory validity. Foreign output aliasing is
+ * preserved after owned capture, while the native local result is disjoint. */
+#include "resource_observation_v1.h"
+#include "resource_scoped_run_ledger_v1.h"
+#include "resource_actor_admission_v1.h"
+#include "worldline_resource_child_execution_v1.h"
+typedef struct {
+    wl_scoped_current_observation resource_current;
+    wl_chain_digest_v1 operation_policy, operation_root_set;
+    wl_run_id owner_genesis, installation, gate_config, managed_observation;
+    wl_run_id original_grant, complete_crosswalk, current_source, original_request;
+    wl_run_id original_requester, original_transaction, preparer, selected_plan;
+} wl_actor_execution_crosswalk_v1;
+uint32_t wl_resource_actor_execution_version_v1(void);
+long wl_resource_actor_execution_layout_v1(uint32_t kind, uint32_t field);
+int wl_resource_actor_execution_decide_v1(
+    const void *input,
+    size_t input_length,
+    const void *arena,
+    size_t arena_length,
+    const void *history,
+    size_t history_count,
+    const void *proposed_history,
+    size_t proposed_history_count,
+    const void *rows,
+    size_t rows_count,
+    const void *proposed_rows,
+    size_t proposed_rows_count,
+    const void *projection,
+    size_t projection_count,
+    const void *proposed_projection,
+    size_t proposed_projection_count,
+    const void *buckets,
+    size_t buckets_count,
+    const void *proposed_buckets,
+    size_t proposed_buckets_count,
+    const void *actual_buckets,
+    size_t actual_buckets_count,
+    const void *observed,
+    size_t observed_count,
+    const void *facts,
+    size_t facts_count,
+    const void *capabilities,
+    size_t capabilities_count,
+    const void *groups,
+    size_t groups_count,
+    const void *proc_groups,
+    size_t proc_groups_count,
+    const void *authority_input,
+    size_t authority_input_length,
+    const void *authority_arena,
+    size_t authority_arena_length,
+    const void *authority_grants,
+    size_t authority_grants_count,
+    const void *authority_uses,
+    size_t authority_uses_count,
+    const void *authority_receipts,
+    size_t authority_receipts_count,
+    const void *authority_events,
+    size_t authority_events_count,
+    const void *crosswalk,
+    size_t crosswalk_length,
+    void *output,
+    size_t output_length);
+
+/* Complete operation-result relation. Input is the expanded operation-authority
+ * raw ABI enrolled by wl_operation_authority_version_v1() == 2. Both Evidence
+ * trailing fields are int64_t: effect_material_first, effect_material_length.
+ * This is an explicit ABI expansion, NOT the unchanged version-one layout.
+ * Output uses the existing one-byte raw result shape with the result-relation
+ * reason enumeration, not the OperationAuthority decision enumeration.
+ * Every roster supplies its full ordered row count AND exact byte extent. */
+int wl_operation_result_relation_v1(
+    const void *input, size_t input_bytes,
+    const unsigned char *arena, size_t arena_bytes,
+    const void *grants, size_t grant_count, size_t grant_bytes,
+    const void *uses, size_t use_count, size_t use_bytes,
+    const void *receipts, size_t receipt_count, size_t receipt_bytes,
+    const void *events, size_t event_count, size_t event_bytes,
+    void *output, size_t output_bytes);
+
+uint32_t wl_ordinary_receipt_policy_version_v35(void);
+/* Borrow original operation_capture.archive packet for this synchronous call.
+ * Modes 0 owner, 1 claim, 2 event schema, 3 receipt schema, 4 append preflight,
+ * 5 append postflight, 6 retained predecessor, 7 actual route mutation,
+ * 8 retained columns, 9 actual SQLite source postflight, 10 original live receipt
+ * predecessor. Return native Reason ordinal; -1 transport failure. */
+int wl_ordinary_receipt_policy_decide_v35(const void *data, size_t data_length, uint8_t mode);
+/* Full original verifier row decision at its original comparison point.
+ * Differences uses Verified_Column ordinals 0..12 as bit positions.
+ * Return 0 READY or 20 ROW_COLUMNS_MISMATCH; other reasons refuse input. */
+int wl_ordinary_receipt_verify_history_v35(const void *data, size_t data_length, uint32_t *differences);
+
+uint8_t wl_transaction_relation_v1(const void *input, size_t length);
+/* The caller retains a stable immutable DATA
+ * allocation for the complete call. Numeric extent checks do not establish
+ * physical foreign-pointer ownership. File/row spans may overlap read-only.
+ * This relation alone never establishes original-file or SQLite row custody. */
+int wl_genesis_archive_matches_v1(const void *data, size_t data_length,
+    int64_t file_first, int64_t file_length, int64_t row_first, int64_t row_length);
+/* mode=0 exact complete JSON float conversion, mode=1 exact repr spelling too.
+ * Eight-byte output must be writable, exclusively owned, disjoint from DATA.
+ * 0 converted, 1 invalid/nonfinite/noncanonical, 255 wire invalid. */
+int wl_decimal_binary64_v1(uint8_t mode, const void *data, size_t data_length,
+    void *output, size_t output_length);
+/* Full canonical JSON projection against original operation archive, without
+ * scoped unwrap or concatenation. Both immutable live leases; aliasing allowed.
+ * Canonical JSON only (no file LF). 0 differs, 1 matches, 255 invalid wire.
+ * This projection does NOT prove original archive insertion-order byte identity
+ * or source/file/row custody. No caller-supplied equality/authorization flag. */
+int wl_operation_archive_json_matches_v1(const void *json_data, size_t json_length,
+    const void *archive_data, size_t archive_length);
+/* Full typed-scope/canonical JSON file correspondence; optional one LF.
+ * Separate original immutable allocations, no combined extent limit/copy.
+ * Returns original genesis enum 0..3 or255 invalid wire; status3 deliberately
+ * leaves authentic file/row custody and effect authority open. */
+int wl_scoped_archive_json_matches_v1(const void *json_data, size_t json_length,
+    const void *archive_data, size_t archive_length);
+
+
+/* Immutable caller leases are consumed by pure native decisions before any
+ * foreign output is published. No input pointers are retained after return. */
+/* Inputs readable/immutable through return. Fully consumed before output.
+ * Zero capacity is a sizing call; return zero is transport refusal. */
+size_t wl_evaluation_policy_project_v1(const void *requirement, size_t requirement_length, const void *additional, size_t additional_length, uint8_t finalization, void *output, size_t capacity);
+size_t wl_evaluation_capture_plan_v1(const void *rows, size_t rows_length, const void *invocations, size_t invocations_length, const void *returns, size_t returns_length, const void *expected_requirement, size_t expected_requirement_length, const void *returned_context, size_t returned_context_length, void *output, size_t capacity);
+
+
+/* Original complete raw inputs remain readable immutable through return. */
+uint8_t wl_protected_paths_touched_v1(const void *requirement, size_t requirement_length,
+                                    const void *delta, size_t delta_length);
+
+uint8_t wl_evaluation_acquisitions_closed_v1(const void *subject, size_t subject_length, const void *owners, size_t owners_length, const void *acquisitions, size_t acquisitions_length);
+
+/* Existing sole C_API borrows four textual inputs and the independent fifth
+ * immutable typed finalization arena for this call's complete native decision.
+ * Inputs may alias each other. Outputs are distinct, writable, and disjoint
+ * from consumed input extents. On a transport refusal both remain unchanged.
+ * No arbitrary unmapped pointer or concurrent mutation domain is promised. */
+uint8_t wl_evaluation_producer_derive_v1(
+    const void *expected, size_t expected_length,
+    const void *observed, size_t observed_length,
+    const void *result_record, size_t result_length,
+    const void *declared, size_t declared_length,
+    const void *agent_terminal, size_t agent_terminal_length,
+    void *out_raw34, uint8_t *out_confinement);
+
+/* Requires the existing header's <stddef.h>. No new capture facade.
+ * -1 invalid capture/ABI; 0 exact required size (output insufficient);
+ * 1 exact native JSON output, no NUL terminator. Same immutable input both calls.
+ */
+int wl_manager_resource_lifecycle_v1(const void *capture, size_t capture_length,
+                                    void *output, size_t output_capacity,
+                                    size_t *output_required);
+
+/* Include <stdint.h> and <stddef.h>; additive original worldline C header. */
+uint32_t wl_ordinary_reservation_lifecycle_abi_version(void);
+/* One owned immutable JSON capture, complete row mask; no retained pointers.
+ * result 1: output complete; 0: malformed profile; -1: invalid ABI/effect failure.
+ * Masks 0 unchanged, 1 selected, 2 selected retaining existing workload identity.
+ * Code 1 skip/no-change/refused; 2 proceed; position unique 1-based row or zero.
+ * On refusal all outputs remain unchanged. Output extents must be disjoint. */
+int wl_ordinary_reservation_lifecycle_plan(const void *capture, size_t capture_length,
+    uint8_t *mask, size_t row_count, uint32_t *code, size_t *position);
+
+/* Add to the original sole C_API header; no new unchecked facade.
+ * Input is lossless finalization_journal.encode(original full value).
+ * Action indices 0..21 are unchanged; 22 activate-timer,
+ * 23 capture-timer-protocol, 24 stop-controller,
+ * 25 capture-controller-stop-protocol. Return 0/1 decision, 255 bad ABI.
+ * The Off boundary borrows the full Count64 arena; no whole String copy.
+ */
+uint8_t wl_runner_lifecycle_allowed_v1(const void *owner, size_t owner_length,
+                                     uint8_t requested);
+size_t wl_runner_outcome_decide_v1(const void *capture, size_t capture_length,
+                                 void *output, size_t capacity);
+
+
+/* Complete original recovery packet bytes; 6 is native Ready, 5 a preserved
+ * original native refusal, 0..4 a full-source/schema conflict, 255 transport
+ * failure. No result is a protected-source custody or dispatch grant. */
+uint8_t wl_recovery_packet_decide_v1(const void *data, size_t length,
+                                    uint8_t *collapse_code, uint32_t *owner_code);
+uint8_t wl_recovery_packet_projection_matches_v1(const void *data, size_t length,
+                                                 const void *values, size_t values_length);
+/* Explicit separate original Operation capsule list, never a packet trailer. */
+uint8_t wl_recovery_packet_decide_with_facts_v1(
+    const void *data, size_t length, const void *facts, size_t facts_length,
+    uint8_t *collapse_code, uint32_t *owner_code);
+/* Owned native full-source input transport. operation_mode=0 Recovery, 1 Operation.
+ * Returns needed JSON byte count; NULL/zero queries. SIZE_MAX is transport/grammar
+ * failure. No partial output is written when capacity is insufficient. */
+size_t wl_recovery_syntax_inputs_v1(
+    const void *data, size_t length, uint8_t operation_mode,
+    void *output, size_t capacity);
+
+/* Original six complete raw report texts plus explicit result presence.
+ * All scalar/output extents must be distinct; original input/output aliases
+ * are admitted. -1 transport refusal, 0 size query, 1 exact complete result. */
+uint32_t worldline_report_parser_abi(void);
+int worldline_parse_report(
+    const void *format, size_t format_length,
+    const void *profile, size_t profile_length,
+    const void *exit_code, size_t exit_length,
+    const void *stdout_data, size_t stdout_length,
+    const void *stderr_data, size_t stderr_length,
+    const void *result, size_t result_length, int result_present,
+    void *output, size_t output_capacity, size_t *output_required,
+    int *status, int *classification);
+
+/* Merge into the existing public header. No native physical effect.
+ * Caller owns stable readable input and distinct writable outputs for the call.
+ * Return 0 is transport success; status independently carries the native decision.
+ * NULL output with capacity zero obtains *written = required canonical delta bytes.
+ * Positive short capacity returns transport 3 with the same required length.
+ * Only transport 0/status 0 with sufficient capacity yields an applicable delta.
+ * Status 1 returns the unchanged original event position and no delta/effect.
+ */
+int wl_custody_load_decide_v2(const void *input, size_t length,
+                            uint64_t *status, uint64_t *position);
+int wl_custody_mutation_decide_v2(const void *input, size_t length,
+                                uint64_t *status, uint64_t *position,
+                                void *output, size_t capacity, uint64_t *written);
+/* Read-only cleanup routing over the identical complete mutation envelope.
+ * Transport uses the original error convention. Native statuses:
+ * 0 NO_EVENT, 1 REQUEST_LOST, 2 DRAIN_RECLAIMED, 3 RETAIN_UNKNOWN;
+ * refusals are 4 + the original custody native status ordinal.
+ * This never performs Next, writes SQL, or grants fresh-front/effect rights.
+ * Actual event commit requires a fresh wl_custody_mutation_decide_v2 call.
+ */
+int wl_custody_cleanup_decide_v2(const void *input, size_t length,
+                              uint64_t *status, uint64_t *position);
+/* Held, authentic mutation-v2 CLOSED_WITNESS proposal, read-only.
+ * Native 0 refuses; 1 joins full root/source/terminal/current owner state.
+ * No Legal/Next, row delta, claim dup, constructor or descriptor transfer.
+ * Caller must hold original scope, compare mapped bytes before/after, and
+ * refuse before every PRECONSTRUCTOR claimdup when native status is not 1.
+ * Transport success is independent of native decision.
+ */
+int wl_custody_closed_decide_v2(const void *input, size_t length,
+                              uint64_t *status, uint64_t *position);
+/* Pure authenticated operand projection; NEVER mutation/effect permission.
+ * Input is the unchanged custody-mutation-v2 before+candidate envelope.
+ * Native status 0/1/2 describes BEFORE startup only; all return a factual view.
+ * Refusal 3..22 returns no view. NULL output with capacity 0 reports needed.
+ * Transport 0 success/query; 3 insufficient positive output; 4 exception.
+ * Cells are [SQL class,negative,raw-byte lowercase hex], without coercion.
+ * Caller retains the identical held transaction/input for both output passes.
+ */
+int wl_custody_context_view_v2(const void *input, size_t length,
+    uint64_t *status, uint64_t *position, void *output, size_t capacity,
+    uint64_t *written);
+/* Same full mutation input plus retry_attempt = original saved uncertainty.
+ * Native 0: fresh exact delta; 1: authentic persisted replay, no delta.
+ * A zero capacity measures exact output; replay position identifies old event.
+ */
+int wl_custody_retry_decide_v2(const void *input, size_t length,
+                             uint64_t *status, uint64_t *position,
+                             void *output, size_t capacity, uint64_t *written);
+/* Complete unchanged mutation envelope; REQUEST_RESPONDED proposal, no effect.
+ * Transport result independent of native status: 0 refused, 1 joined.
+ * Serving admission precedes each original gate; commit still requires mutation.
+ */
+int wl_custody_serving_decide_v2(const void *input, size_t length,
+                              uint64_t *status, uint64_t *position);
+/* Encoding only, never counter authentication or authority.
+ * Unsigned LE input includes empty zero and nonminimal leading-zero bytes;
+ * output is the minimal successor LE bytes. NULL/length-zero is admitted.
+ * NULL output/capacity-zero reports needed bytes; short positive capacity
+ * returns transport 3. Stable disjoint owned input/output/counter required.
+ * Full mutation redecides the actual packet binding before any effect.
+ */
+int wl_custody_successor_le_v2(const void *input, size_t length,
+                             void *output, size_t capacity, uint64_t *needed);
+/* Complete original operation-journal input. Caller retains stable readable
+ * bytes and distinct writable eight-byte status/position outputs for the call;
+ * outputs need not be aligned. Return 0 is transport success, not permission.
+ * Startup: 0 refused, 1 stable, 2 finalize surviving next intent.
+ * Append: 0 refused, 1 allowed. Recovery uses the original 0..6 native route.
+ * Offline bootstrap: 0 refused, 1 create fresh, 2 reuse authentic; actual
+ * getpid/geteuid are observed inside the guarded native boundary, never input.
+ * No export performs the authorized operation, SQL update or physical effect.
+ */
+int wl_custody_operation_startup_decide_v2(const void *data, size_t data_length,
+    uint64_t *status, uint64_t *position);
+int wl_custody_operation_append_decide_v2(const void *data, size_t data_length,
+    uint64_t *status, uint64_t *position);
+int wl_custody_operation_recovery_decide_v2(const void *data, size_t data_length,
+    uint64_t *status, uint64_t *position);
+int wl_custody_operation_bootstrap_decide_v2(const void *data, size_t data_length,
+    uint64_t *status, uint64_t *position);
+
+struct wl_custody_provision_span_v2 { int64_t first, length; };
+struct wl_custody_provision_output_v2 { int status; int64_t failing_row; };
+uint32_t wl_custody_provision_version_v2(void);
+size_t wl_custody_provision_layout_v2(uint8_t kind, uint8_t field);
+int wl_custody_provision_decide_v2(const void *data, size_t data_length,
+    const struct wl_custody_provision_span_v2 *spans, size_t span_count,
+    size_t genesis_count, size_t event_count, size_t head_count,
+    struct wl_custody_provision_output_v2 *output, size_t output_size);
+int wl_root_worker_output_next_v1(const unsigned char *input, size_t length,
+                                  uint64_t *status, uint64_t *position,
+                                  unsigned char *ordinal, size_t capacity,
+                                  size_t *ordinal_length);
+
+int wl_root_worker_output_replay_v1(const unsigned char *input, size_t length,
+                                  uint64_t *status, uint64_t *position,
+                                  unsigned char *ordinal, size_t capacity,
+                                  size_t *ordinal_length);
+int wl_root_worker_output_written_v1(const unsigned char *input, size_t length,
+                                  uint64_t *status, uint64_t *position,
+                                  unsigned char *ordinal, size_t capacity,
+                                  size_t *ordinal_length);
+
+int wl_root_worker_output_prefix_v1(const unsigned char *input, size_t length,
+                                  uint64_t *status, uint64_t *position,
+                                  unsigned char *ordinal, size_t capacity,
+                                  size_t *ordinal_length);
 #ifdef __cplusplus
 }
 #endif

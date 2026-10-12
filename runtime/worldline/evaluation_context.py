@@ -110,9 +110,17 @@ def metadata_descriptor(core, request, rows, *, base=None):
         if type(row) is not RowMetadata: raise KernelRefused('METADATA_ROW_TYPE_INVALID')
         projected[index] = MetadataRow(span(row.check), span(row.source), span(row.payload),
                                        optional(row.execution), optional(row.verifier))
-    data = (C.c_uint8 * len(arena)).from_buffer_copy(arena)
-    descriptor = MetadataContext(1, None if base is None else C.cast(C.pointer(base), C.c_void_p),
-        C.cast(data, C.c_void_p), len(arena), C.cast(projected, C.c_void_p), len(rows))
+    arena_length = len(arena)
+    data = (C.c_uint8 * arena_length).from_buffer_copy(arena)
+    # from_buffer_copy owns the entire original bytes independently. Release
+    # only the transport scratch copy; every span/value and retained C owner is
+    # unchanged, and no native decision has been made by this marshaller.
+    del arena
+    descriptor = MetadataContext(1, None if base is None else C.cast(C.byref(base), C.c_void_p),
+        C.cast(C.byref(data), C.c_void_p), arena_length, C.cast(C.byref(projected), C.c_void_p), len(rows))
+    # Keep the original complete owners live even if only the descriptor is
+    # retained. Excluding descriptor itself avoids a new ownership cycle.
+    descriptor._transport_owners = (data, projected, base)
     return descriptor, (data, projected, descriptor, base)
 
 def require_metadata(core, request, descriptor):
@@ -172,13 +180,18 @@ def attach(core, prepared, *, expected_binding, expected_current, prepared_curre
         1, span(prepared_current[0]), span(prepared_current[1]))
     descriptor = ContextInput(1, None, 0, bound(expected_binding), current, prior,
         fields(CONTEXT_FIELDS, expected), fields(CONTEXT_FIELDS, observed),
-        C.cast(joined, C.c_void_p), len(rows), C.cast(qs, C.c_void_p), len(required), policy,
+        C.cast(C.byref(joined), C.c_void_p), len(rows), C.cast(C.byref(qs), C.c_void_p), len(required), policy,
         projection, agent.native(), agent.confinement)
-    data = (C.c_uint8 * len(arena)).from_buffer_copy(arena)
+    arena_length = len(arena)
+    data = (C.c_uint8 * arena_length).from_buffer_copy(arena)
+    # The native context retains its own complete C array. The scratch arena
+    # must not stay live while the separate metadata arena is constructed.
+    del arena
     # Keep the raw arena and all original request fields unchanged. The typed
     # cross-arena relation avoids requiring raw_length + context_length to fit
     # one index range. Each owner survives the complete native decision call.
-    descriptor.data = C.cast(data, C.c_void_p); descriptor.data_length = len(arena)
+    descriptor.data = C.cast(C.byref(data), C.c_void_p); descriptor.data_length = arena_length
+    descriptor._transport_owners = (data, joined, qs)
     prepared.context = descriptor
     prepared.context_owners = (data, joined, qs, descriptor)
     prepared.metadata_context, prepared.metadata_owners = metadata_descriptor(
@@ -222,9 +235,60 @@ def _triples(entries):
     return [(root, path, digest_spelling(content))
             for root, path, content in sorted(_legacy_triples(entries))]
 
+_LIVE_PENDING_STORE = object()
+
+
+def agent_context_pair(selected, subject, agent_record):
+    """Transport two independent full finalization evidence observations.
+
+    The caller has already replayed the original native finalization seal.
+    This helper neither authenticates it nor decides equality/admissibility.
+    The existing no-seal/constructor domain retains its original context pair;
+    it does not acquire a new protected-source claim from this addition.
+    """
+    from .recovery_material import AuthorityMaterial
+    from .finalization_values import SealedValue
+    from .finalize import runner_agent_record
+    from .canonical import canonical_bytes
+    from collections.abc import Mapping
+    import json
+    material = selected.authority_material
+    if material is None:
+        original = value_bytes(agent_record)
+        return original, original
+    if type(material) is not AuthorityMaterial:
+        raise WorldlineError('EVALUATION_CAPTURE_INVALID', 'retained authority material is malformed')
+    found = material.finalization
+    if found is None:
+        original = value_bytes(agent_record)
+        return original, original
+    if type(found) is not tuple or len(found) != 3:
+        raise WorldlineError('EVALUATION_CAPTURE_INVALID', 'retained finalization material is malformed')
+    start, sealed, _events = found
+    if sealed is None:
+        original = value_bytes(agent_record)
+        return original, original
+    if type(sealed) is not SealedValue:
+        raise WorldlineError('EVALUATION_CAPTURE_INVALID', 'retained finalization seal is malformed')
+    # Original FinalizationWriter.seal reads atomic_write_json's canonical
+    # evidence bytes directly. Keep those bytes intact, including all checks.
+    retained_evidence = json.loads(sealed.value.evidence)
+    checks = retained_evidence.get('checks') if isinstance(retained_evidence, dict) else None
+    retained_agent = next((item for item in (checks or ())
+        if isinstance(item, Mapping) and item.get('id') == 'agent'), None)
+    retained_agent, _legacy = runner_agent_record(retained_agent)
+    if isinstance(retained_agent, Mapping) and retained_agent.get('origin') != 'agent':
+        retained_agent = None
+    expected = value_bytes((start.subject, sealed.value.content,
+                            sealed.value.evidence, retained_agent))
+    observed = value_bytes((identity(subject.instance_id), identity(subject.content_id),
+                            canonical_bytes(subject.evidence), agent_record))
+    return expected, observed
+
+
 def bind_selected(manager, selected, *, values, subject, candidate,
-                  authoritative_requirement, authoritative_roots, agent,
-                  agent_record, role, prepared_cursor):
+                  authoritative_requirement, resulting_requirement, authoritative_roots, agent,
+                  agent_record, role, prepared_cursor, pending_store=_LIVE_PENDING_STORE):
     from dataclasses import asdict
     from .completion_kernel import BoundValue
     from .executed import bundle_identity, NO_BUNDLE_IDENTITY
@@ -381,10 +445,11 @@ def bind_selected(manager, selected, *, values, subject, candidate,
                 initial['measurement']['manifests'].items())).hex(),
             finalization_bytes(tuple((key, canonical_bytes(item)) for key, item in
                 observed['postMeasurement']['manifests'].items())).hex()]
+    expected_agent, observed_agent = agent_context_pair(selected, subject, agent_record)
     expected = dict(zip(CONTEXT_FIELDS, (
         value_bytes(header), selected.capture.context, _policy_value(current),
         value_bytes(header['subject']), value_bytes(expected_roots), _required_value(current_pairs, empty),
-        canonical_bytes(current.get('verifiers') or []), value_bytes(expected_members), value_bytes(agent_record),
+        canonical_bytes(current.get('verifiers') or []), value_bytes(expected_members), expected_agent,
         selected.capture.source, (selected.raw.seal_value.capture.input.root if finalization
                                   else identity(root)), value_bytes(tuple(stream)),
         acquisition_bytes(tuple(event for invocation, _started, _finished in stream
@@ -394,7 +459,7 @@ def bind_selected(manager, selected, *, values, subject, candidate,
     actual = dict(zip(CONTEXT_FIELDS, (
         value_bytes(initial), value_bytes(observed['returnedContext']), _policy_value(captured_policy),
         value_bytes(context['candidate']), value_bytes(observed_roots), _required_value(captured_pairs, captured_empty),
-        canonical_bytes(captured_policy.get('verifiers') or []), value_bytes(actual_members), value_bytes(agent_record),
+        canonical_bytes(captured_policy.get('verifiers') or []), value_bytes(actual_members), observed_agent,
         identity(header['source']), identity(initial['measurement']['observedContentRoot']),
         value_bytes(tuple(projected_stream)), acquisition_bytes(tuple(projected_acquisitions)),
         value_bytes(projected_returns))))
@@ -404,6 +469,8 @@ def bind_selected(manager, selected, *, values, subject, candidate,
         expected_subject=manager._identity(manager._subject_digest(subject.instance_id, binding)),
         evidence_subject=manager._identity(manager._subject_digest(context['candidate']['instanceId'], claimed_binding)),
         current_requirement=manager._identity(current['requirementHash']),
+        resulting_requirement=(None if values.mode == "CHECKPOINT_RETURN" else
+            manager._identity((resulting_requirement or {}).get("requirementHash"))),
         declared_verifiers=manager._identity(declared),
         expected_root_set=manager._identity(manager.prime.root_set_hash(list(authoritative_roots))))
     if role == 'primary':
@@ -415,8 +482,19 @@ def bind_selected(manager, selected, *, values, subject, candidate,
     else: raise WorldlineError('EVALUATION_CAPTURE_INVALID', 'unknown context role')
     epoch = selected.cursor['epoch']
     raw_epoch = epoch.to_bytes((epoch.bit_length() + 7) // 8, 'little')
-    expected_binding = BoundValue((selected.raw.seal_value.capture.start.store_id if finalization
-                                  else manager.store.evaluation_terminal.pending.store),
+    if finalization:
+        store_id = selected.raw.seal_value.capture.start.store_id
+    elif pending_store is _LIVE_PENDING_STORE:
+        # Original live independent identity; constructor fixtures still use it.
+        store_id = manager.store.evaluation_terminal.pending.store
+    else:
+        # Explicit independently retained producer identity for replay. No
+        # capture/header field or today's live journal fills an absent value.
+        if type(pending_store) is not bytes:
+            raise WorldlineError('RECOVERY_PACKET_PENDING_STORE',
+                                'the independent retained pending-store identity is absent')
+        store_id = pending_store
+    expected_binding = BoundValue(store_id,
         identity(subject.instance_id), identity(subject.content_id), identity(selected.cursor['run']),
         raw_epoch, identity(current['requirementHash']))
     prior_epoch = prepared_cursor['epoch']
@@ -432,3 +510,32 @@ def bind_selected(manager, selected, *, values, subject, candidate,
         required=current_pairs,
         policy=(1 if empty else 0) if not required else 2,
         projection=core._raw_collapse_request(projection), agent=agent)
+
+
+def bind_retained(core, selected, *, values, subject, candidate,
+                  authoritative_requirement, resulting_requirement, authoritative_roots,
+                  agent, agent_record, role, prepared_cursor, pending_store):
+    """Use the original full native context projection over retained originals.
+
+    The explicit adapter supplies only pure hashing/projection routines. It has
+    no store/journal, requester, capability, policy authority or custody bit.
+    Source data and the independent pending-store identity are required arguments.
+    """
+    from .transaction import CollapseTransaction
+    from .prime import PrimeManager
+
+    class Projection:
+        _identity = staticmethod(CollapseTransaction._identity)
+        _subject_digest = CollapseTransaction._subject_digest
+        _return_binding = CollapseTransaction._return_binding
+        root_set_hash = PrimeManager.root_set_hash
+
+        def __init__(self, native_core):
+            self.core = native_core
+            self.prime = self
+
+    return bind_selected(Projection(core), selected, values=values,
+        subject=subject, candidate=candidate, authoritative_requirement=authoritative_requirement,
+        resulting_requirement=resulting_requirement, authoritative_roots=authoritative_roots,
+        agent=agent, agent_record=agent_record, role=role,
+        prepared_cursor=prepared_cursor, pending_store=pending_store)

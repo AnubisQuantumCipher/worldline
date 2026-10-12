@@ -19,13 +19,11 @@ package Evaluation_Finalization with SPARK_Mode is
    use type P.Byte;
    use type P.Span;
    use type Worldline.Hash;
-   use type W.Raw_Record;
    use type T.E.Execution_State;
    use type T.E.Outcome;
    use type E.Execution_State;
    use type E.Outcome;
    use type R.Classification;
-   use type H.Optional_Record;
    use type H.Evaluation_Record;
    use type R.Measured_Result;
    use type R.Declaration;
@@ -134,6 +132,18 @@ package Evaluation_Finalization with SPARK_Mode is
       and then L.Config = Rt.Config and then L.Repository = Rt.Repository) with Global => null;
 
    type Write_Decision is (Invalid, Insert, Already_Present, Conflict);
+   --  Human-authorized value API revision. Before remains immutable for every
+   --  original initialized optional value, including constrained absence.
+   --  A returned Insert value carries the real record; absent variants have
+   --  no Value. Caller storage is never changed or constrained on our behalf.
+   type Start_Update is record
+      Decision : Write_Decision;
+      Updated : Optional_Start;
+   end record;
+   type Input_Update is record
+      Decision : Write_Decision;
+      Updated : Optional_Input;
+   end record;
    function Start_Reference
      (A : T.Bytes; S : Start_Record; Plans : R.Check_Array; Before : Optional_Start)
       return Write_Decision is
@@ -141,13 +151,14 @@ package Evaluation_Finalization with SPARK_Mode is
       elsif not Before.Present then Insert
       elsif Same_Start (A, S, Before.Value, Plans) then Already_Present
       else Conflict) with Global => null;
-   procedure Record_Start
-     (A : T.Bytes; S : Start_Record; Plans : R.Check_Array; Current : in out Optional_Start;
-      Decision : out Write_Decision)
+   function Record_Start
+     (A : T.Bytes; S : Start_Record; Plans : R.Check_Array;
+      Before : Optional_Start) return Start_Update
      with Global => null,
-       Post => Decision = Start_Reference (A, S, Plans, Current'Old)
-         and then (if Decision = Insert then Current = (True, S)
-                   else Current = Current'Old);
+       Post => Record_Start'Result.Decision = Start_Reference (A, S, Plans, Before)
+         and then (if Record_Start'Result.Decision = Insert then
+           Record_Start'Result.Updated = (Present => True, Value => S)
+         else Record_Start'Result.Updated = Before);
    function Input_Reference
      (A : T.Bytes; S : Start_Record; I : Input_Record; Plans : R.Check_Array; Before : Optional_Input)
       return Write_Decision is
@@ -155,13 +166,14 @@ package Evaluation_Finalization with SPARK_Mode is
       elsif not Before.Present then Insert
       elsif Same_Input (A, I, Before.Value, Plans) then Already_Present
       else Conflict) with Global => null;
-   procedure Record_Input
+   function Record_Input
      (A : T.Bytes; S : Start_Record; I : Input_Record; Plans : R.Check_Array;
-      Current : in out Optional_Input; Decision : out Write_Decision)
+      Before : Optional_Input) return Input_Update
      with Global => null,
-       Post => Decision = Input_Reference (A, S, I, Plans, Current'Old)
-         and then (if Decision = Insert then Current = (True, I)
-                   else Current = Current'Old);
+       Post => Record_Input'Result.Decision = Input_Reference (A, S, I, Plans, Before)
+         and then (if Record_Input'Result.Decision = Insert then
+           Record_Input'Result.Updated = (Present => True, Value => I)
+         else Record_Input'Result.Updated = Before);
 
    --  No carried State/Outcome authorizes completion. Even contradictory
    --  projections and malformed raw siblings remain available to the total
@@ -272,9 +284,9 @@ package Evaluation_Finalization with SPARK_Mode is
         A (Content.First + T.Count (K - Hash_Prefix'First)) =
           P.Byte (Character'Pos (Hash_Prefix (K))))
       and then (for all K in Digest'Range =>
-        A (Content.First + Hash_Prefix'Length + T.Count (K - Digest'First) * 2) =
+        A ((Content.First + Hash_Prefix'Length) + T.Count (K - Digest'First) * 2) =
           P.Byte (Character'Pos (Hex_Digits (Integer (Digest (K)) / 16 + Hex_Digits'First)))
-        and then A (Content.First + Hash_Prefix'Length + T.Count (K - Digest'First) * 2 + 1) =
+        and then A (((Content.First + Hash_Prefix'Length) + T.Count (K - Digest'First) * 2) + 1) =
           P.Byte (Character'Pos (Hex_Digits (Integer (Digest (K)) mod 16 + Hex_Digits'First)))))
      with Global => null;
    function Content_Matches
@@ -326,13 +338,52 @@ package Evaluation_Finalization with SPARK_Mode is
          P.Span (Artifacts.Context), Payload_Spans (Rows),
          Components.Evidence, Components.Environment)) with Global => null;
 
+   --  Transparent full reference equations, not imported axioms. Their bodies
+   --  remain ghost source and every equality below is a required proof goal.
+   function Seal_Classification_Equation
+     (A : T.Bytes; S : Start_Record; I : Input_Record;
+      Post_Root, Post_Manifests : T.Captured_Bytes; Rows : Start_Rows;
+      Plans : R.Check_Array; Completion : R.Required_Check;
+      Content : T.Content_Identity) return R.Classification is
+     (if Input_Unchanged (A, I, Post_Root, Post_Manifests) then
+        R.Reference
+          (A, Bound_To (S, Content), Bind_Rows (S, Content, Rows), Requirements (S, Plans),
+           S.Declaration, (Bound_To (S, Content), I.Root, Post_Root), Completion)
+      else No_Classification) with Ghost, Global => null, No_Inline;
+   function Seal_Equation
+     (A : T.Bytes; S : Start_Record; I : Input_Record;
+      Post_Root, Post_Manifests : T.Captured_Bytes; Rows : Start_Rows;
+      Plans : R.Check_Array; Completion : R.Required_Check;
+      Content : T.Content_Identity; Components : Final_Components;
+      Artifacts : Artifact_References) return Seal_Result is
+     (if not Capture_Valid
+        (A, S, I, Post_Root, Post_Manifests, Rows, Plans, Completion)
+        or else not Artifacts_Valid (A, Artifacts)
+        or else not Artifact_Binding (A, Rows, Components, Artifacts)
+      then (Seal_Invalid, Worldline.Zero_Hash, No_Classification, (Present => False))
+      elsif not Content_Matches (A, Content, Final_Identity (S, I, Components))
+      then (Content_Mismatch, Worldline.Zero_Hash, No_Classification, (Present => False))
+      elsif Seal_Classification_Equation
+        (A, S, I, Post_Root, Post_Manifests, Rows, Plans, Completion, Content).State /= E.Completed
+        and then (for some K in Rows'Range => R.Old.Names_Completion (A, Rows (K).Check))
+      then (Seal_Invalid, Worldline.Zero_Hash, No_Classification, (Present => False))
+      else (Seal_Observed, Final_Identity (S, I, Components),
+        Seal_Classification_Equation
+          (A, S, I, Post_Root, Post_Manifests, Rows, Plans, Completion, Content),
+        (True, History_Projection (S, Content, Seal_Classification_Equation
+          (A, S, I, Post_Root, Post_Manifests, Rows, Plans, Completion, Content)))))
+     with Ghost, Global => null, No_Inline;
+
    function Seal_Reference
      (A : T.Bytes; S : Start_Record; I : Input_Record;
       Post_Root, Post_Manifests : T.Captured_Bytes; Rows : Start_Rows;
       Plans : R.Check_Array;
       Completion : R.Required_Check; Content : T.Content_Identity;
       Components : Final_Components; Artifacts : Artifact_References) return Seal_Result
-     with Global => null;
+     with Global => null,
+       Post => Seal_Reference'Result = Seal_Equation
+         (A, S, I, Post_Root, Post_Manifests, Rows, Plans,
+          Completion, Content, Components, Artifacts);
    function Seal
      (A : T.Bytes; S : Start_Record; I : Input_Record;
       Post_Root, Post_Manifests : T.Captured_Bytes; Rows : Start_Rows;
@@ -354,4 +405,6 @@ package Evaluation_Finalization with SPARK_Mode is
            and then Seal'Result.Finalization.Present
            and then Seal'Result.Finalization.Value = History_Projection
              (S, Content, Seal'Result.Classification));
+   pragma No_Inline
+     (Capture_Reference, Artifact_Binding, Seal_Reference);
 end Evaluation_Finalization;

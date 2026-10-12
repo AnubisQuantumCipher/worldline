@@ -1,12 +1,16 @@
+--  Typed observer entry points retain the original complete snapshot/decoder bodies.
+--  The unchanged C exports are enrolled in the existing sole Off Worldline.C_API.
+--  C_API maps constrained views only after numeric transport validation; the
+--  original loops below take the single snapshot before any foreign output write.
+with Resource_Quantities;
 with Interfaces;
 with Interfaces.C;
-with System;
 
 --  ABI marshalling only. Numeric policy is in Resource_Admission (SPARK).
 --  Every pointer names caller-owned, suitably aligned, readable/writable storage
 --  of the declared extent, live and unchanged for the whole call. Checked address
 --  arithmetic does not establish OS readability, provenance, or snapshot truth.
-package Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
+package Worldline.Resource_Policy_C_API with SPARK_Mode => On is
    subtype U8 is Interfaces.Unsigned_8;
    subtype Size is Interfaces.C.size_t;
    type Quantity_C is record
@@ -42,12 +46,13 @@ package Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
       Disk_Index   : Size;
    end record with Convention => C;
 
-   function ABI_Version return Interfaces.Unsigned_32
-     with Export, Convention => C, External_Name => "wl_resource_policy_abi_version";
-   function Layout_Size (Selector : U8) return Size
-     with Export, Convention => C, External_Name => "wl_resource_policy_layout_size";
-   function Layout_Offset (Selector, Field : U8) return Size
-     with Export, Convention => C, External_Name => "wl_resource_policy_layout_offset";
+   type Disk_Array is array (Resource_Quantities.Byte_Index range <>) of aliased Disk_C;
+   pragma Compile_Time_Error (Disk_Array'Component_Size /= Disk_C'Object_Size,
+                              "owned input array stride");
+
+   function ABI_Version return Interfaces.Unsigned_32;
+   function Layout_Size (Selector : U8) return Size;
+   function Layout_Offset (Selector, Field : U8) return Size;
 
    --  Transport returns 0 only for a complete Result, 255 on checked wire shape
    --  or caught exception. Never interpret Result after a nonzero transport code.
@@ -56,8 +61,9 @@ package Worldline.Resource_Policy_C_API with SPARK_Mode => Off is
    --  Result codes are documented in worldline_core.h and independently checked
    --  by the Python decoder. Optional absent payload is ignored during decoding.
    function Admit
-     (Data : System.Address; Data_Length : Size;
-      Input : System.Address; Disks : System.Address; Disk_Count : Size;
-      Result : System.Address) return U8
-     with Export, Convention => C, External_Name => "wl_resource_policy_admit";
+     (Data : not null access constant Resource_Quantities.Byte_Array;
+      Input : not null access constant Input_C;
+      Disks : not null access constant Disk_Array;
+      Result : out Result_C) return U8
+     with Side_Effects;
 end Worldline.Resource_Policy_C_API;

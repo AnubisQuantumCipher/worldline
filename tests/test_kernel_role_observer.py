@@ -189,6 +189,40 @@ class ObserverRetention(unittest.TestCase):
                                   maximum_bytes=65536, maximum_request=65536,
                                   handshake_seconds=60, observer=callback)
 
+    def test_native_interpreter_status_must_join_actual_wait_fields(self):
+        # Explicit completion-data fixtures exercise the consumer. Actual
+        # process/native/daemon joins are exercised by private integration.
+        def fixture(original, examiner, bootstrap, *, violation=False):
+            observer = self.make_observer()
+            observer.plan['nativeGuard'] = 'fixture'
+            observer.roles = {'exam-id': 'examiner'}
+            observer.native_startup = {'recordId': 'exam-id'}
+            observer.lifetime_completions['exam-id'] = {
+                'retainedToNativeFinalization': True, 'pendingOperations': 0,
+                'cleanReportedTerminal': not violation,
+                'nativeViolationObserved': violation, 'interpreterOriginalStatus': original}
+            return observer, {'examiner': {'role': 'examiner', 'kernelObservationId': 'exam-id'},
+                              'workers': [], 'examinerReturnCode': examiner, 'bootstrapExitCode': bootstrap}
+        for original, examiner, bootstrap in ((0, 0, 0), (7, 7, 7)):
+            observer, boundary = fixture(original, examiner, bootstrap)
+            result = observer.finish(boundary)[-1]
+            self.assertTrue(result['examinerWaitMatchesInterpreter'])
+            self.assertTrue(result['bootstrapWaitMatchesExaminer'])
+            self.assertEqual(result['cleanReportedProcess'], original == 0)
+        for original, examiner, bootstrap in ((7, 0, 0), (0, 7, 7), (0, -1, 1),
+                                              (0, 0, 1), (True, 1, 1), (None, 0, 0)):
+            with self.subTest(original=original, examiner=examiner, bootstrap=bootstrap):
+                observer, boundary = fixture(original, examiner, bootstrap)
+                with self.assertRaises(RoleObservationFailure):
+                    observer.finish(boundary)
+                result = observer.records[-1]
+                self.assertEqual(result['kind'], 'native-lifetime-process-outcome')
+                self.assertFalse(result['cleanReportedProcess'])
+        observer, boundary = fixture(0, 125, 125, violation=True)
+        result = observer.finish(boundary)[-1]
+        self.assertTrue(result['observedNativeRefusalOverride'])
+        self.assertFalse(result['cleanReportedProcess'])
+
     def test_retention_takes_ownership_and_failure_has_no_success_record(self):
         receiver = []
         observer = self.make_observer(lambda kind, number, value: receiver.append((kind, number, value)))

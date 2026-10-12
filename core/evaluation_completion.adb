@@ -3,26 +3,9 @@ package body Evaluation_Completion with SPARK_Mode is
      (A : Bytes; Rows : Result_Array; Binding : Attempt_Binding) return Boolean
    is
    begin
-      --  Execute the complete existing non-Ghost relation before entering
-      --  the incremental validator. No prefix is omitted from this check.
-      if Results_Reference (A, Rows, Binding) then
-         return True;
-      end if;
-      if not Valid_Binding (A, Binding) then
-         return False;
-      end if;
-      for I in Rows'Range loop
-         if not Valid_Result (A, Rows (I)) or else
-           not Same_Binding (A, Rows (I).Binding, Binding)
-         then
-            return False;
-         end if;
-         pragma Loop_Invariant
-           (for all J in Rows'First .. I =>
-              Valid_Result (A, Rows (J)) and then
-              Same_Binding (A, Rows (J).Binding, Binding));
-      end loop;
-      return True;
+      --  Evaluate the retained, complete semantic equation directly. The
+      --  public Post still binds this result to Results_Reference.
+      return Results_Reference (A, Rows, Binding);
    end Results_Valid;
 
    function Same_Results (A : Bytes; L, R : Result_Array) return Boolean is
@@ -130,6 +113,51 @@ package body Evaluation_Completion with SPARK_Mode is
                      elsif T.Outcome = E.Failed then H.Failed
                      else H.No_Verdict)));
    end Project;
+   function History_Update_Check
+     (A : Bytes; Journal : R.Journal; History : H.History; Run : Run_Identity;
+      Retained : Optional_Terminal; Base : Decision) return Decision
+   is
+      Selected, Position : Count;
+   begin
+      if Base not in Retain_Terminal | Already_Retained then
+         return Base;
+      elsif not History_Reference (A, Journal, History) then
+         return History_Invalid;
+      end if;
+      Selected := Find_Run (A, Journal, Run);
+      Position := History_Index (Journal, History, Selected);
+      if Position = 0 then
+         return History_Invalid;
+      elsif not Retained_Summary_Matches (A, History (Position), Retained) then
+         return History_Conflict;
+      end if;
+      return Base;
+   end History_Update_Check;
+
+   procedure Update_Composition_Equality
+     (A : Bytes; Journal : R.Journal; Current : Cursor;
+      Capture : Terminal_Record; Captured_Results : Result_Array;
+      Retained : Optional_Terminal; Retained_Results : Result_Array;
+      History : H.History) is
+   begin
+      pragma Assert (Update_Reference
+            (A, Journal, Current, Capture, Captured_Results,
+             Retained, Retained_Results, History) =
+         (if Reference (A, Journal, Current, Capture, Captured_Results,
+                    Retained, Retained_Results) not in Retain_Terminal | Already_Retained
+      then Reference (A, Journal, Current, Capture, Captured_Results,
+                      Retained, Retained_Results)
+      elsif not History_Reference (A, Journal, History) or else
+        History_Index (Journal, History, Find_Run (A, Journal, Capture.Binding.Run)) = 0
+      then History_Invalid
+      elsif not Retained_Summary_Matches
+        (A, History (History_Index (Journal, History,
+                     Find_Run (A, Journal, Capture.Binding.Run))), Retained)
+      then History_Conflict
+      else Reference (A, Journal, Current, Capture, Captured_Results,
+                      Retained, Retained_Results)));
+   end Update_Composition_Equality;
+
    procedure Apply
      (A : Bytes; Journal : R.Journal; Current : Cursor;
       Capture : Terminal_Record; Captured_Results : Result_Array;
@@ -139,23 +167,19 @@ package body Evaluation_Completion with SPARK_Mode is
       Selected : Count;
       Position : Count;
    begin
+      Update_Composition_Equality
+        (A, Journal, Current, Capture, Captured_Results,
+         Retained, Retained_Results, History);
       Result := Decide (A, Journal, Current, Capture, Captured_Results,
                         Retained, Retained_Results);
+      Result := History_Update_Check
+        (A, Journal, History, Capture.Binding.Run, Retained, Result);
       if Result not in Retain_Terminal | Already_Retained then
-         return;
-      elsif not History_Reference (A, Journal, History) then
-         Result := History_Invalid;
          return;
       end if;
       Selected := Find_Run (A, Journal, Capture.Binding.Run);
       Position := History_Index (Journal, History, Selected);
-      if Position = 0 then
-         Result := History_Invalid;
-         return;
-      elsif not Retained_Summary_Matches (A, History (Position), Retained) then
-         Result := History_Conflict;
-         return;
-      end if;
+      pragma Assert (Position /= 0 and then Position in History'Range);
       if Result = Retain_Terminal then
          declare
             Summary : constant Optional_History_Record := Project (A, Capture);

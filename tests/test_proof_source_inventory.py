@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "runtime"))
-from worldline.proof_manifest import DECLARED_CORE_ADA_SOURCES, missing_sources, stray_sources
+from worldline.proof_manifest import DECLARED_CORE_ADA_SOURCES, missing_sources, stray_sources, contract_problems
 
 
 class ReviewedCoreSourceInventory(unittest.TestCase):
@@ -53,6 +53,12 @@ class ReviewedCoreSourceInventory(unittest.TestCase):
                 (root / relative).unlink()
             self.assertEqual(missing_sources(root), missing)
             self.assertEqual(stray_sources(root), [])
+
+    def test_reviewed_working_tree_contracts_and_projects_match_literal_pins(self) -> None:
+        # Catch a real admitted-source binding gap before expensive proof work.
+        # This checks canonical contracts, project selection, exports and inventory;
+        # it does not claim that any matching source has been formally proved.
+        self.assertEqual(contract_problems(ROOT), [])
 
     def test_reviewed_working_tree_core_keyset_matches_literal_inventory(self) -> None:
         found = {path.relative_to(ROOT).as_posix() for path in (ROOT / "core").rglob("*.ad[bs]")}

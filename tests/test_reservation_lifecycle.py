@@ -155,7 +155,7 @@ class ReservationLifecycleTests(unittest.TestCase):
             def observation(value):
                 calls.append(value); return False
             for action in (lambda: ledger.release('chosen'),
-                           lambda: ledger.release_exact('chosen'),
+                           lambda: AdmissionAuthority(ledger, Floors()).release('chosen'),
                            lambda: ledger.reconcile(observation)):
                 with self.assertRaises(WorldlineError) as caught:
                     action()

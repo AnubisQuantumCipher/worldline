@@ -1,64 +1,54 @@
-with Ada.Unchecked_Conversion;
-with System.Storage_Elements;
 with Worldline.Resources;
 with Worldline.Resource_Wire;
 
-package body Worldline.Resources_C_API with SPARK_Mode => Off is
+package body Worldline.Resources_C_API with SPARK_Mode => On is
    use type Interfaces.Unsigned_8;
-   use type Interfaces.C.size_t;
-   use type System.Address;
-   use System.Storage_Elements;
 
-   type Byte_Access is access all Resources.Byte;
-   function As_Byte is new Ada.Unchecked_Conversion
-     (System.Address, Byte_Access);
 
    function ABI_Version return Interfaces.Unsigned_32 is (1);
 
-   function Valid (Address : System.Address; Length : Interfaces.C.size_t)
-     return Boolean is
-     (Length <= Interfaces.C.size_t (Resources.Byte_Count'Last)
-      and then (Length = 0 or else Address /= System.Null_Address));
 
-   function Decode
-     (Address : System.Address; Length : Interfaces.C.size_t)
-      return Resources.Byte_Array
+   procedure Decode
+     (Source : not null access constant Resources.Byte_Array;
+      Result : out Resources.Byte_Array)
+     with Pre => Source'First = 1 and then Result'First = 1
+       and then Result'Length = Source'Length
    is
-      Result : Resources.Byte_Array (1 .. Resources.Byte_Count (Length));
    begin
       for Index in Result'Range loop
-         Result (Index) := As_Byte
-           (Address + Storage_Offset (Index - Result'First)).all;
+         Result (Index) := Source (Index);
       end loop;
-      return Result;
    end Decode;
 
    function Can_Reserve
      (Available_Negative : Interfaces.Unsigned_8;
-      Available : System.Address; Available_Length : Interfaces.C.size_t;
-      Withheld : System.Address; Withheld_Length : Interfaces.C.size_t;
-      Floor : System.Address; Floor_Length : Interfaces.C.size_t;
-      Requested : System.Address; Requested_Length : Interfaces.C.size_t)
+      Available, Withheld, Floor, Requested : not null access constant Resources.Byte_Array)
       return Interfaces.Unsigned_8
    is
    begin
-      if Available_Negative > 1
-        or else not Valid (Available, Available_Length)
-        or else not Valid (Withheld, Withheld_Length)
-        or else not Valid (Floor, Floor_Length)
-        or else not Valid (Requested, Requested_Length)
-      then
-         return 255;
-      end if;
-      if Resource_Wire.Can_Reserve
-        (Available_Negative = 1,
-         Decode (Available, Available_Length),
-         Decode (Withheld, Withheld_Length),
-         Decode (Floor, Floor_Length),
-         Decode (Requested, Requested_Length))
-      then
-         return 1;
-      end if;
+      if Available_Negative > 1 then return 255; end if;
+      if Available'First /= 1 or else Withheld'First /= 1 or else Floor'First /= 1 or else Requested'First /= 1 then return 255; end if;
+      declare
+         Available_Bytes : Resources.Byte_Array
+           (1 .. Resources.Byte_Count (Available'Length));
+         Withheld_Bytes : Resources.Byte_Array
+           (1 .. Resources.Byte_Count (Withheld'Length));
+         Floor_Bytes : Resources.Byte_Array
+           (1 .. Resources.Byte_Count (Floor'Length));
+         Requested_Bytes : Resources.Byte_Array
+           (1 .. Resources.Byte_Count (Requested'Length));
+      begin
+         Decode (Available, Available_Bytes);
+         Decode (Withheld, Withheld_Bytes);
+         Decode (Floor, Floor_Bytes);
+         Decode (Requested, Requested_Bytes);
+         if Resource_Wire.Can_Reserve
+           (Available_Negative = 1, Available_Bytes, Withheld_Bytes,
+            Floor_Bytes, Requested_Bytes)
+         then
+            return 1;
+         end if;
+      end;
       return 0;
    exception
       when others => return 255;

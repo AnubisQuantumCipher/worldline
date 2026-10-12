@@ -88,6 +88,7 @@ procedure Worldline_Core_Fuzz is
      (LP and then RP and then L /= R);
 
    Req : Collapse_Request;
+   Last_Authorized : Collapse_Request;
    Authorizations : Natural := 0;
    Seen : array (Decision) of Boolean := [others => False];
 
@@ -146,6 +147,7 @@ begin
          Staged_Content_Root => (P (7).LP, Content_Root (P (7).L)),
          Tested_Root => (P (7).RP, Content_Root (P (7).R)),
          Current_Requirement => (P (8).LP, Requirement_Id (P (8).L)),
+         Resulting_Requirement => (P (8).LP, Requirement_Id (P (8).L)),
          Evaluated_Requirement => (P (8).RP, Requirement_Id (P (8).R)),
          Declared_Verifiers => (P (9).LP, Verifier_Set_Id (P (9).L)),
          Executed_Verifiers => (P (9).RP, Verifier_Set_Id (P (9).R)),
@@ -226,6 +228,9 @@ begin
                      Req.Request_Phase = Commit and Ne (P (6).LP, P (6).RP, P (6).L, P (6).R),
                    when Execution_Evidence_Incomplete =>
                      Req.Mode = Candidate_Evaluation and not Req.Roster_Complete,
+                   when Requirement_Changed =>
+                     Req.Mode = Candidate_Evaluation and then
+                     Differ (Req.Current_Requirement, Req.Resulting_Requirement),
                    when Validation_Context_Mismatch =>
                      Req.Mode = Candidate_Evaluation and Ne (P (8).LP, P (8).RP, P (8).L, P (8).R),
                    when Verifier_Execution_Identity_Mismatch =>
@@ -238,6 +243,7 @@ begin
          Seen (Got) := True;
          if Got = Authorized then
             Authorizations := Authorizations + 1;
+               Last_Authorized := Req;
          end if;
       end;
 
@@ -249,6 +255,25 @@ begin
    end loop;
 
    Check (Authorizations > 0, "the fuzz never reached an authorization");
+   -- Separate new-domain checks do not consume or change the original draws.
+   Req := Last_Authorized;
+   Req.Mode := Candidate_Evaluation;
+   Req.Current_Requirement := (Present => True, Value => (others => 1));
+   Req.Evaluated_Requirement := Req.Current_Requirement;
+   Req.Resulting_Requirement := Req.Current_Requirement;
+   Req.Roster_Complete := True;
+   Req.Declared_Verifiers := (Present => True, Value => (others => 1));
+   Req.Executed_Verifiers := Req.Declared_Verifiers;
+   Req.Tested_Root := Req.Staged_Content_Root;
+   Req.Expected_Checkpoint := (others => <>);
+   Req.Witnessed_Checkpoint := (others => <>);
+   Check (Decide (Req) = Authorized, "new-domain positive control");
+   Req.Resulting_Requirement.Value (Worldline.Hash'First) :=
+     Req.Resulting_Requirement.Value (Worldline.Hash'First) xor 16#80#;
+   Check (Decide (Req) = Requirement_Changed, "resulting requirement mutation");
+   Seen (Requirement_Changed) := True;
+   Req.Resulting_Requirement := (others => <>);
+   Check (Decide (Req) = Identity_Absent, "resulting requirement missing");
    for D in Decision loop
       Check (Seen (D) = (D /= Owner_Mismatch), "decision " & Decision'Image (D) & " never drawn");
    end loop;

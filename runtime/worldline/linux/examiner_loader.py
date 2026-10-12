@@ -740,3 +740,36 @@ class BoundImports:
             else:
                 raise failures[0]
         return False
+
+
+def _native_workload(guard, registry, code, path, read_source):
+    """Fixed owned helper; the native caller captures entry and outer failures.
+
+    The dedicated examiner needs its owned import routes until interpreter
+    finalization, including uncaught-exception reporting and Python finalizers.
+    sys.meta_path holds this finder after the entry returns. The ordinary
+    BoundImports context-manager API still restores its caller's context.
+    Entry-state cleanup reports its own exception; native code preserves the
+    actual primary without calling user-defined add_note/str methods.
+    """
+    imports = BoundImports(registry.loader_policy, registry, read_source)
+    imports.__enter__()
+    registry.activate()
+    module = types.ModuleType('__main__')
+    namespace = module.__dict__
+    namespace.update(__name__='__main__', __file__=path, __cached__=None,
+                     __doc__=None, __loader__=None, __package__='', __spec__=None)
+    previous = sys.modules.get('__main__', _ABSENT)
+    argv0 = sys.argv[0]
+    sys.modules['__main__'] = module
+    try:
+        sys.argv[0] = path
+        guard.run_entry(namespace)
+    finally:
+        try:
+            sys.argv[0] = argv0
+        finally:
+            if previous is _ABSENT:
+                sys.modules.pop('__main__', None)
+            else:
+                sys.modules['__main__'] = previous

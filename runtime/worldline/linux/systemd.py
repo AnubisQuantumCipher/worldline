@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from contextlib import contextmanager
 from contextvars import ContextVar
 import json
@@ -20,6 +20,26 @@ _PRIVATE_BOOTSTRAP = object()
 _ACQUISITION = ContextVar('worldline_systemd_acquisition', default=None)
 
 
+@dataclass(frozen=True, slots=True)
+class WorkloadIdentity:
+    unit: str
+    invocation_id: str
+    control_group: str
+
+
+@dataclass(frozen=True, slots=True)
+class WorkloadTerminalObservation:
+    """Operational transport/manager facts, not protected descendant authority."""
+    state: str
+    unit: str
+    launcher_returncode: int | None
+    identity: WorkloadIdentity | None = None
+    manager_properties: dict[str, str] | None = None
+    cgroup_events: str | None = None
+    reason: str | None = None
+    raw_capture: dict[str, Any] | None = field(default=None, compare=False, repr=False)
+
+
 @dataclass(slots=True)
 class SystemdProcess:
     unit: str
@@ -27,6 +47,7 @@ class SystemdProcess:
     manager: "SystemdAdapter"
     # Realtime (µs) just before systemd-run was spawned: the journal window opens here.
     launched_at_us: int = 0
+    workload_identity: WorkloadIdentity | None = None
 
     @property
     def pid(self) -> int | None:
@@ -35,6 +56,9 @@ class SystemdProcess:
 
     def stop(self) -> None:
         self.manager.stop(self.unit)
+
+    def capture_workload_identity(self) -> None:
+        self.workload_identity = self.manager.workload_identity(self)
 
 
 def manager_environment(environment: dict[str, str] | None = None) -> dict[str, str]:
@@ -109,10 +133,12 @@ class SystemdAdapter:
             # optional sample normally. An override raising the same class is
             # still an ordinary provider exception, with its old failure path.
             error._worldline_systemd_cancel_event = cancel_event
-            error._worldline_systemd_cancel_complete = (
-                terminal is not None and terminal.get('processWaitReturnObserved') is True
-                and terminal.get('stdoutReachedEof') is True
-                and terminal.get('stderrReachedEof') is True)
+            try:
+                from ..runner_lifecycle import allowed
+                error._worldline_systemd_cancel_complete = allowed('cancellation-complete', terminal)
+            except Exception as native_error:
+                error._worldline_systemd_cancel_complete = False
+                error.add_note(f"native systemd cancellation observation failed: {native_error}")
             raise
 
     @staticmethod
@@ -261,7 +287,7 @@ class SystemdAdapter:
     # back rather than assumed: a configured ceiling is not evidence that the kernel took it.
     _LIMIT_PROPERTIES = ("MemoryMax", "MemoryHigh", "MemorySwapMax", "CPUQuotaPerSecUSec",
                          "CPUWeight", "TasksMax", "MemoryAccounting", "CPUAccounting", "TasksAccounting")
-    _USAGE_PROPERTIES = ("MemoryPeak", "MemoryCurrent", "MemorySwapPeak", "CPUUsageNSec",
+    _USAGE_PROPERTIES = ("Id", "InvocationID", "MemoryPeak", "MemoryCurrent", "MemorySwapPeak", "CPUUsageNSec",
                          "TasksCurrent", "Result", "ActiveState", "ExecMainStatus", "ControlGroup")
 
     def _show(self, unit: str, properties: Sequence[str]) -> dict[str, str] | None:
@@ -277,6 +303,156 @@ class SystemdAdapter:
             if separator:
                 values[name] = value
         return values
+
+    _TERMINAL_PROPERTIES = (
+        "Id", "LoadState", "InvocationID", "ControlGroup", "ActiveState", "SubState", "MainPID",
+    )
+
+    def _manager_decide(self, capture):
+        from ..manager_resource_lifecycle import decide
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        return decide(capture, observer=observer)
+
+    def _manager_capture_failure(self, capture, site, error):
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        if observer is None:
+            return
+        from ..raw_observation import (exception_observation, optional_bytes,
+                                       retain_during_unwind, retain_observation)
+        from ..manager_resource_lifecycle import capture_json
+        retain_during_unwind(lambda: retain_observation(observer, {
+            'schemaVersion': 1, 'site': 'manager-resource-lifecycle-acquisition',
+            'acquisition': site, 'capture': optional_bytes(capture_json(capture).encode('ascii')),
+            'exception': exception_observation(error)}))
+
+    def _manager_capture_show(self, unit, capture):
+        try:
+            return self._show(unit, self._TERMINAL_PROPERTIES)
+        except BaseException as error:
+            self._manager_capture_failure(capture, 'manager-show', error)
+            raise
+
+    def _pipe_capture(self, process, *, after_failure=False, returncode=None):
+        from ..manager_resource_lifecycle import pipe_capture
+        current = _ACQUISITION.get()
+        observer = None if current is None else current[1]
+        return pipe_capture(self, process, after_failure=after_failure, returncode=returncode,
+                            observer=observer, on_failure=self._manager_capture_failure)
+
+    def _owns_pipe_launcher(self, process: SystemdProcess) -> bool:
+        capture = self._pipe_capture(process)
+        capture['op'] = 'owned'
+        return self._manager_decide(capture)['accepted']
+
+    def workload_identity(self, process: SystemdProcess) -> WorkloadIdentity | None:
+        """Capture actual manager properties; native policy validates the identity."""
+        capture = self._pipe_capture(process)
+        capture['op'] = 'identity'
+        decision = self._manager_decide(capture)
+        if decision['action'] == 'query_manager':
+            capture['shown'] = self._manager_capture_show(process.unit, capture)
+            decision = self._manager_decide(capture)
+        if not decision['accepted']:
+            return None
+        shown = capture['shown']
+        return WorkloadIdentity(process.unit, shown['InvocationID'], shown['ControlGroup'])
+
+    def terminal_observation(self, process: SystemdProcess, *, after_failure: bool = False) -> WorkloadTerminalObservation:
+        """Native policy authorizes normal pipe or matching manager/cgroup completion."""
+        returncode = process.launcher.returncode
+        capture = self._pipe_capture(process, after_failure=after_failure, returncode=returncode)
+        from ..manager_resource_lifecycle import failure_capture
+        identity = None
+        decision = self._manager_decide(capture)
+        while decision['action'] in ('truth_after_failure', 'identity_object', 'identity_unit'):
+            action = decision['action']
+            try:
+                if action == 'truth_after_failure':
+                    capture['afterFailureTruth'] = bool(after_failure)
+                elif action == 'identity_object':
+                    identity = process.workload_identity
+                    capture['identityObject'] = failure_capture(identity)
+                else:
+                    value = identity.unit
+                    capture['identityUnitObserved'] = str.__str__(value) if isinstance(value, str) else failure_capture(value)
+            except BaseException as error:
+                self._manager_capture_failure(capture, action, error)
+                raise
+            decision = self._manager_decide(capture)
+        if decision['action'] == 'query_manager':
+            return self._workload_observation(process.unit, identity, returncode, _capture=capture)
+        return WorkloadTerminalObservation(decision['state'], process.unit, returncode,
+            process.workload_identity, reason=decision['reason'], raw_capture=capture)
+
+    @staticmethod
+    def persisted_workload_identity(unit: str, value: Any) -> WorkloadIdentity | None:
+        from ..manager_resource_lifecycle import decide, persisted_capture
+        capture = persisted_capture(unit, value)
+        if not decide(capture)['accepted']:
+            return None
+        return WorkloadIdentity(unit, value['invocationId'], value['controlGroup'])
+
+    def reservation_observation(self, reservation: Any) -> WorkloadTerminalObservation:
+        unit = getattr(reservation, "unit", None)
+        identity = self.persisted_workload_identity(unit, getattr(reservation, "workload_identity", None))
+        if identity is None:
+            return WorkloadTerminalObservation("UNKNOWN", unit, None,
+                reason="persisted check invocation/cgroup identity is absent or malformed")
+        return self._workload_observation(unit, identity, None)
+
+    def _workload_observation(self, unit: str, identity: WorkloadIdentity,
+                              returncode: int | None, *, _capture=None) -> WorkloadTerminalObservation:
+        from ..manager_resource_lifecycle import failure_capture
+        from ..raw_observation import exception_observation
+        capture = ({'op': 'manager', 'unit': unit, 'returncode': failure_capture(returncode)}
+                   if _capture is None else dict(_capture))
+        capture['identity'] = {}
+        capture['shown'] = self._manager_capture_show(unit, capture)
+        decision = self._manager_decide(capture)
+        while decision['action'] in ('manager_identity_unit', 'manager_identity_invocation', 'manager_identity_group'):
+            action = decision['action']
+            try:
+                name, attribute = {
+                    'manager_identity_unit': ('unit', 'unit'),
+                    'manager_identity_invocation': ('invocationId', 'invocation_id'),
+                    'manager_identity_group': ('controlGroup', 'control_group'),
+                }[action]
+                value = getattr(identity, attribute)
+                capture['identity'][name] = str.__str__(value) if isinstance(value, str) else failure_capture(value)
+            except BaseException as error:
+                self._manager_capture_failure(capture, action, error)
+                raise
+            decision = self._manager_decide(capture)
+        if decision['action'] == 'read_events':
+            group = Path("/sys/fs/cgroup") / identity.control_group.lstrip("/")
+            try:
+                capture['events'] = (group / "cgroup.events").read_text(encoding="ascii")
+            except FileNotFoundError as error:
+                capture['events'] = None
+                capture['eventsException'] = exception_observation(error)
+            except BaseException as error:
+                self._manager_capture_failure(capture, 'cgroup-events', error)
+                raise
+            decision = self._manager_decide(capture)
+            if decision['action'] == 'lstat_directory':
+                try:
+                    directory = group.lstat()
+                except FileNotFoundError as error:
+                    capture['directory'] = 'missing'
+                    capture['directoryException'] = exception_observation(error)
+                except BaseException as error:
+                    self._manager_capture_failure(capture, 'cgroup-directory-lstat', error)
+                    raise
+                else:
+                    capture['directory'] = 'present'
+                    capture['directoryStat'] = {
+                        name: getattr(directory, name, None)
+                        for name in ('st_mode', 'st_ino', 'st_dev', 'st_nlink', 'st_uid', 'st_gid', 'st_size')}
+                decision = self._manager_decide(capture)
+        return WorkloadTerminalObservation(decision['state'], unit, returncode, identity,
+            capture.get('shown'), capture.get('events'), decision['reason'], raw_capture=capture)
 
     @staticmethod
     def _cgroup_value(control_group: str | None, name: str) -> str | None:
@@ -372,6 +548,8 @@ class SystemdAdapter:
             True if shown.get("Result") == "oom-kill" else None)
         return {
             "state": "OBSERVED",
+            "workloadIdentity": {"unit": shown.get("Id"), "invocationId": shown.get("InvocationID"),
+                                 "controlGroup": control_group},
             "peakMemoryBytes": integer("MemoryPeak"),
             "currentMemoryBytes": integer("MemoryCurrent"),
             "peakSwapBytes": integer("MemorySwapPeak"),
@@ -418,14 +596,21 @@ class SystemdAdapter:
         self._validate_unit(unit)
         journalctl = self.journalctl
         if journalctl is None:
+            if _raw_observer is not None:
+                from ..raw_observation import retain_observation
+                retain_observation(_raw_observer, {
+                    'schemaVersion': 1, 'site': 'journal-tool-unavailable',
+                    'unit': unit, 'sinceUs': since_us, 'journalctl': None})
             return None
         journal_argv = [journalctl, "--user", "-u", unit, "-o", "json", "--no-pager",
                         f"--since=@{max(since_us // 1_000_000 - 2, 0)}"]
+        reader_uid = os.getuid()
         result = self._query(journal_argv, timeout=15, site='journal-poll',
-            observer=_raw_observer, details={'unit': unit, 'sinceUs': since_us})
+            observer=_raw_observer,
+            details={'unit': unit, 'sinceUs': since_us, 'readerUid': reader_uid})
         if result.returncode != 0:
             return None
-        manager_unit = f"user@{os.getuid()}.service"
+        manager_unit = f"user@{reader_uid}.service"
         events: list[dict[str, Any]] = []
         for line in result.stdout.decode("utf-8", "replace").splitlines():
             try:

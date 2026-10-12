@@ -9,14 +9,16 @@ import os
 from pathlib import Path
 import shutil
 import sqlite3
+import stat
 import uuid
 from typing import Any, Callable, Mapping, Sequence
 
 from . import SCHEMA_VERSION
 from .canonical import atomic_write_json, canonical_bytes, fsync_directory
+from .client_peer import current_observation, preparer_observations
 from .core import CollapseInput, Core, hash_bytes_from_id, hash_id, runtime_installed
 from .delta import Delta
-from .validation import content_differences, content_root_set, current_requirements, differences, effective_context, effective_evidence, verify_context
+from .validation import content_differences, content_root_set, current_requirements, requirements_for_tree, differences, effective_context, effective_evidence, verify_context
 from .errors import ConflictError, WorldlineError, storage_error
 from .executed import NO_BUNDLE_IDENTITY, bundle_identity
 from .finalize import ENGINE_DECLARATIONS, check_declarations, required_roster, roster_decision, runner_agent_record
@@ -30,7 +32,7 @@ from .paths import WorldlinePaths
 from .prime import Generation, PrimeManager
 from .proof import ProofStatus
 from .receipt import ReceiptBuilder
-from .recovery_kernel import select_action as kernel_recovery_action
+from .transaction_relation import marker_state as kernel_recovery_action
 from .store import StateStore
 
 _LOG = logging.getLogger("worldline.transaction")
@@ -158,7 +160,8 @@ class CollapseTransaction:
                 exc.details = {**details, **(exc.details or {})}
                 raise
 
-    def prepare(self, candidate_value: str, *, kind: str = "collapse", return_of: str | None = None) -> PreparedTransaction:
+    def prepare(self, candidate_value: str, *, kind: str = "collapse", return_of: str | None = None, owner_adoption=None) -> PreparedTransaction:
+        preparer_peer = current_observation()
         self._assert_recovery_complete()
         self._pre_exchange_guards()
         if kind not in {"collapse", "return"}:
@@ -213,7 +216,15 @@ class CollapseTransaction:
         # refusal here is recorded on the causal log and never creates a transaction.
         freshness = self._freshness(candidate, kind=kind, return_of=return_of)
         root_set = self.prime.root_set_hash(roots)
-        transaction_id = str(uuid.uuid4())
+        if owner_adoption is not None:
+            from .protected_owner import OwnerAdoption
+            if type(owner_adoption) is not OwnerAdoption or owner_adoption.owner is not getattr(self,'protected_owner',None):
+                raise WorldlineError('OWNER_ADOPTION_SOURCE_UNAVAILABLE','actual protected issue intent required')
+            transaction_id=owner_adoption.transaction_id()
+        elif freshness.get('ownerTransactionId') is not None:
+            transaction_id=freshness['ownerTransactionId']
+        else:
+            transaction_id = str(uuid.uuid4())
         transaction_directory = self.data_transactions / transaction_id
         payload = transaction_directory / "payload"
         mapping = transaction_directory / "mapping"
@@ -297,9 +308,10 @@ class CollapseTransaction:
                 staged_validation = self._run_staged_validation(
                     payload, candidate, current_manifests, staged_manifests,
                     staged_content_root, return_of=return_of)
-                if (staged_validation.get("context") or {}).get("verifiersModifiedByCandidate"):
+                from .transaction_relation import verifiers_unchanged
+                if not verifiers_unchanged(self.core, staged_validation.get("context")):
                     raise WorldlineError("VERIFIER_MODIFIED_BY_CANDIDATE", "the staged merge result carries a rewritten authoritative verifier",
-                                         {"verifiers": staged_validation["context"]["verifiersModifiedByCandidate"]})
+                                         {"verifiers": (staged_validation.get("context") or {}).get("verifiersModifiedByCandidate")})
                 if freshness["mode"] != "checkpoint-return":
                     # Staging advances this subject's pending/current journal.
                     # Retain the earlier observation, then select from the whole
@@ -350,13 +362,23 @@ class CollapseTransaction:
                 "foreignWrites": {"state": foreign_state, **foreign_detail},
                 "watchSets": {"registered": registered_watch, "watched": watched},
             }
+            resulting = (None if conflicts else
+                requirements_for_tree(self.store, self.config, payload, roots, self.core))
+            decision_inputs["resultingRequirement"] = resulting
+            decision_inputs['ownerTransactionId']=transaction_id
+            if owner_adoption is not None:
+                if resulting is None:raise WorldlineError('OWNER_ADOPT_RESULT_UNMEASURED','independent staged requirement absent')
+                owner_adoption.reserve(subject,transaction_id,current,resulting)
+                decision_inputs['ownerAdoptIntent']=owner_adoption.intent
+
             decision_inputs["generations"] = {"before": generation_before, "after": self._generation()}
             decision = self._decide(
                 phase="PREPARE", kind_mode=freshness["mode"], candidate=candidate, subject=subject,
                 expected_parent=expected_parent_content, base_root=base_root, delta_hash=delta.delta_hash,
                 root_set=root_set, expected_staged_root=staged_root, actual_staged_root=None,
                 staged_content_root=staged_content_root, conflicts=bool(conflicts),
-                current_requirement=current["requirementHash"], inputs=decision_inputs,
+                current_requirement=current["requirementHash"], resulting_requirement=resulting,
+                inputs=decision_inputs,
                 authoritative_requirement=current, authoritative_roots=roots,
                 witness=freshness.get("witness"),
             )
@@ -369,6 +391,7 @@ class CollapseTransaction:
             record = {
                 "schemaVersion": SCHEMA_VERSION,
                 "transactionId": transaction_id,
+                "preparerPeer": preparer_peer,
                 "kind": kind,
                 "state": "PREPARED" if decision == "AUTHORIZED" else "DENIED",
                 "decision": decision,
@@ -405,6 +428,9 @@ class CollapseTransaction:
                 "generated": generated,
                 "dependencyChanges": dependency_changes,
             }
+            from .transaction_relation import frozen_manifests, frozen_roots
+            record["stagedManifestRecords"] = frozen_manifests(staged_manifests)
+            record["stagedRootRecords"] = frozen_roots(roots)
             if before_staged_freshness is not None:
                 record["preStageValidation"] = {
                     key: value for key, value in before_staged_freshness.items() if key != "current"}
@@ -467,10 +493,12 @@ class CollapseTransaction:
 
     def abort(self, transaction_id: str) -> dict[str, str]:
         record = self._load_record(transaction_id)
+        aborter_peer = preparer_observations(record)["requester"]
         if record["state"] not in {"PREPARED", "AUTHORIZED", "DENIED"}:
             raise WorldlineError("INVALID_TRANSACTION_STATE", f"cannot abort transaction in {record['state']}")
         if self._marker(self.paths.live) == transaction_id:
             raise WorldlineError("TRANSACTION_ALREADY_COMMITTED", "generation marker shows the atomic exchange already committed")
+        record["aborterPeer"] = aborter_peer
         self._set_state(record, "ABORTED", error={"code": "USER_ABORTED"})
         return {"transactionId": transaction_id, "state": "ABORTED"}
 
@@ -581,6 +609,7 @@ class CollapseTransaction:
     def _commit(self, transaction_id: str) -> dict[str, Any]:
         self._assert_recovery_complete()
         record = self._load_record(transaction_id)
+        committer_peer = preparer_observations(record)["requester"]
         if record["state"] == "DENIED":
             raise WorldlineError("TRANSACTION_DENIED", "a denied transaction can never commit")
         if record["state"] != "PREPARED":
@@ -588,6 +617,8 @@ class CollapseTransaction:
         if not isinstance(record.get("decisionInputs"), Mapping) or "validation" not in record:
             self._set_state(record, "DENIED", error={"code": "TRANSACTION_RECORD_LEGACY"})
             raise WorldlineError("TRANSACTION_RECORD_LEGACY", "this transaction was prepared by an earlier runtime; abort it and prepare again")
+        record["committerPeer"] = committer_peer
+        atomic_write_json(Path(record["preparedPath"]), record)
         self._pre_exchange_guards(transaction_id)
         candidate = self.store.world(record["candidateWorld"])
         self.stop_writers(candidate)
@@ -647,7 +678,11 @@ class CollapseTransaction:
         # power loss immediately after the (durable) rename cannot leave PRIME pointing at a tree
         # whose dirents never reached disk — recovery re-hashes survivors and would enshrine a
         # torn tree as COMMITTED otherwise.
-        self._fsync_payload_tree(Path(record["stagingPayload"]))
+        # No failed flush, incomplete traversal or changed staged tree may cross
+        # the exchange. The fresh captures below go through the same kernel
+        # Decide as the first authorization, with its original admitted domain.
+        staged_manifests = self._durable_exchange_intent(
+            record, candidate, generation_before=generation_before)
         # The kernel's generation pair ends at the decision; the fsync above takes time in
         # proportion to the tree. PRIME must still be at the generation the decision saw, or a
         # write in between would be displaced without being recorded (review of a23c265). What
@@ -699,9 +734,9 @@ class CollapseTransaction:
                 self.unrecoverable[transaction_id] = self._recovery_error(failure)
             raise
 
-    def _authorize(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
+    def _authorization_inputs(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
                    staged_root: str, staged_content_root: str, current_requirement: Mapping[str, Any],
-                   generation_before: int | None) -> str:
+                   generation_before: int | None) -> tuple[dict[str, Any], dict[str, Any]]:
         """The commit's decision: every input recomputed now from the store and the live tree,
         except the facts only prepare observed (the evidence subject the speaking evaluation was
         bound to, the tested root, the evaluations' verdicts), which come from the prepared
@@ -710,6 +745,13 @@ class CollapseTransaction:
         validation = record.get("validation") or {}
         return_of = record.get("returnOf")
         subject = self.store.world(return_of) if return_of else candidate
+        decision_roots = self.store.roots()
+        # Measure the policy/verifiers that the actual staged payload would install.
+        # Neither the current PRIME requirement nor a retained prepare mapping is
+        # a substitute for this commit-time observation.
+        resulting = requirements_for_tree(self.store, self.config,
+            Path(record["stagingPayload"]), decision_roots, self.core)
+        inputs["resultingRequirement"] = resulting
         primary = inputs.get("primary") if isinstance(inputs.get("primary"), Mapping) else {}
         prime = self.store.prime()
         foreign_state, foreign_detail = self._foreign_writes(current_manifests, prime, candidate)
@@ -723,19 +765,102 @@ class CollapseTransaction:
             "primary": {**primary, "declaredVerifiers": self._declared_verifiers(current_requirement)},
         })
         inputs["generations"] = {"before": generation_before, "after": self._generation()}
-        record["decisionInputsAtCommit"] = {k: inputs[k] for k in ("expectedSubject", "foreignWrites", "watchSets", "generations")}
-        decision_roots = self.store.roots()
-        decision = self._decide(
+        arguments = dict(
             phase="COMMIT", kind_mode=validation.get("mode"), candidate=candidate, subject=subject,
             expected_parent=record.get("parentContentExpected"), base_root=record.get("baseRoot"),
             delta_hash=record.get("deltaHash"), root_set=self.prime.root_set_hash(decision_roots),
             expected_staged_root=inputs.get("stagedRoot"), actual_staged_root=staged_root,
             staged_content_root=staged_content_root, conflicts=bool(record.get("conflicts")),
-            current_requirement=current_requirement["requirementHash"], inputs=inputs, witness=witness,
+            current_requirement=current_requirement["requirementHash"],
+            resulting_requirement=resulting, inputs=inputs, witness=witness,
             authoritative_requirement=current_requirement, authoritative_roots=decision_roots,
         )
-        record["decisionInputsAtCommit"]["absent"] = inputs.get("absent", [])
+        return inputs, arguments
+
+    def _authorize(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
+                   staged_root: str, staged_content_root: str, current_requirement: Mapping[str, Any],
+                   generation_before: int | None) -> str:
+        """The commit's decision: every input recomputed now from the store and the live tree,
+        except the facts only prepare observed (the evidence subject the speaking evaluation was
+        bound to, the tested root, the evaluations' verdicts), which come from the prepared
+        record. Nothing absent is filled in: a missing field is passed as absent."""
+        inputs, arguments = CollapseTransaction._authorization_inputs(
+            self, record, candidate, current_manifests=current_manifests,
+            staged_root=staged_root, staged_content_root=staged_content_root,
+            current_requirement=current_requirement, generation_before=generation_before)
+        decision = self._decide(**arguments)
+        # Retain the full decision input set, including the selected evidence
+        # cursors, rather than just the four diagnostic measurements. This is
+        # durable replay material; it is not an authenticated one-shot witness.
+        record["decisionInputsAtCommit"] = json.loads(canonical_bytes(inputs))
         return decision
+
+    def _observe_authorization(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
+                   staged_root: str, staged_content_root: str, current_requirement: Mapping[str, Any],
+                   generation_before: int | None) -> tuple[str, object]:
+        """Own the real fresh commit observation and its native verdict.
+
+        The durable post-flush path retains this complete packet independently
+        of the protected broker's pre-effect packet. Acquisition, generation
+        observation and native redecision keep their original order. Packet
+        possession grants no custody or effect authority.
+        """
+        inputs, arguments = CollapseTransaction._authorization_inputs(
+            self, record, candidate, current_manifests=current_manifests,
+            staged_root=staged_root, staged_content_root=staged_content_root,
+            current_requirement=current_requirement, generation_before=generation_before)
+        observed = CollapseTransaction._observe_decision(self, **arguments, retain_packet=True)
+        principal = getattr(self.store, 'canonical_operation_principal', None)
+        decision = observed.decide(self.core, principal=principal)
+        record["decisionInputsAtCommit"] = json.loads(canonical_bytes(inputs))
+        return decision, observed
+
+    def _durable_exchange_intent(
+        self, record: dict[str, Any], candidate: World, *, generation_before: int | None,
+    ) -> dict[str, CapturedManifest]:
+        """Flush staging, re-Decide from fresh captures, then persist intent.
+
+        The transaction is already AUTHORIZED. Every failure here is before
+        rename and requests its original kernel transition to ABORTED. Witness
+        authentication, one-shot custody and crash campaign acceptance remain
+        separate requirements; a COMMITTING intent is not their substitute.
+        """
+        try:
+            self._fsync_payload_tree(Path(record["stagingPayload"]))
+            staged_manifests = self._capture_staged(record)
+            staged_root = Manifest.root_set_hash(staged_manifests.values(), self.core)
+            current_manifests = self._capture_current_roots()
+            current_requirement = current_requirements(self.store, self.config, self.core)
+            decision, post_flush = self._observe_authorization(
+                record, candidate, current_manifests=current_manifests,
+                staged_root=staged_root,
+                staged_content_root=content_root_set(staged_manifests, self.core),
+                current_requirement=current_requirement,
+                generation_before=generation_before,
+            )
+            if decision != "AUTHORIZED":
+                raise WorldlineError(
+                    decision, f"proved core denied collapse after the durable staging flush: {decision}",
+                    {"transactionId": record["transactionId"], "refusedBy": "post-flush-decision"},
+                )
+            record["commitRequirementHash"] = current_requirement["requirementHash"]
+            # Retain this independently acquired complete original packet.
+            # It is not substituted for the earlier protected pre-effect packet.
+            record["postFlushPacket"] = post_flush.packet.hex()
+            record["commitIntent"] = {
+                "state": "COMMITTING", "transactionId": record["transactionId"],
+                "stagedRoot": staged_root,
+            }
+            atomic_write_json(Path(record["preparedPath"]), record)
+            return staged_manifests
+        except BaseException as failure:
+            try:
+                self._set_state(record, "ABORTED", error={
+                    "code": getattr(failure, "code", "STAGING_DURABILITY_FAILED"),
+                })
+            except BaseException as abort_failure:
+                failure.add_note("recording the pre-exchange abort also failed: " + repr(abort_failure))
+            raise
 
     # -- 1.9.0 decision inputs: every identity from a named producer, absent as None ---------
 
@@ -916,9 +1041,13 @@ class CollapseTransaction:
             raise WorldlineError("STAGED_EVALUATION_CURSOR_ABSENT", "staged raw capture has no retained cursor")
         subject = self.store.world(return_of) if return_of else candidate
         current = previous["current"]
-        selected = read(self.store, subject, current["requirementHash"],
-                        prepared=cursor, core=self.core)
-        return self._selected_freshness(subject, current, selected, kind=kind)
+        selected = CollapseTransaction._owner_evidence(self, subject, current["requirementHash"], prepared=cursor)
+
+        result=self._selected_freshness(subject,current,selected,kind=kind)
+        if selected.source.startswith('owner-retry:'):
+            owner=self._owner_source()
+            result['ownerTransactionId']=owner.retry_transaction(subject,current['requirementHash'])
+        return result
 
     def _staged_block(self, subject: World, current: Mapping[str, Any], staged: Mapping[str, Any] | None) -> dict[str, Any]:
         """The staged-merge evaluation as the kernel reads it: the requirement it ran against,
@@ -938,10 +1067,34 @@ class CollapseTransaction:
 
     def _decide(self, *, phase: str, kind_mode: Any, candidate: World, subject: World, expected_parent: Any,
                 base_root: Any, delta_hash: Any, root_set: Any, expected_staged_root: Any, actual_staged_root: Any,
-                staged_content_root: Any, conflicts: bool, current_requirement: Any, inputs: dict[str, Any],
+                staged_content_root: Any, conflicts: bool, current_requirement: Any,
+                resulting_requirement: Mapping[str, Any] | None, inputs: dict[str, Any],
                 witness: Mapping[str, Any] | None, authoritative_requirement: Mapping[str, Any],
                 authoritative_roots: Sequence[Mapping[str, Any]]) -> str:
+        # The default path retains all original cases, including constructor
+        # fixtures that do not claim to carry a durable recovery packet.
+        observed = CollapseTransaction._observe_decision(self,
+            phase=phase, kind_mode=kind_mode, candidate=candidate, subject=subject,
+            expected_parent=expected_parent, base_root=base_root, delta_hash=delta_hash,
+            root_set=root_set, expected_staged_root=expected_staged_root,
+            actual_staged_root=actual_staged_root, staged_content_root=staged_content_root,
+            conflicts=conflicts, current_requirement=current_requirement,
+            resulting_requirement=resulting_requirement, inputs=inputs, witness=witness,
+            authoritative_requirement=authoritative_requirement,
+            authoritative_roots=authoritative_roots)
+        return observed.decide(self.core)
+
+    def _observe_decision(self, *, phase: str, kind_mode: Any, candidate: World, subject: World, expected_parent: Any,
+                base_root: Any, delta_hash: Any, root_set: Any, expected_staged_root: Any, actual_staged_root: Any,
+                staged_content_root: Any, conflicts: bool, current_requirement: Any,
+                resulting_requirement: Mapping[str, Any] | None, inputs: dict[str, Any],
+                witness: Mapping[str, Any] | None, authoritative_requirement: Mapping[str, Any],
+                authoritative_roots: Sequence[Mapping[str, Any]],
+                retain_packet: bool = False):
         checkpoint = kind_mode == "checkpoint-return"
+        # Retain the producer's mapping for durable recovery input snapshots.
+        # Checkpoint mode still encodes the unused native slot as absent below.
+        inputs["resultingRequirement"] = resulting_requirement
         primary = inputs.get("primary") if isinstance(inputs.get("primary"), Mapping) else {}
         staged = inputs.get("staged") if isinstance(inputs.get("staged"), Mapping) else {}
         generations = inputs.get("generations") if isinstance(inputs.get("generations"), Mapping) else {}
@@ -971,6 +1124,7 @@ class CollapseTransaction:
             staged_content_root=self._identity(staged_content_root),
             tested_root=self._identity(inputs.get("testedRoot")),
             current_requirement=self._identity(current_requirement),
+            resulting_requirement=None if checkpoint else self._identity((resulting_requirement or {}).get("requirementHash")),
             evaluated_requirement=None if checkpoint else self._identity(primary.get("evaluatedRequirement")),
             declared_verifiers=self._identity(primary.get("declaredVerifiers")),
             executed_verifiers=None if checkpoint else self._identity(primary.get("executedVerifiers")),
@@ -995,7 +1149,7 @@ class CollapseTransaction:
             cursor = primary.get('evaluationCursor')
             if cursor is None:
                 raise WorldlineError('EVALUATION_CURSOR_ABSENT', 'prepare did not retain its evidence cursor')
-            chosen = read(self.store, subject, current_requirement, prepared=cursor, core=self.core)
+            chosen = self._owner_evidence(subject, current_requirement, prepared=cursor)
             primary_chosen = chosen
             primary_raw = chosen.raw
         staged_raw = None
@@ -1014,18 +1168,43 @@ class CollapseTransaction:
             actual_agent = next((r for r in (final or ()) if isinstance(r, Mapping) and r.get('id') == 'agent'), None)
             actual_agent, _legacy = runner_agent_record(actual_agent)
             if isinstance(actual_agent, Mapping) and actual_agent.get('origin') == 'agent':
-                agent_raw = raw_record(actual_agent, ENGINE_DECLARATIONS['agent'])
+                agent_raw = raw_record(actual_agent, ENGINE_DECLARATIONS['agent'], core=self.core)
         if agent_raw is not None:
             from .evaluation_context import bind_selected
             for role, selected in (('primary', primary_chosen), ('staged', staged_chosen)):
                 if selected is not None:
                     bind_selected(self, selected, values=values, subject=subject, candidate=candidate,
                         authoritative_requirement=authoritative_requirement,
+                        resulting_requirement=resulting_requirement,
                         authoritative_roots=authoritative_roots, agent=agent_raw,
                         agent_record=actual_agent, role=role,
                         prepared_cursor=(primary if role == 'primary' else staged).get('evaluationCursor'))
-        return self.core.collapse_decide_with_evaluation(values, primary=primary_raw,
-            staged=staged_raw, agent=agent_raw)
+
+        from .recovery_observation import CollapseObservation, capture_packet
+        from .owner_collapse_data import OwnerCollapseData
+        from .owner_retry_audit import FullScope
+        owner_data=None
+        transaction=inputs.get('ownerTransactionId')
+        resulting_bytes=self._identity((resulting_requirement or {}).get('requirementHash'))
+        owner=self._owner_source(required=False)
+        if checkpoint:
+            if owner is not None:
+                owner_data=owner.capture_collapse(values,subject,transaction,resulting_bytes)
+            else:
+                owner_data=OwnerCollapseData('CHECKPOINT_EQUAL',FullScope(subject.instance_id,subject.content_id,transaction),
+                    subject,current_requirement,None,None,None,None,None,None,resulting_bytes,None)
+        elif primary_chosen is not None and primary_chosen.source.startswith('owner-retry:'):
+            if owner is None:raise WorldlineError('OWNER_RETRY_SOURCE_LOST','protected journal unavailable')
+            owner_data=owner.capture_collapse(values,subject,transaction,resulting_bytes,prepared=primary.get('evaluationCursor'))
+        packet = None
+        if retain_packet:
+            packet = capture_packet(values=values, primary=primary_chosen, staged=staged_chosen,
+                agent=agent_raw, agent_record=actual_agent, inputs=inputs,
+                candidate=candidate, subject=subject, witness=witness,
+                authoritative_requirement=authoritative_requirement,
+                resulting_requirement=resulting_requirement,
+                authoritative_roots=authoritative_roots, current_requirement=current_requirement, owner=owner_data, core=self.core)
+        return CollapseObservation(values, primary_raw, staged_raw, agent_raw, packet, owner_data)
 
     # Far beyond any real store; a longer walk is treated as no witness rather than as a pass.
     _LINEAGE_LIMIT = 1_000_000
@@ -1186,7 +1365,8 @@ class CollapseTransaction:
                             " (\"checks\": [] declares that nothing is required)")
         # Two kernel verdicts, both required: the policy roster (which may be empty only when
         # declared) and the agent's own finalization exit.
-        complete = roster["complete"] is True and agent["complete"] is True
+        from .transaction_relation import execution as native_execution
+        complete = native_execution(self.core, subject, current, recorded_checks)
         return {"complete": complete, "expected": bundle_identity(expected_members),
                 "actual": None if actual_absent else bundle_identity(actual_members), "mode": "candidate-evaluation",
                 "problems": problems, "requiredChecks": ["agent", *required], "emptyDeclared": empty_declared,
@@ -1225,8 +1405,13 @@ class CollapseTransaction:
                     "execution": {"complete": False, "expected": self._declared_verifiers(current), "actual": None,
                                   "mode": "no-candidate-evaluation", "problems": [], "requiredChecks": []}}
         from .evaluation_authority import read
-        selected = read(self.store, subject, current['requirementHash'], core=self.core)
-        return self._selected_freshness(subject, current, selected, kind=kind)
+        selected = self._owner_evidence(subject, current['requirementHash'])
+
+        result=self._selected_freshness(subject,current,selected,kind=kind)
+        if selected.source.startswith('owner-retry:'):
+            owner=self._owner_source()
+            result['ownerTransactionId']=owner.retry_transaction(subject,current['requirementHash'])
+        return result
 
     def _selected_freshness(self, subject: World, current: Mapping[str, Any],
                             selected: Any, *, kind: str) -> dict[str, Any]:
@@ -1237,10 +1422,14 @@ class CollapseTransaction:
             # 1.9.0: which world the context is bound to is not decided here; it is carried to
             # the kernel as the evidence subject (EVIDENCE_SUBJECT_MISMATCH).
             context = verify_context(context, candidate_instance=None, core=self.core)
-            if context.get("verifiersModifiedByCandidate"):
-                raise WorldlineError("VERIFIER_MODIFIED_BY_CANDIDATE", "the candidate changed an authoritative verifier its own evidence depends on", {"verifiers": context["verifiersModifiedByCandidate"]})
-            if context["requirementHash"] != current["requirementHash"]:
+            from .transaction_relation import freshness as native_freshness, VERIFIER_MODIFIED, EVIDENCE_STALE, ACCEPTED
+            relation = native_freshness(self.core, context, current)
+            if relation == VERIFIER_MODIFIED:
+                raise WorldlineError("VERIFIER_MODIFIED_BY_CANDIDATE", "the candidate changed an authoritative verifier its own evidence depends on", {"verifiers": context.get("verifiersModifiedByCandidate")})
+            if relation == EVIDENCE_STALE:
                 raise WorldlineError("EVIDENCE_STALE", "the candidate's evidence was evaluated against different requirements than the current PRIME imposes; revalidate or fork a new candidate", {"differences": differences(context["requirement"], current), "candidateRequirementHash": context["requirementHash"], "currentRequirementHash": current["requirementHash"], "evaluatedAt": context.get("evaluatedAt"), "evidenceSource": source})
+            if relation != ACCEPTED:
+                raise WorldlineError("EVIDENCE_CONTEXT_INVALID", "the complete native context/preimage relation differs")
         except WorldlineError as exc:
             self.store.append_causal_event({"schemaVersion": SCHEMA_VERSION, "worldInstance": subject.instance_id, "kind": "promotion-refused", "actor": "worldline", "reason": exc.code, "details": exc.details if hasattr(exc, "details") else None, "transactionKind": kind}, worldline_authored=True)
             raise
@@ -1256,6 +1445,17 @@ class CollapseTransaction:
         record: dict[str, Any],
         staged_manifests: Mapping[str, CapturedManifest] | None = None,
     ) -> dict[str, Any]:
+        # A marker is an observation, never a grant. Check the original SPARK
+        # lifecycle before any manifest, root, world, PRIME or receipt effect.
+        # COMMITTED is the existing evidence-only replay case; PREPARED cannot
+        # manufacture its missing AUTHORIZED transition during recovery.
+        if record["state"] != "COMMITTED" and not self.core.transaction_transition_allowed(
+            record["state"], "COMMITTED"
+        ):
+            raise WorldlineError(
+                "RECOVERY_UNAUTHORIZED", "recovery has no authorized transaction to finish",
+                {"transactionId": record["transactionId"], "state": record["state"]},
+            )
         candidate = self.store.world(record["candidateWorld"])
         moved_offline = False
         if staged_manifests is not None:
@@ -1339,8 +1539,6 @@ class CollapseTransaction:
                     evidence_root=candidate.components["evidence"],
                     workspace=candidate.workspace,
                 )
-        if record["state"] == "PREPARED":
-            self._set_state(record, "AUTHORIZED")
         if record["state"] == "AUTHORIZED":
             self._set_state(record, "COMMITTED", committed=True)
         if moved_offline:
@@ -1649,28 +1847,43 @@ class CollapseTransaction:
         happened. The live tree IS the staging payload by then; if it still has the staged root
         prepare recorded, it is used. Otherwise the manifests prepare persisted are, when they
         state that root, and the caller records the difference (moved_offline)."""
+        from .transaction_relation import manifests as native_manifests, LIVE_MANIFESTS, HISTORICAL_MANIFESTS
         live = self._capture_staged(record)
-        expected = record.get("stagedRoot")
-        if Manifest.root_set_hash(live.values(), self.core) == expected:
+        if native_manifests(self.core, record, live) == LIVE_MANIFESTS:
             return live, False
         persisted_directory = Path(record["stagingPayload"]).parent / "manifests"
         persisted: dict[str, CapturedManifest] = {}
-        for root in self.store.roots():
-            path = persisted_directory / f"{root['root_key']}.json"
+        frozen = record.get("stagedManifestRecords")
+        # New captures retain the entire historical root roster. An original
+        # pre-cutover record keeps its former acquisition profile.
+        root_keys = ([item["rootKey"] for item in frozen] if frozen is not None
+                     else [root["root_key"] for root in self.store.roots()])
+        for root_key in root_keys:
+            path = persisted_directory / f"{root_key}.json"
             if not path.is_file():
-                return live, True  # nothing states the committed tree; keep what is live, recorded
-            persisted[root["root_key"]] = Manifest.load(path, self.core)
-        if Manifest.root_set_hash(persisted.values(), self.core) != expected:
-            return live, True
+                raise WorldlineError(
+                    "TRANSACTION_RECORD_LEGACY",
+                    "live staging differs and no retained manifest states the authorized staged tree",
+                    {"transactionId": record["transactionId"], "rootKey": root_key},
+                )
+            persisted[root_key] = Manifest.load(path, self.core)
+        if native_manifests(self.core, record, live, persisted) != HISTORICAL_MANIFESTS:
+            raise WorldlineError(
+                "RECOVERY_STAGED_ROOT_MISMATCH",
+                "neither the live staging nor the retained manifests state the authorized staged root",
+                {"transactionId": record["transactionId"]},
+            )
         return persisted, True
 
     def _capture_staged(self, record: Mapping[str, Any]) -> dict[str, CapturedManifest]:
         payload = Path(record["stagingPayload"])
+        from .transaction_relation import recovery_roots
+        roots = recovery_roots(record, self.store.roots)
         return {
             root["root_key"]: self._capture(
                 source=os.fsencode(payload / root["root_key"]), logical=bytes(root["path"]), root=root
             )
-            for root in self.store.roots()
+            for root in roots
         }
 
     def _create_mapping(
@@ -1689,16 +1902,33 @@ class CollapseTransaction:
 
     @staticmethod
     def _fsync_payload_tree(payload: Path) -> None:
-        if not payload.is_dir():
-            return
-        for current, directories, _files in os.walk(payload, followlinks=False):
+        if not stat.S_ISDIR(payload.lstat().st_mode):
+            raise WorldlineError("STAGING_PAYLOAD_INVALID", "staging payload is not a directory")
+
+        def refused_walk(error: OSError) -> None:
+            raise error
+
+        for current, directories, files in os.walk(
+            payload, followlinks=False, onerror=refused_walk,
+        ):
             directories.sort()
-            try:
-                fsync_directory(Path(current))
-            except OSError:
-                # A directory that vanished under us cannot be made durable; the pre-exchange
-                # staged-root re-hash already guarded content, so best-effort flush is enough.
-                pass
+            files.sort()
+            for name in files:
+                path = Path(current) / name
+                if not stat.S_ISREG(path.lstat().st_mode):
+                    continue
+                descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+                try:
+                    os.fsync(descriptor)
+                except BaseException as failure:
+                    try:
+                        os.close(descriptor)
+                    except BaseException as close_failure:
+                        failure.add_note("closing the staged file also failed: " + repr(close_failure))
+                    raise
+                else:
+                    os.close(descriptor)
+            fsync_directory(Path(current))
 
     def _marker(self, directory: Path) -> str | None:
         path = directory / _MARKER
@@ -1708,7 +1938,8 @@ class CollapseTransaction:
             value = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:
             raise WorldlineError("RECOVERY_AMBIGUOUS", f"invalid generation marker: {path}") from exc
-        if value.get("schemaVersion") != SCHEMA_VERSION or not isinstance(value.get("transactionId"), str):
+        from .transaction_relation import marker_valid
+        if not marker_valid(self.core, value):
             raise WorldlineError("RECOVERY_AMBIGUOUS", f"invalid generation marker schema: {path}")
         return value["transactionId"]
 
@@ -1723,13 +1954,14 @@ class CollapseTransaction:
             record = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"cannot read prepared transaction {transaction_id}") from exc
-        if record.get("schemaVersion") != SCHEMA_VERSION or record.get("transactionId") != transaction_id:
+        from .transaction_relation import record_identity, record_state
+        if not record_identity(self.core, transaction_id, record):
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"prepared transaction identity mismatch: {transaction_id}")
         self._require_own(Path(str(record.get("preparedPath") or "")), self.paths.transactions, transaction_id, "preparedPath")
         for key in ("stagingPayload", "preparedMapping"):
             if record.get(key) is not None:
                 self._require_own(Path(str(record[key])), self.data_transactions / transaction_id, transaction_id, key)
-        if row["state"] != record.get("state"):
+        if not record_state(self.core, transaction_id, row, record):
             raise WorldlineError("TRANSACTION_RECORD_INVALID", f"database and prepared transaction state differ: {transaction_id}")
         return record
 
@@ -1792,3 +2024,18 @@ class CollapseTransaction:
             seen.add(current)
             current = self.store.world(current).parent_instance
         return False
+
+    def _owner_source(self,*,required=True):
+        from .protected_owner import ProtectedOwnerPrincipal
+        owner=getattr(self,'protected_owner',None)
+        if owner is None and not required:return None
+        if type(owner) is not ProtectedOwnerPrincipal or owner.controller.transactions is not self:
+            raise WorldlineError('OWNER_PROTECTED_SOURCE_UNAVAILABLE','actual installed owner principal required')
+        owner.intact();return owner
+
+    def _owner_evidence(self,subject,requirement,*,prepared=None):
+        owner=CollapseTransaction._owner_source(self,required=False)
+        if owner is not None and owner.has_retry(subject,requirement):
+            return owner.selected(subject,requirement,prepared=prepared)
+        from .evaluation_authority import read
+        return read(self.store,subject,requirement,prepared=prepared,core=self.core)
