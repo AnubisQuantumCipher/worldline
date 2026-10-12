@@ -6,6 +6,7 @@ with Worldline.Retained_Evidence_Replay;
 package Worldline.Scoped_Capture_Projection with SPARK_Mode is
    package R renames Worldline.Retained_Evidence_Replay;
    package E renames R.E;
+   use type E.Count;
    function Scoped_Capture_Matches
      (Data : E.Bytes; Observation, Provenance : E.Span) return Boolean
      with Global => null;
@@ -33,7 +34,10 @@ package Worldline.Scoped_Capture_Projection with SPARK_Mode is
    function Scoped_Record_Matches (Data : E.Bytes; Encoded, Typed : E.Span; Scoped, Typed_Scoped : Boolean := False) return Boolean with Global => null;
    function Source_Record_Matches (Data : E.Bytes; Encoded, Raw_Source : E.Span; Scoped, Raw_Scoped : Boolean := False) return Boolean with Global => null;
    function Line (Raw : E.Bytes; Name : String; Separator : E.Q.Byte) return E.Span with Global => null;
-   function Word (Raw : E.Bytes; Item : E.Span; Index : Positive) return E.Span with Global => null;
+   function Word (Raw : E.Bytes; Item : E.Span; Index : Positive) return E.Span with Global => null,
+     Post => Word'Result.Length = 0 or else
+       (Word'Result.First >= Item.First and then
+        Word'Result.Length <= Item.Length - (Word'Result.First - Item.First));
    function Decimal (Raw : E.Bytes; Item : E.Span) return SPARK.Big_Integers.Valid_Big_Integer with Global => null;
    function Stat_Number (Raw : E.Bytes; Index : Positive) return SPARK.Big_Integers.Valid_Big_Integer with Global => null;
    function Process_Cgroup_Matches (Data : E.Bytes; Raw, Native : E.Span) return Boolean with Global => null;

@@ -24,13 +24,16 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
    use type R.Replay_State;
    use type R.Scoped_Entry;
    use type Interfaces.Unsigned_32;
+   use type Interfaces.Unsigned_64;
    Empty : constant E.Span := (1, 0);
    function Owner_Source_Matches
      (Data : E.Bytes; Packet, Projection, Owner : E.Span;
       Scoped_Transport : Boolean := False) return Boolean is
    function Source_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
      (RA.Source_Valid (Data, Item, Scoped_Transport));
-   function F (Data : E.Bytes; Item : E.Span; Name : String) return E.Span is
+   function F (Data : E.Bytes; Item : E.Span; Name : String) return E.Span
+     with Global => (Input => Scoped_Transport)
+   is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if Scoped_Transport then return R.Archive_Field (Data, Item, Name); end if;
@@ -47,7 +50,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
    function Seq (Data : E.Bytes; Item : E.Span) return Boolean is
      (Source_Valid (Data, Item) and then (if Scoped_Transport then R.Archive_Is_Sequence (Data, Item)
       else E.Decode (Data, Item, E.Operation).Form in E.List_Value | E.Tuple_Value));
-   function Element (Data : E.Bytes; Item : E.Span; Index : E.Count) return E.Span is
+   function Element (Data : E.Bytes; Item : E.Span; Index : E.Count) return E.Span
+     with Global => (Input => Scoped_Transport)
+   is
    begin
       if not Seq (Data, Item) then
          return Empty;
@@ -78,7 +83,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
      with Pre => BValid (Data, Item);
    function SF (Data : E.Bytes; Left, Right : E.Span; Name : String) return Boolean is
      (Same (Data, F (Data, Left, Name), F (Data, Right, Name)));
-   function N (Data : E.Bytes; Item : E.Span; Value : E.Count) return Boolean is
+   function N (Data : E.Bytes; Item : E.Span; Value : E.Count) return Boolean
+     with Global => null
+   is
       Remaining : E.Count := Value;
       Expected : Big_Integer := To_Big_Integer (0);
       Place : Big_Integer := To_Big_Integer (1);
@@ -90,7 +97,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end loop;
       return R.Archive_Integer_Valid (Data, Item) and then P.Number (Data, Item) = Expected;
    end N;
-   function TV (Data : E.Bytes; Item : E.Span) return E.View is
+   function TV (Data : E.Bytes; Item : E.Span) return E.View
+     with Global => (Input => Scoped_Transport)
+   is
    begin
       if Scoped_Transport then
          return E.Decode (Data, OA.Field (Data, Item, "value"), E.Operation);
@@ -104,16 +113,21 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
    function TB (Data : E.Bytes; Item : E.Span) return E.Bytes
    is (E.Materialize (Data, TV (Data, Item).Payload))
      with Pre => TValid (Data, Item);
-   function Joined (Data : E.Bytes; Word, Root : E.Span; Suffix : String) return Boolean is
+   function Joined (Data : E.Bytes; Word, Root : E.Span; Suffix : String) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
    begin
       if not TValid (Data, Word) or else not TValid (Data, Root) then return False; end if;
       declare W : constant E.Bytes := TB (Data, Word); R : constant E.Bytes := TB (Data, Root); begin
          return W'Length >= R'Length and then W'Length - R'Length = Suffix'Length
-           and then (for all I in R'Range => W (W'First + I - R'First) = R (I))
+           --  An index past E.Count (where the original raised) reads as a mismatch.
+           and then (for all I in R'Range => W'First <= E.Count'Last - I and then W (W'First + I - R'First) = R (I))
            and then (for all I in Suffix'Range => W (W'First + R'Length + E.Count (I - Suffix'First)) = Character'Pos (Suffix (I)));
       end;
    end Joined;
-   function Find_Path (Data : E.Bytes; Paths, Word : E.Span) return E.Span is
+   function Find_Path (Data : E.Bytes; Paths, Word : E.Span) return E.Span
+     with Global => (Input => Scoped_Transport)
+   is
       Found : E.Span := Empty;
    begin
       if not Seq (Data, Paths) then return Empty; end if;
@@ -126,7 +140,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end loop;
       return Found;
    end Find_Path;
-   function Find_Joined (Data : E.Bytes; Paths, Root : E.Span; Suffix : String) return E.Span is
+   function Find_Joined (Data : E.Bytes; Paths, Root : E.Span; Suffix : String) return E.Span
+     with Global => (Input => Scoped_Transport)
+   is
       Found : E.Span := Empty;
    begin
       if not Seq (Data, Paths) then return Empty; end if;
@@ -139,7 +155,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end loop;
       return Found;
    end Find_Joined;
-   function Table (Data : E.Bytes; Database : E.Span; Name : String) return E.Span is
+   function Table (Data : E.Bytes; Database : E.Span; Name : String) return E.Span
+     with Global => (Input => Scoped_Transport)
+   is
       Tables : constant E.Span := F (Data, Database, "tables");
       Found : E.Span := Empty;
    begin
@@ -153,7 +171,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end loop;
       return Found;
    end Table;
-   function Column_Index (Data : E.Bytes; T : E.Span; Name : String) return E.Count is
+   function Column_Index (Data : E.Bytes; T : E.Span; Name : String) return E.Count
+     with Global => (Input => Scoped_Transport)
+   is
       Columns : constant E.Span := F (Data, T, "columns");
       Result : E.Count := 0;
    begin
@@ -164,7 +184,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end loop;
       return Result;
    end Column_Index;
-   function Cell (Data : E.Bytes; T, Row : E.Span; Name : String) return E.Span is
+   function Cell (Data : E.Bytes; T, Row : E.Span; Name : String) return E.Span
+     with Global => (Input => Scoped_Transport)
+   is
       Index : constant E.Count := Column_Index (Data, T, Name);
       Width : constant E.Count := Len (Data, F (Data, T, "columns"));
    begin
@@ -173,7 +195,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       elsif Width < E.Count'Last and then Len (Data, Row) = Width + 1 then return Element (Data, Row, Index);
       else return Empty; end if;
    end Cell;
-   function Named_Row (Data : E.Bytes; T : E.Span; Name, Key : String) return E.Span is
+   function Named_Row (Data : E.Bytes; T : E.Span; Name, Key : String) return E.Span
+     with Global => (Input => Scoped_Transport)
+   is
       Rows : constant E.Span := F (Data, T, "rows"); Found : E.Span := Empty;
    begin
       for I in E.Count range 1 .. Len (Data, Rows) loop
@@ -187,7 +211,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
    end Named_Row;
    -- These are complete independent logical captures, not projections of selected
    -- columns. Source acquisition/custody is a separate caller conjunction.
-   function Database_Same (Data : E.Bytes; Left, Right : E.Span) return Boolean is
+   function Database_Same (Data : E.Bytes; Left, Right : E.Span) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
    begin
       return SF (Data, Left, Right, "schema") and then SF (Data, Left, Right, "tables")
         and then SF (Data, Left, Right, "encoding") and then SF (Data, Left, Right, "user_version")
@@ -195,7 +221,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
         and then SF (Data, Left, Right, "foreign_keys") and then SF (Data, Left, Right, "journal_mode")
         and then SF (Data, Left, Right, "foreign_key_check");
    end Database_Same;
-   function Database_Well_Formed (Data : E.Bytes; DB : E.Span) return Boolean is
+   function Database_Well_Formed (Data : E.Bytes; DB : E.Span) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
       Tables : constant E.Span := F (Data, DB, "tables");
       Schema : constant E.Span := F (Data, DB, "schema");
       Table_Count : E.Count := 0;
@@ -206,6 +234,7 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
         or else not Seq (Data, F (Data, DB, "integrity"))
         or else not Seq (Data, F (Data, DB, "foreign_key_check")) then return False; end if;
       for I in E.Count range 1 .. Len (Data, Schema) loop
+         pragma Loop_Invariant (Table_Count < I);
          declare Row : constant E.Span := Element (Data, Schema, I - 1); begin
             if not Seq (Data, Row) or else Len (Data, Row) /= 5 then return False; end if;
             if Text (Data, Element (Data, Row, 0), "table") then Table_Count := Table_Count + 1; end if;
@@ -224,6 +253,7 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
               or else Len (Data, Columns) = 0 or else not TValid (Data, F (Data, T, "query"))
               or else not Seq (Data, F (Data, T, "foreign_key_list")) then return False; end if;
             for K in E.Count range 1 .. Len (Data, Schema) loop
+               pragma Loop_Invariant (Found < K);
                declare Row : constant E.Span := Element (Data, Schema, K - 1); begin
                   if Text (Data, Element (Data, Row, 0), "table") and then Same (Data, Element (Data, Row, 1), Name) then
                      if not Same (Data, Element (Data, Row, 2), Name) or else not TValid (Data, Element (Data, Row, 4)) then return False; end if;
@@ -254,11 +284,14 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end loop;
       return True;
    end Database_Well_Formed;
-   function Has_Columns (Data : E.Bytes; T : E.Span; Names : String; Width : E.Count) return Boolean is
+   function Has_Columns (Data : E.Bytes; T : E.Span; Names : String; Width : E.Count) return Boolean
+     with Global => (Input => Scoped_Transport), Pre => Names'First = 1 and then Names'Last < Positive'Last
+   is
       Start : Positive := Names'First; Index : E.Count := 1;
    begin
       if Len (Data, F (Data, T, "columns")) /= Width then return False; end if;
       for I in Names'Range loop
+         pragma Loop_Invariant (Start in Names'First .. I and then Index <= E.Count (I - Names'First) + 1);
          if Names (I) = ',' then
             if Column_Index (Data, T, Names (Start .. I - 1)) /= Index then return False; end if;
             Index := Index + 1; Start := I + 1;
@@ -266,7 +299,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end loop;
       return Index = Width and then Column_Index (Data, T, Names (Start .. Names'Last)) = Index;
    end Has_Columns;
-   function Hex_Is (Sum : SHA.Digest; Data : E.Bytes; Expected : E.Span) return Boolean is
+   function Hex_Is (Sum : SHA.Digest; Data : E.Bytes; Expected : E.Span) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
       Hex_Digits : constant String := "0123456789abcdef";
    begin
       if not TValid (Data, Expected) then return False; end if;
@@ -276,23 +311,38 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
              and then Raw (Raw'First + E.Count (I - Sum'First) * 2 + 1) = Character'Pos (Hex_Digits (Integer (Sum (I) mod 16) + 1)));
       end;
    end Hex_Is;
-   function Hash (Data : E.Bytes; Raw, Expected : E.Span) return Boolean is
+   function Hash (Data : E.Bytes; Raw, Expected : E.Span) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
       C : SHA.Context := SHA.Initial;
    begin
       if not BValid (Data, Raw) and then not TValid (Data, Raw) then return False; end if;
       declare Bytes : constant E.Bytes := (if BValid (Data, Raw) then B (Data, Raw) else TB (Data, Raw)); begin
-         for Byte of Bytes loop SHA.Update (C, Attest.Byte_Array'(0 => Attest.Byte (Byte))); end loop;
+         --  The original failed Update's precondition once Max_Message_Bytes
+         --  were absorbed (an input of at least 2**61 bytes); refuse it.
+         if Interfaces.Unsigned_64 (Bytes'Length) > SHA.Max_Message_Bytes then return False; end if;
+         for K in Bytes'Range loop
+            pragma Loop_Invariant (SHA.Absorbed (C) = Interfaces.Unsigned_64 (K - Bytes'First));
+            SHA.Update (C, Attest.Byte_Array'(0 => Attest.Byte (Bytes (K))));
+         end loop;
          return Hex_Is (SHA.Final (C), Data, Expected);
       end;
    end Hash;
-   function MAC (Data : E.Bytes; Key, Raw, Expected : E.Span; Domain : String) return Boolean is
+   function MAC (Data : E.Bytes; Key, Raw, Expected : E.Span; Domain : String) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
    begin
       if not BValid (Data, Key) or else not BValid (Data, Raw) then return False; end if;
       declare K : constant E.Bytes := B (Data, Key); M : constant E.Bytes := B (Data, Raw); begin
+         --  The original raised building a span from a null operand whose lower
+         --  bound lies outside Byte_Index exactly here; refuse.
+         if K'First < 1 or else M'First < 1 then return False; end if;
          return Hex_Is (H.Mac (K, M, (K'First, K'Length), (M'First, M'Length), Domain), Data, Expected);
       end;
    end MAC;
-   function Object_Width (Data : E.Bytes; Item : E.Span; Width : E.Count) return Boolean is
+   function Object_Width (Data : E.Bytes; Item : E.Span; Width : E.Count) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
       V : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if Scoped_Transport then
@@ -304,7 +354,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       end if;
    end Object_Width;
 
-   function Hex_Bytes (Raw : E.Bytes; Data : E.Bytes; Encoded : E.Span) return Boolean is
+   function Hex_Bytes (Raw : E.Bytes; Data : E.Bytes; Encoded : E.Span) return Boolean
+     with Global => (Input => Scoped_Transport)
+   is
       Hex_Digits : constant String := "0123456789abcdef";
    begin
       if not TValid (Data, Encoded) or else Raw'Length > E.Count'Last / 2 then return False; end if;
@@ -327,6 +379,7 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
         R.Archive_Record_Is (Data, Typed, "RunRow") or else R.Archive_Record_Is (Data, Typed, "RunState") or else
         R.Archive_Record_Is (Data, Typed, "RunObservation") or else R.Archive_Record_Is (Data, Typed, "RunRequest")
         else V.Form = E.Record_Value);
+      Encoded_Type : constant E.Span := F (Data, Encoded, "type");
    begin
       if not Source_Valid (Data, Typed) or else not Source_Valid (Data, Encoded) then return False; end if;
       if Is_None (Data, Typed) then return Is_None (Data, Encoded);
@@ -344,8 +397,8 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          if Scoped_Transport then
             if not RA.Ordered_Source_Value_Matches (Data, Data, OA.Field (Data, Typed, "type"),
               F (Data, Encoded, "type"), False, True) then return False; end if;
-         elsif not E.Bytes_Valid (Data, V.Record_Name) or else not TValid (Data, F (Data, Encoded, "type"))
-           or else E.Materialize (Data, V.Record_Name) /= TB (Data, F (Data, Encoded, "type")) then return False; end if;
+         elsif not E.Bytes_Valid (Data, V.Record_Name) or else not TValid (Data, Encoded_Type)
+           or else E.Materialize (Data, V.Record_Name) /= TB (Data, Encoded_Type) then return False; end if;
          for I in E.Count range 1 .. E.Array_Length (Data, Fields) loop
             declare Pair : constant E.View := E.Decode (Data, E.Array_Element (Data, Fields, I - 1), E.Finalization);
                     Key : constant E.Span := E.Array_Element (Data, Pair.Children, 0);
@@ -355,9 +408,13 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
                -- Field names are metadata at their explicit carrier layer;
                -- full Source_Valid(Typed) above validates the record grammar.
                if Key_View.Form /= E.Text_Value or else not E.Bytes_Valid (Data, Key_View.Payload) then return False; end if;
-               declare Name : constant E.Bytes := E.Materialize (Data, Key_View.Payload); Word : String (1 .. Name'Length); begin
+               declare Name : constant E.Bytes := E.Materialize (Data, Key_View.Payload); begin
+                  --  The original raised sizing Word (past Natural'Last) exactly here.
+                  if Name'Length > E.Count (Natural'Last) then return False; end if;
+               declare Word : String (1 .. Name'Length); begin
                   for K in Word'Range loop Word (K) := Character'Val (Name (Name'First + E.Count (K - Word'First))); end loop;
                   if not Legacy (Data, Value, F (Data, Encoded, Word)) then return False; end if;
+               end;
                end;
             end;
          end loop;
@@ -389,13 +446,18 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       Lease : constant E.Span := F (Data, Receipt, "lease_genesis");
       function JSON (Data : E.Bytes; Raw, Value : E.Span; Canonical : Boolean := True) return Boolean is
         (P.JSON_Source_Value_Matches (Data, Raw, Value, Canonical, Scoped_Transport));
-      function Root_History_Matches return Boolean is
+      function Root_History_Matches return Boolean
+        with Global => (Input => (Data, History_Owner, Paths, Scoped_Transport))
+      is
          Expected : constant E.Span := F (Data, History_Owner, "root_events");
          Position : E.Count := 0;
-         function Columns_Match (T, Row, Event : E.Span; Names : String) return Boolean is
+         function Columns_Match (T, Row, Event : E.Span; Names : String) return Boolean
+           with Pre => Names'First = 1 and then Names'Last < Positive'Last
+         is
             Start : Positive := Names'First;
          begin
             for I in Names'Range loop
+               pragma Loop_Invariant (Start in Names'First .. I);
                if Names (I) = ',' then
                   if not Same (Data, Cell (Data, T, Row, Names (Start .. I - 1)),
                     F (Data, Event, Names (Start .. I - 1))) then return False; end if;
@@ -457,7 +519,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          -- Actual journal acquisition/HMAC/native load is a separate conjunct.
          return Position = Len (Data, Expected);
       end Root_History_Matches;
-      function Owned_File (Word : E.Span) return E.Span is
+      function Owned_File (Word : E.Span) return E.Span
+        with Global => (Input => (Data, Paths, Selected, Scoped_Transport))
+      is
          Actual : E.Span := Find_Path (Data, Paths, Word);
       begin
          if Actual.Length = 0 then Actual := Find_Path (Data, Selected, Word); end if;
@@ -467,7 +531,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
         (Find_Joined (Data, Files, Root, Suffix));
       function File_Value (Root : E.Span; Suffix : String) return E.Span is
         (F (Data, File_Receipt (Root, Suffix), "value"));
-      function DB (Root : E.Span; Suffix : String) return E.Span is
+      function DB (Root : E.Span; Suffix : String) return E.Span
+        with Global => (Input => (Data, Paths, DBs, Scoped_Transport))
+      is
          Actual : constant E.Span := Find_Joined (Data, Paths, Root, Suffix);
          Observed : constant E.Span := Find_Path (Data, DBs, F (Data, Actual, "path"));
          SQL : constant E.Span := F (Data, Actual, "logical_database");
@@ -476,7 +542,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
            or else not Database_Well_Formed (Data, SQL) then return Empty; end if;
          return SQL;
       end DB;
-      function Journal (Name : String) return E.Span is
+      function Journal (Name : String) return E.Span
+        with Global => (Input => (Data, Journals, Scoped_Transport))
+      is
          Found : E.Span := Empty;
       begin
          for I in E.Count range 1 .. Len (Data, Journals) loop
@@ -488,7 +556,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          end loop;
          return Found;
       end Journal;
-      function Row_Number (T : E.Span; Index : E.Count; Name : String := "ordinal") return E.Span is
+      function Row_Number (T : E.Span; Index : E.Count; Name : String := "ordinal") return E.Span
+        with Global => (Input => (Data, Scoped_Transport))
+      is
          Rows : constant E.Span := F (Data, T, "rows"); Found : E.Span := Empty;
       begin
          for I in E.Count range 1 .. Len (Data, Rows) loop
@@ -500,7 +570,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          end loop;
          return Found;
       end Row_Number;
-      function Snapshot_Values (Snap, Material : E.Span; Proposed : Boolean := False) return Boolean is
+      function Snapshot_Values (Snap, Material : E.Span; Proposed : Boolean := False) return Boolean
+        with Global => (Input => (Data, Scoped_Transport))
+      is
       begin
          return Object_Width (Data, Snap, 5) and then
            Same (Data, F (Data, Snap, "state"), F (Data, Material, (if Proposed then "proposed" else "before")))
@@ -509,7 +581,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
            and then Same (Data, F (Data, Snap, "projection"), F (Data, Material, (if Proposed then "proposed_projection" else "projection")))
            and then Same (Data, F (Data, Snap, "buckets"), F (Data, Material, (if Proposed then "proposed_buckets" else "buckets")));
       end Snapshot_Values;
-      function Snapshot (Snap, Material : E.Span; Proposed : Boolean := False) return Boolean is
+      function Snapshot (Snap, Material : E.Span; Proposed : Boolean := False) return Boolean
+        with Global => (Input => (Data, Scoped_Transport))
+      is
          Values : constant E.Span := F (Data, Snap, "fields");
       begin
          -- snapshot_record is S.record(the complete five-value dictionary),
@@ -527,7 +601,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
            and then P.Scoped_Record_Matches (Data, F (Data, Values, "buckets"),
              F (Data, Material, (if Proposed then "proposed_buckets" else "buckets")), Scoped_Transport, Scoped_Transport);
       end Snapshot;
-      function Next_Packet (Old, New_Value : E.Span) return Boolean is
+      function Next_Packet (Old, New_Value : E.Span) return Boolean
+        with Global => (Input => (Data, Scoped_Transport))
+      is
       begin
          return Same (Data, F (Data, Old, "proposed"), F (Data, New_Value, "before"))
            and then Same (Data, F (Data, Old, "proposed_history"), F (Data, New_Value, "history"))
@@ -535,7 +611,10 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
            and then Same (Data, F (Data, Old, "proposed_projection"), F (Data, New_Value, "projection"))
            and then Same (Data, F (Data, Old, "proposed_buckets"), F (Data, New_Value, "buckets"));
       end Next_Packet;
-      function Journal_Matches (Name, Suffix, Meta_Name, Events_Name, Domain : String; Is_Scoped, Is_Observation : Boolean) return Boolean is
+      function Journal_Matches (Name, Suffix, Meta_Name, Events_Name, Domain : String; Is_Scoped, Is_Observation : Boolean) return Boolean
+        with Global => (Input => (Data, Packet, Projection, Scoped_Transport, Paths, Authority, DBs, Journals, History_Owner, Key, Config, Receipt, Source)),
+          Pre => Domain'Length = 0 or else Domain'Last <= Natural'Last - 6
+      is
          Value : constant E.Span := Journal (Name);
          SQL : constant E.Span := DB (Authority, Suffix);
          Meta : constant E.Span := Table (Data, SQL, Meta_Name);
@@ -652,7 +731,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          end if;
       end Journal_Matches;
 
-      function Decoded_Cell (Database, T, Row : E.Span; Name : String) return E.Span is
+      function Decoded_Cell (Database, T, Row : E.Span; Name : String) return E.Span
+        with Global => (Input => (Data, Paths, DBs, Scoped_Transport))
+      is
          Found : E.Span := Empty;
       begin
          for I in E.Count range 1 .. Len (Data, DBs) loop
@@ -678,7 +759,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          end loop;
          return Found;
       end Decoded_Cell;
-      function Chain_Hash (Raw, Prior, Expected : E.Span; Domain : String) return Boolean is
+      function Chain_Hash (Raw, Prior, Expected : E.Span; Domain : String) return Boolean
+        with Global => (Input => (Data, Scoped_Transport))
+      is
          C : SHA.Context := SHA.Initial;
          function Digit (Byte : E.Q.Byte) return Integer is
            (if Byte in 48 .. 57 then Integer (Byte) - 48 elsif Byte in 97 .. 102 then Integer (Byte) - 87 else -1);
@@ -687,19 +770,33 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          declare Previous : constant E.Bytes := TB (Data, Prior);
                  Bytes : constant E.Bytes := (if BValid (Data, Raw) then B (Data, Raw) else TB (Data, Raw)); begin
             if Previous'Length /= 64 then return False; end if;
-            for Letter of Domain loop SHA.Update (C, Attest.Byte_Array'(0 => Character'Pos (Letter))); end loop;
+            --  The original failed Update's precondition once Max_Message_Bytes
+            --  were absorbed (inputs of at least 2**61 bytes); refuse those.
+            if Interfaces.Unsigned_64 (Domain'Length) + 32 + Interfaces.Unsigned_64 (Bytes'Length) > SHA.Max_Message_Bytes then
+               return False;
+            end if;
+            for K in Domain'Range loop
+               pragma Loop_Invariant (SHA.Absorbed (C) = Interfaces.Unsigned_64 (K - Domain'First));
+               SHA.Update (C, Attest.Byte_Array'(0 => Character'Pos (Domain (K))));
+            end loop;
             for I in E.Count range 0 .. 31 loop
+               pragma Loop_Invariant (SHA.Absorbed (C) = Interfaces.Unsigned_64 (Domain'Length) + Interfaces.Unsigned_64 (I));
                declare Hi : constant Integer := Digit (Previous (Previous'First + I * 2));
                        Lo : constant Integer := Digit (Previous (Previous'First + I * 2 + 1)); begin
                   if Hi < 0 or else Lo < 0 then return False; end if;
                   SHA.Update (C, Attest.Byte_Array'(0 => Attest.Byte (Hi * 16 + Lo)));
                end;
             end loop;
-            for Byte of Bytes loop SHA.Update (C, Attest.Byte_Array'(0 => Attest.Byte (Byte))); end loop;
+            for K in Bytes'Range loop
+               pragma Loop_Invariant (SHA.Absorbed (C) = Interfaces.Unsigned_64 (Domain'Length) + 32 + Interfaces.Unsigned_64 (K - Bytes'First));
+               SHA.Update (C, Attest.Byte_Array'(0 => Attest.Byte (Bytes (K))));
+            end loop;
             return Hex_Is (SHA.Final (C), Data, Expected);
          end;
       end Chain_Hash;
-      function Authority_History (Universe_Mode : Boolean) return Boolean is
+      function Authority_History (Universe_Mode : Boolean) return Boolean
+        with Global => (Input => (Data, Projection, Scoped_Transport, Paths, Authority, Files, DBs, Key, UKey, Receipt, Source))
+      is
          SQL : constant E.Span := DB (Authority, (if Universe_Mode then "/authority/universe/root/universes.sqlite" else "/authority/issuer/state/capabilities.sqlite"));
          T : constant E.Span := Table (Data, SQL, "events");
          Rows : constant E.Span := F (Data, T, "rows");
@@ -761,7 +858,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
                 and then Text (Data, F (Data, F (Data, Last_Body, "record"), "parent_id"), "0000000000000000000000000000000000000000000000000000000000000000")));
          end if;
       end Authority_History;
-      function Store_Schema (SQL : E.Span) return Boolean is
+      function Store_Schema (SQL : E.Span) return Boolean
+        with Global => (Input => (Data, Lease, Scoped_Transport))
+      is
          Actual : constant E.Span := F (Data, SQL, "schema");
          Expected : constant E.Span := F (Data, F (Data, Lease, "store"), "schema");
          Count : E.Count := 0;
@@ -775,10 +874,12 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
       begin
          if not Seq (Data, Expected) or else not Same (Data, Element (Data, Element (Data, F (Data, SQL, "user_version"), 0), 0), F (Data, F (Data, Lease, "store"), "version")) then return False; end if;
          for I in E.Count range 1 .. Len (Data, Actual) loop
+            pragma Loop_Invariant (Count < I);
             declare A : constant E.Span := Element (Data, Actual, I - 1); Found : E.Count := 0; begin
                if not Internal (Element (Data, A, 1)) then
                   Count := Count + 1;
                   for K in E.Count range 1 .. Len (Data, Expected) loop
+                     pragma Loop_Invariant (Found < K);
                      declare X : constant E.Span := Element (Data, Expected, K - 1); begin
                         if Seq (Data, X) and then Len (Data, X) = 4 and then Same (Data, Element (Data, A, 0), Element (Data, X, 0))
                           and then Same (Data, Element (Data, A, 1), Element (Data, X, 1)) and then Same (Data, Element (Data, A, 2), Element (Data, X, 2))
@@ -791,7 +892,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
          end loop;
          return Count = Len (Data, Expected);
       end Store_Schema;
-      function Store_Matches return Boolean is
+      function Store_Matches return Boolean
+        with Global => (Input => (Data, Scoped_Transport, Paths, State, DBs, Receipt, Lease, Source))
+      is
          SQL : constant E.Span := DB (State, "/worldline.sqlite3");
          Meta : constant E.Span := Table (Data, SQL, "meta");
          Roots : constant E.Span := Table (Data, SQL, "roots");
@@ -810,6 +913,8 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
             if not BValid (Data, L) or else not BValid (Data, R) then return False; end if;
             declare LB : constant E.Bytes := B (Data, L); RB : constant E.Bytes := B (Data, R); begin
                for I in E.Count range 1 .. E.Count'Min (LB'Length, RB'Length) loop
+                  --  The original raised (First + I past E.Count) exactly here; refuse.
+                  if LB'First > E.Count'Last - I or else RB'First > E.Count'Last - I then return False; end if;
                   if LB (LB'First + I - 1) /= RB (RB'First + I - 1) then return LB (LB'First + I - 1) < RB (RB'First + I - 1); end if;
                end loop;
                return LB'Length < RB'Length;
@@ -822,9 +927,11 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
             Target : constant E.Span := F (Data, Prime, "instance_id");
          begin
             for I in E.Count range 1 .. Len (Data, World_Rows) loop
+               pragma Loop_Invariant (Total < I);
                declare Parent : E.Span := Cell (Data, Worlds, Element (Data, World_Rows, I - 1), "parent_instance");
                        Steps : E.Count := 0; begin
                   while not Is_None (Data, Parent) loop
+                     pragma Loop_Invariant (Total < I);
                      pragma Loop_Variant (Increases => Steps);
                      if Steps >= Len (Data, World_Rows) then return False; end if;
                      Steps := Steps + 1;
@@ -867,15 +974,21 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
             declare Root : constant E.Span := Element (Data, Actual_Roots, I - 1); Found : E.Count := 0; begin
                if not Object_Width (Data, Root, 9) then return False; end if;
                for K in E.Count range 1 .. Len (Data, Root_Rows) loop
+                  pragma Loop_Invariant (Found < K);
                   declare Row : constant E.Span := Element (Data, Root_Rows, K - 1); begin
                      if Same (Data, Cell (Data, Roots, Row, "root_key"), F (Data, Root, "root_key")) then
                         Found := Found + 1;
                         for M in E.Count range 1 .. 9 loop
-                           declare Column : constant E.Span := Element (Data, F (Data, Roots, "columns"), M - 1);
-                                   Name : constant E.Bytes := TB (Data, Element (Data, Column, 1));
+                           declare Column : constant E.Span := Element (Data, F (Data, Roots, "columns"), M - 1); begin
+                              --  DB's well-formedness already requires a text name here;
+                              --  the original failed TB's precondition otherwise. Refuse.
+                              if not TValid (Data, Element (Data, Column, 1))
+                                or else TB (Data, Element (Data, Column, 1))'Length > E.Count (Natural'Last) then return False; end if;
+                           declare Name : constant E.Bytes := TB (Data, Element (Data, Column, 1));
                                    Word : String (1 .. Name'Length); begin
                               for X in Word'Range loop Word (X) := Character'Val (Name (Name'First + E.Count (X - Word'First))); end loop;
                               if not Same (Data, Cell (Data, Roots, Row, Word), F (Data, Root, Word)) then return False; end if;
+                           end;
                            end;
                         end loop;
                      end if;
@@ -904,12 +1017,17 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
            or else not Seq (Data, Selected_Row) or else Len (Data, Selected_Row) /= 28 then return False; end if;
          declare Found : E.Count := 0; begin
             for K in E.Count range 1 .. Len (Data, World_Rows) loop
+               pragma Loop_Invariant (Found < K);
                declare Row : constant E.Span := Element (Data, World_Rows, K - 1); Match : Boolean := True; begin
                   for M in E.Count range 1 .. 28 loop
-                     declare Column : constant E.Span := Element (Data, F (Data, Worlds, "columns"), M - 1);
-                             Name : constant E.Bytes := TB (Data, Element (Data, Column, 1)); Word : String (1 .. Name'Length); begin
+                     declare Column : constant E.Span := Element (Data, F (Data, Worlds, "columns"), M - 1); begin
+                        --  As above: DB's well-formedness already requires a text name.
+                        if not TValid (Data, Element (Data, Column, 1))
+                          or else TB (Data, Element (Data, Column, 1))'Length > E.Count (Natural'Last) then return False; end if;
+                     declare Name : constant E.Bytes := TB (Data, Element (Data, Column, 1)); Word : String (1 .. Name'Length); begin
                         for X in Word'Range loop Word (X) := Character'Val (Name (Name'First + E.Count (X - Word'First))); end loop;
                         if not Same (Data, Cell (Data, Worlds, Row, Word), Element (Data, Selected_Row, M - 1)) then Match := False; end if;
+                     end;
                      end;
                   end loop;
                   if Match then Found := Found + 1; end if;
@@ -918,17 +1036,22 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
             if Found /= 1 then return False; end if;
          end;
          for M in E.Count range 1 .. 28 loop
-            declare Column : constant E.Span := Element (Data, F (Data, Worlds, "columns"), M - 1);
-                    Name : constant E.Bytes := TB (Data, Element (Data, Column, 1)); Word : String (1 .. Name'Length);
+            declare Column : constant E.Span := Element (Data, F (Data, Worlds, "columns"), M - 1); begin
+               --  As above: DB's well-formedness already requires a text name.
+               if not TValid (Data, Element (Data, Column, 1))
+                 or else TB (Data, Element (Data, Column, 1))'Length > E.Count (Natural'Last) then return False; end if;
+            declare Name : constant E.Bytes := TB (Data, Element (Data, Column, 1)); Word : String (1 .. Name'Length);
                     Value : constant E.Span := Element (Data, Selected_Row, M - 1); begin
                for X in Word'Range loop Word (X) := Character'Val (Name (Name'First + E.Count (X - Word'First))); end loop;
-               if Word in "components" | "evidence" | "workspace" | "delta" | "conflicts" | "contamination" then
+               if Word = "components" or else Word = "evidence" or else Word = "workspace" or else
+                 Word = "delta" or else Word = "conflicts" or else Word = "contamination" then
                   if not JSON (Data, Value, F (Data, Prime, Word), False) then return False; end if;
                elsif Word = "payload_pruned" then
                   if not R.Archive_Integer_Valid (Data, Value) or else not R.Archive_Boolean_Is
                     (Data, F (Data, Prime, Word), P.Number (Data, Value) /= To_Big_Integer (0)) then return False; end if;
                elsif not Same (Data, Value, F (Data, Prime, Word)) then return False;
                end if;
+            end;
             end;
          end loop;
          -- Bind the actual parameter storage class, not merely its CAST text:
@@ -938,7 +1061,9 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
            SQL_Source.Parameter_Equals_Text (Data, Selector, F (Data, Prime, "content_id"), Scoped_Transport, 17)) and then Descendants;
       end Store_Matches;
 
-      function Original_Prefix_Matches return Boolean is
+      function Original_Prefix_Matches return Boolean
+        with Global => (Input => (Data, Scoped_Transport, Paths, Authority, Files, DBs, Receipt, Config))
+      is
          SQL : constant E.Span := DB (Authority, "/authority/resource/run-state-v1/ledger.sqlite");
          Meta : constant E.Span := Table (Data, SQL, "run_meta");
          Rows : constant E.Span := Table (Data, SQL, "run_rows");
@@ -974,12 +1099,13 @@ package body Worldline.Scoped_Capture_Owner_Projection with SPARK_Mode is
             declare Row : constant E.Span := Row_Number (Events, I - 1);
                     Raw : constant E.Span := Cell (Data, Events, Row, "record");
                     Encoded : constant E.Span := Element (Data, Event_Roster, I - 1);
-                    Event_Value : constant E.Span := Decoded_Cell (SQL, Events, Row, "record"); begin
+                    Event_Value : constant E.Span := Decoded_Cell (SQL, Events, Row, "record");
+                    Request_Cell : constant E.Span := Cell (Data, Events, Row, "request_id"); begin
                if not BValid (Data, Raw) or else not Hex_Bytes (B (Data, Raw), Data, Encoded)
                  or else not Same (Data, Raw, Element (Data, F (Data, Typed, "events"), I - 1))
                  or else Event_Value.Length = 0 or else not JSON (Data, Raw, Event_Value)
-                 or else not BValid (Data, Cell (Data, Events, Row, "request_id"))
-                 or else not Hex_Bytes (B (Data, Cell (Data, Events, Row, "request_id")), Data,
+                 or else not BValid (Data, Request_Cell)
+                 or else not Hex_Bytes (B (Data, Request_Cell), Data,
                    F (Data, F (Data, F (Data, Event_Value, "request"), "request_id"), "bytes")) then return False; end if;
             end;
          end loop;

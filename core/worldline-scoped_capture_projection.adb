@@ -45,13 +45,19 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       return (1, 0);
    end Raw_Source_Field;
    function F (Data : E.Bytes; Item : E.Span; Name : String) return E.Span renames Raw_Source_Field;
-   function Element (Data : E.Bytes; Item : E.Span; Index : E.Count) return E.Span is
+   function Element (Data : E.Bytes; Item : E.Span; Index : E.Count) return E.Span
+     with Global => null,
+       Post => Element'Result.Length = 0 or else Element'Result.Length < Item.Length
+   is
       V : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if not RA.Source_Valid (Data, Item, False) or else V.Form not in E.Tuple_Value | E.List_Value then return (1, 0); end if;
       return E.Array_Element (Data, V.Children, Index);
    end Element;
-   function Len (Data : E.Bytes; Item : E.Span) return E.Count is
+   function Len (Data : E.Bytes; Item : E.Span) return E.Count
+     with Global => null,
+       Post => Len'Result <= Item.Length and then (if Len'Result > 0 then Item.Length >= 2)
+   is
       V : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if not RA.Source_Valid (Data, Item, False) or else V.Form not in E.Tuple_Value | E.List_Value then return 0; end if;
@@ -68,7 +74,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
      (RA.Source_Valid (Data, Item, False) and then E.Text_Is (Data, E.Decode (Data, Item, E.Operation), Value));
    function Is_None (Data : E.Bytes; Item : E.Span) return Boolean is
      (RA.Source_Valid (Data, Item, False) and then E.Decode (Data, Item, E.Operation).Form = E.Null_Value);
-   function Bytes_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
+   function Bytes_Valid (Data : E.Bytes; Item : E.Span) return Boolean
+     with Global => null
+   is
       V : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       return RA.Source_Valid (Data, Item, False) and then V.Form = E.Bytes_Value and then E.Bytes_Valid (Data, V.Payload);
@@ -90,7 +98,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end;
       return (if R.Archive_Integer_Negative (Data, Item) then -Result else Result);
    end Number;
-   function Count_Number (Value : E.Count) return Valid_Big_Integer is
+   function Count_Number (Value : E.Count) return Valid_Big_Integer
+     with Global => null
+   is
       Remaining : E.Count := Value;
       Result : Big_Integer := To_Big_Integer (0);
       Place : Big_Integer := To_Big_Integer (1);
@@ -107,7 +117,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
 
    function Text_View (Data : E.Bytes; Item : E.Span) return E.View is
      (E.Decode (Data, Item, E.Operation));
-   function Text_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
+   function Text_Valid (Data : E.Bytes; Item : E.Span) return Boolean
+     with Global => null
+   is
       V : constant E.View := Text_View (Data, Item);
    begin
       return RA.Source_Valid (Data, Item, False) and then V.Form = E.Text_Value and then E.Bytes_Valid (Data, V.Payload);
@@ -115,7 +127,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
    function Text_Bytes (Data : E.Bytes; Item : E.Span) return E.Bytes
    is (E.Materialize (Data, Text_View (Data, Item).Payload))
      with Pre => Text_Valid (Data, Item);
-   function Members (Data : E.Bytes; Item : E.Span) return E.Span is
+   function Members (Data : E.Bytes; Item : E.Span) return E.Span
+     with Global => null, Post => Members'Result.Length <= Item.Length
+   is
       V : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if RA.Source_Valid (Data, Item, False) and then V.Form in E.Object_Value | E.Record_Value then
@@ -139,7 +153,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       return (1, 0);
    end Member_Value;
    function Nibble (B : Q.Byte) return Integer;
-   function Float_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
+   function Float_Valid (Data : E.Bytes; Item : E.Span) return Boolean
+     with Global => null
+   is
       V : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       return RA.Source_Valid (Data, Item, False) and then V.Form = E.Float_Value
@@ -155,7 +171,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
 
    function Nibble (B : Q.Byte) return Integer is
      (if B in 48 .. 57 then Integer (B) - 48 elsif B in 97 .. 102 then Integer (B) - 87 else -1);
-   function Hex_Matches (Raw, Hex : E.Bytes) return Boolean is
+   function Hex_Matches (Raw, Hex : E.Bytes) return Boolean
+     with Global => null
+   is
    begin
       if Raw'Length > E.Count'Last / 2 or else Hex'Length /= Raw'Length * 2 then return False; end if;
       for I in Raw'Range loop
@@ -174,15 +192,24 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       and then Bytes (Data, Id)'Length > 0 and then Hex_Matches (Bytes (Data, Id), Text_Bytes (Data, Encoded)));
    function Id_Text (Data : E.Bytes; Id, Encoded : E.Span) return Boolean is
      (Bytes_Valid (Data, Id) and then Text_Valid (Data, Encoded) and then Bytes (Data, Id) = Text_Bytes (Data, Encoded));
-   function Digest_Matches (Raw : E.Bytes; Data : E.Bytes; Id : E.Span; Prefix : String := "") return Boolean is
+   function Digest_Matches (Raw : E.Bytes; Data : E.Bytes; Id : E.Span; Prefix : String := "") return Boolean
+     with Global => null
+   is
       C : SHA.Context := SHA.Initial;
    begin
       if not Bytes_Valid (Data, Id) or else Bytes (Data, Id)'Length /= SHA.Digest_Bytes
         or else Interfaces.Unsigned_64 (Raw'Length) > SHA.Max_Message_Bytes
         or else Interfaces.Unsigned_64 (Prefix'Length) > SHA.Max_Message_Bytes - Interfaces.Unsigned_64 (Raw'Length)
       then return False; end if;
-      for Ch of Prefix loop SHA.Update (C, [0 => Attest.Byte (Character'Pos (Ch))]); end loop;
-      for B of Raw loop SHA.Update (C, [0 => Attest.Byte (B)]); end loop;
+      --  Same bytes in the same order; the indices only expose the count absorbed.
+      for K in Prefix'Range loop
+         pragma Loop_Invariant (SHA.Absorbed (C) = Interfaces.Unsigned_64 (K - Prefix'First));
+         SHA.Update (C, [0 => Attest.Byte (Character'Pos (Prefix (K)))]);
+      end loop;
+      for K in Raw'Range loop
+         pragma Loop_Invariant (SHA.Absorbed (C) = Interfaces.Unsigned_64 (Prefix'Length) + Interfaces.Unsigned_64 (K - Raw'First));
+         SHA.Update (C, [0 => Attest.Byte (Raw (K))]);
+      end loop;
       declare
          H : constant SHA.Digest := SHA.Final (C);
          Value : constant E.Bytes := Bytes (Data, Id);
@@ -190,7 +217,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
          return (for all I in H'Range => Q.Byte (H (I)) = Value (Value'First + E.Count (I)));
       end;
    end Digest_Matches;
-   function JSON_Matches (Data : E.Bytes; JSON, Item : E.Span) return Boolean is
+   function JSON_Matches (Data : E.Bytes; JSON, Item : E.Span) return Boolean
+     with Global => null
+   is
    begin
       if not Bytes_Valid (Data, JSON) then return False; end if;
       declare Raw : constant E.Bytes := Bytes (Data, JSON); begin
@@ -200,7 +229,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
    function Hash_Field (Data : E.Bytes; Raw, Id : E.Span; Prefix : String := "") return Boolean is
      (Bytes_Valid (Data, Raw) and then Digest_Matches (Bytes (Data, Raw), Data, Id, Prefix));
 
-   function Stable_Identity (Data : E.Bytes; Left, Right : E.Span) return Boolean is
+   function Stable_Identity (Data : E.Bytes; Left, Right : E.Span) return Boolean
+     with Global => null
+   is
    begin
       return Field_Same (Data, Left, Right, "device") and then Field_Same (Data, Left, Right, "inode")
         and then Field_Same (Data, Left, Right, "mode") and then Field_Same (Data, Left, Right, "uid")
@@ -213,15 +244,25 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
      (Member_Value (Data, F (Data, Inventory, "current_descriptors"), Name));
 
    function Line (Raw : E.Bytes; Name : String; Separator : Q.Byte) return E.Span is
-      Start : Q.Byte_Index := Raw'First;
+      Start : Q.Byte_Index;
       Found : E.Span := (1, 0);
    begin
+      --  A null Raw has no line (the original raised initializing Start when
+      --  its lower bound lay outside Byte_Index).
+      if Raw'Length = 0 then return Found; end if;
+      Start := Raw'First;
       while Start <= Raw'Last loop
          pragma Loop_Variant (Increases => Start);
+         pragma Loop_Invariant (Start >= Raw'First);
          declare
             Finish : Q.Byte_Index := Start;
          begin
-            while Finish <= Raw'Last and then Raw (Finish) /= 10 loop pragma Loop_Variant (Increases => Finish); Finish := Finish + 1; end loop;
+            while Finish <= Raw'Last and then Raw (Finish) /= 10 loop
+               pragma Loop_Invariant (Finish in Start .. Raw'Last); pragma Loop_Variant (Increases => Finish);
+               --  The original raised (Finish + 1) exactly here; refuse.
+               if Finish = E.Count'Last then return (1, 0); end if;
+               Finish := Finish + 1;
+            end loop;
             if Finish - Start > E.Count (Name'Length)
               and then (for all I in Name'Range => Raw (Start + E.Count (I - Name'First)) = Character'Pos (Name (I)))
               and then Raw (Start + E.Count (Name'Length)) = Separator
@@ -230,6 +271,8 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
                Found := (Start + E.Count (Name'Length) + 1, Finish - Start - E.Count (Name'Length) - 1);
             end if;
             if Finish = Raw'Last then exit; end if;
+            --  The original raised (Start := Finish + 1) exactly here; refuse.
+            if Finish = E.Count'Last then return (1, 0); end if;
             Start := Finish + 1;
          end;
       end loop;
@@ -243,9 +286,15 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       if not E.C.P.Valid (Raw, Item) then return (1, 0); end if;
       while Position < Item.Length loop
          pragma Loop_Variant (Increases => Position);
-         while Position < Item.Length and then Space (Raw (Item.First + Position)) loop pragma Loop_Variant (Increases => Position); Position := Position + 1; end loop;
+         while Position < Item.Length and then Space (Raw (Item.First + Position)) loop
+            pragma Loop_Invariant (Position in Position'Loop_Entry .. Item.Length); pragma Loop_Variant (Increases => Position);
+            Position := Position + 1;
+         end loop;
          declare Start : constant E.Count := Position; begin
-            while Position < Item.Length and then not Space (Raw (Item.First + Position)) loop pragma Loop_Variant (Increases => Position); Position := Position + 1; end loop;
+            while Position < Item.Length and then not Space (Raw (Item.First + Position)) loop
+               pragma Loop_Invariant (Position in Start .. Item.Length); pragma Loop_Variant (Increases => Position);
+               Position := Position + 1;
+            end loop;
             if Position > Start then
                if Current = Index then return (Item.First + Start, Position - Start); end if;
                if Current = Positive'Last then return (1, 0); end if;
@@ -274,22 +323,30 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
          if I < Raw'Last and then Raw (I) = 41 and then Raw (I + 1) = 32 then Close := I; end if;
       end loop;
       if Close = 0 or else Close >= Raw'Last then return To_Big_Integer (-1); end if;
+      --  The original raised exactly here (Close + 2 past E.Count, or the
+      --  Positive word index Index - 2 = 0); refuse with the non-number.
+      if Close > E.Count'Last - 2 or else Index = 2 then return To_Big_Integer (-1); end if;
       return Decimal (Raw, Word (Raw, (Close + 2, Raw'Last - Close - 1), Index - 2));
    end Stat_Number;
+   --  An index past E.Count (where the original raised) reads as a mismatch.
    function Byte_Part_Equals (Raw : E.Bytes; Item : E.Span; Expected : E.Bytes) return Boolean is
      (E.C.P.Valid (Raw, Item) and then Item.Length = Expected'Length
-      and then (for all I in Expected'Range => Raw (Item.First + I - Expected'First) = Expected (I)));
+      and then (for all I in Expected'Range =>
+        Item.First <= E.Count'Last - I and then Raw (Item.First + I - Expected'First) = Expected (I)));
    function Property (Data : E.Bytes; Manager : E.Span; Name : String; Id : E.Span) return Boolean is
+      Stdout : constant E.Span := F (Data, Manager, "stdout");
    begin
-      if not Bytes_Valid (Data, F (Data, Manager, "stdout")) or else not Bytes_Valid (Data, Id) then return False; end if;
-      declare Raw : constant E.Bytes := Bytes (Data, F (Data, Manager, "stdout")); begin
+      if not Bytes_Valid (Data, Stdout) or else not Bytes_Valid (Data, Id) then return False; end if;
+      declare Raw : constant E.Bytes := Bytes (Data, Stdout); begin
          return Byte_Part_Equals (Raw, Line (Raw, Name, 61), Bytes (Data, Id));
       end;
    end Property;
    function Parts_Same (Left : E.Bytes; L : E.Span; Right : E.Bytes; R : E.Span) return Boolean is
      (E.C.P.Valid (Left, L) and then E.C.P.Valid (Right, R) and then L.Length > 0 and then L.Length = R.Length
       and then (for all I in E.Count range 0 .. L.Length - 1 => Left (L.First + I) = Right (R.First + I)));
-   function Role_Entry (Data : E.Bytes; Inventory, Name : E.Span) return E.Span is
+   function Role_Entry (Data : E.Bytes; Inventory, Name : E.Span) return E.Span
+     with Global => null
+   is
       Roles : constant E.Span := F (Data, Inventory, "roles");
    begin
       if Len (Data, Roles) > 0 then
@@ -299,7 +356,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end if;
       return (1, 0);
    end Role_Entry;
-   function Poll_Matches (Data : E.Bytes; Item, Expected_Wait, Fd : E.Span) return Boolean is
+   function Poll_Matches (Data : E.Bytes; Item, Expected_Wait, Fd : E.Span) return Boolean
+     with Global => null
+   is
       Poll : constant E.Span := F (Data, Item, "poll");
       Args : constant E.Span := F (Data, Poll, "args");
       Returned : constant E.Span := F (Data, Poll, "returned");
@@ -324,7 +383,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       else return False; end if;
    end Poll_Matches;
 
-   function Credential_Number (Data : E.Bytes; Item : E.Span; Part : Positive) return Valid_Big_Integer is
+   function Credential_Number (Data : E.Bytes; Item : E.Span; Part : Positive) return Valid_Big_Integer
+     with Global => null
+   is
       Result : Big_Integer := To_Big_Integer (0);
    begin
       if Part > 3 or else not Bytes_Valid (Data, Item) then return To_Big_Integer (-1); end if;
@@ -352,20 +413,27 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
                Start : constant E.Count := Offset;
                Found : Boolean := False;
             begin
-               while Offset < Raw'Length and then Raw (Raw'First + Offset) /= 10 loop pragma Loop_Variant (Increases => Offset); Offset := Offset + 1; end loop;
+               while Offset < Raw'Length and then Raw (Raw'First + Offset) /= 10 loop
+                  pragma Loop_Invariant (Offset in Start .. Raw'Length - 1); pragma Loop_Variant (Increases => Offset);
+                  Offset := Offset + 1;
+               end loop;
                declare
                   Line_Span : constant E.Span := (Raw'First + Start, Offset - Start);
                   Fifth : constant E.Span := Word (Raw, Line_Span, 5);
                   Tail : E.Count := (if Fifth.Length = 0 then Offset else Fifth.First - Raw'First + Fifth.Length);
                begin
-                  while Tail < Offset and then Raw (Raw'First + Tail) in 9 | 32 loop pragma Loop_Variant (Increases => Tail); Tail := Tail + 1; end loop;
+                  while Tail < Offset and then Raw (Raw'First + Tail) in 9 | 32 loop
+                     pragma Loop_Invariant (Tail < Offset); pragma Loop_Variant (Increases => Tail);
+                     Tail := Tail + 1;
+                  end loop;
                   if Tail < Offset and then Raw (Raw'First + Tail) = 47 then
                      if Len (Data, Files) > 0 then
                         for I in E.Count range 0 .. Len (Data, Files) - 1 loop
-                           declare File : constant E.Span := Element (Data, Files, I); begin
-                              if Text_Valid (Data, F (Data, File, "path"))
+                           declare File : constant E.Span := Element (Data, Files, I);
+                                   File_Path : constant E.Span := F (Data, File, "path"); begin
+                              if Text_Valid (Data, File_Path)
                                 and then Parts_Same (Raw, (Raw'First + Tail, Offset - Tail),
-                                  Text_Bytes (Data, F (Data, File, "path")), (1, Text_Bytes (Data, F (Data, File, "path"))'Length))
+                                  Text_Bytes (Data, File_Path), (1, Text_Bytes (Data, File_Path)'Length))
                                 and then (Text (Data, F (Data, File, "role"), "INTERPRETER")
                                   or else Text (Data, F (Data, File, "role"), "EXECUTABLE")
                                   or else Text (Data, F (Data, File, "role"), "EXTENSION")
@@ -383,7 +451,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end;
       return True;
    end Maps_Match;
-   function Process_Image_Matches (Data : E.Bytes; Source, Inventory : E.Span) return Boolean is
+   function Process_Image_Matches (Data : E.Bytes; Source, Inventory : E.Span) return Boolean
+     with Global => null
+   is
       Files : constant E.Span := F (Data, Inventory, "current_source_files");
    begin
       if Len (Data, Files) > 0 then
@@ -416,7 +486,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
          return True;
       end;
    end Process_Cgroup_Matches;
-   function Process_Matches (Data : E.Bytes; Item, Inventory, Namespace, Unit, Invocation : E.Span) return Boolean is
+   function Process_Matches (Data : E.Bytes; Item, Inventory, Namespace, Unit, Invocation : E.Span) return Boolean
+     with Global => null
+   is
       Observation : constant E.Span := F (Data, Item, "observation");
       Source : constant E.Span := F (Data, Item, "raw");
       Before : constant E.Span := F (Data, Source, "raw");
@@ -426,14 +498,20 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       Parent_After : constant E.Span := F (Data, Source, "parent_after");
       Role : constant E.Span := Role_Entry (Data, Inventory, F (Data, Item, "descriptor"));
       Fd : constant E.Span := F (Data, Role, (if Is_None (Data, F (Data, Role, "worker_fd")) then "front_fd" else "worker_fd"));
+      Wait_Item : constant E.Span := F (Data, Item, "wait");
+      Before_Status : constant E.Span := F (Data, Before, "status");
+      After_Status : constant E.Span := F (Data, After, "status");
+      Before_Stat : constant E.Span := F (Data, Before, "stat");
+      After_Stat : constant E.Span := F (Data, After, "stat");
+      Pidfd_Item : constant E.Span := F (Data, Observation, "raw_pidfd_info");
    begin
       if Is_None (Data, F (Data, Item, "descriptor")) then
          return Is_None (Data, F (Data, Item, "poll")) and then Is_None (Data, Observation) and then Is_None (Data, Source);
       end if;
-      if not Bytes_Valid (Data, F (Data, Descriptor_Id, "fdinfo")) or else not Bytes_Valid (Data, F (Data, Item, "wait")) then return False; end if;
+      if not Bytes_Valid (Data, F (Data, Descriptor_Id, "fdinfo")) or else not Bytes_Valid (Data, Wait_Item) then return False; end if;
       if not Same (Data, F (Data, F (Data, Item, "poll"), "source"), F (Data, Inventory, "current_source")) then return False; end if;
       if not Poll_Matches (Data, Item, F (Data, Item, "wait"), Fd) then return False; end if;
-      declare Wait : constant E.Bytes := Bytes (Data, F (Data, Item, "wait")); begin
+      declare Wait : constant E.Bytes := Bytes (Data, Wait_Item); begin
          if Wait = [80,73,68,70,68,95,84,69,82,77,73,78,65,76] then
             return Is_None (Data, Observation) and then Stable_Identity (Data, Descriptor_Id, F (Data, Source, "identity"))
               and then Same (Data, F (Data, Source, "actual_pidfd_wait"), F (Data, Item, "wait"))
@@ -462,19 +540,19 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
         or else not Same (Data, F (Data, Observation, "raw_cmdline"), F (Data, Before, "cmdline"))
         or else not Field_Same (Data, Before, After, "cgroup") or else not Field_Same (Data, Before, After, "maps")
         or else not Field_Same (Data, Before, After, "cmdline")
-        or else not Bytes_Valid (Data, F (Data, Before, "status")) or else not Bytes_Valid (Data, F (Data, After, "status"))
-        or else not Bytes_Valid (Data, F (Data, Before, "stat")) or else not Bytes_Valid (Data, F (Data, After, "stat"))
+        or else not Bytes_Valid (Data, Before_Status) or else not Bytes_Valid (Data, After_Status)
+        or else not Bytes_Valid (Data, Before_Stat) or else not Bytes_Valid (Data, After_Stat)
         or else not Bytes_Valid (Data, Parent) or else not Bytes_Valid (Data, Parent_After)
-        or else not Bytes_Valid (Data, F (Data, Observation, "raw_pidfd_info"))
+        or else not Bytes_Valid (Data, Pidfd_Item)
       then return False; end if;
       declare
-         Status : constant E.Bytes := Bytes (Data, F (Data, Before, "status"));
-         Later_Status : constant E.Bytes := Bytes (Data, F (Data, After, "status"));
-         Stat : constant E.Bytes := Bytes (Data, F (Data, Before, "stat"));
-         Later_Stat : constant E.Bytes := Bytes (Data, F (Data, After, "stat"));
+         Status : constant E.Bytes := Bytes (Data, Before_Status);
+         Later_Status : constant E.Bytes := Bytes (Data, After_Status);
+         Stat : constant E.Bytes := Bytes (Data, Before_Stat);
+         Later_Stat : constant E.Bytes := Bytes (Data, After_Stat);
          Parent_Stat : constant E.Bytes := Bytes (Data, Parent);
          Parent_Last : constant E.Bytes := Bytes (Data, Parent_After);
-         Pidfd : constant E.Bytes := Bytes (Data, F (Data, Observation, "raw_pidfd_info"));
+         Pidfd : constant E.Bytes := Bytes (Data, Pidfd_Item);
          Pid : constant Big_Integer := Number (Data, F (Data, Observation, "host_pid"));
          Ppid : constant Big_Integer := Number (Data, F (Data, Observation, "parent_pid"));
          Start : constant Big_Integer := Number (Data, F (Data, Observation, "start_tick"));
@@ -513,12 +591,19 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end;
    end Process_Matches;
 
-   function Rights_Matches (Data : E.Bytes; Receipt, Fd : E.Span; Sending : Boolean) return Boolean is
-     (Bytes_Valid (Data, F (Data, Receipt, "sender"))
-      and then Bytes (Data, F (Data, Receipt, "sender"))'Length = 12
-      and then Worldline.Scoped_Capture_Namespace_Projection.FD_Receipt_Matches
-        (Data, Receipt, Fd, F (Data, Receipt, "sender"), Sending));
-   function Source_Files_Match (Data : E.Bytes; Inventory : E.Span) return Boolean is
+   function Rights_Matches (Data : E.Bytes; Receipt, Fd : E.Span; Sending : Boolean) return Boolean
+     with Global => null
+   is
+      Sender : constant E.Span := F (Data, Receipt, "sender");
+   begin
+      return Bytes_Valid (Data, Sender)
+        and then Bytes (Data, Sender)'Length = 12
+        and then Worldline.Scoped_Capture_Namespace_Projection.FD_Receipt_Matches
+          (Data, Receipt, Fd, Sender, Sending);
+   end Rights_Matches;
+   function Source_Files_Match (Data : E.Bytes; Inventory : E.Span) return Boolean
+     with Global => null
+   is
       Frame : constant E.Span := F (Data, Inventory, "frame");
       Before : constant E.Span := F (Data, Frame, "source_files");
       Current : constant E.Span := F (Data, Inventory, "current_source_files");
@@ -543,7 +628,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end if;
       return True;
    end Source_Files_Match;
-   function Reconstruction_Matches (Data : E.Bytes; Inventory : E.Span) return Boolean is
+   function Reconstruction_Matches (Data : E.Bytes; Inventory : E.Span) return Boolean
+     with Global => null
+   is
       Reconstruction : constant E.Span := F (Data, Inventory, "reconstruction");
       Frame : constant E.Span := F (Data, Inventory, "frame");
       Original : constant E.Span := F (Data, Reconstruction, "original_frame");
@@ -575,15 +662,17 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
                Extension : constant E.Span := Element (Data, Extensions, I);
                Registered : constant E.Span := Element (Data, Registry, I);
                Prefix : constant String := "extension/";
+               Descriptor_Text : constant E.Span := F (Data, Extension, "descriptor");
+               Role_Text : constant E.Span := F (Data, Registered, "role");
             begin
-               if not Text_Valid (Data, F (Data, Extension, "descriptor"))
-                 or else not Text_Valid (Data, F (Data, Registered, "role"))
+               if not Text_Valid (Data, Descriptor_Text)
+                 or else not Text_Valid (Data, Role_Text)
                  or else not Same (Data, F (Data, Extension, "source_fd"), F (Data, Registered, "fd"))
                  or else not Stable_Identity (Data, F (Data, Extension, "identity"), F (Data, Registered, "identity"))
                then return False; end if;
                declare
-                  Name : constant E.Bytes := Text_Bytes (Data, F (Data, Extension, "descriptor"));
-                  Suffix : constant E.Bytes := Text_Bytes (Data, F (Data, Registered, "role"));
+                  Name : constant E.Bytes := Text_Bytes (Data, Descriptor_Text);
+                  Suffix : constant E.Bytes := Text_Bytes (Data, Role_Text);
                begin
                   if Name'Length /= Prefix'Length + Suffix'Length then return False; end if;
                   for J in E.Count range 0 .. Prefix'Length - 1 loop
@@ -816,6 +905,7 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       V : constant E.View := E.Decode (Data, Original, E.Operation);
       Kind : constant E.Span := F (Data, Wrapped, "kind");
       Value : constant E.Span := F (Data, Wrapped, "value");
+      Magnitude : constant E.Span := F (Data, Wrapped, "magnitude");
    begin
       if not RA.Source_Valid (Data, Original, False) or else not RA.Source_Valid (Data, Wrapped, False) then return False; end if;
       if Is_None (Data, Original) then return Text (Data, Kind, "NoneType") and then Is_None (Data, Value);
@@ -823,8 +913,8 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
         and then Hex_Matches (Bytes (Data, Original), Text_Bytes (Data, Value));
       elsif Integer_Valid (Data, Original) then
          return Text (Data, Kind, "int-magnitude") and then R.Archive_Boolean_Is (Data, F (Data, Wrapped, "negative"), R.Archive_Integer_Negative (Data, Original))
-           and then Text_Valid (Data, F (Data, Wrapped, "magnitude"))
-           and then Hex_Matches (R.Archive_Integer_Magnitude (Data, Original), Text_Bytes (Data, F (Data, Wrapped, "magnitude")));
+           and then Text_Valid (Data, Magnitude)
+           and then Hex_Matches (R.Archive_Integer_Magnitude (Data, Original), Text_Bytes (Data, Magnitude));
       elsif V.Form = E.Float_Value and then E.Bytes_Valid (Data, V.Payload) then
          return Text (Data, Kind, "float-binary") and then Text_Valid (Data, Value)
            and then Hex_Matches (E.Materialize (Data, V.Payload), Text_Bytes (Data, Value));
@@ -861,7 +951,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       else return False; end if;
    end Lossless_Matches;
 
-   function UUID_Matches (Data : E.Bytes; Id, Value : E.Span) return Boolean is
+   function UUID_Matches (Data : E.Bytes; Id, Value : E.Span) return Boolean
+     with Global => null
+   is
    begin
       if not Bytes_Valid (Data, Id) or else not Text_Valid (Data, Value) then return False; end if;
       declare
@@ -871,6 +963,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       begin
          if Raw'Length /= 16 or else Spelling'Length /= 36 then return False; end if;
          for I in Raw'Range loop
+            pragma Loop_Invariant (Position = 2 * (I - Raw'First) +
+              (if I - Raw'First <= 4 then 0 elsif I - Raw'First <= 6 then 1
+               elsif I - Raw'First <= 8 then 2 elsif I - Raw'First <= 10 then 3 else 4));
             if Position in 8 | 13 | 18 | 23 then
                if Spelling (Spelling'First + Position) /= 45 then return False; end if;
                Position := Position + 1;
@@ -883,7 +978,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
          return Position = Spelling'Length;
       end;
    end UUID_Matches;
-   function Current_History_Matches (Data : E.Bytes; Packet, Projection : E.Span) return Boolean is
+   function Current_History_Matches (Data : E.Bytes; Packet, Projection : E.Span) return Boolean
+     with Global => null
+   is
       Current : constant E.Span := F (Data, Packet, "current");
       Before : constant E.Span := F (Data, Packet, "before");
       Old_History : constant E.Span := F (Data, Packet, "history");
@@ -899,6 +996,8 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       if not Text (Data, F (Data, F (Data, Packet, "request"), "kind"), "ADVANCE_CONTEXT")
         or else not Sequence_Valid (Data, Old_History)
         or else not Sequence_Valid (Data, History)
+        --  The original raised (Len + 1) exactly here; refuse.
+        or else Len (Data, Old_History) = E.Count'Last
         or else Len (Data, History) /= Len (Data, Old_History) + 1
         or else not Same (Data, Frame, Element (Data, History, Len (Data, History) - 1))
         or else E.Array_Length (Data, Fields) /= 15
@@ -944,7 +1043,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
         and then Field_Same (Data, Frame, Current, "observation_head");
    end Current_History_Matches;
 
-   function Current_Matches (Data : E.Bytes; Packet, Projection : E.Span) return Boolean is
+   function Current_Matches (Data : E.Bytes; Packet, Projection : E.Span) return Boolean
+     with Global => null
+   is
       C : constant E.Span := F (Data, Packet, "current");
       Scope : constant E.Span := F (Data, C, "scope");
       Source : constant E.Span := F (Data, Projection, "source");
@@ -958,6 +1059,7 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       Entries : constant E.Span := F (Data, Catalogue, "entries");
       Prime : constant E.Span := F (Data, Source, "actual_prime");
       Owner : constant E.Span := F (Data, Source, "original_owner_genesis");
+      Current_Prime : constant E.Span := F (Data, C, "prime");
       Found : Boolean := False;
    begin
       if not Text (Data, F (Data, Projection, "schema"), "worldline.complete-scoped-capture-source-v1")
@@ -1029,15 +1131,17 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
            and then Id_Hex (Data, F (Data, Scope, "instance"), F (Data, Owner, "instance_id"))
            and then Same (Data, F (Data, Owner, "instance_id"), F (Data, Roster_Entry, "prime_worldline_id"));
       else
-         return Bytes_Valid (Data, F (Data, C, "prime")) and then Bytes (Data, F (Data, C, "prime"))'Length = 16
-           and then UUID_Matches (Data, F (Data, C, "prime"), F (Data, Prime, "instance_id"))
-           and then Digest_Matches (Bytes (Data, F (Data, C, "prime")), Data, F (Data, Scope, "instance"), "COSMOGONY-worldline-instance-v1" & Character'Val (0))
+         return Bytes_Valid (Data, Current_Prime) and then Bytes (Data, Current_Prime)'Length = 16
+           and then UUID_Matches (Data, Current_Prime, F (Data, Prime, "instance_id"))
+           and then Digest_Matches (Bytes (Data, Current_Prime), Data, F (Data, Scope, "instance"), "COSMOGONY-worldline-instance-v1" & Character'Val (0))
            and then Id_Hex (Data, F (Data, Scope, "instance"), F (Data, Roster_Entry, "prime_worldline_id"))
            and then Id_Hex (Data, F (Data, Scope, "instance"), F (Data, F (Data, Config, "managed_observation"), "worldline_instance_id"));
       end if;
    end Current_Matches;
 
-   function Classifier_Matches (Data : E.Bytes; Packet, Item, Projection, Initial : E.Span; Index : E.Count) return Boolean is
+   function Classifier_Matches (Data : E.Bytes; Packet, Item, Projection, Initial : E.Span; Index : E.Count) return Boolean
+     with Global => null
+   is
       Native : constant E.Span := F (Data, Item, "native_classification");
       Material : constant E.Span := F (Data, Item, "classification_material");
       Replay : constant R.Scoped_Replay_Result := R.Reestablish_Scoped_Observation (Data, Native);
@@ -1111,7 +1215,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
      (Field_Same (Data, Left, Right, "device") and then Field_Same (Data, Left, Right, "inode")
       and then Field_Same (Data, Left, Right, "uid") and then Field_Same (Data, Left, Right, "gid")
       and then Number (Data, F (Data, Left, "mode")) mod To_Big_Integer (4096) = Number (Data, F (Data, Right, "mode")) mod To_Big_Integer (4096));
-   function Image_Matches (Data : E.Bytes; Projection, Inventory, Image : E.Span) return Boolean is
+   function Image_Matches (Data : E.Bytes; Projection, Inventory, Image : E.Span) return Boolean
+     with Global => null
+   is
       Files : constant E.Span := F (Data, Inventory, "current_source_files");
    begin
       if Len (Data, Files) > 0 then
@@ -1127,7 +1233,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end if;
       return False;
    end Image_Matches;
-   function Head_Matches (Data : E.Bytes; Fact, Source : E.Span) return Boolean is
+   function Head_Matches (Data : E.Bytes; Fact, Source : E.Span) return Boolean
+     with Global => null
+   is
       Tree : constant E.Span := F (Data, Source, "head_tree");
       Raw : constant E.Span := F (Data, Source, "head_preimage");
       Raw_View : constant E.View := E.Decode (Data, Raw, E.Operation);
@@ -1155,12 +1263,15 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end if;
       return True;
    end Head_Matches;
-   function Peer_Matches (Data : E.Bytes; Fact, Source, Inventory, Roster_Entry : E.Span) return Boolean is
+   function Peer_Matches (Data : E.Bytes; Fact, Source, Inventory, Roster_Entry : E.Span) return Boolean
+     with Global => null
+   is
       Raw : constant E.Span := F (Data, Source, "kernel");
       Peer : constant E.Span := F (Data, Fact, "peer");
       Held_Peer : constant E.Span := F (Data, F (Data, Roster_Entry, "held"), "peer");
       Provenance : constant E.Span := F (Data, Raw, "peer_source");
       Process : constant E.Span := F (Data, F (Data, F (Data, Source, "process_inventory"), "helper_pidfd"), "observation");
+      Host_Info : constant E.Span := F (Data, Provenance, "host_pidfd_info");
    begin
       if not (Same (Data, Peer, Held_Peer) or else Id_Hex (Data, Peer, Held_Peer))
         or else not Same (Data, F (Data, Raw, "held"), F (Data, Roster_Entry, "held"))
@@ -1173,9 +1284,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
            or else Credential_Number (Data, Peer, 3) /= Number (Data, F (Data, Process, "real_gid"))
            or else Credential_Number (Data, F (Data, Provenance, "relative_kernel_credentials"), 2) /= Credential_Number (Data, Peer, 2)
            or else Credential_Number (Data, F (Data, Provenance, "relative_kernel_credentials"), 3) /= Credential_Number (Data, Peer, 3)
-           or else not Bytes_Valid (Data, F (Data, Provenance, "host_pidfd_info"))
+           or else not Bytes_Valid (Data, Host_Info)
          then return False; end if;
-         declare Info : constant E.Bytes := Bytes (Data, F (Data, Provenance, "host_pidfd_info")); begin
+         declare Info : constant E.Bytes := Bytes (Data, Host_Info); begin
             if Decimal (Info, Word (Info, Line (Info, "Pid", 58), 1)) /= Number (Data, F (Data, Process, "host_pid")) then return False; end if;
          end;
          declare Files : constant E.Span := F (Data, Inventory, "current_source_files"); begin
@@ -1195,7 +1306,9 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
              and then Same (Data, F (Data, Provenance, "relative_peer"), Peer));
       end if;
    end Peer_Matches;
-   function Physical_Matches (Data : E.Bytes; Row, Fact, Source, Inventory, Roster_Entry, History : E.Span) return Boolean is
+   function Physical_Matches (Data : E.Bytes; Row, Fact, Source, Inventory, Roster_Entry, History : E.Span) return Boolean
+     with Global => null
+   is
       Raw : constant E.Span := F (Data, Source, "kernel");
       Manager : constant E.Span := F (Data, Raw, "manager");
       Roles : constant E.Span := F (Data, Roster_Entry, "roles");
@@ -1346,6 +1459,7 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
             begin
                if Len (Data, Root_Rows) > 0 then
                   for J in E.Count range 0 .. Len (Data, Root_Rows) - 1 loop
+                     pragma Loop_Invariant (Matches <= J);
                      declare Candidate : constant E.Span := Element (Data, Root_Rows, J); begin
                         if Same (Data, F (Data, Row, "bound"), F (Data, F (Data, Candidate, "row"), "bound"))
                           and then Same (Data, F (Data, Row, "scope"), F (Data, F (Data, Candidate, "row"), "scope"))
