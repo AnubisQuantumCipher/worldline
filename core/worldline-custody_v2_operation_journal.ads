@@ -55,7 +55,8 @@ package Worldline.Custody_V2_Operation_Journal with SPARK_Mode is
                            Proof : Journal_Proof) return Boolean
       with Global => null,
         Post => (if Authenticated'Result then
-          Value.Status = L.Parsed and then Index in Value.Events'Range);
+          Value.Status = L.Parsed and then Index in Value.Events'Range and then
+          Established (Value, Proof));
    function Current_Authenticated (Value : L.Parsed_Input) return Boolean
       with Global => null,
         Post => (if Current_Authenticated'Result then Value.Status = L.Parsed);
