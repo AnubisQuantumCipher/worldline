@@ -3,6 +3,12 @@
 These additive cases use the original accepted fixture, actual temporary
 pending/terminal/finalization journals and actual native ABI. They do not change
 its assertions and do not mock native permission, world exchange or confinement.
+
+One fixture input is completed here, not in the shared fixture: the original
+producer_case observation records postMeasurement without the post-run
+manifests that every production writer retains (revalidate's terminal writer
+and the finalization writer). The native packet relation re-derives the
+post-run content root from those retained manifests and refuses without them.
 """
 from copy import deepcopy
 from dataclasses import replace
@@ -27,6 +33,18 @@ from worldline.recovery_observation import (
 
 
 class RecoveryPacketProducerControls(_Fixture):
+    def producer_case(self):
+        case = super().producer_case()
+        observed = case[3].observed
+        post = observed['postMeasurement']
+        if set(post) != {'observedContentRoot'}:
+            raise AssertionError('original fixture post-run observation changed')
+        # The fixture's workspace is unchanged by evaluation: the post-run
+        # recapture retains exactly the captured initial manifests, whose
+        # content root is the recorded observedContentRoot.
+        post['manifests'] = deepcopy(observed['captureContext']['measurement']['manifests'])
+        return case
+
     def full_world(self, subject, request):
         return World(instance_id=subject.instance_id, alias='ordinary-packet-fixture',
             parent_instance=None, parent_content=hash_id(request.expected_parent),
@@ -54,8 +72,14 @@ class RecoveryPacketProducerControls(_Fixture):
         return packet, chosen, verdict
 
     def test_actual_decision_observer_captures_full_real_producer_and_redecides(self):
+        from types import MethodType
         from worldline.transaction import CollapseTransaction
         with self.staged_journal() as (manager, subject, policy, previous, _append, _terminal):
+            # _observe_decision selects evidence and the owner source through the
+            # actual CollapseTransaction methods (ordinary path: no protected owner
+            # installed), bound like the fixture's other actual methods.
+            for name in ('_owner_source', '_owner_evidence'):
+                setattr(manager, name, MethodType(getattr(CollapseTransaction, name), manager))
             request, _agent = manager.staged_fixture_values
             world = self.full_world(subject, request)
             inputs = {'conflictsMeasured': True, 'foreignWrites': {'state': request.foreign_writes},
@@ -117,7 +141,7 @@ class RecoveryPacketProducerControls(_Fixture):
             start = replace(start, store_id=b'store', subject=identity(subject.instance_id),
                 run=b'ordinary-unsealed-start', requirement=identity(policy['requirementHash']))
             with TemporaryDirectory(prefix='worldline-packet-unsealed-') as directory:
-                finalization = FinalizationJournal(Path(directory)/'finalization.db', b'store',
+                finalization = FinalizationJournal(Path(directory)/'finalization.db', 'store',
                     library=Path(self.core.library_path), create=True)
                 try:
                     finalization.reserve(start)

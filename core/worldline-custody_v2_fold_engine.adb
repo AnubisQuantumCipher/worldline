@@ -51,6 +51,8 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
                     Event.Generation) = Q.Equal then return State.Current; end if;
       for R in Q.Byte_Count range 1 .. State.Root_Count loop
          pragma Loop_Variant (Increases => R);
+         -- A count beyond the capacity has no row to read: no root.
+         if R > State.Root_Capacity then return 0; end if;
          if Q.Compare (Value.Arena, State.Roots (R).Generation, Event.Generation) = Q.Equal
          then return R; end if;
       end loop;
@@ -62,6 +64,7 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
    begin
       for T in Q.Byte_Count range 1 .. State.Subject_Count loop
          pragma Loop_Variant (Increases => T);
+         if T > State.Subject_Capacity then return 0; end if;
          if State.Subjects (T).Kind = Event.Kind_Of_Subject and then
             Q.Compare (Value.Arena, State.Subjects (T).Generation, Event.Generation) = Q.Equal
             and then A.L.Optional_Same (Value.Arena, State.Subjects (T).Subject, Event.Subject)
@@ -72,7 +75,7 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
 
    function Hex (Digest : M.Digest) return String is
       Hex_Digits : constant String := "0123456789abcdef";
-      Text : String (1 .. 64);
+      Text : String (1 .. 64) := (others => ' ');
    begin
       for B in Digest'Range loop
          pragma Loop_Variant (Increases => B);
@@ -82,9 +85,11 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       return Text;
    end Hex;
 
+   -- Local helper: its only caller (Legal_Decoded) has already checked Index.
    function Head_Reference
      (Value : I.Parsed_Input; Index : Q.Byte_Count; Name : String;
       Present : Boolean; Head : M.Digest) return Boolean
+     with Global => null, Pre => Index in Value.Events'Range
    is
       X5 : constant C.E.Span := V.Record_Field (Value.Arena, Value.Events (Index).Record_Archive, "x5");
       Ref : constant C.E.Span := V.Record_Field (Value.Arena, X5, Name);
@@ -107,8 +112,11 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
         State.Raw_Subjects (1 .. State.Subject_Count), Value.Subjects).State =
         F.Complete_Rows_Equal_Not_A_Fold_Claim;
    end Rows_Match;
+   -- Local helper: its only caller passes the materialized history, whose
+   -- rows are the decoded prefix of Value's event rows.
    function Raw_Alternatives_Exact
      (Value : I.Parsed_Input; History : A.R.Retained_Events) return Boolean
+     with Global => null, Pre => History'Last <= Value.Event_Count
    is
       Joined : Boolean;
    begin
@@ -143,7 +151,13 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       History : A.R.Retained_Events; Alternatives : A.Alternative_Rows;
       Proof : OJ.Journal_Proof)
       return Status
-      with Subprogram_Variant => (Decreases => Value.Source_Input.Length, Decreases => 6)
+      with Subprogram_Variant => (Decreases => Value.Source_Input.Length, Decreases => 6),
+      Post => (if Legal_Decoded'Result = Front_Startup then
+         Value.Status = I.Parsed and then Index in Value.Events'Range and then
+         State.Current in State.Roots'Range and then
+         State.Root_Count <= State.Root_Capacity and then
+         State.Subject_Count <= State.Subject_Capacity and then
+         OJ.Established (Value, Proof))
    is
    begin
       if Value.Status /= I.Parsed or else Index not in Value.Events'Range or else
@@ -304,6 +318,11 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
    procedure Next_Decoded
      (Value : I.Parsed_Input; Index : Q.Byte_Count; Event : M.Event_Record;
       State : in out Fold_State; Applied : out Boolean)
+     with Global => null, Always_Terminates,
+       Post => (if Applied then
+          State.Root_Count <= State.Root_Capacity and then
+          State.Subject_Count <= State.Subject_Capacity and then
+          (State.Current = State.Current'Old or else State.Current in 1 .. State.Root_Capacity))
    is
    begin
       Applied := False;
@@ -323,8 +342,14 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
                   Mode := S.Read_Transfer_Mode_Name (Value.Arena, Value.Extras (Index).Transfer_Mode).Value;
                   if Mode = M.None then return; end if;
                end if;
+               -- An existing subject is imaged from its stored row; a State
+               -- without that row is refused unchanged.
+               if TI /= 0 and then not State.Raw_Subjects (TI).Present then return; end if;
                if TI = 0 then
-                  if State.Subject_Count = State.Subject_Capacity then return; end if;
+                  -- A count at or past the capacity leaves no slot (the
+                  -- original indexed past the rows there).
+                  if State.Subject_Count >= State.Subject_Capacity or else
+                     Event.Kind_Of_Subject not in M.Request | M.Descriptor then return; end if;
                   TI := State.Subject_Count + 1;
                   State.Subjects (TI) := (Kind => Event.Kind_Of_Subject, Generation => Event.Generation,
                     Subject => Event.Subject, Subgeneration => Event.Subgeneration,
@@ -352,12 +377,18 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
                  N.Subject_Image (State.Raw_Subjects (TI).Columns, Event.Kind, Raw, Value.Symbols,
                    Mode, Value.Extras (Index).Position, Value.Extras (Index).Next_Subgeneration));
             elsif Event.Kind = M.Front_Owned_Event then
-               if State.Root_Count = State.Root_Capacity then return; end if;
+               -- Counts at or past the capacities leave no slot (the original
+               -- indexed past the rows there); refused before any change.
+               if State.Root_Count >= State.Root_Capacity or else
+                  State.Subject_Count > State.Subject_Capacity or else
+                  Value.Symbols.Zero_Magnitude.Kind /= S.SQL_Blob or else
+                  not State.Raw_Roots (RI).Present then return; end if;
                declare
                   Old_Subject_Count : constant Q.Byte_Count := State.Subject_Count;
                   Carry_Count : Q.Byte_Count := 0;
                begin
                   for T in Q.Byte_Count range 1 .. Old_Subject_Count loop
+                     pragma Loop_Invariant (Carry_Count < T);
                      pragma Loop_Variant (Increases => T);
                      if State.Subjects (T).Kind = M.Request and then
                         Q.Compare (Value.Arena, State.Subjects (T).Generation, State.Roots (RI).Generation) = Q.Equal
@@ -376,10 +407,17 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
                     Reattach_Epoch => S.Blob_Quantity (Value.Symbols.Zero_Magnitude), Head => Event.Event_Id);
                   State.Raw_Roots (State.Current) := (Present => True, Columns => N.New_Generation (Raw, Value.Symbols));
                   for T in Q.Byte_Count range 1 .. Old_Subject_Count loop
+                     pragma Loop_Invariant (State.Subject_Count <= State.Subject_Capacity and then
+                        State.Root_Count <= State.Root_Capacity and then
+                        State.Current in 1 .. State.Root_Capacity);
                      pragma Loop_Variant (Increases => T);
                      if State.Subjects (T).Kind = M.Request and then
                         Q.Compare (Value.Arena, State.Subjects (T).Generation, State.Roots (RI).Generation) = Q.Equal
                         and then State.Subjects (T).Request in M.Queued | M.Abandoned then
+                        -- Carry_Count bounds the carried rows; this is exactly
+                        -- where a further row would have had no slot.
+                        if State.Subject_Count = State.Subject_Capacity or else
+                           not State.Raw_Subjects (T).Present then return; end if;
                         State.Subject_Count := State.Subject_Count + 1;
                         State.Subjects (State.Subject_Count) := P.Carried_Request_Fields_Image
                           (State.Subjects (T), Event, S.Blob_Quantity (Value.Symbols.Zero_Magnitude));
@@ -389,6 +427,18 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
                   end loop;
                end;
             else
+               -- Legal establishes these cell shapes (Evidence_Missing /
+               -- Join_Not_Ready / Illegal_Root_Transition otherwise); a direct
+               -- Next on a row or State without them is refused unchanged.
+               if (Event.Kind = M.Handoff_Abort_Event and then
+                   S.Read_Abort_Class_Name (Value.Arena, Value.Extras (Index).Abort_Class).Status /= S.Exact_Name) or else
+                  (Event.Kind = M.Unknown_Event and then
+                   not S.Digest_Text (Value.Arena, Value.Extras (Index).Unknown_Cause)) or else
+                  (Event.Kind = M.Worker_Reattached_Event and then
+                   Value.Extras (Index).Reattach_Epoch.Kind /= S.SQL_Blob) or else
+                  (Event.Kind = M.Reconciled_Event and then State.Roots (RI).Phase /= M.Unknown) or else
+                  (not (State.Logical_S0 and then RI = 1) and then not State.Raw_Roots (RI).Present)
+               then return; end if;
                declare
                   Abort_Kind : constant M.Abort_Class :=
                     (if Event.Kind = M.Handoff_Abort_Event then
@@ -433,6 +483,11 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
                       Value.Extras (Index).Unknown_Cause));
                end;
             end if;
+            -- Next promises counts within capacities whenever it applies; a
+            -- State that arrived past them is refused here (the original
+            -- returned Applied with its own postcondition false).
+            if State.Root_Count > State.Root_Capacity or else
+               State.Subject_Count > State.Subject_Capacity then return; end if;
             Applied := True;
          end;
    end Next_Decoded;
@@ -484,9 +539,20 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
      (Value : I.Parsed_Input; Through : Q.Byte_Count; State : out Fold_State;
       History : in out A.R.Retained_Events; Proof : out OJ.Journal_Proof;
       Result : out Observation; Initial_Proof : OJ.Journal_Proof)
-      with Subprogram_Variant => (Decreases => Value.Source_Input.Length, Decreases => 7)
+      with Subprogram_Variant => (Decreases => Value.Source_Input.Length, Decreases => 7),
+      Post => (if Result.State = History_Folded then
+         Archive_Authenticated (Value) and then
+         Through <= Value.Decoded_Event_Count and then
+         History'First = 1 and then History'Length = Value.Decoded_Event_Count and then
+         State.Root_Count <= State.Root_Capacity and then
+         State.Subject_Count <= State.Subject_Capacity and then
+         State.Current in 1 .. State.Root_Capacity and then
+         (if Through = Value.Decoded_Event_Count then
+            Rows_Match (Value, State) and then
+            State.Root_Count = Value.Root_Count and then
+            State.Subject_Count = Value.Subject_Count))
    is
-      Origin : M.Digest := Worldline.Zero_Hash;
+      Origin : M.Digest;
    begin
       Result := (Fold_Refused, Input_Malformed, 0);
       Proof := Initial_Proof;
@@ -516,6 +582,10 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
          Result.Reason := Genesis_Correspondence; return;
       end if;
       Origin := C.G.Hash (Value.Arena, Value.Genesis_Row);
+      -- Decode admits a Parsed value only with these symbol kinds (N.Valid);
+      -- the refusal restates that for the prover before Seed reads them.
+      if Value.Symbols.One.Kind /= S.SQL_Integer or else
+         Value.Symbols.Zero_Magnitude.Kind /= S.SQL_Blob then return; end if;
       declare
          Seed : constant M.Root_State :=
            (Generation => Value.Symbols.One.Integer_Value, Operation => (Present => False),
@@ -532,6 +602,9 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       begin
          State.Roots (1) := Seed;
          State.Current := 1;
+         -- An empty History whose bounds are not 1 .. 0 fails Materialize's
+         -- precondition; it is refused where that precondition raised.
+         if History'Last /= Value.Decoded_Event_Count then return; end if;
          H.Materialize (Value.Arena, Value.Key, Value.Genesis_Row, Value.Genesis_Message,
            Value.Genesis_Mac, Value.Events (1 .. Value.Decoded_Event_Count),
            Value.Heads, History, Auth);
@@ -547,6 +620,9 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
             pragma Loop_Invariant (State.Root_Count <= State.Root_Capacity);
             pragma Loop_Invariant (State.Subject_Count <= State.Subject_Capacity);
             pragma Loop_Invariant (Alternative_Count <= Alternatives'Length);
+            pragma Loop_Invariant (State.Current in 1 .. State.Root_Capacity);
+            pragma Loop_Invariant
+              (if Index > 1 then Value.Event_SQL (Index - 1, 1).Kind = S.SQL_Integer);
             Result.Position := Index;
             if Value.Event_SQL (Index, 1).Kind /= S.SQL_Integer or else
                (Index > Value.Events'First and then
@@ -607,9 +683,14 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       Fold_Prefix (Value, Value.Decoded_Event_Count, State, History, Proof, Result);
    end Fold;
 
+   -- Local helper: both callers pass the State of a completed fold.
    function Finish_Load
      (Value : I.Parsed_Input; State : Fold_State; Proof : OJ.Journal_Proof;
       Folded : Observation) return Observation
+     with Global => null,
+       Pre => (if Folded.State = History_Folded then
+          State.Root_Count <= State.Root_Capacity and then
+          State.Current in 1 .. State.Root_Capacity)
    is
       Result : Observation := Folded;
    begin

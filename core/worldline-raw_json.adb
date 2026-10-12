@@ -100,7 +100,10 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       -- One exact-size owned String feeds the existing String-native grammar.
       -- There is no token/depth/magnitude/number-of-rows admission bound.
       declare
-         Text : String (1 .. Length);
+         --  SPARK: a constraint may not read a variable; the computed extent
+         --  is frozen into a constant first.
+         Final_Length : constant Natural := Length;
+         Text : String (1 .. Final_Length);
          Used : Natural := 0;
          procedure Emit (B : Natural) is
          begin Used := Used + 1; Text (Used) := Character'Val (B); end Emit;
@@ -129,7 +132,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
 
    function Native_Number (Data : String; Item : V.Node) return Exact_Decimal.Number is
       Token : constant String := V.Slice (Data,Item);
-      Arena : P.Bytes (1 .. P.Count (Token'Length));
+      Arena : P.Bytes (1 .. P.Count (Token'Length)) := [others => 0];
    begin
       for K in Token'Range loop Arena (P.Count (K - Token'First + 1)) := P.Byte (Character'Pos (Token (K))); end loop;
       return Exact_Decimal.Parse (Arena,(1,Arena'Length),0);
@@ -578,7 +581,10 @@ package body Worldline.Raw_JSON with SPARK_Mode is
          Length := Length + ASCII_Piece (Scalar_Code (Text,Offset,Width))'Length;
          Offset := Offset + Width;
       end loop;
-      declare Result : String (1 .. Length + 2); Used : Natural := 1; begin
+      declare
+         Final_Length : constant Natural := Length;
+         Result : String (1 .. Final_Length + 2); Used : Natural := 1;
+      begin
          Result (1) := '"'; Offset := 0;
          while Offset < Text'Length loop
             Width := V.UTF8_Width (Text,Offset);

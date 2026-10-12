@@ -33,13 +33,17 @@ package Worldline.Resources with SPARK_Mode is
      with Ghost, Global => null,
           Subprogram_Variant => (Decreases => Count);
 
+   --  A public expression function is already a definition for the prover;
+   --  Inline_For_Proof would add nothing and, beside a conditional Post, is
+   --  rejected by GNATprove (the Post must then be a single 'Result equality).
+   --  The checked recurrence below is unchanged.
    function Radix_Power (Count : Byte_Count) return Big_Positive is
      (Power_Model (Count))
      with Ghost, Global => null,
           Subprogram_Variant => (Decreases => Count),
-          Post => (if Count = 0 then Radix_Power'Result = 1
-                   else Radix_Power'Result = 256 * Radix_Power (Count - 1)),
-          Annotate => (GNATprove, Inline_For_Proof);
+          Post => Radix_Power'Result = Power_Model (Count)
+            and then (if Count = 0 then Radix_Power'Result = 1
+                      else Radix_Power'Result = 256 * Radix_Power (Count - 1));
 
    --  Independent unsigned interpretation. Padding and zero columns do not
    --  require constructing powers whose contribution is identically zero.
@@ -59,9 +63,7 @@ package Worldline.Resources with SPARK_Mode is
      (Value : Byte_Array; Count : Byte_Count) return Big_Natural is
      (Prefix_Model (Value, Count))
      with Ghost, Global => null,
-          Subprogram_Variant => (Decreases => Count),
-          Post => Prefix_Value'Result < Radix_Power (Count),
-          Annotate => (GNATprove, Inline_For_Proof);
+          Post => Prefix_Value'Result < Radix_Power (Count);
 
    function Magnitude (Value : Byte_Array) return Big_Natural is
      (Prefix_Value (Value, Value'Length))

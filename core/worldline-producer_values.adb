@@ -8,7 +8,7 @@ package body Worldline.Producer_Values with SPARK_Mode is
    function UTF8_Width (Data : String; Offset : Natural) return Natural is
       B : Natural;
       function Tail (K : Natural) return Boolean is
-        (Character'Pos (Byte_At (Data,Offset + K)) in 128 .. 191);
+        (Offset < Data'Length - K and then Character'Pos (Byte_At (Data,Offset + K)) in 128 .. 191);
    begin
       if Offset >= Data'Length then return 0; end if;
       B := Character'Pos (Byte_At (Data,Offset));
@@ -30,6 +30,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
       while Position < Data'Length and then
         Byte_At (Data, Position) in ' ' | Character'Val (9) | Character'Val (10) | Character'Val (13)
       loop
+         pragma Loop_Invariant (Position >= Position'Loop_Entry);
+         pragma Loop_Variant (Increases => Position);
          Position := Position + 1;
       end loop;
    end Space;
@@ -43,11 +45,15 @@ package body Worldline.Producer_Values with SPARK_Mode is
    function Raw (Data : String; Item : Node) return String is
      (if Item.Form /= Missing and then Item.First > 0 and then
          Item.First <= Item.Last and then Item.Last <= Data'Length
-      then Data (Data'First + Item.First - 1 .. Data'First + Item.Last - 1)
+      then Data (Data'First + (Item.First - 1) .. Data'First + (Item.Last - 1))
       else "");
 
    procedure Scan (Data : String; Position : in out Natural; Item : out Node)
-     with Subprogram_Variant => (Decreases => Data'Length - Natural'Min (Position,Data'Length));
+     with Always_Terminates,
+       Subprogram_Variant => (Decreases => Data'Length - Natural'Min (Position,Data'Length)),
+       Post => Position >= Position'Old and then
+         (if Item.Form /= Missing then Position > Position'Old and then
+            Item.First > Position'Old and then Item.First <= Data'Length and then Item.Last = Position);
 
    procedure Scan_String (Data : String; Position : in out Natural; Valid : out Boolean) is
       Width : Natural;
@@ -56,6 +62,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
       if Byte_At (Data, Position) /= '"' then return; end if;
       Position := Position + 1;
       while Position < Data'Length loop
+         pragma Loop_Invariant (Position >= Position'Loop_Entry);
+         pragma Loop_Variant (Increases => Position);
          if Byte_At (Data, Position) = '"' then
             Position := Position + 1;
             Valid := True;
@@ -84,7 +92,7 @@ package body Worldline.Producer_Values with SPARK_Mode is
 
    procedure Scan (Data : String; Position : in out Natural; Item : out Node) is
       Start : Natural;
-      Form : Value_Kind := Missing;
+      Form : Value_Kind;
       Valid : Boolean;
       Child, Key : Node;
       Open, Close : Character;
@@ -94,11 +102,12 @@ package body Worldline.Producer_Values with SPARK_Mode is
       if Position >= Data'Length then return; end if;
       Start := Position;
       for Choice in 1 .. 3 loop
+         pragma Loop_Invariant (Position = Start);
          declare Token : constant String :=
            (if Choice = 1 then "NaN" elsif Choice = 2 then "Infinity" else "-Infinity");
          begin
             if Token'Length <= Data'Length - Position and then
-              Data (Data'First + Position .. Data'First + Position + Token'Length - 1) = Token
+              Data (Data'First + Position .. Data'First + Position + (Token'Length - 1)) = Token
             then
                Position := Position + Token'Length;
                Item := (Number_Value,Start + 1,Position); return;
@@ -118,6 +127,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
             Space (Data, Position);
             if Byte_At (Data, Position) /= Close then
                loop
+                  pragma Loop_Invariant (Position > Start);
+                  pragma Loop_Variant (Increases => Position);
                   if Open = '{' then
                      Scan (Data, Position, Key);
                      if Key.Form /= String_Value then return; end if;
@@ -158,6 +169,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
             if Byte_At (Data, Position) = '0' then Position := Position + 1;
             elsif Byte_At (Data, Position) in '1' .. '9' then
                while Position < Data'Length and then Byte_At (Data, Position) in '0' .. '9' loop
+                  pragma Loop_Invariant (Position >= Position'Loop_Entry);
+                  pragma Loop_Variant (Increases => Position);
                   Position := Position + 1;
                end loop;
             else return;
@@ -167,6 +180,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
                Position := Position + 1;
                if Position >= Data'Length or else Byte_At (Data, Position) not in '0' .. '9' then return; end if;
                while Position < Data'Length and then Byte_At (Data, Position) in '0' .. '9' loop
+                  pragma Loop_Invariant (Position >= Position'Loop_Entry);
+                  pragma Loop_Variant (Increases => Position);
                   Position := Position + 1;
                end loop;
             end if;
@@ -176,6 +191,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
                if Byte_At (Data, Position) in '+' | '-' then Position := Position + 1; end if;
                if Position >= Data'Length or else Byte_At (Data, Position) not in '0' .. '9' then return; end if;
                while Position < Data'Length and then Byte_At (Data, Position) in '0' .. '9' loop
+                  pragma Loop_Invariant (Position >= Position'Loop_Entry);
+                  pragma Loop_Variant (Increases => Position);
                   Position := Position + 1;
                end loop;
             end if;
@@ -203,6 +220,7 @@ package body Worldline.Producer_Values with SPARK_Mode is
    begin
       Space (Data, Position);
       while Position < Key.First - 1 loop
+         pragma Loop_Variant (Increases => Position);
          Scan (Data, Position, Prior);
          if Prior.Form /= String_Value then return False; end if;
          if Text (Data, Prior) = Text (Data, Key) then return False; end if;
@@ -220,7 +238,10 @@ package body Worldline.Producer_Values with SPARK_Mode is
    function Tree_Admitted
      (Data : String; Parent : Node; Unique_Keys, Standard_Constants : Boolean)
       return Boolean
-     with Subprogram_Variant => (Decreases => Parent.Last - Natural'Min (Parent.First,Parent.Last));
+     with Subprogram_Variant => (Decreases =>
+            (if Parent.Form = Missing then 0
+             else Long_Long_Integer (Data'Length) + 1 - Long_Long_Integer (Natural'Min (Parent.First, Data'Length)))),
+       Post => (if Parent.Form = Missing then not Tree_Admitted'Result);
    function Tree_Admitted
      (Data : String; Parent : Node; Unique_Keys, Standard_Constants : Boolean)
       return Boolean
@@ -235,6 +256,7 @@ package body Worldline.Producer_Values with SPARK_Mode is
       if Parent.Form not in Array_Value | Object_Value then return True; end if;
       Space (Data,Position);
       while Position < Parent.Last - 1 loop
+         pragma Loop_Invariant (Position >= Parent.First);
          pragma Loop_Variant (Decreases => Parent.Last - Position);
          if Parent.Form = Object_Value then
             Scan (Data,Position,Key);
@@ -268,6 +290,10 @@ package body Worldline.Producer_Values with SPARK_Mode is
       Position := Parent.First;
       Space (Data, Position);
       while Position < Parent.Last - 1 loop
+         pragma Loop_Invariant (Position >= Parent.First);
+         pragma Loop_Invariant (Found.Form = Missing or else
+           (Found.First > Parent.First and then Found.First <= Data'Length));
+         pragma Loop_Variant (Increases => Position);
          Scan (Data, Position, Key);
          if Key.Form /= String_Value then return No_Node; end if;
          Space (Data, Position);
@@ -294,6 +320,9 @@ package body Worldline.Producer_Values with SPARK_Mode is
       Position := Parent.First;
       Space (Data, Position);
       while Position < Parent.Last - 1 loop
+         pragma Loop_Invariant (Position >= Parent.First);
+         pragma Loop_Invariant (Seen <= Position - Parent.First);
+         pragma Loop_Variant (Increases => Position);
          Scan (Data, Position, Item);
          if Item.Form = Missing then return No_Node; end if;
          Seen := Seen + 1;
@@ -316,6 +345,9 @@ package body Worldline.Producer_Values with SPARK_Mode is
       Position := Parent.First;
       Space (Data, Position);
       while Position < Parent.Last - 1 loop
+         pragma Loop_Invariant (Position >= Parent.First);
+         pragma Loop_Invariant (Seen <= Position - Parent.First);
+         pragma Loop_Variant (Increases => Position);
          Scan (Data, Position, Item);
          if Item.Form = Missing then return 0; end if;
          Unique := Parent.Form /= Object_Value or else First_Key (Data, Parent, Item);
@@ -336,7 +368,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
 
    function Text (Data : String; Item : Node) return String is
       Output : String (1 .. (if Item.Form = String_Value and then Item.First > 0 and then
-        Item.Last >= Item.First and then Item.Last <= Data'Length then Item.Last - Item.First + 1 else 0));
+        Item.Last >= Item.First and then Item.Last <= Data'Length then Item.Last - Item.First + 1 else 0)) :=
+        [others => Character'Val (0)];
       Used : Natural := 0;
       Position, Code, Low : Natural;
       C : Character;
@@ -361,6 +394,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
         Item.Last - Item.First < 1 then return ""; end if;
       Position := Item.First;
       while Position < Item.Last - 1 loop
+         pragma Loop_Invariant (Position >= Item.First and then Used <= Position - Item.First);
+         pragma Loop_Variant (Increases => Position);
          C := Byte_At (Data, Position);
          if C = '\' then
             Position := Position + 1;
@@ -460,7 +495,7 @@ package body Worldline.Producer_Values with SPARK_Mode is
       declare
          Arena : P.Bytes (1 .. P.Count (Token'Length));
       begin
-         for K in Token'Range loop Arena (P.Count (K - Token'First + 1)) := P.Byte (Character'Pos (Token (K))); end loop;
+         for K in Arena'Range loop Arena (K) := P.Byte (Character'Pos (Token (Token'First + Integer (K - 1)))); end loop;
          declare
             N : constant Exact_Decimal.Number := Exact_Decimal.Parse (Arena,(1,Arena'Length),0);
          begin
@@ -501,6 +536,9 @@ package body Worldline.Producer_Values with SPARK_Mode is
       Position := Parent.First;
       Space (Data, Position);
       while Position < Parent.Last - 1 loop
+         pragma Loop_Invariant (Position >= Parent.First);
+         pragma Loop_Invariant (Seen <= Position - Parent.First);
+         pragma Loop_Variant (Increases => Position);
          Scan (Data, Position, Key);
          if Key.Form /= String_Value then return No_Node; end if;
          if First_Key (Data, Parent, Key) then

@@ -65,9 +65,10 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       return Result;
    end Raw_String;
    function Bytes (Text : String) return E.Bytes is
-      Result : E.Bytes (1 .. E.Count (Text'Length));
+      Result : E.Bytes (1 .. E.Count (Text'Length)) with Relaxed_Initialization;
    begin
       for I in Text'Range loop
+         pragma Loop_Invariant (for all K in 1 .. E.Count (I - Text'First) => Result (K)'Initialized);
          Result (1 + E.Count (I - Text'First)) := Character'Pos (Text (I));
       end loop;
       return Result;
@@ -113,6 +114,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       A, B, C : Natural;
    begin
       while I < Raw'Length loop
+         pragma Loop_Variant (Increases => I);
          A := Natural (Raw (Raw'First + I));
          B := (if I + 1 < Raw'Length then Natural (Raw (Raw'First + I + 1)) else 0);
          C := (if I + 2 < Raw'Length then Natural (Raw (Raw'First + I + 2)) else 0);
@@ -170,14 +172,16 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             elsif At_Layer = E.Finalization_Record or else N.Form = E.Record_Value
             then E.Finalization else At_Layer));
       end Key;
-      function Value (I : E.Count) return E.Span is
+      function Value (I : E.Count) return E.Span
+        with Post => Value'Result.Length = 0 or else Value'Result.Length < Item.Length is
          Pair : constant E.Span := E.Array_Element (Data, N.Children, I);
       begin
          if At_Layer = E.Terminal then return E.Array_Element (Data, Pair, 1); end if;
          return Child (Data, Pair, 1,
            (if At_Layer = E.Finalization then E.Terminal else E.Finalization));
       end Value;
-      function Sequence (I : E.Count) return String is
+      function Sequence (I : E.Count) return String
+        with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(0), Decreases => Length - I) is
       begin
          if I = Length then return ""; end if;
          return (if I = 0 then "" else ",") &
@@ -238,8 +242,10 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       function Merge (Left, Right : String) return String is
         (if Left'Length = 0 then Right elsif Right'Length = 0 then Left else Left & "," & Right);
       function Walk (Source : E.Bytes; Item : E.Span; L : E.Layer;
-         Decode_Payload : Boolean := False; Journal : Boolean := False) return String;
-      function Journal_Inputs (Source : E.Bytes; Item : E.Span; L : E.Layer) return String is
+         Decode_Payload : Boolean := False; Journal : Boolean := False) return String
+        with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(2), Decreases => E.Count'(0));
+      function Journal_Inputs (Source : E.Bytes; Item : E.Span; L : E.Layer) return String
+        with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0)) is
          N : constant E.View := E.Decode (Source, Item, L);
       begin
          if N.Form /= E.Bytes_Value or else not E.Bytes_Valid (Source, N.Payload) then return ""; end if;
@@ -248,7 +254,9 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             Parsed : constant Worldline.Raw_JSON.Decoded_JSON :=
               Worldline.Raw_JSON.Decode_JSON (Raw, (Raw'First, Raw'Length));
             Events : constant String := V.Field (V.Field (Parsed.Data, "body"), "events");
-            function Event_Inputs (I : Natural) return String is
+            function Event_Inputs (I : Natural) return String
+              with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(0),
+                                          Decreases => E.Count (V.Count (Events)) - E.Count (I)) is
             begin
                if not Parsed.Valid or else I >= V.Count (Events) then return ""; end if;
                declare
@@ -273,7 +281,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          Decode_Payload : Boolean := False; Journal : Boolean := False) return String is
          N : constant E.View := E.Decode (Source, Item, L);
          Length : constant E.Count := E.Array_Length (Source, N.Children);
-         function Value (I : E.Count) return E.Span is
+         function Value (I : E.Count) return E.Span
+           with Post => Value'Result.Length = 0 or else Value'Result.Length < Item.Length is
             Pair : constant E.Span := E.Array_Element (Source, N.Children, I);
          begin
             if L = E.Terminal then return E.Array_Element (Source, Pair, 1); end if;
@@ -294,7 +303,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
               (if L = E.Finalization then E.Terminal
                elsif L = E.Finalization_Record or else N.Form = E.Record_Value then E.Finalization else L));
          end Name;
-         function Members (I : E.Count) return String is
+         function Members (I : E.Count) return String
+           with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => Length - I) is
          begin
             if I = Length then return ""; end if;
             if N.Form in E.Object_Value | E.Record_Value then
@@ -412,9 +422,10 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    end Digest;
    function Hex (Hash : Worldline.Hash) return String is
       Hex_Digits : constant String := "0123456789abcdef";
-      Result : String (1 .. Hash'Length * 2);
+      Result : String (1 .. Hash'Length * 2) with Relaxed_Initialization;
    begin
       for I in Hash'Range loop
+         pragma Loop_Invariant (for all K in 1 .. (I - Hash'First) * 2 => Result (K)'Initialized);
          Result (1 + (I - Hash'First) * 2) := Hex_Digits (1 + Integer (Hash (I)) / 16);
          Result (2 + (I - Hash'First) * 2) := Hex_Digits (1 + Integer (Hash (I)) mod 16);
       end loop;
@@ -423,14 +434,16 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    function Hash_Id (Text : String) return String is ("sha256:" & Hex (Digest (Text)));
    function Get (Data, Name : String) return String is
      (if V.Kind (V.Field (Data, Name)) = V.Missing then "null" else V.Field (Data, Name));
-   function Canonical_JSON (Value : String; Drop : String := "") return String is
+   function Canonical_JSON (Value : String; Drop : String := "") return String
+     with Subprogram_Variant => (Decreases => Value'Length, Decreases => Natural'(1), Decreases => Natural'(0)) is
       Root : constant V.Node := V.Parse (Value);
       N : constant Natural := V.Count (Value, Root);
       type Order_Array is array (Positive range <>) of Positive;
       Order : Order_Array (1 .. N);
       function Member (I : Positive) return String is
         (V.Member_Name (Value, Root, I));
-      function Rest (I : Positive; First : Boolean) return String is
+      function Rest (I : Positive; First : Boolean) return String
+        with Subprogram_Variant => (Decreases => Value'Length, Decreases => Natural'(0), Decreases => N - I) is
       begin
          if I > N then return ""; end if;
          if Root.Form = V.Object_Value and then Member (Order (I)) = Drop then
@@ -465,7 +478,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    end Canonical_JSON;
    function Policy_Value (Requirement : String) return String is
       Root : constant V.Node := V.Parse (Requirement);
-      function Members (I : Positive; First : Boolean) return String is
+      function Members (I : Positive; First : Boolean) return String
+        with Subprogram_Variant => (Decreases => V.Count (Requirement, Root) - I) is
       begin
          if I > V.Count (Requirement, Root) then return ""; end if;
          declare Name : constant String := V.Member_Name (Requirement, Root, I); begin
@@ -498,7 +512,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    procedure Put (Data : E.Bytes; Item : E.Span; Arena : in out E.Bytes;
                   Result : out T.Span; Valid : in out Boolean;
                   L : E.Layer := E.Recovery; Integer_Allowed : Boolean := False;
-                  Expected_Form : E.Value_Kind := E.Bytes_Value) is
+                  Expected_Form : E.Value_Kind := E.Bytes_Value) with Always_Terminates is
       N : constant E.View := E.Decode (Data, Item, L);
    begin
       Result := (Item.First, 0);
@@ -517,7 +531,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    procedure Read_Requirement (Data : E.Bytes; Item : E.Span;
       Arena : in out E.Bytes; Valid : in out Boolean;
       Result : out T.Optional_Requirement; L : E.Layer := E.Recovery;
-      Expected_Form : E.Value_Kind := E.Bytes_Value) is
+      Expected_Form : E.Value_Kind := E.Bytes_Value) with Always_Terminates is
       S : T.Span;
    begin
       if Is_Null (Data, Item, L) then Result := (Present => False); return; end if;
@@ -526,7 +540,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    end Read_Requirement;
    procedure Read_Binding (Data : E.Bytes; Item : E.Span; Arena : in out E.Bytes;
       Valid : in out Boolean; Result : out T.Attempt_Binding;
-      L : E.Layer := E.Recovery) is
+      L : E.Layer := E.Recovery) with Always_Terminates is
       Store, Subject, Content, Run, Epoch : T.Span;
       Req : T.Optional_Requirement;
    begin
@@ -541,7 +555,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    end Read_Binding;
    procedure Read_Cursor (Data : E.Bytes; Item : E.Span; Arena : in out E.Bytes;
       Valid : in out Boolean; Result : out T.Cursor;
-      L : E.Layer := E.Recovery; Record_Form : Boolean := False) is
+      L : E.Layer := E.Recovery; Record_Form : Boolean := False) with Always_Terminates is
       Epoch, Run : T.Span;
    begin
       if Is_Null (Data, Item, L) then Result := (Present => False); return; end if;
@@ -597,7 +611,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    end Record_Is;
    procedure Read_Terminal (Data : E.Bytes; Item : E.Span; Arena : in out E.Bytes;
       Valid : in out Boolean; Result : out T.Terminal_Record;
-      L : E.Layer := E.Recovery) is
+      L : E.Layer := E.Recovery) with Always_Terminates is
       B : T.Attempt_Binding;
       Source, Context : T.Span;
    begin
@@ -612,7 +626,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    end Read_Terminal;
    procedure Read_Summary (Data : E.Bytes; Item : E.Span; Arena : in out E.Bytes;
       Valid : in out Boolean; Result : out H.Evaluation_Record;
-      L : E.Layer := E.Recovery) is
+      L : E.Layer := E.Recovery) with Always_Terminates is
       Subject, Content, Run, Epoch : T.Span;
       Req : T.Optional_Requirement;
       Native_Requirement : H.Optional_Requirement;
@@ -677,7 +691,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       return Empty;
    end Stream_For;
    function Terminal_Encoding (Data : E.Bytes; Item : E.Span;
-      L : E.Layer := E.Recovery) return String;
+      L : E.Layer := E.Recovery) return String
+     with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0));
    function String_Encoding (Value : String) return String;
    function Lifted (Tag, Value : String) return String;
    function Terminal_Value_Valid (Data : E.Bytes; Item : E.Span) return Boolean
@@ -861,7 +876,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       L : E.Layer := E.Recovery; Finalization : Boolean := False;
       Final_Binding : T.Attempt_Binding :=
         ((1, 0), (1, 0), (1, 0), (1, 0), (1, 0), (Present => False));
-      Facts_Data : E.Bytes; Capsules : E.Span) is
+      Facts_Data : E.Bytes; Capsules : E.Span) with Always_Terminates is
       Payload : constant String := Stored_JSON (Data, Field (Data, Item, "payload", L), L);
       Declared : constant String := Stored_JSON (Data, Field (Data, Item, "declared", L), L);
       Produced : constant EP.Produced_Record :=
@@ -956,7 +971,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       end Has_Agent;
       function Names (I : Natural) return String is
         (if I = V.Count (Required) then "" else (if I = 0 then "" else ",") &
-         V.Element (Required, I) & Names (I + 1));
+         V.Element (Required, I) & Names (I + 1))
+        with Subprogram_Variant => (Decreases => V.Count (Required) - I);
       Add_Agent : constant Boolean := Agent_Required and then not Has_Agent;
       Modified : constant Boolean := V.Count (Additional) > 0;
    begin
@@ -971,7 +987,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    function Plan_Length (Plan : String; Completion : Boolean := True) return E.Count is
       Required : constant String := V.Field (Plan, "required");
       Size : E.Count := 0;
-      procedure Add (Name : String) is
+      procedure Add (Name : String) with Always_Terminates is
          D : constant String := Declaration_Encoding (Plan_Declaration (Plan, Name));
       begin
          if E.Count (Name'Length) > E.Count'Last - Size then Size := E.Count'Last; return; end if;
@@ -985,7 +1001,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       return Size;
    end Plan_Length;
    procedure Append (Arena : in out E.Bytes; Position : in out E.Count;
-      Value : String; Result : out T.Span; Valid : in out Boolean) is
+      Value : String; Result : out T.Span; Valid : in out Boolean) with Always_Terminates is
    begin
       Result := (Position, E.Count (Value'Length));
       if Position not in Arena'Range or else Result.Length > Arena'Last - Position + 1
@@ -1015,7 +1031,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       Required : constant E.Span := Field (Data, Start, "required", L);
       function Names (I : E.Count) return String is
         (if I = Count (Data, Required, L) then "" else (if I = 0 then "" else ",") &
-         V.Quote (Scalar (Data, Child (Data, Child (Data, Required, I, L), 0, L), L)) & Names (I + 1));
+         V.Quote (Scalar (Data, Child (Data, Child (Data, Required, I, L), 0, L), L)) & Names (I + 1))
+        with Subprogram_Variant => (Decreases => Count (Data, Required, L) - I);
    begin
       return "{""status"":" & Get (Native, "status") & ",""required"":[" & Names (0) &
         "],""empty"":" & Get (Native, "empty") & ",""declarations"":" &
@@ -1027,7 +1044,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       Found : constant E.Span := Field (Data, Material, "finalization", At_Layer);
       Size : E.Count := Data'Length;
       Valid : Boolean := True;
-      procedure Add (Length : E.Count) is
+      procedure Add (Length : E.Count) with Always_Terminates is
       begin
          if Length > E.Count'Last - Size then Valid := False; else Size := Size + Length; end if;
       end Add;
@@ -1079,9 +1096,9 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    procedure Plan_Checks (Plan : String; Arena : in out E.Bytes;
       Position : in out E.Count; Checks : out R.Check_Array;
       Completion : out R.Required_Check; Valid : in out Boolean;
-      Include_Completion : Boolean := True) is
+      Include_Completion : Boolean := True) with Always_Terminates is
       Required : constant String := V.Field (Plan, "required");
-      procedure Build (Name : String; Result : out R.Required_Check) is
+      procedure Build (Name : String; Result : out R.Required_Check) with Always_Terminates is
          Name_Span, Declared : T.Span;
       begin
          Append (Arena, Position, Name, Name_Span, Valid);
@@ -1089,16 +1106,19 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          Result := (T.Check_Identity (Name_Span), T.Captured_Bytes (Declared));
       end Build;
    begin
-      if Checks'Length /= V.Count (Required) then Valid := False; return; end if;
+      if Checks'Length /= V.Count (Required) then
+         Checks := (others => ((1, 0), (1, 0))); Completion := ((1, 0), (1, 0));
+         Valid := False; return;
+      end if;
       for I in Checks'Range loop Build (V.Text (V.Element (Required, Natural (I - Checks'First))), Checks (I)); end loop;
       if Include_Completion then Build ("evaluation-complete", Completion);
       else Completion := ((1, 0), (1, 0)); end if;
    end Plan_Checks;
-   procedure Classify_Terminal (Data : E.Bytes; Capture, Typed, Stream : E.Span;
+   procedure Classify_Terminal (Data : E.Bytes; Capture, Typed : E.Span;
       Arena : in out E.Bytes; Position : in out E.Count; Valid : in out Boolean;
       Classification : out R.Classification; Saved_Capture : T.Terminal_Record;
       Measured : R.Measured_Array;
-      L : E.Layer := E.Recovery) is
+      L : E.Layer := E.Recovery) with Always_Terminates is
       Rows : R.Measured_Array renames Measured;
       Payload : constant String := (if Rows'Length = 0 then "null" else Stored_JSON
         (Data, Field (Data, Child (Data, Typed, Rows'Length - 1, L), "payload", L), L));
@@ -1137,8 +1157,12 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
           Scalar (Data, Field (Data, Field (Data, Capture, "bound", L), "requirement", L), L)
       then Valid := False; return; end if;
       if V.Kind (V.Field (Initial, "evaluationEpoch")) /= V.Integer_Value
-        or else V.Decimal (Initial, V.Field (Initial, V.Parse (Initial), "evaluationEpoch"))'Length = 0
-        or else V.Decimal (Initial, V.Field (Initial, V.Parse (Initial), "evaluationEpoch")) (1) = '-'
+        --  Decimal returns the value's own slice of Initial, positioned where the
+        --  value occurs; its sign is the slice's first character, not index 1.
+        or else (declare
+                   Epoch : constant String :=
+                     V.Decimal (Initial, V.Field (Initial, V.Parse (Initial), "evaluationEpoch"));
+                 begin Epoch'Length = 0 or else Epoch (Epoch'First) = '-')
         or else V.Kind (V.Field (Initial, "storeId")) /= V.String_Value
         or else V.Kind (V.Field (Initial, "run")) /= V.String_Value
         or else V.Kind (V.Field (V.Field (Initial, "measurement"), "worldInstance")) /= V.String_Value
@@ -1150,9 +1174,12 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          Store, Subject_Id, Content, Run, Epoch, Requirement_Id : T.Span;
          Epoch_Bytes : constant E.Bytes := Measured_Epoch
            (Data, Field (Data, Child (Data, Typed, Rows'Length - 1, L), "payload", L), L);
-         Epoch_Text : String (1 .. Epoch_Bytes'Length);
+         Epoch_Text : String (1 .. Epoch_Bytes'Length) with Relaxed_Initialization;
       begin
-         for I in Epoch_Bytes'Range loop Epoch_Text (Integer (I - Epoch_Bytes'First) + 1) := Character'Val (Epoch_Bytes (I)); end loop;
+         for I in Epoch_Bytes'Range loop
+            pragma Loop_Invariant (for all K in 1 .. Integer (I - Epoch_Bytes'First) => Epoch_Text (K)'Initialized);
+            Epoch_Text (Integer (I - Epoch_Bytes'First) + 1) := Character'Val (Epoch_Bytes (I));
+         end loop;
          Append (Arena, Position, V.Text (V.Field (Initial, "storeId")), Store, Valid);
          Append (Arena, Position, V.Text (V.Field (V.Field (Initial, "measurement"), "worldInstance")), Subject_Id, Valid);
          Append (Arena, Position, V.Text (V.Field (V.Field (Initial, "measurement"), "contentId")), Content, Valid);
@@ -1180,7 +1207,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       return T.E.Incomplete_Unknown;
    end Carried_State;
    procedure Read_Hash (Data : E.Bytes; Item : E.Span; Result : out Worldline.Hash;
-                        Valid : in out Boolean; L : E.Layer := E.Recovery) is
+                        Valid : in out Boolean; L : E.Layer := E.Recovery) with Always_Terminates is
       Raw : constant E.Bytes := Stored_Encoding (Data, Item, L);
    begin
       Result := Worldline.Zero_Hash;
@@ -1282,10 +1309,9 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
         else RA.Equal_Operation (Data, Expected, Item, (Expected'First, Expected'Length)));
    end Material_Promotion_Matches;
    procedure Read_Start (Data : E.Bytes; Item : E.Span; Arena : in out E.Bytes;
-      Position : in out E.Count; Plans : out R.Check_Array;
+      Plans : out R.Check_Array;
       Start : out FZ.Start_Record; Valid : in out Boolean;
-      L : E.Layer := E.Recovery) is
-      pragma Unreferenced (Position);
+      L : E.Layer := E.Recovery) with Always_Terminates is
       Store, Subject, Run, Epoch, Policy, Verifiers, Context : T.Span;
       Req : T.Optional_Requirement;
       Parent, Config, Repository : Worldline.Hash;
@@ -1337,7 +1363,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       then Valid := False; end if;
    end Read_Start;
    function Tree_Equal (Left_Data : E.Bytes; Left : E.Span; LL : E.Layer;
-      Right_Data : E.Bytes; Right : E.Span; RL : E.Layer) return Boolean;
+      Right_Data : E.Bytes; Right : E.Span; RL : E.Layer) return Boolean
+     with Subprogram_Variant => (Decreases => Left.Length);
    function Event_Start (Data : E.Bytes; Events : E.Span; Invocation : String;
       Before : E.Count; L : E.Layer) return E.Span is
    begin
@@ -1351,10 +1378,10 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       return Empty;
    end Event_Start;
    procedure Classify_Finalization (Data : E.Bytes; Found, World : E.Span;
-      Arena : in out E.Bytes; Position : in out E.Count; Finalization : out H.Optional_Record;
+      Arena : in out E.Bytes; Finalization : out H.Optional_Record;
       Current : out T.Cursor; Valid : in out Boolean;
       Promotion : out Boolean; L : E.Layer := E.Recovery;
-      Facts_Data : E.Bytes; Capsules : E.Span) is
+      Facts_Data : E.Bytes; Capsules : E.Span) with Always_Terminates is
       Start_Item : constant E.Span := Child (Data, Found, 0, L);
       Sealed : constant E.Span := Child (Data, Found, 1, L);
       Events : constant E.Span := Child (Data, Found, 2, L);
@@ -1377,7 +1404,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       if E.Decode (Data, Found, L).Form /= E.Tuple_Value or else Count (Data, Found, L) /= 3
         or else E.Decode (Data, Events, L).Form /= E.Tuple_Value
       then Valid := False; return; end if;
-      Read_Start (Data, Start_Item, Arena, Position, Plans, Start, Valid, L);
+      Read_Start (Data, Start_Item, Arena, Plans, Start, Valid, L);
       if Scalar (Data, Field (Data, Start_Item, "subject", L), L) /=
         Scalar (Data, Field (Data, World, "instance_id", L), L) then Valid := False; end if;
       Current := (True, Start.Run, Start.Sequence);
@@ -1573,14 +1600,14 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       Finalization : out H.Optional_Record; Current : out H.Optional_Cursor;
       Valid : out Boolean; Promotions : out Boolean_Array;
       Final_Promotion : out Boolean; L : E.Layer := E.Recovery;
-      Facts_Data : E.Bytes; Capsules : E.Span) is
+      Facts_Data : E.Bytes; Capsules : E.Span) with Always_Terminates is
       Terminal_Material : constant E.Span := Field (Data, Material, "terminal", L);
       Intents : constant E.Span := Child (Data, Terminal_Material, 0, L);
       Material_Rows : constant E.Span := Child (Data, Terminal_Material, 2, L);
       Streams : constant E.Span := Child (Data, Terminal_Material, 3, L);
       Pending : constant E.Span := Field (Data, Material, "pending_store", L);
       Journal : T.R.Journal (1 .. Count (Data, Intents, L)) with Relaxed_Initialization;
-      Stored_Rows : H.History (Rows'Range);
+      Stored_Rows : H.History (Rows'Range) with Relaxed_Initialization;
       TC, FC : T.Cursor;
       Retained_Count : E.Count := 0;
       Position : E.Count := (if Data'Last = E.Count'Last then Data'Last else Data'Last + 1);
@@ -1588,7 +1615,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    begin
       Valid := Needed > 0 and then Arena'First = Data'First and then Arena'Length >= Needed
         and then Rows'Length = Row_Count (Data, Material, L)
-        and then Material_Record_Is (Data, Material, "worldline.evaluation_authority", "AuthorityMaterial", L)
+        and then Material_Record_Is (Data, Material, "worldline.recovery_material", "AuthorityMaterial", L)
         and then E.Decode (Data, Terminal_Material, L).Form = E.Tuple_Value
         and then Count (Data, Terminal_Material, L) = 4
         and then E.Decode (Data, Intents, L).Form = E.Tuple_Value
@@ -1618,10 +1645,17 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          end;
       end loop;
       for I in Journal'Range loop
+         pragma Loop_Invariant (if Retained_Count > 0 then
+           (for all K in Journal'First .. I - 1 => Journal (K)'Initialized));
+         pragma Loop_Invariant (for all K in Journal'First .. I - 1 =>
+           Stored_Rows (Rows'First + (K - Journal'First))'Initialized);
          declare
             Intent : constant E.Span := Child (Data, Intents, I - Journal'First, L);
             Row : constant E.Span := Child (Data, Material_Rows, I - Journal'First, L);
             Summary : constant E.Span := Child (Data, Row, 0, L);
+            --  The I-th intent pairs with the I-th row whatever the caller's
+            --  History bounds are; Journal'Length = Rows'Length was checked.
+            Slot : constant H.Byte_Index := Rows'First + (I - Journal'First);
          begin
             if not Material_Record_Is (Data, Intent, "worldline.pending_kernel_v2", "Intent", L)
               or else E.Decode (Data, Field (Data, Intent, "linked", L), L).Form /= E.Boolean_Value
@@ -1629,11 +1663,11 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
               or else not Same (Data, Field (Data, Intent, "store_id", L), Pending, L)
               or else not Material_Identity_Matches (Data, Summary, Intent, L)
             then Valid := False; return; end if;
-            Read_Summary (Data, Summary, Arena, Valid, Stored_Rows (I), L);
+            Read_Summary (Data, Summary, Arena, Valid, Stored_Rows (Slot), L);
             if Is_Null (Data, Child (Data, Row, 1, L), L) then
-               if Stored_Rows (I).State /= H.Pending or else Stored_Rows (I).Outcome /= H.No_Verdict
+               if Stored_Rows (Slot).State /= H.Pending or else Stored_Rows (Slot).Outcome /= H.No_Verdict
                then Valid := False; return; end if;
-               Rows (I) := Stored_Rows (I);
+               Rows (Slot) := Stored_Rows (Slot);
             end if;
             --  The original producer calls Completion.Decide only when there
             --  is a retained capture. A wholly pending journal does not acquire
@@ -1666,8 +1700,6 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
                end;
             end if;
          end;
-         pragma Loop_Invariant (if Retained_Count > 0 then
-           (for all K in Journal'First .. I => Journal (K)'Initialized));
       end loop;
       if not Valid or else not Material_Stream_Domain (Data, Streams, Material_Rows, L)
       then Valid := False; return; end if;
@@ -1688,8 +1720,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
                      Capture : constant E.Span := Child (Data, Retained, 1, L);
                      Typed : constant E.Span := Child (Data, Retained, 2, L);
                      Stream : constant E.Span := Stream_For (Data, Streams, Field (Data, Summary, "run", L), L);
-                     Measured : R.Measured_Array (1 .. Count (Data, Typed, L));
-                     Saved_Results : T.Result_Array (Measured'Range);
+                     Measured : R.Measured_Array (1 .. Count (Data, Typed, L)) with Relaxed_Initialization;
+                     Saved_Results : T.Result_Array (Measured'Range) with Relaxed_Initialization;
                      Invocations : constant E.Span := Child (Data, Child (Data, Stream, 0, L), 1, L);
                      Captured : T.Terminal_Record;
                      Classified : R.Classification;
@@ -1708,6 +1740,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
                      then Valid := False; return; end if;
                      Read_Terminal (Data, Capture, Arena, Valid, Captured, L);
                      for J in Measured'Range loop
+                        pragma Loop_Invariant (for all K in Measured'First .. J - 1 =>
+                          Measured (K)'Initialized and then Saved_Results (K)'Initialized);
                         declare Item : constant E.Span := Child (Data, Typed, J - Measured'First, L); begin
                            if not Material_Record_Is (Data, Item, "worldline.completion_kernel", "CheckValue", L)
                            then Valid := False; return; end if;
@@ -1730,7 +1764,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
                          T.Span (Captured.Binding.Run))
                        or else not T.Retained_Summary_Matches (Arena, Stored_Rows (I), (True, Captured))
                      then Valid := False; return; end if;
-                     Classify_Terminal (Data, Capture, Typed, Stream, Arena, Position, Valid,
+                     Classify_Terminal (Data, Capture, Typed, Arena, Position, Valid,
                        Classified, Captured, Measured, L);
                      Rows (I) := (Stored_Rows (I) with delta
                        State => (if Classified.State = W.E.Completed then H.Completed else H.Error),
@@ -1743,7 +1777,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          end loop;
       end if;
       Classify_Finalization (Data, Field (Data, Material, "finalization", L), World,
-        Arena, Position, Finalization, FC, Valid, Final_Promotion, L, Facts_Data, Capsules);
+        Arena, Finalization, FC, Valid, Final_Promotion, L, Facts_Data, Capsules);
       Current := History_Cursor (if TC.Present then TC else FC);
    end Collect;
    procedure Classify_All
@@ -1772,7 +1806,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          elsif Layer = E.Finalization then return Scalar (Data, Child (Data, Pair, 0, E.Terminal), E.Terminal);
          else return Scalar (Data, Child (Data, Pair, 0, E.Finalization), Layer); end if;
       end Pair_Key;
-      function Pair_Value (Data : E.Bytes; Pair : E.Span; Layer : E.Layer) return E.Span is
+      function Pair_Value (Data : E.Bytes; Pair : E.Span; Layer : E.Layer) return E.Span
+        with Post => Pair_Value'Result.Length = 0 or else Pair_Value'Result.Length < Pair.Length is
       begin
          if Layer = E.Terminal then
             return E.Array_Element (Data, Pair, 1);
@@ -1816,7 +1851,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    begin return Tree_Equal (Data, Saved, L, Raw, (Raw'First, Raw'Length), E.Terminal); end Stored_Matches;
    function Terminal_Field (Raw : E.Bytes; Item : E.Span; Name : String) return E.Span is
      (Field (Raw, Item, Name, E.Terminal));
-   function Final_Stream_Matches (Data : E.Bytes; Stream, Found, Observed : E.Span;
+   function Final_Stream_Matches (Data : E.Bytes; Stream, Found : E.Span;
                                   L : E.Layer := E.Recovery) return Boolean is
       Events : constant E.Span := Child (Data, Found, 2, L);
       Header : constant E.Span := Child (Data, Child (Data, Stream, 0, L), 0, L);
@@ -1971,7 +2006,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             if not Stored_Matches (Data, Result.Context, Field (Data, Capture, "context"))
               or else not Tree_Equal (Data, Child (Data, Child (Data, Stream, 0), 0), E.Recovery,
                  Payload, Initial, E.Terminal)
-              or else not Final_Stream_Matches (Data, Stream, Found, Result.Observed) then return; end if;
+              or else not Final_Stream_Matches (Data, Stream, Found) then return; end if;
          elsif not Same (Data, Field (Data, Saved, "retainedStream"), Stream) then return; end if;
       end;
       Result.Valid := True;
@@ -2129,7 +2164,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
         Derive_Original (Payload, Engine_Declaration (True), Facts_Data, Capsules));
    end Agent_Matches;
    function Agent_Admitted (Data : E.Bytes; Agent : E.Span) return Boolean is
-      Raw : W.Raw_Record := W.Zero_Record;
+      Raw : W.Raw_Record;
       Enc : constant E.Bytes := Stored_Encoding (Data, Field (Data, Agent, "raw"));
       C : constant String := JSON (Data, Field (Data, Agent, "confinement"));
       Confinement : W.Byte;
@@ -2144,8 +2179,10 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    end Agent_Admitted;
    function Content_Root (Manifests : String) return String is
       M : constant V.Node := V.Parse (Manifests);
-      function Entries (Rows : String; I : Natural) return String is
-         function Project (Row : String; K : Positive; First : Boolean) return String is
+      function Entries (Rows : String; I : Natural) return String
+        with Subprogram_Variant => (Decreases => V.Count (Rows) - I) is
+         function Project (Row : String; K : Positive; First : Boolean) return String
+           with Subprogram_Variant => (Decreases => 9 - K) is
             function Name (J : Positive) return String is
               (case J is when 1 => "acls", when 2 => "contentHash", when 3 => "mode",
                when 4 => "pathB64", when 5 => "size", when 6 => "targetB64",
@@ -2160,7 +2197,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          if I = V.Count (Rows) then return ""; end if;
          return (if I = 0 then "" else ",") & "{" & Project (V.Element (Rows, I), 1, True) & "}" & Entries (Rows, I + 1);
       end Entries;
-      function Roots (I : Positive) return String is
+      function Roots (I : Positive) return String
+        with Subprogram_Variant => (Decreases => V.Count (Manifests, M) - I) is
       begin
          if I > V.Count (Manifests, M) then return ""; end if;
          declare Name : constant String := V.Member_Name (Manifests, M, I);
@@ -2180,11 +2218,15 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
         (if C in '0' .. '9' then Character'Pos (C) - Character'Pos ('0')
          elsif C in 'a' .. 'f' then 10 + Character'Pos (C) - Character'Pos ('a')
          elsif C in 'A' .. 'F' then 10 + Character'Pos (C) - Character'Pos ('A') else -1);
-      function Part (I : Natural) return String is
+      function Part (I : Natural) return String
+        with Subprogram_Variant => (Decreases => Value'Length - I) is
          J : Natural := I;
       begin
          while J < Value'Length and then Value (Value'First + J) in ' ' | Character'Val (9) | Character'Val (10) |
-           Character'Val (11) | Character'Val (12) | Character'Val (13) loop J := J + 1; end loop;
+           Character'Val (11) | Character'Val (12) | Character'Val (13) loop
+            pragma Loop_Variant (Increases => J);
+            J := J + 1;
+         end loop;
          if J = Value'Length then return ""; end if;
          if J + 1 >= Value'Length or else Digit (Value (Value'First + J)) < 0
            or else Digit (Value (Value'First + J + 1)) < 0 then return ""; end if;
@@ -2208,16 +2250,18 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          (Component (I, "rootKey") = Component (J, "rootKey") and then
           (Component (I, "path") < Component (J, "path") or else
            (Component (I, "path") = Component (J, "path") and then Component (I, "sha256") < Component (J, "sha256")))));
-      function Part (I : Natural; First : Boolean) return String is
+      function Part (I : Natural; First : Boolean) return String
+        with Subprogram_Variant => (Decreases => N - I) is
       begin
          if I = N then return ""; end if;
          if not Included (Order (I)) then return Part (I + 1, First); end if;
          declare Content : constant String := Component (Order (I), "sha256");
             Raw : constant String := Hex_Bytes (Content, False);
             Hex_Digits : constant String := "0123456789abcdef";
-            Hexed : String (1 .. Raw'Length * 2);
+            Hexed : String (1 .. Raw'Length * 2) with Relaxed_Initialization;
          begin
             for K in Raw'Range loop
+               pragma Loop_Invariant (for all Idx in 1 .. (K - Raw'First) * 2 => Hexed (Idx)'Initialized);
                Hexed (1 + (K - Raw'First) * 2) := Hex_Digits (1 + Character'Pos (Raw (K)) / 16);
                Hexed (2 + (K - Raw'First) * 2) := Hex_Digits (1 + Character'Pos (Raw (K)) mod 16);
             end loop;
@@ -2249,7 +2293,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
           (Component (I, 1) < Component (J, 1) or else
            (Component (I, 1) = Component (J, 1) and then
             Component (I, 2) < Component (J, 2)))));
-      function Parts (I : Natural) return String is
+      function Parts (I : Natural) return String
+        with Subprogram_Variant => (Decreases => N - I) is
       begin
          if I = N then return ""; end if;
          return Component (Order (I), 0) & Character'Val (0) &
@@ -2272,7 +2317,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    function FS_Path (Raw : E.Bytes) return String is
       package TX renames Worldline.Archive_Text;
       Hex_Digits : constant String := "0123456789abcdef";
-      function Part (I : E.Count) return String is
+      function Part (I : E.Count) return String
+        with Subprogram_Variant => (Decreases => Raw'Length - I) is
          Width : E.Count;
       begin
          if I = Raw'Length then return ""; end if;
@@ -2292,7 +2338,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       type Order_Array is array (E.Count range <>) of E.Count;
       Order : Order_Array (0 .. N - 1);
       function Name (I : E.Count) return String is (Scalar (Data, Field (Data, Child (Data, Roots, I), "root_key")));
-      function Parts (I : E.Count) return String is
+      function Parts (I : E.Count) return String
+        with Subprogram_Variant => (Decreases => N - I) is
       begin
          if I = N then return ""; end if;
          declare Row : constant E.Span := Child (Data, Roots, Order (I));
@@ -2415,7 +2462,9 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    function Terminal_Encoding (Data : E.Bytes; Item : E.Span;
                                L : E.Layer := E.Recovery) return String is
       N : constant E.View := E.Decode (Data, Item, L);
-      function Parts (I : E.Count) return String is
+      function Parts (I : E.Count) return String
+        with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(0),
+                                    Decreases => E.Array_Length (Data, N.Children) - I) is
       begin
          if I = E.Array_Length (Data, N.Children) then return ""; end if;
          declare Child_Item : constant E.Span := E.Array_Element (Data, N.Children, I); begin
@@ -2452,9 +2501,12 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
      ("[""str""," & V.Quote (Base64 (Bytes (Value))) & "]");
    function Lifted (Tag, Value : String) return String is
      ("[""array"",[" & String_Encoding (Tag) & "," & Value & "]]");
-   function Lift_Encoding (Data : E.Bytes; Item : E.Span; L : E.Layer := E.Recovery) return String is
+   function Lift_Encoding (Data : E.Bytes; Item : E.Span; L : E.Layer := E.Recovery) return String
+     with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(1), Decreases => E.Count'(0)) is
       N : constant E.View := E.Decode (Data, Item, L);
-      function Parts (I : E.Count) return String is
+      function Parts (I : E.Count) return String
+        with Subprogram_Variant => (Decreases => Item.Length, Decreases => E.Count'(0),
+                                    Decreases => E.Array_Length (Data, N.Children) - I) is
       begin
          if I = E.Array_Length (Data, N.Children) then return ""; end if;
          declare C : constant E.Span := E.Array_Element (Data, N.Children, I); begin
@@ -2639,7 +2691,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          if Need = 0 or else Need - 1 > E.Count'Last - Data'First then return Data'Last; end if;
          return Data'First + Need - 1;
       end Native_Arena_Last;
-      Arena : E.Bytes (Data'First .. Native_Arena_Last);
+      Arena_Last : constant E.Count := Native_Arena_Last;
+      Arena : E.Bytes (Data'First .. Arena_Last) := (others => 0);
       Policy_Position : E.Count :=
         (if E.Count (Root'Length + Post_Root'Length) >= E.Count'Last - Data'Last
          then Data'Last else Data'Last + 1 + E.Count (Root'Length + Post_Root'Length));
@@ -2663,7 +2716,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          return Empty;
       end Effective;
       function Members (Actual : Boolean) return String is
-         function Part (I : Natural) return String is
+         function Part (I : Natural) return String
+           with Subprogram_Variant => (Decreases => P.Required_Count (Requirement_JSON) - I) is
          begin
             if I = P.Required_Count (Requirement_JSON) then return ""; end if;
             declare Name : constant String := P.Required (Requirement_JSON, I);
@@ -2752,7 +2806,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       function Join_Parts (Left, Right : String) return String is
         (Left & (if Left'Length /= 0 and then Right'Length /= 0 then "," else "") & Right);
       function Projected_Invocations (Returns_Only : Boolean) return String is
-         function Parts (I : E.Count) return String is
+         function Parts (I : E.Count) return String
+           with Subprogram_Variant => (Decreases => Count (Data, Results) - I) is
          begin
             if I = Count (Data, Results) then return ""; end if;
             declare Row : constant E.Span := Child (Data, Results, I);
@@ -2775,7 +2830,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          function Tuple_Value (Id, Kind, Occurrence, Observation : String) return String is
            (if Finalization then Lifted ("tuple", "[""array"",[" & Id & "," & Kind & "," & Occurrence & "," & Observation & "]]")
             else "[""array"",[" & Id & "," & Kind & "," & Occurrence & "," & Observation & "]]");
-         function Actual_Parts (I : E.Count) return String is
+         function Actual_Parts (I : E.Count) return String
+           with Subprogram_Variant => (Decreases => Count (Data, Results) - I) is
          begin
             if I = Count (Data, Results) then return ""; end if;
             declare Row : constant E.Span := Child (Data, Results, I);
@@ -2783,7 +2839,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
                Raw : constant E.Bytes := Acquisition_Data (Data, Row, Finalization);
                Layer : constant E.Layer := Acquisition_Layer (Data, Row, Finalization);
                Root : constant E.Span := (Raw'First, Raw'Length);
-               function Events (J : E.Count) return String is
+               function Events (J : E.Count) return String
+                 with Subprogram_Variant => (Decreases => Count (Raw, Root, Layer) - J) is
                begin
                   if J = Count (Raw, Root, Layer) then return ""; end if;
                   declare Event : constant E.Span := Child (Raw, Root, J, Layer); begin
@@ -2799,13 +2856,15 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
                return Join_Parts (Events (0), Actual_Parts (I + 1));
             end;
          end Actual_Parts;
-         function Expected_Parts (I : E.Count) return String is
-            function Events (J : E.Count) return String is
+         function Expected_Parts (I : E.Count) return String
+           with Subprogram_Variant => (Decreases => Count (Data, Invocations) - I) is
+            function Events (J : E.Count) return String
+              with Subprogram_Variant => (Decreases => Count (Data, Acquired) - J) is
             begin
                if J = Count (Data, Acquired) then return ""; end if;
                declare Event : constant E.Span := Child (Data, Acquired, J);
                   Id : constant String := Scalar (Data, Child (Data, Event, 0));
-                  Include : Boolean := False;
+                  Include : Boolean;
                begin
                   if I < Count (Data, Invocations) then
                      Include := Id = Scalar (Data, Child (Data, Child (Data, Invocations, I), 0));
@@ -2863,7 +2922,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             function Pair (Key : String; Value : E.Span) return String is
               (if Finalization then "[""array"",[" & String_Encoding (Key) & "," & Lift_Encoding (Data, Value) & "]]"
                else "[" & V.Quote (Base64 (Bytes (Key))) & "," & Terminal_Encoding (Data, Value) & "]");
-            function Expected_Parts (J : E.Count) return String is
+            function Expected_Parts (J : E.Count) return String
+              with Subprogram_Variant => (Decreases => Count (Data, Acquired) - J) is
             begin
                if J = Count (Data, Acquired) then return ""; end if;
                declare Event : constant E.Span := Child (Data, Acquired, J);
@@ -2943,7 +3003,6 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          return Length + Plan_Length (Current_Plan, False);
       end Buffer_Length;
    begin
-      Arena (Data'Range) := (others => 0);
       Collect (Data, Material, Subject, Field (Data, Authoritative_Requirement, "requirementHash"),
         Arena, History, Final_Record, Native_Current, Source_Valid, Promotions, Final_Promotion,
         Facts_Data => Facts_Data, Capsules => Capsules);
@@ -2962,7 +3021,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             Plans : R.Check_Array (1 .. Count (Data, Field (Data, Child (Data, Found, 0), "required")));
             Content, Source, Context_Span : T.Span;
          begin
-            Read_Start (Data, Child (Data, Found, 0), Arena, Policy_Position, Plans, Start, Source_Valid);
+            Read_Start (Data, Child (Data, Found, 0), Arena, Plans, Start, Source_Valid);
             Put (Data, Field (Data, Subject, "content_id"), Arena, Content, Source_Valid, Expected_Form => E.Text_Value);
             Put (Data, Field (Data, Capture, "source"), Arena, Source, Source_Valid);
             Put (Data, Field (Data, Capture, "context"), Arena, Context_Span, Source_Valid);
@@ -2991,23 +3050,23 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       end loop;
       if not Source_Valid or else not Saved_Current.Present or else not Prior.Present then return False; end if;
       declare
-         B : E.Bytes (Data'First .. Data'First + Buffer_Length - 1);
+         B : E.Bytes (Data'First .. Data'First + Buffer_Length - 1) := (others => 0);
          Position : E.Count := Data'Last + 1;
          Expected, Actual : A.Context_Fields;
-         Joined : A.Context_Rows (Rows'Range);
-         Metadata : A.Row_Metadata_Array (Rows'Range);
+         Joined : A.Context_Rows (Rows'Range) with Relaxed_Initialization;
+         Metadata : A.Row_Metadata_Array (Rows'Range) with Relaxed_Initialization;
          Required : R.Check_Array (1 .. E.Count (V.Count (V.Field (Current_Plan, "required"))));
          Completion : R.Required_Check;
          Expected_Binding : T.Attempt_Binding;
          Store_Id, Subject_Id, Content_Id, Run, Epoch : T.Span;
          Req : T.Optional_Requirement;
-         procedure Pack (Text : String; Result : out E.Span) is
+         procedure Pack (Text : String; Result : out E.Span) with Always_Terminates is
          begin
             Result := (Position, E.Count (Text'Length));
             for I in Text'Range loop B (Position + E.Count (I - Text'First)) := Character'Pos (Text (I)); end loop;
             Position := Position + Result.Length;
          end Pack;
-         procedure Optional (Text : String; Result : out A.Optional_Bytes) is
+         procedure Optional (Text : String; Result : out A.Optional_Bytes) with Always_Terminates is
             Span : E.Span;
          begin
             if Text'Length = 0 then Result := (Present => False); return; end if;
@@ -3023,12 +3082,20 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             Pack (Context_Field_Value (K, True), Span); Actual (K) := (True, Span);
          end loop;
          for I in Rows'Range loop
+            pragma Loop_Invariant (for all K in Rows'First .. I - 1 =>
+              Joined (K)'Initialized and then Metadata (K)'Initialized);
             Joined (I).Item := Rows (I).Item;
             Joined (I).Declared := Rows (I).Declared;
             -- ContextRow owns the complete rebuilt typed declaration; a current
             -- policy substitution would wrongly discard unrelated ERROR rows.
             Joined (I).Actual_Declared := Rows (I).Declared;
             for K in A.Row_Field loop
+               pragma Loop_Invariant (for all J in Rows'First .. I - 1 =>
+                 Joined (J)'Initialized and then Metadata (J)'Initialized);
+               pragma Loop_Invariant (Joined (I).Item'Initialized and then Joined (I).Declared'Initialized
+                 and then Joined (I).Actual_Declared'Initialized);
+               pragma Loop_Invariant (for all F in A.Row_Field => (if A.Row_Field'Pos (F) < A.Row_Field'Pos (K) then
+                 Joined (I).Expected (F)'Initialized and then Joined (I).Observed (F)'Initialized));
                Optional (Row_Field_Value (I, K, False), Joined (I).Expected (K));
                Optional (Row_Field_Value (I, K, True), Joined (I).Observed (K));
             end loop;

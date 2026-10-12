@@ -11,7 +11,7 @@ from worldline.core import Core
 from worldline.custody_provision_kernel import ProvisionInputs, invoke, _SYMBOLS
 from worldline.custody_v2_provision_values import ExplicitInputs, Target, write_empty_artifacts
 from worldline.custody_v2_provision_entry import PLAN_KEYS
-from worldline.protected_startup import canonical, digest
+from worldline.protected_startup import canonical, digest, exact_json
 from worldline.root_worker_codec import archive, restore_archive
 from worldline.root_worker_current_state import _database
 from worldline.retained_v1_migration_capture import _OriginalLoaderContext
@@ -32,10 +32,13 @@ class NativeOfflineProvisionControls(unittest.TestCase):
         d2 = root / 'd2.json'; p2 = root / 'p2.json'; g2 = root / 'g2.json'; j2 = root / 'j2.sqlite'
         old_descriptor = canonical({'installation_id': 'fixture', 'paths': {'authority_root': str(root)}})
         old_plan = plan(d1, j1, g1)
-        old_genesis = {'schema': 'worldline.owner-provisioned-root-custody-v1', 'installation': 'fixture',
+        old_genesis_raw = canonical({'schema': 'worldline.owner-provisioned-root-custody-v1', 'installation': 'fixture',
                        'startup_descriptor_sha256': digest(old_descriptor), 'owner_plan_sha256': digest(old_plan),
-                       'issuer_key_sha256': digest(key), 'initial_event': None}
-        old_genesis_raw = canonical(old_genesis)
+                       'issuer_key_sha256': digest(key), 'initial_event': None})
+        # A retained v1 journal holds the genesis its canonical file declares
+        # (capture_retained_v1 loads exact_json(genesis_raw)); native
+        # Genesis_Archive_Matches preserves that file order.
+        old_genesis = exact_json(old_genesis_raw)
         for path, raw in ((d1, old_descriptor), (p1, old_plan), (g1, old_genesis_raw)):
             path.write_bytes(raw)
         db = sqlite3.connect(j1)

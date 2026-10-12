@@ -30,15 +30,16 @@ procedure Canonical_Owner_Completion_Controls is
       Witnessed_Receipt_Head=>Id,Witnessed_Causal_Head=>Id,
       Recovery_Issued=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
       Recovery_Recovered=>(Mode=>R.Candidate,Policy_Epoch=>Epoch,Resource_Epoch=>Epoch,others=>Id),
-      Recovery_Historical=>R.Unestablished,Recovery_Native=>(Live_Mapping=>Id,Live_Root=>Id),Original_Use=>Id);
+      Recovery_Historical=>R.Unestablished,Recovery_Native=>(Live_Mapping=>Id,Live_Root=>Id),Original_Use=>Id,
+      Effect_Material=>(1,0));
    I:L.Identity:=(Present=>True,Value=>(First=>1,Length=>Data'Length));
-   None:L.Identity:=(Present=>False,Value=>(First=>1,Length=>0));
+   None:L.Identity:=(Present=>False);
    Scope:L.Context:=(Policy_Epoch=>Epoch,others=>I);
    Bound:L.Binding:=(Resource_Epoch=>Epoch,others=>I);
    State:L.Ledger_State:=(Scope=>Scope,Resource_Epoch=>Epoch,Universe_Head=>I,Ledger_Head=>I,
       Capacity=>One,Held_Total=>One,Charged_Total=>Zero);
    Rows:L.Row_Array(1..1):=[1=>(Scope=>Scope,Bound=>Bound,Parent=>None,Kind=>L.Held_Capacity,
-      State=>L.Reserved,Amount=>One,Observed_Usage=>(Present=>False,Value=>Zero),
+      State=>L.Reserved,Amount=>One,Observed_Usage=>(Present=>False),
       Planned_Unit=>None,Actual_Unit=>None,Cgroup=>None,Invocation=>None)];
    Native:L.Native_Array(1..1):=[1=>(Scope=>Scope,Resource_Epoch=>Epoch,Bound=>Bound,
       Actual_Unit=>None,Cgroup=>None,Invocation=>None,Observation_Head=>I,Observed=>L.Never_Launched)];

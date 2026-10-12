@@ -181,51 +181,75 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
               Cache_Tag : constant E.Bytes := V.Text_Value (D, Tag);
               Opt : constant E.Bytes := V.Text_Value (D, Optimize);
               Slash, Dot, Cursor, Keep : E.Count := 0;
-              function Match_Source (Target : E.Bytes; Start, Length : E.Count) return Boolean is
+              Matched : Boolean;
+              --  The matchers advance the shared Cursor, so SPARK requires
+              --  them to be procedures; each original short-circuit chain
+              --  below is written as the same sequence of guarded steps.
+              procedure Match_Source (Target : E.Bytes; Start, Length : E.Count; OK : out Boolean) is
               begin
+                 OK := False;
                  if Cursor > Target'Length or else Length > Target'Length - Cursor or else
-                    Start > Source'Length or else Length > Source'Length - Start then return False; end if;
+                    Start > Source'Length or else Length > Source'Length - Start then return; end if;
                  for I in E.Count range 1 .. Length loop
-                    if Target (Target'First + Cursor + I - 1) /= Source (Source'First + Start + I - 1) then return False; end if;
+                    if Target (Target'First + Cursor + I - 1) /= Source (Source'First + Start + I - 1) then return; end if;
                  end loop;
-                 Cursor := Cursor + Length; return True;
+                 Cursor := Cursor + Length; OK := True;
               end Match_Source;
-              function Match_Text (Target : E.Bytes; Text : String) return Boolean is
+              procedure Match_Text (Target : E.Bytes; Text : String; OK : out Boolean) is
               begin
-                 if Cursor > Target'Length or else Text'Length > Target'Length - Cursor then return False; end if;
+                 OK := False;
+                 if Cursor > Target'Length or else Text'Length > Target'Length - Cursor then return; end if;
                  for I in Text'Range loop
-                    if Target (Target'First + Cursor + E.Count (I - Text'First)) /= Character'Pos (Text (I)) then return False; end if;
+                    if Target (Target'First + Cursor + E.Count (I - Text'First)) /= Character'Pos (Text (I)) then return; end if;
                  end loop;
-                 Cursor := Cursor + Text'Length; return True;
+                 Cursor := Cursor + Text'Length; OK := True;
               end Match_Text;
-              function Match_Bytes (Target, Bytes : E.Bytes) return Boolean is
+              procedure Match_Bytes (Target, Bytes : E.Bytes; OK : out Boolean) is
               begin
-                 if Cursor > Target'Length or else Bytes'Length > Target'Length - Cursor then return False; end if;
+                 OK := False;
+                 if Cursor > Target'Length or else Bytes'Length > Target'Length - Cursor then return; end if;
                  for I in E.Count range 1 .. Bytes'Length loop
-                    if Target (Target'First + Cursor + I - 1) /= Bytes (Bytes'First + I - 1) then return False; end if;
+                    if Target (Target'First + Cursor + I - 1) /= Bytes (Bytes'First + I - 1) then return; end if;
                  end loop;
-                 Cursor := Cursor + Bytes'Length; return True;
+                 Cursor := Cursor + Bytes'Length; OK := True;
               end Match_Bytes;
       begin
          for I in E.Count range 1 .. Source'Length loop
             if Source (Source'First + I - 1) = Character'Pos ('/') then Slash := I; Dot := 0;
             elsif Source (Source'First + I - 1) = Character'Pos ('.') then Dot := I; end if;
          end loop;
-         if not Match_Source (Computed, 0, Slash) or else not Match_Text (Computed, "__pycache__/") or else
-            not Match_Source (Computed, Slash, (if Dot > Slash then Dot - Slash - 1 else Source'Length - Slash)) or else
-            not Match_Text (Computed, ".") or else not Match_Bytes (Computed, Cache_Tag) then return False; end if;
+         Match_Source (Computed, 0, Slash, Matched);
+         if not Matched then return False; end if;
+         Match_Text (Computed, "__pycache__/", Matched);
+         if not Matched then return False; end if;
+         Match_Source (Computed, Slash, (if Dot > Slash then Dot - Slash - 1 else Source'Length - Slash), Matched);
+         if not Matched then return False; end if;
+         Match_Text (Computed, ".", Matched);
+         if not Matched then return False; end if;
+         Match_Bytes (Computed, Cache_Tag, Matched);
+         if not Matched then return False; end if;
          if not S.Text_Is (D, Optimize, "0") then
-            if not Match_Text (Computed, ".opt-") or else not Match_Bytes (Computed, Opt) then return False; end if;
+            Match_Text (Computed, ".opt-", Matched);
+            if not Matched then return False; end if;
+            Match_Bytes (Computed, Opt, Matched);
+            if not Matched then return False; end if;
          end if;
-         if not Match_Text (Computed, ".pyc") or else Cursor /= Computed'Length then return False; end if;
+         Match_Text (Computed, ".pyc", Matched);
+         if not Matched or else Cursor /= Computed'Length then return False; end if;
          Keep := Source'Length;
          for I in 1 .. 3 loop
             if Keep = 0 then exit; end if;
             Keep := Keep - 1;
-            while Keep > 0 and then Source (Source'First + Keep) in 128 .. 191 loop Keep := Keep - 1; end loop;
+            while Keep > 0 and then Source (Source'First + Keep) in 128 .. 191 loop
+               pragma Loop_Variant (Decreases => Keep);
+               Keep := Keep - 1;
+            end loop;
          end loop;
          Cursor := 0;
-         return Match_Source (Adjacent, 0, Keep) and then Match_Text (Adjacent, ".pyc") and then Cursor = Adjacent'Length;
+         Match_Source (Adjacent, 0, Keep, Matched);
+         if not Matched then return False; end if;
+         Match_Text (Adjacent, ".pyc", Matched);
+         return Matched and then Cursor = Adjacent'Length;
       end;
    end Cache_Paths_Match;
    function Envelope_Valid (B : E.Bytes) return Boolean is

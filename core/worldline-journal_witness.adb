@@ -13,29 +13,31 @@ package body Worldline.Journal_Witness with SPARK_Mode is
    function Decide (Kind : Witness_Kind; Current, Input : E.Bytes)
       return Decision is
       Extents : constant L.Sizes := L.Counts (Current);
-      Whole : constant E.Span := (Input'First, Input'Length);
+      -- An empty Input whose lower bound is not an index raised here in the
+      -- original; it is refused as invalid input.
+      Whole : constant E.Span :=
+        (if Input'First >= 1 then (Input'First, Input'Length) else (1, 0));
    begin
-      if Extents.Status /= L.Parsed or else not OA.Valid (Input, Whole) then
+      if Input'First < 1 or else Extents.Status /= L.Parsed or else not OA.Valid (Input, Whole) then
          return Input_Invalid;
       end if;
       declare
-         Value : aliased L.Parsed_Input (Extents.Arena, Extents.Events, Extents.Heads,
+         Value : L.Parsed_Input (Extents.Arena, Extents.Events, Extents.Heads,
             Extents.Roots, Extents.Subjects, Extents.Alternatives, Extents.Blobs);
       begin
          L.Decode (Current, Value);
          if Value.Status /= L.Parsed then return Input_Invalid; end if;
          declare
-            Facts : aliased constant E.Bytes :=
+            Facts : constant E.Bytes :=
               O.Extract_Replay_Capsules (Value.Arena, Value.Owner_Roster);
-            -- Both observers share the original stack owner and its bounds.
-            -- No constrained array Access, copied arena or allocation.
-            Owner_Context : O.Prepared_History
-              (null, Facts'Access, Value'Access);
-            Resource_Context : K.Prepared_History
-              (null, Value'Access);
+            -- Both observers are established on the original stack owner's
+            -- arena and bound to its exact extent and digest. No copied arena
+            -- or allocation.
+            Owner_Context : O.Prepared_History;
+            Resource_Context : K.Prepared_History;
          begin
-            O.Establish_History (Owner_Context, Value.Owner_Roster);
-            K.Establish_History (Resource_Context, Value.Owner_Roster);
+            O.Establish_History (Owner_Context, Value.Arena, Facts, Value.Owner_Roster);
+            K.Establish_History (Resource_Context, Value.Arena, Value.Owner_Roster);
             -- Full custody replay shares these native-verified observers;
             -- neither a copied roster bit nor a cached producer verdict
             -- replaces the complete fold. Legitimate retained/unknown
@@ -48,12 +50,12 @@ package body Worldline.Journal_Witness with SPARK_Mode is
             end if;
             case Kind is
                when Owner_Canonical =>
-                  if O.Authenticated (Owner_Context, Input, Whole) then
+                  if O.Authenticated (Owner_Context, Value.Arena, Input, Whole) then
                      return Ready;
                   end if;
                when Resource_ACK =>
                   if K.Direct_Authenticated
-                       (Resource_Context, Input, OA.Field (Input, Whole, "capture"),
+                       (Resource_Context, Value.Arena, Input, OA.Field (Input, Whole, "capture"),
                         OA.Field (Input, Whole, "ack"))
                   then
                      return Ready;

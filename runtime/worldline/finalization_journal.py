@@ -351,7 +351,11 @@ class _FinalizationLog:
     def _events(self, run):
         rows = self.db.execute('SELECT event,ordinal,invocation,phase,payload FROM main.observations WHERE run=?',
                                (run,)).fetchall()
-        return self._ordered_events(rows)
+        # Retained events leave the connection as plain mappings with exactly
+        # the selected columns: every consumer reads them by name, the native
+        # recovery replay reads them as archived objects, and a sqlite3.Row
+        # (bound to this connection) has no recovery-packet grammar.
+        return tuple(dict(row) for row in self._ordered_events(rows))
 
     def _event_count(self, run):
         # Appending needs the validated complete ordinal sequence, not copies

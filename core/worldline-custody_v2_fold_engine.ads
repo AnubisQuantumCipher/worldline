@@ -57,10 +57,14 @@ package Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       with Global => null;
    function Root_Index (Value : I.Parsed_Input; State : Fold_State;
                         Event : M.Event_Record) return Q.Byte_Count
-      with Global => null;
+      with Global => null,
+      Post => Root_Index'Result = 0 or else Root_Index'Result = State.Current or else
+         Root_Index'Result in 1 .. State.Root_Count;
    function Subject_Index (Value : I.Parsed_Input; State : Fold_State;
                            Event : M.Event_Record) return Q.Byte_Count
-      with Global => null;
+      with Global => null,
+      Post => Subject_Index'Result <= State.Subject_Count and then
+         Subject_Index'Result <= State.Subject_Capacity;
    -- Authentic prefix hook for event controls/decision composition. Full X4
    -- and native genesis correspondence precede every prefix, including S0.
    -- Prefix success is not a final stored-row or startup permission claim.
@@ -85,7 +89,12 @@ package Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
          Through <= Value.Decoded_Event_Count and then
          History'First = 1 and then History'Length = Value.Decoded_Event_Count and then
          State.Root_Count <= State.Root_Capacity and then
-         State.Subject_Count <= State.Subject_Capacity);
+         State.Subject_Count <= State.Subject_Capacity and then
+         State.Current in 1 .. State.Root_Capacity and then
+         (if Through = Value.Decoded_Event_Count then
+            Rows_Match (Value, State) and then
+            State.Root_Count = Value.Root_Count and then
+            State.Subject_Count = Value.Subject_Count));
    -- No stored S0 row is manufactured. A logical S0 model is kept internally
    -- until an actual authentic transition creates the first durable row.
    procedure Fold (Value : I.Parsed_Input; State : out Fold_State;
@@ -96,7 +105,8 @@ package Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
          Archive_Authenticated (Value) and then
          Rows_Match (Value, State) and then
          State.Root_Count = Value.Root_Count and then
-         State.Subject_Count = Value.Subject_Count);
+         State.Subject_Count = Value.Subject_Count and then
+         State.Current in 1 .. State.Root_Capacity);
    procedure Fold (Value : I.Parsed_Input; State : out Fold_State;
                    History : in out A.R.Retained_Events; Proof : out OJ.Journal_Proof;
                    Result : out Observation)

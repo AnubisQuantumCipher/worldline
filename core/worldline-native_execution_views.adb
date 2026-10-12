@@ -146,8 +146,8 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
       Authority_Uses : Raw_Use_Array;
       Authority_Receipts : Raw_Chain_Array;
       Authority_Events : Raw_Chain_Array) return Result is
-      Grants : T.A.Grants (Authority_Grants'Range);
-      Uses : T.A.Uses (Authority_Uses'Range);
+      Grants : T.A.Grants (Authority_Grants'Range) with Relaxed_Initialization;
+      Uses : T.A.Uses (Authority_Uses'Range) with Relaxed_Initialization;
       Receipts : T.A.C.Retained_Rows (Authority_Receipts'Range);
       Events : T.A.C.Retained_Rows (Authority_Events'Range);
    begin
@@ -159,10 +159,12 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
         and then (for all I in Authority_Events'Range => T.C.Well_Formed (Authority_Events (I)))) then return Rejected; end if;
       for I in Grants'Range loop
          Grants (I) := T.Decode (Authority_Grants (I));
+         pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K)'Initialized);
          pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K) = T.Decode (Authority_Grants (K)));
       end loop;
       for I in Uses'Range loop
          Uses (I) := T.Decode (Authority_Uses (I));
+         pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K)'Initialized);
          pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K) = T.Decode (Authority_Uses (K)));
       end loop;
       for I in Receipts'Range loop
@@ -184,8 +186,8 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
       Authority_Uses : Raw_Use_Array;
       Authority_Receipts : Raw_Chain_Array;
       Authority_Events : Raw_Chain_Array) return Result is
-      Grants : T.A.Grants (Authority_Grants'Range);
-      Uses : T.A.Uses (Authority_Uses'Range);
+      Grants : T.A.Grants (Authority_Grants'Range) with Relaxed_Initialization;
+      Uses : T.A.Uses (Authority_Uses'Range) with Relaxed_Initialization;
       Receipts : T.A.C.Retained_Rows (Authority_Receipts'Range);
       Events : T.A.C.Retained_Rows (Authority_Events'Range);
    begin
@@ -197,10 +199,12 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
         and then (for all I in Authority_Events'Range => T.C.Well_Formed (Authority_Events (I)))) then return Rejected; end if;
       for I in Grants'Range loop
          Grants (I) := T.Decode (Authority_Grants (I));
+         pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K)'Initialized);
          pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K) = T.Decode (Authority_Grants (K)));
       end loop;
       for I in Uses'Range loop
          Uses (I) := T.Decode (Authority_Uses (I));
+         pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K)'Initialized);
          pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K) = T.Decode (Authority_Uses (K)));
       end loop;
       for I in Receipts'Range loop
@@ -239,8 +243,8 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
       Authority_Receipts : Raw_Chain_Array;
       Authority_Events : Raw_Chain_Array;
       Crosswalk : X.Raw_Crosswalk) return Result is
-      Grants : T.A.Grants (Authority_Grants'Range);
-      Uses : T.A.Uses (Authority_Uses'Range);
+      Grants : T.A.Grants (Authority_Grants'Range) with Relaxed_Initialization;
+      Uses : T.A.Uses (Authority_Uses'Range) with Relaxed_Initialization;
       Receipts : T.A.C.Retained_Rows (Authority_Receipts'Range);
       Events : T.A.C.Retained_Rows (Authority_Events'Range);
    begin
@@ -259,10 +263,12 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
         and then X.Well_Formed (Data, Crosswalk)) then return Rejected; end if;
       for I in Grants'Range loop
          Grants (I) := T.Decode (Authority_Grants (I));
+         pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K)'Initialized);
          pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K) = T.Decode (Authority_Grants (K)));
       end loop;
       for I in Uses'Range loop
          Uses (I) := T.Decode (Authority_Uses (I));
+         pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K)'Initialized);
          pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K) = T.Decode (Authority_Uses (K)));
       end loop;
       for I in Receipts'Range loop
@@ -306,8 +312,8 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
       Authority_Receipts : Raw_Chain_Array;
       Authority_Events : Raw_Chain_Array;
       Crosswalk : X.Raw_Crosswalk) return Result is
-      Grants : T.A.Grants (Authority_Grants'Range);
-      Uses : T.A.Uses (Authority_Uses'Range);
+      Grants : T.A.Grants (Authority_Grants'Range) with Relaxed_Initialization;
+      Uses : T.A.Uses (Authority_Uses'Range) with Relaxed_Initialization;
       Receipts : T.A.C.Retained_Rows (Authority_Receipts'Range);
       Events : T.A.C.Retained_Rows (Authority_Events'Range);
    begin
@@ -326,10 +332,12 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
         and then X.Well_Formed (Data, Crosswalk)) then return Rejected; end if;
       for I in Grants'Range loop
          Grants (I) := T.Decode (Authority_Grants (I));
+         pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K)'Initialized);
          pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K) = T.Decode (Authority_Grants (K)));
       end loop;
       for I in Uses'Range loop
          Uses (I) := T.Decode (Authority_Uses (I));
+         pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K)'Initialized);
          pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K) = T.Decode (Authority_Uses (K)));
       end loop;
       for I in Receipts'Range loop
@@ -377,8 +385,8 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
       Tasks : Y.Raw_Task_Array;
       Processes : Y.Raw_Process_Array;
       Namespaces : Y.Raw_Namespace_Array) return Result is
-      Grants : T.A.Grants (Authority_Grants'Range);
-      Uses : T.A.Uses (Authority_Uses'Range);
+      Grants : T.A.Grants (Authority_Grants'Range) with Relaxed_Initialization;
+      Uses : T.A.Uses (Authority_Uses'Range) with Relaxed_Initialization;
       Receipts : T.A.C.Retained_Rows (Authority_Receipts'Range);
       Events : T.A.C.Retained_Rows (Authority_Events'Range);
    begin
@@ -403,10 +411,12 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
           and then (for all I in Proc_Groups'Range => W.Well_Formed (Data, Proc_Groups (I))))) then return Rejected; end if;
       for I in Grants'Range loop
          Grants (I) := T.Decode (Authority_Grants (I));
+         pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K)'Initialized);
          pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K) = T.Decode (Authority_Grants (K)));
       end loop;
       for I in Uses'Range loop
          Uses (I) := T.Decode (Authority_Uses (I));
+         pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K)'Initialized);
          pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K) = T.Decode (Authority_Uses (K)));
       end loop;
       for I in Receipts'Range loop
@@ -478,8 +488,8 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
       Tasks : Y.Raw_Task_Array;
       Processes : Y.Raw_Process_Array;
       Namespaces : Y.Raw_Namespace_Array) return Result is
-      Grants : T.A.Grants (Authority_Grants'Range);
-      Uses : T.A.Uses (Authority_Uses'Range);
+      Grants : T.A.Grants (Authority_Grants'Range) with Relaxed_Initialization;
+      Uses : T.A.Uses (Authority_Uses'Range) with Relaxed_Initialization;
       Receipts : T.A.C.Retained_Rows (Authority_Receipts'Range);
       Events : T.A.C.Retained_Rows (Authority_Events'Range);
    begin
@@ -504,10 +514,12 @@ package body Worldline.Native_Execution_Views with SPARK_Mode is
           and then (for all I in Proc_Groups'Range => W.Well_Formed (Data, Proc_Groups (I))))) then return Rejected; end if;
       for I in Grants'Range loop
          Grants (I) := T.Decode (Authority_Grants (I));
+         pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K)'Initialized);
          pragma Loop_Invariant (for all K in Grants'First .. I => Grants (K) = T.Decode (Authority_Grants (K)));
       end loop;
       for I in Uses'Range loop
          Uses (I) := T.Decode (Authority_Uses (I));
+         pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K)'Initialized);
          pragma Loop_Invariant (for all K in Uses'First .. I => Uses (K) = T.Decode (Authority_Uses (K)));
       end loop;
       for I in Receipts'Range loop

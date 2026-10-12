@@ -1,37 +1,42 @@
 with Worldline.Custody_V2_Load_Input;
+private with Attest.Custody_SHA256;
 package Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    package L renames Worldline.Custody_V2_Load_Input;
    package E renames L.E;
    use type L.Decode_Status;
    -- Lexical observer of immutable actual scoped bytes and the separately
-   -- decoded original operation-list capsule arena. Neither borrow may escape
-   -- the enclosing native call. A default object has no authenticated history.
-   type Prepared_History
-     (Data, Facts_Data : access constant E.Bytes;
-      Parsed_Data : access constant L.Parsed_Input) is limited private;
+   -- decoded original operation-list capsule arena. The observer holds no
+   -- reference (SPARK admits no access discriminant): every operation receives
+   -- the arena it was established on, and the observer records that arena's
+   -- exact extent and whole-bytes digest at establishment and refuses any
+   -- arena whose extent differs. A default object has no authenticated history.
+   type Prepared_History is limited private;
    -- Factual decoder only: no installation, source or issuer admission.
    function Extract_Replay_Capsules
      (Data : E.Bytes; Owner_Roster : E.Span) return E.Bytes
      with Global => null;
    -- One-shot complete original owner9 current authentication and native
-   -- RESERVED/SETTLED adoption replay on the same borrowed actual sources.
+   -- RESERVED/SETTLED adoption replay on the same actual sources: Data is the
+   -- scoped arena, Facts_Data the separately extracted capsule arena.
    procedure Establish_History
-     (Context : in out Prepared_History; Roster : E.Span)
+     (Context : in out Prepared_History; Data, Facts_Data : E.Bytes; Roster : E.Span)
      with Global => null, Always_Terminates;
    -- Factual relation only. Bootstrap MUST additionally conjoin the actual
    -- full Startup_Installation, Source_Custody and Issuer_Source predicates on
    -- this same Data; this getter is not a standalone startup admission.
    function Current_Matches (Context : Prepared_History) return Boolean
      with Global => null;
-   -- Exact factual source/coordinate relation at the frame handoff, not an
-   -- admission predicate or a hash/pointer comparison repeated per witness.
+   -- Exact factual source/coordinate relation at the frame handoff: Data must
+   -- carry the extent and whole-bytes digest recorded at establishment. Not an
+   -- admission predicate, and not repeated per witness.
    function Source_Matches
      (Context : Prepared_History; Data : E.Bytes; Roster : E.Span)
       return Boolean
      with Global => null,
        Post => (if Source_Matches'Result then Current_Matches (Context));
+   -- Data is the established arena; a different extent is refused.
    function Authenticated
-     (Context : Prepared_History; Capture_Data : E.Bytes; Witness : E.Span)
+     (Context : Prepared_History; Data, Capture_Data : E.Bytes; Witness : E.Span)
       return Boolean
      with Global => null,
        Post => (if Authenticated'Result then Current_Matches (Context));
@@ -69,9 +74,10 @@ private
       Roster, Key_Field, Policy_Field, Binding, Journal_Field : E.Span := (1, 0);
       Event_Count : Natural := 0;
    end record;
-   type Prepared_History
-     (Data, Facts_Data : access constant E.Bytes;
-      Parsed_Data : access constant L.Parsed_Input) is limited record
+   type Prepared_History is limited record
       View : Current_View;
+      Arena_First : E.Count := 1;
+      Arena_Length : E.Count := 0;
+      Arena_Digest : Attest.Custody_SHA256.Digest := (others => 0);
    end record;
 end Worldline.Custody_V2_Owner_Canonical;

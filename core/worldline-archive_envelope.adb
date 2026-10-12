@@ -5,6 +5,32 @@ package body Worldline.Archive_Envelope with SPARK_Mode is
    use type C.Kind;
    use type C.Node;
 
+   function Materialize (Data : Bytes; Item : Byte_View) return Bytes is
+   begin
+      if Item.Level = 0 then
+         if Item.Encoded.Length = 0 or else not C.P.Valid (Data, Item.Encoded) then
+            return (1 .. 0 => 0);
+         end if;
+         return Data (Item.Encoded.First ..
+                      Item.Encoded.First + (Item.Encoded.Length - 1));
+      end if;
+      declare
+         Raw : constant Bytes := Materialize
+           (Data, (Item.Encoded, Item.Level - 1));
+      begin
+         --  A non-canonical lower level has no decoding; the empty leaf is
+         --  returned and Bytes_Valid is false for this view.
+         if not Leaf_Canonical (Raw) then return (1 .. 0 => 0); end if;
+         declare
+            S : constant B.Span := (Raw'First, Raw'Length);
+            Result : Bytes (1 .. B.Decoded_Length (Raw, S));
+         begin
+            B.Decode (Raw, S, Result);
+            return Result;
+         end;
+      end;
+   end Materialize;
+
    function Bytes_Valid (Data : Bytes; Item : Byte_View) return Boolean is
    begin
       if Item.Level = 0 then
@@ -14,31 +40,9 @@ package body Worldline.Archive_Envelope with SPARK_Mode is
          Prior : constant Byte_View := (Item.Encoded, Item.Level - 1);
       begin
          if not Bytes_Valid (Data, Prior) then return False; end if;
-         declare
-            Raw : constant Bytes := Materialize (Data, Prior);
-         begin
-            return B.Canonical (Raw, (Raw'First, Raw'Length));
-         end;
+         return Leaf_Canonical (Materialize (Data, Prior));
       end;
    end Bytes_Valid;
-
-   function Materialize (Data : Bytes; Item : Byte_View) return Bytes is
-   begin
-      if Item.Level = 0 then
-         if Item.Encoded.Length = 0 then return (1 .. 0 => 0); end if;
-         return Data (Item.Encoded.First ..
-                      Item.Encoded.First + (Item.Encoded.Length - 1));
-      end if;
-      declare
-         Raw : constant Bytes := Materialize
-           (Data, (Item.Encoded, Item.Level - 1));
-         S : constant B.Span := (Raw'First, Raw'Length);
-         Result : Bytes (1 .. B.Decoded_Length (Raw, S));
-      begin
-         B.Decode (Raw, S, Result);
-         return Result;
-      end;
-   end Materialize;
 
    function Is_Array (Data : Bytes; Item : Span) return Boolean is
       N : constant C.Node := C.Prefix (Data, Item, 0);
@@ -107,7 +111,10 @@ package body Worldline.Archive_Envelope with SPARK_Mode is
        (for all I in Text'Range =>
           Data (Item.First + Count (I - Text'First)) = Character'Pos (Text (I))));
 
-   function String_Payload (Data : Bytes; Item : Span) return Span is
+   function String_Payload (Data : Bytes; Item : Span) return Span
+     with Post => String_Payload'Result.Length = 0 or else
+       String_Payload'Result.Length < Item.Length
+   is
       N : constant C.Node := C.Prefix (Data, Item, 0);
    begin
       if not N.Valid or else N.Form /= C.String_Value or else
@@ -157,6 +164,12 @@ package body Worldline.Archive_Envelope with SPARK_Mode is
          pragma Loop_Invariant (C.P.Valid (Data, Sequence));
          pragma Loop_Invariant (Offset in 1 .. Sequence.Length);
          pragma Loop_Invariant (Header_Count < Offset);
+         --  Every header part is a sub-span of the sequence, so the children a
+         --  successful decode reports can never exceed the encoded value.
+         pragma Loop_Invariant (Tag.Length <= Sequence.Length and then
+                                Value.Length <= Sequence.Length and then
+                                Extra.Length <= Sequence.Length and then
+                                Fields_Span.Length <= Sequence.Length);
          pragma Loop_Variant (Decreases => Sequence.Length - Offset);
          Header_Node := C.Prefix (Data, Sequence, Offset);
          if not Header_Node.Valid then return Failure; end if;

@@ -6,6 +6,7 @@ open. The daemon's ability to produce/replay a packet cannot issue a witness.
 Historical replay uses the retained inputs; fresh observation remains separate.
 """
 from __future__ import annotations
+import threading
 
 from dataclasses import dataclass, fields
 
@@ -198,6 +199,44 @@ _OWNER_PACKET_REASONS = (
 )
 
 
+_NATIVE_STACK_LOCK = threading.Lock()
+
+
+def _with_native_stack(function, *arguments, extent):
+    """Run one native packet call on a thread whose stack covers its arenas.
+
+    The packet kernels declare their working arenas on the stack, sized from the
+    complete input (Recovery_Material_Replay.Rebuild's arena is the packet length
+    plus the retained material). On the default 8 MiB main-thread stack an 11.8 MB
+    packet raised Storage_Error inside the kernel, which the C boundary returns as
+    a transport refusal. The stack grows with the input (no size cap); the caller
+    waits for the result, so native calls stay serialized as before, and the
+    native answer or exception is returned unchanged.
+    """
+    size = (64 << 20) + 4 * extent
+    size += -size % (1 << 16)
+    outcome = {}
+
+    def body():
+        try:
+            outcome['value'] = function(*arguments)
+        except BaseException as error:  # re-raised unchanged on the calling thread
+            outcome['error'] = error
+
+    with _NATIVE_STACK_LOCK:
+        previous = threading.stack_size()
+        threading.stack_size(size)
+        try:
+            worker = threading.Thread(target=body, name='worldline-native-packet')
+            worker.start()
+        finally:
+            threading.stack_size(previous)
+    worker.join()
+    if 'error' in outcome:
+        raise outcome['error']
+    return outcome['value']
+
+
 def _native_projection_matches(raw, values, *, core):
     import ctypes as C
     try:
@@ -208,7 +247,8 @@ def _native_projection_matches(raw, values, *, core):
     call.restype = C.c_uint8
     packet_owner = (C.c_uint8 * len(raw)).from_buffer_copy(raw)
     values_owner = (C.c_uint8 * len(values)).from_buffer_copy(values)
-    if call(packet_owner, len(raw), values_owner, len(values)) != 1:
+    if _with_native_stack(call, packet_owner, len(raw), values_owner, len(values),
+                          extent=len(raw) + len(values)) != 1:
         raise WorldlineError('RECOVERY_PACKET_PROJECTION_CHANGED',
                             'the exposed original 35-field projection differs from the full packet')
 
@@ -231,13 +271,15 @@ def _inspect_packet(raw, *, core, syntax_facts=None):
     owned = (C.c_uint8 * len(raw)).from_buffer_copy(raw)
     collapse, owner = C.c_uint8(255), C.c_uint32(0xffffffff)
     if syntax_facts is None:
-        status = int(call(owned, len(raw), C.byref(collapse), C.byref(owner)))
+        status = int(_with_native_stack(call, owned, len(raw), C.byref(collapse), C.byref(owner),
+                                        extent=len(raw)))
     else:
         if type(syntax_facts) is not bytes:
             raise WorldlineError('RECOVERY_SYNTAX_SOURCE_ENCODING', 'complete native capsule bytes are absent')
         facts = (C.c_uint8 * len(syntax_facts)).from_buffer_copy(syntax_facts)
-        status = int(call(owned, len(raw), facts, len(syntax_facts),
-                          C.byref(collapse), C.byref(owner)))
+        status = int(_with_native_stack(call, owned, len(raw), facts, len(syntax_facts),
+                                        C.byref(collapse), C.byref(owner),
+                                        extent=len(raw) + len(syntax_facts)))
     if status not in range(7):
         raise WorldlineError('RECOVERY_PACKET_NATIVE_INVALID',
                             'complete packet inspection transport is unavailable', {'status': status})

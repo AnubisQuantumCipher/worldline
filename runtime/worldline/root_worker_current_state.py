@@ -18,7 +18,14 @@ def _quoted(name):
 def _database(path,journal=None):
     db=sqlite3.connect('file:'+quote(str(path),safe='/')+'?mode=ro',uri=True,isolation_level=None)
     try:
-        db.execute('PRAGMA trusted_schema=OFF');db.execute('PRAGMA query_only=ON');db.execute('BEGIN')
+        # Foreign-key enforcement is a per-connection setting (SQLite default 0
+        # unless built with SQLITE_DEFAULT_FOREIGN_KEYS). Enable it before BEGIN,
+        # exactly as the v2 journal and empty-v2 readback connections do, so the
+        # captured 'foreign_keys' fact is the enforced regime the native
+        # Database_Matches singleton (1) requires; violations stay observable
+        # through foreign_key_check, never filtered.
+        db.execute('PRAGMA trusted_schema=OFF');db.execute('PRAGMA query_only=ON')
+        db.execute('PRAGMA foreign_keys=ON');db.execute('BEGIN')
         schema=tuple(db.execute('SELECT type,name,tbl_name,rootpage,sql FROM sqlite_master ORDER BY rowid'))
         tables=[]
         for kind,name,_table,_root,_sql in schema:
