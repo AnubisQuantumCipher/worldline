@@ -47,7 +47,14 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    Domain : constant String := "worldline-protected-owner-transitions-v1" &
       Ada.Characters.Latin_1.NUL;
    Empty : constant E.Span := (1, 0);
-   function Bytes (Text : String) return E.Bytes is
+   -- Literal fragments shared by a concatenation and its exact length guard.
+   Gate_State : constant String := "/authority/gate/state/";
+   UID_Open : constant String := "{""domain"":""linux.uid.v1"",""uid"":";
+   UID_Close : constant String := "}";
+   function Bytes (Text : String) return E.Bytes
+     with Global => null,
+       Post => Bytes'Result'First = 1 and then Bytes'Result'Length = E.Count (Text'Length)
+   is
       Result : E.Bytes (1 .. Text'Length) := (others => 0);
    begin
       for I in Text'Range loop
@@ -55,7 +62,12 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       end loop;
       return Result;
    end Bytes;
-   function Text (Data : E.Bytes) return String is
+   -- A String cannot hold more than Natural'Last characters; every caller
+   -- refuses (or cannot reach) a larger operand where the original raised.
+   function Text (Data : E.Bytes) return String
+     with Global => null, Pre => Data'Length <= E.Count (Natural'Last),
+       Post => Text'Result'First = 1 and then E.Count (Text'Result'Length) = Data'Length
+   is
       Result : String (1 .. Data'Length) := (others => ' ');
    begin
       for I in Data'Range loop
@@ -63,13 +75,20 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       end loop;
       return Result;
    end Text;
-   function Whole (Data : E.Bytes) return E.Span is (Data'First, Data'Length);
+   -- Identical for every arena whose lower bound is an index; an empty array
+   -- whose lower bound lies below the index subtype (where the original
+   -- aggregate raised) yields the empty span.
+   function Whole (Data : E.Bytes) return E.Span is
+     (if Data'First >= 1 then (Data'First, Data'Length) else Empty);
    function Raw_Same (LD, RD : E.Bytes; Left, Right : E.Span) return Boolean is
      (J.P.Valid (LD, Left) and then J.P.Valid (RD, Right) and then
       Left.Length = Right.Length and then
       (for all I in E.Count range 1 .. Left.Length =>
-         LD (Left.First + I - 1) = RD (Right.First + I - 1)));
-   function Part (Data : E.Bytes; Item : P.Node) return E.Span is
+         LD (Left.First + (I - 1)) = RD (Right.First + (I - 1))));
+   function Part (Data : E.Bytes; Item : P.Node) return E.Span
+     with Global => null, Pre => Data'Length <= E.Count (Natural'Last),
+       Post => J.P.Valid (Data, Part'Result)
+   is
    begin
       if not P.Present (Item) or else Item.First < 1 or else
          Item.Last < Item.First or else Item.Last > Data'Length then return Empty; end if;
@@ -88,13 +107,22 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
                         Layer : E.Layer := E.Recovery) return Boolean is
      (E.Decode (Data, Item, Layer).Form = E.Text_Value and then
       E.Bytes_Valid (Data, E.Decode (Data, Item, Layer).Payload));
+   function Archive_Fits (Data : E.Bytes; Item : E.Span;
+                          Layer : E.Layer := E.Recovery) return Boolean is
+     (not Text_Valid (Data, Item, Layer) or else
+      E.Materialize (Data, E.Decode (Data, Item, Layer).Payload)'Length <= E.Count (Natural'Last));
    function Archive_Text (Data : E.Bytes; Item : E.Span;
-                          Layer : E.Layer := E.Recovery) return String is
+                          Layer : E.Layer := E.Recovery) return String
+     with Global => null, Pre => Archive_Fits (Data, Item, Layer)
+   is
    begin
       if not Text_Valid (Data, Item, Layer) then return ""; end if;
       return Text (E.Materialize (Data, E.Decode (Data, Item, Layer).Payload));
    end Archive_Text;
-   function Hex (Sum : H.SHA.Digest) return E.Bytes is
+   function Hex (Sum : H.SHA.Digest) return E.Bytes
+     with Global => null,
+       Post => Hex'Result'First = 1 and then Hex'Result'Length = Sum'Length * 2
+   is
       Hex_Digits : constant String := "0123456789abcdef";
       Result : E.Bytes (1 .. Sum'Length * 2) := (others => 0);
    begin
@@ -108,13 +136,17 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
      (Hex (H.C.G.Hash (Raw, Item)))
      with Pre => J.P.Valid (Raw, Item);
    function Digest_Is (Raw : String; Item : P.Node; Expected : E.Bytes) return Boolean is
-     (P.Is_Text (Raw, Item, Text (Expected)));
+     (P.Is_Text (Raw, Item, Text (Expected)))
+     with Pre => Expected'Length <= E.Count (Natural'Last);
    function Object_Keys (Raw : String; Item : P.Node; Names : String;
-                         Count : Natural) return Boolean is
+                         Count : Natural) return Boolean
+     with Global => null, Pre => Names'First >= 1 and then Names'Last < Positive'Last
+   is
       Start : Positive := Names'First;
    begin
       if Item.Form /= P.Object_Value or else P.Count (Raw, Item) /= Count then return False; end if;
       for I in Names'Range loop
+         pragma Loop_Invariant (Start in Names'First .. I);
          if Names (I) = ',' then
             if I = Start or else not P.Present (JF (Raw, Item, Names (Start .. I - 1))) then return False; end if;
             Start := I + 1;
@@ -123,7 +155,9 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       return Start <= Names'Last and then P.Present (JF (Raw, Item, Names (Start .. Names'Last)));
    end Object_Keys;
    function Envelope (Key_Data, Raw : E.Bytes; Key : E.Span; Raw_Text : String;
-                      Suffix : String := ""; Exact_Keys : Boolean := True) return Boolean is
+                      Suffix : String := ""; Exact_Keys : Boolean := True) return Boolean
+     with Global => null, Pre => Raw'Length <= E.Count (Natural'Last)
+   is
       Root : constant P.Node := P.Parse (Raw_Text);
       Body_Node : constant P.Node := JF (Raw_Text, Root, "body");
    begin
@@ -133,6 +167,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
           else Root.Form = P.Object_Value and then P.Present (Body_Node) and then
              JF (Raw_Text, Root, "mac").Form = P.String_Value) and then
          J.P.Valid (Raw, Part (Raw, Body_Node)) and then
+         Suffix'Length <= Natural'Last - Domain'Length and then
          Digest_Is (Raw_Text, JF (Raw_Text, Root, "mac"),
             Hex (H.Mac (Key_Data, Raw, Key, Part (Raw, Body_Node), Domain & Suffix)));
    end Envelope;
@@ -219,6 +254,11 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    function Reserved_Redecided
      (Data : E.Bytes; Record_Value : E.Span; Facts_Data : E.Bytes; Capsules : E.Span)
       return Boolean is
+   begin
+      -- An empty arena whose lower bound is not an index cannot bound the
+      -- private arena below; the original raised in its elaboration.
+      if Data'First < 1 then return False; end if;
+      declare
       Base : constant E.Span := F (Data, Record_Value, "base");
       Material : constant E.Span := F (Data, Base, "before_material");
       Requirement : constant E.Span := F (Data, F (Data, Base, "current_requirement"), "requirementHash");
@@ -229,7 +269,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       Current : EH.Optional_Cursor;
       Request : K.Request;
       Valid : Boolean;
-   begin
+      begin
       if not Record_Valid (Data, Record_Value) or else Arena_Size = 0 or else Arena'Length < Arena_Size then
          return False;
       end if;
@@ -238,6 +278,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
          Facts_Data => Facts_Data, Capsules => Capsules);
       O.Decode_Request (Data, F (Data, Record_Value, "request"), Arena, Valid, Request);
       return Valid and then K.Authorize (Arena, Rows, Finalization, Request) = K.Ready;
+      end;
    end Reserved_Redecided;
    type Cause is (Invalid, Issued, Reserved, Dispatch_Intent, Observed,
       Consumed, Quarantine, Collapse_Intent, Collapse_Observed, Settled);
@@ -331,7 +372,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       declare W : constant E.Bytes := V.Text_Value (Data, Word);
               B : constant E.Bytes := V.Text_Value (Data, Root); begin
          return W'Length >= B'Length and then W'Length - B'Length = Suffix'Length and then
-            (for all I in E.Count range 1 .. B'Length => W (W'First + I - 1) = B (B'First + I - 1)) and then
+            (for all I in E.Count range 1 .. B'Length => W (W'First + (I - 1)) = B (B'First + (I - 1))) and then
             (for all I in Suffix'Range => W (W'First + B'Length + E.Count (I - Suffix'First)) =
                Character'Pos (Suffix (I)));
       end;
@@ -350,15 +391,21 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       return Found;
    end Owned_File;
    function Owner_File (Data : E.Bytes; Roster : E.Span; Name : String) return E.Span is
-     (Owned_File (Data, Roster, "/authority/gate/state/" & Name));
-   function Context_File_Matches (Data : E.Bytes; Roster : E.Span; Field, Name : String) return Boolean is
+     (Owned_File (Data, Roster, Gate_State & Name))
+     with Pre => Name'Length <= Natural'Last - Gate_State'Length;
+   function Context_File_Matches (Data : E.Bytes; Roster : E.Span; Field, Name : String) return Boolean
+     with Global => null, Pre => Name'Length <= Natural'Last - Gate_State'Length,
+       Post => (if Context_File_Matches'Result then V.Valid_Bytes (Data, Owner_File (Data, Roster, Name)))
+   is
       Supplied : constant E.Span := SF (Data, Owner_Context (Data, Roster), Field);
       Actual : constant E.Span := Owner_File (Data, Roster, Name);
    begin
       return V.Valid_Bytes (Data, Supplied) and then V.Valid_Bytes (Data, Actual) and then
          V.Bytes_Value (Data, Supplied) = V.Bytes_Value (Data, Actual);
    end Context_File_Matches;
-   function Raw_File (Data : E.Bytes; Roster : E.Span; Name : String) return E.Bytes is
+   function Raw_File (Data : E.Bytes; Roster : E.Span; Name : String) return E.Bytes
+     with Global => null, Pre => Name'Length <= Natural'Last - Gate_State'Length
+   is
       Item : constant E.Span := Owner_File (Data, Roster, Name);
    begin
       if not V.Valid_Bytes (Data, Item) then return E.Bytes'(1 .. 0 => 0); end if;
@@ -386,9 +433,9 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
          if Word'Length /= Raw'Length * 2 then return False; end if;
          for I in E.Count range 1 .. Raw'Length loop
             if Word (Word'First + (I - 1) * 2) /=
-                 Character'Pos (Hex_Digits (Natural (Raw (Raw'First + I - 1) / 16) + 1)) or else
+                 Character'Pos (Hex_Digits (Natural (Raw (Raw'First + (I - 1)) / 16) + 1)) or else
                Word (Word'First + (I - 1) * 2 + 1) /=
-                 Character'Pos (Hex_Digits (Natural (Raw (Raw'First + I - 1) mod 16) + 1)) then return False; end if;
+                 Character'Pos (Hex_Digits (Natural (Raw (Raw'First + (I - 1)) mod 16) + 1)) then return False; end if;
          end loop;
          return True;
       end;
@@ -407,7 +454,8 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
                if not V.Valid_Text (Data, Path) or else
                   not (S.Text_Is (Data, SF (Data, Event, "kind"), "SOURCE_COMPILED_BEFORE_EXEC") or else
                        S.Text_Is (Data, SF (Data, Event, "kind"), "INITIAL_SOURCE_CANDIDATES")) or else
-                  (Found.Length > 0 and then not S.A.Same_Encoding (Data, Found, Path)) then return Empty; end if;
+                  (Found.Length > 0 and then not S.A.Same_Encoding (Data, Found, Path)) or else
+                  V.Text_Value (Data, Path)'Length > E.Count (Natural'Last) then return Empty; end if;
                declare
                   Owned : constant E.Span := Source_Raw (Data, Roster, Text (V.Text_Value (Data, Path)));
                begin
@@ -434,16 +482,24 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       Required : constant String := "protected_owner.py,owner_retry_audit.py,owner_transitions.py,owner_collapse_data.py,owner_intent_endpoint.py,transaction.py,evaluation_authority.py,evaluation_writer.py,revalidate.py,recovery_observation.py,protected_recovery_capture.py,protected_owner_bootstrap.py";
       Start : Positive := Required'First;
       Run_Service : constant E.Span := Run_Service_Source (Data, Roster);
+      Runtime_Tree : constant String := "/runtime/worldline/";
+      -- Refuses exactly the operands whose path the original could not build.
       function Required_Source (Leaf : String) return Boolean is
-        (P.Present (JF (Raw, Sources, Text (V.Text_Value (Data, Source_Root)) &
-           "/runtime/worldline/" & Leaf)));
+        (Leaf'Length <= Natural'Last - Runtime_Tree'Length and then
+         V.Text_Value (Data, Source_Root)'Length <=
+           E.Count (Natural'Last - Runtime_Tree'Length - Leaf'Length) and then
+         P.Present (JF (Raw, Sources, Text (V.Text_Value (Data, Source_Root)) &
+           Runtime_Tree & Leaf)))
+        with Pre => V.Valid_Text (Data, Source_Root);
    begin
       if Sources.Form /= P.Object_Value or else P.Count (Raw, Sources) = 0 or else
          not V.Valid_Text (Data, Native) or else
          not V.Valid_Text (Data, Source_Root) or else not V.Valid_Text (Data, Gate_Source) or else
          not V.Valid_Text (Data, Run_Service) or else
          not S.A.Same_Encoding (Data, Native, SF (Data, Runtime, "native_library")) or else
+         V.Text_Value (Data, Gate_Source)'Length > E.Count (Natural'Last) or else
          not P.Present (JF (Raw, Sources, Text (V.Text_Value (Data, Gate_Source)))) or else
+         V.Text_Value (Data, Run_Service)'Length > E.Count (Natural'Last) or else
          not P.Present (JF (Raw, Sources, Text (V.Text_Value (Data, Run_Service)))) then return False; end if;
       for I in Required'Range loop
          if Required (I) = ',' then
@@ -452,6 +508,7 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
          end if;
       end loop;
       if not Required_Source (Required (Start .. Required'Last)) then return False; end if;
+      if V.Text_Value (Data, Native)'Length > E.Count (Natural'Last) then return False; end if;
       for I in 1 .. P.Count (Raw, Sources) loop
          declare
             Word : constant String := P.Member_Name (Raw, Sources, I);
@@ -472,7 +529,9 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    end Policy_Sources;
    function Policy_Binding_Matches
      (Raw : E.Bytes; Raw_Text : String; Policy : P.Node; Data : E.Bytes; Binding : E.Span;
-      Scoped : Boolean) return Boolean is
+      Scoped : Boolean) return Boolean
+     with Global => null, Pre => Raw'Length <= E.Count (Natural'Last)
+   is
       Names : constant String := "installation_id,owner_issuer_id,owner_uid,gate_config_sha256,issuer_policy_sha256,issuer_key_sha256,store_genesis,native_sha256";
       Start : Positive := Names'First;
       function Field (Name : String) return E.Span is
@@ -485,7 +544,8 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       end Field;
       function Matches (Name : String) return Boolean is
         (if Scoped then RJ.Raw_JSON_Scoped_Equal (Raw, Data, Part (Raw, JF (Raw_Text, Policy, Name)), Field (Name))
-         else RJ.Raw_JSON_Operation_Equal (Raw, Data, Part (Raw, JF (Raw_Text, Policy, Name)), Field (Name)));
+         else RJ.Raw_JSON_Operation_Equal (Raw, Data, Part (Raw, JF (Raw_Text, Policy, Name)), Field (Name)))
+        with Pre => Raw'Length <= E.Count (Natural'Last);
    begin
       if (if Scoped then not S.Valid (Data, Binding) or else S.Member_Count (Data, Binding) /= 9
           else not OA.Valid (Data, Binding) or else
@@ -503,7 +563,10 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    end Policy_Binding_Matches;
    function Head_Matches (Key, Raw_Journal, Raw_Head : E.Bytes; Binding_Data : E.Bytes;
                           Binding : E.Span; Last : E.Bytes;
-                          Exact_Keys : Boolean := True) return Boolean is
+                          Exact_Keys : Boolean := True) return Boolean
+     with Global => null,
+       Pre => Raw_Head'Length <= E.Count (Natural'Last) and then Last'Length <= E.Count (Natural'Last)
+   is
       Head_Text : constant String := Text (Raw_Head);
       Root : constant P.Node := P.Parse (Head_Text);
       Body_Node : constant P.Node := JF (Head_Text, Root, "body");
@@ -517,7 +580,9 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    end Head_Matches;
    function History
      (Raw : E.Bytes; Raw_Text, Owner, Issuer : String; Facts_Data : E.Bytes;
-      Capsules : E.Span) return Boolean is
+      Capsules : E.Span) return Boolean
+     with Global => null, Pre => Raw'Length <= E.Count (Natural'Last)
+   is
       Root : constant P.Node := P.Parse (Raw_Text);
       Body_Node : constant P.Node := JF (Raw_Text, Root, "body");
       Events : constant P.Node := JF (Raw_Text, Body_Node, "events");
@@ -535,14 +600,15 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
             Base : constant E.Span := F (Record_Data, Record_Value, "base");
             Request : constant E.Span := F (Record_Data, Record_Value, "request");
             Bounds : constant E.Span := F (Record_Data, Record_Value, "boundaries");
+            Intent : constant E.Span := F (Record_Data, Base, "intent");
             Old : P.Node := P.No_Node;
          begin
             if not Object_Keys (Raw_Text, Event, "prior,cause,intent,record", 4) or else State = Invalid or else
                (if I = 1 then not P.Is_Text (Raw_Text, JF (Raw_Text, Event, "prior"), "GENESIS")
                 else not Digest_Is (Raw_Text, JF (Raw_Text, Event, "prior"), Prior)) or else
                not Record_Valid (Record_Data, Record_Value) or else
-               not Text_Valid (Record_Data, F (Record_Data, Base, "intent")) or else
-               not P.Is_Text (Raw_Text, JF (Raw_Text, Event, "intent"), Archive_Text (Record_Data, F (Record_Data, Base, "intent"))) or else
+               not Text_Valid (Record_Data, Intent) or else not Archive_Fits (Record_Data, Intent) or else
+               not P.Is_Text (Raw_Text, JF (Raw_Text, Event, "intent"), Archive_Text (Record_Data, Intent)) or else
                not RA.Record_Is (Record_Data, Request, "worldline.owner_transitions", "OwnerRequest") or else
                not RA.Equal (Record_Data, Record_Data, F (Record_Data, Request, "peer"), F (Record_Data, Base, "principal")) or else
                not Is_Text (Record_Data, F (Record_Data, Request, "owner"), Owner) or else
@@ -582,11 +648,13 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       Effect : E.Span := Empty;
       Effect_Count : E.Count := 0;
    begin
+      -- Data'First < 1: the original raised at the private arena's bounds.
       if not Record_Valid (Data, Record_Value) or else not Sequence (Data, Bounds) or else
-         Length (Data, Bounds) = 0 or else Event_Digest'Length /= 64 then return False; end if;
+         Length (Data, Bounds) = 0 or else Event_Digest'Length /= 64 or else Data'First < 1 then return False; end if;
       declare Boundary : constant E.Span := Element (Data, Bounds, Length (Data, Bounds) - 1); begin
          if not Is_Text (Data, F (Data, Boundary, "name"), "OWNER_ADOPT_USE_CONSUMED") then return False; end if;
          for I in E.Count range 1 .. Length (Data, Bounds) loop
+            pragma Loop_Invariant (Effect_Count < I);
             declare Item : constant E.Span := Element (Data, Bounds, I - 1); begin
                if Is_Text (Data, F (Data, Item, "name"), "OWNER_COLLAPSE_EFFECT_INTENT") then
                   Effect_Count := Effect_Count + 1;
@@ -655,7 +723,8 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
                O.Decode_Hash (Data, F (Data, Owner, "resulting"), Valid, Resulting);
                O.Decode_Identity (Data, F (Data, Boundary, "issued_event"), Arena, Valid, Consumed_Issue);
                O.Decode_Identity (Data, F (Data, Boundary, "reserved_event"), Arena, Valid, Consumed_Reservation);
-               if not Valid then return False; end if;
+               -- Decode's precondition was an unguarded raise in the original.
+               if not Valid or else not CW.Well_Formed (Values.Raw) then return False; end if;
                declare
                   First : constant E.Count := Data'First + Arena_Size;
                   Audit : constant A.Audit :=
@@ -681,7 +750,9 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    end Adopt_Settled_Redecided;
    function Genesis_Matches
      (Data : E.Bytes; Roster : E.Span; Key, Raw, Policy_Raw : E.Bytes;
-      Policy_Text : String; Policy : P.Node) return Boolean is
+      Policy_Text : String; Policy : P.Node) return Boolean
+     with Global => null, Pre => Raw'Length <= E.Count (Natural'Last)
+   is
       Raw_Text : constant String := Text (Raw);
       Root : constant P.Node := P.Parse (Raw_Text);
       Body_Node : constant P.Node := JF (Raw_Text, Root, "body");
@@ -706,26 +777,71 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
       declare
          -- Initial bytes are constructed from the actual policy-derived
          -- binding, not the semantically equal genesis JSON spelling.
-         Binding_JSON : constant String := "{""gate_config_sha256"":" &
-            P.Slice (Policy_Text, JF (Policy_Text, Policy, "gate_config_sha256")) &
-            ",""installation_id"":" & P.Slice (Policy_Text, JF (Policy_Text, Policy, "installation_id")) &
-            ",""issuer_key_sha256"":" & P.Slice (Policy_Text, JF (Policy_Text, Policy, "issuer_key_sha256")) &
-            ",""issuer_policy_sha256"":" & P.Slice (Policy_Text, JF (Policy_Text, Policy, "issuer_policy_sha256")) &
-            ",""native_sha256"":" & P.Slice (Policy_Text, JF (Policy_Text, Policy, "native_sha256")) &
-            ",""owner_issuer_id"":" & P.Slice (Policy_Text, JF (Policy_Text, Policy, "owner_issuer_id")) &
-            ",""owner_uid"":" & P.Slice (Policy_Text, JF (Policy_Text, Policy, "owner_uid")) &
-            ",""policy_sha256"":""" & Text (Digest (Policy_Raw, Whole (Policy_Raw))) &
-            """,""store_genesis"":" & P.Slice (Policy_Text, JF (Policy_Text, Policy, "store_genesis")) & "}";
-         Initial_Body : constant E.Bytes := Bytes ("{""binding"":" & Binding_JSON &
-            ",""events"":[],""schema"":""worldline.protected-owner-journal-v1""}");
-         Initial : constant E.Bytes := Bytes ("{""body"":" & Text (Initial_Body) & ",""mac"":""" &
-            Text (Hex (H.Mac (Key, Initial_Body, Whole (Key), Whole (Initial_Body), Domain))) & """}" & Ada.Characters.Latin_1.LF);
-         Head_Body : constant E.Bytes := Bytes ("{""binding"":" & Binding_JSON &
-            ",""event_head"":""GENESIS"",""journal_sha256"":""" & Text (Digest (Initial, Whole (Initial))) &
-            """,""schema"":""worldline.protected-owner-head-v1""}");
-         Initial_Head : constant E.Bytes := Bytes ("{""body"":" & Text (Head_Body) & ",""mac"":""" &
-            Text (Hex (H.Mac (Key, Head_Body, Whole (Key), Whole (Head_Body), Domain))) & """}" & Ada.Characters.Latin_1.LF);
+         -- Operands and literal fragments are hoisted unchanged, so that the
+         -- construction and its exact length guard share the same terms.
+         Gate_Config : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "gate_config_sha256"));
+         Installation_Id : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "installation_id"));
+         Issuer_Key : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "issuer_key_sha256"));
+         Issuer_Policy : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "issuer_policy_sha256"));
+         Native_Sum : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "native_sha256"));
+         Owner_Issuer : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "owner_issuer_id"));
+         Owner_UID : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "owner_uid"));
+         Policy_Sum : constant String := Text (Digest (Policy_Raw, Whole (Policy_Raw)));
+         Store_Genesis : constant String := P.Slice (Policy_Text, JF (Policy_Text, Policy, "store_genesis"));
+         K_Gate : constant String := "{""gate_config_sha256"":";
+         K_Installation : constant String := ",""installation_id"":";
+         K_Issuer_Key : constant String := ",""issuer_key_sha256"":";
+         K_Issuer_Policy : constant String := ",""issuer_policy_sha256"":";
+         K_Native : constant String := ",""native_sha256"":";
+         K_Owner_Issuer : constant String := ",""owner_issuer_id"":";
+         K_Owner_UID : constant String := ",""owner_uid"":";
+         K_Policy : constant String := ",""policy_sha256"":""";
+         K_Store : constant String := """,""store_genesis"":";
+         K_Close : constant String := "}";
+         K_Binding : constant String := "{""binding"":";
+         K_Journal : constant String := ",""events"":[],""schema"":""worldline.protected-owner-journal-v1""}";
+         K_Head : constant String := ",""event_head"":""GENESIS"",""journal_sha256"":""";
+         K_Head_Schema : constant String := """,""schema"":""worldline.protected-owner-head-v1""}";
+         K_Body : constant String := "{""body"":";
+         K_Mac : constant String := ",""mac"":""";
+         K_End : constant String := """}" & Ada.Characters.Latin_1.LF;
+         Binding_Length : constant E.Count :=
+            E.Count (K_Gate'Length) + E.Count (Gate_Config'Length) +
+            E.Count (K_Installation'Length) + E.Count (Installation_Id'Length) +
+            E.Count (K_Issuer_Key'Length) + E.Count (Issuer_Key'Length) +
+            E.Count (K_Issuer_Policy'Length) + E.Count (Issuer_Policy'Length) +
+            E.Count (K_Native'Length) + E.Count (Native_Sum'Length) +
+            E.Count (K_Owner_Issuer'Length) + E.Count (Owner_Issuer'Length) +
+            E.Count (K_Owner_UID'Length) + E.Count (Owner_UID'Length) +
+            E.Count (K_Policy'Length) + E.Count (Policy_Sum'Length) +
+            E.Count (K_Store'Length) + E.Count (Store_Genesis'Length) + E.Count (K_Close'Length);
+         Hex_Length : constant E.Count := E.Count (H.SHA.Digest'Length) * 2;
+         -- Every other concatenation below is a prefix of one of these two.
+         Initial_Length : constant E.Count :=
+            E.Count (K_Body'Length) + E.Count (K_Binding'Length) + Binding_Length +
+            E.Count (K_Journal'Length) + E.Count (K_Mac'Length) + Hex_Length + E.Count (K_End'Length);
+         Head_Length : constant E.Count :=
+            E.Count (K_Body'Length) + E.Count (K_Binding'Length) + Binding_Length +
+            E.Count (K_Head'Length) + Hex_Length + E.Count (K_Head_Schema'Length) +
+            E.Count (K_Mac'Length) + Hex_Length + E.Count (K_End'Length);
          Bootstrap : constant E.Bytes := Raw_File (Data, Roster, "owner-bootstrap.json");
+      begin
+         -- Exactly the operands on which the original construction raised.
+         if Initial_Length > E.Count (Natural'Last) or else Head_Length > E.Count (Natural'Last) or else
+            Bootstrap'Length > E.Count (Natural'Last) then return False; end if;
+      declare
+         Binding_JSON : constant String := K_Gate & Gate_Config &
+            K_Installation & Installation_Id & K_Issuer_Key & Issuer_Key &
+            K_Issuer_Policy & Issuer_Policy & K_Native & Native_Sum &
+            K_Owner_Issuer & Owner_Issuer & K_Owner_UID & Owner_UID &
+            K_Policy & Policy_Sum & K_Store & Store_Genesis & K_Close;
+         Initial_Body : constant E.Bytes := Bytes (K_Binding & Binding_JSON & K_Journal);
+         Initial : constant E.Bytes := Bytes (K_Body & Text (Initial_Body) & K_Mac &
+            Text (Hex (H.Mac (Key, Initial_Body, Whole (Key), Whole (Initial_Body), Domain))) & K_End);
+         Head_Body : constant E.Bytes := Bytes (K_Binding & Binding_JSON &
+            K_Head & Text (Digest (Initial, Whole (Initial))) & K_Head_Schema);
+         Initial_Head : constant E.Bytes := Bytes (K_Body & Text (Head_Body) & K_Mac &
+            Text (Hex (H.Mac (Key, Head_Body, Whole (Key), Whole (Head_Body), Domain))) & K_End);
          Bootstrap_Text : constant String := Text (Bootstrap);
          Admission : constant P.Node := JF (Bootstrap_Text, P.Parse (Bootstrap_Text), "body");
          Events : constant P.Node := JF (Bootstrap_Text, Admission, "events");
@@ -747,11 +863,15 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
             Digest_Is (Bootstrap_Text, JF (Bootstrap_Text, Event, "journal_sha256"), Digest (Initial, Whole (Initial))) and then
             Digest_Is (Bootstrap_Text, JF (Bootstrap_Text, Event, "head_sha256"), Digest (Initial_Head, Whole (Initial_Head)));
       end;
+      end;
    end Genesis_Matches;
    function Current_History_Core
      (Data : E.Bytes; Roster : E.Span; Facts_Data : E.Bytes; Capsules : E.Span)
       return Current_View is
       Key_Field : constant E.Span := Owned_File (Data, Roster, "/authority/issuer/state/issuer-key.bin");
+      -- One name object per owner file read twice (guard and use).
+      Policy_Name : constant String := "owner-policy.json";
+      Journal_Name : constant String := "owner-transitions.json";
    begin
       if not V.Valid_Bytes (Data, Key_Field) or else
          not Replay_Capsules_Match (Data, Roster, Facts_Data) or else not X.Valid (Facts_Data, Capsules) or else
@@ -763,19 +883,24 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
             SF (Data, Owner_Context (Data, Roster), "mutation_intent_present"), "value"), E.Operation).Boolean_Bit then
          return (State => Rejected, others => <>);
       end if;
-      if not Context_File_Matches (Data, Roster, "policy_raw", "owner-policy.json") or else
+      if not Context_File_Matches (Data, Roster, "policy_raw", Policy_Name) or else
          not Context_File_Matches (Data, Roster, "genesis_raw", "owner-genesis.json") or else
          not Context_File_Matches (Data, Roster, "bootstrap_raw", "owner-bootstrap.json") or else
-         not Context_File_Matches (Data, Roster, "journal_raw", "owner-transitions.json") or else
+         not Context_File_Matches (Data, Roster, "journal_raw", Journal_Name) or else
          not Context_File_Matches (Data, Roster, "head_raw", "owner-head.json") then return (State => Rejected, others => <>); end if;
+      -- The original raised converting a policy or journal beyond Natural'Last.
+      if V.Bytes_Value (Data, Owner_File (Data, Roster, Policy_Name))'Length > E.Count (Natural'Last) or else
+         V.Bytes_Value (Data, Owner_File (Data, Roster, Journal_Name))'Length > E.Count (Natural'Last)
+      then return (State => Rejected, others => <>); end if;
       declare
          Key : constant E.Bytes := V.Bytes_Value (Data, Key_Field);
-         Policy_Field : constant E.Span := Owner_File (Data, Roster, "owner-policy.json");
+         Policy_Field : constant E.Span := Owner_File (Data, Roster, Policy_Name);
          Policy_Raw : constant E.Bytes := V.Bytes_Value (Data, Policy_Field);
          Policy_Text : constant String := Text (Policy_Raw);
          Policy : constant P.Node := P.Parse (Policy_Text);
+         UID_Node : constant P.Node := JF (Policy_Text, Policy, "owner_uid");
          Binding : constant E.Span := SF (Data, Context (Data, Roster), "owner_binding");
-         Journal_Field : constant E.Span := Owner_File (Data, Roster, "owner-transitions.json");
+         Journal_Field : constant E.Span := Owner_File (Data, Roster, Journal_Name);
          Journal : constant E.Bytes := V.Bytes_Value (Data, Journal_Field);
          Head : constant E.Bytes := Raw_File (Data, Roster, "owner-head.json");
          Journal_Text : constant String := Text (Journal);
@@ -802,23 +927,26 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
                Part (Policy_Raw, JF (Policy_Text, Policy, "store_genesis")),
                SF (Data, SF (Data, SF (Data, Context (Data, Roster), "lease_genesis"), "store"), "identity")) or else
             not V.Valid_Bytes (Data, Gate_Raw) or else not V.Valid_Bytes (Data, Issuer_Raw) or else
-            not Policy_Sources (Data, Roster, Policy_Text, Policy) then return (State => Rejected, others => <>); end if;
+            not Policy_Sources (Data, Roster, Policy_Text, Policy) or else
+            P.Slice (Policy_Text, UID_Node)'Length > Natural'Last - UID_Open'Length - UID_Close'Length
+         then return (State => Rejected, others => <>); end if;
          declare
             Gate : constant E.Bytes := V.Bytes_Value (Data, Gate_Raw);
             Issuer : constant E.Bytes := V.Bytes_Value (Data, Issuer_Raw);
             Genesis : constant E.Bytes := Raw_File (Data, Roster, "owner-genesis.json");
-            Principal : constant String := "{""domain"":""linux.uid.v1"",""uid"":" &
-               P.Slice (Policy_Text, JF (Policy_Text, Policy, "owner_uid")) & "}";
+            Principal : constant String := UID_Open & P.Slice (Policy_Text, UID_Node) & UID_Close;
             Last : constant E.Bytes := (if P.Count (Journal_Text, Events) = 0 then Bytes ("GENESIS")
                else Digest (Journal, Part (Journal, P.Element (Journal_Text, Events, P.Count (Journal_Text, Events)))));
          begin
             if not (Digest_Is (Policy_Text, JF (Policy_Text, Policy, "gate_config_sha256"), Digest (Gate, Whole (Gate))) and then
                Digest_Is (Policy_Text, JF (Policy_Text, Policy, "issuer_policy_sha256"), Digest (Issuer, Whole (Issuer))) and then
+               Genesis'Length <= E.Count (Natural'Last) and then
                Genesis_Matches (Data, Roster, Key, Genesis, Policy_Raw, Policy_Text, Policy) and then
                Envelope (Key, Journal, Whole (Key), Journal_Text) and then
                RJ.Raw_JSON_Scoped_Equal (Journal, Data, Part (Journal, JF (Journal_Text, Body_Node, "binding")), Binding) and then
                History (Journal, Journal_Text, Principal, P.Text (Policy_Text, JF (Policy_Text, Policy, "owner_issuer_id")),
                   Facts_Data, Capsules) and then
+               Head'Length <= E.Count (Natural'Last) and then
                Head_Matches (Key, Journal, Head, Data, Binding, Last)) then
                return (State => Rejected, others => <>);
             end if;
@@ -832,6 +960,12 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
      (Context : in out Prepared_History; Data, Facts_Data : E.Bytes; Roster : E.Span) is
    begin
       if Context.View.State /= Unestablished then return; end if;
+      -- An empty arena whose lower bound is not an index: the original raised
+      -- recording or spanning it. Refused, never verified.
+      if Data'First < 1 or else Facts_Data'First < 1 then
+         Context.View := (State => Rejected, others => <>);
+         return;
+      end if;
       -- The observer binds to this exact arena: extent and whole-bytes digest.
       Context.Arena_First := Data'First;
       Context.Arena_Length := Data'Length;
@@ -861,7 +995,10 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
          return Current_Matches (Context);
       end;
    end Current_History_Authenticated;
-   function From_Hex (Value : String) return E.Bytes is
+   function From_Hex (Value : String) return E.Bytes
+     with Global => null,
+       Post => From_Hex'Result'First = 1 and then From_Hex'Result'Length <= E.Count (Value'Length)
+   is
       function Space (C : Character) return Boolean is
         (C in ' ' | Character'Val (9) | Character'Val (10) | Character'Val (11) |
               Character'Val (12) | Character'Val (13));
@@ -871,10 +1008,28 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
         (if C in '0' .. '9' then Character'Pos (C) - Character'Pos ('0')
          elsif C in 'a' .. 'f' then Character'Pos (C) - Character'Pos ('a') + 10
          else Character'Pos (C) - Character'Pos ('A') + 10);
+      -- Ghost models of the scan from Offset: whether every remaining
+      -- non-space starts a hex pair, and how many pairs remain.
+      function Pairs_Valid (From : Natural) return Boolean is
+        (if From >= Value'Length then True
+         elsif Space (Value (Value'First + From)) then Pairs_Valid (From + 1)
+         else Value'Length - From >= 2 and then Hex_Digit (Value (Value'First + From)) and then
+            Hex_Digit (Value (Value'First + From + 1)) and then Pairs_Valid (From + 2))
+        with Ghost, Subprogram_Variant => (Decreases => Value'Length - From);
+      function Pairs (From : Natural) return Natural is
+        (if From >= Value'Length then 0
+         elsif Space (Value (Value'First + From)) then Pairs (From + 1)
+         elsif Value'Length - From >= 2 then Pairs (From + 2) + 1
+         else 0)
+        with Ghost, Subprogram_Variant => (Decreases => Value'Length - From),
+          Post => Pairs'Result <= (if From >= Value'Length then 0 else Value'Length - From);
       Count : E.Count := 0;
       Offset : Natural := 0;
    begin
       while Offset < Value'Length loop
+         pragma Loop_Invariant (Offset <= Value'Length);
+         pragma Loop_Invariant (Count + E.Count (Pairs (Offset)) = E.Count (Pairs (0)));
+         pragma Loop_Invariant (Pairs_Valid (0) = Pairs_Valid (Offset));
          pragma Loop_Variant (Decreases => Value'Length - Offset);
          if Space (Value (Value'First + Offset)) then Offset := Offset + 1;
          else
@@ -887,6 +1042,9 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
               Result : E.Bytes (1 .. Final_Count) := (others => 0); Index : E.Count := 0; begin
          Offset := 0;
          while Offset < Value'Length loop
+            pragma Loop_Invariant (Offset <= Value'Length);
+            pragma Loop_Invariant (Pairs_Valid (Offset));
+            pragma Loop_Invariant (Index + E.Count (Pairs (Offset)) = Final_Count);
             pragma Loop_Variant (Decreases => Value'Length - Offset);
             if Space (Value (Value'First + Offset)) then Offset := Offset + 1;
             else
@@ -915,29 +1073,45 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
    is
       function WF (Name : String) return E.Span is
         (OA.Field (Capture_Data, Witness, Name));
+      -- Field spans read by both a guard and a use are one object each.
+      Journal_W : constant E.Span := WF ("owner_journal");
+      Head_W : constant E.Span := WF ("owner_head");
+      Record_W : constant E.Span := WF ("owner_record");
+      Operation_W : constant E.Span := WF ("operation");
    begin
       if not OA.Valid (Capture_Data, Witness) or else E.Decode (Capture_Data, Witness, E.Operation).Form /= E.Object_Value or else
          not Is_Text (Capture_Data, WF ("schema"), "worldline.owner-canonical-binding-v1", E.Operation) or else
-         not Text_Valid (Capture_Data, WF ("owner_journal"), E.Operation) or else
-         not Text_Valid (Capture_Data, WF ("owner_head"), E.Operation) or else
-         not Text_Valid (Capture_Data, WF ("owner_record"), E.Operation) or else
+         not Text_Valid (Capture_Data, Journal_W, E.Operation) or else
+         not Text_Valid (Capture_Data, Head_W, E.Operation) or else
+         not Text_Valid (Capture_Data, Record_W, E.Operation) or else
          not Text_Valid (Capture_Data, WF ("owner_event"), E.Operation) then return False; end if;
+      -- The observer is bound by extent; these are the original's unguarded
+      -- precondition and conversion failure points, refused explicitly.
+      if not V.Valid_Bytes (Data, Context.View.Key_Field) or else
+         not V.Valid_Bytes (Data, Context.View.Policy_Field) or else
+         not V.Valid_Bytes (Data, Context.View.Journal_Field) or else
+         V.Bytes_Value (Data, Context.View.Policy_Field)'Length > E.Count (Natural'Last) or else
+         V.Bytes_Value (Data, Context.View.Journal_Field)'Length > E.Count (Natural'Last) or else
+         not Archive_Fits (Capture_Data, Journal_W, E.Operation) or else
+         not Archive_Fits (Capture_Data, Head_W, E.Operation) or else
+         not Archive_Fits (Capture_Data, Record_W, E.Operation) then return False; end if;
       declare
          Key : constant E.Bytes := V.Bytes_Value (Data, Context.View.Key_Field);
          Policy_Raw : constant E.Bytes := V.Bytes_Value (Data, Context.View.Policy_Field);
          Policy_Text : constant String := Text (Policy_Raw);
          Policy : constant P.Node := P.Parse (Policy_Text);
+         UID_Node : constant P.Node := JF (Policy_Text, Policy, "owner_uid");
          Binding : constant E.Span := Context.View.Binding;
          Current_Journal : constant E.Bytes := V.Bytes_Value (Data, Context.View.Journal_Field);
          Current_Text : constant String := Text (Current_Journal);
          Current_Body : constant P.Node := JF (Current_Text, P.Parse (Current_Text), "body");
          Actual : constant P.Node := JF (Current_Text, Current_Body, "events");
-         Retained : constant E.Bytes := From_Hex (Archive_Text (Capture_Data, WF ("owner_journal"), E.Operation));
-         Retained_Head : constant E.Bytes := From_Hex (Archive_Text (Capture_Data, WF ("owner_head"), E.Operation));
+         Retained : constant E.Bytes := From_Hex (Archive_Text (Capture_Data, Journal_W, E.Operation));
+         Retained_Head : constant E.Bytes := From_Hex (Archive_Text (Capture_Data, Head_W, E.Operation));
          Retained_Text : constant String := Text (Retained);
          Retained_Body : constant P.Node := JF (Retained_Text, P.Parse (Retained_Text), "body");
          Events : constant P.Node := JF (Retained_Text, Retained_Body, "events");
-         Record_Data : constant E.Bytes := From_Base64 (Archive_Text (Capture_Data, WF ("owner_record"), E.Operation));
+         Record_Data : constant E.Bytes := From_Base64 (Archive_Text (Capture_Data, Record_W, E.Operation));
          Record_Value : constant E.Span := Whole (Record_Data);
          Base : constant E.Span := F (Record_Data, Record_Value, "base");
          Request : constant E.Span := F (Record_Data, Record_Value, "request");
@@ -951,18 +1125,20 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
             Events.Form /= P.Array_Value or else P.Count (Retained_Text, Events) = 0 or else
             P.Count (Retained_Text, Events) > Context.View.Event_Count or else
             not Record_Valid (Record_Data, Record_Value) or else
-            not Text_Valid (Capture_Data, WF ("operation"), E.Operation) or else
-            not Is_Text (Record_Data, F (Record_Data, Base, "intent"), Archive_Text (Capture_Data, WF ("operation"), E.Operation)) then return False; end if;
+            not Text_Valid (Capture_Data, Operation_W, E.Operation) or else
+            not Archive_Fits (Capture_Data, Operation_W, E.Operation) or else
+            not Is_Text (Record_Data, F (Record_Data, Base, "intent"), Archive_Text (Capture_Data, Operation_W, E.Operation)) then return False; end if;
          for I in 1 .. P.Count (Retained_Text, Events) loop
+            pragma Loop_Invariant (Reserved_Count < I);
             declare Event : constant P.Node := P.Element (Retained_Text, Events, I); begin
                if not P.Equal (Retained_Text, Event, Current_Text,
                   P.Element (Current_Text, Actual, I)) then return False; end if;
                if Digest_Is (Retained_Text, JF (Retained_Text, Event, "record"),
-                  Bytes (Archive_Text (Capture_Data, WF ("owner_record"), E.Operation))) and then
+                  Bytes (Archive_Text (Capture_Data, Record_W, E.Operation))) and then
                   Is_Text (Capture_Data, WF ("owner_event"), Text (Digest (Retained, Part (Retained, Event))), E.Operation) then
                   Selected := True;
                end if;
-               if P.Is_Text (Retained_Text, JF (Retained_Text, Event, "intent"), Archive_Text (Capture_Data, WF ("operation"), E.Operation)) and then
+               if P.Is_Text (Retained_Text, JF (Retained_Text, Event, "intent"), Archive_Text (Capture_Data, Operation_W, E.Operation)) and then
                   Event_Cause (Retained_Text, Event) = Reserved then
                   Reserved_Count := Reserved_Count + 1;
                   Reserved_Event := Event;
@@ -972,14 +1148,15 @@ package body Worldline.Custody_V2_Owner_Canonical with SPARK_Mode is
          if not Selected or else Reserved_Count /= 1 or else
             not Head_Matches (Key, Retained, Retained_Head, Data, Binding,
                Digest (Retained, Part (Retained, P.Element (Retained_Text, Events, P.Count (Retained_Text, Events)))),
-               Exact_Keys => False) then return False; end if;
+               Exact_Keys => False) or else
+            P.Slice (Policy_Text, UID_Node)'Length > Natural'Last - UID_Open'Length - UID_Close'Length
+         then return False; end if;
          declare
             Original : constant E.Bytes := Decode_Record (Retained_Text, Reserved_Event);
             Original_Request : constant E.Span := F (Original, Whole (Original), "request");
             Peer : constant E.Span := OA.Field (Capture_Data, WF ("original_request"), "peer");
             UID : constant E.Span := OA.Field (Capture_Data, Peer, "uid");
-            Principal : constant String := "{""domain"":""linux.uid.v1"",""uid"":" &
-               P.Slice (Policy_Text, JF (Policy_Text, Policy, "owner_uid")) & "}";
+            Principal : constant String := UID_Open & P.Slice (Policy_Text, UID_Node) & UID_Close;
          begin
             -- Every retained event equals the corresponding verified current
             -- event, including its complete original record bytes. The unique
