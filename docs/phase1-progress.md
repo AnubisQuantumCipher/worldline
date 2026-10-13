@@ -17,8 +17,7 @@ streaming patch, regression and complete campaign remain UNVERIFIED.
 
 ## Step 2 — automatic full-value/'Old retirement
 
-Contract/donor inventory and minimal reproduction analysis in progress; no changed guarantee,
-restatement or infeasibility verdict adopted.
+Analysis published in docs/old-retirement-analysis.md with donor/contract inventory and retained original plus corrected independently repeated probes. Original O1 is FAILED-OPEN; candidate-mechanism failures are TESTED, universal impossibility UNVERIFIED. No narrowed production claim or source contract change. Exact disposition D5; unaffected authority work continues.
 
 ## Step 3 — authority
 
