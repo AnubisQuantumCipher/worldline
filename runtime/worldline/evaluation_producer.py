@@ -10,6 +10,7 @@ import dataclasses
 import copy
 import hashlib
 import json
+import io
 from pathlib import Path
 import uuid
 import struct
@@ -36,9 +37,186 @@ def capture(value):
     raise CoreUnavailable('raw evaluation has unsupported operand type: ' + type(value).__qualname__)
 
 
+from . import evaluation_policy as _producer_json_policy
+
+
+_PRODUCER_JSON_CAPTURE = capture
+_PRODUCER_JSON_OPTIONAL_BYTES = optional_bytes
+_PRODUCER_JSON_RAW_JSON = _producer_json_policy.raw_json
+_PRODUCER_JSON_INTEGER = _producer_json_policy._integer
+_PRODUCER_JSON_DUMPS = json.dumps
+_PRODUCER_JSON_JSON_ENCODER = json.JSONEncoder
+_PRODUCER_JSON_DEFAULT_ENCODER = json._default_encoder
+_PRODUCER_JSON_ENCODER_MODULE = json.encoder
+_PRODUCER_JSON_DEFAULT_STATE = tuple(vars(_PRODUCER_JSON_DEFAULT_ENCODER).items())
+_PRODUCER_JSON_ENCODER_METHODS = tuple((name, getattr(_PRODUCER_JSON_JSON_ENCODER, name)) for name in
+                         ('__init__', 'encode', 'iterencode', 'default'))
+_PRODUCER_JSON_ENCODER_GLOBALS = tuple((name, getattr(json.encoder, name)) for name in
+                         ('JSONEncoder', 'encode_basestring_ascii', 'encode_basestring',
+                          'c_make_encoder', '_make_iterencode', 'INFINITY'))
+_PRODUCER_JSON_ENCODER_CLASS_STATE = tuple(vars(_PRODUCER_JSON_JSON_ENCODER).items())
+_PRODUCER_JSON_FUNCTION_STATES = tuple((function, function.__code__, function.__defaults__,
+                          None if function.__kwdefaults__ is None else
+                          tuple(function.__kwdefaults__.items()))
+                         for function in (_PRODUCER_JSON_DUMPS, _PRODUCER_JSON_RAW_JSON, _PRODUCER_JSON_INTEGER, _PRODUCER_JSON_CAPTURE,
+                                          *(function for _, function in _PRODUCER_JSON_ENCODER_METHODS),
+                                          json.encoder._make_iterencode))
+
+
+def _producer_json_same_state(current, expected):
+    # Check string keys before lookups, avoiding foreign key equality hooks.
+    if type(current) is not dict or len(current) != len(expected):
+        return False
+    if any(type(key) is not str for key in current):
+        return False
+    return all(key in current and current[key] is value for key, value in expected)
+
+
+def _producer_json_pristine():
+    # A bounded snapshot of the actual scalar/key formatter call graph. A
+    # changed hook/configuration declines BEFORE speculative formatter calls.
+    # This does not establish equivalence under concurrent mutation after it.
+    if getattr(json, '_default_encoder', None) is not _PRODUCER_JSON_DEFAULT_ENCODER or json.encoder is not _PRODUCER_JSON_ENCODER_MODULE:
+        return False
+    if tuple(vars(_PRODUCER_JSON_JSON_ENCODER)) != tuple(key for key, _ in _PRODUCER_JSON_ENCODER_CLASS_STATE):
+        return False
+    if not all(vars(_PRODUCER_JSON_JSON_ENCODER)[key] is value for key, value in _PRODUCER_JSON_ENCODER_CLASS_STATE):
+        return False
+    if not _producer_json_same_state(vars(_PRODUCER_JSON_DEFAULT_ENCODER), _PRODUCER_JSON_DEFAULT_STATE):
+        return False
+    if not all(getattr(json.encoder, key, None) is value for key, value in _PRODUCER_JSON_ENCODER_GLOBALS):
+        return False
+    for function, code, defaults, kwdefaults in _PRODUCER_JSON_FUNCTION_STATES:
+        if function.__code__ is not code or function.__defaults__ is not defaults:
+            return False
+        current = function.__kwdefaults__
+        if kwdefaults is None:
+            if current is not None:
+                return False
+        elif not _producer_json_same_state(current, kwdefaults):
+            return False
+    return True
+
+
 def encode(value):
+    # Match original encode's import-before-capture binding, including hooks
+    # that replace the policy module attribute during capture itself.
     from .evaluation_policy import raw_json
-    return raw_json(capture(value)).encode('ascii')
+    captured = shadow = output = pending = item = iterator = child = key = None
+    try:
+        # Keep the exact original capture once. It already owns plain containers,
+        # invokes foreign Mapping/dataclass hooks once, and retains full leaves.
+        captured = capture(value)
+
+        class Decline(Exception):
+            pass
+
+        def deepest(item):
+            best = child = shape = key = None
+            try:
+                kind = type(item)
+                if item is None or kind in (str, bool, int, float):
+                    # None exercises json.dumps' scalar frame path. If conservative
+                    # preflight refuses a near-limit original integer tree, fallback
+                    # still invokes the original codec on the exact captured operand.
+                    return None, 0
+                if kind not in (dict, list):
+                    raise Decline
+                best = None
+                best_depth = -1
+                if kind is dict:
+                    for key, child in item.items():
+                        if type(key) is not str:
+                            raise Decline
+                        shape, depth = deepest(child)
+                        if depth > best_depth:
+                            best, best_depth = (key, shape), depth
+                    return ({} if best is None else {best[0]: best[1]}), best_depth + 1
+                for child in item:
+                    shape, depth = deepest(child)
+                    if depth > best_depth:
+                        best, best_depth = shape, depth
+                return ([] if best_depth < 0 else [best]), best_depth + 1
+
+            finally:
+                item = best = child = shape = key = None
+
+        try:
+            pristine = (raw_json is _PRODUCER_JSON_RAW_JSON
+                        and capture is _PRODUCER_JSON_CAPTURE
+                        and optional_bytes is _PRODUCER_JSON_OPTIONAL_BYTES
+                        and _producer_json_policy.raw_json is _PRODUCER_JSON_RAW_JSON
+                        and _producer_json_policy._integer is _PRODUCER_JSON_INTEGER
+                        and json.dumps is _PRODUCER_JSON_DUMPS
+                        and json.JSONEncoder is _PRODUCER_JSON_JSON_ENCODER
+                        and _producer_json_pristine())
+        except Exception:
+            pristine = False
+        shadow = output = pending = None
+        if pristine:
+            try:
+                shadow, _depth = deepest(captured)
+                # The original recursive formatter remains the depth/refusal gate
+                # at the encoder function's original caller depth.
+                raw_json(shadow)
+                shadow = None
+                output = io.BytesIO()
+                pending = [('value', captured)]
+                while pending:
+                    action, item = pending.pop()
+                    if action == 'array-items':
+                        iterator, separated = item
+                        try:
+                            child = next(iterator)
+                        except StopIteration:
+                            output.write(b']')
+                        else:
+                            if separated:
+                                output.write(b',')
+                            pending.append(('array-items', (iterator, True)))
+                            pending.append(('value', child))
+                        continue
+                    if action == 'object-items':
+                        iterator, separated = item
+                        try:
+                            key, child = next(iterator)
+                        except StopIteration:
+                            output.write(b'}')
+                        else:
+                            if separated:
+                                output.write(b',')
+                            output.write(json.dumps(key, ensure_ascii=True).encode('ascii'))
+                            output.write(b':')
+                            pending.append(('object-items', (iterator, True)))
+                            pending.append(('value', child))
+                        continue
+                    kind = type(item)
+                    if kind is int:
+                        output.write(_producer_json_policy._integer(item).encode('ascii'))
+                    elif item is None or kind in (bool, float, str):
+                        output.write(json.dumps(item, ensure_ascii=True, allow_nan=True,
+                                                separators=(',', ':')).encode('ascii'))
+                    elif kind is list:
+                        output.write(b'[')
+                        pending.append(('array-items', (iter(item), False)))
+                    elif kind is dict:
+                        output.write(b'{')
+                        pending.append(('object-items', (iter(item.items()), False)))
+                    else:
+                        raise Decline
+                return output.getvalue()
+            except Exception:
+                pass
+            finally:
+                shadow = output = pending = item = iterator = child = key = None
+
+        # Reuse the once-captured operand, including after a declined preflight.
+        # Calling capture again would change foreign hooks and mutation timing.
+        return raw_json(captured).encode('ascii')
+    finally:
+        # Do not retain additional owned capture/traversal/output references in
+        # this encoder's traceback frame on refusals or BaseException.
+        captured = shadow = output = pending = item = iterator = child = key = None
 
 
 def _json_operand(payload):

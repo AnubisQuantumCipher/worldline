@@ -1,0 +1,23 @@
+{
+  "classification": "TESTED finite exact adaptation and MEASURED fixture memory",
+  "utc": "2026-10-13T21:25:31.487532+00:00",
+  "base_commit": "d3e737455f60a9c0fb8827abd272109ebc4f9378",
+  "production_patch_not_applied": true,
+  "evidence": {
+    "scratch/acquisition/private-producer-product-v1/producer.patch": "1b55976fa4308f32eb18aa911d563f00abae59f4b45bbe0f50884e41875f61fd",
+    "scratch/acquisition/private-producer-product-v1/adaptation.json": "0d637c495e598b4526158545829dfaad5d6e8633b8529878cc94cd1ea9b7a966",
+    "scratch/acquisition/private-producer-product-frame-v1-receipt.json": "bc936e95e1aac2fb3d8b8bc5bc9d8dbc0f51441bdf324d7d6b684b41dbf3b94e",
+    "scratch/acquisition/product-producer-controls-v1/summary.json": "ae757959d46809ca8f4b8c55395ae82e4955bbbd77e6c1de6171dca087b106e6",
+    "scratch/acquisition/product-producer-hooks-v1/summary.json": "ee403187cb4d23e4070175fa190fa1b324a053b70b74dc97f2273c68bd0f1788",
+    "scratch/acquisition/product-producer-regression-scope-v1/launch.jsonl": "3277512fbc7dc680c38ec6312932990a0bf5635fd7b5816672a10aa099a30379",
+    "scratch/acquisition/product-producer-regression-scope-v1/worker-result.json": "3284ba6a565f65f0e1276daf9f0e5721ab91b8574f54430cb498b9a7de4b6452",
+    "scratch/acquisition/product-producer-regression-scope-v1/stdout": "ee879a33767154c47e4eb80b91c0233a5315342bbb10d11a8b73cb7fed9ed654",
+    "scratch/acquisition/product-producer-regression-scope-v1/stderr": "b8954e1f9fa3c927250b23374a3e6acae425a751d5873c46e36b898e27496c85",
+    "scratch/coordinator/private-producer-memory-wire-cmp-v2.json": "822a8cb5941daa51a9faef70bc9cd1ba1a04b750f2364686827a17a84b4c3b1f"
+  },
+  "non_claims": [
+    "Not universal domain or memory proof",
+    "Not actual late OOM allocation attribution",
+    "Not full campaign or final acceptance"
+  ]
+}
