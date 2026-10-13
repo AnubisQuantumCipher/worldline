@@ -878,5 +878,313 @@ class TerminalImmutableLeafOwnership(unittest.TestCase):
         self.assertEqual(calls, [])
 
 
+
+
+class OwnershipWitnessLifetime(unittest.TestCase):
+    """Exact existing codec calls with shorter transient witness lifetime."""
+
+    @staticmethod
+    def preceding_owned(value):
+        from worldline.finalization_writer import identity, text, magnitude, bytes_value, value_bytes, encode, decode
+        # Exact builtins have no foreign hooks. Everything uncertain retains the
+        # original whole-root terminal codec, including its caller-depth refusal.
+        class _NotTerminalBuiltinTree(Exception):
+            pass
+
+        def copy_tree(item, active):
+            kind = type(item)
+            if item is None or kind is bool:
+                return item
+            if kind in (str, int):
+                # Exact builtin strings and arbitrary integers are immutable and
+                # already in the terminal codec's domain. Keep their whole values;
+                # copying mutable containers does not require scalar roundtrips.
+                return item
+            if kind is float:
+                return item  # Original witness codec supplies pack/unpack bits below.
+            if kind not in (list, tuple, dict):
+                raise _NotTerminalBuiltinTree
+            if kind is dict and any(type(key) is not str for key in item):
+                raise _NotTerminalBuiltinTree
+            token = id(item)
+            if token in active:
+                raise _NotTerminalBuiltinTree
+            active.add(token)
+            try:
+                if kind is dict:
+                    return {key: copy_tree(child, active)
+                            for key, child in item.items()}
+                # The original terminal array decoder converts BOTH forms to lists.
+                return [copy_tree(child, active) for child in item]
+            finally:
+                active.remove(token)
+
+        def witness(item):
+            kind = type(item)
+            if kind is str: return ''
+            if kind is int: return 0
+            if kind is dict:
+                return {key: witness(child) for key, child in item.items()}
+            if kind is list:
+                return [witness(child) for child in item]
+            return item  # Complete real float values, bool and None remain present.
+
+        def finish(item, shape):
+            kind = type(item)
+            if type(shape) is not kind:
+                raise _NotTerminalBuiltinTree
+            if kind is float:
+                return shape  # Exact original terminal struct pack/unpack result.
+            if kind is dict:
+                if tuple(item) != tuple(shape):
+                    raise _NotTerminalBuiltinTree
+                for key, child in item.items():
+                    item[key] = finish(child, shape[key])
+            elif kind is list:
+                if len(item) != len(shape):
+                    raise _NotTerminalBuiltinTree
+                for index, child in enumerate(item):
+                    item[index] = finish(child, shape[index])
+            return item
+
+        owned = shape = normalized = None
+        try:
+            owned = copy_tree(value, set())
+            shape = witness(owned)
+            # Original expanded tagged/JSON/decode recursion at the original helper
+            # call depth, with full keys and real floats, before any publication.
+            normalized = bytes_value(value_bytes(shape))
+            return finish(owned, normalized)
+        except Exception:
+            owned = shape = normalized = None
+        # The original exception must not inherit internal decline as its context.
+        # BaseException interruptions propagate without a retry or success sentinel.
+        return bytes_value(value_bytes(value))
+
+    @staticmethod
+    def preceding_owned_acquisition(value):
+        from worldline.finalization_writer import identity, text, magnitude, bytes_value, value_bytes, encode, decode
+        # Foreign/uncertain trees keep the original whole-root codec and refusal.
+        class _NotBuiltinTree(Exception):
+            pass
+
+        def visit(item, active, *, copy):
+            kind = type(item)
+            if item is None or kind in (bool, int, float, str, bytes):
+                return item  # Float normalization follows whole structural validation.
+            if kind not in (list, tuple, dict):
+                raise _NotBuiltinTree
+            if kind is dict and any(type(key) is not str for key in item):
+                raise _NotBuiltinTree
+            token = id(item)
+            if token in active:
+                raise _NotBuiltinTree
+            active.add(token)
+            try:
+                if not copy:
+                    for child in item.values() if kind is dict else item:
+                        visit(child, active, copy=False)
+                    return None
+                if kind is dict:
+                    return {key: visit(child, active, copy=True)
+                            for key, child in item.items()}
+                children = [visit(child, active, copy=True) for child in item]
+                return tuple(children) if kind is tuple else children
+            finally:
+                active.remove(token)
+
+        def witness(item):
+            kind = type(item)
+            if kind is bytes: return b''
+            if kind is str: return ''
+            if kind is int: return 0
+            if kind is dict:
+                return {key: witness(child) for key, child in item.items()}
+            if kind in (list, tuple):
+                children = [witness(child) for child in item]
+                return tuple(children) if kind is tuple else children
+            return item  # Complete float values, bool and None retain their types.
+
+        def normalize(item, shape):
+            kind = type(item)
+            if type(shape) is not kind:
+                raise _NotBuiltinTree
+            if kind is float:
+                return shape  # The original whole witness codec normalized this leaf.
+            if kind is dict:
+                if tuple(item) != tuple(shape):
+                    raise _NotBuiltinTree
+                for key, child in item.items():
+                    item[key] = normalize(child, shape[key])
+            elif kind in (list, tuple):
+                if len(item) != len(shape):
+                    raise _NotBuiltinTree
+                if kind is tuple:
+                    return tuple(normalize(child, normalized)
+                                 for child, normalized in zip(item, shape))
+                for index, child in enumerate(item):
+                    item[index] = normalize(child, shape[index])
+            return item
+
+        owned = shape = normalized = None
+        try:
+            visit(value, set(), copy=False)
+            owned = visit(value, set(), copy=True)
+            shape = witness(owned)
+            # Exact original codec at the original helper call depth: expanded
+            # tagged/JSON recursion and float refusal precede any publication.
+            normalized = decode(encode(shape))
+            return normalize(owned, normalized)
+        except Exception:
+            owned = shape = normalized = None
+        # Leave the handler before fallback so internal decline is not exposed as
+        # the original exception's context. BaseException interruptions propagate.
+        return decode(encode(value))
+
+    def test_transient_witness_is_released_before_each_original_decoder(self):
+        import sys
+        import struct
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        value = {'whole': ['\ud800\x00payload', 1 << 20000, -(1 << 20000),
+                           -0.0, struct.unpack('!d', bytes.fromhex('fff8000000000011'))[0]],
+                 'tuple': (None, False, {'key\udfff': []})}
+        for helper, decoder_name, codec, preceding in (
+                (writer._owned, 'bytes_value', writer.value_bytes, self.preceding_owned),
+                (writer._owned_acquisition, 'decode', writer.encode, self.preceding_owned_acquisition)):
+            decoder = getattr(writer, decoder_name)
+            entries = []
+            def observe_decode(raw):
+                frame = sys._getframe(1)
+                try:
+                    self.assertIsNone(frame.f_locals['shape'])
+                    self.assertIs(frame.f_locals['encoded'], raw)
+                    self.assertIsNot(frame.f_locals['owned'], value)
+                    entries.append(frame.f_code.co_name)
+                finally:
+                    del frame
+                return decoder(raw)
+            with self.subTest(helper=helper.__name__):
+                expected = preceding(value)
+                with patch.object(writer, decoder_name, new=observe_decode):
+                    actual = helper(value)
+                self.assertEqual(entries, [helper.__name__])
+                self.assertEqual(codec(actual), codec(expected))
+                self.assertIsNot(actual['whole'], value['whole'])
+                self.assertIs(actual['whole'][0], value['whole'][0])
+
+    def test_decode_exception_clears_temporary_before_original_whole_root_fallback(self):
+        import sys
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        value = {'whole': ['\ud800\x00payload', 1 << 20000, -0.0]}
+        for helper, encoder_name, decoder_name in (
+                (writer._owned, 'value_bytes', 'bytes_value'),
+                (writer._owned_acquisition, 'encode', 'decode')):
+            encoder, decoder = getattr(writer, encoder_name), getattr(writer, decoder_name)
+            events = []
+            def observe_encode(item):
+                if item is value:
+                    frame = sys._getframe(1)
+                    try:
+                        self.assertIsNone(frame.f_locals['encoded'])
+                        self.assertIsNone(frame.f_locals['shape'])
+                        self.assertIsNone(frame.f_locals['owned'])
+                        self.assertIsNone(frame.f_locals['normalized'])
+                        self.assertIsNone(sys.exception())
+                    finally:
+                        del frame
+                    events.append('original-root')
+                else:
+                    events.append('whole-witness')
+                return encoder(item)
+            def first_decode_refuses(raw):
+                if events == ['whole-witness']:
+                    events.append('decode-refusal')
+                    raise ValueError('transient decoder refusal control')
+                events.append('original-root-decoded')
+                return decoder(raw)
+            with self.subTest(helper=helper.__name__):
+                expected = decoder(encoder(value))
+                with patch.object(writer, encoder_name, new=observe_encode), \
+                     patch.object(writer, decoder_name, new=first_decode_refuses):
+                    actual = helper(value)
+                self.assertEqual(events, ['whole-witness', 'decode-refusal',
+                                          'original-root', 'original-root-decoded'])
+                self.assertEqual(encoder(actual), encoder(expected))
+
+    def test_decoder_baseexception_propagates_once_and_helper_releases_encoded_reference(self):
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        value = {'whole': ['\ud800\x00payload', 1 << 20000, -0.0]}
+        for helper, encoder_name, decoder_name in (
+                (writer._owned, 'value_bytes', 'bytes_value'),
+                (writer._owned_acquisition, 'encode', 'decode')):
+            encoder = getattr(writer, encoder_name)
+            original = KeyboardInterrupt('original decoder interruption control')
+            events = []
+            def observe_encode(item):
+                events.append('encode')
+                return encoder(item)
+            def interrupt_decode(raw):
+                events.append('decode')
+                raise original
+            with self.subTest(helper=helper.__name__):
+                with patch.object(writer, encoder_name, new=observe_encode), \
+                     patch.object(writer, decoder_name, new=interrupt_decode):
+                    try:
+                        helper(value)
+                    except KeyboardInterrupt as caught:
+                        self.assertIs(caught, original)
+                        frame = caught.__traceback__
+                        while frame is not None and frame.tb_frame.f_code is not helper.__code__:
+                            frame = frame.tb_next
+                        self.assertIsNotNone(frame)
+                        self.assertIsNone(frame.tb_frame.f_locals['encoded'])
+                        self.assertIsNone(frame.tb_frame.f_locals['shape'])
+                        del frame
+                    else:
+                        self.fail('original BaseException was swallowed')
+                self.assertEqual(events, ['encode', 'decode'])
+
+    def test_breadth_fixture_reduces_retained_allocation_at_decode_entry(self):
+        import gc
+        import tracemalloc
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        # Finite structural allocation control, not a product capacity/depth cap
+        # or an assertion that the observed memcg failure is now resolved.
+        value = {'integer': 1 << 20000,
+                 'rows': [{'whole': ['\ud800payload', 1, -0.0, None],
+                           'tuple': (False, [], {})} for _ in range(4096)]}
+        for helper, preceding, decoder_name, codec in (
+                (writer._owned, self.preceding_owned, 'bytes_value', writer.value_bytes),
+                (writer._owned_acquisition, self.preceding_owned_acquisition, 'decode', writer.encode)):
+            decoder = getattr(writer, decoder_name)
+            def measured(operation):
+                entries = []
+                def at_decode(raw):
+                    entries.append(tracemalloc.get_traced_memory()[0])
+                    return decoder(raw)
+                gc.collect()
+                tracemalloc.start()
+                try:
+                    with patch.object(writer, decoder_name, new=at_decode):
+                        owned = operation(value)
+                finally:
+                    tracemalloc.stop()
+                self.assertEqual(len(entries), 1, 'fallback must not substitute for measured fast path')
+                return owned, entries[0]
+            with self.subTest(helper=helper.__name__):
+                old, old_live = measured(preceding)
+                current, current_live = measured(helper)
+                self.assertEqual(codec(current), codec(old))
+                self.assertLess(current_live, old_live)
+                self.assertIsNot(current['rows'][0], value['rows'][0])
+                self.assertIsNot(current['rows'][0], current['rows'][1])
+                # Peak cgroup ownership and same-case runtime success remain
+                # original-carrier measurements; no attribution from this test.
+
+
 if __name__ == '__main__':
     unittest.main()

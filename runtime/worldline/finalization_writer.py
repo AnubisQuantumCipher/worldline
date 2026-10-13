@@ -85,16 +85,25 @@ def _owned(value):
                 item[index] = finish(child, shape[index])
         return item
 
-    owned = shape = normalized = None
+    owned = shape = normalized = encoded = None
     try:
         owned = copy_tree(value, set())
         shape = witness(owned)
         # Original expanded tagged/JSON/decode recursion at the original helper
         # call depth, with full keys and real floats, before any publication.
-        normalized = bytes_value(value_bytes(shape))
+        encoded = value_bytes(shape)
+        # The complete detached value remains in owned. The builtin witness has
+        # no foreign finalizers and is no longer consumed after encoding.
+        shape = None
+        try:
+            normalized = bytes_value(encoded)
+        finally:
+            # Match the original expression temporary on success, refusal and
+            # BaseException; never retain it across whole-root fallback.
+            encoded = None
         return finish(owned, normalized)
     except Exception:
-        owned = shape = normalized = None
+        owned = shape = normalized = encoded = None
     # The original exception must not inherit internal decline as its context.
     # BaseException interruptions propagate without a retry or success sentinel.
     return bytes_value(value_bytes(value))
@@ -163,17 +172,26 @@ def _owned_acquisition(value):
                 item[index] = normalize(child, shape[index])
         return item
 
-    owned = shape = normalized = None
+    owned = shape = normalized = encoded = None
     try:
         visit(value, set(), copy=False)
         owned = visit(value, set(), copy=True)
         shape = witness(owned)
         # Exact original codec at the original helper call depth: expanded
         # tagged/JSON recursion and float refusal precede any publication.
-        normalized = decode(encode(shape))
+        encoded = encode(shape)
+        # The complete detached value remains in owned. The builtin witness has
+        # no foreign finalizers and is no longer consumed after encoding.
+        shape = None
+        try:
+            normalized = decode(encoded)
+        finally:
+            # Match the original expression temporary on success, refusal and
+            # BaseException; never retain it across whole-root fallback.
+            encoded = None
         return normalize(owned, normalized)
     except Exception:
-        owned = shape = normalized = None
+        owned = shape = normalized = encoded = None
     # Leave the handler before fallback so internal decline is not exposed as
     # the original exception's context. BaseException interruptions propagate.
     return decode(encode(value))
