@@ -473,5 +473,237 @@ class AcquisitionDetachedCloneCorrespondence(unittest.TestCase):
             self.assertIsNone(caught.exception.__context__)
 
 
+class TerminalDetachedOwnershipCorrespondence(unittest.TestCase):
+    """Exact original terminal semantics; finite memory control is not acceptance."""
+
+    @staticmethod
+    def legacy(value):
+        from worldline import finalization_writer as writer
+        return writer.bytes_value(writer.value_bytes(value))
+
+    @staticmethod
+    def outcome(operation, value):
+        from worldline.evaluation_terminal import value_bytes
+        try:
+            return ('accepted', value_bytes(operation(value)))
+        except Exception as error:
+            return ('refused', type(error), error.args, type(error.__context__))
+
+    def test_full_leaves_keys_magnitudes_surrogates_and_terminal_array_shape(self):
+        import sys
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        original_codec = writer.value_bytes
+        original_identity, original_magnitude = writer.identity, writer.magnitude
+        value = {'\ud800-key\x00': '\udfff\x00whole', 'signed': (1 << 20000, -(1 << 20000)),
+                 'scalars': [None, True, False, 0, '', (), [], {}]}
+        shape = {'\ud800-key\x00': '', 'signed': [0, 0],
+                 'scalars': [None, True, False, 0, '', [], [], {}]}
+        witnesses, identities, magnitudes = [], [], []
+        def structural(item):
+            witnesses.append(item)
+            self.assertEqual(item, shape)
+            return original_codec(item)
+        def identity_leaf(item):
+            identities.append(item)
+            return original_identity(item)
+        def magnitude_leaf(item):
+            magnitudes.append(item)
+            return original_magnitude(item)
+        previous = sys.get_int_max_str_digits()
+        try:
+            sys.set_int_max_str_digits(sys.int_info.str_digits_check_threshold)
+            with patch.object(writer, 'value_bytes', side_effect=structural), \
+                 patch.object(writer, 'identity', side_effect=identity_leaf), \
+                 patch.object(writer, 'magnitude', side_effect=magnitude_leaf):
+                owned = writer._owned(value)
+        finally:
+            sys.set_int_max_str_digits(previous)
+        self.assertEqual(original_codec(owned), original_codec(self.legacy(value)))
+        self.assertEqual(witnesses, [shape])
+        self.assertIn('\udfff\x00whole', identities)
+        self.assertIn('\ud800-key\x00', identities)
+        self.assertIn(original_magnitude(abs(value['signed'][0]).to_bytes(
+            (abs(value['signed'][0]).bit_length() + 7) // 8, 'little')), magnitudes)
+        self.assertIs(type(owned['signed']), list)
+        self.assertEqual(list(owned), list(value))
+
+    def test_aliases_detach_per_occurrence_in_both_directions(self):
+        from worldline.finalization_writer import _owned
+        shared = [{'text': 'original'}]
+        value = {'left': shared, 'right': shared, 'tuple': (shared,)}
+        owned = _owned(value)
+        self.assertIs(type(owned['tuple']), list)
+        self.assertIsNot(owned['left'], shared)
+        self.assertIsNot(owned['left'], owned['right'])
+        self.assertIsNot(owned['left'][0], owned['right'][0])
+        self.assertIsNot(owned['tuple'][0], owned['left'])
+        owned['left'][0]['text'] = 'owned mutation'
+        shared.append({'text': 'caller mutation'})
+        self.assertEqual(owned['right'], [{'text': 'original'}])
+        self.assertEqual(owned['tuple'], [[{'text': 'original'}]])
+        self.assertEqual(shared[0]['text'], 'original')
+
+    def test_float_packed_bits_match_original_including_nan_payload_and_signed_zero(self):
+        import struct
+        from worldline.finalization_writer import _owned
+        for bits in ('0000000000000000', '8000000000000000',
+                     '0000000000000001', '8000000000000001',
+                     '7ff0000000000000', 'fff0000000000000',
+                     '7ff0000000000001', 'fff8000000000011'):
+            root = {'float': struct.unpack('!d', bytes.fromhex(bits))[0]}
+            with self.subTest(bits=bits):
+                expected = self.legacy(root)['float']
+                actual = _owned(root)['float']
+                self.assertEqual(struct.pack('!d', actual), struct.pack('!d', expected))
+                self.assertEqual(self.outcome(_owned, root), self.outcome(self.legacy, root))
+
+    def test_terminal_negative_domains_and_first_refusal_keep_original_context(self):
+        from worldline import finalization_writer as writer
+        from worldline.evaluation_terminal import TerminalRefused
+        class IntSubclass(int): pass
+        class FloatSubclass(float): pass
+        for unsupported in (b'', b'full\x00\xff', bytearray(b'full'), Path('/report'),
+                            object(), IntSubclass(1), FloatSubclass(1.0)):
+            root = {'unsupported': unsupported}
+            with self.subTest(kind=type(unsupported).__name__):
+                expected = self.outcome(self.legacy, root)
+                self.assertEqual(expected[0], 'refused')
+                self.assertEqual(self.outcome(writer._owned, root), expected)
+                with self.assertRaises(TerminalRefused) as caught:
+                    writer._owned(root)
+                self.assertEqual(caught.exception.args, ('CAPTURE_VALUE_UNSUPPORTED',))
+                self.assertIsNone(caught.exception.__context__)
+        root = {'earlier-invalid-key': {1: 'value'}, 'later-bytes': b'unsupported'}
+        self.assertEqual(self.outcome(writer._owned, root), self.outcome(self.legacy, root))
+
+    def test_subclasses_foreign_hooks_use_original_whole_root_once(self):
+        from worldline import finalization_writer as writer
+        def make():
+            root, calls = {'earlier': 'before'}, []
+            class EffectfulList(list):
+                def __iter__(self):
+                    calls.append('iterate')
+                    root['earlier'] = 'after'
+                    return super().__iter__()
+            root['later'] = EffectfulList([1])
+            return root, calls
+        for operation in (self.legacy, writer._owned):
+            root, calls = make()
+            owned = operation(root)
+            self.assertEqual(owned, {'earlier': 'before', 'later': [1]})
+            self.assertEqual(root['earlier'], 'after')
+            self.assertEqual(calls, ['iterate'])
+        class StringSubclass(str):
+            def encode(self, *args, **kwargs):
+                raise AssertionError('base str.encode must ignore this override')
+        root = {StringSubclass('\ud800-key'): StringSubclass('\udfff-value')}
+        self.assertEqual(self.outcome(writer._owned, root), self.outcome(self.legacy, root))
+        calls = []
+        class LaterHook(list):
+            def __iter__(self):
+                calls.append('not reached')
+                raise AssertionError('earlier original refusal must win')
+        root = {'earlier-bytes': b'refused', 'later': LaterHook([1])}
+        self.assertEqual(self.outcome(writer._owned, root), self.outcome(self.legacy, root))
+        self.assertEqual(calls, [])
+
+    def test_cycle_and_expanded_depth_match_same_original_caller_context(self):
+        import sys
+        from worldline import finalization_writer as writer
+        def original_owned(value):
+            return writer.bytes_value(writer.value_bytes(value))
+        def outcome(operation, value):
+            try:
+                return ('accepted', writer.value_bytes(operation(value)))
+            except Exception as error:
+                return ('refused', type(error), error.args, type(error.__context__))
+        def extra_caller(operation, value):
+            return outcome(operation, value)
+        for caller in (outcome, extra_caller):
+            value, refused = None, None
+            for _ in range(sys.getrecursionlimit()):
+                value = [{'tuple': (value,)}]
+                expected = caller(original_owned, value)
+                self.assertEqual(caller(writer._owned, value), expected)
+                if expected[0] == 'refused':
+                    self.assertIs(expected[1], RecursionError)
+                    refused = value
+                    break
+            self.assertIsNotNone(refused, 'original expanded terminal depth refusal was not reached')
+        cycle = []; cycle.append(cycle)
+        self.assertEqual(outcome(writer._owned, cycle), outcome(original_owned, cycle))
+        import struct
+        root = {'earlier-float': struct.unpack('!d', bytes.fromhex('7ff0000000000001'))[0],
+                'later-depth': refused}
+        self.assertEqual(outcome(writer._owned, root), outcome(original_owned, root))
+
+    def test_writer_refusal_precedes_publication_and_persistence_failure_keeps_return(self):
+        from threading import RLock
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        from worldline.evaluation_terminal import TerminalRefused
+        for helper in (self.legacy, writer._owned):
+            journal = object.__new__(FinalizationJournal)
+            journal.lock = RLock()
+            calls = []
+            journal.observe = lambda *args: calls.append(args)
+            owned_writer = writer.EngineFinalizationWriter(journal, None)
+            owned_writer.invocations[('subject', 'check')] = ('owned-invocation', {})
+            owned_writer._require_acquisitions_open = lambda: None
+            with patch.object(writer, '_owned', helper):
+                with self.assertRaises(TerminalRefused):
+                    owned_writer.invocation_result(world_instance='subject', check='check',
+                                                   result={'not-terminal': b'refused'})
+            self.assertEqual(owned_writer.actual_returns, {})
+            self.assertEqual(calls, [])
+            original = RuntimeError('original persistence refusal')
+            def persist(*args): raise original
+            journal.observe = persist
+            with patch.object(writer, '_owned', helper):
+                with self.assertRaises(RuntimeError) as caught:
+                    owned_writer.invocation_result(world_instance='subject', check='check',
+                                                   result={'tuple': ('kept',)})
+            self.assertIs(caught.exception, original)
+            self.assertEqual(owned_writer.actual_returns['owned-invocation'],
+                             {'started': {}, 'result': {'tuple': ['kept']}})
+
+    def test_original_structural_codec_baseexception_is_not_retried(self):
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        original, calls = KeyboardInterrupt('actual original interruption'), []
+        def interrupted(value):
+            calls.append(value)
+            raise original
+        with patch.object(writer, 'value_bytes', side_effect=interrupted):
+            with self.assertRaises(KeyboardInterrupt) as caught:
+                writer._owned({'float': -0.0})
+        self.assertIs(caught.exception, original)
+        self.assertEqual(len(calls), 1)
+
+    def test_full_value_semantics_with_lower_measured_transient_python_peak(self):
+        import gc
+        import tracemalloc
+        from worldline import finalization_writer as writer
+        payload = 'full-original-value\x00\ud800' * 65536
+        value = {'left': [payload, payload], 'right': (payload, payload)}
+        def measured(operation):
+            gc.collect()
+            tracemalloc.start()
+            try:
+                owned = operation(value)
+                _current, peak = tracemalloc.get_traced_memory()
+            finally:
+                tracemalloc.stop()
+            return owned, peak
+        expected, original_peak = measured(self.legacy)
+        actual, detached_peak = measured(writer._owned)
+        self.assertEqual(writer.value_bytes(actual), writer.value_bytes(expected))
+        self.assertLess(detached_peak, original_peak)
+        self.assertIsNot(actual['left'], actual['right'])
+        # Finite comparative allocation control, not exclusive process/cgroup
+        # attribution or original campaign/timeout/proof acceptance.
+
+
 if __name__ == '__main__':
     unittest.main()

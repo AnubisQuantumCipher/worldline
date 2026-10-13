@@ -15,7 +15,7 @@ import uuid
 from .core import hash_bytes_from_id
 from .completion_kernel import EXECUTION
 from .errors import WorldlineError
-from .evaluation_pending import identity, text
+from .evaluation_pending import identity, text, magnitude
 from .evaluation_terminal import bytes_value, value_bytes
 from .evaluation_wire import Authority, record
 from .finalization_journal import FinalizationJournal, encode, decode, acquisitions_payload
@@ -24,6 +24,83 @@ from .finalization_values import (StartValue, InputValue, UnsealedResult,
 
 
 def _owned(value):
+    # Exact builtins have no foreign hooks. Everything uncertain retains the
+    # original whole-root terminal codec, including its caller-depth refusal.
+    class _NotTerminalBuiltinTree(Exception):
+        pass
+
+    def copy_tree(item, active):
+        kind = type(item)
+        if item is None or kind is bool:
+            return item
+        if kind is str:
+            # Validate the real value with the original base-method,
+            # surrogatepass identity/text pair before eliding witness payloads.
+            return text(identity(item))
+        if kind is int:
+            absolute = abs(item)
+            blob = magnitude(absolute.to_bytes((absolute.bit_length() + 7) // 8, 'little'))
+            decoded = int.from_bytes(blob, 'little')
+            return -decoded if item < 0 else decoded
+        if kind is float:
+            return item  # Original witness codec supplies pack/unpack bits below.
+        if kind not in (list, tuple, dict):
+            raise _NotTerminalBuiltinTree
+        if kind is dict and any(type(key) is not str for key in item):
+            raise _NotTerminalBuiltinTree
+        token = id(item)
+        if token in active:
+            raise _NotTerminalBuiltinTree
+        active.add(token)
+        try:
+            if kind is dict:
+                return {text(identity(key)): copy_tree(child, active)
+                        for key, child in item.items()}
+            # The original terminal array decoder converts BOTH forms to lists.
+            return [copy_tree(child, active) for child in item]
+        finally:
+            active.remove(token)
+
+    def witness(item):
+        kind = type(item)
+        if kind is str: return ''
+        if kind is int: return 0
+        if kind is dict:
+            return {key: witness(child) for key, child in item.items()}
+        if kind is list:
+            return [witness(child) for child in item]
+        return item  # Complete real float values, bool and None remain present.
+
+    def finish(item, shape):
+        kind = type(item)
+        if type(shape) is not kind:
+            raise _NotTerminalBuiltinTree
+        if kind is float:
+            return shape  # Exact original terminal struct pack/unpack result.
+        if kind is dict:
+            if tuple(item) != tuple(shape):
+                raise _NotTerminalBuiltinTree
+            for key, child in item.items():
+                item[key] = finish(child, shape[key])
+        elif kind is list:
+            if len(item) != len(shape):
+                raise _NotTerminalBuiltinTree
+            for index, child in enumerate(item):
+                item[index] = finish(child, shape[index])
+        return item
+
+    owned = shape = normalized = None
+    try:
+        owned = copy_tree(value, set())
+        shape = witness(owned)
+        # Original expanded tagged/JSON/decode recursion at the original helper
+        # call depth, with full keys and real floats, before any publication.
+        normalized = bytes_value(value_bytes(shape))
+        return finish(owned, normalized)
+    except Exception:
+        owned = shape = normalized = None
+    # The original exception must not inherit internal decline as its context.
+    # BaseException interruptions propagate without a retry or success sentinel.
     return bytes_value(value_bytes(value))
 
 
