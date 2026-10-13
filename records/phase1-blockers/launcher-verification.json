@@ -1,0 +1,43 @@
+{
+  "exit75_run_lines": [
+    "executed"
+  ],
+  "exit75_result": [
+    {
+      "exit_code": 75,
+      "utc": "2026-10-13T17:06:44.840427+00:00"
+    }
+  ],
+  "descendant_result": [
+    {
+      "exit_code": 124,
+      "utc": "2026-10-13T17:06:55.228031+00:00"
+    }
+  ],
+  "descendant_scope": [
+    {
+      "populated": false,
+      "scope_state": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "utc": "2026-10-13T17:06:55.166795+00:00"
+    }
+  ],
+  "descendant_pid_exists": false,
+  "cap_refusal": [
+    {
+      "expected_max": "8589934592",
+      "expected_swap": "0",
+      "reason": "actual cgroup cap mismatch",
+      "utc": "2026-10-13T17:07:39.022253+00:00"
+    }
+  ],
+  "unexpected_payload": false
+}
