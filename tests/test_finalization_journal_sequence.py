@@ -521,10 +521,12 @@ class TerminalDetachedOwnershipCorrespondence(unittest.TestCase):
             sys.set_int_max_str_digits(previous)
         self.assertEqual(original_codec(owned), original_codec(self.legacy(value)))
         self.assertEqual(witnesses, [shape])
-        self.assertIn('\udfff\x00whole', identities)
-        self.assertIn('\ud800-key\x00', identities)
-        self.assertIn(original_magnitude(abs(value['signed'][0]).to_bytes(
-            (abs(value['signed'][0]).bit_length() + 7) // 8, 'little')), magnitudes)
+        # Whole exact immutable values need no ownership serialization. Keep
+        # the original full-codec equality above and every real leaf/key below.
+        self.assertIs(owned['\ud800-key\x00'], value['\ud800-key\x00'])
+        self.assertIs(next(iter(owned)), next(iter(value)))
+        self.assertIs(owned['signed'][0], value['signed'][0])
+        self.assertIs(owned['signed'][1], value['signed'][1])
         self.assertIs(type(owned['signed']), list)
         self.assertEqual(list(owned), list(value))
 
@@ -703,6 +705,177 @@ class TerminalDetachedOwnershipCorrespondence(unittest.TestCase):
         self.assertIsNot(actual['left'], actual['right'])
         # Finite comparative allocation control, not exclusive process/cgroup
         # attribution or original campaign/timeout/proof acceptance.
+
+
+class TerminalImmutableLeafOwnership(unittest.TestCase):
+    """Full terminal values and detached containers; resource control is finite."""
+
+    @staticmethod
+    def preceding_scalar_roundtrip_owned(value):
+        from worldline.finalization_writer import identity, text, magnitude, bytes_value, value_bytes
+        # Exact builtins have no foreign hooks. Everything uncertain retains the
+        # original whole-root terminal codec, including its caller-depth refusal.
+        class _NotTerminalBuiltinTree(Exception):
+            pass
+
+        def copy_tree(item, active):
+            kind = type(item)
+            if item is None or kind is bool:
+                return item
+            if kind is str:
+                # Validate the real value with the original base-method,
+                # surrogatepass identity/text pair before eliding witness payloads.
+                return text(identity(item))
+            if kind is int:
+                absolute = abs(item)
+                blob = magnitude(absolute.to_bytes((absolute.bit_length() + 7) // 8, 'little'))
+                decoded = int.from_bytes(blob, 'little')
+                return -decoded if item < 0 else decoded
+            if kind is float:
+                return item  # Original witness codec supplies pack/unpack bits below.
+            if kind not in (list, tuple, dict):
+                raise _NotTerminalBuiltinTree
+            if kind is dict and any(type(key) is not str for key in item):
+                raise _NotTerminalBuiltinTree
+            token = id(item)
+            if token in active:
+                raise _NotTerminalBuiltinTree
+            active.add(token)
+            try:
+                if kind is dict:
+                    return {text(identity(key)): copy_tree(child, active)
+                            for key, child in item.items()}
+                # The original terminal array decoder converts BOTH forms to lists.
+                return [copy_tree(child, active) for child in item]
+            finally:
+                active.remove(token)
+
+        def witness(item):
+            kind = type(item)
+            if kind is str: return ''
+            if kind is int: return 0
+            if kind is dict:
+                return {key: witness(child) for key, child in item.items()}
+            if kind is list:
+                return [witness(child) for child in item]
+            return item  # Complete real float values, bool and None remain present.
+
+        def finish(item, shape):
+            kind = type(item)
+            if type(shape) is not kind:
+                raise _NotTerminalBuiltinTree
+            if kind is float:
+                return shape  # Exact original terminal struct pack/unpack result.
+            if kind is dict:
+                if tuple(item) != tuple(shape):
+                    raise _NotTerminalBuiltinTree
+                for key, child in item.items():
+                    item[key] = finish(child, shape[key])
+            elif kind is list:
+                if len(item) != len(shape):
+                    raise _NotTerminalBuiltinTree
+                for index, child in enumerate(item):
+                    item[index] = finish(child, shape[index])
+            return item
+
+        owned = shape = normalized = None
+        try:
+            owned = copy_tree(value, set())
+            shape = witness(owned)
+            # Original expanded tagged/JSON/decode recursion at the original helper
+            # call depth, with full keys and real floats, before any publication.
+            normalized = bytes_value(value_bytes(shape))
+            return finish(owned, normalized)
+        except Exception:
+            owned = shape = normalized = None
+        # The original exception must not inherit internal decline as its context.
+        # BaseException interruptions propagate without a retry or success sentinel.
+        return bytes_value(value_bytes(value))
+
+    def test_exact_immutable_leaves_preserve_original_wire_and_detach_each_container(self):
+        import struct
+        from worldline import finalization_writer as writer
+        from worldline.evaluation_terminal import bytes_value, value_bytes
+        key = '\ud800-full-key\x00' * 32
+        payload = '\udfff-full-value\x00' * 32
+        integer = int.from_bytes(b'\xff' * 4096, 'little')
+        nan = struct.unpack('!d', bytes.fromhex('fff8000000000011'))[0]
+        shared = [payload, integer, -integer, -0.0, nan]
+        value = {key: shared, 'other': shared, 'tuple': (shared,)}
+        actual = writer._owned(value)
+        self.assertEqual(value_bytes(actual), value_bytes(bytes_value(value_bytes(value))))
+        self.assertEqual(value_bytes(actual), value_bytes(self.preceding_scalar_roundtrip_owned(value)))
+        self.assertIs(next(iter(actual)), key)
+        self.assertIs(actual[key][0], payload)
+        self.assertIs(actual[key][1], integer)
+        self.assertIs(actual[key][2], shared[2])
+        self.assertIs(type(actual['tuple']), list)
+        self.assertIsNot(actual[key], shared)
+        self.assertIsNot(actual[key], actual['other'])
+        self.assertIsNot(actual[key], actual['tuple'][0])
+        self.assertEqual(struct.pack('!d', actual[key][3]), struct.pack('!d', shared[3]))
+        self.assertEqual(struct.pack('!d', actual[key][4]), struct.pack('!d', shared[4]))
+        actual[key].append('owned change')
+        shared.append('source change')
+        self.assertEqual(actual['other'][0], payload)
+        self.assertEqual(len(actual['other']), len(actual['tuple'][0]))
+        self.assertNotIn('source change', actual['other'])
+        self.assertNotIn('owned change', shared)
+
+    def test_full_payload_has_lower_peak_than_exact_preceding_scalar_roundtrip(self):
+        import gc
+        import tracemalloc
+        from worldline import finalization_writer as writer
+        payload = 'full-original-value\x00\ud800' * 65536
+        integer = int.from_bytes(b'\xff' * 4096, 'little')
+        value = {'left': [payload, payload, integer, -integer],
+                 'right': (payload, payload, integer, -integer)}
+        def measured(operation):
+            gc.collect()
+            tracemalloc.start()
+            try:
+                owned = operation(value)
+                _current, peak = tracemalloc.get_traced_memory()
+            finally:
+                tracemalloc.stop()
+            return owned, peak
+        preceding, preceding_peak = measured(self.preceding_scalar_roundtrip_owned)
+        actual, immutable_leaf_peak = measured(writer._owned)
+        self.assertEqual(writer.value_bytes(actual), writer.value_bytes(preceding))
+        self.assertLess(immutable_leaf_peak, preceding_peak)
+        self.assertIs(actual['left'][0], payload)
+        self.assertIs(actual['right'][1], payload)
+        self.assertIsNot(actual['left'], actual['right'])
+        # No process/cgroup attribution, runtime budget, or campaign acceptance.
+
+    def test_foreign_hook_refusal_and_original_exception_context_remain_whole_root(self):
+        from worldline import finalization_writer as writer
+        from worldline.evaluation_terminal import TerminalRefused, value_bytes
+        def outcome(operation, value):
+            try:
+                return ('accepted', value_bytes(operation(value)))
+            except Exception as error:
+                return ('refused', type(error), error.args, type(error.__context__))
+        class IntegerSubclass(int): pass
+        class StringSubclass(str):
+            def encode(self, *args, **kwargs):
+                raise AssertionError('original base str.encode must remain authoritative')
+        for value in ({'full': '\ud800\x00value', 'later': IntegerSubclass(1)},
+                      {StringSubclass('\udfff-key'): StringSubclass('\ud800-value')},
+                      {'full': 1 << 20000, 'later': bytearray(b'original refusal')}):
+            self.assertEqual(outcome(writer._owned, value),
+                             outcome(self.preceding_scalar_roundtrip_owned, value))
+        calls = []
+        class LaterHook(list):
+            def __iter__(self):
+                calls.append('unexpected later hook')
+                raise AssertionError('original earlier refusal must win')
+        value = {'earlier': bytearray(b'original refusal'), 'later': LaterHook([1])}
+        with self.assertRaises(TerminalRefused) as caught:
+            writer._owned(value)
+        self.assertEqual(caught.exception.args, ('CAPTURE_VALUE_UNSUPPORTED',))
+        self.assertIsNone(caught.exception.__context__)
+        self.assertEqual(calls, [])
 
 
 if __name__ == '__main__':

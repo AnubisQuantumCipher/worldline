@@ -33,15 +33,11 @@ def _owned(value):
         kind = type(item)
         if item is None or kind is bool:
             return item
-        if kind is str:
-            # Validate the real value with the original base-method,
-            # surrogatepass identity/text pair before eliding witness payloads.
-            return text(identity(item))
-        if kind is int:
-            absolute = abs(item)
-            blob = magnitude(absolute.to_bytes((absolute.bit_length() + 7) // 8, 'little'))
-            decoded = int.from_bytes(blob, 'little')
-            return -decoded if item < 0 else decoded
+        if kind in (str, int):
+            # Exact builtin strings and arbitrary integers are immutable and
+            # already in the terminal codec's domain. Keep their whole values;
+            # copying mutable containers does not require scalar roundtrips.
+            return item
         if kind is float:
             return item  # Original witness codec supplies pack/unpack bits below.
         if kind not in (list, tuple, dict):
@@ -54,7 +50,7 @@ def _owned(value):
         active.add(token)
         try:
             if kind is dict:
-                return {text(identity(key)): copy_tree(child, active)
+                return {key: copy_tree(child, active)
                         for key, child in item.items()}
             # The original terminal array decoder converts BOTH forms to lists.
             return [copy_tree(child, active) for child in item]
