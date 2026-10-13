@@ -1186,5 +1186,50 @@ class OwnershipWitnessLifetime(unittest.TestCase):
                 # original-carrier measurements; no attribution from this test.
 
 
+    def test_predecoder_baseexception_releases_new_encoded_local(self):
+        import sys
+        from unittest.mock import patch
+        from worldline import finalization_writer as writer
+        value = {'whole': ['payload\ud800', 1 << 20000, -0.0]}
+        for helper, decoder_name in (
+                (writer._owned, 'bytes_value'),
+                (writer._owned_acquisition, 'decode')):
+            original = KeyboardInterrupt('interrupt after encoding, before decode')
+            observed = []
+            prior_trace = sys.gettrace()
+            def interrupt_before_decoder(frame, event, arg):
+                if (frame.f_code is helper.__code__ and event == 'line'
+                        and frame.f_locals.get('encoded') is not None
+                        and frame.f_locals.get('shape') is not None):
+                    observed.append('encoded-held-before-shape-release')
+                    raise original
+                return interrupt_before_decoder
+            with self.subTest(helper=helper.__name__):
+                with patch.object(writer, decoder_name) as decoder:
+                    try:
+                        sys.settrace(interrupt_before_decoder)
+                        try:
+                            helper(value)
+                        except KeyboardInterrupt as caught:
+                            self.assertIs(caught, original)
+                            trace = caught.__traceback__
+                            while trace is not None and trace.tb_frame.f_code is not helper.__code__:
+                                trace = trace.tb_next
+                            self.assertIsNotNone(trace)
+                            self.assertIsNone(trace.tb_frame.f_locals['encoded'])
+                            # The preexisting complete owned value/shape may still
+                            # be in the traceback; this control covers only the
+                            # newly introduced encoded helper local.
+                            del trace
+                        else:
+                            self.fail('the exact predecoder interrupt was swallowed')
+                    finally:
+                        sys.settrace(prior_trace)
+                    decoder.assert_not_called()
+                self.assertEqual(observed, ['encoded-held-before-shape-release'])
+                self.assertIs(sys.gettrace(), prior_trace)
+
+
+
 if __name__ == '__main__':
     unittest.main()

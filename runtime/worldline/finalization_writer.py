@@ -91,15 +91,17 @@ def _owned(value):
         shape = witness(owned)
         # Original expanded tagged/JSON/decode recursion at the original helper
         # call depth, with full keys and real floats, before any publication.
-        encoded = value_bytes(shape)
-        # The complete detached value remains in owned. The builtin witness has
-        # no foreign finalizers and is no longer consumed after encoding.
-        shape = None
         try:
+            encoded = value_bytes(shape)
+            # Keep acquisition of the temporary inside its cleanup region too:
+            # an interrupt may arrive before the decoder is entered.
+            # The complete detached value remains in owned. The builtin witness
+            # has no foreign finalizers and is no longer needed after encoding.
+            shape = None
             normalized = bytes_value(encoded)
         finally:
             # Match the original expression temporary on success, refusal and
-            # BaseException; never retain it across whole-root fallback.
+            # BaseException, including the interval before decoder entry.
             encoded = None
         return finish(owned, normalized)
     except Exception:
@@ -179,15 +181,17 @@ def _owned_acquisition(value):
         shape = witness(owned)
         # Exact original codec at the original helper call depth: expanded
         # tagged/JSON recursion and float refusal precede any publication.
-        encoded = encode(shape)
-        # The complete detached value remains in owned. The builtin witness has
-        # no foreign finalizers and is no longer consumed after encoding.
-        shape = None
         try:
+            encoded = encode(shape)
+            # Keep acquisition of the temporary inside its cleanup region too:
+            # an interrupt may arrive before the decoder is entered.
+            # The complete detached value remains in owned. The builtin witness
+            # has no foreign finalizers and is no longer needed after encoding.
+            shape = None
             normalized = decode(encoded)
         finally:
             # Match the original expression temporary on success, refusal and
-            # BaseException; never retain it across whole-root fallback.
+            # BaseException, including the interval before decoder entry.
             encoded = None
         return normalize(owned, normalized)
     except Exception:
