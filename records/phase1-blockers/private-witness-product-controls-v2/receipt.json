@@ -1,0 +1,32 @@
+{
+  "claim_class": "TESTED",
+  "scope": "19 focused original and added ownership/interruption/memory controls; finite fixture only",
+  "utc": "2026-10-13T17:41:00.097147+00:00",
+  "source_parent_commit": "3652c100d9f2769c651a1f3ed758223b075ce46f",
+  "source_diff": "diff --git a/runtime/worldline/finalization_writer.py b/runtime/worldline/finalization_writer.py\nindex f39f495..9956448 100644\n--- a/runtime/worldline/finalization_writer.py\n+++ b/runtime/worldline/finalization_writer.py\n@@ -17,6 +17,7 @@ from .completion_kernel import EXECUTION\n from .errors import WorldlineError\n from .evaluation_pending import identity, text, magnitude\n from .evaluation_terminal import bytes_value, value_bytes\n+from . import evaluation_terminal as _terminal_codec\n from .evaluation_wire import Authority, record\n from .finalization_journal import FinalizationJournal, encode, decode, acquisitions_payload\n from .finalization_values import (StartValue, InputValue, UnsealedResult,\n@@ -85,6 +86,58 @@ def _owned(value):\n                 item[index] = finish(child, shape[index])\n         return item\n \n+    # Private exact-builtin path: each finite root-to-leaf witness preserves\n+    # every ancestor kind at the original codec call depth. The detached full\n+    # values remain in owned; no full-width normalized witness is retained.\n+    # Instrumented codecs retain the existing whole-root observable route.\n+    if (value_bytes is _terminal_codec.value_bytes\n+            and bytes_value is _terminal_codec.bytes_value):\n+        try:\n+            owned = copy_tree(value, set())\n+\n+            def leaves(item, path):\n+                kind = type(item)\n+                if kind is dict and item:\n+                    for key, child in item.items():\n+                        yield from leaves(child, path + ((item, key),))\n+                elif kind is list and item:\n+                    for key, child in enumerate(item):\n+                        yield from leaves(child, path + ((item, key),))\n+                else:\n+                    yield item, path\n+\n+            for leaf, path in leaves(owned, ()):\n+                kind = type(leaf)\n+                candidate = '' if kind is str else 0 if kind is int else leaf\n+                for parent, key in reversed(path):\n+                    candidate = {key: candidate} if type(parent) is dict else [candidate]\n+                # These calls stay in _owned's frame, matching original depth.\n+                # Match the existing witness retirement/temporary cleanup on\n+                # success and interruptions, including before decoder entry.\n+                encoded = None\n+                try:\n+                    encoded = value_bytes(candidate)\n+                    candidate = None\n+                    normalized = bytes_value(encoded)\n+                finally:\n+                    encoded = None\n+                for parent, key in path:\n+                    normalized = normalized[key] if type(parent) is dict else normalized[0]\n+                if type(normalized) is not kind:\n+                    raise _NotTerminalBuiltinTree\n+                if kind is float:\n+                    if path:\n+                        parent, key = path[-1]\n+                        parent[key] = normalized\n+                    else:\n+                        owned = normalized\n+                candidate = normalized = None\n+            return owned\n+        except Exception:\n+            owned = candidate = normalized = encoded = path = leaf = parent = key = None\n+        # Leave the handler before the unchanged whole-root fallback, so an\n+        # internal refusal never becomes the original exception's context.\n+\n     owned = shape = normalized = encoded = None\n     try:\n         owned = copy_tree(value, set())\n",
+  "argv": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_finalization_journal_sequence.TerminalDetachedOwnershipCorrespondence",
+    "test_finalization_journal_sequence.TerminalImmutableLeafOwnership",
+    "test_finalization_journal_sequence.OwnershipWitnessLifetime",
+    "test_ownership_streaming_memory"
+  ],
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/runtime:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests"
+  },
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "exit_code": 0,
+  "files": {
+    "runtime/worldline/finalization_writer.py": "b92c4649daa30fa1f9740bd6dc62b72dcf84ee1073d7a639fdc37eb0d3a8fdd5",
+    "tests/test_ownership_streaming_memory.py": "cfe84b2f4cbfeae3cb6b0d78d183551b97ce7bf87d3faaa0f50398692477164a",
+    "records/phase1-blockers/private-witness-product-controls-v2/stdout": "e5dc7fba548c508d645cf1e63ac425319969b58692da68a58e32be74e336a898",
+    "records/phase1-blockers/private-witness-product-controls-v2/stderr": "de21237d8fcab9a5c445fe85cc30f98ab77a0b5bfad15fac7176ab4ddb32c261",
+    "records/phase1-blockers/private-witness-product-controls-v2/exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  "reviewer": "Actual GPT-6.1 internal reviewer CONCUR D8 experimental product integration and D9 observer correction; independent acceptance NOT PERFORMED"
+}

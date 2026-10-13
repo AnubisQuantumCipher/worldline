@@ -17,6 +17,7 @@ from .completion_kernel import EXECUTION
 from .errors import WorldlineError
 from .evaluation_pending import identity, text, magnitude
 from .evaluation_terminal import bytes_value, value_bytes
+from . import evaluation_terminal as _terminal_codec
 from .evaluation_wire import Authority, record
 from .finalization_journal import FinalizationJournal, encode, decode, acquisitions_payload
 from .finalization_values import (StartValue, InputValue, UnsealedResult,
@@ -84,6 +85,58 @@ def _owned(value):
             for index, child in enumerate(item):
                 item[index] = finish(child, shape[index])
         return item
+
+    # Private exact-builtin path: each finite root-to-leaf witness preserves
+    # every ancestor kind at the original codec call depth. The detached full
+    # values remain in owned; no full-width normalized witness is retained.
+    # Instrumented codecs retain the existing whole-root observable route.
+    if (value_bytes is _terminal_codec.value_bytes
+            and bytes_value is _terminal_codec.bytes_value):
+        try:
+            owned = copy_tree(value, set())
+
+            def leaves(item, path):
+                kind = type(item)
+                if kind is dict and item:
+                    for key, child in item.items():
+                        yield from leaves(child, path + ((item, key),))
+                elif kind is list and item:
+                    for key, child in enumerate(item):
+                        yield from leaves(child, path + ((item, key),))
+                else:
+                    yield item, path
+
+            for leaf, path in leaves(owned, ()):
+                kind = type(leaf)
+                candidate = '' if kind is str else 0 if kind is int else leaf
+                for parent, key in reversed(path):
+                    candidate = {key: candidate} if type(parent) is dict else [candidate]
+                # These calls stay in _owned's frame, matching original depth.
+                # Match the existing witness retirement/temporary cleanup on
+                # success and interruptions, including before decoder entry.
+                encoded = None
+                try:
+                    encoded = value_bytes(candidate)
+                    candidate = None
+                    normalized = bytes_value(encoded)
+                finally:
+                    encoded = None
+                for parent, key in path:
+                    normalized = normalized[key] if type(parent) is dict else normalized[0]
+                if type(normalized) is not kind:
+                    raise _NotTerminalBuiltinTree
+                if kind is float:
+                    if path:
+                        parent, key = path[-1]
+                        parent[key] = normalized
+                    else:
+                        owned = normalized
+                candidate = normalized = None
+            return owned
+        except Exception:
+            owned = candidate = normalized = encoded = path = leaf = parent = key = None
+        # Leave the handler before the unchanged whole-root fallback, so an
+        # internal refusal never becomes the original exception's context.
 
     owned = shape = normalized = encoded = None
     try:
