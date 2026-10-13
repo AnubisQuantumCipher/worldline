@@ -1,0 +1,4010 @@
+{
+  "claim_class": "MEASURED",
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "scratch/old-analysis/make_old_supplement.py",
+    "scratch/old-analysis/evidence/old-contract-supplement-v1.json"
+  ],
+  "conclusion": "Inventoried source structure only. Existing controlled runtime machinery and any passing abstract value proof do not establish original automatic retirement with matching GNAT/SPARK support. Mechanism failures do not prove universal impossibility.",
+  "current_commit": "c63df369bd77b0f4747c421668db427c17d9474d",
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "donor_roster": {
+    "command_result": {
+      "argv": [
+        "git",
+        "for-each-ref",
+        "--format=%(refname:short) %(objectname)",
+        "refs/remotes/origin/archive/phase1-donors-20261012/"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "origin/archive/phase1-donors-20261012/flow-c f478babefa0c280e2193c9b7c4fdc1eb38dd00f8\norigin/archive/phase1-donors-20261012/flow-d a948980b270adedcc6354cd58539a0fa0647e3dc\norigin/archive/phase1-donors-20261012/replay-derive a1e9391aa5c81bc7bd04736fe432deea13cafad8\norigin/archive/phase1-donors-20261012/roster-custody cb8287a85e6ac0d7d1c0b3ab5ff225b40cf98090\n"
+    },
+    "current": {
+      "origin/archive/phase1-donors-20261012/flow-c": "f478babefa0c280e2193c9b7c4fdc1eb38dd00f8",
+      "origin/archive/phase1-donors-20261012/flow-d": "a948980b270adedcc6354cd58539a0fa0647e3dc",
+      "origin/archive/phase1-donors-20261012/replay-derive": "a1e9391aa5c81bc7bd04736fe432deea13cafad8",
+      "origin/archive/phase1-donors-20261012/roster-custody": "cb8287a85e6ac0d7d1c0b3ab5ff225b40cf98090"
+    },
+    "exact_ref_and_sha_equal": true,
+    "nonempty": true,
+    "reviewed": {
+      "origin/archive/phase1-donors-20261012/flow-c": "f478babefa0c280e2193c9b7c4fdc1eb38dd00f8",
+      "origin/archive/phase1-donors-20261012/flow-d": "a948980b270adedcc6354cd58539a0fa0647e3dc",
+      "origin/archive/phase1-donors-20261012/replay-derive": "a1e9391aa5c81bc7bd04736fe432deea13cafad8",
+      "origin/archive/phase1-donors-20261012/roster-custody": "cb8287a85e6ac0d7d1c0b3ab5ff225b40cf98090"
+    },
+    "reviewed_path": "scratch/old-analysis/evidence/donor-review.json",
+    "reviewed_sha256": "b88af2e0df719969eec2339b9a23da89e1f3aa0c2ec7539027ae6d2a5d7a82de"
+  },
+  "generator_sha256": "5a8edd47af3b37894e00a7ed4513869dca22b53c334b6ccb7c369e3607e7f067",
+  "inventory_scope": "Supplementary original O0 source/obligation inventory, including hidden owning representation, all native expression/assertion temporal values, imported existing Off lifetime boundary. Not proof or runtime acceptance.",
+  "library_project_readbacks": [
+    {
+      "locations": [
+        {
+          "line": 1,
+          "text": "with \"sparklib_common\";"
+        },
+        {
+          "line": 2,
+          "text": ""
+        },
+        {
+          "line": 3,
+          "text": "library project SPARKlib is"
+        },
+        {
+          "line": 4,
+          "text": ""
+        },
+        {
+          "line": 5,
+          "text": "   type SPARKlib_Library_Kind is (\"static\");"
+        },
+        {
+          "line": 6,
+          "text": "   SPARKlib_Library_Type : SPARKlib_Library_Kind :="
+        },
+        {
+          "line": 7,
+          "text": "     external (\"SPARKLIB_LIBRARY_TYPE\", external (\"LIBRARY_TYPE\", \"static\"));"
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "   type SPARKlib_Mode_Kind is (\"light\", \"full\");"
+        },
+        {
+          "line": 10,
+          "text": "   SPARKlib_Mode : SPARKlib_Mode_Kind := External(\"SPARKLIB_MODE\", \"full\");"
+        },
+        {
+          "line": 11,
+          "text": ""
+        },
+        {
+          "line": 12,
+          "text": "   type SPARKlib_Build_Kind is (\"Production\", \"Assertions\", \"Debug\");"
+        },
+        {
+          "line": 13,
+          "text": "   SPARKlib_Build : SPARKlib_Build_Kind := External(\"SPARKLIB_BUILD\", \"Production\");"
+        },
+        {
+          "line": 14,
+          "text": ""
+        },
+        {
+          "line": 15,
+          "text": "   for Library_Name use \"sparklib\";"
+        },
+        {
+          "line": 16,
+          "text": "   for Object_Dir use \"sparklib_obj\";"
+        },
+        {
+          "line": 17,
+          "text": "   for Library_Dir use \"sparklib_lib\";"
+        },
+        {
+          "line": 18,
+          "text": "   for Library_Kind use SPARKlib_Library_Type;"
+        },
+        {
+          "line": 19,
+          "text": ""
+        },
+        {
+          "line": 20,
+          "text": "   for Source_Dirs use"
+        },
+        {
+          "line": 21,
+          "text": "     (SPARKlib_common.Root, SPARKlib_common.Root & \"/\" & SPARKlib_Mode);"
+        },
+        {
+          "line": 22,
+          "text": ""
+        },
+        {
+          "line": 23,
+          "text": "   GPR_Tool := external (\"GPR_TOOL\", \"\");"
+        },
+        {
+          "line": 24,
+          "text": "   case GPR_Tool is"
+        },
+        {
+          "line": 25,
+          "text": "      when \"gnatprove\" =>"
+        },
+        {
+          "line": 26,
+          "text": "         for Externally_Built use \"True\";"
+        },
+        {
+          "line": 27,
+          "text": "      when others =>"
+        },
+        {
+          "line": 28,
+          "text": "         null;"
+        },
+        {
+          "line": 29,
+          "text": "   end case;"
+        },
+        {
+          "line": 30,
+          "text": ""
+        },
+        {
+          "line": 31,
+          "text": "   package Compiler is"
+        },
+        {
+          "line": 32,
+          "text": "      case SPARKlib_Build is"
+        },
+        {
+          "line": 33,
+          "text": "         when \"Production\" =>"
+        },
+        {
+          "line": 34,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 35,
+          "text": "              & (\"-O2\", \"-gnatn\");"
+        },
+        {
+          "line": 36,
+          "text": ""
+        },
+        {
+          "line": 37,
+          "text": "         when \"Assertions\" =>"
+        },
+        {
+          "line": 38,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 39,
+          "text": "              & (\"-O2\", \"-gnatn\", \"-gnata\", \"-g\");"
+        },
+        {
+          "line": 40,
+          "text": ""
+        },
+        {
+          "line": 41,
+          "text": "         when \"Debug\" =>"
+        },
+        {
+          "line": 42,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 43,
+          "text": "              & (\"-Og\", \"-g\");"
+        },
+        {
+          "line": 44,
+          "text": "      end case;"
+        },
+        {
+          "line": 45,
+          "text": "   end Compiler;"
+        },
+        {
+          "line": 46,
+          "text": ""
+        },
+        {
+          "line": 47,
+          "text": "   package Prove renames SPARKlib_common.Prove;"
+        },
+        {
+          "line": 48,
+          "text": ""
+        },
+        {
+          "line": 49,
+          "text": "end SPARKlib;"
+        }
+      ],
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat/sparklib.gpr",
+      "sha256": "6b5cf2175948db1894c234b0eca00be567220c0f881bf2de2b9a670e1b9a455f"
+    },
+    {
+      "locations": [
+        {
+          "line": 1,
+          "text": "with \"sparklib_common\";"
+        },
+        {
+          "line": 2,
+          "text": ""
+        },
+        {
+          "line": 3,
+          "text": "library project SPARKlib is"
+        },
+        {
+          "line": 4,
+          "text": ""
+        },
+        {
+          "line": 5,
+          "text": "   type SPARKlib_Library_Kind is (\"static\");"
+        },
+        {
+          "line": 6,
+          "text": "   SPARKlib_Library_Type : SPARKlib_Library_Kind :="
+        },
+        {
+          "line": 7,
+          "text": "     external (\"SPARKLIB_LIBRARY_TYPE\", external (\"LIBRARY_TYPE\", \"static\"));"
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "   type SPARKlib_Mode_Kind is (\"light\", \"full\");"
+        },
+        {
+          "line": 10,
+          "text": "   SPARKlib_Mode : SPARKlib_Mode_Kind := External(\"SPARKLIB_MODE\", \"full\");"
+        },
+        {
+          "line": 11,
+          "text": ""
+        },
+        {
+          "line": 12,
+          "text": "   type SPARKlib_Build_Kind is (\"Production\", \"Assertions\", \"Debug\");"
+        },
+        {
+          "line": 13,
+          "text": "   SPARKlib_Build : SPARKlib_Build_Kind := External(\"SPARKLIB_BUILD\", \"Production\");"
+        },
+        {
+          "line": 14,
+          "text": ""
+        },
+        {
+          "line": 15,
+          "text": "   for Library_Name use \"sparklib\";"
+        },
+        {
+          "line": 16,
+          "text": "   for Object_Dir use \"sparklib_obj\";"
+        },
+        {
+          "line": 17,
+          "text": "   for Library_Dir use \"sparklib_lib\";"
+        },
+        {
+          "line": 18,
+          "text": "   for Library_Kind use SPARKlib_Library_Type;"
+        },
+        {
+          "line": 19,
+          "text": ""
+        },
+        {
+          "line": 20,
+          "text": "   for Source_Dirs use"
+        },
+        {
+          "line": 21,
+          "text": "     (SPARKlib_common.Root, SPARKlib_common.Root & \"/\" & SPARKlib_Mode);"
+        },
+        {
+          "line": 22,
+          "text": ""
+        },
+        {
+          "line": 23,
+          "text": "   GPR_Tool := external (\"GPR_TOOL\", \"\");"
+        },
+        {
+          "line": 24,
+          "text": "   case GPR_Tool is"
+        },
+        {
+          "line": 25,
+          "text": "      when \"gnatprove\" =>"
+        },
+        {
+          "line": 26,
+          "text": "         for Externally_Built use \"True\";"
+        },
+        {
+          "line": 27,
+          "text": "      when others =>"
+        },
+        {
+          "line": 28,
+          "text": "         null;"
+        },
+        {
+          "line": 29,
+          "text": "   end case;"
+        },
+        {
+          "line": 30,
+          "text": ""
+        },
+        {
+          "line": 31,
+          "text": "   package Compiler is"
+        },
+        {
+          "line": 32,
+          "text": "      case SPARKlib_Build is"
+        },
+        {
+          "line": 33,
+          "text": "         when \"Production\" =>"
+        },
+        {
+          "line": 34,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 35,
+          "text": "              & (\"-O2\", \"-gnatn\");"
+        },
+        {
+          "line": 36,
+          "text": ""
+        },
+        {
+          "line": 37,
+          "text": "         when \"Assertions\" =>"
+        },
+        {
+          "line": 38,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 39,
+          "text": "              & (\"-O2\", \"-gnatn\", \"-gnata\", \"-g\");"
+        },
+        {
+          "line": 40,
+          "text": ""
+        },
+        {
+          "line": 41,
+          "text": "         when \"Debug\" =>"
+        },
+        {
+          "line": 42,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 43,
+          "text": "              & (\"-Og\", \"-g\");"
+        },
+        {
+          "line": 44,
+          "text": "      end case;"
+        },
+        {
+          "line": 45,
+          "text": "   end Compiler;"
+        },
+        {
+          "line": 46,
+          "text": ""
+        },
+        {
+          "line": 47,
+          "text": "   package Prove renames SPARKlib_common.Prove;"
+        },
+        {
+          "line": 48,
+          "text": ""
+        },
+        {
+          "line": 49,
+          "text": "end SPARKlib;"
+        }
+      ],
+      "path": "scratch/coordinator/private-sparklib/lib/gnat/sparklib.gpr",
+      "sha256": "6b5cf2175948db1894c234b0eca00be567220c0f881bf2de2b9a670e1b9a455f"
+    },
+    {
+      "locations": [
+        {
+          "line": 1,
+          "text": "with \"sparklib_common\";"
+        },
+        {
+          "line": 2,
+          "text": ""
+        },
+        {
+          "line": 3,
+          "text": "library project SPARKlib is"
+        },
+        {
+          "line": 4,
+          "text": ""
+        },
+        {
+          "line": 5,
+          "text": "   type SPARKlib_Library_Kind is (\"static\");"
+        },
+        {
+          "line": 6,
+          "text": "   SPARKlib_Library_Type : SPARKlib_Library_Kind :="
+        },
+        {
+          "line": 7,
+          "text": "     external (\"SPARKLIB_LIBRARY_TYPE\", external (\"LIBRARY_TYPE\", \"static\"));"
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "   type SPARKlib_Mode_Kind is (\"light\", \"full\");"
+        },
+        {
+          "line": 10,
+          "text": "   SPARKlib_Mode : SPARKlib_Mode_Kind := External(\"SPARKLIB_MODE\", \"full\");"
+        },
+        {
+          "line": 11,
+          "text": ""
+        },
+        {
+          "line": 12,
+          "text": "   type SPARKlib_Build_Kind is (\"Production\", \"Assertions\", \"Debug\");"
+        },
+        {
+          "line": 13,
+          "text": "   SPARKlib_Build : SPARKlib_Build_Kind := External(\"SPARKLIB_BUILD\", \"Production\");"
+        },
+        {
+          "line": 14,
+          "text": ""
+        },
+        {
+          "line": 15,
+          "text": "   for Library_Name use \"sparklib\";"
+        },
+        {
+          "line": 16,
+          "text": "   for Object_Dir use \"sparklib_obj\";"
+        },
+        {
+          "line": 17,
+          "text": "   for Library_Dir use \"sparklib_lib\";"
+        },
+        {
+          "line": 18,
+          "text": "   for Library_Kind use SPARKlib_Library_Type;"
+        },
+        {
+          "line": 19,
+          "text": ""
+        },
+        {
+          "line": 20,
+          "text": "   for Source_Dirs use"
+        },
+        {
+          "line": 21,
+          "text": "     (SPARKlib_common.Root, SPARKlib_common.Root & \"/\" & SPARKlib_Mode);"
+        },
+        {
+          "line": 22,
+          "text": ""
+        },
+        {
+          "line": 23,
+          "text": "   --  Experiment only: the standalone phase builds the complete private library."
+        },
+        {
+          "line": 24,
+          "text": "   --  The unchanged WORLDLINE aggregate then consumes that exact artifact."
+        },
+        {
+          "line": 25,
+          "text": "   type Private_Prebuilt_Kind is (\"True\", \"False\");"
+        },
+        {
+          "line": 26,
+          "text": "   Private_Prebuilt : Private_Prebuilt_Kind :="
+        },
+        {
+          "line": 27,
+          "text": "     external (\"WORLDLINE_PRIVATE_SPARKLIB_PREBUILT\", \"False\");"
+        },
+        {
+          "line": 28,
+          "text": ""
+        },
+        {
+          "line": 29,
+          "text": "   GPR_Tool := external (\"GPR_TOOL\", \"\");"
+        },
+        {
+          "line": 30,
+          "text": "   case GPR_Tool is"
+        },
+        {
+          "line": 31,
+          "text": "      when \"gnatprove\" =>"
+        },
+        {
+          "line": 32,
+          "text": "         for Externally_Built use \"True\";"
+        },
+        {
+          "line": 33,
+          "text": "      when others =>"
+        },
+        {
+          "line": 34,
+          "text": "         for Externally_Built use Private_Prebuilt;"
+        },
+        {
+          "line": 35,
+          "text": "   end case;"
+        },
+        {
+          "line": 36,
+          "text": ""
+        },
+        {
+          "line": 37,
+          "text": "   package Compiler is"
+        },
+        {
+          "line": 38,
+          "text": "      case SPARKlib_Build is"
+        },
+        {
+          "line": 39,
+          "text": "         when \"Production\" =>"
+        },
+        {
+          "line": 40,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 41,
+          "text": "              & (\"-O2\", \"-gnatn\");"
+        },
+        {
+          "line": 42,
+          "text": ""
+        },
+        {
+          "line": 43,
+          "text": "         when \"Assertions\" =>"
+        },
+        {
+          "line": 44,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 45,
+          "text": "              & (\"-O2\", \"-gnatn\", \"-gnata\", \"-g\");"
+        },
+        {
+          "line": 46,
+          "text": ""
+        },
+        {
+          "line": 47,
+          "text": "         when \"Debug\" =>"
+        },
+        {
+          "line": 48,
+          "text": "            for Switches (\"Ada\") use SPARKlib_common.Common_Default_Switches"
+        },
+        {
+          "line": 49,
+          "text": "              & (\"-Og\", \"-g\");"
+        },
+        {
+          "line": 50,
+          "text": "      end case;"
+        },
+        {
+          "line": 51,
+          "text": "   end Compiler;"
+        },
+        {
+          "line": 52,
+          "text": ""
+        },
+        {
+          "line": 53,
+          "text": "   package Prove renames SPARKlib_common.Prove;"
+        },
+        {
+          "line": 54,
+          "text": ""
+        },
+        {
+          "line": 55,
+          "text": "end SPARKlib;"
+        }
+      ],
+      "path": "scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr",
+      "sha256": "ffdf9e235830799c45759540dbfff3a24da164bce9272ad9eb63e7be9935569d"
+    }
+  ],
+  "native_source_identity": {
+    "core/native_diagnostic_trace.adb": {
+      "matches_frozen_base": true,
+      "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6"
+    },
+    "core/native_diagnostic_trace.ads": {
+      "matches_frozen_base": true,
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34"
+    }
+  },
+  "new_runtime_or_proof_run": "NOT PERFORMED",
+  "no_narrowed_production_claim": true,
+  "obligations": [
+    {
+      "contract_label": "Owning queue representation and explicit node release",
+      "existing_boundary": "Native Free is explicit Ada.Unchecked_Deallocation instantiation; it is not an implicit Sequence finalizer.",
+      "id": "OWNING_NODE",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Every complete String and Next chain has one live owner; node moves preserve bytes and FIFO. Explicit Release frees only a detached node and cannot establish automatic model or Old retirement.",
+      "required_proof": "Prove allocation, disjoint ownership transfers, source mutation independence, null-tail deallocation legality and complete value conservation with all original contracts enabled.",
+      "required_runtime_evidence": "Production Push/Take_All/flush/Release paths retain normal and exceptional evidence, including ownership after checked postcondition failure; no leaked nodes, lost full values, double frees or stale borrowing.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 11,
+              "text": "   type Line (Length : Natural);"
+            },
+            {
+              "line": 12,
+              "text": "   type Line_Access is access Line;"
+            },
+            {
+              "line": 13,
+              "text": "   type Line (Length : Natural) is record"
+            },
+            {
+              "line": 14,
+              "text": "      Text : String (1 .. Length);"
+            },
+            {
+              "line": 15,
+              "text": "      Next : Line_Access := null;"
+            },
+            {
+              "line": 16,
+              "text": "   end record;"
+            },
+            {
+              "line": 52,
+              "text": "   --  One owned allocation for the complete original text; no truncation,"
+            },
+            {
+              "line": 53,
+              "text": "   --  fixed message/count ceiling, foreign call, or borrowed text lifetime."
+            },
+            {
+              "line": 54,
+              "text": "   --  Linking is constant-time: no traversal/copy of earlier runtime lines."
+            },
+            {
+              "line": 55,
+              "text": "   --  Checked ghost models add traversal/allocation, not owning queue nodes."
+            },
+            {
+              "line": 61,
+              "text": "   --  Transfers the complete queue in chronological order. The caller owns"
+            },
+            {
+              "line": 62,
+              "text": "   --  and releases every returned line even if its physical output fails."
+            },
+            {
+              "line": 64,
+              "text": "   --  Explicitly aliased forces by-reference handoff: if checked model work"
+            },
+            {
+              "line": 65,
+              "text": "   --  raises after a move, the caller still owns the transferred Items chain"
+            },
+            {
+              "line": 66,
+              "text": "   --  and can release it. A by-copy out formal could suppress copyback on"
+            },
+            {
+              "line": 67,
+              "text": "   --  that exceptional exit and orphan the queue. Actual Items must be aliased."
+            },
+            {
+              "line": 68,
+              "text": "   procedure Take_All (Items : aliased out Line_Access)"
+            },
+            {
+              "line": 72,
+              "text": "   procedure Release (Item : in out Line_Access)"
+            },
+            {
+              "line": 74,
+              "text": "          Pre => Item = null or else Item.Next = null,"
+            },
+            {
+              "line": 75,
+              "text": "          Post => Item = null;"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34"
+        },
+        {
+          "locations": [
+            {
+              "line": 5,
+              "text": "   Head : Line_Access := null;"
+            },
+            {
+              "line": 6,
+              "text": "   procedure Free is new Ada.Unchecked_Deallocation (Line, Line_Access);"
+            },
+            {
+              "line": 17,
+              "text": "      Head := new Line'(Length => Text'Length, Text => Text, Next => Head);"
+            },
+            {
+              "line": 46,
+              "text": "            Item : Line_Access := Head;"
+            },
+            {
+              "line": 51,
+              "text": "            Head := Item.Next;"
+            },
+            {
+              "line": 52,
+              "text": "            Item.Next := Items;"
+            },
+            {
+              "line": 53,
+              "text": "            Items := Item;"
+            },
+            {
+              "line": 117,
+              "text": "   procedure Release (Item : in out Line_Access) is"
+            },
+            {
+              "line": 121,
+              "text": "      Free (Item);"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.adb",
+          "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6"
+        }
+      ]
+    },
+    {
+      "contract_label": "String instantiation and model ownership representation",
+      "existing_boundary": "Infinite_Sequences public specification is SPARK; private representation is explicitly SPARK_Mode Off and embeds Functional.Base.Container. Source presence is not proof of hidden lifetime behavior.",
+      "id": "GENERIC_VALUE_MODEL",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Line_Sequences must preserve independent nonlimited full String values, all Character values, empty/duplicate lines and literal enabled Old copies without introducing a cumulative admitted ceiling.",
+      "required_proof": "Discharge instantiation element-copy/equality obligations and distinguish public abstract functional contracts from hidden implementation allocation/copy/finalization. Prove the original automatic retirement guarantee, not only abstract equality.",
+      "required_runtime_evidence": "Retain actual generated code/build configuration and lifetime measurements for ordinary copies, returned expression values, anonymous temporaries and compiler-created Old captures; assertions and ghost checks remain enabled.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 18,
+              "text": "   --  Unbounded specification indices, not a new admitted line/count ceiling."
+            },
+            {
+              "line": 19,
+              "text": "   --  String equality compares every character and the complete line length;"
+            },
+            {
+              "line": 20,
+              "text": "   --  empty lines, duplicate lines and all Character values remain distinct"
+            },
+            {
+              "line": 21,
+              "text": "   --  sequence positions. No checksum stands in for the captured contents."
+            },
+            {
+              "line": 22,
+              "text": "   package Line_Sequences is new"
+            },
+            {
+              "line": 23,
+              "text": "     SPARK.Containers.Functional.Infinite_Sequences (String);"
+            },
+            {
+              "line": 25,
+              "text": "   use type Line_Sequences.Sequence;"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34"
+        },
+        {
+          "locations": [
+            {
+              "line": 15,
+              "text": "generic"
+            },
+            {
+              "line": 16,
+              "text": "   type Element_Type (<>) is private;"
+            },
+            {
+              "line": 17,
+              "text": "   with function \"=\" (Left, Right : Element_Type) return Boolean is <>;"
+            },
+            {
+              "line": 24,
+              "text": "   Use_Logical_Equality : Boolean := False;"
+            },
+            {
+              "line": 61,
+              "text": "package SPARK.Containers.Functional.Infinite_Sequences with"
+            },
+            {
+              "line": 62,
+              "text": "    SPARK_Mode,"
+            },
+            {
+              "line": 63,
+              "text": "    Always_Terminates"
+            },
+            {
+              "line": 74,
+              "text": "   type Sequence is private"
+            },
+            {
+              "line": 76,
+              "text": "     Default_Initial_Condition => (SPARKlib_Full => Length (Sequence) = 0),"
+            },
+            {
+              "line": 269,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 271,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 274,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 277,
+              "text": "              (Get (Add'Result, Last (Add'Result)), Copy_Element (New_Item))"
+            },
+            {
+              "line": 278,
+              "text": "          and then Equal_Prefix (Container, Add'Result));"
+            },
+            {
+              "line": 341,
+              "text": "   function Copy_Element (Item : Element_Type) return Element_Type"
+            },
+            {
+              "line": 342,
+              "text": "   is (Item)"
+            },
+            {
+              "line": 343,
+              "text": "   with Annotate => (GNATprove, Inline_For_Proof), Ghost => SPARKlib_Full;"
+            },
+            {
+              "line": 344,
+              "text": "   --  Elements of containers are copied by numerous primitives in this"
+            },
+            {
+              "line": 345,
+              "text": "   --  package. This function causes GNATprove to verify that such a copy is"
+            },
+            {
+              "line": 346,
+              "text": "   --  valid (in particular, it does not break the ownership policy of SPARK,"
+            },
+            {
+              "line": 347,
+              "text": "   --  i.e. it does not contain pointers that could be used to alias mutable"
+            },
+            {
+              "line": 348,
+              "text": "   --  data)."
+            },
+            {
+              "line": 545,
+              "text": "private"
+            },
+            {
+              "line": 546,
+              "text": "   pragma SPARK_Mode (Off);"
+            },
+            {
+              "line": 550,
+              "text": "   subtype Positive_Count_Type is Count_Type range 1 .. Count_Type'Last;"
+            },
+            {
+              "line": 552,
+              "text": "   package Containers is new"
+            },
+            {
+              "line": 553,
+              "text": "     SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 554,
+              "text": "       (Index_Type   => Positive_Count_Type,"
+            },
+            {
+              "line": 555,
+              "text": "        Element_Type => Element_Type);"
+            },
+            {
+              "line": 557,
+              "text": "   type Sequence is record"
+            },
+            {
+              "line": 558,
+              "text": "      Content : Containers.Container;"
+            },
+            {
+              "line": 559,
+              "text": "   end record;"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 15,
+              "text": "generic"
+            },
+            {
+              "line": 16,
+              "text": "   type Element_Type (<>) is private;"
+            },
+            {
+              "line": 17,
+              "text": "   with function \"=\" (Left, Right : Element_Type) return Boolean is <>;"
+            },
+            {
+              "line": 24,
+              "text": "   Use_Logical_Equality : Boolean := False;"
+            },
+            {
+              "line": 61,
+              "text": "package SPARK.Containers.Functional.Infinite_Sequences with"
+            },
+            {
+              "line": 62,
+              "text": "    SPARK_Mode,"
+            },
+            {
+              "line": 63,
+              "text": "    Always_Terminates"
+            },
+            {
+              "line": 74,
+              "text": "   type Sequence is private"
+            },
+            {
+              "line": 76,
+              "text": "     Default_Initial_Condition => (SPARKlib_Full => Length (Sequence) = 0),"
+            },
+            {
+              "line": 269,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 271,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 274,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 277,
+              "text": "              (Get (Add'Result, Last (Add'Result)), Copy_Element (New_Item))"
+            },
+            {
+              "line": 278,
+              "text": "          and then Equal_Prefix (Container, Add'Result));"
+            },
+            {
+              "line": 341,
+              "text": "   function Copy_Element (Item : Element_Type) return Element_Type"
+            },
+            {
+              "line": 342,
+              "text": "   is (Item)"
+            },
+            {
+              "line": 343,
+              "text": "   with Annotate => (GNATprove, Inline_For_Proof), Ghost => SPARKlib_Full;"
+            },
+            {
+              "line": 344,
+              "text": "   --  Elements of containers are copied by numerous primitives in this"
+            },
+            {
+              "line": 345,
+              "text": "   --  package. This function causes GNATprove to verify that such a copy is"
+            },
+            {
+              "line": 346,
+              "text": "   --  valid (in particular, it does not break the ownership policy of SPARK,"
+            },
+            {
+              "line": 347,
+              "text": "   --  i.e. it does not contain pointers that could be used to alias mutable"
+            },
+            {
+              "line": 348,
+              "text": "   --  data)."
+            },
+            {
+              "line": 545,
+              "text": "private"
+            },
+            {
+              "line": 546,
+              "text": "   pragma SPARK_Mode (Off);"
+            },
+            {
+              "line": 550,
+              "text": "   subtype Positive_Count_Type is Count_Type range 1 .. Count_Type'Last;"
+            },
+            {
+              "line": 552,
+              "text": "   package Containers is new"
+            },
+            {
+              "line": 553,
+              "text": "     SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 554,
+              "text": "       (Index_Type   => Positive_Count_Type,"
+            },
+            {
+              "line": 555,
+              "text": "        Element_Type => Element_Type);"
+            },
+            {
+              "line": 557,
+              "text": "   type Sequence is record"
+            },
+            {
+              "line": 558,
+              "text": "      Content : Containers.Container;"
+            },
+            {
+              "line": 559,
+              "text": "   end record;"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 15,
+              "text": "generic"
+            },
+            {
+              "line": 16,
+              "text": "   type Element_Type (<>) is private;"
+            },
+            {
+              "line": 17,
+              "text": "   with function \"=\" (Left, Right : Element_Type) return Boolean is <>;"
+            },
+            {
+              "line": 24,
+              "text": "   Use_Logical_Equality : Boolean := False;"
+            },
+            {
+              "line": 61,
+              "text": "package SPARK.Containers.Functional.Infinite_Sequences with"
+            },
+            {
+              "line": 62,
+              "text": "    SPARK_Mode,"
+            },
+            {
+              "line": 63,
+              "text": "    Always_Terminates"
+            },
+            {
+              "line": 74,
+              "text": "   type Sequence is private"
+            },
+            {
+              "line": 76,
+              "text": "     Default_Initial_Condition => (SPARKlib_Full => Length (Sequence) = 0),"
+            },
+            {
+              "line": 269,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 271,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 274,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 277,
+              "text": "              (Get (Add'Result, Last (Add'Result)), Copy_Element (New_Item))"
+            },
+            {
+              "line": 278,
+              "text": "          and then Equal_Prefix (Container, Add'Result));"
+            },
+            {
+              "line": 341,
+              "text": "   function Copy_Element (Item : Element_Type) return Element_Type"
+            },
+            {
+              "line": 342,
+              "text": "   is (Item)"
+            },
+            {
+              "line": 343,
+              "text": "   with Annotate => (GNATprove, Inline_For_Proof), Ghost => SPARKlib_Full;"
+            },
+            {
+              "line": 344,
+              "text": "   --  Elements of containers are copied by numerous primitives in this"
+            },
+            {
+              "line": 345,
+              "text": "   --  package. This function causes GNATprove to verify that such a copy is"
+            },
+            {
+              "line": 346,
+              "text": "   --  valid (in particular, it does not break the ownership policy of SPARK,"
+            },
+            {
+              "line": 347,
+              "text": "   --  i.e. it does not contain pointers that could be used to alias mutable"
+            },
+            {
+              "line": 348,
+              "text": "   --  data)."
+            },
+            {
+              "line": 545,
+              "text": "private"
+            },
+            {
+              "line": 546,
+              "text": "   pragma SPARK_Mode (Off);"
+            },
+            {
+              "line": 550,
+              "text": "   subtype Positive_Count_Type is Count_Type range 1 .. Count_Type'Last;"
+            },
+            {
+              "line": 552,
+              "text": "   package Containers is new"
+            },
+            {
+              "line": 553,
+              "text": "     SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 554,
+              "text": "       (Index_Type   => Positive_Count_Type,"
+            },
+            {
+              "line": 555,
+              "text": "        Element_Type => Element_Type);"
+            },
+            {
+              "line": 557,
+              "text": "   type Sequence is record"
+            },
+            {
+              "line": 558,
+              "text": "      Content : Containers.Container;"
+            },
+            {
+              "line": 559,
+              "text": "   end record;"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        }
+      ]
+    },
+    {
+      "contract_label": "Contents expression function and recursive intermediate values",
+      "existing_boundary": "Expression function is SPARK, but its Add implementation and finalization use the existing imported Off boundary.",
+      "id": "CONTENTS_EXPRESSION",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Recursive tail snapshots and positional Add results denote every physical-order line exactly once. Each intermediate, returned value and copy must remain independent of node lifetime and automatically retire after its final owner dies.",
+      "required_proof": "Prove structural termination, Add preconditions, full-value relation and ownership across all recursive return/copy edges; no hash/truncation substitute.",
+      "required_runtime_evidence": "Checked normal return, exception unwinding during allocation/Add/postchecks, abandoned partial recursion and outer-scope destruction must retain allocation/free and peak-live evidence tied to the same compiled source.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 27,
+              "text": "   --  Physical Next order, which is the caller's FIFO order after Take_All."
+            },
+            {
+              "line": 28,
+              "text": "   --  Observations neither take ownership nor retain a borrowed pointer."
+            },
+            {
+              "line": 31,
+              "text": "   function Contents (Items : access constant Line)"
+            },
+            {
+              "line": 32,
+              "text": "     return Line_Sequences.Sequence"
+            },
+            {
+              "line": 33,
+              "text": "     with Ghost, Global => null,"
+            },
+            {
+              "line": 34,
+              "text": "          Subprogram_Variant => (Structural => Items);"
+            },
+            {
+              "line": 84,
+              "text": "   --  Exactly one recursive tail evaluation per node, and no recursive model"
+            },
+            {
+              "line": 85,
+              "text": "   --  postcondition. Enabling ghost assertions cannot create the exponential"
+            },
+            {
+              "line": 86,
+              "text": "   --  checked recurrence of re-evaluating each tail in recursive postchecks."
+            },
+            {
+              "line": 87,
+              "text": "   function Contents (Items : access constant Line)"
+            },
+            {
+              "line": 88,
+              "text": "     return Line_Sequences.Sequence"
+            },
+            {
+              "line": 89,
+              "text": "   is"
+            },
+            {
+              "line": 90,
+              "text": "     (if Items = null then Line_Sequences.Empty_Sequence"
+            },
+            {
+              "line": 91,
+              "text": "      else Line_Sequences.Add (Contents (Items.Next), 1, Items.Text));"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34"
+        },
+        {
+          "locations": [
+            {
+              "line": 282,
+              "text": "   function Add"
+            },
+            {
+              "line": 283,
+              "text": "     (Container : Sequence; Position : Big_Positive; New_Item : Element_Type)"
+            },
+            {
+              "line": 284,
+              "text": "      return Sequence"
+            },
+            {
+              "line": 289,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 290,
+              "text": "     Pre    => (SPARKlib_Defensive => Position <= Last (Container) + 1),"
+            },
+            {
+              "line": 292,
+              "text": "       (SPARKlib_Full =>"
+            },
+            {
+              "line": 293,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 296,
+              "text": "              (Get (Add'Result, Position), Copy_Element (New_Item))"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 282,
+              "text": "   function Add"
+            },
+            {
+              "line": 283,
+              "text": "     (Container : Sequence; Position : Big_Positive; New_Item : Element_Type)"
+            },
+            {
+              "line": 284,
+              "text": "      return Sequence"
+            },
+            {
+              "line": 289,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 290,
+              "text": "     Pre    => (SPARKlib_Defensive => Position <= Last (Container) + 1),"
+            },
+            {
+              "line": 292,
+              "text": "       (SPARKlib_Full =>"
+            },
+            {
+              "line": 293,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 296,
+              "text": "              (Get (Add'Result, Position), Copy_Element (New_Item))"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 282,
+              "text": "   function Add"
+            },
+            {
+              "line": 283,
+              "text": "     (Container : Sequence; Position : Big_Positive; New_Item : Element_Type)"
+            },
+            {
+              "line": 284,
+              "text": "      return Sequence"
+            },
+            {
+              "line": 289,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 290,
+              "text": "     Pre    => (SPARKlib_Defensive => Position <= Last (Container) + 1),"
+            },
+            {
+              "line": 292,
+              "text": "       (SPARKlib_Full =>"
+            },
+            {
+              "line": 293,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 296,
+              "text": "              (Get (Add'Result, Position), Copy_Element (New_Item))"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        }
+      ]
+    },
+    {
+      "contract_label": "Stack_Contents expression function and recursive intermediate values",
+      "existing_boundary": "Pending_Contents is a wrapper over Stack_Contents; imported Add lifetime remains beyond its abstract value contract.",
+      "id": "STACK_EXPRESSION",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Recursive pending stack observation reconstructs chronological full values; recursive tail and append temporaries and result copies must auto-retire without caller cleanup.",
+      "required_proof": "Prove structural termination, whole-sequence chronological semantics and complete ownership/copy validity; mutation/move cannot invalidate a snapshot.",
+      "required_runtime_evidence": "The normal/exceptional recursive and caller-scope lifetime roster is required with checked ghosts, not only a diagnostic call that reaches one result.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 77,
+              "text": "private"
+            },
+            {
+              "line": 78,
+              "text": "   --  Reverse physical Next order models the owning pending stack."
+            },
+            {
+              "line": 79,
+              "text": "   function Stack_Contents (Items : access constant Line)"
+            },
+            {
+              "line": 80,
+              "text": "     return Line_Sequences.Sequence"
+            },
+            {
+              "line": 81,
+              "text": "     with Ghost, Global => null,"
+            },
+            {
+              "line": 82,
+              "text": "          Subprogram_Variant => (Structural => Items);"
+            },
+            {
+              "line": 93,
+              "text": "   function Stack_Contents (Items : access constant Line)"
+            },
+            {
+              "line": 94,
+              "text": "     return Line_Sequences.Sequence"
+            },
+            {
+              "line": 95,
+              "text": "   is"
+            },
+            {
+              "line": 96,
+              "text": "     (if Items = null then Line_Sequences.Empty_Sequence"
+            },
+            {
+              "line": 97,
+              "text": "      else Line_Sequences.Add (Stack_Contents (Items.Next), Items.Text));"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34"
+        },
+        {
+          "locations": [
+            {
+              "line": 8,
+              "text": "   function Pending_Contents return Line_Sequences.Sequence is"
+            },
+            {
+              "line": 9,
+              "text": "     (Stack_Contents (Head));"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.adb",
+          "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6"
+        },
+        {
+          "locations": [
+            {
+              "line": 269,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 270,
+              "text": "   with"
+            },
+            {
+              "line": 271,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 272,
+              "text": "     Post   =>"
+            },
+            {
+              "line": 274,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 277,
+              "text": "              (Get (Add'Result, Last (Add'Result)), Copy_Element (New_Item))"
+            },
+            {
+              "line": 278,
+              "text": "          and then Equal_Prefix (Container, Add'Result));"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 269,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 270,
+              "text": "   with"
+            },
+            {
+              "line": 271,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 272,
+              "text": "     Post   =>"
+            },
+            {
+              "line": 274,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 277,
+              "text": "              (Get (Add'Result, Last (Add'Result)), Copy_Element (New_Item))"
+            },
+            {
+              "line": 278,
+              "text": "          and then Equal_Prefix (Container, Add'Result));"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 269,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 270,
+              "text": "   with"
+            },
+            {
+              "line": 271,
+              "text": "     Global => null,"
+            },
+            {
+              "line": 272,
+              "text": "     Post   =>"
+            },
+            {
+              "line": 274,
+              "text": "          Length (Add'Result) = Length (Container) + 1"
+            },
+            {
+              "line": 277,
+              "text": "              (Get (Add'Result, Last (Add'Result)), Copy_Element (New_Item))"
+            },
+            {
+              "line": 278,
+              "text": "          and then Equal_Prefix (Container, Add'Result));"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        }
+      ]
+    },
+    {
+      "contract_label": "Implicit Old captures and anonymous postcondition values",
+      "existing_boundary": "Compiler-managed Old temporary lifetime reaches controlled imported representation. Explicit pre-state caller parameters/manual Free are not the original guarantee.",
+      "id": "IMPLICIT_OLD_AND_POSTCHECKS",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Pending_Contents Old at Push/Take_All remains a full independent pre-state value through node movement and postchecks; all compiler-generated Old and current-state postcondition values retire automatically on every exit.",
+      "required_proof": "Prove enabled literal Old value contracts on the original nonlimited value representation; legality or value-proof success alone does not discharge retirement.",
+      "required_runtime_evidence": "Retain normal completion, failed checked postcondition, exceptional body exit, failing snapshot allocation and final scope exit; distinguish absent Old capture from captured-empty Old.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 40,
+              "text": "   function Appended"
+            },
+            {
+              "line": 41,
+              "text": "     (Before, After : Line_Sequences.Sequence; Text : String) return Boolean"
+            },
+            {
+              "line": 43,
+              "text": "     (Line_Sequences.Length (After) = Line_Sequences.Length (Before) + 1"
+            },
+            {
+              "line": 44,
+              "text": "      and then Before <= After"
+            },
+            {
+              "line": 45,
+              "text": "      and then Line_Sequences.Get (After, Line_Sequences.Last (After)) = Text)"
+            },
+            {
+              "line": 48,
+              "text": "   function Empty return Boolean"
+            },
+            {
+              "line": 49,
+              "text": "     with Global => (Input => Pending),"
+            },
+            {
+              "line": 50,
+              "text": "          Post => Empty'Result = (Line_Sequences.Length (Pending_Contents) = 0);"
+            },
+            {
+              "line": 56,
+              "text": "   procedure Push (Text : String)"
+            },
+            {
+              "line": 57,
+              "text": "     with Global => (In_Out => Pending), Always_Terminates,"
+            },
+            {
+              "line": 58,
+              "text": "          Post => Appended (Pending_Contents'Old, Pending_Contents, Text)"
+            },
+            {
+              "line": 59,
+              "text": "            and then not Empty;"
+            },
+            {
+              "line": 68,
+              "text": "   procedure Take_All (Items : aliased out Line_Access)"
+            },
+            {
+              "line": 69,
+              "text": "     with Global => (In_Out => Pending), Always_Terminates,"
+            },
+            {
+              "line": 70,
+              "text": "          Post => Contents (Items) = Pending_Contents'Old and then Empty;"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34"
+        }
+      ]
+    },
+    {
+      "contract_label": "Anonymous Add, Contents and Stack_Contents assertion/invariant temporaries",
+      "existing_boundary": "These source calls have no named owner to which manual cleanup can be attached. Imported return/controlled machinery remains an explicit existing boundary.",
+      "id": "ANONYMOUS_ASSERTION_VALUES",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Every anonymous sequence evaluation in invariants, variants and assertions has full exact contents while used and releases its final ownership automatically; nested equalities, Get and Length must not accidentally retain a hidden owning copy.",
+      "required_proof": "Prove each original assertion and invariant without suppressing evaluation, changing contracts or accepted cases; account for lifetime at full-expression and enclosing master boundaries.",
+      "required_runtime_evidence": "Exercise each original checked path, repeated loop iterations, Add/copy failures and assertion exceptions, with retained per-stage live allocation/retirement evidence. Overall process exit is insufficient evidence of timely retirement.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 30,
+              "text": "         pragma Loop_Invariant"
+            },
+            {
+              "line": 31,
+              "text": "           (Split_Contents"
+            },
+            {
+              "line": 32,
+              "text": "              (Original, Stack_Contents (Head), Contents (Items)));"
+            },
+            {
+              "line": 33,
+              "text": "         pragma Loop_Variant"
+            },
+            {
+              "line": 34,
+              "text": "           (Decreases => Line_Sequences.Length (Stack_Contents (Head)));"
+            },
+            {
+              "line": 35,
+              "text": "         pragma Assert"
+            },
+            {
+              "line": 36,
+              "text": "           (Stack_Contents (Head)"
+            },
+            {
+              "line": 37,
+              "text": "              = Line_Sequences.Add (Stack_Contents (Head.Next), Head.Text));"
+            },
+            {
+              "line": 48,
+              "text": "            pragma Assert"
+            },
+            {
+              "line": 49,
+              "text": "              (Split_Contents"
+            },
+            {
+              "line": 50,
+              "text": "                 (Original, Line_Sequences.Add (Remaining, Text), Returned));"
+            },
+            {
+              "line": 54,
+              "text": "            pragma Assert (Stack_Contents (Head) = Remaining);"
+            },
+            {
+              "line": 55,
+              "text": "            pragma Assert"
+            },
+            {
+              "line": 56,
+              "text": "              (Contents (Items) = Line_Sequences.Add (Returned, 1, Text));"
+            },
+            {
+              "line": 65,
+              "text": "            pragma Assert"
+            },
+            {
+              "line": 66,
+              "text": "              (Line_Sequences.Length (Line_Sequences.Add (Remaining, Text))"
+            },
+            {
+              "line": 67,
+              "text": "                 = Line_Sequences.Length (Remaining) + 1);"
+            },
+            {
+              "line": 68,
+              "text": "            pragma Assert"
+            },
+            {
+              "line": 69,
+              "text": "              (Line_Sequences.Get"
+            },
+            {
+              "line": 70,
+              "text": "                 (Line_Sequences.Add (Remaining, Text),"
+            },
+            {
+              "line": 71,
+              "text": "                  Line_Sequences.Length (Remaining) + 1) = Text);"
+            },
+            {
+              "line": 72,
+              "text": "            pragma Assert (Line_Sequences.Add (Remaining, Text) <= Original);"
+            },
+            {
+              "line": 98,
+              "text": "            pragma Assert"
+            },
+            {
+              "line": 99,
+              "text": "              (Split_Contents"
+            },
+            {
+              "line": 100,
+              "text": "                 (Original, Stack_Contents (Head), Contents (Items)));"
+            },
+            {
+              "line": 103,
+              "text": "      pragma Assert (Line_Sequences.Length (Stack_Contents (Head)) = 0);"
+            },
+            {
+              "line": 114,
+              "text": "      pragma Assert (Contents (Items) = Original);"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.adb",
+          "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6"
+        }
+      ]
+    },
+    {
+      "contract_label": "Named model snapshots and nested lexical scope exit",
+      "existing_boundary": "Ghost designation does not remove checked runtime allocation when assertions are enabled.",
+      "id": "NAMED_MODEL_SCOPES",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Original, Remaining, Returned, Now and Final retain full pre-state values independently and retire exactly when no copy remains, including exceptional nested-scope exits.",
+      "required_proof": "Prove snapshot semantics and lifetime guarantee across all scopes and implicit copies, with no caller-death protocol or added application-controlled boundary.",
+      "required_runtime_evidence": "Normal nested exits and exception unwinding must show last-copy deallocation while surviving copies remain valid; explicit Release of the queue cannot stand in for model retirement.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 20,
+              "text": "   procedure Take_All (Items : aliased out Line_Access) is"
+            },
+            {
+              "line": 21,
+              "text": "      Original : constant Line_Sequences.Sequence := Pending_Contents"
+            },
+            {
+              "line": 22,
+              "text": "        with Ghost;"
+            },
+            {
+              "line": 38,
+              "text": "         declare"
+            },
+            {
+              "line": 41,
+              "text": "            Remaining : constant Line_Sequences.Sequence :="
+            },
+            {
+              "line": 42,
+              "text": "              Stack_Contents (Head.Next) with Ghost;"
+            },
+            {
+              "line": 43,
+              "text": "            Returned : constant Line_Sequences.Sequence := Contents (Items)"
+            },
+            {
+              "line": 44,
+              "text": "              with Ghost;"
+            },
+            {
+              "line": 45,
+              "text": "            Text : constant String := Head.Text with Ghost;"
+            },
+            {
+              "line": 81,
+              "text": "            declare"
+            },
+            {
+              "line": 83,
+              "text": "               Now : constant Line_Sequences.Sequence := Contents (Items)"
+            },
+            {
+              "line": 84,
+              "text": "                 with Ghost;"
+            },
+            {
+              "line": 97,
+              "text": "            end;"
+            },
+            {
+              "line": 101,
+              "text": "         end;"
+            },
+            {
+              "line": 104,
+              "text": "      declare"
+            },
+            {
+              "line": 105,
+              "text": "         Final : constant Line_Sequences.Sequence := Contents (Items)"
+            },
+            {
+              "line": 106,
+              "text": "           with Ghost;"
+            },
+            {
+              "line": 113,
+              "text": "      end;"
+            },
+            {
+              "line": 115,
+              "text": "   end Take_All;"
+            }
+          ],
+          "path": "core/native_diagnostic_trace.adb",
+          "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6"
+        }
+      ]
+    },
+    {
+      "contract_label": "Infinite_Sequences operation body and finite representation conversion",
+      "existing_boundary": "Infinite_Sequences body SPARK_Mode Off; To_Count raises Program_Error beyond existing Count_Type representation. This observation establishes neither universal infeasibility nor original proof closure.",
+      "id": "INFINITE_OFF_BODY",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Public abstract unbounded sequence values map to existing runtime Container representation and valid copies. Retain conversion/allocation failures as failures; do not reinterpret them as successful empty or bounded-admission behavior.",
+      "required_proof": "Identify complete trusted/imported body boundary and all called copy/last-release implementations; abstract functional theorem proving does not prove off-body deallocation.",
+      "required_runtime_evidence": "Verify normal and exceptional operation-return temporaries, runtime representation conversion failures and source-identical asserted builds. No newly widened accepted range or new cumulative cap.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 545,
+              "text": "private"
+            },
+            {
+              "line": 546,
+              "text": "   pragma SPARK_Mode (Off);"
+            },
+            {
+              "line": 550,
+              "text": "   subtype Positive_Count_Type is Count_Type range 1 .. Count_Type'Last;"
+            },
+            {
+              "line": 552,
+              "text": "   package Containers is new"
+            },
+            {
+              "line": 553,
+              "text": "     SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 554,
+              "text": "       (Index_Type   => Positive_Count_Type,"
+            },
+            {
+              "line": 555,
+              "text": "        Element_Type => Element_Type);"
+            },
+            {
+              "line": 557,
+              "text": "   type Sequence is record"
+            },
+            {
+              "line": 558,
+              "text": "      Content : Containers.Container;"
+            },
+            {
+              "line": 559,
+              "text": "   end record;"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 545,
+              "text": "private"
+            },
+            {
+              "line": 546,
+              "text": "   pragma SPARK_Mode (Off);"
+            },
+            {
+              "line": 550,
+              "text": "   subtype Positive_Count_Type is Count_Type range 1 .. Count_Type'Last;"
+            },
+            {
+              "line": 552,
+              "text": "   package Containers is new"
+            },
+            {
+              "line": 553,
+              "text": "     SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 554,
+              "text": "       (Index_Type   => Positive_Count_Type,"
+            },
+            {
+              "line": 555,
+              "text": "        Element_Type => Element_Type);"
+            },
+            {
+              "line": 557,
+              "text": "   type Sequence is record"
+            },
+            {
+              "line": 558,
+              "text": "      Content : Containers.Container;"
+            },
+            {
+              "line": 559,
+              "text": "   end record;"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 545,
+              "text": "private"
+            },
+            {
+              "line": 546,
+              "text": "   pragma SPARK_Mode (Off);"
+            },
+            {
+              "line": 550,
+              "text": "   subtype Positive_Count_Type is Count_Type range 1 .. Count_Type'Last;"
+            },
+            {
+              "line": 552,
+              "text": "   package Containers is new"
+            },
+            {
+              "line": 553,
+              "text": "     SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 554,
+              "text": "       (Index_Type   => Positive_Count_Type,"
+            },
+            {
+              "line": 555,
+              "text": "        Element_Type => Element_Type);"
+            },
+            {
+              "line": 557,
+              "text": "   type Sequence is record"
+            },
+            {
+              "line": 558,
+              "text": "      Content : Containers.Container;"
+            },
+            {
+              "line": 559,
+              "text": "   end record;"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "package body SPARK.Containers.Functional.Infinite_Sequences"
+            },
+            {
+              "line": 10,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 18,
+              "text": "   package Big_From_Count is new Signed_Conversions (Int => Count_Type);"
+            },
+            {
+              "line": 23,
+              "text": "   --  Store Count_Type'Last as a Big Natural because it is often used"
+            },
+            {
+              "line": 25,
+              "text": "   Count_Type_Big_Last : constant Big_Natural := Big (Count_Type'Last);"
+            },
+            {
+              "line": 27,
+              "text": "   function To_Count (C : Big_Natural) return Count_Type;"
+            },
+            {
+              "line": 61,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 62,
+              "text": "   is (Add (Container, Last (Container) + 1, New_Item));"
+            },
+            {
+              "line": 64,
+              "text": "   function Add"
+            },
+            {
+              "line": 65,
+              "text": "     (Container : Sequence; Position : Big_Positive; New_Item : Element_Type)"
+            },
+            {
+              "line": 66,
+              "text": "      return Sequence"
+            },
+            {
+              "line": 67,
+              "text": "   is (Content => Add (Container.Content, To_Count (Position), New_Item));"
+            },
+            {
+              "line": 73,
+              "text": "   procedure Aggr_Append (Container : in out Sequence; New_Item : Element_Type)"
+            },
+            {
+              "line": 76,
+              "text": "      Container := Add (Container, New_Item);"
+            },
+            {
+              "line": 351,
+              "text": "   function To_Count (C : Big_Natural) return Count_Type is"
+            },
+            {
+              "line": 353,
+              "text": "      if C > Count_Type_Big_Last then"
+            },
+            {
+              "line": 354,
+              "text": "         raise Program_Error with \"Big_Integer too large for Count_Type\";"
+            },
+            {
+              "line": 356,
+              "text": "      return Big_From_Count.From_Big_Integer (C);"
+            },
+            {
+              "line": 357,
+              "text": "   end To_Count;"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-infinite_sequences.adb",
+          "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "package body SPARK.Containers.Functional.Infinite_Sequences"
+            },
+            {
+              "line": 10,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 18,
+              "text": "   package Big_From_Count is new Signed_Conversions (Int => Count_Type);"
+            },
+            {
+              "line": 23,
+              "text": "   --  Store Count_Type'Last as a Big Natural because it is often used"
+            },
+            {
+              "line": 25,
+              "text": "   Count_Type_Big_Last : constant Big_Natural := Big (Count_Type'Last);"
+            },
+            {
+              "line": 27,
+              "text": "   function To_Count (C : Big_Natural) return Count_Type;"
+            },
+            {
+              "line": 61,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 62,
+              "text": "   is (Add (Container, Last (Container) + 1, New_Item));"
+            },
+            {
+              "line": 64,
+              "text": "   function Add"
+            },
+            {
+              "line": 65,
+              "text": "     (Container : Sequence; Position : Big_Positive; New_Item : Element_Type)"
+            },
+            {
+              "line": 66,
+              "text": "      return Sequence"
+            },
+            {
+              "line": 67,
+              "text": "   is (Content => Add (Container.Content, To_Count (Position), New_Item));"
+            },
+            {
+              "line": 73,
+              "text": "   procedure Aggr_Append (Container : in out Sequence; New_Item : Element_Type)"
+            },
+            {
+              "line": 76,
+              "text": "      Container := Add (Container, New_Item);"
+            },
+            {
+              "line": 351,
+              "text": "   function To_Count (C : Big_Natural) return Count_Type is"
+            },
+            {
+              "line": 353,
+              "text": "      if C > Count_Type_Big_Last then"
+            },
+            {
+              "line": 354,
+              "text": "         raise Program_Error with \"Big_Integer too large for Count_Type\";"
+            },
+            {
+              "line": 356,
+              "text": "      return Big_From_Count.From_Big_Integer (C);"
+            },
+            {
+              "line": 357,
+              "text": "   end To_Count;"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-infinite_sequences.adb",
+          "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "package body SPARK.Containers.Functional.Infinite_Sequences"
+            },
+            {
+              "line": 10,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 18,
+              "text": "   package Big_From_Count is new Signed_Conversions (Int => Count_Type);"
+            },
+            {
+              "line": 23,
+              "text": "   --  Store Count_Type'Last as a Big Natural because it is often used"
+            },
+            {
+              "line": 25,
+              "text": "   Count_Type_Big_Last : constant Big_Natural := Big (Count_Type'Last);"
+            },
+            {
+              "line": 27,
+              "text": "   function To_Count (C : Big_Natural) return Count_Type;"
+            },
+            {
+              "line": 61,
+              "text": "   function Add (Container : Sequence; New_Item : Element_Type) return Sequence"
+            },
+            {
+              "line": 62,
+              "text": "   is (Add (Container, Last (Container) + 1, New_Item));"
+            },
+            {
+              "line": 64,
+              "text": "   function Add"
+            },
+            {
+              "line": 65,
+              "text": "     (Container : Sequence; Position : Big_Positive; New_Item : Element_Type)"
+            },
+            {
+              "line": 66,
+              "text": "      return Sequence"
+            },
+            {
+              "line": 67,
+              "text": "   is (Content => Add (Container.Content, To_Count (Position), New_Item));"
+            },
+            {
+              "line": 73,
+              "text": "   procedure Aggr_Append (Container : in out Sequence; New_Item : Element_Type)"
+            },
+            {
+              "line": 76,
+              "text": "      Container := Add (Container, New_Item);"
+            },
+            {
+              "line": 351,
+              "text": "   function To_Count (C : Big_Natural) return Count_Type is"
+            },
+            {
+              "line": 353,
+              "text": "      if C > Count_Type_Big_Last then"
+            },
+            {
+              "line": 354,
+              "text": "         raise Program_Error with \"Big_Integer too large for Count_Type\";"
+            },
+            {
+              "line": 356,
+              "text": "      return Big_From_Count.From_Big_Integer (C);"
+            },
+            {
+              "line": 357,
+              "text": "   end To_Count;"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-infinite_sequences.adb",
+          "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145"
+        }
+      ]
+    },
+    {
+      "contract_label": "Functional.Base dynamic array sharing and controlled reference ownership",
+      "existing_boundary": "Functional.Base specification is SPARK_Mode Off; embeds Ada.Finalization.Controlled and dynamically allocated arrays/elements.",
+      "id": "BASE_OWNERSHIP",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Nonlimited sequence copies may share storage only while preserving immutable full values and one correct retained reference per live controlled owner; the last copy must reclaim arrays and constituent elements.",
+      "required_proof": "Establish ownership/refcount invariants, Adjust/Finalize balance and no overflow/underflow/double release across all copies and scopes. Existing SPARK-Off implementation cannot be relabeled proved from public postconditions.",
+      "required_runtime_evidence": "Measure live arrays/holders across independent copies, assignment overwrite, nested scope destruction, implicit Old and exception unwinding; prove or measure timely last-release without requiring caller cleanup.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 23,
+              "text": "package SPARK.Containers.Functional.Base with SPARK_Mode => Off"
+            },
+            {
+              "line": 30,
+              "text": "   type Container is private;"
+            },
+            {
+              "line": 110,
+              "text": "   --  To make this sharing possible, both the elements and the arrays are"
+            },
+            {
+              "line": 111,
+              "text": "   --  stored inside dynamically allocated access types which shall be"
+            },
+            {
+              "line": 112,
+              "text": "   --  deallocated when they are no longer used. The memory is managed using"
+            },
+            {
+              "line": 113,
+              "text": "   --  reference counting both at the array and at the element level."
+            },
+            {
+              "line": 117,
+              "text": "   package Element_Holders is new"
+            },
+            {
+              "line": 118,
+              "text": "     SPARK.Containers.Functional.Holder (Element_Type);"
+            },
+            {
+              "line": 121,
+              "text": "   type Element_Array is"
+            },
+            {
+              "line": 122,
+              "text": "     array (Positive_Count_Type range <>) of Element_Holder;"
+            },
+            {
+              "line": 124,
+              "text": "   type Element_Array_Access_Base is access Element_Array;"
+            },
+            {
+              "line": 126,
+              "text": "   subtype Element_Array_Access is Element_Array_Access_Base;"
+            },
+            {
+              "line": 128,
+              "text": "   type Reference_Count_Type is new Natural;"
+            },
+            {
+              "line": 130,
+              "text": "   type Array_Base is record"
+            },
+            {
+              "line": 131,
+              "text": "      Reference_Count : Reference_Count_Type;"
+            },
+            {
+              "line": 132,
+              "text": "      Max_Length      : Count_Type;"
+            },
+            {
+              "line": 133,
+              "text": "      Elements        : Element_Array_Access;"
+            },
+            {
+              "line": 136,
+              "text": "   type Array_Base_Access is access Array_Base;"
+            },
+            {
+              "line": 138,
+              "text": "   type Array_Base_Controlled_Access is new Ada.Finalization.Controlled"
+            },
+            {
+              "line": 140,
+              "text": "      Base : Array_Base_Access;"
+            },
+            {
+              "line": 143,
+              "text": "   function Create (B : Array_Base_Access) return Array_Base_Controlled_Access"
+            },
+            {
+              "line": 144,
+              "text": "   is (Ada.Finalization.Controlled with Base => B);"
+            },
+            {
+              "line": 146,
+              "text": "   procedure Adjust (Controlled_Base : in out Array_Base_Controlled_Access);"
+            },
+            {
+              "line": 148,
+              "text": "   procedure Finalize (Controlled_Base : in out Array_Base_Controlled_Access);"
+            },
+            {
+              "line": 150,
+              "text": "   function Content_Init"
+            },
+            {
+              "line": 151,
+              "text": "     (L : Count_Type := 0) return Array_Base_Controlled_Access;"
+            },
+            {
+              "line": 154,
+              "text": "   type Container is record"
+            },
+            {
+              "line": 155,
+              "text": "      Length          : Count_Type := 0;"
+            },
+            {
+              "line": 156,
+              "text": "      Controlled_Base : Array_Base_Controlled_Access := Content_Init;"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-base.ads",
+          "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505"
+        },
+        {
+          "locations": [
+            {
+              "line": 23,
+              "text": "package SPARK.Containers.Functional.Base with SPARK_Mode => Off"
+            },
+            {
+              "line": 30,
+              "text": "   type Container is private;"
+            },
+            {
+              "line": 110,
+              "text": "   --  To make this sharing possible, both the elements and the arrays are"
+            },
+            {
+              "line": 111,
+              "text": "   --  stored inside dynamically allocated access types which shall be"
+            },
+            {
+              "line": 112,
+              "text": "   --  deallocated when they are no longer used. The memory is managed using"
+            },
+            {
+              "line": 113,
+              "text": "   --  reference counting both at the array and at the element level."
+            },
+            {
+              "line": 117,
+              "text": "   package Element_Holders is new"
+            },
+            {
+              "line": 118,
+              "text": "     SPARK.Containers.Functional.Holder (Element_Type);"
+            },
+            {
+              "line": 121,
+              "text": "   type Element_Array is"
+            },
+            {
+              "line": 122,
+              "text": "     array (Positive_Count_Type range <>) of Element_Holder;"
+            },
+            {
+              "line": 124,
+              "text": "   type Element_Array_Access_Base is access Element_Array;"
+            },
+            {
+              "line": 126,
+              "text": "   subtype Element_Array_Access is Element_Array_Access_Base;"
+            },
+            {
+              "line": 128,
+              "text": "   type Reference_Count_Type is new Natural;"
+            },
+            {
+              "line": 130,
+              "text": "   type Array_Base is record"
+            },
+            {
+              "line": 131,
+              "text": "      Reference_Count : Reference_Count_Type;"
+            },
+            {
+              "line": 132,
+              "text": "      Max_Length      : Count_Type;"
+            },
+            {
+              "line": 133,
+              "text": "      Elements        : Element_Array_Access;"
+            },
+            {
+              "line": 136,
+              "text": "   type Array_Base_Access is access Array_Base;"
+            },
+            {
+              "line": 138,
+              "text": "   type Array_Base_Controlled_Access is new Ada.Finalization.Controlled"
+            },
+            {
+              "line": 140,
+              "text": "      Base : Array_Base_Access;"
+            },
+            {
+              "line": 143,
+              "text": "   function Create (B : Array_Base_Access) return Array_Base_Controlled_Access"
+            },
+            {
+              "line": 144,
+              "text": "   is (Ada.Finalization.Controlled with Base => B);"
+            },
+            {
+              "line": 146,
+              "text": "   procedure Adjust (Controlled_Base : in out Array_Base_Controlled_Access);"
+            },
+            {
+              "line": 148,
+              "text": "   procedure Finalize (Controlled_Base : in out Array_Base_Controlled_Access);"
+            },
+            {
+              "line": 150,
+              "text": "   function Content_Init"
+            },
+            {
+              "line": 151,
+              "text": "     (L : Count_Type := 0) return Array_Base_Controlled_Access;"
+            },
+            {
+              "line": 154,
+              "text": "   type Container is record"
+            },
+            {
+              "line": 155,
+              "text": "      Length          : Count_Type := 0;"
+            },
+            {
+              "line": 156,
+              "text": "      Controlled_Base : Array_Base_Controlled_Access := Content_Init;"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-base.ads",
+          "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505"
+        },
+        {
+          "locations": [
+            {
+              "line": 23,
+              "text": "package SPARK.Containers.Functional.Base with SPARK_Mode => Off"
+            },
+            {
+              "line": 30,
+              "text": "   type Container is private;"
+            },
+            {
+              "line": 110,
+              "text": "   --  To make this sharing possible, both the elements and the arrays are"
+            },
+            {
+              "line": 111,
+              "text": "   --  stored inside dynamically allocated access types which shall be"
+            },
+            {
+              "line": 112,
+              "text": "   --  deallocated when they are no longer used. The memory is managed using"
+            },
+            {
+              "line": 113,
+              "text": "   --  reference counting both at the array and at the element level."
+            },
+            {
+              "line": 117,
+              "text": "   package Element_Holders is new"
+            },
+            {
+              "line": 118,
+              "text": "     SPARK.Containers.Functional.Holder (Element_Type);"
+            },
+            {
+              "line": 121,
+              "text": "   type Element_Array is"
+            },
+            {
+              "line": 122,
+              "text": "     array (Positive_Count_Type range <>) of Element_Holder;"
+            },
+            {
+              "line": 124,
+              "text": "   type Element_Array_Access_Base is access Element_Array;"
+            },
+            {
+              "line": 126,
+              "text": "   subtype Element_Array_Access is Element_Array_Access_Base;"
+            },
+            {
+              "line": 128,
+              "text": "   type Reference_Count_Type is new Natural;"
+            },
+            {
+              "line": 130,
+              "text": "   type Array_Base is record"
+            },
+            {
+              "line": 131,
+              "text": "      Reference_Count : Reference_Count_Type;"
+            },
+            {
+              "line": 132,
+              "text": "      Max_Length      : Count_Type;"
+            },
+            {
+              "line": 133,
+              "text": "      Elements        : Element_Array_Access;"
+            },
+            {
+              "line": 136,
+              "text": "   type Array_Base_Access is access Array_Base;"
+            },
+            {
+              "line": 138,
+              "text": "   type Array_Base_Controlled_Access is new Ada.Finalization.Controlled"
+            },
+            {
+              "line": 140,
+              "text": "      Base : Array_Base_Access;"
+            },
+            {
+              "line": 143,
+              "text": "   function Create (B : Array_Base_Access) return Array_Base_Controlled_Access"
+            },
+            {
+              "line": 144,
+              "text": "   is (Ada.Finalization.Controlled with Base => B);"
+            },
+            {
+              "line": 146,
+              "text": "   procedure Adjust (Controlled_Base : in out Array_Base_Controlled_Access);"
+            },
+            {
+              "line": 148,
+              "text": "   procedure Finalize (Controlled_Base : in out Array_Base_Controlled_Access);"
+            },
+            {
+              "line": 150,
+              "text": "   function Content_Init"
+            },
+            {
+              "line": 151,
+              "text": "     (L : Count_Type := 0) return Array_Base_Controlled_Access;"
+            },
+            {
+              "line": 154,
+              "text": "   type Container is record"
+            },
+            {
+              "line": 155,
+              "text": "      Length          : Count_Type := 0;"
+            },
+            {
+              "line": 156,
+              "text": "      Controlled_Base : Array_Base_Controlled_Access := Content_Init;"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-base.ads",
+          "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505"
+        }
+      ]
+    },
+    {
+      "contract_label": "Functional.Base Add, Adjust, Resize and Finalize runtime boundaries",
+      "existing_boundary": "Entire Functional.Base body is SPARK_Mode Off; Adjust mutates reference count, Finalize/Resize instantiate Unchecked_Deallocation. Source readback is MEASURED implementation structure only.",
+      "id": "BASE_COPY_AND_RETIRE",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Both Add branches and Resize preserve complete shared/copy values, maintain owner reference counts, and free replaced arrays only after valid holder copies. Finalize frees array/base only at last release.",
+      "required_proof": "Discharge all allocation/copy/adjust/finalize safety, refcount balance and exception safety obligations using matching supported GNAT/SPARK semantics; no source-level proof pass is claimed for these Off bodies.",
+      "required_runtime_evidence": "Retain normal copy/append/insert/resize traces plus allocation/copy exceptions and unwinding at every partially constructed stage, including last-reference free and survivor validity.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "with Ada.Unchecked_Deallocation;"
+            },
+            {
+              "line": 11,
+              "text": "package body SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 12,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 97,
+              "text": "   function Add"
+            },
+            {
+              "line": 98,
+              "text": "     (C : Container; I : Index_Type; E : Element_Type) return Container"
+            },
+            {
+              "line": 100,
+              "text": "      C_B : Array_Base_Access renames C.Controlled_Base.Base;"
+            },
+            {
+              "line": 102,
+              "text": "      if To_Count (I) = C.Length + 1 and then C.Length = C_B.Max_Length then"
+            },
+            {
+              "line": 103,
+              "text": "         Resize (C_B);"
+            },
+            {
+              "line": 104,
+              "text": "         C_B.Max_Length := C_B.Max_Length + 1;"
+            },
+            {
+              "line": 105,
+              "text": "         C_B.Elements (C_B.Max_Length) := Create_Holder (E);"
+            },
+            {
+              "line": 107,
+              "text": "         return"
+            },
+            {
+              "line": 108,
+              "text": "           Container'"
+            },
+            {
+              "line": 109,
+              "text": "             (Length => C_B.Max_Length, Controlled_Base => C.Controlled_Base);"
+            },
+            {
+              "line": 112,
+              "text": "            A : constant Array_Base_Controlled_Access :="
+            },
+            {
+              "line": 113,
+              "text": "              Content_Init (C.Length);"
+            },
+            {
+              "line": 117,
+              "text": "            for J in 1 .. C.Length + 1 loop"
+            },
+            {
+              "line": 120,
+              "text": "                  A.Base.Elements (J) := C_B.Elements (P);"
+            },
+            {
+              "line": 122,
+              "text": "                  A.Base.Elements (J) := Create_Holder (E);"
+            },
+            {
+              "line": 126,
+              "text": "            return"
+            },
+            {
+              "line": 127,
+              "text": "              Container'(Length => A.Base.Max_Length, Controlled_Base => A);"
+            },
+            {
+              "line": 136,
+              "text": "   procedure Adjust (Controlled_Base : in out Array_Base_Controlled_Access) is"
+            },
+            {
+              "line": 139,
+              "text": "      if C_B /= null then"
+            },
+            {
+              "line": 140,
+              "text": "         C_B.Reference_Count := C_B.Reference_Count + 1;"
+            },
+            {
+              "line": 172,
+              "text": "   procedure Finalize (Controlled_Base : in out Array_Base_Controlled_Access)"
+            },
+            {
+              "line": 174,
+              "text": "      procedure Unchecked_Free_Base is new"
+            },
+            {
+              "line": 175,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 178,
+              "text": "      procedure Unchecked_Free_Array is new"
+            },
+            {
+              "line": 179,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 185,
+              "text": "      if C_B /= null then"
+            },
+            {
+              "line": 186,
+              "text": "         C_B.Reference_Count := C_B.Reference_Count - 1;"
+            },
+            {
+              "line": 187,
+              "text": "         if C_B.Reference_Count = 0 then"
+            },
+            {
+              "line": 188,
+              "text": "            Unchecked_Free_Array (Controlled_Base.Base.Elements);"
+            },
+            {
+              "line": 189,
+              "text": "            Unchecked_Free_Base (Controlled_Base.Base);"
+            },
+            {
+              "line": 191,
+              "text": "         C_B := null;"
+            },
+            {
+              "line": 323,
+              "text": "   procedure Resize (Base : Array_Base_Access) is"
+            },
+            {
+              "line": 331,
+              "text": "      if Base.Max_Length = Count_Type'Last then"
+            },
+            {
+              "line": 332,
+              "text": "         raise Constraint_Error;"
+            },
+            {
+              "line": 335,
+              "text": "      declare"
+            },
+            {
+              "line": 336,
+              "text": "         procedure Finalize is new"
+            },
+            {
+              "line": 337,
+              "text": "           Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 341,
+              "text": "         New_Length : constant Positive_Count_Type :="
+            },
+            {
+              "line": 342,
+              "text": "           (if Base.Max_Length > Count_Type'Last / 2"
+            },
+            {
+              "line": 343,
+              "text": "            then Count_Type'Last"
+            },
+            {
+              "line": 344,
+              "text": "            else 2 * Base.Max_Length);"
+            },
+            {
+              "line": 345,
+              "text": "         Elements   : constant Element_Array_Access :="
+            },
+            {
+              "line": 346,
+              "text": "           new Element_Array (1 .. New_Length);"
+            },
+            {
+              "line": 347,
+              "text": "         Old_Elmts  : Element_Array_Access_Base := Base.Elements;"
+            },
+            {
+              "line": 349,
+              "text": "         Elements (1 .. Base.Max_Length) := Base.Elements.all;"
+            },
+            {
+              "line": 350,
+              "text": "         Base.Elements := Elements;"
+            },
+            {
+              "line": 351,
+              "text": "         Finalize (Old_Elmts);"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-base.adb",
+          "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "with Ada.Unchecked_Deallocation;"
+            },
+            {
+              "line": 11,
+              "text": "package body SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 12,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 97,
+              "text": "   function Add"
+            },
+            {
+              "line": 98,
+              "text": "     (C : Container; I : Index_Type; E : Element_Type) return Container"
+            },
+            {
+              "line": 100,
+              "text": "      C_B : Array_Base_Access renames C.Controlled_Base.Base;"
+            },
+            {
+              "line": 102,
+              "text": "      if To_Count (I) = C.Length + 1 and then C.Length = C_B.Max_Length then"
+            },
+            {
+              "line": 103,
+              "text": "         Resize (C_B);"
+            },
+            {
+              "line": 104,
+              "text": "         C_B.Max_Length := C_B.Max_Length + 1;"
+            },
+            {
+              "line": 105,
+              "text": "         C_B.Elements (C_B.Max_Length) := Create_Holder (E);"
+            },
+            {
+              "line": 107,
+              "text": "         return"
+            },
+            {
+              "line": 108,
+              "text": "           Container'"
+            },
+            {
+              "line": 109,
+              "text": "             (Length => C_B.Max_Length, Controlled_Base => C.Controlled_Base);"
+            },
+            {
+              "line": 112,
+              "text": "            A : constant Array_Base_Controlled_Access :="
+            },
+            {
+              "line": 113,
+              "text": "              Content_Init (C.Length);"
+            },
+            {
+              "line": 117,
+              "text": "            for J in 1 .. C.Length + 1 loop"
+            },
+            {
+              "line": 120,
+              "text": "                  A.Base.Elements (J) := C_B.Elements (P);"
+            },
+            {
+              "line": 122,
+              "text": "                  A.Base.Elements (J) := Create_Holder (E);"
+            },
+            {
+              "line": 126,
+              "text": "            return"
+            },
+            {
+              "line": 127,
+              "text": "              Container'(Length => A.Base.Max_Length, Controlled_Base => A);"
+            },
+            {
+              "line": 136,
+              "text": "   procedure Adjust (Controlled_Base : in out Array_Base_Controlled_Access) is"
+            },
+            {
+              "line": 139,
+              "text": "      if C_B /= null then"
+            },
+            {
+              "line": 140,
+              "text": "         C_B.Reference_Count := C_B.Reference_Count + 1;"
+            },
+            {
+              "line": 172,
+              "text": "   procedure Finalize (Controlled_Base : in out Array_Base_Controlled_Access)"
+            },
+            {
+              "line": 174,
+              "text": "      procedure Unchecked_Free_Base is new"
+            },
+            {
+              "line": 175,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 178,
+              "text": "      procedure Unchecked_Free_Array is new"
+            },
+            {
+              "line": 179,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 185,
+              "text": "      if C_B /= null then"
+            },
+            {
+              "line": 186,
+              "text": "         C_B.Reference_Count := C_B.Reference_Count - 1;"
+            },
+            {
+              "line": 187,
+              "text": "         if C_B.Reference_Count = 0 then"
+            },
+            {
+              "line": 188,
+              "text": "            Unchecked_Free_Array (Controlled_Base.Base.Elements);"
+            },
+            {
+              "line": 189,
+              "text": "            Unchecked_Free_Base (Controlled_Base.Base);"
+            },
+            {
+              "line": 191,
+              "text": "         C_B := null;"
+            },
+            {
+              "line": 323,
+              "text": "   procedure Resize (Base : Array_Base_Access) is"
+            },
+            {
+              "line": 331,
+              "text": "      if Base.Max_Length = Count_Type'Last then"
+            },
+            {
+              "line": 332,
+              "text": "         raise Constraint_Error;"
+            },
+            {
+              "line": 335,
+              "text": "      declare"
+            },
+            {
+              "line": 336,
+              "text": "         procedure Finalize is new"
+            },
+            {
+              "line": 337,
+              "text": "           Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 341,
+              "text": "         New_Length : constant Positive_Count_Type :="
+            },
+            {
+              "line": 342,
+              "text": "           (if Base.Max_Length > Count_Type'Last / 2"
+            },
+            {
+              "line": 343,
+              "text": "            then Count_Type'Last"
+            },
+            {
+              "line": 344,
+              "text": "            else 2 * Base.Max_Length);"
+            },
+            {
+              "line": 345,
+              "text": "         Elements   : constant Element_Array_Access :="
+            },
+            {
+              "line": 346,
+              "text": "           new Element_Array (1 .. New_Length);"
+            },
+            {
+              "line": 347,
+              "text": "         Old_Elmts  : Element_Array_Access_Base := Base.Elements;"
+            },
+            {
+              "line": 349,
+              "text": "         Elements (1 .. Base.Max_Length) := Base.Elements.all;"
+            },
+            {
+              "line": 350,
+              "text": "         Base.Elements := Elements;"
+            },
+            {
+              "line": 351,
+              "text": "         Finalize (Old_Elmts);"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-base.adb",
+          "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "with Ada.Unchecked_Deallocation;"
+            },
+            {
+              "line": 11,
+              "text": "package body SPARK.Containers.Functional.Base"
+            },
+            {
+              "line": 12,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 97,
+              "text": "   function Add"
+            },
+            {
+              "line": 98,
+              "text": "     (C : Container; I : Index_Type; E : Element_Type) return Container"
+            },
+            {
+              "line": 100,
+              "text": "      C_B : Array_Base_Access renames C.Controlled_Base.Base;"
+            },
+            {
+              "line": 102,
+              "text": "      if To_Count (I) = C.Length + 1 and then C.Length = C_B.Max_Length then"
+            },
+            {
+              "line": 103,
+              "text": "         Resize (C_B);"
+            },
+            {
+              "line": 104,
+              "text": "         C_B.Max_Length := C_B.Max_Length + 1;"
+            },
+            {
+              "line": 105,
+              "text": "         C_B.Elements (C_B.Max_Length) := Create_Holder (E);"
+            },
+            {
+              "line": 107,
+              "text": "         return"
+            },
+            {
+              "line": 108,
+              "text": "           Container'"
+            },
+            {
+              "line": 109,
+              "text": "             (Length => C_B.Max_Length, Controlled_Base => C.Controlled_Base);"
+            },
+            {
+              "line": 112,
+              "text": "            A : constant Array_Base_Controlled_Access :="
+            },
+            {
+              "line": 113,
+              "text": "              Content_Init (C.Length);"
+            },
+            {
+              "line": 117,
+              "text": "            for J in 1 .. C.Length + 1 loop"
+            },
+            {
+              "line": 120,
+              "text": "                  A.Base.Elements (J) := C_B.Elements (P);"
+            },
+            {
+              "line": 122,
+              "text": "                  A.Base.Elements (J) := Create_Holder (E);"
+            },
+            {
+              "line": 126,
+              "text": "            return"
+            },
+            {
+              "line": 127,
+              "text": "              Container'(Length => A.Base.Max_Length, Controlled_Base => A);"
+            },
+            {
+              "line": 136,
+              "text": "   procedure Adjust (Controlled_Base : in out Array_Base_Controlled_Access) is"
+            },
+            {
+              "line": 139,
+              "text": "      if C_B /= null then"
+            },
+            {
+              "line": 140,
+              "text": "         C_B.Reference_Count := C_B.Reference_Count + 1;"
+            },
+            {
+              "line": 172,
+              "text": "   procedure Finalize (Controlled_Base : in out Array_Base_Controlled_Access)"
+            },
+            {
+              "line": 174,
+              "text": "      procedure Unchecked_Free_Base is new"
+            },
+            {
+              "line": 175,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 178,
+              "text": "      procedure Unchecked_Free_Array is new"
+            },
+            {
+              "line": 179,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 185,
+              "text": "      if C_B /= null then"
+            },
+            {
+              "line": 186,
+              "text": "         C_B.Reference_Count := C_B.Reference_Count - 1;"
+            },
+            {
+              "line": 187,
+              "text": "         if C_B.Reference_Count = 0 then"
+            },
+            {
+              "line": 188,
+              "text": "            Unchecked_Free_Array (Controlled_Base.Base.Elements);"
+            },
+            {
+              "line": 189,
+              "text": "            Unchecked_Free_Base (Controlled_Base.Base);"
+            },
+            {
+              "line": 191,
+              "text": "         C_B := null;"
+            },
+            {
+              "line": 323,
+              "text": "   procedure Resize (Base : Array_Base_Access) is"
+            },
+            {
+              "line": 331,
+              "text": "      if Base.Max_Length = Count_Type'Last then"
+            },
+            {
+              "line": 332,
+              "text": "         raise Constraint_Error;"
+            },
+            {
+              "line": 335,
+              "text": "      declare"
+            },
+            {
+              "line": 336,
+              "text": "         procedure Finalize is new"
+            },
+            {
+              "line": 337,
+              "text": "           Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 341,
+              "text": "         New_Length : constant Positive_Count_Type :="
+            },
+            {
+              "line": 342,
+              "text": "           (if Base.Max_Length > Count_Type'Last / 2"
+            },
+            {
+              "line": 343,
+              "text": "            then Count_Type'Last"
+            },
+            {
+              "line": 344,
+              "text": "            else 2 * Base.Max_Length);"
+            },
+            {
+              "line": 345,
+              "text": "         Elements   : constant Element_Array_Access :="
+            },
+            {
+              "line": 346,
+              "text": "           new Element_Array (1 .. New_Length);"
+            },
+            {
+              "line": 347,
+              "text": "         Old_Elmts  : Element_Array_Access_Base := Base.Elements;"
+            },
+            {
+              "line": 349,
+              "text": "         Elements (1 .. Base.Max_Length) := Base.Elements.all;"
+            },
+            {
+              "line": 350,
+              "text": "         Base.Elements := Elements;"
+            },
+            {
+              "line": 351,
+              "text": "         Finalize (Old_Elmts);"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-base.adb",
+          "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71"
+        }
+      ]
+    },
+    {
+      "contract_label": "Functional.Holder full element copy and last-element release",
+      "existing_boundary": "Functional.Holder spec and body explicitly SPARK_Mode Off; Ada.Finalization.Controlled, Adjust and Unchecked_Deallocation provide runtime machinery, not matching whole-body SPARK proof.",
+      "id": "HOLDER_ELEMENT_COPY",
+      "production_proof_status": "UNVERIFIED",
+      "production_runtime_status": "UNVERIFIED",
+      "required_obligation": "Every full String is deep-copied when inserted, holder copies share only immutable data with balanced references, and final holder release frees both String allocation and reference wrapper exactly once.",
+      "required_proof": "Prove complete element-value independence, copied-holder reference invariants, allocation failure safety and automatic last-release behavior; Copy_Element abstract equality does not prove this implementation.",
+      "required_runtime_evidence": "Retain full-character/empty/duplicate String value checks, nonlast-copy and last-copy destruction, normal/exceptional scopes and failure of either allocation in Create_Holder.",
+      "source_references": [
+        {
+          "locations": [
+            {
+              "line": 16,
+              "text": "package SPARK.Containers.Functional.Holder with SPARK_Mode => Off"
+            },
+            {
+              "line": 19,
+              "text": "   type Element_Access is access all Element_Type;"
+            },
+            {
+              "line": 21,
+              "text": "   type Element_Holder is private;"
+            },
+            {
+              "line": 23,
+              "text": "   function Create_Holder (E : Element_Type) return Element_Holder;"
+            },
+            {
+              "line": 25,
+              "text": "   function Get (E : Element_Holder) return not null Element_Access;"
+            },
+            {
+              "line": 29,
+              "text": "   type Reference_Count_Type is new Natural;"
+            },
+            {
+              "line": 31,
+              "text": "   type Refcounted_Element is record"
+            },
+            {
+              "line": 32,
+              "text": "      Reference_Count : Reference_Count_Type;"
+            },
+            {
+              "line": 33,
+              "text": "      E_Access        : Element_Access;"
+            },
+            {
+              "line": 36,
+              "text": "   type Refcounted_Element_Access is access Refcounted_Element;"
+            },
+            {
+              "line": 38,
+              "text": "   type Element_Holder is new Ada.Finalization.Controlled with record"
+            },
+            {
+              "line": 39,
+              "text": "      Ref : Refcounted_Element_Access := null;"
+            },
+            {
+              "line": 42,
+              "text": "   function Create (R : Refcounted_Element_Access) return Element_Holder"
+            },
+            {
+              "line": 43,
+              "text": "   is (Ada.Finalization.Controlled with Ref => R);"
+            },
+            {
+              "line": 45,
+              "text": "   procedure Adjust (Ctrl_E : in out Element_Holder);"
+            },
+            {
+              "line": 47,
+              "text": "   procedure Finalize (Ctrl_E : in out Element_Holder);"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-holder.ads",
+          "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05"
+        },
+        {
+          "locations": [
+            {
+              "line": 16,
+              "text": "package SPARK.Containers.Functional.Holder with SPARK_Mode => Off"
+            },
+            {
+              "line": 19,
+              "text": "   type Element_Access is access all Element_Type;"
+            },
+            {
+              "line": 21,
+              "text": "   type Element_Holder is private;"
+            },
+            {
+              "line": 23,
+              "text": "   function Create_Holder (E : Element_Type) return Element_Holder;"
+            },
+            {
+              "line": 25,
+              "text": "   function Get (E : Element_Holder) return not null Element_Access;"
+            },
+            {
+              "line": 29,
+              "text": "   type Reference_Count_Type is new Natural;"
+            },
+            {
+              "line": 31,
+              "text": "   type Refcounted_Element is record"
+            },
+            {
+              "line": 32,
+              "text": "      Reference_Count : Reference_Count_Type;"
+            },
+            {
+              "line": 33,
+              "text": "      E_Access        : Element_Access;"
+            },
+            {
+              "line": 36,
+              "text": "   type Refcounted_Element_Access is access Refcounted_Element;"
+            },
+            {
+              "line": 38,
+              "text": "   type Element_Holder is new Ada.Finalization.Controlled with record"
+            },
+            {
+              "line": 39,
+              "text": "      Ref : Refcounted_Element_Access := null;"
+            },
+            {
+              "line": 42,
+              "text": "   function Create (R : Refcounted_Element_Access) return Element_Holder"
+            },
+            {
+              "line": 43,
+              "text": "   is (Ada.Finalization.Controlled with Ref => R);"
+            },
+            {
+              "line": 45,
+              "text": "   procedure Adjust (Ctrl_E : in out Element_Holder);"
+            },
+            {
+              "line": 47,
+              "text": "   procedure Finalize (Ctrl_E : in out Element_Holder);"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-holder.ads",
+          "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05"
+        },
+        {
+          "locations": [
+            {
+              "line": 16,
+              "text": "package SPARK.Containers.Functional.Holder with SPARK_Mode => Off"
+            },
+            {
+              "line": 19,
+              "text": "   type Element_Access is access all Element_Type;"
+            },
+            {
+              "line": 21,
+              "text": "   type Element_Holder is private;"
+            },
+            {
+              "line": 23,
+              "text": "   function Create_Holder (E : Element_Type) return Element_Holder;"
+            },
+            {
+              "line": 25,
+              "text": "   function Get (E : Element_Holder) return not null Element_Access;"
+            },
+            {
+              "line": 29,
+              "text": "   type Reference_Count_Type is new Natural;"
+            },
+            {
+              "line": 31,
+              "text": "   type Refcounted_Element is record"
+            },
+            {
+              "line": 32,
+              "text": "      Reference_Count : Reference_Count_Type;"
+            },
+            {
+              "line": 33,
+              "text": "      E_Access        : Element_Access;"
+            },
+            {
+              "line": 36,
+              "text": "   type Refcounted_Element_Access is access Refcounted_Element;"
+            },
+            {
+              "line": 38,
+              "text": "   type Element_Holder is new Ada.Finalization.Controlled with record"
+            },
+            {
+              "line": 39,
+              "text": "      Ref : Refcounted_Element_Access := null;"
+            },
+            {
+              "line": 42,
+              "text": "   function Create (R : Refcounted_Element_Access) return Element_Holder"
+            },
+            {
+              "line": 43,
+              "text": "   is (Ada.Finalization.Controlled with Ref => R);"
+            },
+            {
+              "line": 45,
+              "text": "   procedure Adjust (Ctrl_E : in out Element_Holder);"
+            },
+            {
+              "line": 47,
+              "text": "   procedure Finalize (Ctrl_E : in out Element_Holder);"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-holder.ads",
+          "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "with Ada.Unchecked_Deallocation;"
+            },
+            {
+              "line": 11,
+              "text": "package body SPARK.Containers.Functional.Holder"
+            },
+            {
+              "line": 12,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 19,
+              "text": "   procedure Adjust (Ctrl_E : in out Element_Holder) is"
+            },
+            {
+              "line": 21,
+              "text": "      if Ctrl_E.Ref /= null then"
+            },
+            {
+              "line": 22,
+              "text": "         Ctrl_E.Ref.Reference_Count := Ctrl_E.Ref.Reference_Count + 1;"
+            },
+            {
+              "line": 30,
+              "text": "   function Create_Holder (E : Element_Type) return Element_Holder is"
+            },
+            {
+              "line": 31,
+              "text": "      Refcounted_E : constant Refcounted_Element_Access :="
+            },
+            {
+              "line": 32,
+              "text": "        new Refcounted_Element'"
+            },
+            {
+              "line": 33,
+              "text": "          (Reference_Count => 1, E_Access => new Element_Type'(E));"
+            },
+            {
+              "line": 35,
+              "text": "      return Create (Refcounted_E);"
+            },
+            {
+              "line": 42,
+              "text": "   function Get (E : Element_Holder) return not null Element_Access"
+            },
+            {
+              "line": 43,
+              "text": "   is (E.Ref.E_Access);"
+            },
+            {
+              "line": 49,
+              "text": "   procedure Finalize (Ctrl_E : in out Element_Holder) is"
+            },
+            {
+              "line": 51,
+              "text": "      procedure Unchecked_Free_Ref is new"
+            },
+            {
+              "line": 52,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 56,
+              "text": "      procedure Unchecked_Free_Element is new"
+            },
+            {
+              "line": 57,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 62,
+              "text": "      if Ctrl_E.Ref /= null then"
+            },
+            {
+              "line": 63,
+              "text": "         Ctrl_E.Ref.Reference_Count := Ctrl_E.Ref.Reference_Count - 1;"
+            },
+            {
+              "line": 64,
+              "text": "         if Ctrl_E.Ref.Reference_Count = 0 then"
+            },
+            {
+              "line": 65,
+              "text": "            Unchecked_Free_Element (Ctrl_E.Ref.E_Access);"
+            },
+            {
+              "line": 66,
+              "text": "            Unchecked_Free_Ref (Ctrl_E.Ref);"
+            },
+            {
+              "line": 68,
+              "text": "         Ctrl_E.Ref := null;"
+            }
+          ],
+          "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-holder.adb",
+          "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "with Ada.Unchecked_Deallocation;"
+            },
+            {
+              "line": 11,
+              "text": "package body SPARK.Containers.Functional.Holder"
+            },
+            {
+              "line": 12,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 19,
+              "text": "   procedure Adjust (Ctrl_E : in out Element_Holder) is"
+            },
+            {
+              "line": 21,
+              "text": "      if Ctrl_E.Ref /= null then"
+            },
+            {
+              "line": 22,
+              "text": "         Ctrl_E.Ref.Reference_Count := Ctrl_E.Ref.Reference_Count + 1;"
+            },
+            {
+              "line": 30,
+              "text": "   function Create_Holder (E : Element_Type) return Element_Holder is"
+            },
+            {
+              "line": 31,
+              "text": "      Refcounted_E : constant Refcounted_Element_Access :="
+            },
+            {
+              "line": 32,
+              "text": "        new Refcounted_Element'"
+            },
+            {
+              "line": 33,
+              "text": "          (Reference_Count => 1, E_Access => new Element_Type'(E));"
+            },
+            {
+              "line": 35,
+              "text": "      return Create (Refcounted_E);"
+            },
+            {
+              "line": 42,
+              "text": "   function Get (E : Element_Holder) return not null Element_Access"
+            },
+            {
+              "line": 43,
+              "text": "   is (E.Ref.E_Access);"
+            },
+            {
+              "line": 49,
+              "text": "   procedure Finalize (Ctrl_E : in out Element_Holder) is"
+            },
+            {
+              "line": 51,
+              "text": "      procedure Unchecked_Free_Ref is new"
+            },
+            {
+              "line": 52,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 56,
+              "text": "      procedure Unchecked_Free_Element is new"
+            },
+            {
+              "line": 57,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 62,
+              "text": "      if Ctrl_E.Ref /= null then"
+            },
+            {
+              "line": 63,
+              "text": "         Ctrl_E.Ref.Reference_Count := Ctrl_E.Ref.Reference_Count - 1;"
+            },
+            {
+              "line": 64,
+              "text": "         if Ctrl_E.Ref.Reference_Count = 0 then"
+            },
+            {
+              "line": 65,
+              "text": "            Unchecked_Free_Element (Ctrl_E.Ref.E_Access);"
+            },
+            {
+              "line": 66,
+              "text": "            Unchecked_Free_Ref (Ctrl_E.Ref);"
+            },
+            {
+              "line": 68,
+              "text": "         Ctrl_E.Ref := null;"
+            }
+          ],
+          "path": "scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-holder.adb",
+          "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922"
+        },
+        {
+          "locations": [
+            {
+              "line": 9,
+              "text": "with Ada.Unchecked_Deallocation;"
+            },
+            {
+              "line": 11,
+              "text": "package body SPARK.Containers.Functional.Holder"
+            },
+            {
+              "line": 12,
+              "text": "  with SPARK_Mode => Off"
+            },
+            {
+              "line": 19,
+              "text": "   procedure Adjust (Ctrl_E : in out Element_Holder) is"
+            },
+            {
+              "line": 21,
+              "text": "      if Ctrl_E.Ref /= null then"
+            },
+            {
+              "line": 22,
+              "text": "         Ctrl_E.Ref.Reference_Count := Ctrl_E.Ref.Reference_Count + 1;"
+            },
+            {
+              "line": 30,
+              "text": "   function Create_Holder (E : Element_Type) return Element_Holder is"
+            },
+            {
+              "line": 31,
+              "text": "      Refcounted_E : constant Refcounted_Element_Access :="
+            },
+            {
+              "line": 32,
+              "text": "        new Refcounted_Element'"
+            },
+            {
+              "line": 33,
+              "text": "          (Reference_Count => 1, E_Access => new Element_Type'(E));"
+            },
+            {
+              "line": 35,
+              "text": "      return Create (Refcounted_E);"
+            },
+            {
+              "line": 42,
+              "text": "   function Get (E : Element_Holder) return not null Element_Access"
+            },
+            {
+              "line": 43,
+              "text": "   is (E.Ref.E_Access);"
+            },
+            {
+              "line": 49,
+              "text": "   procedure Finalize (Ctrl_E : in out Element_Holder) is"
+            },
+            {
+              "line": 51,
+              "text": "      procedure Unchecked_Free_Ref is new"
+            },
+            {
+              "line": 52,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 56,
+              "text": "      procedure Unchecked_Free_Element is new"
+            },
+            {
+              "line": 57,
+              "text": "        Ada.Unchecked_Deallocation"
+            },
+            {
+              "line": 62,
+              "text": "      if Ctrl_E.Ref /= null then"
+            },
+            {
+              "line": 63,
+              "text": "         Ctrl_E.Ref.Reference_Count := Ctrl_E.Ref.Reference_Count - 1;"
+            },
+            {
+              "line": 64,
+              "text": "         if Ctrl_E.Ref.Reference_Count = 0 then"
+            },
+            {
+              "line": 65,
+              "text": "            Unchecked_Free_Element (Ctrl_E.Ref.E_Access);"
+            },
+            {
+              "line": 66,
+              "text": "            Unchecked_Free_Ref (Ctrl_E.Ref);"
+            },
+            {
+              "line": 68,
+              "text": "         Ctrl_E.Ref := null;"
+            }
+          ],
+          "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-holder.adb",
+          "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922"
+        }
+      ]
+    }
+  ],
+  "original_claim_status": "FAILED-OPEN",
+  "prior_inventory": {
+    "path": "records/phase1-blockers/old-contract-inventory-v2.json",
+    "sha256": "9f93ae8f7c82c644f97e0c7c2e418352ce1869af802b1dcce5da261a5d9ec858"
+  },
+  "project_selection_boundary": "Source bytes are compared. Project readback records full-mode paths but only actual build/proof receipts can establish the project selected during a run; the experiment project prebuilt flag change is not claimed source equality.",
+  "selected_library_source_identity": [
+    {
+      "installed": {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+        "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+      },
+      "private_copies": {
+        "coordinator": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        },
+        "experiment": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+          "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b"
+        }
+      }
+    },
+    {
+      "installed": {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-infinite_sequences.adb",
+        "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145"
+      },
+      "private_copies": {
+        "coordinator": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-infinite_sequences.adb",
+          "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145"
+        },
+        "experiment": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-infinite_sequences.adb",
+          "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145"
+        }
+      }
+    },
+    {
+      "installed": {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-base.ads",
+        "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505"
+      },
+      "private_copies": {
+        "coordinator": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-base.ads",
+          "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505"
+        },
+        "experiment": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-base.ads",
+          "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505"
+        }
+      }
+    },
+    {
+      "installed": {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-base.adb",
+        "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71"
+      },
+      "private_copies": {
+        "coordinator": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-base.adb",
+          "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71"
+        },
+        "experiment": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-base.adb",
+          "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71"
+        }
+      }
+    },
+    {
+      "installed": {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-holder.ads",
+        "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05"
+      },
+      "private_copies": {
+        "coordinator": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-holder.ads",
+          "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05"
+        },
+        "experiment": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-holder.ads",
+          "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05"
+        }
+      }
+    },
+    {
+      "installed": {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-holder.adb",
+        "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922"
+      },
+      "private_copies": {
+        "coordinator": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-holder.adb",
+          "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922"
+        },
+        "experiment": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-holder.adb",
+          "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922"
+        }
+      }
+    },
+    {
+      "installed": {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-types.ads",
+        "sha256": "1448a63333a039e34d44d793d85331952926ae08360ec676e7179aafc491a051"
+      },
+      "private_copies": {
+        "coordinator": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-types.ads",
+          "sha256": "1448a63333a039e34d44d793d85331952926ae08360ec676e7179aafc491a051"
+        },
+        "experiment": {
+          "byte_identical": true,
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-types.ads",
+          "sha256": "1448a63333a039e34d44d793d85331952926ae08360ec676e7179aafc491a051"
+        }
+      }
+    }
+  ],
+  "source_commit": "a1bda52b53a9a220b2333fe09a135e2d94127dbc",
+  "utc": "2026-10-13T18:03:41.629060+00:00"
+}
