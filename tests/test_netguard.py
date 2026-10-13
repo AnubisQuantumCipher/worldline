@@ -50,8 +50,12 @@ class NetguardProxyTests(unittest.TestCase):
 
     def test_proxy_forwards_allowed_hosts_and_refuses_others_with_a_record(self) -> None:
         server = HTTPServer(("127.0.0.1", 0), _Ok)
+        self.addCleanup(server.server_close)
         port = server.server_address[1]
-        threading.Thread(target=server.serve_forever, daemon=True).start()
+        server_thread = threading.Thread(target=server.serve_forever, daemon=True)
+        server_thread.start()
+        self.addCleanup(server_thread.join)
+        self.addCleanup(server.shutdown)
         with tempfile.TemporaryDirectory(prefix="worldline-netguard-") as temporary:
             proxy = AllowlistProxy(Path(temporary) / "guard.sock", ("127.0.0.1",))
             proxy.start()
@@ -85,7 +89,6 @@ class NetguardProxyTests(unittest.TestCase):
                 self.assertEqual(summary["refused"], [{"host": "blocked.invalid", "port": 443, "count": 1}])
             finally:
                 proxy.stop()
-                server.shutdown()
             self.assertFalse(proxy.socket_path.exists())
 
 
