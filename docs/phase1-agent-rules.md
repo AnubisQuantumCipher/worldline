@@ -204,3 +204,24 @@ ok here ok here what i need you to do i built duat. the reason why i build it is
 Asked: The existing DUAT backup is stuck on a disconnected iPad mount and holds the archive lock. May I stop only `project-vault-backup.service` cleanly, let the existing iPad supervisor reconnect, then run the verified offloads? I need this exception because your earlier Phase 1 instruction forbids stopping processes I did not start.
 
 User answer: Stop the stuck backup and recover the connection
+
+## Later user crash steering (2026-10-14)
+
+A process crashed on this Omarchy machine and I want to know why.
+
+What systemd-coredump recorded:
+  process:  alt-ergo
+  PID:      434642
+  binary:   /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo
+  signal:   SIGABRT
+  time:     Wed 2026-10-14 13:06:31 EDT
+
+Use the diagnose-crash skill: it covers how to investigate, what to report, and
+when a crash is worth reporting upstream to Omarchy. If your harness has no skill
+mechanism, read the skill files directly and follow them instead:
+
+  /usr/share/omarchy/default/agents/skills/diagnose-crash/SKILL.md
+
+## Later user publication steering (2026-10-14)
+
+all those commits i hope your putting them to github were they belong
