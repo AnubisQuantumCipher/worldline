@@ -458,3 +458,12 @@ python3 -B scratch/old-analysis/full_runtime_supervisor_v3.py \
 - Launch conditions: recorded own workers/attributed services settled; coordinator verifies clean committed D36 HEAD/log identity and exact installed helper bytes; fixed output absent. No foreign service or process is signaled. The query subprocess timeout stops only its own child. No full-host quiescence claim is made.
 - Reviewer verdict: actual GPT-6.1 (`gpt-6.1-sol`) CONCUR D36 ONE-SHOT READONLY QUERY PREPARATION; COMMITTED DECISION STILL REQUIRED, `scratch/reviewer2/D36-manager-roster-diagnostic-prelaunch-review-v1.json`. Exact code copied without modification to its ROOT-correct coordinator path; actual committed identity review precedes launch. Internal review is not independent acceptance.
 - Reversal: before launch, stop selecting this diagnostic and retain its preparation/decision; after launch, retain raw output/result and take no further action. No service/configuration/watcher policy was changed to undo. Withdraw authorization only through a new reversing decision commit; never erase the consumed attempt or failed evidence.
+
+## D37 — Publish this owned branch as a non-final checkpoint
+
+- Authorization: user explicitly requested our commits belong on GitHub. Scope is only astra/phase1-blockers-20261013T165716Z, with Phase1 OPEN and no acceptance claim.
+- Options: retain work only locally; publish the exact owned branch as non-final checkpoint; or alter other branches/merge/release. Choice: publish only the owned branch; other ref/history operations rejected.
+- Evidence: read-only own commit/blob audit a1bda52..5d93078 and exact final documentary diff, no signature hits/oversize/binary additions in audited range; limits retained. Raw untracked cores/credentials/job outputs excluded. Existing source/tests/docs/compact receipts only.
+- Reviewer verdict: actual GPT-6.1 CONCUR publication scope conditional on explicit finalHEAD/refspec audit and remote readback; not acceptance. Exact review: `scratch/reviewer2/D37-checkpoint-publication-and-D36-identity-review-v1.json`.
+- Action: read target via ls-remote without broad fetch/prune; ordinary nonforce push exact ownbranch only, readback remoteSHA=localSHA. Stop on divergence; no merge/PR/tag/release/force push.
+- Reversal: cease future publication; if correction needed add a new ownedbranch commit and retain history. No automatic remote deletion/force rewrite or otherbranch changes. Public checkpoint cannot be made unexposed by deleting local files.
