@@ -194,3 +194,13 @@ in OPEN-ISSUES.md and the acceptance report as such, not as a timeout.
 A SLOW result goes through the policy-change rule with its measurements.
 Then continue the goal.
 
+
+## Later user storage steering (2026-10-14)
+
+ok here ok here what i need you to do i built duat. the reason why i build it is so my staroage wont delplete doing all this proof work and programming. look how much storage got eating up on the desktop because of all the work you been doing for the past eight hours. i need you to utilizise the hell out of duat and the ipad pad pro. my storage shoud never be eating up or going down ben your have duat at your disposal. you look at it again fighure out how you gon do this because im tired of my storage getting eat up because of my projects. i have a 2tb ipad and i built duat. free up my storage and put it on the ipad and anyhtin you need or any file or info u can just get it back from the ipad. there 700gb full of thias tryomarcy and its shouldnt bee like that if u have duat. do what you need to do then continue with what u were doing
+
+### Explicit exception for transport recovery
+
+Asked: The existing DUAT backup is stuck on a disconnected iPad mount and holds the archive lock. May I stop only `project-vault-backup.service` cleanly, let the existing iPad supervisor reconnect, then run the verified offloads? I need this exception because your earlier Phase 1 instruction forbids stopping processes I did not start.
+
+User answer: Stop the stuck backup and recover the connection
