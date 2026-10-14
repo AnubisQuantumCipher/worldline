@@ -67,3 +67,7 @@ TESTED at `d3c88bbbaa0f4b1f7910de9706a6cdee9ab39ded`: v8 foreground attribution,
 The active goal-required `docs/phase1-agent-rules.md` was discovered absent and restored late from exact task-service human-message/goal readback under D25. This does not establish earlier compliance. Next: complete the actual sampler integrations, freeze the recorded source, rebuild, verify bootstrap startup, then run the one positive-only `3000s` diagnostic and classify from actual evidence. Full final proof/runtime/actor work remains independent and pending; independent acceptance remains NOT PERFORMED.
 
 Actual idle and background sampler integrations both passed with complete captured scope thread rosters and terminal cleanup; exact evidence and GPT-6.1 review are recorded in D24. The one positive case is still NOT PERFORMED pending fresh build/startup.
+
+## 2026-10-14 — interrupted one-case diagnostic
+
+MEASURED retained foreground progress and absent terminal results are recorded in `scratch/acquisition2/retained-diagnostic-v1.json` and `records/phase1-blockers/positive-restart-observation-v1/observation.json`, bound to frozen42915. The host restarted before diagnostic completion; SLOW-versus-HANG is UNVERIFIED, the ONE attempt is consumed, and A2 stays FAILED-OPEN under1000s. D29 records internal GPT-6.1 concurrence and the correction/reversal route. Continue independent final scopes; independent acceptance remains NOT PERFORMED.
