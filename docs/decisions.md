@@ -396,3 +396,55 @@ Companion spelling: `/home/sicarii/.local/share/mise/installs/codex/latest/bin/c
 
 
 The original actor command and source are in `scratch/acquisition/actor-ordinary-final-v4/launch.json`, frozen commit `537b662016d0d1caf4c877a0d0682178e16bbb56`; exact output is `scratch/acquisition/actor-ordinary-final-v4/attempt-6bc3565a6a0d42c780f5c2ff58d75a0f/worker/`. Its FAILED-OPEN outcome is preserved. Selecting this successor is authorization for a future bounded attempt, not a completed repair or F5 pass.
+
+## D35 — Preserve the original separate private-host execution after an incomplete full attempt
+
+The source537 full worker was still live at the retained observation. This entry is prospective authorization only once committed: no private-only launch is justified by that live observation or by an old-source result. Actual same-final-source terminal evidence is mandatory.
+
+**Evidence.**
+- Original scripts/assurance_contract.py REQUIRED_STEPS includes python-tests and private-host-tests separately.
+- Original scripts/assurance.py:275 invokes full test_private_*.py discovery under WORLDLINE_PRIVATE_EVALUATOR_TEST=1 and check_private_host_suite. Its required-case list and zero-skip predicate remain unchanged.
+- Current supervisor full mode runs the original discovery then the original separate private step in one bounded worker, so worker termination can leave the separately required step without a terminal outcome.
+- Current retained full discovery shows actual FAIL/ERROR labels but whole worker is still active at this observation. No completed private-host result exists at this cut; this does not yet satisfy the terminal-only launch condition.
+
+**Options.**
+- Retain the full worker result and leave the separate required private step NOT PERFORMED if the worker never reaches/completes it; honest but leaves independently executable original work unfinished.
+- Add a private selection consisting solely of the existing second original roster entry; preserve full/qualification behavior and original parsers/resources/ownership and explicitly scope its result. SELECTED, conditionally after the valid decision and prerequisites.
+- Delete failing full cases, resume an inferred prefix, shrink the private roster, replace fixtures, alter audit/namespace/watcher/source/library/manager behavior, extend deadlines/caps or relabel private-only success as full assurance. REJECTED.
+
+**Choice.** Select the exact reviewed `scratch/old-analysis/full_runtime_supervisor_v3.py` for the unchanged qualification/full paths and the conditional additional `--suite private` mode, which selects exactly the existing original private-host-tests tuple. All environment, audit argv, parser, zero-skip, exit, audit-failure, identity, manager and ownership logic is unchanged. Only private-mode result renames all_original_steps_pass to all_selected_private_steps_pass and records full_original_roster_executed=false / full_runtime_and_assurance=NOT PERFORMED by this private-only execution. Existing full and qualification paths retain their original output/predicates.
+
+**Required launch conditions.**
+- The full attempt on the SAME FINAL FROZEN IDENTITY (including a future freeze-v5 full run) has actual terminal outer/worker-or-timeout evidence and all its owned units/children settled; no concurrent second original private execution. An old537 terminal result is insufficient for a new frozen-source private launch.
+- Inspect that SAME-FINAL-SOURCE terminal full attempt: launch only if its separately named private-host-tests command did not complete. Preserve any partial output. A completed green private step must never be duplicated; a completed failed private step is already a measured outcome and does not become an automatic retry through this decision.
+- D35 recorded validly in docs/decisions.md, exact successor code and source/command/evidence joins approved by actual GPT-6.1, coordinator only launcher.
+- Complete existing paired carrier qualification and actual review on the final frozen identity, with the exact successor/dependencies used for private execution. No source537 qualification/pass transfers to a later commit.
+- Same-source final build/freeze/frame/library and all original checks; unchanged shared heavy flock/post-lock14GB admission/8G worker/swap0/120m scope; existing D32 storage rules.
+- No alteration to full mode or other required runtime/binary/protected/actor scopes. A private-only result supplies only this original required step and never cures a full discovery FAIL/ERROR/timeout or full assurance failure.
+
+**Reviewer verdict.** Actual GPT-6.1 (`gpt-6.1-sol`) CONCUR ADDITIVE PRIVATE MODE; D35 REQUIRED in `scratch/reviewer2/full-runtime-private-mode-prelaunch-review-v1.json`, conditional on the same-final-source launch requirement above and a valid committed decision. Static structural preservation is preparation evidence only; neither full nor private runtime success is inferred.
+
+**Reversal.** Stop selecting --suite private and retain its outputs. Select the original exact full_runtime_supervisor_v2.py preimage for future original full/qualification jobs; retain both helper versions and evidence. If a tracked authorization is withdrawn, coordinator adds a reversing decision commit without resetting history. The uncompleted original private step remains NOT PERFORMED and full failures remain unchanged. No product/global configuration or installed component changed.
+
+## Prepared artifacts
+
+- Base `scratch/old-analysis/full_runtime_supervisor_v2.py` SHA256 `5159d94f4720fca0ff271736b2f1d579cfde03bc945ba3f47caa1eaafc400857`
+- Prepared final helper `scratch/old-analysis/full_runtime_supervisor_v3.py` (byte-identical to the reviewed scratch successor) SHA256 `3105162b3f9eac3a61460e9a1cb23966a84296fa9e4af9ddc69c1155e97b39e1`
+- Diff `scratch/final-gates/full-runtime-private-mode-v1.patch` SHA256 `818943548a65ab11ffe1e9f5d15bb87b9a261f0855cb9aab65726c9b48ac2a4c`
+- `full-runtime-private-mode-v1-preparation.json` pins the original assurance/parser, audit, watcher and source identity dependencies and records exact preserved rosters.
+- `private-mode-original-full-readback-v1.json` retains partial-output failure markers and active scope observation without final counts.
+
+TESTED static preparation: syntax parsed; removing only the added private selector/result branch and argparse choice restores the complete original AST. Full/qualification roster literals remain identical; private equals exactly the original second full-mode tuple. Existing worker loop/parser/outcome/audit and all watcher/manager/ownership/source/binary/resource behavior remain unchanged. No imports or runtime execution occurred.
+
+```bash
+# FUTURE COMMAND ONLY: require valid committed D35, final freeze, reviewed
+# existing qualification, and incomplete private step after the same-final-source
+# full attempt has actually settled. The prepared helper is in its correct sibling-import directory.
+python3 -B scratch/old-analysis/full_runtime_supervisor_v3.py \
+  --out scratch/old-analysis/private-runtime-final-v5 \
+  --suite private --scope-timeout 120m \
+  --expected-commit '<ACTUAL_FINAL_FROZEN_COMMIT>' \
+  --freeze-record '<ACTUAL_FINAL_FREEZE_SOURCE_JSON>' \
+  --frame '<ACTUAL_FINAL_FROZEN_FRAME>' \
+  --build-manifest '<ACTUAL_SAME_SOURCE_BUILD_MANIFEST>'
+```
