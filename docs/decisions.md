@@ -365,3 +365,34 @@ python3 -B scripts/phase1_heavy.py \
 
 
 The retained failure command and source are in `scratch/acquisition/original-binary-sandbox-scope-v4/launch.jsonl`, frozen commit `537b662016d0d1caf4c877a0d0682178e16bbb56`; output `scratch/acquisition/original-binary-sandbox-v4/{result.json,namespace/}`. No completed repair or acceptance result is claimed. If the same predicate fails in this second serious attempt, retain FAILED-OPEN and continue independent obligations.
+
+## D34 — Expose the installed pinned code-mode companion to the original ordinary actor fixture
+
+**Evidence.**
+- observed: MEASURED actor stderr lines2–3: failed to spawn exact code-mode companion, os error2; agent JSONL line2 fail-closed Code Mode error. Host companion exists; harness readonlyHomePaths contains only main executable at line172.
+- outcome: MEASURED original state remains prime; original outcome predicate false and outer exit1, despite agent exit0 and returned world VALID. These inner labels do not close the outcome gate.
+- root_cause: ASSUMED guest path visibility omission supported by exact allowlist and launch failure. Direct postfailure inspection inside that terminated guest was not performed.
+- repair: UNVERIFIED runtime; no install/config/actor rerun performed here
+
+**Options considered.**
+- Leave the unprojected companion and record the original actor outcome failure; preserves evidence but does not complete the authorized repair.
+- Install/update Codex globally, expose its whole bin directory/HOME, change feature flags/model/prompt/expected output, or count agent exit0 as success; rejected.
+- Add exactly the installed sibling codex-code-mode-host as a pinned read-only path in this fixture-local configuration; proposed narrow choice.
+
+**Choice.** Select exact `scratch/acquisition/actor_world_harness_v3.py` (SHA256 `3506f51a7bd6cc55354ad7c5eaa521dac3a567a2f6f145b46c8477afb23e0f1d`), whose fixture-local `readonlyHomePaths` is `[str(executable_spelling), str(ACTOR_COMPANION)]` and whose companion spelling is checked to equal `executable_spelling.with_name("codex-code-mode-host")`. Require its exact recorded path/resolution, regular executable mode, size and SHA256 before launching; record and verify identity afterward. Refuse drift rather than widening the allowlist or resolving another release silently.
+
+**Unchanged obligations.**
+- No global install, user config, credential edit, product code, actor adapter logic, model, prompt, mission, fixture, target assertion, CLI flag, or deadline changes.
+- Requested actor remains -m gpt-6-luna -c model_reasoning_effort=high through the existing Codex adapter. Requested identity is not inferred provider identity.
+- Original ordinary actor timeout600 and outer20m; heavyworker8G/swap0. Preserve existing actor resource policy, including its observed page-sized swap value4096; do not substitute unsupported actor swap0.
+- Original final outcome assertions and native authority observation remain mandatory. No inference from SUPERVISED, VALID, agent status PASS, or exit0 alone.
+- Protected and child actor prerequisite gaps remain NOT PERFORMED; this is only the existing ordinary actor case.
+
+**Reviewer verdict.** Actual GPT-6.1 (`gpt-6.1-sol`) CONCUR D33/D34 DECISION PROPOSALS AND D34 CODE in `scratch/reviewer2/carrier-repair-decisions-and-code-prelaunch-v1.json`. Its D33 identity correction is independently satisfied by the corrected review above; D34 remains bounded to the exact one-file projection/pin diff. Host existence/hash readback is not successful guest execution. Require actual committed decision identity and new frozen-source final joins before the actor payload.
+
+**Exact reversal.** Select the retained actor_world_harness_v2.py preimage with original single-file read-only allowlist for a fresh fixture only, retaining the failed attempt and any successor attempt unchanged. Revert tracked documentary authorization through a new coordinator commit if desired. No global installation/configuration change exists to undo; ordinary actor gate remains open if original failure returns.
+
+Companion spelling: `/home/sicarii/.local/share/mise/installs/codex/latest/bin/codex-code-mode-host`; resolved: `/home/sicarii/.local/share/mise/installs/codex/0.159.2/bin/codex-code-mode-host`. Host readback: regular file, mode `0o755`, size `66921472`, SHA256 `6979f2fea8cb1d5d72614abfe2f42b16727cdce2c356cc6af933157e732a7277`. Existing version receipt: `codex-cli 0.159.2 from existing retained main executable --version`. Read commands: `stat -c '%n %F %a %s' PATH`, `readlink -f PATH`, `sha256sum PATH`. No companion execution performed.
+
+
+The original actor command and source are in `scratch/acquisition/actor-ordinary-final-v4/launch.json`, frozen commit `537b662016d0d1caf4c877a0d0682178e16bbb56`; exact output is `scratch/acquisition/actor-ordinary-final-v4/attempt-6bc3565a6a0d42c780f5c2ff58d75a0f/worker/`. Its FAILED-OPEN outcome is preserved. Selecting this successor is authorization for a future bounded attempt, not a completed repair or F5 pass.
