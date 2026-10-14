@@ -318,3 +318,50 @@ D26 final own historical bundle batch: exact roots and inventory are `storage-20
 - Reversal: discontinue the discretionary early trigger only under a new reviewed resource decision, retaining all observations/aborted runs and configured reserves. Release only this campaign's D30 window after foreground work yields; preserve other windows and active pins. Completed outputs move only through reviewed original DUAT full-restore-verified offload, with exact retrieval locators kept locally.
 
 D26 completed campaign review: actual GPT-6.1 CONCUR all40 cold-item locators/index identities, original retirement predicates and exact compact metadata rehydration, terminal verification exit0 and current owned-job quiescence. Receipt `scratch/reviewer2/storage-campaign-final-handoff-review-v1.json`, SHA256 `e3c575873d26847a071026f2234d1800262636f6fbcf076337f7de7e5b74f4af`. Full original recovery comparisons remain the offload receipts; this review adds no whole-repository scrub or independent acceptance.
+
+## D33 — Repair the original namespace carrier alias premise before executing its unchanged payload
+
+**Evidence.**
+- failure: MEASURED retained actual namespace premise mismatch before original syscall fixture; no second attempt inferred
+- mechanism: ASSUMED supported by retained installed bwrap manual/source semantics and mismatched device observations
+- proposed_repair: UNVERIFIED runtime; scratch proposal only
+
+**Options considered.**
+- Retain the existing defect and mark its dependent required cases open; preserves truth but does not finish the authorized repair.
+- Skip the namespace predicate, relabel fixture success, substitute symlink over existing /dev/shm, or widen privileges/mount writes; rejected.
+- Use a nested copy of the existing guard so the inner bind source resolves the already-created tmpfs; proposed narrow repair, with unchanged original predicates.
+
+**Choice.** Select the exact nested guard from `scratch/acquisition2/namespace-alias-fix-v1.patch` for one existing `namespace_control` diagnostic, then only apply its identical carrier change if the actual original premise passes and is reviewed. It changes carrier process/mount/PID/session topology and helper pins, so D31 alone is insufficient.
+
+**Unchanged obligations.**
+- Original namespace_inner nonroot check, physical distinct-device and alias-identity predicates, root mapping probe, and original syscall fixture.
+- No new fixture, accepted case, capability, uid override, contract, assumption, deadline, memory cap, or proof boundary.
+- Guard change identical in actual qualifier dependency and final carrier; every dependent hash pin explicitly rebound after review.
+- Existing normal/timeout/detached/namespace qualifier roster remains required after carrier change.
+
+**Reviewer verdict.** Actual GPT-6.1 (`gpt-6.1-sol`) CONCUR CORRECTED DIAGNOSTIC PREPARATION; VALID COMMITTED D33 STILL PREREQUISITE in `scratch/reviewer2/namespace-alias-identity-v2-corrected-review-v1.json`. The earlier new-decision ruling and D33/D34 code review remain retained. This entry records that new decision; actual clean committed HEAD/log SHA256 readback and job quiescence remain required before launch.
+
+**Exact reversal.** Stop selecting the successor for future launches. Preserve all failure/diagnostic/qualification outputs. Restore/select the original reviewed v3/v4 guard preimages and their original dependent pins only for the source/receipt contexts to which they apply. Revert a tracked decision/repair only with a new coordinator commit; never reset/delete history. The original alias defect then remains FAILED-OPEN; no passing fallback is implied. No host mount/config modification is part of this repair.
+
+**Diagnostic identity and command.** The reviewed identity correction is `scratch/final-gates/namespace-alias-decision-identity-v2.patch`. The corrected diagnostic is prepared as `scratch/coordinator/namespace-alias-fix-v2.py`, SHA256 `9b8542baa41a25751ad5ad3f0a37eeb2888732827d1c7ab1e649b7b9697764a7`. It is not launched. The existing guard/namespace-control behavior is unchanged by this identity diff.
+- Actual clean new decision HEAD is distinct from retained source commit537.
+- Exact committed decisions.md bytes match the hash pinned by actual review and contain D33.
+- Only docs/decisions.md may differ from retained537 before this diagnostic. Any other tracked change refuses; prepare this diagnostic before progress/report changes.
+- Existing retained537 freeze/frame and all original helper/bwrap/manual preimages remain unchanged and named as old source.
+- The final acceptance drivers retain strict new frozen source/frame/artifact checks. This diagnostic identity split cannot be copied into their acceptance predicates.
+
+```bash
+# FUTURE COMMAND ONLY. Launch after this decision is committed and exact
+# committed HEAD/log hash and original preimages are reviewed.
+# These placeholders must be literal identities from that actual review.
+python3 -B scripts/phase1_heavy.py \
+  --out scratch/acquisition/namespace-alias-fix-v2-scope \
+  --timeout 5m --swap-max 0 -- \
+  python3 -B scratch/coordinator/namespace-alias-fix-v2.py \
+  --decision-head '<ACTUAL_REVIEWED_DECISION_HEAD>' \
+  --decisions-sha256 '<ACTUAL_REVIEWED_COMMITTED_DECISIONS_SHA256>' \
+  --out scratch/acquisition/namespace-alias-fix-v2-repro
+```
+
+
+The retained failure command and source are in `scratch/acquisition/original-binary-sandbox-scope-v4/launch.jsonl`, frozen commit `537b662016d0d1caf4c877a0d0682178e16bbb56`; output `scratch/acquisition/original-binary-sandbox-v4/{result.json,namespace/}`. No completed repair or acceptance result is claimed. If the same predicate fails in this second serious attempt, retain FAILED-OPEN and continue independent obligations.
