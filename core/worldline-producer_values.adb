@@ -1,3 +1,5 @@
+with Worldline.JSON_Syntax_Types;
+with Worldline.Generic_JSON_Syntax;
 with Evaluation_Pending;
 with Exact_Decimal;
 with Decimal_Binary64;
@@ -25,16 +27,103 @@ package body Worldline.Producer_Values with SPARK_Mode is
       end if;
    end UTF8_Width;
 
-   procedure Space (Data : String; Position : in out Natural) is
+   -- Candidate extraction: one syntax grammar, with the original String
+   -- UTF8 primitive as its actual reader. It does not detect/strip a BOM.
+   package JS renames Worldline.JSON_Syntax_Types;
+   use type JS.Count;
+   use type JS.Unit_Kind;
+   use type JS.Value_Kind;
+   type String_Context is null record;
+   Empty_Context : constant String_Context := (null record);
+
+   function String_Length (Data : String; Context : String_Context)
+      return JS.Count
+   with Global => null,
+     Post => String_Length'Result = JS.Count (Data'Length)
+   is
+      pragma Unreferenced (Context);
    begin
-      while Position < Data'Length and then
-        Byte_At (Data, Position) in ' ' | Character'Val (9) | Character'Val (10) | Character'Val (13)
-      loop
-         pragma Loop_Invariant (Position >= Position'Loop_Entry);
-         pragma Loop_Variant (Increases => Position);
-         Position := Position + 1;
-      end loop;
+      return JS.Count (Data'Length);
+   end String_Length;
+
+   function String_Read
+     (Data : String; Context : String_Context; Position : JS.Count)
+      return JS.Reader_Unit
+   with Global => null,
+     Post =>
+       (if String_Read'Result.Kind in JS.ASCII_Unit | JS.Non_ASCII_Unit then
+           String_Read'Result.Next_Offset > Position and then
+           String_Read'Result.Next_Offset <= String_Length (Data, Context)
+        else String_Read'Result.Next_Offset = Position) and then
+       (if String_Read'Result.Kind = JS.End_Of_Source then
+           Position = String_Length (Data, Context))
+   is
+   begin
+      if Position > JS.Count (Data'Length) then
+         return (JS.Invalid_Unit, Position);
+      elsif Position = JS.Count (Data'Length) then
+         return (JS.End_Of_Source, Position);
+      end if;
+      declare
+         -- The actual String extent establishes this conversion. No wider
+         -- source is refused or converted through Natural by this adapter.
+         Offset : constant Natural := Natural (Position);
+         Width : constant Natural := UTF8_Width (Data, Offset);
+         Value : constant Character := Byte_At (Data, Offset);
+      begin
+         if Width = 0 then return (JS.Invalid_Unit, Position);
+         elsif Character'Pos (Value) < 128 then
+            return (JS.ASCII_Unit, Position + JS.Count (Width),
+                    JS.ASCII_Character (Value));
+         else
+            return (JS.Non_ASCII_Unit, Position + JS.Count (Width));
+         end if;
+      end;
+   end String_Read;
+
+   package String_Grammar is new Worldline.Generic_JSON_Syntax
+     (Source_Data => String, Source_Context => String_Context,
+      Source_Length_Impl => String_Length, Read_Unit_Impl => String_Read);
+
+   function Original_Form (Form : JS.Value_Kind) return Value_Kind is
+     (case Form is
+        when JS.Missing => Missing,
+        when JS.Null_Value => Null_Value,
+        when JS.Boolean_Value => Boolean_Value,
+        when JS.Integer_Value => Integer_Value,
+        when JS.Number_Value => Number_Value,
+        when JS.String_Value => String_Value,
+        when JS.Array_Value => Array_Value,
+        when JS.Object_Value => Object_Value)
+   with Global => null;
+
+   function Original_Node (Item : JS.Node; Length : Natural) return Node
+   with Global => null,
+     Pre => JS.Within (Item, JS.Count (Length)),
+     Post => Original_Node'Result.Form = Original_Form (Item.Form) and then
+       (if Item.Form /= JS.Missing then
+           Original_Node'Result.First > 0 and then
+           JS.Count (Original_Node'Result.First) = Item.First + 1 and then
+           JS.Count (Original_Node'Result.Last) = Item.After and then
+           Original_Node'Result.First <= Original_Node'Result.Last and then
+           Original_Node'Result.Last <= Length)
+   is
+   begin
+      if Item.Form = JS.Missing then return No_Node; end if;
+      return (Original_Form (Item.Form), Natural (Item.First + 1), Natural (Item.After));
+   end Original_Node;
+
+   procedure Space (Data : String; Position : in out Natural)
+     with Post => Position >= Position'Old and then
+       (if Position'Old <= Data'Length then Position <= Data'Length
+        else Position = Position'Old)
+   is
+      Wide_Position : JS.Count := JS.Count (Position);
+   begin
+      String_Grammar.Space (Data, Empty_Context, Wide_Position);
+      Position := Natural (Wide_Position);
    end Space;
+
 
    function Hex (C : Character) return Integer is
      (if C in '0' .. '9' then Character'Pos (C) - Character'Pos ('0')
@@ -53,166 +142,25 @@ package body Worldline.Producer_Values with SPARK_Mode is
        Subprogram_Variant => (Decreases => Data'Length - Natural'Min (Position,Data'Length)),
        Post => Position >= Position'Old and then
          (if Item.Form /= Missing then Position > Position'Old and then
-            Item.First > Position'Old and then Item.First <= Data'Length and then Item.Last = Position);
-
-   procedure Scan_String (Data : String; Position : in out Natural; Valid : out Boolean) is
-      Width : Natural;
-   begin
-      Valid := False;
-      if Byte_At (Data, Position) /= '"' then return; end if;
-      Position := Position + 1;
-      while Position < Data'Length loop
-         pragma Loop_Invariant (Position >= Position'Loop_Entry);
-         pragma Loop_Variant (Increases => Position);
-         if Byte_At (Data, Position) = '"' then
-            Position := Position + 1;
-            Valid := True;
-            return;
-         elsif Character'Pos (Byte_At (Data, Position)) < 32 then return;
-         elsif Byte_At (Data, Position) = '\' then
-            Position := Position + 1;
-            if Position >= Data'Length then return; end if;
-            if Byte_At (Data, Position) = 'u' then
-               if Data'Length - Position < 5 then return; end if;
-               for I in 1 .. 4 loop
-                  if Hex (Byte_At (Data, Position + I)) < 0 then return; end if;
-               end loop;
-               Position := Position + 5;
-            elsif Byte_At (Data, Position) in '"' | '\' | '/' | 'b' | 'f' | 'n' | 'r' | 't' then
-               Position := Position + 1;
-            else return;
-            end if;
-         else
-            Width := UTF8_Width (Data,Position);
-            if Width = 0 then return; end if;
-            Position := Position + Width;
-         end if;
-      end loop;
-   end Scan_String;
+            Item.First > Position'Old and then Item.First <= Data'Length and then Item.Last = Position)
+         and then
+           (if Position'Old <= Data'Length then Position <= Data'Length
+            else Position = Position'Old);
 
    procedure Scan (Data : String; Position : in out Natural; Item : out Node) is
-      Start : Natural;
-      Form : Value_Kind;
-      Valid : Boolean;
-      Child, Key : Node;
-      Open, Close : Character;
+      Result : constant String_Grammar.Scan_Result :=
+        String_Grammar.Scan (Data, Empty_Context, JS.Count (Position));
    begin
-      Item := No_Node;
-      Space (Data, Position);
-      if Position >= Data'Length then return; end if;
-      Start := Position;
-      for Choice in 1 .. 3 loop
-         pragma Loop_Invariant (Position = Start);
-         declare Token : constant String :=
-           (if Choice = 1 then "NaN" elsif Choice = 2 then "Infinity" else "-Infinity");
-         begin
-            if Token'Length <= Data'Length - Position and then
-              Data (Data'First + Position .. Data'First + Position + (Token'Length - 1)) = Token
-            then
-               Position := Position + Token'Length;
-               Item := (Number_Value,Start + 1,Position); return;
-            end if;
-         end;
-      end loop;
-      case Byte_At (Data, Position) is
-         when '"' =>
-            Scan_String (Data, Position, Valid);
-            if not Valid then return; end if;
-            Form := String_Value;
-         when '{' | '[' =>
-            Open := Byte_At (Data, Position);
-            Close := (if Open = '{' then '}' else ']');
-            Form := (if Open = '{' then Object_Value else Array_Value);
-            Position := Position + 1;
-            Space (Data, Position);
-            if Byte_At (Data, Position) /= Close then
-               loop
-                  pragma Loop_Invariant (Position > Start);
-                  pragma Loop_Variant (Increases => Position);
-                  if Open = '{' then
-                     Scan (Data, Position, Key);
-                     if Key.Form /= String_Value then return; end if;
-                     Space (Data, Position);
-                     if Byte_At (Data, Position) /= ':' then return; end if;
-                     Position := Position + 1;
-                  end if;
-                  Scan (Data, Position, Child);
-                  if Child.Form = Missing then return; end if;
-                  Space (Data, Position);
-                  exit when Byte_At (Data, Position) = Close;
-                  if Byte_At (Data, Position) /= ',' then return; end if;
-                  Position := Position + 1;
-                  Space (Data, Position);
-               end loop;
-            end if;
-            if Position >= Data'Length or else Byte_At (Data, Position) /= Close then return; end if;
-            Position := Position + 1;
-         when 'n' | 't' | 'f' =>
-            declare
-               Literal : constant String :=
-                 (if Byte_At (Data, Position) = 'n' then "null"
-                  elsif Byte_At (Data, Position) = 't' then "true" else "false");
-            begin
-               if Data'Length - Position < Literal'Length then return; end if;
-               for I in Literal'Range loop
-                  if Byte_At (Data, Position + I - Literal'First) /= Literal (I) then return; end if;
-               end loop;
-               Position := Position + Literal'Length;
-               Form := (if Literal = "null" then Null_Value else Boolean_Value);
-            end;
-         when '-' | '0' .. '9' =>
-            Form := Integer_Value;
-            if Byte_At (Data, Position) = '-' then
-               Position := Position + 1;
-               if Position >= Data'Length then return; end if;
-            end if;
-            if Byte_At (Data, Position) = '0' then Position := Position + 1;
-            elsif Byte_At (Data, Position) in '1' .. '9' then
-               while Position < Data'Length and then Byte_At (Data, Position) in '0' .. '9' loop
-                  pragma Loop_Invariant (Position >= Position'Loop_Entry);
-                  pragma Loop_Variant (Increases => Position);
-                  Position := Position + 1;
-               end loop;
-            else return;
-            end if;
-            if Byte_At (Data, Position) = '.' then
-               Form := Number_Value;
-               Position := Position + 1;
-               if Position >= Data'Length or else Byte_At (Data, Position) not in '0' .. '9' then return; end if;
-               while Position < Data'Length and then Byte_At (Data, Position) in '0' .. '9' loop
-                  pragma Loop_Invariant (Position >= Position'Loop_Entry);
-                  pragma Loop_Variant (Increases => Position);
-                  Position := Position + 1;
-               end loop;
-            end if;
-            if Byte_At (Data, Position) in 'e' | 'E' then
-               Form := Number_Value;
-               Position := Position + 1;
-               if Byte_At (Data, Position) in '+' | '-' then Position := Position + 1; end if;
-               if Position >= Data'Length or else Byte_At (Data, Position) not in '0' .. '9' then return; end if;
-               while Position < Data'Length and then Byte_At (Data, Position) in '0' .. '9' loop
-                  pragma Loop_Invariant (Position >= Position'Loop_Entry);
-                  pragma Loop_Variant (Increases => Position);
-                  Position := Position + 1;
-               end loop;
-            end if;
-         when others => return;
-      end case;
-      if Position > Start then Item := (Form, Start + 1, Position); end if;
+      Position := Natural (Result.Position);
+      Item := Original_Node (Result.Item, Data'Length);
    end Scan;
 
    function Parse (Data : String) return Node is
-      Position : Natural := 0;
-      Item : Node;
+      Wide_Item : constant JS.Node := String_Grammar.Parse (Data, Empty_Context);
    begin
-      Scan (Data, Position, Item);
-      Space (Data, Position);
-      if Position = Data'Length then
-         return Item;
-      else
-         return No_Node;
-      end if;
+      return Original_Node (Wide_Item, Data'Length);
    end Parse;
+
 
    function First_Key (Data : String; Parent, Key : Node) return Boolean is
       Position : Natural := Parent.First;
@@ -346,6 +294,8 @@ package body Worldline.Producer_Values with SPARK_Mode is
       Space (Data, Position);
       while Position < Parent.Last - 1 loop
          pragma Loop_Invariant (Position >= Parent.First);
+         pragma Loop_Invariant
+           (Position <= Natural'Max (Parent.First, Data'Length));
          pragma Loop_Invariant (Seen <= Position - Parent.First);
          pragma Loop_Variant (Increases => Position);
          Scan (Data, Position, Item);

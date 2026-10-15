@@ -37,7 +37,9 @@ package Worldline.Producer_Values with SPARK_Mode is
                   Element'Result.First > Parent.First and then Element'Result.First <= Data'Length);
    function Count (Data : String; Parent : Node) return Natural
      with Global => null,
-       Post => (if Count'Result > 0 then Parent.First in 1 .. Data'Length);
+       Post => (if Count'Result > 0 then Parent.First in 1 .. Data'Length)
+         and then Count'Result <= Data'Length
+         and then Count'Result < Natural'Last;
    function Text (Data : String; Item : Node) return String with Global => null;
    function Is_Text (Data : String; Item : Node; Expected : String) return Boolean
      with Global => null;
@@ -71,7 +73,10 @@ package Worldline.Producer_Values with SPARK_Mode is
    function Element (Data : String; Index : Natural) return String with Global => null;
    function Text (Data : String) return String with Global => null;
    function Kind (Data : String) return Value_Kind with Global => null;
-   function Count (Data : String) return Natural with Global => null;
+   function Count (Data : String) return Natural
+     with Global => null,
+       Post => Count'Result <= Data'Length and then
+         Count'Result < Natural'Last;
    function Truth (Data : String) return Boolean with Global => null;
    function Equal (Left, Right : String) return Boolean with Global => null;
    function Quote (Text : String) return String with Global => null;

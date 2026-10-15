@@ -2024,8 +2024,8 @@ CONTRACT_PINS.update({
     'core/worldline-producer_render.adb': '8eee3b7b07e2593eb38d85043e81b06061ccad1456487216083a585d879803f4',
     'core/worldline-producer_render.ads': 'eb65cf68b41a4d40914743a66112a567d745fd6f2367026787e7ceeb1c045f3b',
     'core/worldline-producer_unicode.ads': 'b968afb7b703c83843bc4a0728a4d50e068e78d1733863b57686af7e6a8acef3',
-    'core/worldline-producer_values.adb': '4f936fbe9f7fb86ef3b290e098e9cf9000cf6e241b787c69f35e984e9cb75434',
-    'core/worldline-producer_values.ads': '9c0cfb01cc906866823532ec47d546a6ab5b0967838819db7a15e9e7cb86e18a',
+    'core/worldline-producer_values.adb': '27821bfde2d36dafb0b3a1db235180ef5c717e5048dd0d46b808ac66486ce80f',
+    'core/worldline-producer_values.ads': '0cf591a01e3ddfcffccfdaab5a7b8957a278f1d498c34b2aef6ed2bbf4ace18a',
     'core/worldline-protected_paths.adb': '0f6ee8ebf1245edec6e6080fc5f7559d4ee9255fda1209d6ecc1617b425312b2',
     'core/worldline-protected_paths.ads': 'd64f35cf78d6e8b9e2a1a6540735ee88cbe6e91833ef6614b5f415eabb24b356',
     'core/worldline-raw_json.adb': '5161c9b54626d28ac6c342485d5c4ebb74a99f68f0bec8c2d6e37861d24fafa4',
@@ -2230,3 +2230,9 @@ REQUIRED_PROVED += [
 # Total original dependency equation and its real equivalence body remain mandatory.
 # Preserve every inherited ordered obligation, full-source scope and check floor.
 REQUIRED_PROVED += ['Worldline.Evaluation_Authority.Original_Dependencies', 'Worldline.Evaluation_Authority.Lemma_Dependencies_Equivalent']
+
+
+# Shared String parser: additive source and complete helper/instance obligations.
+DECLARED_CORE_ADA_SOURCES = DECLARED_CORE_ADA_SOURCES | frozenset(['core/worldline-json_syntax_types.ads', 'core/worldline-generic_json_syntax.ads', 'core/worldline-generic_json_syntax.adb'])
+REQUIRED_PROVED += ['Worldline.Producer_Values', 'Worldline.Producer_Values.Byte_At', 'Worldline.Producer_Values.First_Key', 'Worldline.Producer_Values.Hex', 'Worldline.Producer_Values.Original_Form', 'Worldline.Producer_Values.Original_Node', 'Worldline.Producer_Values.Raw', 'Worldline.Producer_Values.Scan', 'Worldline.Producer_Values.Space', 'Worldline.Producer_Values.String_Grammar', 'Worldline.Producer_Values.String_Grammar.Advance', 'Worldline.Producer_Values.String_Grammar.Is_Hex', 'Worldline.Producer_Values.String_Grammar.Match_Token', 'Worldline.Producer_Values.String_Grammar.Parse', 'Worldline.Producer_Values.String_Grammar.Peek', 'Worldline.Producer_Values.String_Grammar.Read_Unit', 'Worldline.Producer_Values.String_Grammar.Scan', 'Worldline.Producer_Values.String_Grammar.Scan_String', 'Worldline.Producer_Values.String_Grammar.Source_Length', 'Worldline.Producer_Values.String_Grammar.Space', 'Worldline.Producer_Values.String_Length', 'Worldline.Producer_Values.String_Read', 'Worldline.Producer_Values.Text.Emit', 'Worldline.Producer_Values.Text.Unicode', 'Worldline.Producer_Values.Tree_Admitted', 'Worldline.Producer_Values.UTF8_Width.Tail', 'Worldline.JSON_Syntax_Types.Within']
+CONTRACT_PINS.update({'core/worldline-json_syntax_types.ads': 'a20e5ad2862ebfbcbcaed2eac4572cf80afdaac22b0841acd67a4df0309dc80c', 'core/worldline-generic_json_syntax.ads': 'c18cb5434ab194664bdeb2b4e8fd42b41a4c9e4bc3a9106317fb84bd1b0b919c', 'core/worldline-generic_json_syntax.adb': '1e76d5a066816a2deda6a60ccfb46325145258b4058d69289c7cdd1e1ffdf7a4'})
