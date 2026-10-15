@@ -1,0 +1,32 @@
+{
+  "status": "ARCHIVED raw bundle; this regrown path contains only explicitly retained compact metadata",
+  "item_id": "6811ee6e80c048d98afdaef7de3831c0",
+  "snapshot": "f386d08af182f96459f661088308ea0ea175ce6e46a4da6dfc7b92b12974b39d",
+  "full_content_manifest_sha256": "0d474f2308b22eb81ab80a63ab404b1da133a167ffcf06d87768aed3b8aa10bb",
+  "retained_compact_paths": [
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/admission.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/admitted.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/cgroup.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/controller-config.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/external-storage-observations.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/identity-before.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/launch.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/launcher.stderr",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/launcher.stdout",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/payload-command.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/progress-state.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/ptracer-grants.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/scope.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/services-readonly-v1.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/slow-hang-samples.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/stack-capture-events.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/stack-capture-status.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/stack-helper.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/stdout",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/supervisor.jsonl",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/temp-leaves-before.json",
+    "records/phase1-blockers/positive-slow-hang-diagnostic-v2/tracked.diff"
+  ],
+  "recover": "project-vault get 6811ee6e80c048d98afdaef7de3831c0 --to NEW_LOCAL_DIRECTORY",
+  "boundary": "Full original bytes reside in the cold snapshot. This metadata is not full original content or a replacement for missing terminal results. Prior offload receipt cannot authorize deleting this regrown path."
+}

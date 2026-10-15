@@ -1,0 +1,120 @@
+{
+  "schema": "worldline.phase1-post-authoring-readback.v1",
+  "utc": "2026-10-15T01:31:08.125607+00:00",
+  "argv": [
+    "python3",
+    "-B",
+    "-"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "classification": "MEASURED documentary correction; no new product execution or checker run",
+  "immutable_core": {
+    "path": "records/phase1-blockers/final-report-v5/acceptance-report.json",
+    "sha256": "b9ce39a4067069de03bbd39429432934aafdaaaafb6d0873538a6b9a2b107d9b"
+  },
+  "immutable_assurance_refusal": {
+    "path": "records/phase1-blockers/final-assurance-refusal-v5.json",
+    "sha256": "d9b381ff758b6d0699e752af1ea98d342190a7a949bfea56d77a65ad4daaeb32"
+  },
+  "actual_later_checker": {
+    "path": "records/phase1-blockers/final-report-v5/checker-v2/result.json",
+    "sha256": "25d38b8c6427f82f670241f9efdbf0ac37fe184cc52960846c867e98850b5762",
+    "receipt": {
+      "argv": [
+        "python3",
+        "-B",
+        "scratch/reviewer/check_final_gate_report.py",
+        "records/phase1-blockers/final-report-v5/acceptance-report.json"
+      ],
+      "boundary": "Native report checker exit only; no semantic/product/independent acceptance.",
+      "checker_sha256": "cff76b1bfcae236f87ab24d51c313b3b0afaa8e686fe68febfcfe25ca7e32db0",
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "ended_utc": "2026-10-15T01:25:41.345016+00:00",
+      "environment": {
+        "interpreter_option": "-B; no complete ambient environment capture claimed"
+      },
+      "exit_code": 1,
+      "report_sha256": "b9ce39a4067069de03bbd39429432934aafdaaaafb6d0873538a6b9a2b107d9b",
+      "started_utc": "2026-10-15T01:25:41.268601+00:00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "df181db0e99a9a025068c98dff3009fbab4482d9915e6ecef827f5ca26943fa9"
+    }
+  },
+  "authoring_cut_supersession": "Core actual_report_check/checker_state and null authoring_cut_pending fields describe the historical authoring cut. They are superseded only by these named later receipts, not reconstructed or silently changed. Checker-v2 actually REFUSED exit1; F6 remains FAILED-OPEN. No third checker selected.",
+  "mutable_draft_availability_correction": [
+    {
+      "name": "acceptance-report.json",
+      "former_generation_fingerprint": {
+        "availability_scope": "retained local completed artifact at candidate finalization preparation",
+        "bytes": 584086,
+        "path": "scratch/final-gates/final-v5-report-candidate-v1/acceptance-report.json",
+        "sha256": "1cdb66a64b0e233bde58f347d6bc66ac18a301017a4f76a584acd5f81cfee120"
+      },
+      "current_path": "scratch/final-gates/final-v5-report-candidate-v1/acceptance-report.json",
+      "current_sha256": "b1132b6eca6cd46a39053497a24150b4462c3a1d716aea4538037c700a78ab55",
+      "former_bytes_availability": "UNVERIFIED; not separately snapshotted here and not retrievable as the stated former hash at the current path",
+      "supersedes": "The core entry availability_scope does not establish present availability of former-generation bytes."
+    },
+    {
+      "name": "assembly.json",
+      "former_generation_fingerprint": {
+        "availability_scope": "retained local completed artifact at candidate finalization preparation",
+        "bytes": 2229,
+        "path": "scratch/final-gates/final-v5-report-candidate-v1/assembly.json",
+        "sha256": "fc0f4a8a790030706587ca797b97a1da2e21911044de1809761665a268a6f502"
+      },
+      "current_path": "scratch/final-gates/final-v5-report-candidate-v1/assembly.json",
+      "current_sha256": "ee458e4781292da096d4ae468a092ad7379c496f1c6789f29f29757e4f3b3b7a",
+      "former_bytes_availability": "UNVERIFIED; not separately snapshotted here and not retrievable as the stated former hash at the current path",
+      "supersedes": "The core entry availability_scope does not establish present availability of former-generation bytes."
+    },
+    {
+      "name": "assurance-refusal.json",
+      "former_generation_fingerprint": {
+        "availability_scope": "retained local completed artifact at candidate finalization preparation",
+        "bytes": 35102,
+        "path": "scratch/final-gates/final-v5-report-candidate-v1/assurance-refusal.json",
+        "sha256": "9e5f5f3304796c754e678a0ed1b466c42733306609df4a7fedefe7cb2852926d"
+      },
+      "current_path": "scratch/final-gates/final-v5-report-candidate-v1/assurance-refusal.json",
+      "current_sha256": "9f8fca05e60d687ae78e8f05c6c0e2336c943cc8cf15871fc3e15189466aea6b",
+      "former_bytes_availability": "UNVERIFIED; not separately snapshotted here and not retrievable as the stated former hash at the current path",
+      "supersedes": "The core entry availability_scope does not establish present availability of former-generation bytes."
+    },
+    {
+      "name": "phase1-acceptance-report.md",
+      "former_generation_fingerprint": {
+        "availability_scope": "retained local completed artifact at candidate finalization preparation",
+        "bytes": 13025,
+        "path": "scratch/final-gates/final-v5-report-candidate-v1/phase1-acceptance-report.md",
+        "sha256": "ea10dfb74bbde0bcf4884a9b824de6ac6ef80d815ce636afdca39ce3a15e1ca9"
+      },
+      "current_path": "scratch/final-gates/final-v5-report-candidate-v1/phase1-acceptance-report.md",
+      "current_sha256": "4cf2a3246062928bdbebab0b1b4a740755acd14c5ef0aea946489ae230da178a",
+      "former_bytes_availability": "UNVERIFIED; not separately snapshotted here and not retrievable as the stated former hash at the current path",
+      "supersedes": "The core entry availability_scope does not establish present availability of former-generation bytes."
+    }
+  ],
+  "markdown_creation": {
+    "path": "records/phase1-blockers/final-report-v5/authoring-markdown-v1.md",
+    "sha256": "cbaa799840bb1636c68fbfe0b20b6d969f8b8ef1ec581fd051a94ff5fae43ea9",
+    "original_authoring_receipt": "records/phase1-blockers/final-report-v5/authoring.json"
+  },
+  "corrected_markdown": {
+    "path": "docs/phase1-acceptance-report.md",
+    "sha256": "faaa2535a38ab3e8ba34756446a0dd87eb5f4d3d746f911995c1cfbe0e983090",
+    "retained_copy": "records/phase1-blockers/final-report-v5/phase1-acceptance-report.md"
+  },
+  "review_basis": {
+    "path": "scratch/reviewer2/freeze5-final-report-semantic-review-v1.json",
+    "sha256": "8f6cfec386955c84522351cddd32f99bec557f25c3be27f349544ce3dcbbb879",
+    "status": "Substantive concurrence; R1-R4 corrections applied here, final documentary readback still separate."
+  },
+  "actor_and_F0_boundary": "Actual named actor and final source/tool results already retained are not inferred from assembly. Assurance nonclaims delimit assembly itself; they do not erase those named results.",
+  "non_claims": [
+    "No original missing metadata fabricated",
+    "No former mutable draft reconstructed",
+    "No F6 pass or independent acceptance",
+    "No execution freeze changed"
+  ]
+}

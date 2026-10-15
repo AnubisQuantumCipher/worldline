@@ -1,0 +1,251 @@
+[
+  {
+    "input": [],
+    "operation": "compute_ledger",
+    "output": {
+      "total": 0,
+      "withheld": []
+    }
+  },
+  {
+    "input": [
+      [
+        0,
+        null
+      ]
+    ],
+    "operation": "compute_ledger",
+    "output": {
+      "total": 0,
+      "withheld": [
+        0
+      ]
+    }
+  },
+  {
+    "input": [
+      [
+        8,
+        3
+      ],
+      [
+        2,
+        null
+      ],
+      [
+        -4,
+        -2
+      ]
+    ],
+    "operation": "compute_ledger",
+    "output": {
+      "total": 7,
+      "withheld": [
+        5,
+        2,
+        0
+      ]
+    }
+  },
+  {
+    "input": [
+      [
+        1606938044258990275541962092341162602522202993782792835301376,
+        null
+      ],
+      [
+        1,
+        340282366920938463463374607431768211456
+      ]
+    ],
+    "operation": "compute_ledger",
+    "output": {
+      "total": 1606938044258990275541962092341162602522202993782792835301376,
+      "withheld": [
+        1606938044258990275541962092341162602522202993782792835301376,
+        0
+      ]
+    }
+  },
+  {
+    "input": [
+      0,
+      0,
+      0
+    ],
+    "operation": "compute_headroom",
+    "output": 0
+  },
+  {
+    "input": [
+      10,
+      3,
+      2
+    ],
+    "operation": "compute_headroom",
+    "output": 5
+  },
+  {
+    "input": [
+      -4,
+      7,
+      9
+    ],
+    "operation": "compute_headroom",
+    "output": -20
+  },
+  {
+    "input": [
+      1606938044258990275541962092341162602522202993782792835301376,
+      340282366920938463463374607431768211456,
+      3
+    ],
+    "operation": "compute_headroom",
+    "output": 1606938044258990275541621809974241664058739619175361067089917
+  },
+  {
+    "input": {
+      "available_memory": 100,
+      "concurrency_limit": null,
+      "disk_byte_floor": 1,
+      "disk_inode_floor": 1,
+      "disks": [
+        [
+          100,
+          100
+        ]
+      ],
+      "memory_floor": 1,
+      "memory_pressure": null,
+      "memory_pressure_ceiling": 10,
+      "outstanding_count": 0,
+      "requested_memory": 1,
+      "withheld_memory": 0
+    },
+    "operation": "decide_policy",
+    "output": {
+      "disk_index": null,
+      "gate": null
+    }
+  },
+  {
+    "input": {
+      "available_memory": 100,
+      "concurrency_limit": null,
+      "disk_byte_floor": 1,
+      "disk_inode_floor": 1,
+      "disks": [
+        [
+          100,
+          100
+        ]
+      ],
+      "memory_floor": 1,
+      "memory_pressure": null,
+      "memory_pressure_ceiling": 10,
+      "outstanding_count": 0,
+      "requested_memory": 1000,
+      "withheld_memory": 0
+    },
+    "operation": "decide_policy",
+    "output": {
+      "disk_index": null,
+      "gate": "CAPACITY"
+    }
+  },
+  {
+    "input": {
+      "available_memory": 100,
+      "concurrency_limit": 1,
+      "disk_byte_floor": 1,
+      "disk_inode_floor": 1,
+      "disks": [
+        [
+          100,
+          100
+        ]
+      ],
+      "memory_floor": 1,
+      "memory_pressure": null,
+      "memory_pressure_ceiling": 10,
+      "outstanding_count": 2,
+      "requested_memory": 1,
+      "withheld_memory": 0
+    },
+    "operation": "decide_policy",
+    "output": {
+      "disk_index": null,
+      "gate": "CONCURRENCY"
+    }
+  },
+  {
+    "input": {
+      "available_memory": 100,
+      "concurrency_limit": null,
+      "disk_byte_floor": 1,
+      "disk_inode_floor": 1,
+      "disks": [
+        [
+          100,
+          100
+        ]
+      ],
+      "memory_floor": 1,
+      "memory_pressure": 20,
+      "memory_pressure_ceiling": 10,
+      "outstanding_count": 0,
+      "requested_memory": 1,
+      "withheld_memory": 0
+    },
+    "operation": "decide_policy",
+    "output": {
+      "disk_index": null,
+      "gate": "PRESSURE"
+    }
+  },
+  {
+    "input": {
+      "available_memory": 100,
+      "concurrency_limit": null,
+      "disk_byte_floor": 1,
+      "disk_inode_floor": 1,
+      "disks": [
+        [
+          0,
+          100
+        ]
+      ],
+      "memory_floor": 1,
+      "memory_pressure": null,
+      "memory_pressure_ceiling": 10,
+      "outstanding_count": 0,
+      "requested_memory": 1,
+      "withheld_memory": 0
+    },
+    "operation": "decide_policy",
+    "output": {
+      "disk_index": 0,
+      "gate": "DISK_BYTES"
+    }
+  },
+  {
+    "input": {
+      "available_memory": 100,
+      "concurrency_limit": null,
+      "disk_byte_floor": 1,
+      "disk_inode_floor": 1,
+      "disks": [],
+      "memory_floor": 1,
+      "memory_pressure": null,
+      "memory_pressure_ceiling": 10,
+      "outstanding_count": 0,
+      "requested_memory": 1,
+      "withheld_memory": 0
+    },
+    "operation": "decide_policy",
+    "output": {
+      "disk_index": null,
+      "gate": null
+    }
+  }
+]

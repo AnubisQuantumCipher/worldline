@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/usr/bin/bwrap",
+    "--die-with-parent",
+    "--unshare-net",
+    "--ro-bind",
+    "/",
+    "/",
+    "--chdir",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/actor-ordinary-final-v5/attempt-cbb8813427034717835b383121cf1074/worker",
+    "--",
+    "/home/sicarii/.local/share/mise/installs/codex/0.159.2/bin/codex",
+    "--version"
+  ],
+  "exit_code": 0,
+  "filesystem": "read-only root bind; no writable host home",
+  "network": "unshared",
+  "stderr": "WARNING: proceeding, even though we could not create PATH aliases: Read-only file system (os error 30)\n",
+  "stdout": "codex-cli 0.159.2\n"
+}

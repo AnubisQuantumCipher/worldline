@@ -1,0 +1,78 @@
+{
+  "end_monotonic_ns": 39850121925508,
+  "ledger_after": {
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-capacity-refusal-request-after.json",
+    "present": true,
+    "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+  },
+  "ledger_before": {
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-capacity-refusal-request-before.json",
+    "present": true,
+    "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+  },
+  "name": "capacity-refusal-request",
+  "returned": {
+    "admissionState": {
+      "disk": {
+        "share": {
+          "freeBytes": 97517879296,
+          "freeInodes": 33086762,
+          "totalBytes": 686860591104
+        },
+        "state": {
+          "freeBytes": 97517879296,
+          "freeInodes": 33086762,
+          "totalBytes": 686860591104
+        }
+      },
+      "memAvailableBytes": 25832730624,
+      "memTotalBytes": 33586016256,
+      "pressureHundredths": {
+        "cpuAvg10": 24,
+        "ioAvg10": 22,
+        "memoryAvg10": 0
+      },
+      "reason": null,
+      "state": "OBSERVED",
+      "swapFreeBytes": 32003571712
+    },
+    "arithmetic": {
+      "accounted": true,
+      "floorBytes": 2147483648,
+      "headroomBytes": 23685246975,
+      "memAvailableBytes": 25832730624,
+      "outstandingCount": 1,
+      "requestedBytes": 17592186044416,
+      "reservations": [
+        {
+          "observedUsageBytes": null,
+          "reservationId": "1e8acdcf-4c99-4a13-a960-10f454d269c5",
+          "reservedBytes": 1,
+          "withheldBytes": 1,
+          "workload": "phase1-owned-authority-observation"
+        }
+      ],
+      "withheldByReservationsBytes": 1
+    },
+    "enforcedPolicy": {
+      "cpuQuotaPercent": null,
+      "cpuWeight": null,
+      "diskGrowthMaxBytes": null,
+      "enforcement": "cgroup2",
+      "maxConcurrentWorkloads": null,
+      "memoryHighBytes": null,
+      "memoryMaxBytes": null,
+      "memorySwapMaxBytes": null,
+      "tasksMax": null,
+      "timeoutSeconds": null
+    },
+    "nonClaims": [
+      "Admission reserves against WORLDLINE's own ledger and the machine's observed state. Another process may take the memory a microsecond later, so this reduces the chance of starting work that cannot finish; it does not guarantee completion.",
+      "WORLDLINE governs the workloads it starts. It does not police the host and will not stop anything it did not start."
+    ],
+    "outcome": "RESOURCES_UNAVAILABLE",
+    "reason": "17592186044416 bytes requested but only 23685246975 are free to promise: 25832730624 available, 1 withheld by 1 outstanding reservation(s), 2147483648 held back as the floor",
+    "reservationId": null
+  },
+  "start_monotonic_ns": 39850048803832
+}

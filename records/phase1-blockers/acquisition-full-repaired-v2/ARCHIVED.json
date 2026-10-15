@@ -1,0 +1,27 @@
+{
+  "status": "ARCHIVED raw bundle; this regrown path contains only explicitly retained compact metadata",
+  "item_id": "dc9d58a023a24e87821320fb7d4ba898",
+  "snapshot": "83e8881d65639a6fdbcf492fe7580cd44756e47039e36d99d8283e85e2b7db7b",
+  "full_content_manifest_sha256": "81eae32642f7138d8db3dda7917d2e3bdb704e608a476bc34413997098ef44a4",
+  "retained_compact_paths": [
+    "records/phase1-blockers/acquisition-full-repaired-v2/admission.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v2/admitted.json",
+    "records/phase1-blockers/acquisition-full-repaired-v2/cgroup.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v2/launch.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v2/launcher.stderr",
+    "records/phase1-blockers/acquisition-full-repaired-v2/launcher.stdout",
+    "records/phase1-blockers/acquisition-full-repaired-v2/result.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v2/rusage.json",
+    "records/phase1-blockers/acquisition-full-repaired-v2/scope-journal.txt",
+    "records/phase1-blockers/acquisition-full-repaired-v2/scope.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v2/stdout",
+    "records/phase1-blockers/acquisition-full-repaired-v2/supervisor.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v2/temp-leaves-after.json",
+    "records/phase1-blockers/acquisition-full-repaired-v2/temp-leaves-before.json",
+    "records/phase1-blockers/acquisition-full-repaired-v2/terminal-scope.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v2/tracked.diff",
+    "records/phase1-blockers/acquisition-full-repaired-v2/worker-result.json"
+  ],
+  "recover": "project-vault get dc9d58a023a24e87821320fb7d4ba898 --to NEW_LOCAL_DIRECTORY",
+  "boundary": "Full original bytes reside in the cold snapshot. This metadata is not full original content or a replacement for missing terminal results. Prior offload receipt cannot authorize deleting this regrown path."
+}

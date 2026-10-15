@@ -1,0 +1,850 @@
+{
+  "acceptance": "OPEN",
+  "actor_execution": {
+    "aggregate_cap_equivalence": "NOT CLAIMED; actor service is a sibling cgroup",
+    "child": "NOT PERFORMED",
+    "full_F5": "FAILED-OPEN",
+    "native_call_observation": "UNVERIFIED; no profiler installed",
+    "ordinary_subset": "TESTED actual completed original ordinary actor outcome",
+    "ordinary_world_outcome_verified": true,
+    "outer_exit_code": 0,
+    "protected": "NOT PERFORMED",
+    "record_id": "F5-final-v5-ordinary-actor",
+    "reported_model_identity": "UNVERIFIED; requested argv and PASS/VALID do not authenticate provider model, no extra decoder or credential inspection performed.",
+    "review": {
+      "availability_scope": "retained local completed artifact at candidate update",
+      "bytes": 22841,
+      "path": "scratch/reviewer2/freeze5-ordinary-actor-actual-review-v1.json",
+      "sha256": "1f4149cea7be461209de282d1fac82d9697ba755cfacde0d837ff17f136e991d"
+    },
+    "worker_result": {
+      "availability_scope": "retained local completed artifact at candidate update",
+      "bytes": 90214,
+      "path": "scratch/acquisition/actor-ordinary-final-v5/attempt-cbb8813427034717835b383121cf1074/worker/result.json",
+      "sha256": "c55fa5822ff0718ca368aca474b66740125236f44e3ec16c20d5983a58de1339"
+    }
+  },
+  "aggregate_runtime_counts": null,
+  "authority_gates": {
+    "C1": "FAILED-OPEN",
+    "C2": "FAILED-OPEN",
+    "C3": "FAILED-OPEN",
+    "C4": "FAILED-OPEN"
+  },
+  "claim_class": "MEASURED",
+  "completed_main_build_steps_reference": {
+    "availability_scope": "retained local artifact at candidate assembly",
+    "bytes": 21490,
+    "path": "records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "sha256": "70173efe0c7278e505df1d8b4611c4249c71a26e7f78aa6f7b145ce158c240f4"
+  },
+  "draft": false,
+  "draft_authoring_notice": "Finalized refusal assembly preserves all original step dispositions and references. Previous ordinary candidate is retained intact; actual run outputs and original checker input are unchanged.",
+  "full_build_roster_reference": {
+    "availability_scope": "retained local artifact at candidate assembly",
+    "bytes": 29935,
+    "path": "scratch/reviewer/f1-original-full-planned-build-roster.json",
+    "sha256": "f69acc57612a6ccfe17fb99b172b69db08982415745bf93a6573ec1fa5b64630"
+  },
+  "generated_utc": "2026-10-15T01:25:21.460528+00:00",
+  "generation_method": "Coordinator documentary assembly from the named actual retained outcomes; not output from a completed original scripts/assurance.py run.",
+  "generator_argv": [
+    "python3",
+    "-B",
+    "-c",
+    "import hashlib,json,subprocess,sys\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nroot=Path.cwd();src=root/'scratch/final-gates/final-v5-report-candidate-v2'\ncommit='ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac'\nassert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==commit\ndst=root/'records/phase1-blockers/final-report-v5';dst.mkdir(exist_ok=False)\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nnow=datetime.now(timezone.utc).isoformat()\nauth={'argv':sys.orig_argv,'cwd':str(root),'utc':now,'source_sha256':hashlib.sha256(sys.orig_argv[-1].encode()).hexdigest(),'scope':'Actual documentary authoring only; no proof, assurance runner, test, version query or original process reconstruction.'}\nassurance=json.loads((src/'assurance-refusal.json').read_text())\nassurance.update(draft=False,generated_utc=now,generator_argv=sys.orig_argv,generator_source_sha256=auth['source_sha256'],generation_method='Coordinator documentary assembly from the named actual retained outcomes; not output from a completed original scripts/assurance.py run.')\nassurance['input_assembly']={'path':str((src/'assurance-refusal.json').relative_to(root)),'sha256':sha(src/'assurance-refusal.json'),'boundary':'Earlier source assembly retained unchanged; current generated_utc is this actual final document authoring time.'}\nassurance['non_claims']=[x for x in assurance['non_claims'] if not x.startswith('No report checker or semantic review of this candidate')]\nassurance['non_claims'].append('Final structural and semantic readbacks are separate records bound to their exact input hashes; authoring exit zero never means assurance success.')\nassurance_path=root/'records/phase1-blockers/final-assurance-refusal-v5.json'\nwith assurance_path.open('x') as f:json.dump(assurance,f,sort_keys=True,indent=2);f.write('\\n')\nreport=json.loads((src/'acceptance-report.json').read_text());assert report['frozen_source_commit']==commit\nreport['draft']=False\nreport.pop('publication_ready',None);report.pop('candidate_state',None)\nreport['publication_boundary']='Non-accepted checkpoint report only; tested source and later report/publication commit remain separate.'\nreport['record_state']='Coordinator-authored report; exact structural/semantic readbacks retained separately. This is not product or independent acceptance.'\nreport['coordinator_authoring']=auth\nreport['input_assembly']={'path':str((src/'acceptance-report.json').relative_to(root)),'sha256':sha(src/'acceptance-report.json')}\nreport['authoring_cut_pending_fields']=report.pop('pending_final_fields',{})\nreport['authoring_cut_pending_output_paths']=report.pop('pending_final_output_paths',{})\nreport['checker_state']='Actual first unchanged checker refused preserved v1 input. Missing original metadata remains unknown. Subsequent unchanged structural and internal semantic readbacks are separate records over their exact input hashes; no success is inferred.'\nf6=next(x for x in report['gates'] if x['id']=='F6')\nf6['status']='FAILED-OPEN';f6['claim_class']='UNVERIFIED'\nf6['reason']='The unchanged report checker refused the preserved first input for missing evidence metadata, including original UTC bounds, environments and versions. Directly supported fields were corrected once; unavailable original metadata remains null. Honest nonpositive manifests and all original gate dispositions are retained, but the complete required provenance/hash-join conjunction is unestablished. Later readback outcomes are separate exact-input records, not a waiver or invented success.'\nfor m in report['regenerated_manifests']:\n if m['kind']=='assurance':\n  m['artifact']={'path':str(assurance_path.relative_to(root)),'sha256':sha(assurance_path),'availability_scope':'Actual coordinator-authored failure document retained locally; publication is separate.'};m['draft']=False\nreport_path=dst/'acceptance-report.json'\nwith report_path.open('x') as f:json.dump(report,f,sort_keys=True,indent=2);f.write('\\n')\nmd=(src/'phase1-acceptance-report.md').read_text()\nmd=md.replace('The companion `acceptance-report.json`','The companion [machine-readable report](../records/phase1-blockers/final-report-v5/acceptance-report.json)')\nmd=md.replace('The current one-pass assembly has not yet been rechecked or received whole-report semantic sign-off. `assurance-refusal.json` is an explicit failure document, not output from a completed successful original assurance runner.','Subsequent structural and internal semantic readbacks are retained separately against their exact input hashes; this does not waive missing metadata or imply acceptance. The [assurance refusal](../records/phase1-blockers/final-assurance-refusal-v5.json) is an explicit failure document, not output from a completed successful original assurance runner.')\nmd+='\\nThe coordinator authored this report and the final assurance refusal from the retained assembly after all final executions settled. Actual documentary authoring provenance is retained in the machine-readable report and refusal. The tested source remains ef7; a later documentary commit is not a new execution freeze.\\n'\nwith (root/'docs/phase1-acceptance-report.md').open('x') as f:f.write(md)\nwith (dst/'phase1-acceptance-report.md').open('x') as f:f.write(md)\nreceipt={'utc':now,'classification':'MEASURED documentary authoring only','source_commit':commit,'command':auth,'inputs':report['input_assembly'],'report':{'path':str(report_path.relative_to(root)),'sha256':sha(report_path)},'markdown':{'path':'docs/phase1-acceptance-report.md','sha256':sha(root/'docs/phase1-acceptance-report.md')},'assurance_refusal':{'path':str(assurance_path.relative_to(root)),'sha256':sha(assurance_path)},'independent_acceptance':'NOT PERFORMED'}\nwith (dst/'authoring.json').open('x') as f:json.dump(receipt,f,sort_keys=True,indent=2);f.write('\\n')\nprint(json.dumps({k:v for k,v in receipt.items() if k!='command'}))\n"
+  ],
+  "generator_source_sha256": "ff66471e626c7b3ab89cc44f5567cb1dc7b835723bbde138ff3164ade1c960a2",
+  "independent_acceptance": "NOT PERFORMED",
+  "independent_verdict": null,
+  "input_assembly": {
+    "boundary": "Earlier source assembly retained unchanged; current generated_utc is this actual final document authoring time.",
+    "path": "scratch/final-gates/final-v5-report-candidate-v2/assurance-refusal.json",
+    "sha256": "41b80072edbbe5d28b8657d3af210b088eb8c5888eb4a52f75acc06037aa41ca"
+  },
+  "narrowed_claims": [],
+  "native_decision_entry_return_observation": "TESTED finite Python real-ctypes dispatch/returned buffers; native instruction entry UNVERIFIED",
+  "non_claims": [
+    "Separate refusal assembly is not output from a completed original scripts/assurance.py run and not a positive assurance manifest.",
+    "Partial broad-discovery rows and successful finite qualifiers are not aggregate full roster counts or authority proof.",
+    "No final actor outcome or final all-run tool/source check is inferred.",
+    "Historical/source isolation and D7 carrier boundaries remain; independent acceptance NOT PERFORMED.",
+    "Final structural and semantic readbacks are separate records bound to their exact input hashes; authoring exit zero never means assurance success."
+  ],
+  "not_a_success_manifest": true,
+  "original_contract_reference": {
+    "availability_scope": "retained local artifact at candidate assembly",
+    "bytes": 1780,
+    "path": "scripts/assurance_contract.py",
+    "sha256": "848cebc468e0b9f7c2845465cf7272c15502e4b3cc77b5448232bd0ec8d32c47"
+  },
+  "original_counterexample_constants": {
+    "COUNTEREXAMPLE_COMMIT": "1bd5c0890e1c2686b3e33389831c76fe1f5cc25b",
+    "COUNTEREXAMPLE_RUNTIME_TREE": "1c628de542bfc843f5f5e1aaa0580a0c4b12c40e",
+    "COUNTEREXAMPLE_TAG": "counterexample/verifier-bytes-without-evaluation-domain"
+  },
+  "original_required_steps": [
+    "checkout-identity",
+    "clean-build-tree",
+    "build",
+    "ada-tests",
+    "ada-fuzz",
+    "python-tests",
+    "private-host-tests",
+    "evaluation-domain",
+    "proof-gate",
+    "proof-manifest"
+  ],
+  "pending_actor_and_final_identity": {
+    "F0_review": {
+      "availability_scope": "retained local completed artifact at candidate finalization preparation",
+      "bytes": 16826,
+      "path": "scratch/reviewer2/freeze5-F0-final-identity-disposition-review-v1.json",
+      "sha256": "f242072099abc7562b13db4ad77c94378814df7111ed456d2f52a61c9aa80cec"
+    },
+    "F0_status": "FAILED-OPEN",
+    "final_report_semantic_review": null,
+    "final_report_structural_result": {
+      "applies_to": "preserved v1 report input; current v2 not yet checked",
+      "input_sha256": "b1132b6eca6cd46a39053497a24150b4462c3a1d716aea4538037c700a78ab55",
+      "receipt": {
+        "availability_scope": "retained local immutable input or completed receipt",
+        "bytes": 843,
+        "path": "scratch/coordinator/phase1-final-report-v5/checker-v1/result.json",
+        "sha256": "24141c497d3ea16e00041413636a916a801f0b8f5d7f367629dcdc3e0590340e"
+      },
+      "status": "REFUSED"
+    },
+    "final_source_after": {
+      "availability_scope": "retained local completed artifact at candidate finalization preparation",
+      "bytes": 27180,
+      "path": "records/phase1-blockers/final-source-artifacts-after-v5.json",
+      "sha256": "2404e5d810ccec85210afadbcb70b5fc69841f02a84d9bd1f6d749b12baee2eb"
+    },
+    "final_tool_after": {
+      "availability_scope": "retained local completed artifact at candidate finalization preparation",
+      "bytes": 10042,
+      "path": "records/phase1-blockers/final-tool-identities-after-v5-retained.json",
+      "sha256": "f1dc17390a74cc9046481ae3d1e9d4419909172599de2fc01476f5d643f13a56"
+    },
+    "ordinary_actor_pending": false
+  },
+  "proof_refusal_reference": {
+    "availability_scope": "retained local artifact at candidate assembly",
+    "bytes": 1349555,
+    "path": "records/phase1-blockers/final-proof-refusal-v5.json",
+    "sha256": "8053585d1d132daa0c2eb11ea1034d1bdbb9c61af12181c77c182db635ff62f3"
+  },
+  "proof_refusal_sha256": "8053585d1d132daa0c2eb11ea1034d1bdbb9c61af12181c77c182db635ff62f3",
+  "protected_execution": "NOT PERFORMED",
+  "reason": "Actual strict proof, complete original private suite, domain candidate and original binary roster have failures; broad runtime timed out without aggregate summary. Ordinary actor subset completed successfully. Final measured identities match their checked subsets, but whole F0 remains FAILED-OPEN for missing original run-end and complete execution joins. No complete original assurance success exists.",
+  "report_check": {
+    "checked_report_sha256": "b1132b6eca6cd46a39053497a24150b4462c3a1d716aea4538037c700a78ab55",
+    "current_report_recheck": null,
+    "exit_code": 1,
+    "input": {
+      "availability_scope": "retained local immutable input or completed receipt",
+      "bytes": 650125,
+      "path": "scratch/coordinator/phase1-final-report-v5/checker-v1/checked-input.json",
+      "sha256": "b1132b6eca6cd46a39053497a24150b4462c3a1d716aea4538037c700a78ab55"
+    },
+    "receipt": {
+      "availability_scope": "retained local immutable input or completed receipt",
+      "bytes": 843,
+      "path": "scratch/coordinator/phase1-final-report-v5/checker-v1/result.json",
+      "sha256": "24141c497d3ea16e00041413636a916a801f0b8f5d7f367629dcdc3e0590340e"
+    },
+    "status": "REFUSED",
+    "stdout": {
+      "availability_scope": "retained local immutable input or completed receipt",
+      "bytes": 1250,
+      "path": "scratch/coordinator/phase1-final-report-v5/checker-v1/stdout",
+      "sha256": "5985a74f7c76bfefb72174654a0a166d347dd18ade6cff9215dc733cb013dba7"
+    }
+  },
+  "review_status": "finalized-for-internal-review; actual whole-document semantic verdict pending",
+  "schema": "worldline.phase1-assurance-refusal.v1",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "source_tree": "3056ab049b5049897d375cf13ba6fdd10179b450",
+  "status": "FAILED-OPEN",
+  "steps": [
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 142393,
+          "path": "records/phase1-blockers/freeze-v5/source.json",
+          "sha256": "98d79357743b18aeea143e46d8597a7a30fbd51bea8a4168d0a5965bf16f5812"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 23202,
+          "path": "scratch/old-analysis/full-runtime-v5-post-readback.json",
+          "sha256": "db503d33c12096e0bdca15b04bf3a258f986896a7957569ab577d86e79be9a05"
+        },
+        {
+          "availability_scope": "retained local completed artifact at candidate finalization preparation",
+          "bytes": 27180,
+          "path": "records/phase1-blockers/final-source-artifacts-after-v5.json",
+          "sha256": "2404e5d810ccec85210afadbcb70b5fc69841f02a84d9bd1f6d749b12baee2eb"
+        },
+        {
+          "availability_scope": "retained local completed artifact at candidate finalization preparation",
+          "bytes": 10042,
+          "path": "records/phase1-blockers/final-tool-identities-after-v5-retained.json",
+          "sha256": "f1dc17390a74cc9046481ae3d1e9d4419909172599de2fc01476f5d643f13a56"
+        },
+        {
+          "availability_scope": "retained local completed artifact at candidate finalization preparation",
+          "bytes": 16826,
+          "path": "scratch/reviewer2/freeze5-F0-final-identity-disposition-review-v1.json",
+          "sha256": "f242072099abc7562b13db4ad77c94378814df7111ed456d2f52a61c9aa80cec"
+        },
+        {
+          "availability_scope": "retained local completed artifact at candidate finalization preparation",
+          "bytes": 564,
+          "path": "records/phase1-blockers/final-source-artifacts-after-terminal-v5.json",
+          "sha256": "79049b528f8860838ae549f59fd73acad0d9e1906ac4ab8c1396cca11dd67028"
+        },
+        {
+          "availability_scope": "retained local completed artifact at candidate finalization preparation",
+          "bytes": 447,
+          "path": "records/phase1-blockers/final-tool-identities-after-terminal-v5.json",
+          "sha256": "42f8f92d03c1e1be15375f23ec9eebe47584a560a0c2703301d321071ad80c3e"
+        }
+      ],
+      "claim_class": "MEASURED",
+      "command": {
+        "argv": [
+          "python3",
+          "-B",
+          "-c",
+          "import hashlib,json,subprocess,sys\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nroot=Path.cwd();sys.path.insert(0,str(root/'scratch/old-analysis'))\nfrom frozen_source_v2 import validate\ncommit='ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac'\nr=validate(commit,root/'records/phase1-blockers/freeze-v5/source.json',root/'scratch/coordinator/final-frame-v5/source',root/'records/phase1-blockers/final-build-steps-v5/artifacts.json',link=False)\nbefore_path=root/'records/phase1-blockers/final-tool-identities-before-v5-retained.json'\nafter_path=root/'records/phase1-blockers/final-tool-identities-after-v5-retained.json'\nbefore=json.loads(before_path.read_text());after=json.loads(after_path.read_text())\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nassert before['source_commit']==after['source_commit']==commit\nsame=before['tools']==after['tools']\nassert same\nassert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],text=True).strip()\nout=root/'records/phase1-blockers/final-source-artifacts-after-v5.json'\nd={'utc':datetime.now(timezone.utc).isoformat(),'classification':'MEASURED final frozen source/artifact and selected tool-file readback only','source_commit':commit,'source_tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),'command':{'argv':sys.orig_argv,'cwd':str(root),'GNAT_environment_source':'/home/sicarii/opt/gnat/env.sh','GNAT_environment_sha256':sha(Path('/home/sicarii/opt/gnat/env.sh'))},'validation':r,'tool_before':{'path':str(before_path.relative_to(root)),'sha256':sha(before_path)},'tool_after':{'path':str(after_path.relative_to(root)),'sha256':sha(after_path)},'tool_identity_rows_equal':same,'tool_reader_script_sha256_equal':before['script_sha256']==after['script_sha256'],'tracked_status_porcelain':'','non_claims':['Selected tool-file identity equality is not evidence of actual invocation or completed proof.','No aggregate proof/runtime counts, imported-source proof closure, independent acceptance, universal custody or complete authentic protected/child execution is inferred.','This fresh readback does not reconstruct a missing per-worker after receipt or prove continuous invariance in an adversarial environment.','The original F0 predicate still requires its complete source/tool/dependency/runtime joins; do not promote from a subset.']}\nwith out.open('x') as f:json.dump(d,f,sort_keys=True,indent=2);f.write('\\n')\nprint(json.dumps({'path':str(out.relative_to(root)),'sha256':sha(out),'source_commit':commit,'all_original_tracked_hashes_match':r['all_original_tracked_hashes_match'],'exact_tracked_roster_matches':r['exact_tracked_roster_matches'],'tool_identity_rows_equal':same,'library_sha256':r['library_sha256']}))\n"
+        ],
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "environment": null,
+        "recorded_environment_identity": {
+          "GNAT_environment_sha256": "155536a81f8d2be134c6e5cacc0c0bf9b57c94ee33659d2b19ea23c2d6ded388",
+          "GNAT_environment_source": "/home/sicarii/opt/gnat/env.sh"
+        }
+      },
+      "command_record_id": "F0-final-v5-source-artifacts-after-readback",
+      "exact_remaining_gaps": [
+        "Terminal proof has no completed full-proof-result-v5/result.json and therefore no original driver completed after-source/private/library identity record. Final gate/this later readback hash-match source/dependency bytes, but do not reconstruct that missing per-worker after receipt.",
+        "Terminal full discovery runtime lacks worker-result.json/frame-after.json and audit-result.json; later locked finalsource-artifact readback establishes later matching bytes only. No complete original per-worker after/runtime module-resolution closure is retained.",
+        "Canonical tool rows explicitly record PATH-selected or bundled-file inventory. Before/after equality and exact commands/version text do not establish complete actual compiler/solver/child invocation resolution joined to all installed dependency/runtime-module identities for every final execution. No additional complete closure beyond existing partial launches/manifests claimed.",
+        "Root/frame and tracked-clean snapshots support measured correspondence; they do not, alone, establish the entire original clean-throughout/before-after-all-final-runs predicate where required run-end records are absent. No claim source drift actually occurred."
+      ],
+      "name": "checkout-identity",
+      "reason": "Campaign attempted complete final scopes, but F0 full conjunctive before/after/source/tool/dependency/runtime joins not established by selected identity readbacks. Successful measured subset below must remain retained without promotion.",
+      "status": "FAILED-OPEN"
+    },
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 770272,
+          "path": "records/phase1-blockers/final-build-steps-v5/retained-generated.json",
+          "sha256": "f859bf25e3f544fc92470312e8212047a5f13421192c46222e8e38e9740fa9cb"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1055,
+          "path": "scratch/reviewer2/freeze5-main-build-actual-review-v1.json",
+          "sha256": "4dc8208d5c02e64ac20c0907bfc8f2a168e955d970519e468c0784e7607487b6"
+        }
+      ],
+      "claim_class": "MEASURED",
+      "command": null,
+      "command_record_id": null,
+      "name": "clean-build-tree",
+      "reason": "Original completed fresh build preparation only; recorded old outputs were retained.",
+      "status": "PASSED"
+    },
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 21490,
+          "path": "records/phase1-blockers/final-build-steps-v5/artifacts.json",
+          "sha256": "70173efe0c7278e505df1d8b4611c4249c71a26e7f78aa6f7b145ce158c240f4"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 118666,
+          "path": "records/phase1-blockers/original-aux-builds-final-v6/result.json",
+          "sha256": "48f5364a9393971819c940cca737ffa32f6e05d68e94a65db2cb46205d732a55"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 220474,
+          "path": "scratch/acquisition/original-binary-artifacts-v5/artifacts.json",
+          "sha256": "c7bda662b45dd8d968c1cd3b4f9621448c4f84252a4ea4b9df75b4bff72f3899"
+        }
+      ],
+      "claim_class": "MEASURED",
+      "command": null,
+      "command_record_id": null,
+      "name": "build",
+      "reason": "Completed main/aux/artifact subsets; complete original protected/selected-descriptor F1 predicates unestablished.",
+      "status": "FAILED-OPEN"
+    },
+    {
+      "actual_step": {
+        "argv": [
+          "bwrap",
+          "--die-with-parent",
+          "--ro-bind",
+          "/",
+          "/",
+          "--dev",
+          "/dev",
+          "--proc",
+          "/proc",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/original-aux-builds-scope-v6/tmp",
+          "/tmp",
+          "--chdir",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "./bin/worldline_core_tests"
+        ],
+        "binary_sha256": "1e6b89ae9f53f57d30ba3e21c2f558e998b28e949091d4caf456e67ca964a515",
+        "classification": "TESTED",
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "ended_utc": "2026-10-14T20:43:34.448563+00:00",
+        "exit_code": 0,
+        "name": "ada-tests",
+        "original_pass_marker": true,
+        "prerequisite": "tests-worldline-core-tests-build",
+        "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+        "started_utc": "2026-10-14T20:43:34.443728+00:00"
+      },
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 118666,
+          "path": "records/phase1-blockers/original-aux-builds-final-v6/result.json",
+          "sha256": "48f5364a9393971819c940cca737ffa32f6e05d68e94a65db2cb46205d732a55"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1330,
+          "path": "scratch/reviewer2/freeze5-aux-frame-actual-review-v1.json",
+          "sha256": "31a0dbf35fdb04a4e74079f7d8b7b78c961d430bad463b6066aa43be30e8fc4c"
+        }
+      ],
+      "claim_class": "TESTED",
+      "command": [
+        "bwrap",
+        "--die-with-parent",
+        "--ro-bind",
+        "/",
+        "/",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/original-aux-builds-scope-v6/tmp",
+        "/tmp",
+        "--chdir",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "./bin/worldline_core_tests"
+      ],
+      "command_record_id": null,
+      "name": "ada-tests",
+      "reason": "Actual original Ada behavior execution passed its original predicate.",
+      "status": "PASSED"
+    },
+    {
+      "actual_step": {
+        "argv": [
+          "bwrap",
+          "--die-with-parent",
+          "--ro-bind",
+          "/",
+          "/",
+          "--dev",
+          "/dev",
+          "--proc",
+          "/proc",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/original-aux-builds-scope-v6/tmp",
+          "/tmp",
+          "--chdir",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "./bin/worldline_core_fuzz"
+        ],
+        "binary_sha256": "01676a46c9abd59fc91ed49db26fed18904aa7f83af03340c48d602239ced98a",
+        "classification": "TESTED",
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "ended_utc": "2026-10-14T20:43:34.459510+00:00",
+        "exit_code": 0,
+        "name": "ada-fuzz",
+        "original_pass_marker": true,
+        "prerequisite": "tests-worldline-core-fuzz-build",
+        "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+        "started_utc": "2026-10-14T20:43:34.448664+00:00"
+      },
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 118666,
+          "path": "records/phase1-blockers/original-aux-builds-final-v6/result.json",
+          "sha256": "48f5364a9393971819c940cca737ffa32f6e05d68e94a65db2cb46205d732a55"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1330,
+          "path": "scratch/reviewer2/freeze5-aux-frame-actual-review-v1.json",
+          "sha256": "31a0dbf35fdb04a4e74079f7d8b7b78c961d430bad463b6066aa43be30e8fc4c"
+        }
+      ],
+      "claim_class": "TESTED",
+      "command": [
+        "bwrap",
+        "--die-with-parent",
+        "--ro-bind",
+        "/",
+        "/",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/original-aux-builds-scope-v6/tmp",
+        "/tmp",
+        "--chdir",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "./bin/worldline_core_fuzz"
+      ],
+      "command_record_id": null,
+      "name": "ada-fuzz",
+      "reason": "Actual original Ada fuzz execution passed its original predicate.",
+      "status": "PASSED"
+    },
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1502,
+          "path": "scratch/old-analysis/full-runtime-v5/launch.json",
+          "sha256": "12bb0daeb5312dec9d217e697d9bd6ea95487d107529fb5459785c1020e20ac9"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 878,
+          "path": "scratch/old-analysis/full-runtime-v5/attempts.jsonl",
+          "sha256": "a76660f27c14057c4092af712efdaa121a658e509ad51b1ad85fab1a4cb6bfab"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 224,
+          "path": "scratch/old-analysis/full-runtime-v5/result.json",
+          "sha256": "a6224dc1cf34e47f91e165d467a718a074eda867756248be3922290fa7c5853c"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1984,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/locked-result.json",
+          "sha256": "8ec3feb3ea42a8c5a688a039ce0e75309a32444a6da5d3b834f6ac1b4f9ebbef"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1692,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/watcher.json",
+          "sha256": "7c2ba139c2da3af8b7e597f28eff9033060c7c4cd09ca97d2b4fcb80f4b73715"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 22325,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/worker/frame-before.json",
+          "sha256": "416e4510b4c56aadd3516f6db4f4936fb30885baaedb1aff43a2945840370f39"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1733,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/worker/test-environment.json",
+          "sha256": "f722b824762e9389a11c1c830cedda9b606ddf3e35de84b1d666ba05f8055648"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1033,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/worker/python-tests/launch.json",
+          "sha256": "590851e6063a475a51f0bbc3902aedaa83f5ec0196d097d4efbc57b444f169a8"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 335063,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/worker/python-tests/output",
+          "sha256": "02d015dc8299df82768dc69bb48615643e7ef4106498b72f08e7188b75c2e8bc"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 259,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/worker/python-tests/audit/audit-start.json",
+          "sha256": "66c107f52c4bf0bfcf3c596bfdc4db9083ed715a6adedc6d889a2b07809e8b08"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 169,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/scope/admission.jsonl",
+          "sha256": "d66bd3cdc274e5c92997c47090b44df6c0f1abc2d99aa8c9b6853f97b2a937ac"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 61,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/scope/worker-result.json",
+          "sha256": "ac12dcd9f7fa4b2455fd9fd85f05feba496e7cd0c212507a6a9b0b5b6b5b3856"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 276,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/scope/terminal-scope.jsonl",
+          "sha256": "bc72eac4980036e269f6b8568e83ee4f8970ce0eba0ef8dcb32cdd947d9ea4d4"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 2884877,
+          "path": "scratch/old-analysis/full-runtime-v5/attempt-0a1afd26ddb64a948efb92d1f4e9119e/scope/cgroup.jsonl",
+          "sha256": "c4c626a04378c43c28e006b624e758cc798e42752a65e7572ecf77d2c6708602"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 129,
+          "path": "records/phase1-blockers/full-runtime-parent-terminal-v5.json",
+          "sha256": "f02b982799cb4794bfe9378af492e91e2639ec49820ced3e15bdd666dcdb15dc"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 340293,
+          "path": "scratch/reviewer2/freeze5-full-runtime-terminal-actual-review-v1.json",
+          "sha256": "78f10101652e7570c51387e66810ca49509c4f66f74f9026085b2d82859b6bca"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 23202,
+          "path": "scratch/old-analysis/full-runtime-v5-post-readback.json",
+          "sha256": "db503d33c12096e0bdca15b04bf3a258f986896a7957569ab577d86e79be9a05"
+        }
+      ],
+      "claim_class": "MEASURED",
+      "command": null,
+      "command_record_id": "F3-full-runtime-v5",
+      "name": "python-tests",
+      "reason": "Full discovery carrier124; incomplete worker/native result/summary, partial FAIL/ERROR/ok rows are not complete aggregate.",
+      "status": "FAILED-OPEN"
+    },
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1513,
+          "path": "scratch/old-analysis/private-host-runtime-v5/launch.json",
+          "sha256": "3a06dad4e71f70faa8116fe7f9de7d4adfaaef347ac712495f79796a79d1cfb4"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 889,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempts.jsonl",
+          "sha256": "47857231ed692cf355ff9da2e1e3762c86a94f6796300efc1e11a9d23d384020"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 230,
+          "path": "scratch/old-analysis/private-host-runtime-v5/result.json",
+          "sha256": "6bc4aa6405e5b90d5b63f06761b8127d48714528a5541d412ac1b004f0bd8492"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 428,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/locked-result.json",
+          "sha256": "9a12f3288723d8ec1c300803a79ec90554d12418bdcba4a8ec6b2556014a13d7"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1711,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/watcher.json",
+          "sha256": "3c0d5fc936f8ef66dee1225410713ffb5dd1a08d918181dfd672cc29e88bbc1c"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 22325,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/frame-before.json",
+          "sha256": "416e4510b4c56aadd3516f6db4f4936fb30885baaedb1aff43a2945840370f39"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1765,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/test-environment.json",
+          "sha256": "2b9514b835238fbb55fad019e519b8d378cc117fcee6e106e1e3e37df8470d86"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1055,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/private-host-tests/launch.json",
+          "sha256": "f6cbdc19cb97454f23bca5c2456028e2eb8d777c0e40329b46bd5808ae7b0cb4"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 128888,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/private-host-tests/output",
+          "sha256": "bafc081b4eafb743cb1555b52c4d4025693c1ea121bbc094272747c8203db49d"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 259,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/private-host-tests/audit/audit-start.json",
+          "sha256": "41a5a12077577a8c38167923341d846b7d9debda4d0b9b03fbafac8fd6213acb"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 169,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/scope/admission.jsonl",
+          "sha256": "888efce639ed43e31c8809eec72a66a6259afb0078f96ecb495e19ca512bf9bc"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 59,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/scope/worker-result.json",
+          "sha256": "ed4c049b07f90dd559aa59f39eade5a269eaf10c0022115972ca42ad4f78f1e5"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 276,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/scope/terminal-scope.jsonl",
+          "sha256": "b7435e968e8cc3855be294d406a8ed0b5c39b1bbefdf4c00fd2702ee53947aca"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 4408,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/scope/cgroup.jsonl",
+          "sha256": "8c6bc38689b007be3bd8fb201ec6c0a89afdbde0d45c696013a879ad9da42668"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 126,
+          "path": "records/phase1-blockers/private-host-runtime-parent-terminal-v5.json",
+          "sha256": "9a24a42bb4e3e2f746a281815b8fdc3418d0c20774a5278f78cbd6ddbdc5dc64"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 16480,
+          "path": "scratch/reviewer2/freeze5-private-host-runtime-actual-review-v1.json",
+          "sha256": "f7e3032820360430b503d471411228fc7c9feab3e637ef2f9f495cced7d9de88"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 4590,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/private-host-tests/result.json",
+          "sha256": "2c0b158dde0393027a95c70de148925da5be40a1b951a89ef403aabbbd44dcab"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 5419,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/worker-result.json",
+          "sha256": "310378a8b45d549eead2f6c8c9221de0044f7dd0e579aca1677134c699d441ca"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 22325,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/frame-after.json",
+          "sha256": "416e4510b4c56aadd3516f6db4f4936fb30885baaedb1aff43a2945840370f39"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 349,
+          "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/private-host-tests/audit/audit-result.json",
+          "sha256": "8e61289b450dc8548f5af9bbdc3d0326a91b978720d04dcb556338a178b08be2"
+        }
+      ],
+      "claim_class": "TESTED",
+      "command": null,
+      "command_record_id": "F3-private-host-runtime-v5",
+      "name": "private-host-tests",
+      "reason": "Separate original D35 command completed native/worker/outer1; Ran70 failures56 errors10 skipped0.",
+      "status": "FAILED-OPEN"
+    },
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1675,
+          "path": "scratch/old-analysis/domain-qualification-v5/launch.json",
+          "sha256": "61fb01efffe057233e963fde81aa1c944aa8566909b745171286ec9d21e6dd0d"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1043,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempts.jsonl",
+          "sha256": "cacf4b766cbe844dbe61a2af3abbbc4f261a3c74ab2081889b85ee1087e429dc"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 230,
+          "path": "scratch/old-analysis/domain-qualification-v5/result.json",
+          "sha256": "dee7ef48706aeb7fbdf50282a4e93b9563717022c1048be950287e8b1b383317"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 88481,
+          "path": "scratch/old-analysis/domain-qualification-v5/domain-final.json",
+          "sha256": "ee03edeefa77696a6ad1c1fbc6bf41ddf71c0e49235aa6c11540e72c52235565"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 428,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/locked-result.json",
+          "sha256": "9a12f3288723d8ec1c300803a79ec90554d12418bdcba4a8ec6b2556014a13d7"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1873,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/watcher.json",
+          "sha256": "2a53de358943546e30b0714f3f20cf25ebe36b86df5181dedf69d47e1e9a4534"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1377,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/environment.json",
+          "sha256": "1094d29d0d71f695805fcfb0fc5bff35f2beb29768d11a32b1a52f930cb0f0f1"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 22325,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/frame-before.json",
+          "sha256": "416e4510b4c56aadd3516f6db4f4936fb30885baaedb1aff43a2945840370f39"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 57304,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/worker-result.json",
+          "sha256": "4956bfbd44b8b5623777fd6e50c7540d1650d21ae8441da5efb3189b8c80647c"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 3568,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate.output",
+          "sha256": "01c02b77f81140a5d1c16009dd2f954b3bc21f4546ef68b3a178bafe1f930db2"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1980,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-payload-input.json",
+          "sha256": "12bb95683f3a9e8f4b7d0a823481802145d4edd9c5811269be7a5463c2623aed"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 7496,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/payload-result.json",
+          "sha256": "69716f9e88dbed96ca0d0ebfed0ae69ba8b45db8373e281595692dfe8cc37cfe"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 20285,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample-source.json",
+          "sha256": "2290304c53d6b91a2629cac8b2b7ff22a9070a7e38e960a8025d8a4dd23ebec9"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 169,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/admission.jsonl",
+          "sha256": "5804ba4f4dfd7a19cfef846edaa57d7e3684809a364cb32c490175a56f5b480f"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 59,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/worker-result.json",
+          "sha256": "3a16324442921ba7482e0971237f28d8928585f5f89566e2da4c6ff5984ac416"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 276,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/terminal-scope.jsonl",
+          "sha256": "eb2284121ff101a75dacf3c1f701e614756f14f7809ced8cdf5d8ecf96c3c151"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1209,
+          "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/cgroup.jsonl",
+          "sha256": "f392371076c131286816fd66546f04b50a73e136426d36f0e8bc589a09187319"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 126,
+          "path": "records/phase1-blockers/domain-qualification-parent-terminal-v5.json",
+          "sha256": "315ad0a9be7d05bd4835ade379b70ac541152735ede6b69ebaac7760352c16d5"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 10465,
+          "path": "scratch/reviewer2/freeze5-domain-terminal-actual-review-v1.json",
+          "sha256": "0a063f1dc2bbdda52e9fd412858e16b03810bc9e1e1686b564bda01ec4fa817b"
+        }
+      ],
+      "claim_class": "TESTED",
+      "command": null,
+      "command_record_id": "F3-domain-qualification-v5",
+      "name": "evaluation-domain",
+      "reason": "Plain original candidate+counterexample complete: candidate property6 failed; pinned defect observed. Audit arm NOT PERFORMED after original fail-stop.",
+      "status": "FAILED-OPEN"
+    },
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1349555,
+          "path": "records/phase1-blockers/final-proof-refusal-v5.json",
+          "sha256": "8053585d1d132daa0c2eb11ea1034d1bdbb9c61af12181c77c182db635ff62f3"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 2578,
+          "path": "scratch/reviewer2/freeze5-proof-refusal-artifact-actual-review-v1.json",
+          "sha256": "b1b7b889c61cb42d00f97b85e37c869b64b7807ee3cd35e10cd74e3a71fac298"
+        }
+      ],
+      "claim_class": "MEASURED",
+      "command": null,
+      "command_record_id": "F2-final-v5-bounded-full-proof",
+      "name": "proof-gate",
+      "reason": "Strict proof timeout and independent original source/pin/imported-boundary findings remain; inner result/counts null.",
+      "status": "FAILED-OPEN"
+    },
+    {
+      "artifacts": [
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 1349555,
+          "path": "records/phase1-blockers/final-proof-refusal-v5.json",
+          "sha256": "8053585d1d132daa0c2eb11ea1034d1bdbb9c61af12181c77c182db635ff62f3"
+        },
+        {
+          "availability_scope": "retained local artifact at candidate assembly",
+          "bytes": 2578,
+          "path": "scratch/reviewer2/freeze5-proof-refusal-artifact-actual-review-v1.json",
+          "sha256": "b1b7b889c61cb42d00f97b85e37c869b64b7807ee3cd35e10cd74e3a71fac298"
+        }
+      ],
+      "claim_class": "MEASURED",
+      "command": null,
+      "command_record_id": null,
+      "name": "proof-manifest",
+      "reason": "No complete summary or successful fresh proof manifest; explicit refusal retained.",
+      "status": "FAILED-OPEN"
+    }
+  ],
+  "successful_manifest_generated": false
+}

@@ -1,0 +1,176 @@
+{
+  "classification": "MEASURED metadata/source joins only; authentic protected/child execution NOT PERFORMED",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": {
+    "argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-S",
+      "-B",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/protected_metadata_preflight_v5.py"
+    ],
+    "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+    "environment": {
+      "isolated_python": true,
+      "no_site": true,
+      "no_credentials_read": true
+    }
+  },
+  "started_utc": "2026-10-14T20:47:08.714762+00:00",
+  "ended_utc": "2026-10-14T20:47:08.731463+00:00",
+  "exit_code": 0,
+  "script_sha256": "92673b303798a9ee250ddbc45c965cd26f033747bf0df03162efe99d9b6fc4ec",
+  "read_only_definition": "scratch/final-gates/protected-child-prerequisite-commands-frozen537-v1.md",
+  "definition_sha256": "4aaa16e4cebd1c8b572c234229a1e7f2bccc6f9ea59ac7cc2c86068b0a66035d",
+  "source_joins": {
+    "protected-root/controls/run_campaign.py": {
+      "frozen_sha256": "a554743078ecf2e75d266cef09c365196891b45e05838d242c68d78c8d3d712a",
+      "root_sha256": "a554743078ecf2e75d266cef09c365196891b45e05838d242c68d78c8d3d712a",
+      "frame_sha256": "a554743078ecf2e75d266cef09c365196891b45e05838d242c68d78c8d3d712a",
+      "same_as_historical_requirements_source": true
+    },
+    "protected-resource/controls/run_campaign.py": {
+      "frozen_sha256": "ee7e42ec5cfff3384ad03af06b1dad7ea86ea0b53b9d553cd7060e196e21fa51",
+      "root_sha256": "ee7e42ec5cfff3384ad03af06b1dad7ea86ea0b53b9d553cd7060e196e21fa51",
+      "frame_sha256": "ee7e42ec5cfff3384ad03af06b1dad7ea86ea0b53b9d553cd7060e196e21fa51",
+      "same_as_historical_requirements_source": true
+    },
+    "protected-startup/controls/run_campaign.py": {
+      "frozen_sha256": "4ca3a15614eff36d1ef9e876c667e4cd9067f9f701426249728e7b679a4b7630",
+      "root_sha256": "4ca3a15614eff36d1ef9e876c667e4cd9067f9f701426249728e7b679a4b7630",
+      "frame_sha256": "4ca3a15614eff36d1ef9e876c667e4cd9067f9f701426249728e7b679a4b7630",
+      "same_as_historical_requirements_source": true
+    },
+    "protected-startup/OPERATOR.md": {
+      "frozen_sha256": "e346b36992c9639864e631fdf97a20e27894923b76beab43aee1a477a5ee1264",
+      "root_sha256": "e346b36992c9639864e631fdf97a20e27894923b76beab43aee1a477a5ee1264",
+      "frame_sha256": "e346b36992c9639864e631fdf97a20e27894923b76beab43aee1a477a5ee1264",
+      "same_as_historical_requirements_source": true
+    },
+    "runtime/worldline/custody_v2_provision_entry.py": {
+      "frozen_sha256": "6f2f6cc7957b785b60e43738c4d7d57b17a3fb52c37a69f2b666140bbde4fca4",
+      "root_sha256": "6f2f6cc7957b785b60e43738c4d7d57b17a3fb52c37a69f2b666140bbde4fca4",
+      "frame_sha256": "6f2f6cc7957b785b60e43738c4d7d57b17a3fb52c37a69f2b666140bbde4fca4",
+      "same_as_historical_requirements_source": true
+    },
+    "runtime/worldline/protected_startup.py": {
+      "frozen_sha256": "483d07c257c060b698e3cd9609f30fc95ed3243cc4727095f6042ea1e266ef7a",
+      "root_sha256": "483d07c257c060b698e3cd9609f30fc95ed3243cc4727095f6042ea1e266ef7a",
+      "frame_sha256": "483d07c257c060b698e3cd9609f30fc95ed3243cc4727095f6042ea1e266ef7a",
+      "same_as_historical_requirements_source": true
+    },
+    "runtime/worldline/resource_child_execution.py": {
+      "frozen_sha256": "76ae777b375b3ad2785399c73d9e14055b2f6cca58a30e2078b2b847ac87176e",
+      "root_sha256": "76ae777b375b3ad2785399c73d9e14055b2f6cca58a30e2078b2b847ac87176e",
+      "frame_sha256": "76ae777b375b3ad2785399c73d9e14055b2f6cca58a30e2078b2b847ac87176e",
+      "same_as_historical_requirements_source": true
+    },
+    "tests/test_resource_child_execution_v1.py": {
+      "frozen_sha256": "074e09a81a3b21d71ff02e67ca68ca8c4755b9c0336aa6bba207fc01911583ea",
+      "root_sha256": "074e09a81a3b21d71ff02e67ca68ca8c4755b9c0336aa6bba207fc01911583ea",
+      "frame_sha256": "074e09a81a3b21d71ff02e67ca68ca8c4755b9c0336aa6bba207fc01911583ea",
+      "same_as_historical_requirements_source": true
+    }
+  },
+  "metadata": {
+    "uid": 1000,
+    "euid": 1000,
+    "gid": 1000,
+    "isolated": 1,
+    "no_site": 1,
+    "dont_write_bytecode": true,
+    "approved_lease_module_present_in_this_fresh_interpreter": false,
+    "codex_executable": "/home/sicarii/.local/share/mise/installs/codex/latest/bin/codex",
+    "credential_file_metadata_only": {
+      "path": "/home/sicarii/.codex/auth.json",
+      "exists": true,
+      "uid": 1000,
+      "gid": 1000,
+      "mode": "0o600",
+      "symlink": false,
+      "regular": true,
+      "readable": true
+    },
+    "user_bus_socket_metadata_only": {
+      "path": "/run/user/1000/bus",
+      "exists": true,
+      "uid": 1000,
+      "gid": 1000,
+      "mode": "0o666",
+      "symlink": false,
+      "regular": false,
+      "readable": true
+    },
+    "worktree_components": [
+      {
+        "path": "/",
+        "exists": true,
+        "uid": 0,
+        "gid": 0,
+        "mode": "0o555",
+        "symlink": false,
+        "regular": false,
+        "readable": true
+      },
+      {
+        "path": "/home",
+        "exists": true,
+        "uid": 0,
+        "gid": 0,
+        "mode": "0o755",
+        "symlink": false,
+        "regular": false,
+        "readable": true
+      },
+      {
+        "path": "/home/sicarii",
+        "exists": true,
+        "uid": 1000,
+        "gid": 1000,
+        "mode": "0o700",
+        "symlink": false,
+        "regular": false,
+        "readable": true
+      },
+      {
+        "path": "/home/sicarii/Work",
+        "exists": true,
+        "uid": 1000,
+        "gid": 1000,
+        "mode": "0o755",
+        "symlink": false,
+        "regular": false,
+        "readable": true
+      },
+      {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "exists": true,
+        "uid": 1000,
+        "gid": 1000,
+        "mode": "0o755",
+        "symlink": false,
+        "regular": false,
+        "readable": true
+      }
+    ],
+    "non_claims": [
+      "Credential readability does not prove authentication or provider/model identity",
+      "No approved lease in this interpreter does not establish that no installation exists elsewhere",
+      "No protected source, issuer key, descriptor, Cosmogony path or authority endpoint inspected"
+    ]
+  },
+  "artifacts": {
+    "stdout": "4ba51d961338161e7cc4745c1a41c16e717b2cb309f9e3f9016c5e2fb884bc10",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "unmet_execution_requirements": [
+    "Current ordinary interpreter/worktree is not the original genuine root-owned approved-source installation with selected descriptor/owner Genesis/early lease.",
+    "Original authentic selected interpreter/helper/envelope/entry and requester/issuer/custody journals were not supplied for this frozen source.",
+    "Worktree-only isolation forbids provisioning external /srv/Cosmogony principals; no surrogate identity is allowed."
+  ],
+  "non_claims": [
+    "No universal absence of another installation or dynamic child dispatch is established.",
+    "No credential content or Cosmogony path/source/authority endpoint was read or changed.",
+    "No protected/child campaign was invoked; metadata is not a passing refusal or authentic execution."
+  ]
+}

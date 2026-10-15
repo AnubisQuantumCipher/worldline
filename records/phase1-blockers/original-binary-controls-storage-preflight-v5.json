@@ -1,0 +1,56 @@
+{
+  "utc": "2026-10-14T22:48:25.242085+00:00",
+  "classification": "MEASURED D32 original binary payload preflight",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/phase1_heavy.py",
+    "--out",
+    "scratch/acquisition/original-binary-controls-scope-v5",
+    "--timeout",
+    "120m",
+    "--swap-max",
+    "0",
+    "--",
+    "python3",
+    "-B",
+    "scratch/acquisition/original_binary_controls_v5.py",
+    "--run",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--aux-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/original-aux-builds-final-v6/result.json",
+    "--full-build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "--artifact-manifest",
+    "scratch/acquisition/original-binary-artifacts-v5/artifacts.json",
+    "--out",
+    "scratch/acquisition/original-binary-controls-v5"
+  ],
+  "disk": {
+    "total": 686860591104,
+    "used": 581794832384,
+    "free": 98069659648
+  },
+  "owned_outputs": [
+    "scratch/acquisition/original-binary-controls-scope-v5",
+    "scratch/acquisition/original-binary-controls-v5"
+  ],
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "lib",
+    "obj",
+    "scratch/acquisition/original-binary-artifacts-v5",
+    "scratch/acquisition/original-binary-sandbox-v5",
+    "scratch/old-analysis/full-proof-result-v5"
+  ],
+  "prerequisite_review": "scratch/reviewer2/freeze5-binary-sandbox-and-artifacts-actual-review-v1.json",
+  "memory_admission": "Existing shared flock/post-lock admission/8G/swap0 unchanged.",
+  "limits": "Original ordinary no-inner-deadline behavior and original180s additions;120m outer unchanged."
+}

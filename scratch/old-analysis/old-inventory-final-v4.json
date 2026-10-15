@@ -1,0 +1,212 @@
+{
+  "classification": "MEASURED",
+  "claim": "reviewed scoped contract, implicit temporary and imported copy/finalization inventory joined to final source; no proof or retirement claim",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "current_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": [
+    "bash",
+    "-c",
+    "source /home/sicarii/opt/gnat/env.sh; python3 -B scratch/old-analysis/final_old_inventory_v4.py"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "started_utc": "2026-10-14T20:38:01.760304+00:00",
+  "ended_utc": "2026-10-14T20:38:01.850721+00:00",
+  "references": [
+    {
+      "path": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "sha256": "9f93ae8f7c82c644f97e0c7c2e418352ce1869af802b1dcce5da261a5d9ec858"
+    },
+    {
+      "path": "records/phase1-blockers/old-contract-inventory-v3.json",
+      "sha256": "44b227a369afe79f79a3243e4fc61bb79443db4fd0e7ba8cefa4c9e5bab9672c"
+    },
+    {
+      "path": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "sha256": "4d2f832f6c7dd047fb3bed551f6d5e0881e91fa5c6539ceaa336b07412c3e424"
+    }
+  ],
+  "native": {
+    "core/native_diagnostic_trace.adb": {
+      "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6",
+      "matches_reviewed": true,
+      "matches_frozen": true
+    },
+    "core/native_diagnostic_trace.ads": {
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "matches_frozen": true
+    }
+  },
+  "imported": [
+    {
+      "role": "installed",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true
+    },
+    {
+      "role": "coordinator",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true
+    },
+    {
+      "role": "experiment",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true
+    },
+    {
+      "role": "installed",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-infinite_sequences.adb",
+      "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145",
+      "matches_reviewed": true
+    },
+    {
+      "role": "coordinator",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-infinite_sequences.adb",
+      "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145",
+      "matches_reviewed": true
+    },
+    {
+      "role": "experiment",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-infinite_sequences.adb",
+      "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145",
+      "matches_reviewed": true
+    },
+    {
+      "role": "installed",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-base.ads",
+      "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505",
+      "matches_reviewed": true
+    },
+    {
+      "role": "coordinator",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-base.ads",
+      "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505",
+      "matches_reviewed": true
+    },
+    {
+      "role": "experiment",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-base.ads",
+      "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505",
+      "matches_reviewed": true
+    },
+    {
+      "role": "installed",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-base.adb",
+      "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71",
+      "matches_reviewed": true
+    },
+    {
+      "role": "coordinator",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-base.adb",
+      "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71",
+      "matches_reviewed": true
+    },
+    {
+      "role": "experiment",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-base.adb",
+      "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71",
+      "matches_reviewed": true
+    },
+    {
+      "role": "installed",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-holder.ads",
+      "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05",
+      "matches_reviewed": true
+    },
+    {
+      "role": "coordinator",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-holder.ads",
+      "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05",
+      "matches_reviewed": true
+    },
+    {
+      "role": "experiment",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-holder.ads",
+      "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05",
+      "matches_reviewed": true
+    },
+    {
+      "role": "installed",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-holder.adb",
+      "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922",
+      "matches_reviewed": true
+    },
+    {
+      "role": "coordinator",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-holder.adb",
+      "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922",
+      "matches_reviewed": true
+    },
+    {
+      "role": "experiment",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-holder.adb",
+      "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922",
+      "matches_reviewed": true
+    },
+    {
+      "role": "installed",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-types.ads",
+      "sha256": "1448a63333a039e34d44d793d85331952926ae08360ec676e7179aafc491a051",
+      "matches_reviewed": true
+    },
+    {
+      "role": "coordinator",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/private-sparklib/include/spark/full/spark-containers-types.ads",
+      "sha256": "1448a63333a039e34d44d793d85331952926ae08360ec676e7179aafc491a051",
+      "matches_reviewed": true
+    },
+    {
+      "role": "experiment",
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-types.ads",
+      "sha256": "1448a63333a039e34d44d793d85331952926ae08360ec676e7179aafc491a051",
+      "matches_reviewed": true
+    }
+  ],
+  "tool_versions": [
+    {
+      "argv": [
+        "gnatprove",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "FSF 16.1.0\nWhy3 for gnatprove version 1.8.2+git\n/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo: Alt-Ergo version 2.6.1\n/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/cvc5: This is cvc5 version 1.3.2 [git 86cecd8 on branch HEAD]\n/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/z3: Z3 version 4.15.4 - 64 bit\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "gnatls",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "GNATLS 16.1.0\nCopyright (C) 1992-2025, Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "gprbuild",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "GPRBUILD 26.0.0 (2026-04-15) (aarch64-linux-gnu)\nCopyright (C) 2004-2026, AdaCore\nThis is free software; see the source for copying conditions.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    }
+  ],
+  "donors": {
+    "argv": [
+      "git",
+      "for-each-ref",
+      "--format=%(refname:short) %(objectname)",
+      "refs/remotes/origin/archive/phase1-donors-20261012/"
+    ],
+    "exit_code": 0,
+    "stdout": "origin/archive/phase1-donors-20261012/flow-c f478babefa0c280e2193c9b7c4fdc1eb38dd00f8\norigin/archive/phase1-donors-20261012/flow-d a948980b270adedcc6354cd58539a0fa0647e3dc\norigin/archive/phase1-donors-20261012/replay-derive a1e9391aa5c81bc7bd04736fe432deea13cafad8\norigin/archive/phase1-donors-20261012/roster-custody cb8287a85e6ac0d7d1c0b3ab5ff225b40cf98090\n",
+    "stderr": "",
+    "matches_reviewed_nonempty": true
+  },
+  "original_guarantee": "FAILED-OPEN",
+  "narrowed_claims": [],
+  "inventory_identity_complete": true
+}

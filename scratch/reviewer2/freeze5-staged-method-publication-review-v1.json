@@ -1,0 +1,325 @@
+{
+  "utc": "2026-10-15T01:33:31.721478+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "MEASURED exact Git index/finite text scan; not acceptance or exhaustive legal/security clearance",
+  "verdict": "CONCUR exact current staged method package after unstaging vendor-excerpt scan; prior immutable staged-audit is historical prior generation and current index equals it minus namedscan.",
+  "checks": {
+    "index_paths_equal_prior_audit_minus_vendor_scan": true,
+    "scan_unstaged_local_retained": true,
+    "selection_is_prior_permitted": true,
+    "four_exclusions_absent": true,
+    "tested_source": true,
+    "all_index_byte_hashes": true,
+    "all_recorded_oversize_false": true,
+    "finite_secret_scan_nohits": true
+  },
+  "index_files": [
+    {
+      "path": "docs/phase1-methods.md",
+      "sha256": "5abbe0dc2115c559baa38e8861845f1076949b07b4098cd592140d2fb8394463",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "records/phase1-blockers/final-method-publication-v1/selection.json",
+      "sha256": "675ce496b4510b840a385844507464e2352829e11e039b38275ac7c84c4639c3",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition/actor_world_harness_v3.py",
+      "sha256": "3506f51a7bd6cc55354ad7c5eaa521dac3a567a2f6f145b46c8477afb23e0f1d",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition/historical-v1/run_checks.py",
+      "sha256": "3b49400e9490916ec4437b19f93856c1c16428a983aed24d9cce09113a5b829a",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py",
+      "sha256": "a2e6fd4648d5eed25b81770946335d49df5eaa8ce9a69f7f596fa50e20e10c62",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition/original-payload-recipe-v2.json",
+      "sha256": "d8ff3f834a4f3f491bd514b249c955aad63010c86069840ace2ed4faf9a3a005",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition/original_binary_controls_v5.py",
+      "sha256": "61621b564757b7bf4acacb62adfdda3f361081479d63149f201ac1ba73a7a1cf",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition/prepare_original_payload_recipe_v2.py",
+      "sha256": "713e0cab80122e7328b8df2c5814326f9b9981858ea4aa62d30b869c867af607",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+      "sha256": "d491dbb77ccfa48e47e1ccd96e755ff2f9eb39e083b8fca5012109ff494b7850",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/acquisition2/original_additional_driver_v2.py",
+      "sha256": "bbbcd8e88e656c38fc2ea40ae659e983edd69635f3c1e4f076e985e1a0fc6394",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/coordinator/check_owned_quiescence.py",
+      "sha256": "1eb1ed23282e2a39ed24e92d9547ceceef7768e7f6c4027d714892d33de4ab9d",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/coordinator/final_build_v5.py",
+      "sha256": "fd9eea7ef48627be387ef0ded34662a330cbe4af7edf1a43ea6927f34ed326aa",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/coordinator/freeze_v5.py",
+      "sha256": "a212808a660a3b3eb24a859d0484c0f1f9c602744998e2c6b08c7172c3bdcf54",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/coordinator/original_aux_builds_v6.py",
+      "sha256": "1e9af612a6ace5802b19b744b9735e09991c959b04e200b2f1f3da57808e6f67",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/final-gates/final-method-source-publication-v1/inventory.json",
+      "sha256": "35173c8fc299bc6a72eea0a2f9c36d24312df83a24cde2e30bdc8028f817cbac",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/final-gates/freeze-v5-gate-launch-manifest-v1.json",
+      "sha256": "e50d4c350f1e43b5874db8a82922c30e1af57e555bdb9f6abca1a4ebf7ac61d9",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/final-gates/freeze-v5-gate-launch-manifest-v1.md",
+      "sha256": "d379010256d20ad334d634aefd03ed8cedb6fcfa7958cd7bee94fe1d0b38ed1f",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/authority_admission_driver_v4.py",
+      "sha256": "6a9205b657a1809ec0a8264f384c308979afcd064be5d98db1c3000b8fc6c0b3",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/authority_ffi_controls_v2.py",
+      "sha256": "329d2cfe6d5bc5cdf36ae7d8f375a541e160f5abf2e1c432c14daf230d1b2154",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/authority_ffi_observer_v1.py",
+      "sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/evaluation_domain_entry_v1.py",
+      "sha256": "fa124d361ad2bbdcf931fa5c67485438b61cdefc4cecd83aa28612389ceafdad",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/evaluation_domain_supervisor_v2.py",
+      "sha256": "544c835d32196a385830ba29c81b57f48c53585a7ae34a40a46a4ce51bce473a",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/evidence/private-sparklib-experiment-source-v1.json",
+      "sha256": "8c1f7cbefcb199a286ff0b7fe748ed12b2e934df338cb185c59d899d70903da1",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/final_old_inventory_v4.py",
+      "sha256": "40c1cc268f24b33b82c6fb0108453f4e26560809b54d4e1c6d561a86c5ce9a4b",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/final_proof_gate_v2.py",
+      "sha256": "222392f80c035b743a6fa3e2c1f393f039625eb34a3b7763436df530e439d203",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/frozen_source_v2.py",
+      "sha256": "76273e84d9ab37b6aaaa1d858709b32af90193f435045e90d6a0a80487b64f2e",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/full_proof_driver_v2.py",
+      "sha256": "d25354f8e95a706007dec1acc42ce8cee2028e1149cfa2ab806eb48dda5217df",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/full_runtime_supervisor.py",
+      "sha256": "afca908339afcb9fce89d7b8a18f506400fb2a2f0b0eac303d50b1f3b32049f1",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/full_runtime_supervisor_v3.py",
+      "sha256": "3105162b3f9eac3a61460e9a1cb23966a84296fa9e4af9ddc69c1155e97b39e1",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/runtime_audit_entry.py",
+      "sha256": "8b9085a2ea3295fb16a68296cfa9c1cad20dbb1c268bb6f60616cfac27c42d3d",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/runtime_watcher_reference.py",
+      "sha256": "17a166b36993f030e66306631b234c452886923799b1b972e45652898f7f735f",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/old-analysis/sparklib_build_experiment.py",
+      "sha256": "5cd0b0975d2d568a34139880cbe9acfe4313c324b1c45fe52b14c6edc98b5fd3",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/reviewer/check_final_gate_report.py",
+      "sha256": "cff76b1bfcae236f87ab24d51c313b3b0afaa8e686fe68febfcfe25ca7e32db0",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/reviewer/f1-original-full-planned-build-roster.json",
+      "sha256": "f69acc57612a6ccfe17fb99b172b69db08982415745bf93a6573ec1fa5b64630",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/reviewer/f3-original-full-action-roster.json",
+      "sha256": "df3a06cc674b9b6556f03722e56167c0d38da9ae80cd869abde56001ef9e7dbe",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    },
+    {
+      "path": "scratch/reviewer2/final-method-source-embedded-vendor-boundary-review-v1.json",
+      "sha256": "0c37e332c0dfd538137b7b3829c35c319da63cf48da059f05b9e1e5112c126e2",
+      "matches_audit": true,
+      "matches_worktree": true,
+      "binary_nul": false,
+      "audit_oversize": false
+    }
+  ],
+  "finite_secret_findings": [],
+  "prior_audit_sha256": "16bd6a3e8ee24a300dfca35e4a5b360fbc63671d38d153496e286c744ac0a2a5",
+  "scan_exclusion": {
+    "path": "scratch/reviewer2/vendor-project-embedded-text-scan-v1.json",
+    "sha256": "a7e43a9e154005560495903f1246d6bcb6d7ba70b5f420b7286b80f8f117e82e",
+    "reason": "Exact vendor excerpts in scan match arrays; privately retained, no publicbody authorized."
+  },
+  "boundary_findings": [
+    "All selected methodsource paths exactly prior permittedsubset; four vendorcontainers remain excluded. Supplemental docs/selection/inventory/boundaryreceipt contain reviewed metadata/prose/hashrefs only.",
+    "docs/phase1-methods.md retains ef7 testedsource vs laterretentioncommit, D7/privateprerequisites/selfcontainedgap and no successclaim.",
+    "D39 workingdecision exactownedbranch nonforcepublication/review/reversal scope; parentsolecommitter stages eventualoutcomedecisions separately. No other staged changes found.",
+    "Fresh-dependency.json vendorprojectdiff is not staged here and remains excluded from outcome publication per parent; inspect lateroutcomeindex separately."
+  ],
+  "limits": [
+    "No candidateexecution/tests/launches/commits/stagechanges/publication or credentialcontents read byreviewer.",
+    "Finitepatternscan and recordedsizeflags not exhaustive secrecy/legalclearance. No redistributiongrant/substantiality assumption.",
+    "Publication only this exactpackage on alreadyauthorizedownbranch; no force/merge/otherref, no productacceptance/independentacceptance.",
+    "Any addedstagedpaths need their own boundaryreview; launchpinned sourcebytes untouched, no documentaryfreeze/retest."
+  ]
+}

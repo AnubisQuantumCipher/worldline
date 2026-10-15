@@ -1,0 +1,34 @@
+{
+  "claim": "UNVERIFIED until finite observer qualification and exact source/library joins are reviewed",
+  "completed_calls": [],
+  "event_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/capture-refusal/dispatch.jsonl",
+  "event_sha256": "3d625e79894c881a05ff708f8514881ece72664c5979e3a95b4653616b2bb2c3",
+  "independent_acceptance": "NOT PERFORMED",
+  "library_sha256_after": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+  "native_instruction_entry": "UNVERIFIED",
+  "observation_errors": [
+    {
+      "exception_type": "CaptureRefusal",
+      "message": "Controlled observation refusal; original call must still execute",
+      "operation": "capture-before"
+    },
+    {
+      "exception_type": "CaptureRefusal",
+      "message": "Controlled observation refusal; original call must still execute",
+      "operation": "capture-after"
+    }
+  ],
+  "observer_sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+  "restoration_errors": [],
+  "restored_original_functions": true,
+  "runtime_bindings": {
+    "worldline.resource_ledger": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_ledger.py",
+      "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+    },
+    "worldline.resource_policy": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_policy.py",
+      "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "end_monotonic_ns": 39850143634264,
+  "ledger_after": {
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-final-report-after.json",
+    "present": true,
+    "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+  },
+  "ledger_before": {
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-final-report-before.json",
+    "present": true,
+    "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+  },
+  "name": "final-report",
+  "returned": {
+    "enforced": true,
+    "enforcedPolicy": {
+      "cpuQuotaPercent": null,
+      "cpuWeight": null,
+      "diskGrowthMaxBytes": null,
+      "enforcement": "cgroup2",
+      "maxConcurrentWorkloads": null,
+      "memoryHighBytes": null,
+      "memoryMaxBytes": null,
+      "memorySwapMaxBytes": null,
+      "tasksMax": null,
+      "timeoutSeconds": null
+    },
+    "floors": {
+      "maxMemoryPressureHundredths": 5000,
+      "minFreeDiskBytes": 2147483648,
+      "minFreeInodes": 10000,
+      "minFreeMemoryBytes": 2147483648
+    },
+    "headroomBytes": 23685246976,
+    "ledgerError": null,
+    "outstandingReservations": [],
+    "resourceDecisionError": null,
+    "state": {
+      "disk": {
+        "share": {
+          "freeBytes": 97517805568,
+          "freeInodes": 33086750,
+          "totalBytes": 686860591104
+        },
+        "state": {
+          "freeBytes": 97517805568,
+          "freeInodes": 33086750,
+          "totalBytes": 686860591104
+        }
+      },
+      "memAvailableBytes": 25832730624,
+      "memTotalBytes": 33586016256,
+      "pressureHundredths": {
+        "cpuAvg10": 24,
+        "ioAvg10": 22,
+        "memoryAvg10": 0
+      },
+      "reason": null,
+      "state": "OBSERVED",
+      "swapFreeBytes": 32003571712
+    },
+    "unmetered": true,
+    "withheldBytes": 0,
+    "wouldAdmitNow": true
+  },
+  "start_monotonic_ns": 39850123800433
+}

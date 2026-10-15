@@ -1,0 +1,53 @@
+{
+  "id": "94332b110af54357bd6b09de162d3004",
+  "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/acquisition-full-repaired-v3",
+  "snapshot": "be484c155befdc6a6732336b69fdadef9032132dce70b4f946021dd32c0543bc",
+  "tag": "cold-94332b110af54357bd6b09de162d3004",
+  "time": "2026-10-14T15:38:25.499526+00:00",
+  "state": "offloaded",
+  "bytes": 546914879,
+  "verification": "full candidate restore, SHA256 and metadata comparison",
+  "content_manifest_sha256": "08cf4044cc1a7165fc7926015ae0332d0b4ba36d84921a8e9ed15ca99f4c55ea",
+  "single_device_archive_when_offloaded": true,
+  "verification_scratch": {
+    "medium": "private-tmpfs",
+    "path": "/dev/shm/project-vault-1000-verification/94332b110af54357bd6b09de162d3004/tree",
+    "tmpfs_device": 29,
+    "private_directory_identity": [
+      29,
+      14210
+    ],
+    "owner_uid": 1000,
+    "directory_mode": "0700",
+    "linux_reserve_bytes": 10000000000,
+    "ram_reserve_bytes": 10000000000,
+    "archive_reserve_bytes": 50000000000,
+    "admission": {
+      "linux_free_bytes": 81857286144,
+      "tmpfs_free_bytes": 16792854528,
+      "memory_available_bytes": 25781583872,
+      "archive_free_bytes": 1448270618624
+    },
+    "final": {
+      "linux_free_bytes": 81856688128,
+      "tmpfs_free_bytes": 16792854528,
+      "memory_available_bytes": 26299527168,
+      "archive_free_bytes": 1448191094784
+    },
+    "boundary": "Resource samples and ongoing checks are not reservations against unrelated workloads."
+  },
+  "provenance": {
+    "state": "unrecorded",
+    "boundary": "No original rebuild recipe or toolchain claim has been established."
+  },
+  "local_free_before": 81857294336,
+  "quarantine": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/.acquisition-full-repaired-v3.vault-retiring-94332b110af54357bd6b09de162d3004",
+  "local_free_after": 82403880960,
+  "reclaim_verification": {
+    "original_path_absent": true,
+    "quarantine_absent": true,
+    "verification_scratch_absent": true,
+    "free_space_boundary": "Filesystem free space sampled before and after; concurrent workloads can also change it.",
+    "filesystem_free_space_increased": true
+  }
+}

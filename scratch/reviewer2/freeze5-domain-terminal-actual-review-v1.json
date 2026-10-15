@@ -1,0 +1,258 @@
+{
+  "utc": "2026-10-15T01:00:38.001713+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "TESTED original plain two-arm domain gate; MEASURED pinned inputs/source/cleanup; no independent acceptance",
+  "tested_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "FAILED-OPEN original domain gate; candidate property6 fails while pinned defect control is observed. Audit arm NOT PERFORMED by required fail-stop; no complete paired qualification or D31 dual-use gate credit.",
+  "hash_checks": {
+    "output_roster_hashes": true,
+    "frozen_root_frame": true,
+    "artifact_roster": true,
+    "library": true,
+    "counter_archive": true,
+    "counter_source_files": true,
+    "original_contract_sources": true,
+    "runtime_qualification_inputs": true,
+    "supervisor": true,
+    "runtime_carrier": true,
+    "audit": true,
+    "entry": true,
+    "candidate verdict": true,
+    "candidate output": true,
+    "counterexample verdict": true,
+    "counterexample output": true,
+    "live_caps": true
+  },
+  "domain_final_sha256": "ee03edeefa77696a6ad1c1fbc6bf41ddf71c0e49235aa6c11540e72c52235565",
+  "plain_step": {
+    "argv": [
+      "bwrap",
+      "--die-with-parent",
+      "--ro-bind",
+      "/",
+      "/",
+      "--dev",
+      "/dev",
+      "--proc",
+      "/proc",
+      "--bind",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "--chdir",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/evaluation_domain_supervisor_v2.py",
+      "--phase",
+      "payload",
+      "--out",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate",
+      "--expected-commit",
+      "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "--payload-record",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-payload-input.json"
+    ],
+    "exit_code": 1,
+    "name": "plain",
+    "ok": false,
+    "original_assurance_defect_marker": true,
+    "timeout": 1800
+  },
+  "arms": [
+    {
+      "name": "candidate",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+        "--engine",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+        "--json",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408/verdict.json"
+      ],
+      "timeout": 900,
+      "exit_code": 1,
+      "verdict": {
+        "allHold": false,
+        "observedVulnerability": {
+          "fabricatedOutputAccepted": false,
+          "harnessOwnershipMarkers": [],
+          "trustedExaminerRan": true
+        },
+        "properties": [
+          {
+            "detail": "fabricated=False owned=[] ranAtAll=True status=PASS reason='None'",
+            "holds": true,
+            "name": "1 trusted runner executed"
+          },
+          {
+            "detail": "nonce=True forged=False",
+            "holds": true,
+            "name": "2 trusted verifier executed"
+          },
+          {
+            "detail": "helper line=['HELPER=TRUSTED-HELPER-8b1d4e60']",
+            "holds": true,
+            "name": "3 trusted declared dependencies used"
+          },
+          {
+            "detail": "line=['CANDIDATE_READABLE=True']",
+            "holds": true,
+            "name": "4 candidate accessible as the examined thing"
+          },
+          {
+            "detail": "markers=[] fabricated=False ranAtAll=True",
+            "holds": true,
+            "name": "5 candidate modules did not fabricate the record"
+          },
+          {
+            "detail": "integrity=VERIFIED execution=EVALUATOR_INCOMPLETE outcome=NONE admissible=False (legacy binding=BOUND)",
+            "holds": false,
+            "name": "6 the record separates integrity, execution and outcome"
+          }
+        ],
+        "ranAtAll": true,
+        "recordedStdout": "TRUSTED-EXAMINER-3f9a2c7e\nHELPER=TRUSTED-HELPER-8b1d4e60\nCANDIDATE_READABLE=True\n",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "name": "counterexample",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+        "--engine",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+        "--json",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-1vy_hkeb/verdict.json"
+      ],
+      "timeout": 900,
+      "exit_code": 1,
+      "verdict": {
+        "allHold": false,
+        "observedVulnerability": {
+          "fabricatedOutputAccepted": true,
+          "harnessOwnershipMarkers": [
+            "HARNESS-OWNED-base64",
+            "HARNESS-OWNED-subprocess"
+          ],
+          "trustedExaminerRan": false
+        },
+        "properties": [
+          {
+            "detail": "fabricated=True owned=['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'] ranAtAll=True status=PASS reason='None'",
+            "holds": false,
+            "name": "1 trusted runner executed"
+          },
+          {
+            "detail": "nonce=False forged=False",
+            "holds": false,
+            "name": "2 trusted verifier executed"
+          },
+          {
+            "detail": "helper line=[]",
+            "holds": false,
+            "name": "3 trusted declared dependencies used"
+          },
+          {
+            "detail": "line=[]",
+            "holds": false,
+            "name": "4 candidate accessible as the examined thing"
+          },
+          {
+            "detail": "markers=['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'] fabricated=True ranAtAll=True",
+            "holds": false,
+            "name": "5 candidate modules did not fabricate the record"
+          },
+          {
+            "detail": "integrity=n/a execution=n/a outcome=n/a admissible=None (legacy binding=BOUND)",
+            "holds": false,
+            "name": "6 the record separates integrity, execution and outcome"
+          }
+        ],
+        "ranAtAll": true,
+        "recordedStdout": "FABRICATED-PASS\n",
+        "schemaVersion": 1
+      }
+    }
+  ],
+  "counterexample_identity": {
+    "archive_sha256": "b29733742153c52ef16cf9e089a7609090b5274978ce722d8f40933aced8c11a",
+    "commit": "1bd5c0890e1c2686b3e33389831c76fe1f5cc25b",
+    "materialization": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample",
+    "no_runtime_source_modification": true,
+    "runtime_tree": "1c628de542bfc843f5f5e1aaa0580a0c4b12c40e",
+    "tag": "counterexample/verifier-bytes-without-evaluation-domain"
+  },
+  "failure": {
+    "message": "Original complete two-arm gate failed; preserve actual result without running another qualification arm",
+    "type": "RuntimeError"
+  },
+  "locked_result": {
+    "all_owned_units_quiescent": true,
+    "all_possible_siblings_known": "UNVERIFIED",
+    "audit_failures": [],
+    "exit_code": 1,
+    "failure": null,
+    "independent_acceptance": "NOT PERFORMED",
+    "owned_units": [],
+    "typed_manager_qualification": null,
+    "unattributed_cleanup": "UNVERIFIED; read only observations, never stopped",
+    "unattributed_new_units": [],
+    "unresolved_potential_siblings": [],
+    "worker_exit_code": 1
+  },
+  "scope": {
+    "admission": [
+      {
+        "MemAvailable": "MemAvailable:   25201008 kB",
+        "admitted": true,
+        "threshold": "14GiB (conservative interpretation of 14GB)",
+        "utc": "2026-10-15T00:59:06.165125+00:00"
+      }
+    ],
+    "admitted": [
+      {
+        "admitted": true
+      }
+    ],
+    "worker_result": {
+      "exit_code": 1,
+      "utc": "2026-10-15T00:59:07.216084+00:00"
+    },
+    "terminal": [
+      {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T00:59:08.190933+00:00"
+      }
+    ],
+    "last_live_cgroup": {
+      "event": "after",
+      "exit_code": 1,
+      "memory.current": "19173376",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "8589934592",
+      "memory.peak": "81424384",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-28ceb73a863943f6972c958be5340452.scope",
+      "utc": "2026-10-15T00:59:07.215720+00:00"
+    }
+  },
+  "limits": [
+    "Candidate retained property6 detail integrityVERIFIED/executionEVALUATOR_INCOMPLETE/outcomeNONE/admissiblefalse is actual failing expected-case result, not a pass because otherproperties hold.",
+    "Pinned counterexample actual fabricated-output/harnessownership/trustedexaminer markers establish finite original defect control, not universal judgement independence or daemon record unforgeability asserted by script explanatory prose.",
+    "Original plain command includes both candidate and counterexample; audit qualification deliberately stops after originalgate failure. No second qualification arm or independent modegate run warranted.",
+    "Scope actual admitted/worker1/populatedfalse/live8G0/event0/peak81424384. Knownownedquiescenttrue with ownedunits empty; allpossiblesiblingsknownUNVERIFIED and no global census claim.",
+    "D7 historicalcollectorequivalenceUNVERIFIED/nativeentryUNVERIFIED/independentNP retained.",
+    "Independent FFI qualification may proceed only per existing plan/cleanup prerequisites; domain success is not its prerequisite. No later live job files read."
+  ]
+}

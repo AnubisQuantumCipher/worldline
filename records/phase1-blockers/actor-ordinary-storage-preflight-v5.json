@@ -1,0 +1,46 @@
+{
+  "classification": "MEASURED D32 original ordinary actor preflight",
+  "command": [
+    "python3",
+    "-B",
+    "scratch/acquisition/actor_world_harness_v3.py",
+    "--out",
+    "scratch/acquisition/actor-ordinary-final-v5",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--library",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+    "--timeout",
+    "600",
+    "--scope-timeout",
+    "20m",
+    "--run"
+  ],
+  "disk": {
+    "free": 97517195264,
+    "total": 686860591104,
+    "used": 582347296768
+  },
+  "limits": "Original actor600s/outer20m, D34 pinned read-only companion projection only. Existing Codex adapter requests -m gpt-6-luna -c model_reasoning_effort=high only inside WORLDLINE world. Original prompt/mission/fixture/target-state assertion unchanged; provider identity/nativecustody/authenticchild not inferred from argv or exit0.",
+  "memory_admission": "Direct existing actor harness owns shared flock/post-lock admission; worker8G/swap0. Original actor8G plus observed-page-sized positive swap unchanged; record actual live service values, no aggregate equivalence claim.",
+  "owned_outputs": [
+    "scratch/acquisition/actor-ordinary-final-v5"
+  ],
+  "prerequisite_review": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer2/final-freeze5-actual-source-identity-review-v1.json",
+  "prerequisite_review_sha256": "591d4c701e737dfe31dee99ab9b13bfdf780b00ac3eab3d83417654b4c057f3c",
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "lib",
+    "obj",
+    "scratch/old-analysis/full-runtime-v5",
+    "scratch/old-analysis/private-host-runtime-v5",
+    "scratch/old-analysis/domain-qualification-v5",
+    "scratch/old-analysis/authority-ffi-qualification-v5",
+    "scratch/old-analysis/authority-admission-v5",
+    "scratch/old-analysis/full-proof-result-v5",
+    "scratch/old-analysis/private-sparklib-proof"
+  ],
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "utc": "2026-10-15T01:02:50.268682+00:00"
+}

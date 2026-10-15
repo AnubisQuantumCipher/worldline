@@ -18,3 +18,7 @@ project-vault find worldline-revalidation
 Retrieve exact historical bytes when needed; never rebuild them as a substitute for original evidence. The iPad must be online with the configured vault identity. After offload it is the single physical archive copy. This campaign's snapshot joins do not add a whole-repository data scrub or independent acceptance.
 
 Active obj/bin/lib, current source/frame/build inputs and private proof templates are pinned. D26–D28 record authorization, archive comparisons and native cache bootstrap; D30 registers this campaign's owned scheduling window; D32 requires preflight/periodic capacity observations and reviewed completed-output offload between heavy runs. Release only the owned coordination record when foreground work yields; leave all other windows and pins intact.
+
+## Final-v5 selected evidence backup
+
+TESTED: six exact settled report/proof/runtime directories completed backup-only `project-vault put`, including full restored-content/metadata and unchanged-source comparison. All original directories remain local. Exact item IDs, snapshots, content-manifest hashes, commands and raw output references are retained in `records/phase1-blockers/storage-20261015-final-v1/verified-backup-readback.json`. This batch does not cover all other final actor/control payloads, proof objects, source/tool pins or the whole project, and it retires no local data. The earlier forty verified offloads remain a separate campaign. No full-repository recovery or fresh scrub is inferred.

@@ -1,0 +1,42 @@
+{
+  "utc": "2026-10-14T22:53:57.230743+00:00",
+  "classification": "MEASURED D32 original runtime paired supervision qualification preflight",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": [
+    "python3",
+    "-B",
+    "scratch/old-analysis/full_runtime_supervisor_v3.py",
+    "--out",
+    "scratch/old-analysis/runtime-qualification-v5",
+    "--suite",
+    "qualification",
+    "--scope-timeout",
+    "15m",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze-record",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json"
+  ],
+  "disk": {
+    "total": 686860591104,
+    "used": 581799780352,
+    "free": 98064711680
+  },
+  "owned_outputs": [
+    "scratch/old-analysis/runtime-qualification-v5"
+  ],
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "lib",
+    "obj",
+    "scratch/acquisition/original-binary-controls-v5",
+    "scratch/acquisition2/original-additional-v5"
+  ],
+  "memory_admission": "Direct existing runtime supervisor owns shared flock and post-lock admission;8G/swap0 unchanged, no nested wrapper.",
+  "limits": "Existing paired plain/audit qualification and15m outer; parser/skip/audit/cleanup predicates unchanged."
+}

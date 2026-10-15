@@ -1,0 +1,345 @@
+{
+  "utc": "2026-10-15T01:01:07.269918+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "TESTED finite observer qualification; MEASURED source/resource readback; not independent acceptance",
+  "tested_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "CONCUR existing admission driver v4 prerequisite with --observe-ffi and SAME current qualification receipt under existing120s8G0/admission/lock/read-only host guards. No component outcome or authority acceptance inferred.",
+  "result_sha256": "9c0a08cbe91d97904be459662f4cb02d8a1fd5e42fdd5cc69ee4ab4fea6d0312",
+  "checks": {
+    "before_after": true,
+    "all_outputs": true,
+    "root_frame": true,
+    "artifacts": true,
+    "library": true,
+    "observer": true,
+    "driver": true,
+    "runtime_modules": true,
+    "plain_observed_values": true,
+    "live_caps": true
+  },
+  "controls": [
+    {
+      "detail": "Exact Python result structures on fixed cases; no mathematical result recomputed by the harness",
+      "name": "finite-produced-values-match-plain",
+      "passed": true
+    },
+    {
+      "detail": "Original ctypes objects restored; complete before/returned records for all targets",
+      "name": "all-targets-observed-and-restored",
+      "passed": true
+    },
+    {
+      "detail": {
+        "message": "CORE_UNAVAILABLE: resource ledger quantities must be integers",
+        "type": "CoreUnavailable"
+      },
+      "name": "zero-decision-call-remains-zero",
+      "passed": true
+    },
+    {
+      "detail": "Original return preserved while observation is explicitly incomplete",
+      "name": "capture-refusal-cannot-invent-complete-evidence",
+      "passed": true
+    },
+    {
+      "detail": "Direct baseline compared to original real libc pointer under forwarding object",
+      "name": "real-ctypes-return-pass-through",
+      "passed": true
+    },
+    {
+      "detail": {
+        "errcheck_calls": [
+          {
+            "arguments": [
+              -7
+            ],
+            "function_identity": 281473732861040
+          }
+        ],
+        "exception_identity_preserved": true,
+        "private_errno": 23
+      },
+      "name": "real-ctypes-exception-identity-once-and-errno",
+      "passed": true
+    },
+    {
+      "detail": "No Python callback accepted as an original foreign function",
+      "name": "non-ctypes-callable-rejected",
+      "passed": true
+    },
+    {
+      "detail": "Both exact full frozen source validations completed",
+      "name": "same-library-and-frozen-source",
+      "passed": true
+    }
+  ],
+  "summaries": {
+    "observed-summary.json": {
+      "claim": "UNVERIFIED until finite observer qualification and exact source/library joins are reviewed",
+      "completed_calls": [
+        {
+          "id": "3b120765cd3245a5a872ea664eba2e47",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_compute"
+        },
+        {
+          "id": "a95507a32b1541d5b4de3c66c834cebe",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_compute"
+        },
+        {
+          "id": "ef0ef2098a2246d294b764dcc771bf0b",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_compute"
+        },
+        {
+          "id": "8c792592f74f4d7fb57ecf4ff4ce06d9",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_compute"
+        },
+        {
+          "id": "0135649364d8463a9df049018005b1a5",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_headroom"
+        },
+        {
+          "id": "0f20df0d9e294faab9aefcc1c8821d59",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_headroom"
+        },
+        {
+          "id": "4bfbfe7a778747e9bdf1748183a43ffa",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_headroom"
+        },
+        {
+          "id": "6424e2ed4f204dbbb8485d901bca0465",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_ledger_headroom"
+        },
+        {
+          "id": "d0cf19ce7f6544bca4a469bb1263e709",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_policy_admit"
+        },
+        {
+          "id": "5b756cacd00f44f5a3da3a499a2f42fd",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_policy_admit"
+        },
+        {
+          "id": "37137b751e074734b93666cd7d5c128f",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_policy_admit"
+        },
+        {
+          "id": "ae82fdbd3b894c0794b33eee67cf63e1",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_policy_admit"
+        },
+        {
+          "id": "3925f6236dcf48c6b96c1469ca6de169",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_policy_admit"
+        },
+        {
+          "id": "3458f483ef13407a956a78c273376252",
+          "step": "finite-production-transport-parity",
+          "symbol": "wl_resource_policy_admit"
+        }
+      ],
+      "event_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/observed/dispatch.jsonl",
+      "event_sha256": "23edb5677ede3efa55d1f793dd1cac15b648305f38a76c4a860a1626f2951ae7",
+      "independent_acceptance": "NOT PERFORMED",
+      "library_sha256_after": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+      "native_instruction_entry": "UNVERIFIED",
+      "observation_errors": [],
+      "observer_sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+      "restoration_errors": [],
+      "restored_original_functions": true,
+      "runtime_bindings": {
+        "worldline.resource_ledger": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_ledger.py",
+          "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+        },
+        "worldline.resource_policy": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_policy.py",
+          "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+        }
+      }
+    },
+    "zero-call-summary.json": {
+      "claim": "UNVERIFIED until finite observer qualification and exact source/library joins are reviewed",
+      "completed_calls": [],
+      "event_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/zero-call/dispatch.jsonl",
+      "event_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "independent_acceptance": "NOT PERFORMED",
+      "library_sha256_after": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+      "native_instruction_entry": "UNVERIFIED",
+      "observation_errors": [],
+      "observer_sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+      "restoration_errors": [],
+      "restored_original_functions": true,
+      "runtime_bindings": {
+        "worldline.resource_ledger": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_ledger.py",
+          "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+        },
+        "worldline.resource_policy": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_policy.py",
+          "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+        }
+      }
+    },
+    "capture-refusal-summary.json": {
+      "claim": "UNVERIFIED until finite observer qualification and exact source/library joins are reviewed",
+      "completed_calls": [],
+      "event_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/capture-refusal/dispatch.jsonl",
+      "event_sha256": "3d625e79894c881a05ff708f8514881ece72664c5979e3a95b4653616b2bb2c3",
+      "independent_acceptance": "NOT PERFORMED",
+      "library_sha256_after": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+      "native_instruction_entry": "UNVERIFIED",
+      "observation_errors": [
+        {
+          "exception_type": "CaptureRefusal",
+          "message": "Controlled observation refusal; original call must still execute",
+          "operation": "capture-before"
+        },
+        {
+          "exception_type": "CaptureRefusal",
+          "message": "Controlled observation refusal; original call must still execute",
+          "operation": "capture-after"
+        }
+      ],
+      "observer_sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+      "restoration_errors": [],
+      "restored_original_functions": true,
+      "runtime_bindings": {
+        "worldline.resource_ledger": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_ledger.py",
+          "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+        },
+        "worldline.resource_policy": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_policy.py",
+          "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+        }
+      }
+    },
+    "libc-wrapper-summary.json": {
+      "claim": "UNVERIFIED until finite observer qualification and exact source/library joins are reviewed",
+      "completed_calls": [
+        {
+          "id": "a21c3f70d3a94becbf22f7791a4c79ca",
+          "step": null,
+          "symbol": "libc.abs"
+        }
+      ],
+      "event_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/libc-wrapper/dispatch.jsonl",
+      "event_sha256": "5180196c04436272fa353150dd642b9344926833cf698f6d63ee005933a71762",
+      "independent_acceptance": "NOT PERFORMED",
+      "native_instruction_entry": "UNVERIFIED",
+      "observation_errors": []
+    }
+  },
+  "runtime_modules": {
+    "worldline.resource_ledger": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_ledger.py",
+      "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+    },
+    "worldline.resource_policy": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_policy.py",
+      "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+    }
+  },
+  "scope": {
+    "launch": [
+      {
+        "MemoryMax": "8G",
+        "MemorySwapMax": "0",
+        "argv": [
+          "bwrap",
+          "--die-with-parent",
+          "--ro-bind",
+          "/",
+          "/",
+          "--dev",
+          "/dev",
+          "--proc",
+          "/proc",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "--chdir",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "python3",
+          "-B",
+          "scratch/old-analysis/authority_ffi_controls_v2.py",
+          "--out",
+          "scratch/old-analysis/authority-ffi-qualification-v5",
+          "--expected-commit",
+          "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+          "--freeze-record",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+          "--frame",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+          "--build-manifest",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json"
+        ],
+        "commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "lock": "/home/sicarii/.worldline-heavy.lock",
+        "status": "UNVERIFIED",
+        "timeout": "120s",
+        "utc": "2026-10-15T01:00:24.630749+00:00"
+      }
+    ],
+    "admission": [
+      {
+        "admitted": true
+      }
+    ],
+    "worker_result": {
+      "exit_code": 0,
+      "utc": "2026-10-15T01:00:33.712002+00:00"
+    },
+    "terminal": [
+      {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T01:00:34.713720+00:00"
+      }
+    ],
+    "last_live_cgroup": {
+      "event": "after",
+      "exit_code": 0,
+      "memory.current": "11771904",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "8589934592",
+      "memory.peak": "28884992",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-35bbe8c5648c47488669ca3a489d11ad.scope",
+      "utc": "2026-10-15T01:00:33.711385+00:00"
+    }
+  },
+  "conditions": [
+    "Parent sole launcher existing authority_admission_driver_v4.py command, same ef7 freeze/frame/build/library and exact observer/qualification receipt; fresh unique output and existing shared lock/postlock admission/original120s8G0.",
+    "This is finite original _CFuncPtr argument/return/exception/errno pass-through/restoration qualification; actual native instructionentry remains UNVERIFIED and libc errcheck is observer control only.",
+    "No arbitrary-domain transparency/concurrent mutation/timingallocation equivalence, complete production-input provenance, fullC1-C4, proof/retirement, or independent acceptance claim.",
+    "Domain failure does not prevent independent existing component attempt; retain domain/plain/auditNP and proof/runtime/private failures."
+  ],
+  "non_claims": [
+    "No native-instruction entry or independent debugger witness",
+    "No full authority/retirement/proof coverage or arbitrary-domain instrumentation transparency",
+    "Additional observation allocation, timing and concurrent mutation effects remain outside finite qualification",
+    "The libc errcheck control is observer machinery qualification only, never a production result"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "audit_mode": "plain",
+  "contract": {
+    "assurance_caller_timeout": 1800,
+    "commit": "1bd5c0890e1c2686b3e33389831c76fe1f5cc25b",
+    "decisive_timeout": 900,
+    "required_steps": [
+      "checkout-identity",
+      "clean-build-tree",
+      "build",
+      "ada-tests",
+      "ada-fuzz",
+      "python-tests",
+      "private-host-tests",
+      "evaluation-domain",
+      "proof-gate",
+      "proof-manifest"
+    ],
+    "runtime_tree": "1c628de542bfc843f5f5e1aaa0580a0c4b12c40e",
+    "sources": {
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/assurance.py": "b15169fb858c591dce5f06d6c5301a6578a45d67ffea448b423e03b25c7e8cc9",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/assurance_contract.py": "848cebc468e0b9f7c2845465cf7272c15502e4b3cc77b5448232bd0ec8d32c47",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/evaluation_domain_gate.py": "734a7381e8e08a6ff71432f4c16251fc4ab4d57f032e924dc61119abfafeae5e"
+    },
+    "tag": "counterexample/verifier-bytes-without-evaluation-domain"
+  },
+  "counterexample": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+  "engine": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+  "frame": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+  "library": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so"
+}

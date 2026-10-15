@@ -1,0 +1,200 @@
+{
+  "utc": "2026-10-15T01:12:57.647003+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "MEASURED retained final identity readback; semantic full-predicate disposition; internal not independent acceptance",
+  "tested_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "binding_F0_predicate": "Full commit, tree and source inventory before/after all final runs match; tracked implementation is clean throughout. Rebuilt native/shared libraries, proof projects, tools/solvers, installed dependency sources and runtime module paths are hashed and joined to that commit. Reports may be committed later but identify the immutable tested source separately.",
+  "status": "FAILED-OPEN",
+  "reason": "Campaign attempted complete final scopes, but F0 full conjunctive before/after/source/tool/dependency/runtime joins not established by selected identity readbacks. Successful measured subset below must remain retained without promotion.",
+  "successful_measured_checks": {
+    "selected_tool_rows_equal": true,
+    "selected_names_present": true,
+    "selected_current_tool_hashes": true,
+    "toolreader_script_equal": true,
+    "environment_pin": true,
+    "final_before_ref": true,
+    "final_after_ref": true,
+    "commit_tree": true,
+    "root_frame_hashes": true,
+    "final_current_artifacts": true,
+    "library": true,
+    "reported_tracked_clean": true,
+    "source_roster_flags": true,
+    "fresh_proof_dependency_source_projects": true
+  },
+  "selected_tool_inventory": [
+    {
+      "name": "gnat",
+      "scope": "PATH selection only",
+      "resolved": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnat",
+      "sha256": "4f9e401fcee0f1eff05bca6df940fe6ca67e1d8e0a42bf168de6e1d790bea00f"
+    },
+    {
+      "name": "gnatprove",
+      "scope": "PATH selection only",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9"
+    },
+    {
+      "name": "gprbuild",
+      "scope": "PATH selection only",
+      "resolved": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb"
+    },
+    {
+      "name": "gcc",
+      "scope": "PATH selection only",
+      "resolved": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "sha256": "ef4d2c23a77857bed0b8f86b7878451da2be9023988d5f5358d37f04fa3ec0fe"
+    },
+    {
+      "name": "cc",
+      "scope": "PATH selection only",
+      "resolved": "/usr/bin/gcc",
+      "sha256": "741ced8152a820a28ab88603dd1ceb2343245728ac784839e4b5390f2411890e"
+    },
+    {
+      "name": "python3",
+      "scope": "PATH selection only",
+      "resolved": "/usr/bin/python3.14",
+      "sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947"
+    },
+    {
+      "name": "bwrap",
+      "scope": "PATH selection only",
+      "resolved": "/usr/bin/bwrap",
+      "sha256": "3016d82c88481eeb15c1145ea82a591b11890faa6e957635b75bc148a1701e45"
+    },
+    {
+      "name": "systemd-run",
+      "scope": "PATH selection only",
+      "resolved": "/usr/bin/systemd-run",
+      "sha256": "b540a415eab4452328905f9443652f69b0ec357917218c21c0327c5e147bc35f"
+    },
+    {
+      "name": "systemctl",
+      "scope": "PATH selection only",
+      "resolved": "/usr/bin/systemctl",
+      "sha256": "8b81286ca0cc47b7b67f6512ed1e362adac03fe4980651166cbb833f3055abcc"
+    },
+    {
+      "name": "flock",
+      "scope": "PATH selection only",
+      "resolved": "/usr/bin/flock",
+      "sha256": "c82e1ed523ce89dbffd2cde8665a89bc1adc6c5b50ce34db96d2d453d537e8f8"
+    },
+    {
+      "name": "timeout",
+      "scope": "PATH selection only",
+      "resolved": "/usr/bin/timeout",
+      "sha256": "7539e28e3fc02160564cc93739e03d0d3e001a6fae58671371403a46b643439b"
+    },
+    {
+      "name": "alt-ergo",
+      "scope": "Bundled-path inventory only",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo",
+      "sha256": "09f93d6ed6f6d70ff916185ff36bbc8a41d486ce6100f2ad0d7e3d03feb7671e"
+    },
+    {
+      "name": "cvc5",
+      "scope": "Bundled-path inventory only",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/cvc5",
+      "sha256": "010d7adf505f4bd27822fbb31a6e8999c6af2a5b8339d7c0fefccd4b38978814"
+    },
+    {
+      "name": "z3",
+      "scope": "Bundled-path inventory only",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/z3",
+      "sha256": "d718168cd9b69b5e73ad7124f6e5083c047c28f1b3165ddd04e3b89191319a78"
+    },
+    {
+      "name": "why3",
+      "scope": "Bundled-path inventory only",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3",
+      "sha256": "c3b3004479b0415bb5b8966a664cf06372238de3a0ace480a80fd610edb58e6d"
+    },
+    {
+      "name": "why3server",
+      "scope": "Bundled-path inventory only",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3server",
+      "sha256": "c778280b8b4303e99344d0ff969b589a2e0e4df9a78aab27464a7177c830ae6e"
+    },
+    {
+      "name": "gnat2why",
+      "scope": "Bundled-path inventory only",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gnat2why",
+      "sha256": "375d0100954a66c78bace00d2229c9b96a30b6cf28845e00c4db220ba1efddb5"
+    }
+  ],
+  "exact_remaining_gaps": [
+    "Terminal proof has no completed full-proof-result-v5/result.json and therefore no original driver completed after-source/private/library identity record. Final gate/this later readback hash-match source/dependency bytes, but do not reconstruct that missing per-worker after receipt.",
+    "Terminal full discovery runtime lacks worker-result.json/frame-after.json and audit-result.json; later locked finalsource-artifact readback establishes later matching bytes only. No complete original per-worker after/runtime module-resolution closure is retained.",
+    "Canonical tool rows explicitly record PATH-selected or bundled-file inventory. Before/after equality and exact commands/version text do not establish complete actual compiler/solver/child invocation resolution joined to all installed dependency/runtime-module identities for every final execution. No additional complete closure beyond existing partial launches/manifests claimed.",
+    "Root/frame and tracked-clean snapshots support measured correspondence; they do not, alone, establish the entire original clean-throughout/before-after-all-final-runs predicate where required run-end records are absent. No claim source drift actually occurred."
+  ],
+  "source_identity_boundaries": [
+    "F0 fail is incomplete evidence conjunction, not evidence product source/tool bytes changed. All explicitly checked root/frame/selectedtools/currentartifacts/privateproofdependency hashes match.",
+    "Proof/importedsource correctness and F2 outcome are distinct from F0 identity. No absent proof correctness used as substitute for identity evidence; missing identity records named explicitly.",
+    "Protected/childNP and finite actor/FFI subset boundaries remain; no new complete runtime module inventory generated."
+  ],
+  "recorded_commands": {
+    "before_tool": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final_tool_identities_v5.py",
+        "--out",
+        "records/phase1-blockers/final-tool-identities-before-v5-retained.json"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "environment": {
+        "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+        "GNAT_environment_source": "/home/sicarii/opt/gnat/env.sh",
+        "GNAT_environment_sha256": "155536a81f8d2be134c6e5cacc0c0bf9b57c94ee33659d2b19ea23c2d6ded388"
+      }
+    },
+    "after_tool": {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final_tool_identities_v5.py",
+        "--out",
+        "records/phase1-blockers/final-tool-identities-after-v5-retained.json"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "environment": {
+        "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+        "GNAT_environment_source": "/home/sicarii/opt/gnat/env.sh",
+        "GNAT_environment_sha256": "155536a81f8d2be134c6e5cacc0c0bf9b57c94ee33659d2b19ea23c2d6ded388"
+      }
+    },
+    "final_source": {
+      "GNAT_environment_sha256": "155536a81f8d2be134c6e5cacc0c0bf9b57c94ee33659d2b19ea23c2d6ded388",
+      "GNAT_environment_source": "/home/sicarii/opt/gnat/env.sh",
+      "argv": [
+        "python3",
+        "-B",
+        "-c",
+        "import hashlib,json,subprocess,sys\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nroot=Path.cwd();sys.path.insert(0,str(root/'scratch/old-analysis'))\nfrom frozen_source_v2 import validate\ncommit='ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac'\nr=validate(commit,root/'records/phase1-blockers/freeze-v5/source.json',root/'scratch/coordinator/final-frame-v5/source',root/'records/phase1-blockers/final-build-steps-v5/artifacts.json',link=False)\nbefore_path=root/'records/phase1-blockers/final-tool-identities-before-v5-retained.json'\nafter_path=root/'records/phase1-blockers/final-tool-identities-after-v5-retained.json'\nbefore=json.loads(before_path.read_text());after=json.loads(after_path.read_text())\nsha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()\nassert before['source_commit']==after['source_commit']==commit\nsame=before['tools']==after['tools']\nassert same\nassert not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],text=True).strip()\nout=root/'records/phase1-blockers/final-source-artifacts-after-v5.json'\nd={'utc':datetime.now(timezone.utc).isoformat(),'classification':'MEASURED final frozen source/artifact and selected tool-file readback only','source_commit':commit,'source_tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),'command':{'argv':sys.orig_argv,'cwd':str(root),'GNAT_environment_source':'/home/sicarii/opt/gnat/env.sh','GNAT_environment_sha256':sha(Path('/home/sicarii/opt/gnat/env.sh'))},'validation':r,'tool_before':{'path':str(before_path.relative_to(root)),'sha256':sha(before_path)},'tool_after':{'path':str(after_path.relative_to(root)),'sha256':sha(after_path)},'tool_identity_rows_equal':same,'tool_reader_script_sha256_equal':before['script_sha256']==after['script_sha256'],'tracked_status_porcelain':'','non_claims':['Selected tool-file identity equality is not evidence of actual invocation or completed proof.','No aggregate proof/runtime counts, imported-source proof closure, independent acceptance, universal custody or complete authentic protected/child execution is inferred.','This fresh readback does not reconstruct a missing per-worker after receipt or prove continuous invariance in an adversarial environment.','The original F0 predicate still requires its complete source/tool/dependency/runtime joins; do not promote from a subset.']}\nwith out.open('x') as f:json.dump(d,f,sort_keys=True,indent=2);f.write('\\n')\nprint(json.dumps({'path':str(out.relative_to(root)),'sha256':sha(out),'source_commit':commit,'all_original_tracked_hashes_match':r['all_original_tracked_hashes_match'],'exact_tracked_roster_matches':r['exact_tracked_roster_matches'],'tool_identity_rows_equal':same,'library_sha256':r['library_sha256']}))\n"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z"
+    }
+  },
+  "immutable_references": {
+    "records/phase1-blockers/freeze-v5/source.json": "98d79357743b18aeea143e46d8597a7a30fbd51bea8a4168d0a5965bf16f5812",
+    "records/phase1-blockers/final-build-steps-v5/artifacts.json": "70173efe0c7278e505df1d8b4611c4249c71a26e7f78aa6f7b145ce158c240f4",
+    "records/phase1-blockers/original-aux-builds-final-v6/result.json": "48f5364a9393971819c940cca737ffa32f6e05d68e94a65db2cb46205d732a55",
+    "scratch/old-analysis/full-proof-result-v5/launch.json": "3cd8dd94ca9b3aada205102269cbf3f4fac57c7d116a2400093960e75e108a79",
+    "scratch/old-analysis/full-proof-result-v5/fresh-dependency.json": "320fdea3b77024512aa475d62283751e5338e4a6f67927d94bdbc86d4fe4d4f2",
+    "scratch/old-analysis/final-proof-gate-v5/proof-gate-outcome.json": "728355f5b98f230b9361d9c7edcec405d3f35933f3f1d45fcdaef059e4df1acf",
+    "scratch/old-analysis/full-runtime-v5-post-readback.json": "db503d33c12096e0bdca15b04bf3a258f986896a7957569ab577d86e79be9a05",
+    "records/phase1-blockers/final-tool-identities-before-v5-retained.json": "20bec805241189c8c28e7fd7d09f868447d219e58b7757b9a0015b8bf263bc9f",
+    "records/phase1-blockers/final-tool-identities-after-v5-retained.json": "f1dc17390a74cc9046481ae3d1e9d4419909172599de2fc01476f5d643f13a56",
+    "records/phase1-blockers/final-source-artifacts-after-v5.json": "2404e5d810ccec85210afadbcb70b5fc69841f02a84d9bd1f6d749b12baee2eb"
+  },
+  "non_claims": [
+    "No new inventory, tests, launch, transcript extraction, actual invocation reconstruction, source or process mutations.",
+    "No selectedtool subset redefinition of F0, no continuous-invariance proof, no independent acceptance.",
+    "Later report commit names immutable ef7 testedsource; no documentary freeze/rerun loop."
+  ]
+}

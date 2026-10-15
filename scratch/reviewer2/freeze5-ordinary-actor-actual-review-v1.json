@@ -1,0 +1,396 @@
+{
+  "utc": "2026-10-15T01:10:18.496865+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "TESTED finite ordinary actor outcome; MEASURED retained identities/cleanup; not independent acceptance",
+  "tested_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "CONCUR requested ordinary state bytes verified with terminal successful actual actor outcome; fullF5 OPEN and model/native/authentic child/protected limitations retained.",
+  "worker_result_sha256": "c55fa5822ff0718ca368aca474b66740125236f44e3ec16c20d5983a58de1339",
+  "harness_sha256": "3506f51a7bd6cc55354ad7c5eaa521dac3a567a2f6f145b46c8477afb23e0f1d",
+  "checks": {
+    "state_exact": true,
+    "state_hash": true,
+    "mission_exact": true,
+    "model_request": true,
+    "actor_binary": true,
+    "companion": true,
+    "lib": true,
+    "retained_safe_hashes": true,
+    "source_roster": true,
+    "rootframefreeze": true,
+    "sibling_livecaps": true,
+    "parent_livecaps": true
+  },
+  "mission": "Inside this WORLDLINE world, replace state.txt with exactly the UTF-8 text phase1-luna-actor followed by one newline. Change no other file. Read no authentication files. Report completion after writing the file.",
+  "expected_state_utf8": "phase1-luna-actor\n",
+  "requested_model_argv": [
+    "-m",
+    "gpt-6-luna",
+    "-c",
+    "model_reasoning_effort=high"
+  ],
+  "reported_model_identity": "UNVERIFIED; requested argv and PASS/VALID do not authenticate provider model, no extra decoder or credential inspection performed.",
+  "world_id": "4364f2db-614f-4f6d-9ea4-563c3a811b49",
+  "candidate_state": {
+    "exists": true,
+    "matches_requested_value": true,
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/actor-ordinary-final-v5/attempt-cbb8813427034717835b383121cf1074/worker/data/worlds/4364f2db-614f-4f6d-9ea4-563c3a811b49/payload/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/state.txt",
+    "sha256": "f896673ff1e257da9df5812c7f2d743cea3990944e8ca4288bd0361788d836fd"
+  },
+  "retained_file_hashes": {
+    "agent-evidence.json": "1d059b9f4b6d62475d35b0c8d13a32c0cd4bbfb867a616cb32ed23134314642f",
+    "codex-version.json": "af3085c9cb9a2b893d3c373ef2db4ac92baf03b038039868ad3f05550205d493",
+    "config/config.json": "46a216493a4120771812681eead5c1bb0be1224e58a60b3502819a615dd07d4f",
+    "data/generations/5698ab22-de8c-4e65-8c17-3debadf7188a/manifests/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c.json": "1c10775fb05f3d6a510dc605de8863adf358b1e99fe5b21524c4873d8781a788",
+    "data/generations/5698ab22-de8c-4e65-8c17-3debadf7188a/payload/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/.worldline.json": "cd6ec6db66400997ffd2c96ae63577eac15f92631cd36d6ed172675b12e9d79e",
+    "data/generations/5698ab22-de8c-4e65-8c17-3debadf7188a/payload/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/state.txt": "3c54e8da3aade6af04d801b2e84e98f481845ecf323bacab5d4cb1113c2b6d79",
+    "data/generations/5698ab22-de8c-4e65-8c17-3debadf7188a/payload/manifests/agent.json": "eb510babb5db4218b3fa314a2c0bc9d3f1dc0c7062e8c7258b07b491a14a77e5",
+    "data/generations/5698ab22-de8c-4e65-8c17-3debadf7188a/payload/manifests/environment.json": "cf5e99f439c32f37072f38068102a1e17c19f4a15cb06879463a5f96cbd42292",
+    "data/generations/5698ab22-de8c-4e65-8c17-3debadf7188a/payload/manifests/evidence.json": "85e8f2926418bc696a5b472b4eac8d2167ca1bff74925baf1ebfcb4e06bb7b62",
+    "data/generations/5698ab22-de8c-4e65-8c17-3debadf7188a/payload/manifests/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c.json": "1c10775fb05f3d6a510dc605de8863adf358b1e99fe5b21524c4873d8781a788",
+    "data/generations/6706bbff-a955-4025-8900-063495df1e8d/payload/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/.worldline.json": "cd6ec6db66400997ffd2c96ae63577eac15f92631cd36d6ed172675b12e9d79e",
+    "data/generations/6706bbff-a955-4025-8900-063495df1e8d/payload/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/state.txt": "3c54e8da3aade6af04d801b2e84e98f481845ecf323bacab5d4cb1113c2b6d79",
+    "data/generations/6706bbff-a955-4025-8900-063495df1e8d/payload/manifests/agent.json": "eb510babb5db4218b3fa314a2c0bc9d3f1dc0c7062e8c7258b07b491a14a77e5",
+    "data/generations/6706bbff-a955-4025-8900-063495df1e8d/payload/manifests/environment.json": "cf5e99f439c32f37072f38068102a1e17c19f4a15cb06879463a5f96cbd42292",
+    "data/generations/6706bbff-a955-4025-8900-063495df1e8d/payload/manifests/evidence.json": "85e8f2926418bc696a5b472b4eac8d2167ca1bff74925baf1ebfcb4e06bb7b62",
+    "data/generations/6706bbff-a955-4025-8900-063495df1e8d/payload/manifests/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c.json": "1c10775fb05f3d6a510dc605de8863adf358b1e99fe5b21524c4873d8781a788",
+    "data/overlays/4364f2db-614f-4f6d-9ea4-563c3a811b49/agent-runtime/mission.txt": "acdbb7073c17ce14d62f31f00f74932816639ca5dc4522081b33ab8a46c60541",
+    "data/overlays/4364f2db-614f-4f6d-9ea4-563c3a811b49/agent-runtime/world.json": "3c54175969c1ec6f808d6c9089ed5506b9b82e8ef3d738042ff3cd755d310df6",
+    "data/overlays/4364f2db-614f-4f6d-9ea4-563c3a811b49/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/upper/state.txt": "f896673ff1e257da9df5812c7f2d743cea3990944e8ca4288bd0361788d836fd",
+    "data/worlds/4364f2db-614f-4f6d-9ea4-563c3a811b49/payload/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/.worldline.json": "cd6ec6db66400997ffd2c96ae63577eac15f92631cd36d6ed172675b12e9d79e",
+    "data/worlds/4364f2db-614f-4f6d-9ea4-563c3a811b49/payload/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c/state.txt": "f896673ff1e257da9df5812c7f2d743cea3990944e8ca4288bd0361788d836fd",
+    "data/worlds/4364f2db-614f-4f6d-9ea4-563c3a811b49/payload/manifests/agent.json": "d96a427644efc7651114138209a50cb29e5f68ac401d46adb429a44903ab69df",
+    "data/worlds/4364f2db-614f-4f6d-9ea4-563c3a811b49/payload/manifests/environment.json": "ee76f1cc989131c27f8dd2fed95083bc6e5499c3ee629ed6851f73fd933ceb46",
+    "data/worlds/4364f2db-614f-4f6d-9ea4-563c3a811b49/payload/manifests/evidence.json": "3abf1b6482de3596a6544ddd18069810538301f6defabb3984713314b2debbbd",
+    "data/worlds/4364f2db-614f-4f6d-9ea4-563c3a811b49/payload/manifests/f5479c0fdba9454882d5628d2a7627c76a1a3662ced4b06432ab05d38d06711c.json": "233a2f72f6f5e335c1457f543ab752f5d52c24232f017d5959472bce8381c4dd",
+    "interruptions.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "jobs.json": "54954384de34a1c16e81815ae24e85d7921ac314b348a39b55781ca04f520a37",
+    "launch.json": "76921c35875f1a84cae485dda42a0efa585d9dff17140fea595898872d7f1df1",
+    "mission.txt": "f0ccd76fa9990f56ba9d20fe3424eb25ea506dfe1556af3c61bbc4199f054d3c",
+    "progress.jsonl": "561c2be6476e27863de47375a31f3addc95f60339ed3aedbe2bc8136d3a9e71e",
+    "runtime/admission-ledger.json": "4a2ee377813589a52672ab5faa51d43610e57e72a3c05613a0b0c68e8a9a7987",
+    "runtime/admission.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runtime/ordinary-evaluation/finalization-journal.db": "264325a4a5133d8bbbc7e608f840e49919e1a49b35be1fd0cd6689c5731ccd43",
+    "runtime/ordinary-evaluation/pending-journal.db": "929cc6ef87e52007202f634bb703ceb0edbf1120aa91f09315c8c479452f374a",
+    "runtime/ordinary-evaluation/pending-target.db": "986dd37ab376c8396f986ba19458c599cb79e4f06fb05bdca3fcd85cf2a13935",
+    "runtime/ordinary-evaluation/terminal-journal.db": "f39fffe92ffa37e3335c72dd1bdcb125d226176888398a7eec8a7d0ec6132425",
+    "runtime/ordinary-evaluation/terminal-target.db": "812b0981e9f2162461b4dba4ed8162c17c3983ff10ced4223d3ddfab52ef6652",
+    "state/events/1deb87097fb08fde3f8c5288db459f731aac9d7411d35224a258356b1fa4b7a2.json": "2a7dc7b3b542a322fd2febd083f9330a5041514d76711b08b5289235e12003d3",
+    "state/events/6635e77e779c1076a60a0930cdbe92bec923aa3225b7b4f174db69be88931eb2.json": "ed96a0703fbaf49cf91a4c53ecf81163e1fc2aeb68e7e98831c8852aea9e5688",
+    "state/events/74bde20cf70a93e4862f0e82f6134eb9990eb9e2007e92f0a6e345126e857ccb.json": "783e6fd591cd5c035d30267bdefa2f39a7a564948f626b00766cff0c2f60892b",
+    "state/events/9ce4753d7d91f19fd442fa8582aaa48bf2a12399153614193f588fb6ac7cf80b.json": "08505960d6e9273db6677fe4d23392816dab4ec1daf492e36bbe23556352c027",
+    "state/events/a127f01e1f1852e37d574eed0a6945f0c1b3152f86d20002a5cdc8292c142f42.json": "ea59fea70538ff0e173d4be7f897b42ed141d2c0c2bac6207548b4f1e3d94336",
+    "state/events/aef448b718d18279a71ee73e777d4d558b2782435eddb9f1d03ebc37498aeac8.json": "2468017778720397fe55df541bb29d5f9632aa4db608c24afb55d5d653d07d09",
+    "state/events/bcc22c8e5474d349ecce93f4206e1e9d31e5433a25d777af3572258049f08b49.json": "3e18b7d3396b32a7386a49bbbd13e713985e50ae9d2c72fdf14173be7f9128e9",
+    "state/events/c4d4ea7195071ca9458d4f6b56133f51940e4c202c53ee0c2fc1d5c6166fd966.json": "a2c67a69337c05e70730cb49c6a53b86738fe361b4a9d551cb213611c17f7ad5",
+    "state/events/e28b065771f654d3849ab59902b8fe19f0599794b879d01d49f1ffab099fef8f.json": "2a76cb064fcf6d3397f0de2de7ff608d9d6ec58a8df2a4d6b12f1b3ca508dbc0",
+    "state/events/f90eef521b7edf00f15d6460700353725b0b6579260d2287aad09ffeab71acf1.json": "a905ab3ff56dc6ddc2f5d542858f01e767d7bcc3d7852f4b8d4a1dc60aa2e8b3",
+    "state/logs/4364f2db-614f-4f6d-9ea4-563c3a811b49.agent.jsonl": "197c5a462e723d66d970c0a0cb958eef753b545953e58ddb384a4102b170088b",
+    "state/logs/4364f2db-614f-4f6d-9ea4-563c3a811b49.agent.stderr": "d3364c9ee3ebd791849f952405b991be92e8f3e72d055af95d7ecd60513566e3",
+    "state/worldline.sqlite3": "92b1bf867eb8b6362cfda36c8d157a9c8a951640a82d93d7c294c5aeda62fa0a",
+    "tracked.diff": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "world-after-run.json": "9c4f92fd97420b2a935139bafb5ca252d4fe4e9c6532f6ecc28403d3b619d513",
+    "world-before-run.json": "a701fffd96757971e018d97c145181c6e7d07532d66c2854a5b9738509646937",
+    "world-retained.json": "9c4f92fd97420b2a935139bafb5ca252d4fe4e9c6532f6ecc28403d3b619d513"
+  },
+  "chain_verification": {
+    "causalEvents": 10,
+    "receipts": 0
+  },
+  "locked_result": {
+    "actor_admitted": true,
+    "actor_settlement": {
+      "aggregate_cap_equivalence": "NOT CLAIMED; parent and actor have separate cgroups",
+      "cap_mismatch": false,
+      "live_caps_measured": true,
+      "qualification": "MEASURED",
+      "quiescent": true,
+      "terminal_observation": {
+        "groups": [],
+        "manager": {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "--property=Id",
+            "--property=LoadState",
+            "--property=ActiveState",
+            "--property=SubState",
+            "--property=MainPID",
+            "--property=InvocationID",
+            "--property=ControlGroup",
+            "--property=MemoryMax",
+            "--property=MemorySwapMax",
+            "--property=MemoryPeak",
+            "--property=MemorySwapPeak",
+            "--property=Result",
+            "--property=Restart",
+            "--property=KillMode",
+            "--",
+            "worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+          ],
+          "exit_code": 0,
+          "stderr": "",
+          "stdout": "Id=worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+        },
+        "properties": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "Id": "worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service",
+          "InvocationID": "",
+          "KillMode": "control-group",
+          "LoadState": "not-found",
+          "MainPID": "0",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "MemorySwapPeak": "[not set]",
+          "Restart": "no",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+        "quiescent": true,
+        "unit": "worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+      },
+      "unit": "worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    "caps_qualified": true,
+    "error": null,
+    "exit_code": 0,
+    "full_F5": "OPEN",
+    "independent_acceptance": "NOT PERFORMED",
+    "native_call_observation": "UNVERIFIED",
+    "worker_exit_code": 0
+  },
+  "scope": {
+    "worker_result": {
+      "exit_code": 0,
+      "utc": "2026-10-15T01:08:48.644533+00:00"
+    },
+    "terminal": [
+      {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T01:08:49.018084+00:00"
+      }
+    ],
+    "last_live_cgroup": {
+      "event": "after",
+      "exit_code": 0,
+      "memory.current": "268480512",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "8589934592",
+      "memory.peak": "429117440",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-611e9c349cf944529974dc5e3a6f1af0.scope",
+      "utc": "2026-10-15T01:08:48.641803+00:00"
+    }
+  },
+  "sibling_actual_live_cap_observations": [
+    {
+      "utc": "2026-10-15T01:03:22.545437+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:22.751250+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:22.957773+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:23.165956+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:23.372016+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:23.577970+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:23.783784+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:23.990478+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:24.196903+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:24.403140+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:24.608836+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:24.815141+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:25.020994+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:25.226698+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:25.432811+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:25.638869+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:25.844843+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:26.050716+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:26.256474+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:26.462099+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:26.667909+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:26.874454+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:27.079990+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:27.285813+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:27.492041+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:27.698436+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:27.904113+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:28.110080+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:28.315854+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    },
+    {
+      "utc": "2026-10-15T01:03:28.521717+00:00",
+      "MemoryMax": "8589934592",
+      "MemorySwapMax": "4096",
+      "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-4364f2db-614f-4f6d-9ea4-563c3a811b49.service"
+    }
+  ],
+  "actor_companion": {
+    "bytes": 66921472,
+    "mode": 493,
+    "path": "/home/sicarii/.local/share/mise/installs/codex/latest/bin/codex-code-mode-host",
+    "readonly": true,
+    "resolved": "/home/sicarii/.local/share/mise/installs/codex/0.159.2/bin/codex-code-mode-host",
+    "sha256": "6979f2fea8cb1d5d72614abfe2f42b16727cdce2c356cc6af933157e732a7277"
+  },
+  "limits": [
+    "Exact requested state phase1-luna-actor plus newline verified independently from actual candidate file; test remains finite ordinary outcome, not fullF5.",
+    "Requested gpt-6-luna/high kept separate from reported provider identity; no model inference from argv/PASS/VALID or tool success.",
+    "Library constructor/ABI checks, source hashes, manifest/journal bytes and chain verification receipts0/causalEvents10 are observations, not complete proof/nativeinstructionentry or authenticated fullcustody.",
+    "NativecallUNVERIFIED; authentic protected and childNP; F2/C1-C4/D7 remain open.",
+    "Parent scope8G0 and actor sibling8G/swap4096 actual observed; aggregatecap equivalence NOTCLAIMED. Terminal owner settlement is NOTFOUND+exactUUIDcgroupABSENT, not global census.",
+    "Credential symlinks/content not read or hashed; no credential dumps/extra decoding/retries/jobs/source edits."
+  ]
+}

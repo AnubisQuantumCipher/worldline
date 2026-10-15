@@ -1,0 +1,30 @@
+{
+  "status": "ARCHIVED raw bundle; this regrown path contains only explicitly retained compact metadata",
+  "item_id": "94332b110af54357bd6b09de162d3004",
+  "snapshot": "be484c155befdc6a6732336b69fdadef9032132dce70b4f946021dd32c0543bc",
+  "full_content_manifest_sha256": "08cf4044cc1a7165fc7926015ae0332d0b4ba36d84921a8e9ed15ca99f4c55ea",
+  "retained_compact_paths": [
+    "records/phase1-blockers/acquisition-full-repaired-v3/admission.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v3/admitted.json",
+    "records/phase1-blockers/acquisition-full-repaired-v3/cgroup.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v3/identity-after-terminal.json",
+    "records/phase1-blockers/acquisition-full-repaired-v3/identity-before.json",
+    "records/phase1-blockers/acquisition-full-repaired-v3/launch.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v3/launcher.stderr",
+    "records/phase1-blockers/acquisition-full-repaired-v3/launcher.stdout",
+    "records/phase1-blockers/acquisition-full-repaired-v3/owned-quiescence-after.json",
+    "records/phase1-blockers/acquisition-full-repaired-v3/payload-command.json",
+    "records/phase1-blockers/acquisition-full-repaired-v3/result.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v3/rusage.json",
+    "records/phase1-blockers/acquisition-full-repaired-v3/scope-journal.txt",
+    "records/phase1-blockers/acquisition-full-repaired-v3/scope.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v3/stdout",
+    "records/phase1-blockers/acquisition-full-repaired-v3/supervisor.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v3/temp-leaves-before.json",
+    "records/phase1-blockers/acquisition-full-repaired-v3/terminal-scope.jsonl",
+    "records/phase1-blockers/acquisition-full-repaired-v3/tracked.diff",
+    "records/phase1-blockers/acquisition-full-repaired-v3/worker-result.json"
+  ],
+  "recover": "project-vault get 94332b110af54357bd6b09de162d3004 --to NEW_LOCAL_DIRECTORY",
+  "boundary": "Full original bytes reside in the cold snapshot. This metadata is not full original content or a replacement for missing terminal results. Prior offload receipt cannot authorize deleting this regrown path."
+}

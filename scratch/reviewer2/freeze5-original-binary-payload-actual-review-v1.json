@@ -1,0 +1,619 @@
+{
+  "utc": "2026-10-14T22:53:09.027060+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "TESTED retained finite local payload results; MEASURED source/readback; not independent acceptance",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "Complete local roster attempted in retained order; FAILED-OPEN overall with native assertion failures and protected-startup fixture errors. No original carrier acceptance.",
+  "checks": {
+    "completion-tests/stdout": true,
+    "completion-tests/stderr": true,
+    "transition-direct-tests/stdout": true,
+    "transition-direct-tests/stderr": true,
+    "direct-tests/stdout": true,
+    "direct-tests/stderr": true,
+    "legacy-direct-tests/stdout": true,
+    "legacy-direct-tests/stderr": true,
+    "resource-direct-tests/stdout": true,
+    "resource-direct-tests/stderr": true,
+    "roster-d2-tests/stdout": true,
+    "roster-d2-tests/stderr": true,
+    "report-facts-tests/stdout": true,
+    "report-facts-tests/stderr": true,
+    "wire-tests/stdout": true,
+    "wire-tests/stderr": true,
+    "authority-tests/stdout": true,
+    "authority-tests/stderr": true,
+    "artifact-tests/stdout": true,
+    "artifact-tests/stderr": true,
+    "recovery-epoch-tests/stdout": true,
+    "recovery-epoch-tests/stderr": true,
+    "root-custody-context-controls/stdout": true,
+    "root-custody-context-controls/stderr": true,
+    "archive-leaf-controls/stdout": true,
+    "archive-leaf-controls/stderr": true,
+    "root-custody-replay-controls/stdout": true,
+    "root-custody-replay-controls/stderr": true,
+    "root-custody-abandon-controls/stdout": true,
+    "root-custody-abandon-controls/stderr": true,
+    "chain-bounds-tests-test-bounds/stdout": true,
+    "chain-bounds-tests-test-bounds/stderr": true,
+    "decision-correspondence-tests-test-completion-correspondence/stdout": true,
+    "decision-correspondence-tests-test-completion-correspondence/stderr": true,
+    "decision-correspondence-tests-test-transition-correspondence/stdout": true,
+    "decision-correspondence-tests-test-transition-correspondence/stderr": true,
+    "decision-correspondence-tests-test-history-correspondence/stdout": true,
+    "decision-correspondence-tests-test-history-correspondence/stderr": true,
+    "decision-correspondence-tests-test-raw-roster-correspondence/stdout": true,
+    "decision-correspondence-tests-test-raw-roster-correspondence/stderr": true,
+    "decision-correspondence-tests-test-run-metadata-correspondence/stdout": true,
+    "decision-correspondence-tests-test-run-metadata-correspondence/stderr": true,
+    "epoch-correspondence-core-test-epoch-correspondence/stdout": true,
+    "epoch-correspondence-core-test-epoch-correspondence/stderr": true,
+    "epoch-correspondence-pending-test-epoch-correspondence/stdout": true,
+    "epoch-correspondence-pending-test-epoch-correspondence/stderr": true,
+    "explicit-recovery-marker-tests-test-explicit-recovery-markers/stdout": true,
+    "explicit-recovery-marker-tests-test-explicit-recovery-markers/stderr": true,
+    "finalization-value-controls-test-finalization-values/stdout": true,
+    "finalization-value-controls-test-finalization-values/stderr": true,
+    "finalization-value-controls-test-finalization-parent-values/stdout": true,
+    "finalization-value-controls-test-finalization-parent-values/stderr": true,
+    "finalization-value-controls-test-finalization-projection/stdout": true,
+    "finalization-value-controls-test-finalization-projection/stderr": true,
+    "protocol-adapter-tests-test-protocol-adapter/stdout": true,
+    "protocol-adapter-tests-test-protocol-adapter/stderr": true,
+    "recovery-protocol-tests-test-protocol/stdout": true,
+    "recovery-protocol-tests-test-protocol/stderr": true,
+    "request-abandon-controls-request-abandon-controls/stdout": true,
+    "request-abandon-controls-request-abandon-controls/stderr": true,
+    "resource-ledger-correspondence-tests-test-resource-ledger-correspondence/stdout": true,
+    "resource-ledger-correspondence-tests-test-resource-ledger-correspondence/stderr": true,
+    "resources-prefix-correspondence-tests-test-resources-prefix-correspondence/stdout": true,
+    "resources-prefix-correspondence-tests-test-resources-prefix-correspondence/stderr": true,
+    "tests-resource-policy-smoke/stdout": true,
+    "tests-resource-policy-smoke/stderr": true,
+    "tests-worldline-core-tests/stdout": true,
+    "tests-worldline-core-tests/stderr": true,
+    "tests-worldline-core-fuzz/stdout": true,
+    "tests-worldline-core-fuzz/stderr": true,
+    "use-reservation-tests-use-reservation-tests/stdout": true,
+    "use-reservation-tests-use-reservation-tests/stderr": true,
+    "wire-initialization-tests-test-wire-initialization/stdout": true,
+    "wire-initialization-tests-test-wire-initialization/stderr": true,
+    "original-physical-semantic-controls/stdout": true,
+    "original-physical-semantic-controls/stderr": true,
+    "original-canonical-exchange-semantic-controls/stdout": true,
+    "original-canonical-exchange-semantic-controls/stderr": true,
+    "original-canonical-owner-semantic-controls/stdout": true,
+    "original-canonical-owner-semantic-controls/stderr": true,
+    "original-full-physical-disposable-namespace-controls/stdout": true,
+    "original-full-physical-disposable-namespace-controls/stderr": true,
+    "roster_order": true,
+    "root_frame_source": true
+  },
+  "result_sha256": "1e289b669ffc076a5773db1e759e1b38aa477577c88da1b21ee211b23faab27f",
+  "action_outcomes": [
+    {
+      "mode": "completion-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "transition-direct-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "direct-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "legacy-direct-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "resource-direct-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "roster-d2-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "report-facts-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "wire-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "authority-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "artifact-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "recovery-epoch-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "root-custody-context-controls",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "archive-leaf-controls",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "root-custody-replay-controls",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "root-custody-abandon-controls",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "chain-bounds-tests-test-bounds",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "decision-correspondence-tests-test-completion-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "decision-correspondence-tests-test-transition-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "decision-correspondence-tests-test-history-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "decision-correspondence-tests-test-raw-roster-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "decision-correspondence-tests-test-run-metadata-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "epoch-correspondence-core-test-epoch-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "epoch-correspondence-pending-test-epoch-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "explicit-recovery-marker-tests-test-explicit-recovery-markers",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "finalization-value-controls-test-finalization-values",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "finalization-value-controls-test-finalization-parent-values",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "finalization-value-controls-test-finalization-projection",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "protocol-adapter-tests-test-protocol-adapter",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "recovery-protocol-tests-test-protocol",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "request-abandon-controls-request-abandon-controls",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "resource-ledger-correspondence-tests-test-resource-ledger-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "resources-prefix-correspondence-tests-test-resources-prefix-correspondence",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "tests-resource-policy-smoke",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "tests-worldline-core-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "tests-worldline-core-fuzz",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "use-reservation-tests-use-reservation-tests",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "wire-initialization-tests-test-wire-initialization",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "original-physical-semantic-controls",
+      "status": "PASSED",
+      "exit_code": 0,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "original-canonical-exchange-semantic-controls",
+      "status": "FAILED-OPEN",
+      "exit_code": 1,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "original-canonical-owner-semantic-controls",
+      "status": "FAILED-OPEN",
+      "exit_code": 1,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    },
+    {
+      "mode": "original-full-physical-disposable-namespace-controls",
+      "status": "FAILED-OPEN",
+      "exit_code": 1,
+      "unchanged_artifacts": true,
+      "additional_deadline_expired": false
+    }
+  ],
+  "failed_actions": [
+    {
+      "mode": "original-canonical-exchange-semantic-controls",
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "started_utc": "2026-10-14T22:51:30.116016+00:00",
+      "status": "FAILED-OPEN",
+      "classification": "TESTED",
+      "exit_code": 1,
+      "original_payload_timeout_seconds": 180,
+      "carrier_acceptance": "NOT PERFORMED: D7 external original order/admission/custody not recreated",
+      "additional_deadline_expired": false,
+      "unchanged_artifacts": true,
+      "original_stdout_marker_matches": true,
+      "namespace_premises_observed": true,
+      "namespace_unittest_summary": null,
+      "stdout": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-controls-v5/original-canonical-exchange-semantic-controls/stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "mode": 420,
+        "device": 64768,
+        "inode": 2098295
+      },
+      "stderr": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-controls-v5/original-canonical-exchange-semantic-controls/stderr",
+        "sha256": "992428700441145706bad944e0d008687c18c76642e1c7780a1c1719c31f9521",
+        "bytes": 76,
+        "mode": 420,
+        "device": 64768,
+        "inode": 2098296
+      },
+      "ended_utc": "2026-10-14T22:51:32.239680+00:00"
+    },
+    {
+      "mode": "original-canonical-owner-semantic-controls",
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "started_utc": "2026-10-14T22:51:32.239958+00:00",
+      "status": "FAILED-OPEN",
+      "classification": "TESTED",
+      "exit_code": 1,
+      "original_payload_timeout_seconds": 180,
+      "carrier_acceptance": "NOT PERFORMED: D7 external original order/admission/custody not recreated",
+      "additional_deadline_expired": false,
+      "unchanged_artifacts": true,
+      "original_stdout_marker_matches": true,
+      "namespace_premises_observed": true,
+      "namespace_unittest_summary": null,
+      "stdout": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-controls-v5/original-canonical-owner-semantic-controls/stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "mode": 420,
+        "device": 64768,
+        "inode": 2098312
+      },
+      "stderr": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-controls-v5/original-canonical-owner-semantic-controls/stderr",
+        "sha256": "a214ffd31f75d5fab2888be1a9d3d9f56531c40ab0eed86529827fdfca7a2821",
+        "bytes": 84,
+        "mode": 420,
+        "device": 64768,
+        "inode": 2098313
+      },
+      "ended_utc": "2026-10-14T22:51:33.534764+00:00"
+    },
+    {
+      "mode": "original-full-physical-disposable-namespace-controls",
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "started_utc": "2026-10-14T22:51:33.535107+00:00",
+      "status": "FAILED-OPEN",
+      "classification": "TESTED",
+      "exit_code": 1,
+      "original_payload_timeout_seconds": 180,
+      "carrier_acceptance": "NOT PERFORMED: D7 external original order/admission/custody not recreated",
+      "additional_deadline_expired": false,
+      "unchanged_artifacts": true,
+      "original_stdout_marker_matches": true,
+      "namespace_premises_observed": false,
+      "namespace_unittest_summary": {
+        "ran_summary": "Ran 6 tests in 0.751s",
+        "observed_test_count": 6,
+        "exact_OK_line": false,
+        "failure_or_skip_marker": true
+      },
+      "stdout": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-controls-v5/original-full-physical-disposable-namespace-controls/stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "mode": 420,
+        "device": 64768,
+        "inode": 2098320
+      },
+      "stderr": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-controls-v5/original-full-physical-disposable-namespace-controls/stderr",
+        "sha256": "690d5e34ed800ddfe936b27bb43b4dace3946572a3ff2d578c6b75b850acd40a",
+        "bytes": 12741,
+        "mode": 420,
+        "device": 64768,
+        "inode": 2098321
+      },
+      "ended_utc": "2026-10-14T22:51:34.787636+00:00"
+    }
+  ],
+  "failure_semantics": [
+    "Exchange native stderr raises ADA.ASSERTIONS.ASSERTION_ERROR at canonical_exchange_controls.adb:51; owner native stderr same at canonical_owner_completion_controls.adb:54. Each line is the common Check(Test:Boolean) assertion helper. Exact failed caller/predicate and cause UNVERIFIED. Do not describe helper line as a uniquely identified predicate.",
+    "Full disposable physical namespace fixture reports Ran 6 tests and errors=6 with STARTUP_UNPROTECTED_COMPONENT in protected() through canonical_physical.entry before intended operation assertions; no passing full syscall guarantee or authentic protected acceptance.",
+    "Raw namespace retained facts still show distinct first/second filesystem devices, nonroot outer entry and mapped-root user probe. The result namespace_premises_observed=false must not erase those observed subset facts or be described as a repeated alias failure.",
+    "Earlier root-custody-context-controls completed PASSED exit0; no hang classification."
+  ],
+  "namespace_facts": {
+    "namespace-premises-before.json": {
+      "utc": "2026-10-14T22:51:33.657706+00:00",
+      "uid": 1000,
+      "euid": 1000,
+      "uid_map": "      1000          0          1\n",
+      "namespaces": {
+        "user": "user:[4026532846]",
+        "mnt": "mnt:[4026532842]",
+        "pid": "pid:[4026532845]"
+      },
+      "first_st_dev": 64768,
+      "second_st_dev": 95,
+      "logical_dev_shm_st_dev": 95
+    },
+    "namespace-user-probe.json": {
+      "utc": "2026-10-14T22:51:33.692282+00:00",
+      "euid": 0,
+      "uid": 0,
+      "uid_map": "         0       1000          1\n",
+      "namespaces": {
+        "user": "user:[4026532847]",
+        "mnt": "mnt:[4026532842]",
+        "pid": "pid:[4026532845]"
+      }
+    },
+    "namespace-payload-result.json": {
+      "utc": "2026-10-14T22:51:34.745071+00:00",
+      "argv": [
+        "/usr/bin/env",
+        "WORLDLINE_TEMP_PHYSICAL_NAMESPACE=1",
+        "WORLDLINE_PHYSICAL_SECOND_TMP=/dev/shm",
+        "/usr/bin/unshare",
+        "--user",
+        "--map-root-user",
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_full_physical_syscalls_native"
+      ],
+      "exit_code": 1,
+      "additional_deadline_expired": false,
+      "original_payload_timeout_seconds": 180
+    }
+  },
+  "source_hashes": {
+    "canonical-exchange-tests/canonical_exchange_controls.adb": "c8ae9cefcdd1582f247b7c031706c06411c8ba12bf27547f89e4cc2d03bd2320",
+    "canonical-owner-completion-tests/canonical_owner_completion_controls.adb": "9e93504070a92a88c63407dea6c6f70e93d0cd2db8d8f389c5e0eac877f3bcad",
+    "runtime/worldline/protected_startup.py": "483d07c257c060b698e3cd9609f30fc95ed3243cc4727095f6042ea1e266ef7a",
+    "runtime/worldline/canonical_physical.py": "ccedc92e8d1ac08a5617f84d196cfbf8ac0cc25360a7c50aa86a07824b7efe3d",
+    "tests/test_full_physical_syscalls_native.py": "a4272078b9c96d49d7108fc82cf44468bb869c1965f307d18edf1d5708198b68"
+  },
+  "scope": {
+    "launch": [
+      {
+        "MemoryMax": "8G",
+        "MemorySwapMax": "0",
+        "argv": [
+          "python3",
+          "-B",
+          "scratch/acquisition/original_binary_controls_v5.py",
+          "--run",
+          "--expected-commit",
+          "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+          "--freeze",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+          "--frame",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+          "--aux-manifest",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/original-aux-builds-final-v6/result.json",
+          "--full-build-manifest",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+          "--artifact-manifest",
+          "scratch/acquisition/original-binary-artifacts-v5/artifacts.json",
+          "--out",
+          "scratch/acquisition/original-binary-controls-v5"
+        ],
+        "commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "lock": "/home/sicarii/.worldline-heavy.lock",
+        "status": "UNVERIFIED",
+        "timeout": "120m",
+        "utc": "2026-10-14T22:48:25.273980+00:00"
+      }
+    ],
+    "result": [
+      {
+        "exit_code": 1,
+        "utc": "2026-10-14T22:51:36.299492+00:00"
+      }
+    ],
+    "terminal": [
+      {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-14T22:51:36.237152+00:00"
+      }
+    ],
+    "last_live_cgroup": {
+      "event": "after",
+      "exit_code": 1,
+      "memory.current": "14303232",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "8589934592",
+      "memory.peak": "61652992",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-bbadba7d649e44399b7a588029af2ad7.scope",
+      "utc": "2026-10-14T22:51:35.474878+00:00"
+    },
+    "live_caps_consistent": true
+  },
+  "limits": [
+    "Scope worker/outer1, terminal populated=false; lastlive cap8G/swap0 and high/max/oom/oomkill/groupkill0. This establishes retained owned scope settlement, not arbitrary host-wide cleanup.",
+    "D7 external original order/admission/custody not recreated; full_F3_acceptance false and independent acceptance NOT PERFORMED preserved.",
+    "No source/protection/fixture/deadline changes, reruns, attachment, or acceptance promotion. Qualified direct additions are independent original roster completion and not conditioned on these payloads becoming green."
+  ]
+}

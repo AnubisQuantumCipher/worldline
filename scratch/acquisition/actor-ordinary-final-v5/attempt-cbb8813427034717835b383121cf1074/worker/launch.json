@@ -1,0 +1,36 @@
+{
+  "aggregate_cap_equivalence": "NOT CLAIMED; actor service is a sibling cgroup",
+  "argv": [
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/actor_world_harness_v3.py",
+    "--phase",
+    "worker",
+    "--out",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/actor-ordinary-final-v5/attempt-cbb8813427034717835b383121cf1074/worker",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--library",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+    "--timeout",
+    "600",
+    "--scope-timeout",
+    "20m",
+    "--run"
+  ],
+  "child_acceptance": "NOT PERFORMED",
+  "commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "independent_acceptance": "NOT PERFORMED",
+  "native_call_observation": "UNVERIFIED; no profiler installed",
+  "pid": 2308246,
+  "protected_acceptance": "NOT PERFORMED",
+  "reported_model_identity": "UNVERIFIED until present in actual retained provider output",
+  "requested_model_argv": [
+    "-m",
+    "gpt-6-luna",
+    "-c",
+    "model_reasoning_effort=high"
+  ],
+  "scope": "ordinary authentic actor world only",
+  "stage": "identity",
+  "status": "UNVERIFIED",
+  "writes_root": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/actor-ordinary-final-v5/attempt-cbb8813427034717835b383121cf1074/worker"
+}

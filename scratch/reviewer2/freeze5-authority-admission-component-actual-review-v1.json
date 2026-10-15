@@ -1,0 +1,662 @@
+{
+  "utc": "2026-10-15T01:02:48.512200+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "TESTED ordinary component outcomes only; C1/C2 full authority gates remain UNVERIFIED",
+  "tested_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "CONCUR finite ordinary pre-launch component outcomes and release/no-op cleanup interpretation; no full authority gate acceptance.",
+  "result_sha256": "1023aee7be2a1acdbc278d18a3ef3eadc4900feb096439af3c0361f60644c10d",
+  "checks": {
+    "before_after": true,
+    "root_frame": true,
+    "artifacts": true,
+    "library": true,
+    "driver": true,
+    "observer_result": true,
+    "qualification": true,
+    "dispatch": true,
+    "runtime_modules": true,
+    "ordinary-admissionledger_after": true,
+    "reserved-reportledger_before": true,
+    "reserved-reportledger_after": true,
+    "capacity-refusal-requestledger_before": true,
+    "capacity-refusal-requestledger_after": true,
+    "release-owned-reservationledger_before": true,
+    "release-owned-reservationledger_after": true,
+    "release-againledger_before": true,
+    "release-againledger_after": true,
+    "reconcile-after-releaseledger_before": true,
+    "reconcile-after-releaseledger_after": true,
+    "final-reportledger_before": true,
+    "final-reportledger_after": true,
+    "release_sequence": true,
+    "cleanup_is_subsequent_noop": true,
+    "f221d33bf7ca44e896c739a3b365d92e": true,
+    "3b7c2a02d1684ff4a92b4a56f85edcae": true,
+    "2e0a55bb1a3746a28717ad578f0c0f6e": true,
+    "925d94250da24995a5151984e86cf13d": true,
+    "f8d75b3e760e4fbbb9bb54f3b3527dd6": true,
+    "2157dc60c32a4f64b2b088646a8d67f7": true,
+    "5eb7d8a6933140a2bfc6fa58a7b6477f": true,
+    "dd63778af5724c6b83491153c9ffb59a": true,
+    "aa9b69b8109b49b2812d9f0569dd27d6": true,
+    "2a6468f774014ebaa4f9a2e9cfd4bede": true,
+    "fbbf6d893e184ef69c757bb2cb1b4fae": true,
+    "0cc145ff1caa471a8a1e9cb5b2dd619c": true,
+    "f425b47a7079453eac7d763ec7bd7dc1": true,
+    "b002a7dc5c4d436ead200b23d541b9b8": true,
+    "3848c3bbb551465b80605ac32c29acdd": true,
+    "live_caps": true
+  },
+  "actual_command": [
+    "scratch/old-analysis/authority_admission_driver_v4.py",
+    "--out",
+    "scratch/old-analysis/authority-admission-v5",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze-record",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "--observe-ffi",
+    "--ffi-qualification",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/result.json",
+    "--run"
+  ],
+  "step_results": {
+    "initial-report": {
+      "end_monotonic_ns": 39849954915155,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/runtime/admission-ledger.json",
+        "present": false
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/runtime/admission-ledger.json",
+        "present": false
+      },
+      "name": "initial-report",
+      "returned": {
+        "enforced": true,
+        "enforcedPolicy": {
+          "cpuQuotaPercent": null,
+          "cpuWeight": null,
+          "diskGrowthMaxBytes": null,
+          "enforcement": "cgroup2",
+          "maxConcurrentWorkloads": null,
+          "memoryHighBytes": null,
+          "memoryMaxBytes": null,
+          "memorySwapMaxBytes": null,
+          "tasksMax": null,
+          "timeoutSeconds": null
+        },
+        "floors": {
+          "maxMemoryPressureHundredths": 5000,
+          "minFreeDiskBytes": 2147483648,
+          "minFreeInodes": 10000,
+          "minFreeMemoryBytes": 2147483648
+        },
+        "headroomBytes": 23685070848,
+        "ledgerError": null,
+        "outstandingReservations": [],
+        "resourceDecisionError": null,
+        "state": {
+          "disk": {
+            "share": {
+              "freeBytes": 97517989888,
+              "freeInodes": 33086771,
+              "totalBytes": 686860591104
+            },
+            "state": {
+              "freeBytes": 97517989888,
+              "freeInodes": 33086771,
+              "totalBytes": 686860591104
+            }
+          },
+          "memAvailableBytes": 25832554496,
+          "memTotalBytes": 33586016256,
+          "pressureHundredths": {
+            "cpuAvg10": 24,
+            "ioAvg10": 22,
+            "memoryAvg10": 0
+          },
+          "reason": null,
+          "state": "OBSERVED",
+          "swapFreeBytes": 32003571712
+        },
+        "unmetered": true,
+        "withheldBytes": 0,
+        "wouldAdmitNow": true
+      },
+      "start_monotonic_ns": 39849933567400
+    },
+    "ordinary-admission": {
+      "end_monotonic_ns": 39849976313243,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-ordinary-admission-after.json",
+        "present": true,
+        "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/runtime/admission-ledger.json",
+        "present": false
+      },
+      "name": "ordinary-admission",
+      "returned": {
+        "admissionState": {
+          "disk": {
+            "share": {
+              "freeBytes": 97517957120,
+              "freeInodes": 33086769,
+              "totalBytes": 686860591104
+            },
+            "state": {
+              "freeBytes": 97517957120,
+              "freeInodes": 33086769,
+              "totalBytes": 686860591104
+            }
+          },
+          "memAvailableBytes": 25832431616,
+          "memTotalBytes": 33586016256,
+          "pressureHundredths": {
+            "cpuAvg10": 24,
+            "ioAvg10": 22,
+            "memoryAvg10": 0
+          },
+          "reason": null,
+          "state": "OBSERVED",
+          "swapFreeBytes": 32003571712
+        },
+        "arithmetic": {
+          "accounted": true,
+          "floorBytes": 2147483648,
+          "headroomBytes": 23684947968,
+          "memAvailableBytes": 25832431616,
+          "outstandingCount": 0,
+          "requestedBytes": 1,
+          "reservations": [],
+          "withheldByReservationsBytes": 0
+        },
+        "enforcedPolicy": {
+          "cpuQuotaPercent": null,
+          "cpuWeight": null,
+          "diskGrowthMaxBytes": null,
+          "enforcement": "cgroup2",
+          "maxConcurrentWorkloads": null,
+          "memoryHighBytes": null,
+          "memoryMaxBytes": null,
+          "memorySwapMaxBytes": null,
+          "tasksMax": null,
+          "timeoutSeconds": null
+        },
+        "nonClaims": [
+          "Admission reserves against WORLDLINE's own ledger and the machine's observed state. Another process may take the memory a microsecond later, so this reduces the chance of starting work that cannot finish; it does not guarantee completion.",
+          "WORLDLINE governs the workloads it starts. It does not police the host and will not stop anything it did not start."
+        ],
+        "outcome": "ADMITTED",
+        "reason": "1 bytes reserved against 23684947968 of headroom",
+        "reservationId": "1e8acdcf-4c99-4a13-a960-10f454d269c5"
+      },
+      "start_monotonic_ns": 39849955080864
+    },
+    "reserved-report": {
+      "end_monotonic_ns": 39850048553831,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-reserved-report-after.json",
+        "present": true,
+        "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-reserved-report-before.json",
+        "present": true,
+        "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+      },
+      "name": "reserved-report",
+      "returned": {
+        "enforced": true,
+        "enforcedPolicy": {
+          "cpuQuotaPercent": null,
+          "cpuWeight": null,
+          "diskGrowthMaxBytes": null,
+          "enforcement": "cgroup2",
+          "maxConcurrentWorkloads": null,
+          "memoryHighBytes": null,
+          "memoryMaxBytes": null,
+          "memorySwapMaxBytes": null,
+          "tasksMax": null,
+          "timeoutSeconds": null
+        },
+        "floors": {
+          "maxMemoryPressureHundredths": 5000,
+          "minFreeDiskBytes": 2147483648,
+          "minFreeInodes": 10000,
+          "minFreeMemoryBytes": 2147483648
+        },
+        "headroomBytes": 23685201919,
+        "ledgerError": null,
+        "outstandingReservations": [
+          {
+            "observedUsageBytes": null,
+            "reservationId": "1e8acdcf-4c99-4a13-a960-10f454d269c5",
+            "reservedBytes": 1,
+            "withheldBytes": 1,
+            "workload": "phase1-owned-authority-observation"
+          }
+        ],
+        "resourceDecisionError": null,
+        "state": {
+          "disk": {
+            "share": {
+              "freeBytes": 97517916160,
+              "freeInodes": 33086765,
+              "totalBytes": 686860591104
+            },
+            "state": {
+              "freeBytes": 97517916160,
+              "freeInodes": 33086765,
+              "totalBytes": 686860591104
+            }
+          },
+          "memAvailableBytes": 25832685568,
+          "memTotalBytes": 33586016256,
+          "pressureHundredths": {
+            "cpuAvg10": 24,
+            "ioAvg10": 22,
+            "memoryAvg10": 0
+          },
+          "reason": null,
+          "state": "OBSERVED",
+          "swapFreeBytes": 32003571712
+        },
+        "unmetered": true,
+        "withheldBytes": 1,
+        "wouldAdmitNow": true
+      },
+      "start_monotonic_ns": 39849976505285
+    },
+    "capacity-refusal-request": {
+      "end_monotonic_ns": 39850121925508,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-capacity-refusal-request-after.json",
+        "present": true,
+        "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-capacity-refusal-request-before.json",
+        "present": true,
+        "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+      },
+      "name": "capacity-refusal-request",
+      "returned": {
+        "admissionState": {
+          "disk": {
+            "share": {
+              "freeBytes": 97517879296,
+              "freeInodes": 33086762,
+              "totalBytes": 686860591104
+            },
+            "state": {
+              "freeBytes": 97517879296,
+              "freeInodes": 33086762,
+              "totalBytes": 686860591104
+            }
+          },
+          "memAvailableBytes": 25832730624,
+          "memTotalBytes": 33586016256,
+          "pressureHundredths": {
+            "cpuAvg10": 24,
+            "ioAvg10": 22,
+            "memoryAvg10": 0
+          },
+          "reason": null,
+          "state": "OBSERVED",
+          "swapFreeBytes": 32003571712
+        },
+        "arithmetic": {
+          "accounted": true,
+          "floorBytes": 2147483648,
+          "headroomBytes": 23685246975,
+          "memAvailableBytes": 25832730624,
+          "outstandingCount": 1,
+          "requestedBytes": 17592186044416,
+          "reservations": [
+            {
+              "observedUsageBytes": null,
+              "reservationId": "1e8acdcf-4c99-4a13-a960-10f454d269c5",
+              "reservedBytes": 1,
+              "withheldBytes": 1,
+              "workload": "phase1-owned-authority-observation"
+            }
+          ],
+          "withheldByReservationsBytes": 1
+        },
+        "enforcedPolicy": {
+          "cpuQuotaPercent": null,
+          "cpuWeight": null,
+          "diskGrowthMaxBytes": null,
+          "enforcement": "cgroup2",
+          "maxConcurrentWorkloads": null,
+          "memoryHighBytes": null,
+          "memoryMaxBytes": null,
+          "memorySwapMaxBytes": null,
+          "tasksMax": null,
+          "timeoutSeconds": null
+        },
+        "nonClaims": [
+          "Admission reserves against WORLDLINE's own ledger and the machine's observed state. Another process may take the memory a microsecond later, so this reduces the chance of starting work that cannot finish; it does not guarantee completion.",
+          "WORLDLINE governs the workloads it starts. It does not police the host and will not stop anything it did not start."
+        ],
+        "outcome": "RESOURCES_UNAVAILABLE",
+        "reason": "17592186044416 bytes requested but only 23685246975 are free to promise: 25832730624 available, 1 withheld by 1 outstanding reservation(s), 2147483648 held back as the floor",
+        "reservationId": null
+      },
+      "start_monotonic_ns": 39850048803832
+    },
+    "release-owned-reservation": {
+      "end_monotonic_ns": 39850123294889,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-release-owned-reservation-after.json",
+        "present": true,
+        "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-release-owned-reservation-before.json",
+        "present": true,
+        "sha256": "25d762382a2824ae5e6c910b25d7959eec7e14cfd6a31210481ccd7cb5e922e3"
+      },
+      "name": "release-owned-reservation",
+      "returned": true,
+      "start_monotonic_ns": 39850122184009
+    },
+    "release-again": {
+      "end_monotonic_ns": 39850123555307,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-release-again-after.json",
+        "present": true,
+        "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-release-again-before.json",
+        "present": true,
+        "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+      },
+      "name": "release-again",
+      "returned": false,
+      "start_monotonic_ns": 39850123405848
+    },
+    "reconcile-after-release": {
+      "end_monotonic_ns": 39850123732224,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-reconcile-after-release-after.json",
+        "present": true,
+        "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-reconcile-after-release-before.json",
+        "present": true,
+        "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+      },
+      "name": "reconcile-after-release",
+      "returned": [],
+      "start_monotonic_ns": 39850123646015
+    },
+    "final-report": {
+      "end_monotonic_ns": 39850143634264,
+      "ledger_after": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-final-report-after.json",
+        "present": true,
+        "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+      },
+      "ledger_before": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ledger-final-report-before.json",
+        "present": true,
+        "sha256": "2ed5ed2862b201891a193f8dc902174b2bbf09d3cfd6e6f006fdf330e0b528cc"
+      },
+      "name": "final-report",
+      "returned": {
+        "enforced": true,
+        "enforcedPolicy": {
+          "cpuQuotaPercent": null,
+          "cpuWeight": null,
+          "diskGrowthMaxBytes": null,
+          "enforcement": "cgroup2",
+          "maxConcurrentWorkloads": null,
+          "memoryHighBytes": null,
+          "memoryMaxBytes": null,
+          "memorySwapMaxBytes": null,
+          "tasksMax": null,
+          "timeoutSeconds": null
+        },
+        "floors": {
+          "maxMemoryPressureHundredths": 5000,
+          "minFreeDiskBytes": 2147483648,
+          "minFreeInodes": 10000,
+          "minFreeMemoryBytes": 2147483648
+        },
+        "headroomBytes": 23685246976,
+        "ledgerError": null,
+        "outstandingReservations": [],
+        "resourceDecisionError": null,
+        "state": {
+          "disk": {
+            "share": {
+              "freeBytes": 97517805568,
+              "freeInodes": 33086750,
+              "totalBytes": 686860591104
+            },
+            "state": {
+              "freeBytes": 97517805568,
+              "freeInodes": 33086750,
+              "totalBytes": 686860591104
+            }
+          },
+          "memAvailableBytes": 25832730624,
+          "memTotalBytes": 33586016256,
+          "pressureHundredths": {
+            "cpuAvg10": 24,
+            "ioAvg10": 22,
+            "memoryAvg10": 0
+          },
+          "reason": null,
+          "state": "OBSERVED",
+          "swapFreeBytes": 32003571712
+        },
+        "unmetered": true,
+        "withheldBytes": 0,
+        "wouldAdmitNow": true
+      },
+      "start_monotonic_ns": 39850123800433
+    }
+  },
+  "cleanup_interpretation": "Original reservation released successfully at explicit release-owned-reservation (true), subsequent release-again false with unchanged empty ledger, final report no outstanding reservations. Finally cleanup release_returnedfalse is another release of already absent reservation, not evidence of leak. No blanket arbitrary cleanup success inferred from outer0.",
+  "ffi_observation": {
+    "claim": "UNVERIFIED until finite observer qualification and exact source/library joins are reviewed",
+    "completed_calls": [
+      {
+        "id": "f221d33bf7ca44e896c739a3b365d92e",
+        "step": "initial-report",
+        "symbol": "wl_resource_ledger_compute"
+      },
+      {
+        "id": "3b7c2a02d1684ff4a92b4a56f85edcae",
+        "step": "initial-report",
+        "symbol": "wl_resource_ledger_headroom"
+      },
+      {
+        "id": "2e0a55bb1a3746a28717ad578f0c0f6e",
+        "step": "initial-report",
+        "symbol": "wl_resource_policy_admit"
+      },
+      {
+        "id": "925d94250da24995a5151984e86cf13d",
+        "step": "ordinary-admission",
+        "symbol": "wl_resource_ledger_compute"
+      },
+      {
+        "id": "f8d75b3e760e4fbbb9bb54f3b3527dd6",
+        "step": "ordinary-admission",
+        "symbol": "wl_resource_ledger_headroom"
+      },
+      {
+        "id": "2157dc60c32a4f64b2b088646a8d67f7",
+        "step": "ordinary-admission",
+        "symbol": "wl_resource_policy_admit"
+      },
+      {
+        "id": "5eb7d8a6933140a2bfc6fa58a7b6477f",
+        "step": "reserved-report",
+        "symbol": "wl_resource_ledger_compute"
+      },
+      {
+        "id": "dd63778af5724c6b83491153c9ffb59a",
+        "step": "reserved-report",
+        "symbol": "wl_resource_ledger_headroom"
+      },
+      {
+        "id": "aa9b69b8109b49b2812d9f0569dd27d6",
+        "step": "reserved-report",
+        "symbol": "wl_resource_policy_admit"
+      },
+      {
+        "id": "2a6468f774014ebaa4f9a2e9cfd4bede",
+        "step": "capacity-refusal-request",
+        "symbol": "wl_resource_ledger_compute"
+      },
+      {
+        "id": "fbbf6d893e184ef69c757bb2cb1b4fae",
+        "step": "capacity-refusal-request",
+        "symbol": "wl_resource_ledger_headroom"
+      },
+      {
+        "id": "0cc145ff1caa471a8a1e9cb5b2dd619c",
+        "step": "capacity-refusal-request",
+        "symbol": "wl_resource_policy_admit"
+      },
+      {
+        "id": "f425b47a7079453eac7d763ec7bd7dc1",
+        "step": "final-report",
+        "symbol": "wl_resource_ledger_compute"
+      },
+      {
+        "id": "b002a7dc5c4d436ead200b23d541b9b8",
+        "step": "final-report",
+        "symbol": "wl_resource_ledger_headroom"
+      },
+      {
+        "id": "3848c3bbb551465b80605ac32c29acdd",
+        "step": "final-report",
+        "symbol": "wl_resource_policy_admit"
+      }
+    ],
+    "event_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/ffi-dispatch/dispatch.jsonl",
+    "event_sha256": "288e5e4f9d50031246d1512c5bde0629bf5f048dec23f412cca103e5c2b65e7b",
+    "independent_acceptance": "NOT PERFORMED",
+    "library_sha256_after": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+    "native_instruction_entry": "UNVERIFIED",
+    "observation_errors": [],
+    "observer_sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+    "restoration_errors": [],
+    "restored_original_functions": true,
+    "runtime_bindings": {
+      "worldline.resource_ledger": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_ledger.py",
+        "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+      },
+      "worldline.resource_policy": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_policy.py",
+        "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+      }
+    }
+  },
+  "scope": {
+    "launch": [
+      {
+        "MemoryMax": "8G",
+        "MemorySwapMax": "0",
+        "argv": [
+          "bwrap",
+          "--die-with-parent",
+          "--ro-bind",
+          "/",
+          "/",
+          "--dev",
+          "/dev",
+          "--proc",
+          "/proc",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "--chdir",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "python3",
+          "-B",
+          "scratch/old-analysis/authority_admission_driver_v4.py",
+          "--out",
+          "scratch/old-analysis/authority-admission-v5",
+          "--expected-commit",
+          "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+          "--freeze-record",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+          "--frame",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+          "--build-manifest",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+          "--observe-ffi",
+          "--ffi-qualification",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/result.json",
+          "--run"
+        ],
+        "commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "lock": "/home/sicarii/.worldline-heavy.lock",
+        "status": "UNVERIFIED",
+        "timeout": "120s",
+        "utc": "2026-10-15T01:01:44.574771+00:00"
+      }
+    ],
+    "admission": [
+      {
+        "admitted": true
+      }
+    ],
+    "worker_result": {
+      "exit_code": 0,
+      "utc": "2026-10-15T01:01:45.657253+00:00"
+    },
+    "terminal": [
+      {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T01:01:46.620140+00:00"
+      }
+    ],
+    "last_live_cgroup": {
+      "event": "after",
+      "exit_code": 0,
+      "memory.current": "11526144",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "8589934592",
+      "memory.peak": "31256576",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-cdd7376d8fbf4d0a9b4a18f228fb5a60.scope",
+      "utc": "2026-10-15T01:01:45.656776+00:00"
+    }
+  },
+  "limits": [
+    "Admission actual /proc/filesystem observations and originaldefaults, reservation no unit, observedusageNone unknown not0. Enforced policy/report boolean does not establish actual service enforcement.",
+    "No service launched; Consume/runningusage/managercleanup/protected/custody/recovery/evidencejoins not performed by component.",
+    "Qualified finite real _CFuncPtr dispatch and returned buffers retained; nativeinstructionentry, universal transparency and authenticated fullproduction joins unverified.",
+    "Component C1/C2UNVERIFIED,C3/C4NP preserved; whole report C1-C4FAILEDOPEN remains due completeproof and other originalscope gaps.",
+    "Independent original ordinaryactor may proceed per existing guard/plan/bounds after knownscope settled; not dependent on full C1-C4 pass. No actorfiles or processes read.",
+    "No source/test/config/protection changes or newjobs performed; independent acceptanceNP."
+  ]
+}

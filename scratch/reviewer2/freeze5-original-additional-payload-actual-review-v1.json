@@ -1,0 +1,567 @@
+{
+  "utc": "2026-10-14T22:54:29.125963+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "TESTED finite original additional payloads only",
+  "tested_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "PASSED finite exact original direct additions; retain TEST_ONLY and original carrier/whole F3/independent acceptance limitations.",
+  "result_sha256": "994df104fa501fb4fe29ba6d247c3cf7f0f61bfd6018f041610761b06fb3ee69",
+  "identity_checks": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original_additional_driver_v2.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls/stdout",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls/stderr",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls/stdout",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls/stderr",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/pending.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/native.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original_binary_controls_v5.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/frozen_source_v2.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/f3-original-full-action-roster.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests/test_raw_evaluation_default.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests/run_freshness_json_order_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests/freshness_json_order_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/result.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/identity.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/scope.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/pending.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/native.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original_binary_controls_v5.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/frozen_source_v2.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/f3-original-full-action-roster.json",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests/test_raw_evaluation_default.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests/run_freshness_json_order_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests/freshness_json_order_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/tests/run_freshness_json_order_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+      "matches": true
+    }
+  ],
+  "all_frozen_root_frame_hashes_match": true,
+  "current_artifact_roster_matches": true,
+  "actual_launches": [
+    {
+      "utc": "2026-10-14T22:52:45.574832+00:00",
+      "argv": [
+        "/usr/bin/bwrap",
+        "--die-with-parent",
+        "--new-session",
+        "--unshare-pid",
+        "--ro-bind",
+        "/",
+        "/",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls/temp",
+        "/tmp",
+        "--chdir",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/tests/run_freshness_json_order_controls.py"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+      "environment": {
+        "WORLDLINE_BUILD": "checks",
+        "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+        "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/pending-standalone",
+        "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/pending-standalone",
+        "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/tests",
+        "TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls/temp",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "PYTHONOPTIMIZE_absent": true,
+      "inner_deadline_seconds": 180,
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "script": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/tests/run_freshness_json_order_controls.py",
+        "sha256": "487a14a56f6845ce037f805c23bebbe099aef3d2283dac51a46f5239deecf0d5",
+        "bytes": 1524,
+        "mode": 420,
+        "device": 64768,
+        "inode": 1967288
+      },
+      "library": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+        "sha256": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+        "bytes": 67164304,
+        "mode": 493,
+        "device": 64768,
+        "inode": 6736714
+      }
+    },
+    {
+      "utc": "2026-10-14T22:52:53.286088+00:00",
+      "argv": [
+        "/usr/bin/bwrap",
+        "--die-with-parent",
+        "--new-session",
+        "--unshare-pid",
+        "--ro-bind",
+        "/",
+        "/",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls/temp",
+        "/tmp",
+        "--chdir",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+      "environment": {
+        "WORLDLINE_BUILD": "checks",
+        "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+        "PENDING_OBJECT_DIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/pending-standalone",
+        "PENDING_LIBRARY_DIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/pending-standalone",
+        "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/tests",
+        "TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls/temp",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "PYTHONOPTIMIZE_absent": true,
+      "inner_deadline_seconds": 180,
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "script": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py",
+        "sha256": "a2e6fd4648d5eed25b81770946335d49df5eaa8ce9a69f7f596fa50e20e10c62",
+        "bytes": 6458,
+        "mode": 420,
+        "device": 64768,
+        "inode": 5305641
+      },
+      "library": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+        "sha256": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+        "bytes": 67164304,
+        "mode": 493,
+        "device": 64768,
+        "inode": 6736714
+      }
+    }
+  ],
+  "actions": [
+    {
+      "mode": "freshness-json-object-order-additional-controls",
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "status": "PASSED",
+      "classification": "TESTED",
+      "original_payload_timeout_seconds": 180,
+      "production_custody_established": false,
+      "exit_code": 0,
+      "additional_deadline_expired": false,
+      "original_parser": {
+        "ran": 1,
+        "ok": true,
+        "verdictLine": "OK",
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "expectedFailures": 0,
+        "unexpectedSuccesses": 0
+      },
+      "marker": "FRESHNESS_JSON_ORDER_RESULT ",
+      "marker_payload": {
+        "input_kind": "unchanged-original-TEST_ONLY-producer_case",
+        "negative": [
+          "boolean-for-integer",
+          "float-for-integer",
+          "changed-integer",
+          "missing-member",
+          "extra-member",
+          "duplicate-last-value-mismatch"
+        ],
+        "phase_acceptance": false,
+        "positive": [
+          "actual-original",
+          "ascending-object-order",
+          "descending-object-order"
+        ],
+        "production_custody_established": false
+      },
+      "original_marker_matches": true,
+      "unchanged_library": true,
+      "payload_predicates_passed": true,
+      "cleanup": {
+        "observed_owned_processes": [
+          {
+            "pid": 1496819,
+            "starttime": "3211031",
+            "state": "S",
+            "ppid": 1496809,
+            "pgid": 1496819,
+            "session": 1496819,
+            "refusals": [],
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a637ff80e942b6ac6176b8ca854ef1.scope\n",
+            "pid_namespace": "pid:[4026531836]",
+            "mount_namespace": "mnt:[4026531832]"
+          },
+          {
+            "pid": 1496820,
+            "starttime": "3211031",
+            "state": "S",
+            "ppid": 1496819,
+            "pgid": 1496820,
+            "session": 1496820,
+            "refusals": [],
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a637ff80e942b6ac6176b8ca854ef1.scope\n",
+            "pid_namespace": "pid:[4026532837]",
+            "mount_namespace": "mnt:[4026532836]"
+          },
+          {
+            "pid": 1496821,
+            "starttime": "3211031",
+            "state": "R",
+            "ppid": 1496820,
+            "pgid": 1496820,
+            "session": 1496820,
+            "refusals": [],
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a637ff80e942b6ac6176b8ca854ef1.scope\n",
+            "pid_namespace": "pid:[4026532837]",
+            "mount_namespace": "mnt:[4026532836]"
+          }
+        ],
+        "terminal_identity_observations": [
+          {
+            "pid": 1496819,
+            "starttime": "3211031",
+            "state": "ABSENT"
+          },
+          {
+            "pid": 1496820,
+            "starttime": "3211031",
+            "state": "ABSENT"
+          },
+          {
+            "pid": 1496821,
+            "starttime": "3211031",
+            "state": "ABSENT"
+          }
+        ],
+        "remaining": [],
+        "error": null,
+        "direct_child_reaped": true,
+        "observed_descendants_absent": true,
+        "scope_cleanup": "Separate phase1_heavy terminal-scope receipt is required; no all-descendant completeness inferred from polling"
+      },
+      "outputs": {
+        "stdout": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls/stdout",
+          "sha256": "71651791ff1350e8643c522f494dc4c0764e7969d0f786c0b516c2e5cfdd29da",
+          "bytes": 387,
+          "mode": 420,
+          "device": 64768,
+          "inode": 6455377
+        },
+        "stderr": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/freshness-json-object-order-additional-controls/stderr",
+          "sha256": "be29766ce4db6bf66322c1e60053fdf3cf099b4fed868c8b09aba8a498b794a6",
+          "bytes": 161,
+          "mode": 420,
+          "device": 64768,
+          "inode": 6455378
+        }
+      }
+    },
+    {
+      "mode": "execution-evidence-boundary-additional-controls",
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "status": "PASSED",
+      "classification": "TESTED",
+      "original_payload_timeout_seconds": 180,
+      "production_custody_established": false,
+      "exit_code": 0,
+      "additional_deadline_expired": false,
+      "original_parser": {
+        "ran": 1,
+        "ok": true,
+        "verdictLine": "OK",
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "expectedFailures": 0,
+        "unexpectedSuccesses": 0
+      },
+      "marker": "EXECUTION_EVIDENCE_BOUNDARY_RESULT ",
+      "marker_payload": {
+        "controls": [
+          "outer-id-lookup-replacement",
+          "helper-row-copy-replacement-before-archive",
+          "existing-subject-explicit-evidence-absence",
+          "missing-subject-errors-in-both-consumers",
+          "unchanged-bare-producer-errors-in-both-consumers"
+        ],
+        "input_kind": "unchanged-original-TEST_ONLY-producer_case-and-staged_journal",
+        "production_custody_established": false
+      },
+      "original_marker_matches": true,
+      "unchanged_library": true,
+      "payload_predicates_passed": true,
+      "cleanup": {
+        "observed_owned_processes": [
+          {
+            "pid": 1497288,
+            "starttime": "3211802",
+            "state": "S",
+            "ppid": 1496809,
+            "pgid": 1497288,
+            "session": 1497288,
+            "refusals": [],
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a637ff80e942b6ac6176b8ca854ef1.scope\n",
+            "pid_namespace": "pid:[4026531836]",
+            "mount_namespace": "mnt:[4026531832]"
+          },
+          {
+            "pid": 1497289,
+            "starttime": "3211802",
+            "state": "S",
+            "ppid": 1497288,
+            "pgid": 1497289,
+            "session": 1497289,
+            "refusals": [],
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a637ff80e942b6ac6176b8ca854ef1.scope\n",
+            "pid_namespace": "pid:[4026532837]",
+            "mount_namespace": "mnt:[4026532836]"
+          },
+          {
+            "pid": 1497290,
+            "starttime": "3211802",
+            "state": "D",
+            "ppid": 1497289,
+            "pgid": 1497289,
+            "session": 1497289,
+            "refusals": [],
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a637ff80e942b6ac6176b8ca854ef1.scope\n",
+            "pid_namespace": "pid:[4026532837]",
+            "mount_namespace": "mnt:[4026532836]"
+          }
+        ],
+        "terminal_identity_observations": [
+          {
+            "pid": 1497288,
+            "starttime": "3211802",
+            "state": "ABSENT"
+          },
+          {
+            "pid": 1497289,
+            "starttime": "3211802",
+            "state": "ABSENT"
+          },
+          {
+            "pid": 1497290,
+            "starttime": "3211802",
+            "state": "ABSENT"
+          }
+        ],
+        "remaining": [],
+        "error": null,
+        "direct_child_reaped": true,
+        "observed_descendants_absent": true,
+        "scope_cleanup": "Separate phase1_heavy terminal-scope receipt is required; no all-descendant completeness inferred from polling"
+      },
+      "outputs": {
+        "stdout": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls/stdout",
+          "sha256": "00f27d810cc63e26a90f7c7fa75da175b4fc72c239bebe2aa9e314c382546685",
+          "bytes": 389,
+          "mode": 420,
+          "device": 64768,
+          "inode": 6455392
+        },
+        "stderr": {
+          "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/original-additional-v5/execution-evidence-boundary-additional-controls/stderr",
+          "sha256": "fd76031aa86cfb2195754e7d8cd88247042aa609c5d2a67951288180820c7a1d",
+          "bytes": 163,
+          "mode": 420,
+          "device": 64768,
+          "inode": 6456234
+        }
+      }
+    }
+  ],
+  "before_after_binding": {
+    "before_freeze": "98d79357743b18aeea143e46d8597a7a30fbd51bea8a4168d0a5965bf16f5812",
+    "after_freeze": "98d79357743b18aeea143e46d8597a7a30fbd51bea8a4168d0a5965bf16f5812",
+    "unchanged_source_and_artifacts": true
+  },
+  "scope": {
+    "launch": [
+      {
+        "MemoryMax": "8G",
+        "MemorySwapMax": "0",
+        "argv": [
+          "python3",
+          "-B",
+          "scratch/acquisition2/original_additional_driver_v2.py",
+          "--out",
+          "scratch/acquisition2/original-additional-v5",
+          "--sandbox-qualification",
+          "scratch/acquisition/original-binary-sandbox-v5/result.json"
+        ],
+        "commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+        "lock": "/home/sicarii/.worldline-heavy.lock",
+        "status": "UNVERIFIED",
+        "timeout": "120m",
+        "utc": "2026-10-14T22:52:45.236745+00:00"
+      }
+    ],
+    "result": [
+      {
+        "exit_code": 0,
+        "utc": "2026-10-14T22:53:37.574840+00:00"
+      }
+    ],
+    "terminal": [
+      {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-14T22:53:37.524166+00:00"
+      }
+    ],
+    "admission": [
+      {
+        "admitted": true
+      }
+    ],
+    "last_live_cgroup": {
+      "event": "after",
+      "exit_code": 0,
+      "memory.current": "11452416",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "8589934592",
+      "memory.peak": "54001664",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a637ff80e942b6ac6176b8ca854ef1.scope",
+      "utc": "2026-10-14T22:53:37.347228+00:00"
+    },
+    "live_caps_consistent": true
+  },
+  "limitations": [
+    "Both original named rows preserved in order with original180s deadlines, Python -B/no optimization, checks build, frozen PYTHONPATH/cwd, read-only host and own temp projection. Exact marker payloads and retained unittest OK/parser zero skips/expected failures/errors verified.",
+    "Finite TEST_ONLY producer_case/staged_journal controls do not establish production custody or phase acceptance; D7 original external ordering/admission/custody remains unresolved.",
+    "Cleanup reaped direct children and observed identities absent plus terminal ownedscope populated=false; not arbitrary descendant completeness.",
+    "Live cap8589934592/swap0, lastscope high/max/oom/oomkill/groupkill0. Terminal defaults are not live cap.",
+    "Independent existing runtime qualification has no result inferred here; prior proof/binary failures unchanged."
+  ]
+}

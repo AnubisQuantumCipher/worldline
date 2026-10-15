@@ -1,0 +1,57 @@
+{
+  "utc": "2026-10-14T20:45:18.179033+00:00",
+  "classification": "MEASURED D32 full-proof preflight",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/phase1_heavy.py",
+    "--out",
+    "scratch/old-analysis/full-proof-scope-v5",
+    "--timeout",
+    "120m",
+    "--swap-max",
+    "0",
+    "--",
+    "python3",
+    "-B",
+    "scratch/old-analysis/full_proof_driver_v2.py",
+    "--out",
+    "scratch/old-analysis/full-proof-result-v5",
+    "--subdir",
+    "phase1-full-proof-v5",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze-record",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "--dependency-template",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-proof",
+    "--dependency-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/evidence/private-sparklib-proof-source-v1.json"
+  ],
+  "disk": {
+    "total": 686860591104,
+    "used": 580842364928,
+    "free": 99022127104
+  },
+  "owned_outputs": [
+    "scratch/old-analysis/full-proof-scope-v5",
+    "scratch/old-analysis/full-proof-result-v5",
+    "obj/core-library/phase1-full-proof-v5"
+  ],
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "records/phase1-blockers/final-build-steps-v5",
+    "records/phase1-blockers/original-aux-builds-final-v6",
+    "lib",
+    "scratch/old-analysis/private-sparklib-proof"
+  ],
+  "solver_policy": "Original aggregate -U level3/all/reportall/errors/proofwarnings, timeout60/memlimit1024/jobs2; no scope or boundary reduction.",
+  "archive_status": "Historical full recovery/offload receipts preserved; no active source/tool/proof dependencies offloaded.",
+  "memory_admission": "Existing launcher checks after acquiring shared flock, unchanged14GiB threshold/retry and8G/swap0 scope."
+}

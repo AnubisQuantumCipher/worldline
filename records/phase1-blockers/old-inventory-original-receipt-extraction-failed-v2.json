@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-14T20:57:32.366848+00:00",
+  "classification": "MEASURED two failed bounded original-receipt extraction attempts; original inventory not rerun",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "attempts": [
+    {
+      "tool_chunk": "d484b3",
+      "exit_code": 1,
+      "failure": "Strict linewise JSON parser: Invalid control character at line1 column142 char141."
+    },
+    {
+      "tool_chunk": "a84157",
+      "exit_code": 1,
+      "failure": "Strict parser then control-character-tolerant forensic parser: Unterminated string starting at line1 column122 char121."
+    }
+  ],
+  "first_followup": "records/phase1-blockers/old-inventory-original-receipt-parser-failure-v1.json",
+  "disposition": "Stop original-transcript extraction after two failures and continue independent work. No corruption, lost-data or proof-cause claim. Do not rerun completed inventory to manufacture a receipt.",
+  "inventory_result": "scratch/old-analysis/old-inventory-final-v4.json",
+  "known_parent_observation": "Original tool response chunk9e34a4 visibly reported exit0; inventory JSON has no exit_code field. This record is a later observation, not a copy of the missing original raw receipt.",
+  "remaining_gap": "Byte-exact original parent response extraction remains UNVERIFIED. Keep distinction in report; no fabricated argv/UTC/exit fields.",
+  "pending_report_append": "Include exact metadata limitation in acceptance report; no tracked source changes while proof is active."
+}

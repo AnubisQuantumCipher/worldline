@@ -1,0 +1,464 @@
+{
+  "utc": "2026-10-13T18:28:06.103089+00:00",
+  "reviewer": "actual GPT-6.1 internal reviewer",
+  "gate": "O0",
+  "status": "PASSED",
+  "claim_class": "MEASURED",
+  "scope": "Affected-contract/temporary/imported lifetime source inventory only; no retirement proof or runtime claim",
+  "frozen_source_commit": "364fbb9c311b800e7f5b0b75be999a4682e3134f",
+  "current_commit": "364fbb9c311b800e7f5b0b75be999a4682e3134f",
+  "coordinator_final_join": "records/phase1-blockers/old-inventory-final-v1.json",
+  "coordinator_final_join_sha256": "bffb35076ee55b2f407d7fbb0c43190e690b209672bdea2f40761278e7277090",
+  "reference_checks": [
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/native_diagnostic_trace.adb",
+      "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/worldline-c_api.adb",
+      "sha256": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/evaluation_completion_c.adb",
+      "sha256": "68680839857d685e8783541b464095b99acea040987945a309851dcab9627685",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "path": "core/worldline-c_api.adb",
+      "sha256": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.adb",
+      "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.adb",
+      "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.ads",
+      "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.adb",
+      "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "core/native_diagnostic_trace.adb",
+      "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-infinite_sequences.ads",
+      "sha256": "4f5f764e8a11664efc04eff582fa98d8619b9f58773495196ba331416b6f679b",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-infinite_sequences.adb",
+      "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-infinite_sequences.adb",
+      "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-infinite_sequences.adb",
+      "sha256": "7aeb0e9a15413f299272f3996e4b8f34e4573842c67afe897c0d520db5b53145",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-base.ads",
+      "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-base.ads",
+      "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-base.ads",
+      "sha256": "a603b0c174c7d59fae0b80d9597b6f0cbea5696b8c0badb1cb00a400cf47c505",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-base.adb",
+      "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-base.adb",
+      "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-base.adb",
+      "sha256": "56f4833e25734dee9d1c6d29583ac45e03fa3dc06dc61fd64e7c4cf1fcb63d71",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/full/spark-containers-functional-holder.ads",
+      "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/full/spark-containers-functional-holder.ads",
+      "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/full/spark-containers-functional-holder.ads",
+      "sha256": "7450a9e80006d63908bc37f6ff522702fcdec3a4040efe60cde68a915aa3aa05",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/include/spark/spark-containers-functional-holder.adb",
+      "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/coordinator/private-sparklib/include/spark/spark-containers-functional-holder.adb",
+      "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    },
+    {
+      "inventory": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "path": "scratch/old-analysis/private-sparklib-experiment/include/spark/spark-containers-functional-holder.adb",
+      "sha256": "3a4465ae59fbd737d8f17654bc1c90c1d834abb978938e37a2201c8064e68922",
+      "matches_reviewed": true,
+      "locations_match": true,
+      "matches_frozen": null,
+      "frozen_scope": "External dependency source, not tracked product source",
+      "matches_final_dependency_join": true
+    }
+  ],
+  "original_O1": "FAILED-OPEN",
+  "independent_acceptance": "NOT PERFORMED",
+  "prior_checker_result": "v1 incorrectly treated untracked private dependency source as missing tracked frozen source; retained negative result, corrected dependency join explicitly",
+  "all_reference_checks": true
+}

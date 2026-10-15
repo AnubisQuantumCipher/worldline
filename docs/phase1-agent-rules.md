@@ -225,3 +225,7 @@ mechanism, read the skill files directly and follow them instead:
 ## Later user publication steering (2026-10-14)
 
 all those commits i hope your putting them to github were they belong
+
+## Later user frozen-release steering (2026-10-14)
+
+ef7b7e3 frozen is good - that's exactly how WORLDLINE is supposed to release. Remember to keep doing that

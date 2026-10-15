@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "scratch/old-analysis/full_runtime_supervisor_v3.py",
+    "--out",
+    "scratch/old-analysis/private-host-runtime-v5",
+    "--suite",
+    "private",
+    "--scope-timeout",
+    "120m",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze-record",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json"
+  ],
+  "audit_sha256": "8b9085a2ea3295fb16a68296cfa9c1cad20dbb1c268bb6f60616cfac27c42d3d",
+  "build_manifest": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+  "driver_sha256": "3105162b3f9eac3a61460e9a1cb23966a84296fa9e4af9ddc69c1155e97b39e1",
+  "frame": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+  "freeze_record": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+  "identity_helper_sha256": "76273e84d9ab37b6aaaa1d858709b32af90193f435045e90d6a0a80487b64f2e",
+  "lock": "/home/sicarii/.worldline-heavy.lock",
+  "prepared_only_until_authorized": true,
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac"
+}

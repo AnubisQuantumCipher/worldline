@@ -1,0 +1,92 @@
+{
+  "utc": "2026-10-15T01:28:26.025505+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "MEASURED documentary/semantic review of concrete final report, not independent acceptance or F6 success",
+  "verdict": "CONCUR substantive honest failure dispositions; HOLD final documentary concurrence until one bounded prose/detached-readback correction addresses actual checker2 and mutable-draft availability. Preserve core report/assurance bytes immutable; no new checker run required to seek green.",
+  "reviewed_input_hashes": {
+    "records/phase1-blockers/final-report-v5/acceptance-report.json": "b9ce39a4067069de03bbd39429432934aafdaaaafb6d0873538a6b9a2b107d9b",
+    "records/phase1-blockers/final-assurance-refusal-v5.json": "d9b381ff758b6d0699e752af1ea98d342190a7a949bfea56d77a65ad4daaeb32",
+    "docs/phase1-acceptance-report.md": "cbaa799840bb1636c68fbfe0b20b6d969f8b8ef1ec581fd051a94ff5fae43ea9",
+    "records/phase1-blockers/final-report-v5/checker-v2/result.json": "25d38b8c6427f82f670241f9efdbf0ac37fe184cc52960846c867e98850b5762",
+    "records/phase1-blockers/final-report-v5/checker-v2/checked-input.json": "b9ce39a4067069de03bbd39429432934aafdaaaafb6d0873538a6b9a2b107d9b",
+    "records/phase1-blockers/final-report-v5/checker-v2/parent-terminal.json": "fb3d547b2138a7663b654cb37fe6cae56d8f47ae6ea76cfe1f48efa238edd671",
+    "docs/decisions.md": "4ef48829359eaa58ffefeb1350b9b43b96d8ea175c323f2a7577f8612d7bc785",
+    "docs/phase1-progress.md": "1fe19f4ed74f3e92e26ab5287636df7dc743bda55a090651307e1acb4b08c69b",
+    "OPEN-ISSUES.md": "0c86295643b1524287dcc6deed15527920a6fbc09adfed46d153b4af9eeaf003",
+    "docs/phase1-agent-rules.md": "2d8051ba03876d6540e36acab4507b533e9430b3d37d9afce59466291313f82b"
+  },
+  "checks": {
+    "predicates_exact_once": true,
+    "same_prose_copies": true,
+    "checker2_exact_current_input": true,
+    "checker2_preserved_exit1": true,
+    "unchanged_checker": true,
+    "checker_stdout": true,
+    "checker_stderr": true,
+    "assurance_generator_source": true,
+    "tested_source": true,
+    "no_narrowedclaim": true,
+    "independentNP": true
+  },
+  "gate_statuses": {
+    "G0": "PASSED",
+    "A0": "NOT PERFORMED",
+    "A1": "FAILED-OPEN",
+    "A2": "FAILED-OPEN",
+    "O0": "FAILED-OPEN",
+    "O1": "FAILED-OPEN",
+    "O2": "PASSED",
+    "C1": "FAILED-OPEN",
+    "C2": "FAILED-OPEN",
+    "C3": "FAILED-OPEN",
+    "C4": "FAILED-OPEN",
+    "F0": "FAILED-OPEN",
+    "F1": "FAILED-OPEN",
+    "F2": "FAILED-OPEN",
+    "F3": "FAILED-OPEN",
+    "F4": "NOT PERFORMED",
+    "F5": "FAILED-OPEN",
+    "F6": "FAILED-OPEN",
+    "F7": "NOT PERFORMED"
+  },
+  "substantive_findings": [
+    "All binding original predicates retained exactly once in original order; G0/O2 documentary-only passes, O0 original provenancefail, C1-C4/F0/F1/F2/F3/F5/F6failedopen, A0/F4/F7NP consistent with reviewed evidence.",
+    "Proof refusal remains original805358... actualscope124/nativeexitcountsnull; assurance refusal is explicitly coordinator documentary assembly, not original successful assurance runner output. All original assurance requiredsteps preserved; failed/fullbuild/fullruntime/private/domain/proof outcomes not relabelled success.",
+    "Actual finite actor targetbytes/qualifiedFFI/prelaunchadmission/knownscopecleanup retained with provider/native/custody limits; no wholeF5/C1-C4 promotion.",
+    "Checker2 actualexit1 preserves missingUTC/environment/toolversion errors. Parentauthoringtool0 is not checker0. Missing fields stay null; F6 remainsFAILEDOPEN.",
+    "D38/progress/OPEN-ISSUES preserve failures, genericassertion-helper limitation, namespaceprotectedstartup vs measuredpremises, historicaldiagnosticconsumed/unclassified, O1no universalimpossibility, sourceef7 vs laterreportcommit. Options/reversal fixedguarantee retained.",
+    "Latest frozen-release steering text matches retained worktree verbatim record; this does not independently authenticate historical user text beyond that retained record."
+  ],
+  "necessary_corrections": [
+    {
+      "id": "R1",
+      "where": "docs/phase1-acceptance-report.md F6 row and verification prose",
+      "required": "Replace currentassembledbytes-awaitactualcheck with completed detached checker2 REFUSED1 over exactb9ce39... input, actualUTC/hash/reference, missingmetadataunchanged; retainchecker1 as historical. No thirdchecker/metadatafabrication."
+    },
+    {
+      "id": "R2",
+      "where": "new detached post-authoring readback",
+      "required": "Preserve coreJSONb9ce39... and assuranced9b381...; explicitly label null pending/checker1 fields as authoring-cut historical state superseded only by detachedchecker2/this semantic review, not current unperformed status. Clarify actualnamedactor/F0 results retained, never inferred from assembly itself."
+    },
+    {
+      "id": "R3",
+      "where": "draft_authoring_history.previous_draft_hashes and prose retention notice, via detached clarification",
+      "required": "Former mutablecandidatev1 fingerprints at four paths do not match current files and earlier bytes not snapshotted. Explicitly supersede misleading availability_scope strings without overwritingcoreJSON: priorfingerprint+currentpath/hash pairs, originalformerbytesavailabilityUNKNOWN/notretainedhere. Clarify finalv1snapshot retained, not all earlierdraftbytes. No reconstruction/restore claim."
+    },
+    {
+      "id": "R4",
+      "where": "docs progress Next and D38 structuralreadback clause",
+      "required": "Make authoring-cut plan clear or append currentchecker2 actualREFUSED completion/reference. Do not describe thirdcheck as pending required work."
+    }
+  ],
+  "reference_readback": "scratch/reviewer2/freeze5-final-report-reference-readback-v1.json",
+  "publication_limits": [
+    "Only later nonacceptedreport/outcome commit namingef7 testedsource; no documentaryonlyfreeze/retest.",
+    "This review does not waive checkerrefusal/provenancefailures or authorize a successmanifest, independentacceptance or productfix.",
+    "Preserve precorrectionMDbytes and immutable checkedJSON/assurance; detachedrecord maps finalMDhash and superseding interpretations."
+  ],
+  "non_claims": [
+    "No jobs/inventory/versionqueries/transcriptextraction/foreignprocess/credentialcontent reads, source edits or publication performed.",
+    "Hashreferences authenticate bytecorrespondence only, not origin or independenttruth."
+  ]
+}
