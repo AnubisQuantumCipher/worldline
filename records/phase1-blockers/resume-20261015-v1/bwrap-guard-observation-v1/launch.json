@@ -1,0 +1,69 @@
+{
+  "argv": [
+    "bwrap",
+    "--die-with-parent",
+    "--ro-bind",
+    "/",
+    "/",
+    "--dev",
+    "/dev",
+    "--proc",
+    "/proc",
+    "--bind",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+    "--chdir",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "/usr/bin/python3",
+    "-B",
+    "-c",
+    "GUARD_EXPRESSION = 'not path.is_absolute() or not stat.S_ISREG(info.st_mode)\\n            or info.st_uid not in (0, os.getuid()) or info.st_mode & 0o7022\\n            or not os.access(path, os.X_OK)'\nimport datetime, hashlib, json, os, shutil, stat, sys, time\nfrom pathlib import Path\n\ndef utc():\n    return datetime.datetime.now(datetime.timezone.utc).isoformat()\n\ndef observed(call):\n    try:\n        return {'returned': True, 'value': call(), 'exception': None}\n    except (OSError, RuntimeError, ValueError) as error:\n        return {'returned': False, 'value': None,\n                'exception': {'type': type(error).__name__, 'message': str(error)}}\n\nstarted = utc()\nmonotonic_started = time.monotonic_ns()\nuid = os.getuid()\nrecord = {'classification': 'MEASURED current-carrier guard operands only',\n          'historical_reconstruction': False, 'started_utc': started,\n          'pid': os.getpid(), 'uid': uid, 'euid': os.geteuid(),\n          'gid': os.getgid(), 'egid': os.getegid(),\n          'cwd': os.getcwd(), 'python_executable': sys.executable,\n          'requested': None, 'selection': 'shutil.which(\"bwrap\")',\n          'guard_expression': GUARD_EXPRESSION,\n          'uid_map': observed(lambda: Path('/proc/self/uid_map').read_text()),\n          'gid_map': observed(lambda: Path('/proc/self/gid_map').read_text()),\n          'user_namespace': observed(lambda: os.readlink('/proc/self/ns/user')),\n          'mount_namespace': observed(lambda: os.readlink('/proc/self/ns/mnt')),\n          'PATH': os.environ.get('PATH'),\n          'non_claims': ['No private evaluator or unittest executed',\n                        'No protected authority or acceptance result',\n                        'Current observations do not recover unrecorded historical stat operands']}\nselected = shutil.which('bwrap')\nrecord['selected'] = selected\nrecord['resolved'] = None\nrecord['stat'] = None\nrecord['predicates'] = None\nrecord['guard_would_refuse'] = None\nrecord['refusal_code'] = None\nrecord['file_sha256'] = None\nrecord['file_hash_exception'] = None\nif not selected:\n    record['guard_would_refuse'] = True\n    record['refusal_code'] = 'PRIVATE_EVALUATOR_UNAVAILABLE'\nelse:\n    resolved = observed(lambda: str(Path(selected).resolve(strict=True)))\n    record['resolve'] = resolved\n    if not resolved['returned']:\n        record['guard_would_refuse'] = True\n        record['refusal_code'] = 'PRIVATE_EVALUATOR_INVALID'\n    else:\n        path = Path(resolved['value'])\n        record['resolved'] = str(path)\n        try:\n            info = path.stat()\n        except OSError as error:\n            record['stat_exception'] = {'type': type(error).__name__, 'message': str(error)}\n            record['guard_stat_exception_would_propagate'] = True\n        else:\n            record['stat'] = {name: getattr(info, name) for name in (\n                'st_dev','st_ino','st_mode','st_uid','st_gid','st_nlink','st_size',\n                'st_mtime_ns','st_ctime_ns')}\n            # Observe every operand separately; the original expression below\n            # still uses exactly the original order and short-circuit form.\n            access = os.access(path, os.X_OK)\n            record['predicates'] = {\n                'absolute': path.is_absolute(), 'regular_file': stat.S_ISREG(info.st_mode),\n                'owner_is_root_or_real_uid': info.st_uid in (0, uid),\n                'forbidden_mode_bits': info.st_mode & 0o7022,\n                'executable_access': access}\n            refuse = (not path.is_absolute() or not stat.S_ISREG(info.st_mode)\n                      or info.st_uid not in (0, os.getuid()) or info.st_mode & 0o7022\n                      or not os.access(path, os.X_OK))\n            record['guard_expression_value'] = refuse\n            record['guard_would_refuse'] = bool(refuse)\n            record['refusal_code'] = 'PRIVATE_EVALUATOR_INVALID' if refuse else None\n            if stat.S_ISREG(info.st_mode):\n                # Identity only, including when an owner predicate refuses.\n                # Never open a special object or import/execute this file.\n                try:\n                    descriptor = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)\n                    with os.fdopen(descriptor, 'rb') as stream:\n                        before = os.fstat(stream.fileno())\n                        record['file_sha256'] = hashlib.file_digest(stream, 'sha256').hexdigest()\n                        after = os.fstat(stream.fileno())\n                    fields = ('st_dev','st_ino','st_mode','st_uid','st_gid','st_nlink',\n                              'st_size','st_mtime_ns','st_ctime_ns')\n                    record['hashed_descriptor_before'] = {name: getattr(before,name) for name in fields}\n                    record['hashed_descriptor_after'] = {name: getattr(after,name) for name in fields}\n                    record['stat_to_hash_identity_equal'] = all(getattr(info,name)==getattr(before,name)==getattr(after,name) for name in fields)\n                except OSError as error:\n                    record['file_hash_exception'] = {'type': type(error).__name__, 'message': str(error)}\nrecord['ended_utc'] = utc()\nrecord['elapsed_monotonic_ns'] = time.monotonic_ns() - monotonic_started\nprint(json.dumps(record, sort_keys=True, indent=2))\n"
+  ],
+  "baseline_commit": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+  "classification": "DIAGNOSTIC ONLY; no acceptance evidence",
+  "current_PATH": "/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+  "decisions_sha256": "3bd055e0212bb7085e4dcb5d5a93420d82d2571d1f9e9307902361c3b380d680",
+  "explicit_environment_overrides": {
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+    "GPR_PROJECT_PATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat",
+    "HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/tests",
+    "SPARKLIB_BUILD": "Production",
+    "SPARKLIB_INSTALLED": "True",
+    "SPARKLIB_LIBRARY_TYPE": "static",
+    "SPARKLIB_MODE": "full",
+    "TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+    "WORLDLINE_BUILD": "checks",
+    "WORLDLINE_CORE_LIB": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+    "WORLDLINE_PRIVATE_EVALUATOR_TEST": "1",
+    "WORLDLINE_PRIVATE_SPARKLIB_PREBUILT": "True",
+    "XDG_CACHE_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/xdg-cache",
+    "XDG_CONFIG_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/xdg-config",
+    "XDG_DATA_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/xdg-data",
+    "XDG_RUNTIME_DIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+    "XDG_STATE_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/xdg-state"
+  },
+  "external_containment": "existing phase1_heavy wrapper required; no new scope/manager operations in this script",
+  "historical_ambient_environment": "UNVERIFIED; original did not retain all inherited values",
+  "historical_tested_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "method_sha256": "08ca3c1d4dacdc377695638fe29a9d6d06128bdc3e383a509c5c6d4d07c9baff",
+  "original_launch": {
+    "bytes": 1055,
+    "path": "scratch/old-analysis/private-host-runtime-v5/attempt-fe4dbe1e5a184941b949fdf3c42baa94/worker/private-host-tests/launch.json",
+    "sha256": "f6cbdc19cb97454f23bca5c2456028e2eb8d777c0e40329b46bd5808ae7b0cb4"
+  },
+  "payload_sha256": "ada4e1921e0317a583b1b42a9d00dc3d5c6ce5ed852f429b4f03209ec5b64403",
+  "pins_sha256": "bd899073874a582997c4dcdff226df190d82a44539c2d21d9262d7086327aa2f",
+  "removed_environment_keys": [
+    "GPR_TOOL",
+    "PYTHONSTARTUP"
+  ],
+  "source_identity_scope": "Pinned selected method/guard bytes; HEAD alone is not a clean-source claim",
+  "started_utc": "2026-10-15T03:08:23.665253+00:00",
+  "timeout_seconds": 60,
+  "tracked_paths_differing_from_baseline": [
+    "docs/decisions.md"
+  ]
+}

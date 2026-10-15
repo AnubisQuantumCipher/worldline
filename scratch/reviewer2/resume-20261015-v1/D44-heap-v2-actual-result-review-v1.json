@@ -1,0 +1,44 @@
+{
+  "utc": "2026-10-15T03:06:25.900308+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "MEASURED build/runtime success and SPARK direct-owning-object Old alias rejection; finite mechanism restriction only, O1 open.",
+  "result_sha256": "049c544bd2f224dbf36ea2746cc69881f77851190dfd84869cf45487b4b09862",
+  "build_exit": 0,
+  "proof_exit": 1,
+  "runtime_exit": 0,
+  "sources_equal": true,
+  "parent_tracked_sources_unchanged": true,
+  "diagnostic": "SPARK RM3.10(13) prefix of Old introducing aliasing at direct Object'Old expressions. Diagnostic recommends a deep-copy function prefix. This prevents complete ownership/caller proof; it is not proof ordinary B:=A/source-reuse is supported.",
+  "scope_after": {
+    "event": "after",
+    "exit_code": 1,
+    "memory.current": "59170816",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "85835776",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-4b8769f64554455eb2553e225272fae5.scope",
+    "utc": "2026-10-15T03:04:54.965558+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T03:04:55.943888+00:00"
+  },
+  "original_form": "core/native_diagnostic_trace.ads Push uses Appended(Pending_Contents'Old,Pending_Contents,Text); Pending_Contents is a fresh function result, distinct from direct owner Object'Old.",
+  "next_direction": "Fresh Capture(Text) full owning result with strict Finalizable is a justified distinct combination to discriminate, not repeat of same aliasing expression. Exact source/decision/resources still require prelaunch review.",
+  "non_claims": [
+    "Runtime0 does not measure free/Oldretirement/leak or satisfy proof.",
+    "No universal toolchain impossibility or narrowed guarantee; nonlimited independent fullvalues and production automatic retirement remain required.",
+    "No execution/productedit by reviewer."
+  ]
+}

@@ -1,0 +1,11 @@
+Setup
+   [mkdir]        object directory for project Probe
+   [mkdir]        exec directory for project Probe
+Compile
+   [Ada]          main.adb
+   [Ada]          lifetime.adb
+Bind
+   [gprbind]      main.bexch
+   [Ada]          main.ali
+Link
+   [link]         main.adb

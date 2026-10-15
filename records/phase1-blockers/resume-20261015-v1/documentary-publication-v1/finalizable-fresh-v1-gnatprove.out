@@ -1,0 +1,46 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+---------------------------------------------------------------------------------
+SPARK Analysis results        Total       Flow     Provers   Justified   Unproved
+---------------------------------------------------------------------------------
+Data Dependencies                 5          5           .           .          .
+Flow Dependencies                 .          .           .           .          .
+Initialization                    .          .           .           .          .
+Non-Aliasing                      .          .           .           .          .
+Run-time Checks                   8          .    2 (CVC5)           .          6
+Assertions                        4          .    4 (CVC5)           .          .
+Functional Contracts              4          .    4 (CVC5)           .          .
+LSP Verification                  .          .           .           .          .
+Termination                       2          2           .           .          .
+Concurrency                       .          .           .           .          .
+---------------------------------------------------------------------------------
+Total                            23    7 (30%)    10 (43%)           .    6 (26%)
+
+
+max steps used for successful proof: 1
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 2 units
+in unit lifetime, 8 subprograms and packages out of 9 analyzed
+  Lifetime at lifetime.ads:1 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Lifetime.Adjust at lifetime.ads:21 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 2 checks out of 3 proved
+  Lifetime.Capture at lifetime.ads:4 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Lifetime.Check_Fresh at lifetime.ads:9 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 1 checks out of 4 proved
+  Lifetime.Finalize at lifetime.ads:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Lifetime.Freegp87 at lifetime.adb:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Lifetime.Freegp87.Free at lifetime.adb:3 skipped; body is SPARK_Mode => Off
+  Lifetime.Read at lifetime.ads:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Lifetime.Value at lifetime.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit main, 1 subprograms and packages out of 1 analyzed
+  Main at main.adb:2 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 6 proved

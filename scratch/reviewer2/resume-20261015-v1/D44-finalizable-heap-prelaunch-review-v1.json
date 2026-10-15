@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-15T03:02:29.572232+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR exact corrected D44 source/driver/decision for one bounded ownership support discriminator. No heap retirement, leak or O1 approval.",
+  "sha256": {
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/lifetime.ads": "b5f91cf045eb18139ef0d09d343ce4c0b620a303fa7522adc1ba2e67c2396454",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/lifetime.adb": "90ef4488c664959e2144771d2609450b46adb7d539005e525f8ec9271ad55d7a",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/main.adb": "3516387ad1d62d4d2b1ed0d066f355ac1eac1db6679100b56732e05399258e19",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/probe.gpr": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/run.py": "acfd470c580173307da7c8c9afd42ed072dede8b5620122ba880e2536dddccd6",
+    "records/phase1-blockers/resume-20261015-v1/run_finalizable_heap.py": "142fe4c18a7cfa1a95a8d4f5f0f1ccf69656ccb0c60addf70fc2efda19cdeb97",
+    "docs/decisions.md": "daf995a7e1c8e5b04927b59193a6b1e38a978618581e0ca86f5a7d819dac1353"
+  },
+  "only_candidate_change_since_review": [
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/lifetime.ads"
+  ],
+  "fresh_outputs_absent": {
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/results": true,
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-parent-v1": true,
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-scope-v1": true
+  },
+  "corrections_verified": [
+    "Make explicitly preserves complete equality and First/Last.",
+    "Replace_First preserves First/Last and every original character except selected first. Whole Object'Old retained.",
+    "Adjust uses Read(Object)'Old and bounds snapshots for hook preservation rather than recursively snapshotting whole finalizable object within its own adjustment contract."
+  ],
+  "preserved": [
+    "Strict False/nonlimited unconstrained String owning record; full deep-copy attempt and ordinary Free analyzed without Off/Controlled/custompool/hidden observer.",
+    "Actual B:=A then reuse/mutate A and unchanged B assertions; no manual Clone substitution.",
+    "Level3/fullscope/memlimit1024/solver60/j1; existing10m8Gswap0/sharedflock/admission/diskguard and source/tool/argv/env/UTC/output provenance.",
+    "Every parser/ownership/proof/runtime failure retained; runtime only after build0. Source unchanged requirement remains."
+  ],
+  "required_interpretation": [
+    "Null Touch and successful wholeOld proof do not attest physical snapshot retirement.",
+    "Analyzed scalar aspect support does not imply implicit Adjust ownership modeling; retain any move/source-reuse/lostownership rejection.",
+    "No negative controls/exceptional cleanup/actual allocator-retention observer in this discriminator; those remain required before O1.",
+    "Root must cite actual verdict before launch and remains sole launcher. No in-place failed-source retry or cap/scope weakening."
+  ],
+  "non_claims": [
+    "No execution/productedit/commit by reviewer.",
+    "No Phase1 or independent acceptance."
+  ]
+}

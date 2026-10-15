@@ -1,0 +1,44 @@
+ info: overflow check proved
+--> lifetime.adb:12:34
+
+ warning: "Object" is not modified, could be IN
+--> lifetime.ads:7:22
+    7 |       procedure Adjust (Object : in out Value)
+      |                         ^~~~~~
+
+ info: data dependencies proved
+--> lifetime.ads:8:11
+
+ info: postcondition proved
+--> lifetime.ads:8:35
+
+ warning: "Object" is not modified, could be IN
+--> lifetime.ads:9:24
+    9 |       procedure Finalize (Object : in out Value)
+      |                           ^~~~~~
+
+ info: data dependencies proved
+--> lifetime.ads:10:11
+
+ info: postcondition proved
+--> lifetime.ads:10:35
+
+ info: data dependencies proved
+--> lifetime.ads:12:11
+
+ info: postcondition proved
+--> lifetime.ads:13:19
+
+ info: overflow check proved
+--> lifetime.ads:13:49
+ info: initialization of "A" proved
+--> main.adb:3:04
+
+ info: initialization of "B" proved
+--> main.adb:4:04
+
+ info: precondition proved
+--> main.adb:8:12
+
+ info: assertion proved
+--> main.adb:9:19

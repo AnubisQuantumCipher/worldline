@@ -1,0 +1,649 @@
+{
+  "schema": "worldline.read-only-toolchain-source-research.v1",
+  "created_utc": "2026-10-15T03:44:34.956080+00:00",
+  "worldline_head_at_assembly": "94691f5758be72728b84343607476127125562dd",
+  "status": "SOURCE_RESEARCH_COMPLETE_NO_SUPPORTED_UPGRADE_CANDIDATE_ESTABLISHED",
+  "review_status": "PREPARER_ONLY_NOT_FORMAL_REVIEW",
+  "scope": "Bounded primary-source/release inspection; no compiler installation, build, proof, reproducer, upstream message or production changes.",
+  "fetch_method": {
+    "program": "python3 via urllib.request.urlopen",
+    "argv": [
+      "python3",
+      "-"
+    ],
+    "request_headers": {
+      "User-Agent": "WORLDLINE-read-only-toolchain-research"
+    },
+    "method": "GET",
+    "per_request_timeout_seconds": 20,
+    "per_request_read_cap_bytes": 2000000,
+    "transport": "HTTPS",
+    "exact_urls_and_response_artifacts": "fetches"
+  },
+  "fetches": [
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/flow-contents.json",
+        "sha256": "c305d3b7a66eac7f7931a63704c86b5edbb68f545e5f0a61d31f311478efe0c1",
+        "bytes": 388
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/contents/src/flow?ref=03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "started_utc": "2026-10-15T03:40:40.173835+00:00",
+      "ended_utc": "2026-10-15T03:40:40.521755+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 73207,
+      "sha256": "70b020d353fd8ab22f36111d7cec5795a76b3c27ff66fbf9bb9362d6aa7d6685",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-branch.json",
+        "sha256": "86a9c70485dc58a7996161a248ffdb762188c7a7da8a100b78548895f8109011",
+        "bytes": 337
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/branches/fsf",
+      "started_utc": "2026-10-15T03:40:02.189489+00:00",
+      "ended_utc": "2026-10-15T03:40:02.432682+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 4095,
+      "sha256": "e8940356312fa213041622222281a22a0dff36eb945b099d128873a8c599c19d",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-borrow_checker.adb.json",
+        "sha256": "09905d2441da40b5717c36325f51a5cd327320bdd723a8107bc348d3d7b85c55",
+        "bytes": 526
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-borrow_checker.adb",
+      "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:42:35.814925+00:00",
+      "http_status": 200,
+      "sha256": "925e3a58f0d3f18ee75d48725d9a7df12691fdf1854886ab6379727b01020a53",
+      "bytes": 272119,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:42:36.049617+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-expr.adb.json",
+        "sha256": "89bddb190d042cf5d293f1b78789a3832312f50f609e3c73d4f49e97d496834f",
+        "bytes": 517
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-expr.adb",
+      "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:42:54.371135+00:00",
+      "http_status": 200,
+      "sha256": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+      "bytes": 1115765,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:42:54.720857+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-spark_definition.adb.json",
+        "sha256": "9414321e8fc4185ca0db26800c6e44493d25d996c5a47b6c1e88377d750ed78f",
+        "bytes": 459
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/spark/spark_definition.adb",
+      "commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "started_utc": "2026-10-15T03:40:32.349482+00:00",
+      "ended_utc": "2026-10-15T03:40:32.613186+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 626493,
+      "sha256": "8610753d8e78c8195ef3d00b75980448d957617c2227cd47e4c84acc19e89a3d",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/gnat2why-contents.json",
+        "sha256": "196974b0b9c808ecdd88338e935ef5fec3e74413b463d253571cb4e2717ffda3",
+        "bytes": 443
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/contents/gnat2why?ref=03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:42:27.046602+00:00",
+      "http_status": 200,
+      "sha256": "24bb12ca13c65d12e4ba758b836d473bc5d2a8361b4ba4529df8a656922c31eb",
+      "bytes": 12636,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:42:27.363870+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-branch.json",
+        "sha256": "6b87b57ceb66166ca1735d0dac52afe961ced7bd71ce4aa25bf7229547cf45d3",
+        "bytes": 340
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/branches/master",
+      "started_utc": "2026-10-15T03:40:01.923991+00:00",
+      "ended_utc": "2026-10-15T03:40:02.189159+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 4070,
+      "sha256": "47bfa229afcebd8ae0bc7156e4b14ad832248bd83c11abd3276a13622019d913",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-gnat2why-borrow_checker.adb.json",
+        "sha256": "ac5623a24fcc7f2b62d85c2ea13a292b9c0b5fce585b458b803c2069067430ff",
+        "bytes": 526
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/03075d376653e022ceb3b7e303fc368fb0d28fc4/src/why/gnat2why-borrow_checker.adb",
+      "source_commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:42:35.490572+00:00",
+      "http_status": 200,
+      "sha256": "407a05a9d6ad4a4382bb281ce470dfc2f71cc6aba02bf1fc822ed3549c424efb",
+      "bytes": 274449,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:42:35.814827+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-gnat2why-expr.adb.json",
+        "sha256": "2ff4cf6a34883cf0453d5c8843322da1f9e0d9ad62c9be80be627267221d35de",
+        "bytes": 517
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/03075d376653e022ceb3b7e303fc368fb0d28fc4/src/why/gnat2why-expr.adb",
+      "source_commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:42:53.717099+00:00",
+      "http_status": 200,
+      "sha256": "4715315046ea9d51850b8a4f51a1ae379a35954a2e71b8fdb46dcad83b5b5dbe",
+      "bytes": 1122481,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:42:54.122330+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-gnat2why-subprograms.adb.json",
+        "sha256": "c65c7f0049c47a9d48f4a699cc0f7e802055b5403a193e7eb6bc49f4edb8e2af",
+        "bytes": 523
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/03075d376653e022ceb3b7e303fc368fb0d28fc4/src/why/gnat2why-subprograms.adb",
+      "source_commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:42:54.122429+00:00",
+      "http_status": 200,
+      "sha256": "ebf54d9e63f5d33a323a59016fd540df6c7f7a19ac4a9d9488d64b83aec399aa",
+      "bytes": 422986,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:42:54.370975+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-spark_definition.adb.json",
+        "sha256": "a1a896858b3353c85477173c8edf44549352dc3ae68a0b9b3138e17f1ad269e2",
+        "bytes": 459
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/03075d376653e022ceb3b7e303fc368fb0d28fc4/src/spark/spark_definition.adb",
+      "commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "started_utc": "2026-10-15T03:40:31.980890+00:00",
+      "ended_utc": "2026-10-15T03:40:32.342374+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 637688,
+      "sha256": "345eed8386fcb71fc207a40306c8c751525142332f6dfaef0974501672882bd2",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-spark_rewrite.adb.json",
+        "sha256": "9fa0059b01dbcdf165080d436b922992267e38dd86ce2a4ccdd914341a9dcb81",
+        "bytes": 517
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/03075d376653e022ceb3b7e303fc368fb0d28fc4/src/spark/spark_rewrite.adb",
+      "source_commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:43:26.585440+00:00",
+      "http_status": 200,
+      "sha256": "d149cebfab32083c5b0229586deaa2c27d05a172bfe00b1786427e409ed99713",
+      "bytes": 25134,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:43:26.757536+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-spark_util.adb.json",
+        "sha256": "e12f0805c93e0cef1e9f4266e5210da44d0dc8eb4530fe1260cb6f714c9624d4",
+        "bytes": 515
+      },
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/03075d376653e022ceb3b7e303fc368fb0d28fc4/src/spark/spark_util.adb",
+      "source_commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:43:26.757672+00:00",
+      "http_status": 200,
+      "sha256": "beb20642f82ea241a760cc82c9d546eaedc9525ada8d1c5ef84ad569a3a65b7c",
+      "bytes": 291661,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:43:26.998078+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/root-contents.json",
+        "sha256": "67d9e63443a136735b51f47e6ebacc69bd7553f09f684d6f8fb13a86dc8c7af0",
+        "bytes": 345
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/contents?ref=master",
+      "started_utc": "2026-10-15T03:40:02.432951+00:00",
+      "ended_utc": "2026-10-15T03:40:02.688614+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 24671,
+      "sha256": "9b68fe076a0b6808ce5cfdad0060231593530624d3bb72e645e38ac3990a1973",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/spark-contents.json",
+        "sha256": "4f17d3a79932cc9992c8e187e8dcf9b19345aa52fc6ce4bf774987bdd6963c6a",
+        "bytes": 389
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/contents/src/spark?ref=03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "started_utc": "2026-10-15T03:40:23.287466+00:00",
+      "ended_utc": "2026-10-15T03:40:23.669329+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 24478,
+      "sha256": "89ed7d65fb8fe0ac1fa72e646b1abe616cab6c3a6587712515c90178fed7916d",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/spark-src-contents.raw.json",
+        "sha256": "79fa9d684de11f2deb28c3a5b33cdaa695b7b1899cd185f7057e0eb9cf501fec",
+        "bytes": 515
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/contents/gnat2why/spark_src?ref=03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "source_commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:43:26.998313+00:00",
+      "http_status": 200,
+      "sha256": "555f27d3e2b8d99d10e1d5c5ec2cedbead2e1a2363ab5423c35eefa89ff96dcc",
+      "bytes": 1073,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:43:27.251884+00:00"
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/src-contents.json",
+        "sha256": "ca53eb9c72bcf92195a73f58a116298dbca722e6fcff3a48fa060e68800318bf",
+        "bytes": 382
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/contents/src?ref=03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "started_utc": "2026-10-15T03:40:14.000891+00:00",
+      "ended_utc": "2026-10-15T03:40:14.226041+00:00",
+      "status": 200,
+      "error": null,
+      "bytes": 5680,
+      "sha256": "976b1770e85407e0c568d2e08f863219b5c24c744624cba39d7dbe01bf5ca581",
+      "limit_exceeded": false
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/why-contents.json",
+        "sha256": "06b190886dda7d477bb8f725e038b559dbec153493cd8121054847a1ddf8af95",
+        "bytes": 442
+      },
+      "url": "https://api.github.com/repos/AdaCore/spark2014/contents/src/why?ref=03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "method": "GET",
+      "timeout_seconds": 20,
+      "read_cap_bytes": 2000000,
+      "utc_start": "2026-10-15T03:42:27.364012+00:00",
+      "http_status": 200,
+      "sha256": "ab1b5b35f1083524d4cb5211a15c003305c1c81da64910bae7699632165a5c59",
+      "bytes": 80338,
+      "cap_exceeded": false,
+      "utc_end": "2026-10-15T03:42:27.695045+00:00"
+    }
+  ],
+  "source_scans": [
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-borrow_checker.adb",
+      "sha256": "925e3a58f0d3f18ee75d48725d9a7df12691fdf1854886ab6379727b01020a53",
+      "bytes": 272119,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-expr.adb",
+      "sha256": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+      "bytes": 1115765,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-spark_definition.adb",
+      "sha256": "8610753d8e78c8195ef3d00b75980448d957617c2227cd47e4c84acc19e89a3d",
+      "bytes": 626493,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-gnat2why-borrow_checker.adb",
+      "sha256": "407a05a9d6ad4a4382bb281ce470dfc2f71cc6aba02bf1fc822ed3549c424efb",
+      "bytes": 274449,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-gnat2why-expr.adb",
+      "sha256": "4715315046ea9d51850b8a4f51a1ae379a35954a2e71b8fdb46dcad83b5b5dbe",
+      "bytes": 1122481,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-gnat2why-subprograms.adb",
+      "sha256": "ebf54d9e63f5d33a323a59016fd540df6c7f7a19ac4a9d9488d64b83aec399aa",
+      "bytes": 422986,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-spark_definition.adb",
+      "sha256": "345eed8386fcb71fc207a40306c8c751525142332f6dfaef0974501672882bd2",
+      "bytes": 637688,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-spark_rewrite.adb",
+      "sha256": "d149cebfab32083c5b0229586deaa2c27d05a172bfe00b1786427e409ed99713",
+      "bytes": 25134,
+      "exact_case_insensitive_finalizable_hits": []
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-spark_util.adb",
+      "sha256": "beb20642f82ea241a760cc82c9d546eaedc9525ada8d1c5ef84ad569a3a65b7c",
+      "bytes": 291661,
+      "exact_case_insensitive_finalizable_hits": []
+    }
+  ],
+  "source_locators": {
+    "fsf-gnat2why-expr.adb": [
+      {
+        "line": 184,
+        "needle": "function Check_No_Memory_Leaks_At_End_Of_Scope"
+      },
+      {
+        "line": 2997,
+        "needle": "function Check_No_Memory_Leaks_At_End_Of_Scope"
+      },
+      {
+        "line": 9745,
+        "needle": "finalization actions are given by the finally block"
+      },
+      {
+        "line": 9762,
+        "needle": "--  Otherwise, the finalization actions are given by end of borrows"
+      },
+      {
+        "line": 24008,
+        "needle": "--  Insert static resource leak on calls to allocating functions"
+      }
+    ],
+    "fsf-spark_definition.adb": [
+      {
+        "line": 10763,
+        "needle": "--  Controlled types are not allowed in SPARK"
+      }
+    ],
+    "master-gnat2why-expr.adb": [
+      {
+        "line": 184,
+        "needle": "function Check_No_Memory_Leaks_At_End_Of_Scope"
+      },
+      {
+        "line": 3018,
+        "needle": "function Check_No_Memory_Leaks_At_End_Of_Scope"
+      },
+      {
+        "line": 9789,
+        "needle": "finalization actions are given by the finally block"
+      },
+      {
+        "line": 9806,
+        "needle": "--  Otherwise, the finalization actions are given by end of borrows"
+      },
+      {
+        "line": 24136,
+        "needle": "--  Insert static resource leak on calls to allocating functions"
+      }
+    ],
+    "master-spark_definition.adb": [
+      {
+        "line": 10932,
+        "needle": "--  Controlled types are not allowed in SPARK"
+      }
+    ],
+    "master-spark_util.adb": [
+      {
+        "line": 3434,
+        "needle": "function In_Statically_Leaking_Context"
+      }
+    ]
+  },
+  "existing_release_evidence": [
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/toolchain-support-research-v1/fsf-release-page.json",
+      "sha256": "38b4991162c7b40acb9acc19a4b5ed5fe6aa1af4a9abc6fd5768556d5facf35f",
+      "bytes": 1049732
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/toolchain-support-research-v1/upstream-readme.md",
+      "sha256": "fbad9d5d2aa0ab050d888361ca22370879258a4b3c0147dcea312b5e32af205a",
+      "bytes": 5263
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/toolchain-support-research-v1/upstream-readme-fetch.json",
+      "sha256": "1762ba52fc8299041d11f5d601076363da2f5d12ef742032927191f58dd1b960",
+      "bytes": 355
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/toolchain-support-research-v1/initial-latest-endpoint-refusal-readback.json",
+      "sha256": "ae497e4e3add5865af1258e1c243f4179d17df4b4c45377f86c637e7f1088e2e",
+      "bytes": 467
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/toolchain-support-research-v1/fsf-matching-assets.json",
+      "sha256": "4a2679f077a0b22c8a76707a1de5eeab1995522ecb5cf82e81bb996cb766d17b",
+      "bytes": 11195
+    }
+  ],
+  "selected_releases": [
+    {
+      "tag_name": "gnatprove-16.1.0-1",
+      "html_url": "https://github.com/alire-project/GNAT-FSF-builds/releases/tag/gnatprove-16.1.0-1",
+      "published_at": "2026-06-30T12:56:56Z",
+      "prerelease": false,
+      "target_commitish": "main",
+      "body": "gnatprove-16.1.0-1",
+      "aarch64_linux_assets": [
+        {
+          "name": "gnatprove-aarch64-linux-16.1.0-1.tar.gz",
+          "digest": "sha256:ee22bf0d80f9a3bfbc1c2e6acb68102adb42dcf67d1b24693ad31cb791cbad52",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnatprove-16.1.0-1/gnatprove-aarch64-linux-16.1.0-1.tar.gz",
+          "size": 460666014
+        },
+        {
+          "name": "gnatprove-aarch64-linux-16.1.0-1.tar.gz.sha256",
+          "digest": "sha256:730bcf822b682ffda8e6790fcf6a597cffdf69ad5997422477e473a116a52cdf",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnatprove-16.1.0-1/gnatprove-aarch64-linux-16.1.0-1.tar.gz.sha256",
+          "size": 64
+        }
+      ]
+    },
+    {
+      "tag_name": "gnat-16.1.0-1",
+      "html_url": "https://github.com/alire-project/GNAT-FSF-builds/releases/tag/gnat-16.1.0-1",
+      "published_at": "2026-07-01T10:52:35Z",
+      "prerelease": false,
+      "target_commitish": "main",
+      "body": "gnat-16.1.0-1\r\n\r\nThe macOS builds in this release are supported on macOS 15 and macOS 26. Compiling Ada code on previous macOS versions should work, but you may experience issues when building C or C++ code.\r\n\r\nFor Ada-specific changes in GNAT FSF 16, refer to the Ada section of the [GCC changelog](https://gcc.gnu.org/gcc-16/changes.html#ada).",
+      "aarch64_linux_assets": [
+        {
+          "name": "gnat-aarch64-linux-16.1.0-1.tar.gz",
+          "digest": "sha256:8e297497f2d6d6845920a363a277b6ef5bc454e48a66d0d606b89d71e31ee623",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnat-16.1.0-1/gnat-aarch64-linux-16.1.0-1.tar.gz",
+          "size": 397189145
+        },
+        {
+          "name": "gnat-aarch64-linux-16.1.0-1.tar.gz.sha256",
+          "digest": "sha256:fb36c04d6ec2cee25ca87cfafeb5272e1706d72d3a48942c374885cb0838d3ed",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnat-16.1.0-1/gnat-aarch64-linux-16.1.0-1.tar.gz.sha256",
+          "size": 64
+        }
+      ]
+    },
+    {
+      "tag_name": "gnatprove-16.0.0-snapshot",
+      "html_url": "https://github.com/alire-project/GNAT-FSF-builds/releases/tag/gnatprove-16.0.0-snapshot",
+      "published_at": "2026-07-14T08:49:15Z",
+      "prerelease": true,
+      "target_commitish": "snapshots",
+      "body": "gnatprove-16.0.0-20260714\n\n### NOT A STABLE RELEASE.\nThis is an unstable, automated snapshot build with no quality control.",
+      "aarch64_linux_assets": [
+        {
+          "name": "gnatprove-aarch64-linux-16.0.0-20260714.tar.gz",
+          "digest": "sha256:b8c569ee0ebf5336304dc1766d56b43fb7775be91911c4e4cf2c856b5586701f",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnatprove-16.0.0-snapshot/gnatprove-aarch64-linux-16.0.0-20260714.tar.gz",
+          "size": 436338163
+        },
+        {
+          "name": "gnatprove-aarch64-linux-16.0.0-20260714.tar.gz.sha256",
+          "digest": "sha256:3dd4b992226a6c181f5617091b01f0d5e912fed14467c10becceb9ccb0900149",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnatprove-16.0.0-snapshot/gnatprove-aarch64-linux-16.0.0-20260714.tar.gz.sha256",
+          "size": 64
+        }
+      ]
+    },
+    {
+      "tag_name": "gnat-16.1.1-snapshot",
+      "html_url": "https://github.com/alire-project/GNAT-FSF-builds/releases/tag/gnat-16.1.1-snapshot",
+      "published_at": "2026-10-13T08:26:56Z",
+      "prerelease": true,
+      "target_commitish": "snapshots",
+      "body": "gnat-16.1.1-20261010\n\n### NOT A STABLE RELEASE.\nThis is an unstable, automated snapshot build with no quality control.",
+      "aarch64_linux_assets": [
+        {
+          "name": "gnat-aarch64-linux-16.1.1-20261010.tar.gz",
+          "digest": "sha256:97fe41994ac642727233fa41fe93e021e9f8cd99a55813897098b9535cb90e83",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnat-16.1.1-snapshot/gnat-aarch64-linux-16.1.1-20261010.tar.gz",
+          "size": 388001346
+        },
+        {
+          "name": "gnat-aarch64-linux-16.1.1-20261010.tar.gz.sha256",
+          "digest": "sha256:aae7c916e905e7110384aa98c3851c569e4ef0952db94313b028556490382734",
+          "url": "https://github.com/alire-project/GNAT-FSF-builds/releases/download/gnat-16.1.1-snapshot/gnat-aarch64-linux-16.1.1-20261010.tar.gz.sha256",
+          "size": 64
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "R1",
+      "class": "MEASURED",
+      "statement": "The inspected public master and FSF commits are exact source identities, not tested toolchains.",
+      "master": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "fsf": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c"
+    },
+    {
+      "id": "R2",
+      "class": "MEASURED",
+      "statement": "Both inspected marking sources reject Ada.Finalization.Controlled; this is distinct from the Finalizable extension.",
+      "locations": [
+        "master-spark_definition.adb:10884",
+        "master-spark_definition.adb:10932",
+        "fsf-spark_definition.adb:10763"
+      ]
+    },
+    {
+      "id": "R3",
+      "class": "MEASURED",
+      "statement": "The expression translator retains a static False VC_Resource_Leak result for allocating function calls containing allocated parts in executable assertions, without a Finalizable-specific exemption in this conditional.",
+      "locations": [
+        "fsf-gnat2why-expr.adb:24008",
+        "master-gnat2why-expr.adb:24136"
+      ],
+      "qualification": "Exact FSF condition line is recorded by the attached source locator below; this is source inspection, not an executed proof on those commits."
+    },
+    {
+      "id": "R4",
+      "class": "MEASURED",
+      "statement": "Finalization_Actions translates existing Finally_Statements; otherwise it restores borrowed values and checks end-of-scope leaks. The observed routine does not establish automatic Finalizable cleanup modeling.",
+      "locations": [
+        "master-gnat2why-expr.adb:9789",
+        "master-gnat2why-expr.adb:9806",
+        "master-gnat2why-expr.adb:9878",
+        "fsf-gnat2why-expr.adb:9745",
+        "fsf-gnat2why-expr.adb:9762",
+        "fsf-gnat2why-expr.adb:9847"
+      ]
+    },
+    {
+      "id": "R5",
+      "class": "MEASURED",
+      "statement": "No case-insensitive Finalizable spelling occurs in the bounded retrieved source files. This is not an exhaustive repository, compiler front-end, branch or commercial-product absence claim.",
+      "evidence": "source_scans"
+    },
+    {
+      "id": "R6",
+      "class": "MEASURED",
+      "statement": "The retained release bodies identify the installed stable generation, a July prover snapshot and a later compiler snapshot. They do not claim Finalizable ownership support or identify a matching new compiler/prover pair for this feature.",
+      "evidence": "selected_releases"
+    },
+    {
+      "id": "R7",
+      "class": "UNVERIFIED",
+      "statement": "Automatic full-value/Old retirement support on an identifiable newer matching public toolchain is not established; no private installation candidate is proposed from these observations.",
+      "non_claims": [
+        "No universal infeasibility claim.",
+        "No proof of absence across uninspected sources.",
+        "No result from master/FSF GNATprove execution.",
+        "No matching compiler inferred from version numbers.",
+        "No acceptance or gate promotion."
+      ]
+    }
+  ],
+  "limitations": [
+    "The root-contents discovery fetch used mutable master; source bodies used exact branch commit pins.",
+    "The README build requirements are from the root-retained fetched README, whose fetch receipt is retained.",
+    "The first release page is a bounded page; it is not a complete release-history enumeration.",
+    "No compiler front-end source was fetched. Finalizable may be lowered there; absence of its spelling in the inspected translator sources is not a proof of absence.",
+    "The observed static assertion leak predicate still needs exact toolchain execution to decide behavior of any prospective candidate.",
+    "Original installed-toolchain reproducers remain the executed evidence; this source inspection does not supersede them."
+  ],
+  "errors": [
+    {
+      "source": "Earlier web tool opens of official branch/content API URLs",
+      "outcome": "Internal Error from web tool; transport status and body unavailable",
+      "retention": "This note records the error; subsequent direct HTTPS fetches succeeded and have their own receipts.",
+      "utc": null
+    },
+    {
+      "source": "Parent initial AdaCore spark2014 /releases/latest endpoint",
+      "outcome": "HTTP 404 retained by parent; no universal absence inference",
+      "receipt": "records/phase1-blockers/resume-20261015-v1/toolchain-support-research-v1/initial-latest-endpoint-refusal-readback.json"
+    }
+  ]
+}

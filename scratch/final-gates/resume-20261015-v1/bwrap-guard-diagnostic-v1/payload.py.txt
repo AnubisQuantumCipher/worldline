@@ -1,0 +1,95 @@
+GUARD_EXPRESSION = 'not path.is_absolute() or not stat.S_ISREG(info.st_mode)\n            or info.st_uid not in (0, os.getuid()) or info.st_mode & 0o7022\n            or not os.access(path, os.X_OK)'
+import datetime, hashlib, json, os, shutil, stat, sys, time
+from pathlib import Path
+
+def utc():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+def observed(call):
+    try:
+        return {'returned': True, 'value': call(), 'exception': None}
+    except (OSError, RuntimeError, ValueError) as error:
+        return {'returned': False, 'value': None,
+                'exception': {'type': type(error).__name__, 'message': str(error)}}
+
+started = utc()
+monotonic_started = time.monotonic_ns()
+uid = os.getuid()
+record = {'classification': 'MEASURED current-carrier guard operands only',
+          'historical_reconstruction': False, 'started_utc': started,
+          'pid': os.getpid(), 'uid': uid, 'euid': os.geteuid(),
+          'gid': os.getgid(), 'egid': os.getegid(),
+          'cwd': os.getcwd(), 'python_executable': sys.executable,
+          'requested': None, 'selection': 'shutil.which("bwrap")',
+          'guard_expression': GUARD_EXPRESSION,
+          'uid_map': observed(lambda: Path('/proc/self/uid_map').read_text()),
+          'gid_map': observed(lambda: Path('/proc/self/gid_map').read_text()),
+          'user_namespace': observed(lambda: os.readlink('/proc/self/ns/user')),
+          'mount_namespace': observed(lambda: os.readlink('/proc/self/ns/mnt')),
+          'PATH': os.environ.get('PATH'),
+          'non_claims': ['No private evaluator or unittest executed',
+                        'No protected authority or acceptance result',
+                        'Current observations do not recover unrecorded historical stat operands']}
+selected = shutil.which('bwrap')
+record['selected'] = selected
+record['resolved'] = None
+record['stat'] = None
+record['predicates'] = None
+record['guard_would_refuse'] = None
+record['refusal_code'] = None
+record['file_sha256'] = None
+record['file_hash_exception'] = None
+if not selected:
+    record['guard_would_refuse'] = True
+    record['refusal_code'] = 'PRIVATE_EVALUATOR_UNAVAILABLE'
+else:
+    resolved = observed(lambda: str(Path(selected).resolve(strict=True)))
+    record['resolve'] = resolved
+    if not resolved['returned']:
+        record['guard_would_refuse'] = True
+        record['refusal_code'] = 'PRIVATE_EVALUATOR_INVALID'
+    else:
+        path = Path(resolved['value'])
+        record['resolved'] = str(path)
+        try:
+            info = path.stat()
+        except OSError as error:
+            record['stat_exception'] = {'type': type(error).__name__, 'message': str(error)}
+            record['guard_stat_exception_would_propagate'] = True
+        else:
+            record['stat'] = {name: getattr(info, name) for name in (
+                'st_dev','st_ino','st_mode','st_uid','st_gid','st_nlink','st_size',
+                'st_mtime_ns','st_ctime_ns')}
+            # Observe every operand separately; the original expression below
+            # still uses exactly the original order and short-circuit form.
+            access = os.access(path, os.X_OK)
+            record['predicates'] = {
+                'absolute': path.is_absolute(), 'regular_file': stat.S_ISREG(info.st_mode),
+                'owner_is_root_or_real_uid': info.st_uid in (0, uid),
+                'forbidden_mode_bits': info.st_mode & 0o7022,
+                'executable_access': access}
+            refuse = (not path.is_absolute() or not stat.S_ISREG(info.st_mode)
+                      or info.st_uid not in (0, os.getuid()) or info.st_mode & 0o7022
+                      or not os.access(path, os.X_OK))
+            record['guard_expression_value'] = refuse
+            record['guard_would_refuse'] = bool(refuse)
+            record['refusal_code'] = 'PRIVATE_EVALUATOR_INVALID' if refuse else None
+            if stat.S_ISREG(info.st_mode):
+                # Identity only, including when an owner predicate refuses.
+                # Never open a special object or import/execute this file.
+                try:
+                    descriptor = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_NONBLOCK)
+                    with os.fdopen(descriptor, 'rb') as stream:
+                        before = os.fstat(stream.fileno())
+                        record['file_sha256'] = hashlib.file_digest(stream, 'sha256').hexdigest()
+                        after = os.fstat(stream.fileno())
+                    fields = ('st_dev','st_ino','st_mode','st_uid','st_gid','st_nlink',
+                              'st_size','st_mtime_ns','st_ctime_ns')
+                    record['hashed_descriptor_before'] = {name: getattr(before,name) for name in fields}
+                    record['hashed_descriptor_after'] = {name: getattr(after,name) for name in fields}
+                    record['stat_to_hash_identity_equal'] = all(getattr(info,name)==getattr(before,name)==getattr(after,name) for name in fields)
+                except OSError as error:
+                    record['file_hash_exception'] = {'type': type(error).__name__, 'message': str(error)}
+record['ended_utc'] = utc()
+record['elapsed_monotonic_ns'] = time.monotonic_ns() - monotonic_started
+print(json.dumps(record, sort_keys=True, indent=2))

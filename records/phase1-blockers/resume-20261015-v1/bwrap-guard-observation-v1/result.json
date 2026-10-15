@@ -1,0 +1,28 @@
+{
+  "baseline_commit": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+  "classification": "MEASURED diagnostic invocation only",
+  "current_HEAD_after": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+  "decisions_sha256_after": "3bd055e0212bb7085e4dcb5d5a93420d82d2571d1f9e9307902361c3b380d680",
+  "elapsed_monotonic_ns": 33538601,
+  "ended_utc": "2026-10-15T03:08:23.698790+00:00",
+  "exception": null,
+  "exit_code": 0,
+  "failed_predicates": [
+    "owner_is_root_or_real_uid"
+  ],
+  "guard_source_sha256_after": "36094019564b0d4ce7911e07c0f0655bea03790ac9e8fbaadde5860ca830d42e",
+  "guard_would_refuse": true,
+  "metadata_complete": true,
+  "non_claims": [
+    "Not the original private suite",
+    "Not historical missing-stat reconstruction",
+    "No guard change or acceptance result",
+    "No inference that any other private prerequisite passes"
+  ],
+  "started_utc": "2026-10-15T03:08:23.665253+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "552f3c2ad00c7a0be468e7eead302eb0b71a8f0559d7f267f4b92e4f432dac4b",
+  "tracked_paths_differing_from_baseline_after": [
+    "docs/decisions.md"
+  ]
+}

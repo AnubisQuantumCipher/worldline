@@ -1,0 +1,70 @@
+ error: prefix of "Old" introducing aliasing is not allowed in SPARK (SPARK RM 3.10(13))
+--> lifetime.ads:9:57
+    9 |         with Global => null, Post => Read (Object) = Read (Object'Old);
+      |                                                            ^~~~~~
+      + call a deep copy function for type "Value" as prefix of "Old" to avoid aliasing
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+
+ error: prefix of "Old" introducing aliasing is not allowed in SPARK (SPARK RM 3.10(13))
+--> lifetime.ads:12:47
+   12 |              Post => Read (Object)'First = Read (Object'Old)'First
+      |                                                  ^~~~~~
+      + call a deep copy function for type "Value" as prefix of "Old" to avoid aliasing
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+
+ error: prefix of "Old" introducing aliasing is not allowed in SPARK (SPARK RM 3.10(13))
+--> lifetime.ads:13:49
+   13 |                and then Read (Object)'Last = Read (Object'Old)'Last
+      |                                                    ^~~~~~
+      + call a deep copy function for type "Value" as prefix of "Old" to avoid aliasing
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+
+ error: subtype of "Integer" is not allowed in SPARK (due to prefix of "Old" introducing aliasing)
+--> lifetime.ads:14:31
+   14 |                and then (for all K in Read (Object'Old)'Range =>
+      |                                  ^
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+
+ error: subtype of "Integer" is not allowed in SPARK (due to prefix of "Old" introducing aliasing)
+--> lifetime.ads:14:36
+   14 |                and then (for all K in Read (Object'Old)'Range =>
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+
+ error: prefix of "Old" introducing aliasing is not allowed in SPARK (SPARK RM 3.10(13))
+--> lifetime.ads:14:42
+   14 |                and then (for all K in Read (Object'Old)'Range =>
+      |                                             ^~~~~~
+      + call a deep copy function for type "Value" as prefix of "Old" to avoid aliasing
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+
+ error: prefix of "Old" introducing aliasing is not allowed in SPARK (SPARK RM 3.10(13))
+--> lifetime.ads:16:31
+   16 |                    (if K = Read (Object'Old)'First then Ch
+      |                                  ^~~~~~
+      + call a deep copy function for type "Value" as prefix of "Old" to avoid aliasing
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+
+ error: prefix of "Old" introducing aliasing is not allowed in SPARK (SPARK RM 3.10(13))
+--> lifetime.ads:17:29
+   17 |                     else Read (Object'Old) (K)));
+      |                                ^~~~~~
+      + call a deep copy function for type "Value" as prefix of "Old" to avoid aliasing
+      + violation of aspect SPARK_Mode at line 1
+    1 |    package Lifetime with SPARK_Mode is
+      |                          ^
+gnatprove: error during flow analysis and proof

@@ -1,0 +1,21 @@
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit lifetime, 7 subprograms and packages out of 8 analyzed
+flow analysis and proof skipped for this unit (error during checking of SPARK_Mode)
+  Lifetime at lifetime.ads:1 not analyzed
+  Lifetime.Adjust at lifetime.ads:25 not analyzed
+  Lifetime.Finalize at lifetime.ads:30 not analyzed
+  Lifetime.Freegp87 at lifetime.adb:3 not analyzed
+  Lifetime.Freegp87.Free at lifetime.adb:3 skipped; body is SPARK_Mode => Off
+  Lifetime.Make at lifetime.ads:4 not analyzed
+  Lifetime.Read at lifetime.ads:3 not analyzed
+  Lifetime.Value at lifetime.ads:20 not analyzed

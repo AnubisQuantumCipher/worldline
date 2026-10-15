@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-15T03:01:16.392536+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "Candidate direction appropriate; exact launch pending D44 decision and complete-value contract correction. No execution approved by this preparatory review.",
+  "sha256": {
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/lifetime.ads": "9e74dccd107a9b3a06c3196ffcc9263d8bb2da5f0a81905f2688d4d825e5d2dd",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/lifetime.adb": "90ef4488c664959e2144771d2609450b46adb7d539005e525f8ec9271ad55d7a",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/main.adb": "3516387ad1d62d4d2b1ed0d066f355ac1eac1db6679100b56732e05399258e19",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/probe.gpr": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1/run.py": "acfd470c580173307da7c8c9afd42ed072dede8b5620122ba880e2536dddccd6",
+    "records/phase1-blockers/resume-20261015-v1/run_finalizable_heap.py": "142fe4c18a7cfa1a95a8d4f5f0f1ccf69656ccb0c60addf70fc2efda19cdeb97"
+  },
+  "observed": [
+    "Nonlimited private root record owns unconstrained String access, strict Finalizable False with analyzed deepcopy Adjust and Free Finalize; no Controlled/Off/pool or hidden counters.",
+    "Main genuinely assigns B:=A then reads/reuses/mutates A and checks B unchanged, testing move-analysis limitation directly.",
+    "Touch postcondition uses actual Object'Old full record, not merely Read(Object)'Old; no manual-only lifetime substitute.",
+    "Driver retains existing10m carrier/flock/admission/8G0/disk guards and configuredprooflevel3/60/1024/j1."
+  ],
+  "required_corrections": [
+    "Replace_First postcondition states only length/first character. Strengthen to complete unchanged suffix and preserved bounds, using full-string delta or explicit First/Last and all oldrange characters. Otherwise exact full-string main assertion is an unrelated modular proof gap.",
+    "If full String bounds correspondence is claimed for Make, explicitly require result First/Last equal input First/Last; string equality alone does not establish bounds. Existing Adjust preserves First/Last explicitly; retain that intent.",
+    "Record exact D44 options/evidence/choice/verdict/reversal before launch and review final corrected hashes."
+  ],
+  "limits": [
+    "Heap ownership analysis may reject implicit assignment or Adjust overwritten pointer as lost ownership despite accepted scalar aspect. Preserve actual diagnostics, do not weaken source reuse/independentcopy/fullOld to pass.",
+    "No heap-leak observer, negative mutation, exceptionalpostcheck or allocation failure case present. Executable0 would establish only this finite behavior, not automatic physical reclamation or O1.",
+    "Null Touch creates potential compiler postcheck snapshot but does not itself measure snapshot retirement; proof summary alone cannot establish implicit hook modeling.",
+    "Root remains sole preparer/editor/launcher; no product change requested."
+  ]
+}

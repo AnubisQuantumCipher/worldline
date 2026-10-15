@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-15T03:07:51.002757+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR one D45 metadata-only observation with exact reviewed method under root existing2m8G0/flock/admission/disk wrapper; fresh output/currentHEAD/currentloghash required. No product/carrier change or test authorized.",
+  "sha256": {
+    "scratch/final-gates/resume-20261015-v1/bwrap-guard-diagnostic-v1/run_bwrap_guard_diagnostic.py": "08ca3c1d4dacdc377695638fe29a9d6d06128bdc3e383a509c5c6d4d07c9baff",
+    "scratch/final-gates/resume-20261015-v1/bwrap-guard-diagnostic-v1/payload.py.txt": "ada4e1921e0317a583b1b42a9d00dc3d5c6ce5ed852f429b4f03209ec5b64403",
+    "scratch/final-gates/resume-20261015-v1/bwrap-guard-diagnostic-v1/source-pins.json": "bd899073874a582997c4dcdff226df190d82a44539c2d21d9262d7086327aa2f",
+    "scratch/final-gates/resume-20261015-v1/bwrap-guard-diagnostic-v1/README.md": "d56b181ec2ab3e8da058c7ac469be79db3718d660aad4129249e253ef848ecee",
+    "docs/decisions.md": "25548ff824355de9dfbb56d4bb7f0214c5fb272a9b9ba8d451a89027d55a4a70"
+  },
+  "all_pinned_source_and_guard_identities_match": true,
+  "findings": [
+    "Method constructs exact pinned historical carrier prefix and retained explicit environment overrides, removes original keys, substitutes only inline metadata query; historical ambient environment remains unknown.",
+    "Payload reads own proc namespace/ID maps and selected public bwrap metadata/file bytes only, without executing selected bwrap as evaluator or importing product. Outer bwrap carrier itself is executed as proposed.",
+    "Exact approval expression and individual operands retained; descriptor before/after stat/hash check refuses identity drift. Short-circuit result is converted separately to bool, preserving observed integer mask if present.",
+    "No credentials/config reads or foreign process interactions; one child60s timeout kills/waits only its owned child; heavy wrapper controls fullscope2m.",
+    "Code result0 means complete metadata, including possible guard refusal; missing/stat/hash/map/refusal/parse/timeouts remain explicit incomplete observations."
+  ],
+  "conditions": [
+    "Parent must retain existing storage preflight/reserve/earlystop and actual8G0/postlock14GiBadmission/sharedflock/scope cleanup.",
+    "Pass actual currentHEAD and exact current decisionlogSHA after recording verdict; do not reuse stale HEAD in pinsmetadata as present source identity.",
+    "No bwrap approval weakening, private suite rerun, service/protected deployment or additional query loop selected.",
+    "Observed currentcarrier operands can support a current explanation; they cannot recover unrecorded ef7 historical stat/map or prove every later private prerequisite."
+  ],
+  "non_claims": [
+    "No diagnostic executed by reviewer.",
+    "No authentic protected acceptance/fullruntime/proof or independent acceptance."
+  ]
+}

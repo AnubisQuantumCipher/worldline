@@ -1,0 +1,47 @@
+{
+  "utc": "2026-10-15T03:30:22.382859+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONFIRMED correction: decisive original fixture profile is legacy, not None. Earlier None-specific analysis is invalid and must be explicitly superseded, not erased.",
+  "frozen_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "frozen_current_project_bytes_equal": true,
+  "frozen_current_fixture_bytes_equal": true,
+  "project_sha256": "54cd7e46fbecb9fc9287986a4a5c81e3b665addebe4932f0e4f797a56fdd4161",
+  "fixture_sha256": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1",
+  "CheckSpec_field_order": [
+    "id",
+    "kind",
+    "argv",
+    "cwd",
+    "required",
+    "format",
+    "result",
+    "covers",
+    "verifiers",
+    "profile"
+  ],
+  "fixture_explicit_positional_mapping": {
+    "id": "'exam'",
+    "kind": "'tests'",
+    "argv": "('/usr/bin/python3', f'{logical}/exam/run.py')",
+    "cwd": "None",
+    "required": "True",
+    "format": "'exit'",
+    "result": "None",
+    "covers": "()",
+    "verifiers": "()"
+  },
+  "omitted_profile_default": "legacy",
+  "loader_source": "ProjectConfig.load reads item.get(profile,legacy), permits only legacy/private-evaluator-v1, rejects explicit JSONnull; then passes explicit validated profile into CheckSpec.",
+  "consequences": [
+    "Positional None operands are cwd and result; verifiers is last explicitly supplied field; profile is omitted.",
+    "Actual decisive exit fixture is legacy shared execution, not null-profile isolated-exit domain. Existing EVALUATOR_INCOMPLETE observation remains actual, but None-specific cause is unsupported.",
+    "Rejected unapplied integrated proposal requiring check.profile is None would not select this unchanged original decisive fixture. Its native null-profile acceptance additions cannot be justified as a repair of this actual caller.",
+    "Do not apply null acceptance sites absent separately demonstrated original valid callers and guarantee correspondence; adding JSONnull accepted configuration would be a new domain change, not this repair.",
+    "D46 invocationId and D49 typedexport repairs concern independently reviewed schemas and remain unaffected.",
+    "Correct current docs/analysis with fresh explicit references; preserve historical invalid inference/proposal receipts immutable."
+  ],
+  "non_claims": [
+    "Dataclass annotations do not enforce all directPython construction; this review does not prove universalabsence of directNone callers.",
+    "No runtime/test/query/productedit by reviewer; no gate/independentacceptance."
+  ]
+}
