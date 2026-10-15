@@ -1,0 +1,925 @@
+{
+  "classification": "MEASURED file identities; UNVERIFIED publication suitability and acceptance",
+  "created_utc": "2026-10-14T21:16:17.191403+00:00",
+  "excluded": [
+    "All generated outputs, raw run logs, proof sessions/manifests, assurance result manifests, source frames/archives, compiled objects/libraries/binaries and cores.",
+    "Private/installed toolchain and full SPARKlib source copies; exact dependency identities are retained by selected manifests.",
+    "Home/config/data/state/auth/key/credential files or contents; code spelling paths to such files is not authorization to read or publish those files.",
+    "Old failed prototype collections, duplicate preparation copies, unselected historical carriers and new tests/qualifiers/harnesses.",
+    "External carrier source/output trees: no copy, restore or modification; declared historical metadata is not fresh verification.",
+    "Report-side protected-prerequisite readback outputs and helper are outside this launch-manifest-only selection; this inventory does not replace root evidence/publication review."
+  ],
+  "external_carrier_references": [
+    {
+      "boundary": "External carrier provenance remains D7; this metadata does not establish equivalent custody/authorization.",
+      "identity_origin": "Declared in consumed original roster; not freshly read or copied in this inventory.",
+      "launch_role": "Current aux helper reads and hash-checks this file.",
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/planned-actions.json",
+      "publication_candidate": false,
+      "sha256": "e9aca1c9efc31d107bca29997e0cef5e7653d7e14d52393320cd61340186731f"
+    },
+    {
+      "boundary": "External carrier provenance remains D7; this metadata does not establish equivalent custody/authorization.",
+      "identity_origin": "Declared in consumed original roster; not freshly read or copied in this inventory.",
+      "launch_role": "Historical original roster/recipe provenance.",
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/additional-actions.json",
+      "publication_candidate": false,
+      "sha256": "ca26cbd26480288a839eb7e79b5af4bd230c7ccf6e327f1d34c14a7cc3a5081b"
+    },
+    {
+      "boundary": "External carrier provenance remains D7; this metadata does not establish equivalent custody/authorization.",
+      "identity_origin": "Declared in consumed original roster; not freshly read or copied in this inventory.",
+      "launch_role": "Current binary helper reads and hash-checks this file.",
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/tail-enrollment.json",
+      "publication_candidate": false,
+      "sha256": "34e575b54414e1a88c5a19b95d64ff1570edd8e4c8e1eb866409bdd0fe085a62"
+    },
+    {
+      "boundary": "External carrier provenance remains D7; this metadata does not establish equivalent custody/authorization.",
+      "identity_origin": "Declared in consumed original roster; not freshly read or copied in this inventory.",
+      "launch_role": "Historical recipe provenance; local retained run_checks.py identity is separately observed.",
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/run_checks.py",
+      "publication_candidate": false,
+      "sha256": "3b49400e9490916ec4437b19f93856c1c16428a983aed24d9cce09113a5b829a"
+    },
+    {
+      "boundary": "External carrier provenance remains D7; this metadata does not establish equivalent custody/authorization.",
+      "identity_origin": "Declared in consumed original roster; not freshly read or copied in this inventory.",
+      "launch_role": "Historical original roster/recipe provenance.",
+      "path": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/restored_original_domains.py",
+      "publication_candidate": false,
+      "sha256": "91db1735359a0c596e6c0ad3ed33b2a69d18e56441df68dbc120c16ca486526d"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 1997,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/coordinator/freeze_v5.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Freeze tracked source into exact final frame and source hash manifest.",
+      "sha256": "a212808a660a3b3eb24a859d0484c0f1f9c602744998e2c6b08c7172c3bdcf54",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 4790,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/coordinator/final_build_v5.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Original root/private/pending/native build orchestration.",
+      "sha256": "fd9eea7ef48627be387ef0ded34662a330cbe4af7edf1a43ea6927f34ed326aa",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 5984,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/coordinator/original_aux_builds_v6.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Original planned auxiliary build roster and behavior/fuzz commands.",
+      "sha256": "1e9af612a6ace5802b19b744b9735e09991c959b04e200b2f1f3da57808e6f67",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 9619,
+      "matches_frozen_git_bytes": true,
+      "path": "scripts/phase1_heavy.py",
+      "publication_candidate": false,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Shared flock, memory admission, resource scope and owned payload containment.",
+      "sha256": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 5420,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/frozen_source_v2.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Join frozen source, current root/frame and build identities.",
+      "sha256": "76273e84d9ab37b6aaaa1d858709b32af90193f435045e90d6a0a80487b64f2e",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 14044,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/full_proof_driver_v2.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Configured full proof command, complete imported-source exposure and bounded launch.",
+      "sha256": "d25354f8e95a706007dec1acc42ce8cee2028e1149cfa2ab806eb48dda5217df",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 16785,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/final_proof_gate_v2.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Original full proof predicate and manifest generation or explicit refusal.",
+      "sha256": "222392f80c035b743a6fa3e2c1f393f039625eb34a3b7763436df530e439d203",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 28941,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition/original_binary_controls_v5.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Original binary payload roster, artifact collector and qualified local carrier.",
+      "sha256": "61621b564757b7bf4acacb62adfdda3f361081479d63149f201ac1ba73a7a1cf",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 9608,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Existing required local carrier qualification.",
+      "sha256": "d491dbb77ccfa48e47e1ccd96e755ff2f9eb39e083b8fca5012109ff494b7850",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 14534,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition2/original_additional_driver_v2.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Original two additional direct payloads and existing namespace/binary joins.",
+      "sha256": "bbbcd8e88e656c38fc2ea40ae659e983edd69635f3c1e4f076e985e1a0fc6394",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 23118,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/full_runtime_supervisor_v3.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Original full/private runtime commands, existing qualification and D35 conditional separate private mode.",
+      "sha256": "3105162b3f9eac3a61460e9a1cb23966a84296fa9e4af9ddc69c1155e97b39e1",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 24208,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/evaluation_domain_supervisor_v2.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Original domain commands using the exact v3 runtime dependency.",
+      "sha256": "544c835d32196a385830ba29c81b57f48c53585a7ae34a40a46a4ce51bce473a",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 10537,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/authority_ffi_controls_v2.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Existing FFI qualification and production controls.",
+      "sha256": "329d2cfe6d5bc5cdf36ae7d8f375a541e160f5abf2e1c432c14daf230d1b2154",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 15554,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/authority_admission_driver_v4.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Production admission component execution and dispatch observations.",
+      "sha256": "6a9205b657a1809ec0a8264f384c308979afcd064be5d98db1c3000b8fc6c0b3",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 40939,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition/actor_world_harness_v3.py",
+      "publication_candidate": true,
+      "publication_caveat": "Code contains credential-path spellings and credential handling logic; no credential/config/HOME/runtime contents are candidates or were read. Actual GPT-6.1 must assess exact source before publication.",
+      "role": "Original ordinary actor fixture, Luna-high adapter and D34 companion projection.",
+      "sha256": "3506f51a7bd6cc55354ad7c5eaa521dac3a567a2f6f145b46c8477afb23e0f1d",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 3080,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/final_old_inventory_v4.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Final frozen-source Old inventory identity readback.",
+      "sha256": "40c1cc268f24b33b82c6fb0108453f4e26560809b54d4e1c6d561a86c5ce9a4b",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 26826,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/evidence/private-sparklib-proof-source-v1.json",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Exact private proof dependency source/project identities and exposure recipe.",
+      "sha256": "4cbb1c782b332db9b35eecc6a88cb639b24f1b007dc756b752b5f54aa455f1b4",
+      "source_kind": "dependency-method-metadata",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 7308,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/reviewer/check_final_gate_report.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Report structure/hash checker; not semantic acceptance.",
+      "sha256": "cff76b1bfcae236f87ab24d51c313b3b0afaa8e686fe68febfcfe25ca7e32db0",
+      "source_kind": "python-entrypoint",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 11255,
+      "matches_frozen_git_bytes": true,
+      "path": "docs/phase1-acceptance.md",
+      "publication_candidate": false,
+      "publication_caveat": "Exact method source; local path spellings are not private file contents. Publication review pending.",
+      "role": "Binding original gate predicates.",
+      "sha256": "17d20c7f9c0f81d1377cd10adce609492268e18d165a40c47e4e89bba864a6f3",
+      "source_kind": "binding-specification",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 launch manifest"
+      ]
+    },
+    {
+      "bytes": 4532,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/coordinator/check_owned_quiescence.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original recorded-owned-unit quiescence method.",
+      "sha256": "1eb1ed23282e2a39ed24e92d9547ceceef7768e7f6c4027d714892d33de4ab9d",
+      "source_kind": "python-dependency",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final_build_v5.py"
+      ]
+    },
+    {
+      "bytes": 23314,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/full_runtime_supervisor.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Historical file remains an actual import for manager roster and ownership functions; not included as a failed prototype collection.",
+      "sha256": "afca908339afcb9fce89d7b8a18f506400fb2a2f0b0eac303d50b1f3b32049f1",
+      "source_kind": "python-dependency",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "check_owned_quiescence.py"
+      ]
+    },
+    {
+      "bytes": 38901,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/runtime_watcher_reference.py",
+      "publication_candidate": true,
+      "publication_caveat": "Whole pinned source includes unused actor/credential-path logic. Credential/config/HOME contents were not read or selected; do not trim source and silently claim the same pin.",
+      "role": "Whole-file pinned watcher reference; retain exact bytes rather than trim unused actor functions.",
+      "sha256": "17a166b36993f030e66306631b234c452886923799b1b972e45652898f7f735f",
+      "source_kind": "python-dependency",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "full_runtime_supervisor_v3.py",
+        "full_runtime_supervisor.py"
+      ]
+    },
+    {
+      "bytes": 6142,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/runtime_audit_entry.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original process/audit entry wrapper.",
+      "sha256": "8b9085a2ea3295fb16a68296cfa9c1cad20dbb1c268bb6f60616cfac27c42d3d",
+      "source_kind": "python-dependency",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "full_runtime_supervisor_v3.py",
+        "evaluation_domain_entry_v1.py"
+      ]
+    },
+    {
+      "bytes": 2810,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/evaluation_domain_entry_v1.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original evaluation-domain process/audit entry wrapper.",
+      "sha256": "fa124d361ad2bbdcf931fa5c67485438b61cdefc4cecd83aa28612389ceafdad",
+      "source_kind": "python-dependency",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "evaluation_domain_supervisor_v2.py"
+      ]
+    },
+    {
+      "bytes": 13543,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/authority_ffi_observer_v1.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original production FFI observation method.",
+      "sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+      "source_kind": "python-dependency",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "authority_ffi_controls_v2.py",
+        "authority_admission_driver_v4.py"
+      ]
+    },
+    {
+      "bytes": 12368,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/sparklib_build_experiment.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Actual standalone/full private dependency build recipe, ALI and archive completeness predicates.",
+      "sha256": "5cd0b0975d2d568a34139880cbe9acfe4313c324b1c45fe52b14c6edc98b5fd3",
+      "source_kind": "python-dependency",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "final_build_v5.py"
+      ]
+    },
+    {
+      "bytes": 17729,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/evidence/private-sparklib-experiment-source-v1.json",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Exact build dependency source hashes and adapted project identity.",
+      "sha256": "8c1f7cbefcb199a286ff0b7fe748ed12b2e934df338cb185c59d899d70903da1",
+      "source_kind": "dependency-method-metadata",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "sparklib_build_experiment.py"
+      ]
+    },
+    {
+      "bytes": 3432,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/prepare_proof_dependency.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Exact proof dependency preparation recipe named by the retained source manifest; do not rerun during current tests.",
+      "sha256": "c483e6019f0986fda6fe11ce31e243ac9dca4a0ead45a527d53229ccc6415f8c",
+      "source_kind": "dependency-recipe-source",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "private-sparklib-proof-source-v1.json"
+      ]
+    },
+    {
+      "bytes": 1893,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr",
+      "publication_candidate": true,
+      "publication_caveat": "Third-party-derived project file: actual GPT-6.1 publication review must confirm retained license/provenance. Do not publish copied dependency/toolchain trees or binaries as part of this inventory.",
+      "role": "Small exact local build project adaptation; underlying third-party source tree excluded.",
+      "sha256": "ffdf9e235830799c45759540dbfff3a24da164bce9272ad9eb63e7be9935569d",
+      "source_kind": "adapted-dependency-project",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "sparklib_build_experiment.py"
+      ]
+    },
+    {
+      "bytes": 1535,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/old-analysis/private-sparklib-proof/lib/gnat/sparklib.gpr",
+      "publication_candidate": true,
+      "publication_caveat": "Third-party-derived project file: actual GPT-6.1 publication review must confirm retained license/provenance. Do not publish copied dependency/toolchain trees or binaries as part of this inventory.",
+      "role": "Small exact local proof project adaptation; source/project manifest carries upstream identities.",
+      "sha256": "907f5ae44dcfa55a7d93847f19351083618c8f5edd170b83f289fc71f32d06bc",
+      "source_kind": "adapted-dependency-project",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "full_proof_driver_v2.py"
+      ]
+    },
+    {
+      "bytes": 29935,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/reviewer/f1-original-full-planned-build-roster.json",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original planned build roster and hash-pinned external provenance.",
+      "sha256": "f69acc57612a6ccfe17fb99b172b69db08982415745bf93a6573ec1fa5b64630",
+      "source_kind": "original-roster-method-metadata",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "original_aux_builds_v6.py"
+      ]
+    },
+    {
+      "bytes": 692024,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/reviewer/f3-original-full-action-roster.json",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original action roster, recipe references and explicit carrier boundary.",
+      "sha256": "df3a06cc674b9b6556f03722e56167c0d38da9ae80cd869abde56001ef9e7dbe",
+      "source_kind": "original-roster-method-metadata",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "original_binary_controls_v5.py",
+        "original_additional_driver_v2.py"
+      ]
+    },
+    {
+      "bytes": 342940,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition/original-payload-recipe-v2.json",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original source/project/artifact binding recipe, not payload execution evidence.",
+      "sha256": "d8ff3f834a4f3f491bd514b249c955aad63010c86069840ace2ed4faf9a3a005",
+      "source_kind": "payload-recipe-method-metadata",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "original_binary_controls_v5.py"
+      ]
+    },
+    {
+      "bytes": 11404,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition/prepare_original_payload_recipe_v2.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Exact generator recorded by the consumed payload recipe; not a new harness.",
+      "sha256": "713e0cab80122e7328b8df2c5814326f9b9981858ea4aa62d30b869c867af607",
+      "source_kind": "payload-recipe-source",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "original-payload-recipe-v2.json"
+      ]
+    },
+    {
+      "bytes": 39895,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition/historical-v1/run_checks.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Current helper verifies its entire hash; it does not execute/import this original carrier. Transitive imports of this archival file are not current launch dependencies.",
+      "sha256": "3b49400e9490916ec4437b19f93856c1c16428a983aed24d9cce09113a5b829a",
+      "source_kind": "historical-carrier-identity-source",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "original_binary_controls_v5.py"
+      ]
+    },
+    {
+      "bytes": 6458,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Original execution-evidence boundary payload used by the direct driver.",
+      "sha256": "a2e6fd4648d5eed25b81770946335d49df5eaa8ce9a69f7f596fa50e20e10c62",
+      "source_kind": "original-payload-source",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "original_additional_driver_v2.py"
+      ]
+    },
+    {
+      "bytes": 138681,
+      "matches_frozen_git_bytes": true,
+      "path": "scratch/old-analysis/evidence/old-contract-supplement-v1.json",
+      "publication_candidate": false,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Consumed donor/native/imported source identity inventory; includes contract inventory prose and paths, not proof acceptance.",
+      "sha256": "4d2f832f6c7dd047fb3bed551f6d5e0881e91fa5c6539ceaa336b07412c3e424",
+      "source_kind": "source-inventory-method-metadata",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final_old_inventory_v4.py"
+      ]
+    },
+    {
+      "bytes": 16039,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/final-gates/freeze-v5-gate-launch-manifest-v1.md",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Exact reviewed shell blocks including inline frame/library-link preparation; preparation-time future labels are not terminal results.",
+      "sha256": "d379010256d20ad334d634aefd03ed8cedb6fcfa7958cd7bee94fe1d0b38ed1f",
+      "source_kind": "launch-command-source",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "coordinator final-v5 campaign"
+      ]
+    },
+    {
+      "bytes": 15700,
+      "identity_boundary": "Outside frozen Git source; retain exact launch-pinned bytes separately from tested product commit.",
+      "path": "scratch/final-gates/freeze-v5-gate-launch-manifest-v1.json",
+      "publication_candidate": true,
+      "publication_caveat": "Exact source or compact method metadata; review local path disclosure, original provenance and licensing before publication. No generated execution output is selected.",
+      "role": "Command/helper pin companion; preparation-time output absence and pending statements are not current outcome claims.",
+      "sha256": "e50d4c350f1e43b5874db8a82922c30e1af57e555bdb9f6abca1a4ebf7ac61d9",
+      "source_kind": "launch-method-metadata",
+      "tracked_at_current_head": false,
+      "used_by": [
+        "freeze-v5-gate-launch-manifest-v1.md"
+      ]
+    },
+    {
+      "bytes": 3136,
+      "matches_frozen_git_bytes": true,
+      "path": "native/build_guard.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original native build recipe",
+      "sha256": "c198d44d63c821fcff2e8fa96c1b1340d80c153d34f8e483a129bfef76ef684c",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 11186,
+      "matches_frozen_git_bytes": true,
+      "path": "prove.sh",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original proof screening and manifest contract",
+      "sha256": "064b2f460506c4a875e73ee0dd3f59f1bf22c46bcd94ff5c8ad470f02bed8632",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 5258,
+      "matches_frozen_git_bytes": true,
+      "path": "verify_proof_manifest.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original proof manifest verifier",
+      "sha256": "9b5bcbae627fe755eada5ca7e1cd503144a87e89ebf5208af6d972b98df02a9f",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 245288,
+      "matches_frozen_git_bytes": true,
+      "path": "runtime/worldline/proof_manifest.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original proof manifest implementation",
+      "sha256": "b534fa1cb27db5c2c3601a04c7c2693ed012fdc4f940ab4e897cd9ebf852979c",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 20546,
+      "matches_frozen_git_bytes": true,
+      "path": "scripts/assurance.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original assurance/runtime/private predicates",
+      "sha256": "b15169fb858c591dce5f06d6c5301a6578a45d67ffea448b423e03b25c7e8cc9",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 1780,
+      "matches_frozen_git_bytes": true,
+      "path": "scripts/assurance_contract.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original complete assurance step contract",
+      "sha256": "848cebc468e0b9f7c2845465cf7272c15502e4b3cc77b5448232bd0ec8d32c47",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 13558,
+      "matches_frozen_git_bytes": true,
+      "path": "scripts/decisive_evaluation_test.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original domain execution entrypoint",
+      "sha256": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 5882,
+      "matches_frozen_git_bytes": true,
+      "path": "scripts/evaluation_domain_gate.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original domain decision gate",
+      "sha256": "734a7381e8e08a6ff71432f4c16251fc4ab4d57f032e924dc61119abfafeae5e",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 37594,
+      "matches_frozen_git_bytes": true,
+      "path": "tests/test_raw_evaluation_default.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original raw evaluation prerequisite/payload",
+      "sha256": "21067fd8d8db9fee5472fadcda532abfcb5da35fe6a93fa3e4efdc116c20121f",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 1524,
+      "matches_frozen_git_bytes": true,
+      "path": "tests/run_freshness_json_order_controls.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original additional control entrypoint",
+      "sha256": "487a14a56f6845ce037f805c23bebbe099aef3d2283dac51a46f5239deecf0d5",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 5307,
+      "matches_frozen_git_bytes": true,
+      "path": "tests/freshness_json_order_controls.py",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original additional payload",
+      "sha256": "af30ea6766680a00f4d1f0b3e1e57fcc98fbd3dfa8d2e9056375448161f0c4fe",
+      "source_kind": "already-tracked-reference",
+      "syntax_readback": "AST parsed only; never imported or executed.",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 10381,
+      "matches_frozen_git_bytes": true,
+      "path": "records/phase1-blockers/old-contract-inventory-v2.json",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original Old source inventory",
+      "sha256": "9f93ae8f7c82c644f97e0c7c2e418352ce1869af802b1dcce5da261a5d9ec858",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 641,
+      "matches_frozen_git_bytes": true,
+      "path": "records/phase1-blockers/old-contract-inventory-v3.json",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original Old source inventory successor",
+      "sha256": "44b227a369afe79f79a3243e4fc61bb79443db4fd0e7ba8cefa4c9e5bab9672c",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 134,
+      "matches_frozen_git_bytes": true,
+      "path": "worldline.gpr",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original root project",
+      "sha256": "e60f6fc969048d0af1d53c809d1c237dec8eaf99f018fd075e88b2e08f38731c",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 6315,
+      "matches_frozen_git_bytes": true,
+      "path": "core/worldline_core.gpr",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original proof project",
+      "sha256": "0e4e076f23d0f6747f73488d3dda68be322fd89b07640b5ddac28e64470a68df",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 752,
+      "matches_frozen_git_bytes": true,
+      "path": "pending-component/pending.gpr",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original pending component project",
+      "sha256": "d8f1a3ef831c1186eb99e0b729a89f7f379a81e04f2f2bbd7f68f06add739b5e",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 502,
+      "matches_frozen_git_bytes": true,
+      "path": "physical-value-controls/physical_value_controls.gpr",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original auxiliary project",
+      "sha256": "663463e51535314b7ae73999349be0b7928c0a9147f099ad8eca45826991a75a",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 508,
+      "matches_frozen_git_bytes": true,
+      "path": "canonical-exchange-tests/canonical_exchange_tests.gpr",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original auxiliary project",
+      "sha256": "0c4f06701ca55a4fefcf40dfdfea991872402aeef1c855c9efb1f05e294cdc75",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    },
+    {
+      "bytes": 532,
+      "matches_frozen_git_bytes": true,
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_tests.gpr",
+      "publication_candidate": false,
+      "publication_caveat": "Already retained in tested Git commit; reference rather than duplicate. This is a selected direct-recipe list, not a second full product import inventory.",
+      "role": "Original auxiliary project",
+      "sha256": "6381ee20947d6663c3b6179720d7d07aae7fe89cd927aebd24f6cb1e85047c7e",
+      "source_kind": "already-tracked-reference",
+      "tracked_at_current_head": true,
+      "used_by": [
+        "final-v5 methods"
+      ]
+    }
+  ],
+  "head_observed": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "publication_boundaries": [
+    "The later retention/report commit must explicitly name tested ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac and must not claim its new Git identity was tested.",
+    "Do not modify frozen source or launch-pinned scratch bytes during live tests. No additional documentary freeze is proposed.",
+    "Retaining exact methods is not proof, runtime completion, independent acceptance, D7 carrier equivalence, or self-contained reproduction on another host.",
+    "Current private dependency source and installed tool identities remain separate required prerequisites; only their compact method identities are candidates here.",
+    "The source inventory is not a comprehensive secret/licensing audit. Actual GPT-6.1 must review exact selected files before any staging/publication.",
+    "No raw runtime data, evidence restoration, credential read, helper execution, job launch, commit or push occurred during preparation."
+  ],
+  "purpose": "Candidate exact method-source retention for a later outcomes/report commit; no source edits, staging, publication, imported helpers or jobs.",
+  "review_status": "PENDING actual GPT-6.1 publication review",
+  "schema": "worldline.final-method-source-publication-inventory.v1",
+  "scope": "Only final-v5 launch entrypoints, actual source imports, consumed original rosters/recipes/dependency manifests, and selected already-tracked original predicates.",
+  "tested_source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "worktree": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z"
+}

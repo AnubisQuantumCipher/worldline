@@ -1,0 +1,288 @@
+{
+  "bounds": {
+    "artifact_collector": "10m",
+    "aux_build": "45m",
+    "conditional_private": "120m only SAME-source full terminal/missing separate privatecompletion",
+    "domain": "120m originalqualification;900s decisive/1800s caller; no duplicate successfulgate",
+    "ffi_and_admission": "120s each",
+    "full_runtime": "120m",
+    "main_build": "45m",
+    "ordinary_actor": "600s actor/20m outer; actor original positive observedpage-sized swap",
+    "original_additions": "120m outer/180s each original case",
+    "original_binaries": "120m",
+    "runtime_qualification": "15m",
+    "sandbox_qualification": "5m",
+    "strict_proof": "120m outer;timeout60/memlimit1024/jobs2 fulloriginalscope",
+    "watcher_query": "10s UNCHANGED",
+    "worker": "8G/swap0, originalsharedflock/postlock14GBadmission/release300sretry"
+  },
+  "classification": "MEASURED static preparation only; no jobs executed",
+  "evidence_map": {
+    "bytes": 519571,
+    "exists": true,
+    "path": "scratch/final-gates/frozen537-acceptance-evidence-map-v3.json",
+    "sha256": "d6a287b7cc67461d37a7b8f3e6e4410014fd49bae865d0bae99c4443d67b57a6"
+  },
+  "exact_bash_blocks": [
+    "cd /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z\nsource /home/sicarii/opt/gnat/env.sh\nexport XDG_RUNTIME_DIR=\"/run/user/$(id -u)\"\nexport DBUS_SESSION_BUS_ADDRESS=\"unix:path=$XDG_RUNTIME_DIR/bus\"\nexport WORLDLINE_BUILD=checks\npython3 -B scratch/coordinator/freeze_v5.py",
+    "phase1_root=$PWD\nphase1_freeze=$phase1_root/records/phase1-blockers/freeze-v5/source.json\nphase1_commit=$(python3 -B -c 'import json,sys; print(json.load(open(sys.argv[1]))[\"commit\"])' \"$phase1_freeze\")\ntest \"$(git rev-parse HEAD)\" = \"$phase1_commit\"\ntest -z \"$(git status --porcelain --untracked-files=no)\"\nphase1_frame=$phase1_root/scratch/coordinator/final-frame-v5/source\nphase1_build=$phase1_root/records/phase1-blockers/final-build-steps-v5/artifacts.json\nphase1_aux=$phase1_root/records/phase1-blockers/original-aux-builds-final-v6/result.json\nphase1_dependency=$phase1_root/scratch/old-analysis/evidence/private-sparklib-proof-source-v1.json\nphase1_template=$phase1_root/scratch/old-analysis/private-sparklib-proof\nphase1_inputs=(--expected-commit \"$phase1_commit\" --freeze-record \"$phase1_freeze\" --frame \"$phase1_frame\" --build-manifest \"$phase1_build\")\nphase1_binary_inputs=(--expected-commit \"$phase1_commit\" --freeze \"$phase1_freeze\" --frame \"$phase1_frame\" --aux-manifest \"$phase1_aux\" --full-build-manifest \"$phase1_build\")",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out records/phase1-blockers/final-build-scope-v5 --timeout 45m --swap-max 0 -- \\\n  python3 -B scratch/coordinator/final_build_v5.py",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out records/phase1-blockers/original-aux-builds-scope-v6 --timeout 45m --swap-max 0 -- \\\n  python3 -B scratch/coordinator/original_aux_builds_v6.py",
+    "flock /home/sicarii/.worldline-heavy.lock python3 -B - \\\n  \"$phase1_commit\" \"$phase1_freeze\" \"$phase1_frame\" \"$phase1_build\" <<'READBACK'\nimport json,sys\nfrom pathlib import Path\nsys.path.insert(0,str(Path.cwd()/'scratch/old-analysis'))\nfrom frozen_source_v2 import validate\nreceipt=validate(sys.argv[1],Path(sys.argv[2]),Path(sys.argv[3]),Path(sys.argv[4]),link=True)\nwith (Path.cwd()/'scratch/old-analysis/final-frame-v5-link-preflight.json').open('x') as stream:\n    json.dump(receipt,stream,sort_keys=True,indent=2)\n    stream.write('\\n')\nREADBACK",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out scratch/old-analysis/full-proof-scope-v5 --timeout 120m --swap-max 0 -- \\\n  python3 -B scratch/old-analysis/full_proof_driver_v2.py \\\n  --out scratch/old-analysis/full-proof-result-v5 --subdir phase1-full-proof-v5 \\\n  \"${phase1_inputs[@]}\" --dependency-template \"$phase1_template\" \\\n  --dependency-manifest \"$phase1_dependency\"",
+    "python3 -B scratch/old-analysis/final_proof_gate_v2.py \\\n  --out scratch/old-analysis/final-proof-gate-v5 \\\n  --proof-run scratch/old-analysis/full-proof-result-v5 \\\n  --proof-scope scratch/old-analysis/full-proof-scope-v5 \\\n  \"${phase1_inputs[@]}\" --dependency-manifest \"$phase1_dependency\" \\\n  --private-dependency scratch/old-analysis/full-proof-result-v5/private-sparklib",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out scratch/acquisition/original-binary-artifacts-scope-v5 --timeout 10m --swap-max 0 -- \\\n  python3 -B scratch/acquisition/original_binary_controls_v5.py --collect \\\n  \"${phase1_binary_inputs[@]}\" --out scratch/acquisition/original-binary-artifacts-v5",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out scratch/acquisition/original-binary-sandbox-scope-v5 --timeout 5m --swap-max 0 -- \\\n  python3 -B scratch/acquisition/qualify_original_binary_sandbox_v3.py \\\n  --out scratch/acquisition/original-binary-sandbox-v5 --frame \"$phase1_frame\"",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out scratch/acquisition/original-binary-controls-scope-v5 --timeout 120m --swap-max 0 -- \\\n  python3 -B scratch/acquisition/original_binary_controls_v5.py --run \\\n  \"${phase1_binary_inputs[@]}\" \\\n  --artifact-manifest scratch/acquisition/original-binary-artifacts-v5/artifacts.json \\\n  --out scratch/acquisition/original-binary-controls-v5",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out scratch/acquisition2/original-additional-scope-v5 --timeout 120m --swap-max 0 -- \\\n  python3 -B scratch/acquisition2/original_additional_driver_v2.py \\\n  --out scratch/acquisition2/original-additional-v5 \\\n  --sandbox-qualification scratch/acquisition/original-binary-sandbox-v5/result.json",
+    "python3 -B scratch/old-analysis/full_runtime_supervisor_v3.py \\\n  --out scratch/old-analysis/runtime-qualification-v5 --suite qualification --scope-timeout 15m \\\n  \"${phase1_inputs[@]}\"",
+    "python3 -B scratch/old-analysis/full_runtime_supervisor_v3.py \\\n  --out scratch/old-analysis/full-runtime-v5 --suite full --scope-timeout 120m \\\n  \"${phase1_inputs[@]}\"",
+    "python3 -B scratch/old-analysis/full_runtime_supervisor_v3.py \\\n  --out scratch/old-analysis/private-host-runtime-v5 --suite private --scope-timeout 120m \\\n  \"${phase1_inputs[@]}\"",
+    "python3 -B scratch/old-analysis/evaluation_domain_supervisor_v2.py \\\n  --out scratch/old-analysis/domain-qualification-v5 --mode qualify --scope-timeout 120m \\\n  \"${phase1_inputs[@]}\" \\\n  --runtime-qualification scratch/old-analysis/runtime-qualification-v5/result.json",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out scratch/old-analysis/authority-ffi-qualification-scope-v5 --timeout 120s --swap-max 0 -- \\\n  bwrap --die-with-parent --ro-bind / / --dev /dev --proc /proc \\\n  --bind \"$phase1_root\" \"$phase1_root\" --chdir \"$phase1_root\" \\\n  python3 -B scratch/old-analysis/authority_ffi_controls_v2.py \\\n  --out scratch/old-analysis/authority-ffi-qualification-v5 \"${phase1_inputs[@]}\"",
+    "python3 -B scripts/phase1_heavy.py \\\n  --out scratch/old-analysis/authority-admission-scope-v5 --timeout 120s --swap-max 0 -- \\\n  bwrap --die-with-parent --ro-bind / / --dev /dev --proc /proc \\\n  --bind \"$phase1_root\" \"$phase1_root\" --chdir \"$phase1_root\" \\\n  python3 -B scratch/old-analysis/authority_admission_driver_v4.py \\\n  --out scratch/old-analysis/authority-admission-v5 \"${phase1_inputs[@]}\" \\\n  --observe-ffi --ffi-qualification scratch/old-analysis/authority-ffi-qualification-v5/result.json --run",
+    "python3 -B scratch/acquisition/actor_world_harness_v3.py \\\n  --out scratch/acquisition/actor-ordinary-final-v5 --expected-commit \"$phase1_commit\" \\\n  --library \"$phase1_root/lib/libworldline_core.so\" --timeout 600 --scope-timeout 20m --run",
+    "python3 -B scratch/old-analysis/final_old_inventory_v4.py",
+    "python3 -B scratch/reviewer/check_final_gate_report.py \\\n  scratch/coordinator/phase1-final-report-v5/acceptance-report.json"
+  ],
+  "fresh_output_paths_at_preparation": [
+    {
+      "exists": true,
+      "path": "records/phase1-blockers/final-build-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "records/phase1-blockers/original-aux-builds-scope-v6"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition/actor-ordinary-final-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition/original-binary-artifacts-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition/original-binary-artifacts-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition/original-binary-controls-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition/original-binary-controls-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition/original-binary-sandbox-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition/original-binary-sandbox-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition2/original-additional-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/acquisition2/original-additional-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/authority-admission-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/authority-admission-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/authority-ffi-qualification-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/authority-ffi-qualification-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/domain-qualification-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/final-proof-gate-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/full-proof-result-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/full-proof-scope-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/full-runtime-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/private-host-runtime-v5"
+    },
+    {
+      "exists": false,
+      "path": "scratch/old-analysis/runtime-qualification-v5"
+    }
+  ],
+  "future_source_commit": null,
+  "helper_pins_at_preparation": [
+    {
+      "bytes": 1997,
+      "exists": true,
+      "path": "scratch/coordinator/freeze_v5.py",
+      "sha256": "a212808a660a3b3eb24a859d0484c0f1f9c602744998e2c6b08c7172c3bdcf54"
+    },
+    {
+      "bytes": 4790,
+      "exists": true,
+      "path": "scratch/coordinator/final_build_v5.py",
+      "sha256": "fd9eea7ef48627be387ef0ded34662a330cbe4af7edf1a43ea6927f34ed326aa"
+    },
+    {
+      "bytes": 5984,
+      "exists": true,
+      "path": "scratch/coordinator/original_aux_builds_v6.py",
+      "sha256": "1e9af612a6ace5802b19b744b9735e09991c959b04e200b2f1f3da57808e6f67"
+    },
+    {
+      "bytes": 9619,
+      "exists": true,
+      "path": "scripts/phase1_heavy.py",
+      "sha256": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a"
+    },
+    {
+      "bytes": 5420,
+      "exists": true,
+      "path": "scratch/old-analysis/frozen_source_v2.py",
+      "sha256": "76273e84d9ab37b6aaaa1d858709b32af90193f435045e90d6a0a80487b64f2e"
+    },
+    {
+      "bytes": 14044,
+      "exists": true,
+      "path": "scratch/old-analysis/full_proof_driver_v2.py",
+      "sha256": "d25354f8e95a706007dec1acc42ce8cee2028e1149cfa2ab806eb48dda5217df"
+    },
+    {
+      "bytes": 16785,
+      "exists": true,
+      "path": "scratch/old-analysis/final_proof_gate_v2.py",
+      "sha256": "222392f80c035b743a6fa3e2c1f393f039625eb34a3b7763436df530e439d203"
+    },
+    {
+      "bytes": 28941,
+      "exists": true,
+      "path": "scratch/acquisition/original_binary_controls_v5.py",
+      "sha256": "61621b564757b7bf4acacb62adfdda3f361081479d63149f201ac1ba73a7a1cf"
+    },
+    {
+      "bytes": 9608,
+      "exists": true,
+      "path": "scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+      "sha256": "d491dbb77ccfa48e47e1ccd96e755ff2f9eb39e083b8fca5012109ff494b7850"
+    },
+    {
+      "bytes": 14534,
+      "exists": true,
+      "path": "scratch/acquisition2/original_additional_driver_v2.py",
+      "sha256": "bbbcd8e88e656c38fc2ea40ae659e983edd69635f3c1e4f076e985e1a0fc6394"
+    },
+    {
+      "bytes": 23118,
+      "exists": true,
+      "path": "scratch/old-analysis/full_runtime_supervisor_v3.py",
+      "sha256": "3105162b3f9eac3a61460e9a1cb23966a84296fa9e4af9ddc69c1155e97b39e1"
+    },
+    {
+      "bytes": 24208,
+      "exists": true,
+      "path": "scratch/old-analysis/evaluation_domain_supervisor_v2.py",
+      "sha256": "544c835d32196a385830ba29c81b57f48c53585a7ae34a40a46a4ce51bce473a"
+    },
+    {
+      "bytes": 10537,
+      "exists": true,
+      "path": "scratch/old-analysis/authority_ffi_controls_v2.py",
+      "sha256": "329d2cfe6d5bc5cdf36ae7d8f375a541e160f5abf2e1c432c14daf230d1b2154"
+    },
+    {
+      "bytes": 15554,
+      "exists": true,
+      "path": "scratch/old-analysis/authority_admission_driver_v4.py",
+      "sha256": "6a9205b657a1809ec0a8264f384c308979afcd064be5d98db1c3000b8fc6c0b3"
+    },
+    {
+      "bytes": 40939,
+      "exists": true,
+      "path": "scratch/acquisition/actor_world_harness_v3.py",
+      "sha256": "3506f51a7bd6cc55354ad7c5eaa521dac3a567a2f6f145b46c8477afb23e0f1d"
+    },
+    {
+      "bytes": 3080,
+      "exists": true,
+      "path": "scratch/old-analysis/final_old_inventory_v4.py",
+      "sha256": "40c1cc268f24b33b82c6fb0108453f4e26560809b54d4e1c6d561a86c5ce9a4b"
+    },
+    {
+      "bytes": 3080,
+      "exists": true,
+      "path": "scratch/final-gates/final_old_inventory_v4.py",
+      "sha256": "40c1cc268f24b33b82c6fb0108453f4e26560809b54d4e1c6d561a86c5ce9a4b"
+    },
+    {
+      "bytes": 26826,
+      "exists": true,
+      "path": "scratch/old-analysis/evidence/private-sparklib-proof-source-v1.json",
+      "sha256": "4cbb1c782b332db9b35eecc6a88cb639b24f1b007dc756b752b5f54aa455f1b4"
+    },
+    {
+      "bytes": 7308,
+      "exists": true,
+      "path": "scratch/reviewer/check_final_gate_report.py",
+      "sha256": "cff76b1bfcae236f87ab24d51c313b3b0afaa8e686fe68febfcfe25ca7e32db0"
+    },
+    {
+      "bytes": 11255,
+      "exists": true,
+      "path": "docs/phase1-acceptance.md",
+      "sha256": "17d20c7f9c0f81d1377cd10adce609492268e18d165a40c47e4e89bba864a6f3"
+    }
+  ],
+  "limitations": [
+    "No new harness/control/diagnostic/qualifier/testscope",
+    "ONE acquisitiondiagnostic alreadyconsumed; no rerun",
+    "Conditionalprivate never substitutes fullroster and neverduplicates completedprivate",
+    "Authenticprotected/child absentprerequisites scopedNOTPERFORMED",
+    "F7 independentacceptanceNOTPERFORMED",
+    "No successmanifest/reportclaim",
+    "Originalreport/refusal generator requires current actualdata; no invented automatedpositiveassurance assembler"
+  ],
+  "markdown": {
+    "bytes": 16039,
+    "exists": true,
+    "path": "scratch/final-gates/freeze-v5-gate-launch-manifest-v1.md",
+    "sha256": "d379010256d20ad334d634aefd03ed8cedb6fcfa7958cd7bee94fe1d0b38ed1f"
+  },
+  "same_source_pins": [
+    "actual clean HEAD equals freezecommit",
+    "full tracked source/frame hashes",
+    "checked current main/aux artifacts and assertionALI/dependencies",
+    "proof fresh source/private imports/tool/solver identities",
+    "runtime/FFI original source/library/module/helperhashes",
+    "domain exact v3qualification driver and pinned defect identities"
+  ],
+  "schema": "worldline.phase1-freeze-v5-gate-launch-manifest.v1",
+  "source_origin": "Actual freeze-v5/source.json commit; future SHA not guessed and537 passes not transferred",
+  "syntax_only": "bash -n accepted every block; no block executed",
+  "utc": "2026-10-14T20:37:52.218244+00:00"
+}
