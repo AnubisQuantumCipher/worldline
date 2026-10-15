@@ -1,5 +1,7 @@
 # Phase 1 acceptance report
 
+Current engineering checkpoint (2026-10-15): source commits c8a73cd (ordinary recovery context) and df0bcaf (shared String parser with additive proof obligations) are published on the isolated branch. The tested release source remains ef7b7e3. D109's complete additive resolver controls passed; complete production build/proof/runtime on the new source is pending. D106 isolated whole Producer_Values proof is retained without transfer to production. D107 Wide and D108 renderer proofs remain incomplete at their deadlines. The main/roadmap audit confirms PR #5 result-file isolation is merged. Acquisition classification, automatic full-value Old retirement, complete authority joins and authentic final gates remain open. Independent acceptance remains NOT PERFORMED; no gate requirement is weakened.
+
 Tested source: `ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac` (tree `3056ab049b5049897d375cf13ba6fdd10179b450`). Phase 1 remains **OPEN**. All launched final jobs are terminal and final tool/source readbacks are retained. The unchanged structural report checker refused the preserved report input because mandatory provenance fields are missing. This report is finalized for internal review; its later publication commit must identify the tested source separately.
 
 Independent acceptance: **NOT PERFORMED**. All named GPT-6.1 reviews are internal. NARROWED CLAIMS: **none selected**.
@@ -131,3 +133,69 @@ D102 first backup envelope refused at missing inherited user-manager environment
 
 
 D102 finite native iPad retention is complete for the nine exact settled resume/main-audit/inert-D97-metadata roots. Full native restore/SHA256/metadata comparisons, source/local identity preservation and fresh contained persisted item/job/snapshot/manifest/original revalidation passed; actual GPT-6.1 primary9d27b641 and finala0be77a7 reviews concur at that finite scope. Reader9f1667c2 and root dispositioncc61dfcb retain exact commands/source/admin97521+helddiff6435/UTC/exits/items/hashes. Separate live peaks1866280960 (backup) and143724544 (readback) under unchanged8G/swap0, events0/core0, own scopes terminal/known-owned[]. V1 missing inherited manager environment refused before parent/native launch; measured active own-manager transport enabled separately reviewed v2 without persistent service/environment changes. Originals remain local; no new offload/reclamation or outside-cut/current proposal/installed compiler coverage claim. D97 old carrier was never executed. Operational hold released, immutable evidence retained. No gate promotion/new tested freeze/narrowed claim; independent acceptance NOT PERFORMED. D101 by-value scanner source proposal has source concurrence only and remains uncompiled/unproved/unrun; next engineering is a separately reviewed diagnostic of actual generic bodies, not reuse of D94 outer-adapter proof as full coverage.
+
+
+D103 method preflight remains source-only: actual GPT-6.1 reviewf7a54f37 rejects the stale v1 current-commit guard. No candidate payload ran and no proof/acceptance result follows. A separately reviewed v2 must preserve historical577/v14 plus exact published v15/v16 and current source guards. Every gate status and original predicate is unchanged; independent acceptance NOT PERFORMED, NARROWED CLAIMS none.
+
+
+D103 v2 source-method reviewff334f68 permits exact root formation only; historical/current ledger distinction repaired without changing product/proof boundaries. New by-value source remains uncompiled/unproved/unexecuted. Original complete build/BOTH mains/whole selected generic-body diagnostic is conditional on final composed review. All gate statuses remain unchanged; no narrowed claim or independent acceptance.
+
+
+D103 actual identity preflight exited1 (readonly-result0a30c232, exact command/times retained), refusing an early historical/current rules-file comparison. This is a launcher sourceguard defect, not an executed parser failure; no build/proof/runtime or acceptance evidence follows. Failed candidate/controllers remain immutable and no gate is promoted. New exact sourceguard correction is preparation only, no narrowed claim; independent acceptance NOT PERFORMED.
+
+
+D104 is source-only preparation of a fully recorded new O0 inventory; existing historical O0 FAILED-OPEN is unchanged. Complete current source/tool/donor/imported coverage and real outer wait evidence require new exact review/execution. No O1/full proof/runtime or acceptance inference, no narrowed claims.
+
+
+D103 v3 review33267e80 permits fresh exact source formation only, resolving the identified comparison order without a sourceguard waiver. Runtime identity check and all native build/proof/control results remain UNVERIFIED. Old refusal/evidence unchanged, no integration/freeze/gate promotion or narrowed claim; independent acceptance NOT PERFORMED.
+
+
+D103 completed legality failure on exact7513/helddiff549cf270: build4/proof1 E0016 at generic spec58, BOTH runtime controls NOT PERFORMED, body proof/counts UNKNOWN. Raw exact outputs/identities under `generic-scan-by-value-diagnostic-20261015-v2`; no native component or gate passes. D105 is source-only correction preparation preserving pure-function termination/variant rather than adding Side_Effects or suppressing checks. Old failures/newsource UNVERIFIED; every original gate unchanged, NARROWED CLAIMS none, independent acceptance NOT PERFORMED.
+
+
+Actual internal reviews48a2f0fc (D103 failure/D105 design) andd3ea63de (D104 preparation) confirm bounded dispositions only. Corrected parser source and fresh inventory remain unexecuted/unqualified; historical and original acceptance gate statuses remain unchanged, no narrowed claims or independent acceptance.
+
+
+D105 review65a4e1b4 approves source-method eligibility only; corrected-source native build/proof/runtime remain UNVERIFIED pending fresh exact binding and launch review. D104 method REVISEd5194709 leaves O0 unchanged. No component/gate accepted, no narrowed claims; independent acceptance NOT PERFORMED.
+
+
+D105 finite progress: build/BOTH original runtime mains0 and selected actual String_Grammar.Scan nativeproof0, summary49/flow8/prover41 separately, explicit implicit termination/Post/variants proved. Complete body/instance/warnings/dependency boundary awaits actual review; all original whole-unit/full-U/production/Old/final gates remain unchanged. Exactsource/command/outputs in `generic-scan-termination-diagnostic-20261015-v1` and observationa2daf444. No integration/new freeze/gate promotion. D104 full current inventory coverage is NOT APPROVED(c6ead706): new diagnostic owning obligations and baseline classification gaps remain explicit. No narrowed claim, independent acceptance NOT PERFORMED.
+
+
+D105 review99b9618a confirms only finite selected modular proof/control progress, retaining raw warnings and unproved callee/body boundaries. D106 whole-Values/no-selector method is preparation only, no new source or native result. Original full-coverage/production/Old/final gates unchanged; no narrowed claim, independent acceptance NOT PERFORMED.
+
+
+D106 source-method eligibility reviewab03582b and D104 v2 mechanical-guard review7926dc55 do not establish execution or gate success. Whole-Values native coverage and complete Old inventory remain unqualified pending exact binding/actual runs/review. Original gate statuses unchanged, no narrowed claim; independent acceptance NOT PERFORMED.
+
+
+D106 actual unit progress, reviewf494e619: whole Producer_Values no-selector proof0,435total/123flow/312prover and58analyzed entities; original build/BOTH mains0. Raw warnings and external renderer/numeric/Within body boundaries remain explicit. No complete parser/full-U/production/Old/final gate closure or new freeze. D107 syntax/cursor/type proof is preparation only. All original gates unchanged, NARROWED CLAIMS none; independent acceptance NOT PERFORMED.
+
+
+D107 source-method review `scratch/reviewer2/producer-values-scan-design-20261015-v1/D107-remaining-syntax-method-source-review-v1.json` SHAa8dc1f28fe29c5e14d86216833f78ff3c7118c87c1d2704a04bebec06555f850 CONCUR preparation only. Root read complete source/template/recipe delta and actual review. READY85b27de9d0a7af005ed3b5ca73cbb817851c713123c6a41965718e916f3a1515 keeps exact D105 source, original full build/BOTH controls and separate whole Raw_JSON_Syntax/JSON_Source_Cursor/JSON_Syntax_Types proofs with no selectors and fresh subdirs. Exact plural roster/checks and all historical/current/private/external/tool/compiled/resource/owned guards remain required. Choose fresh root formation/current7513/index/fullworking/precise held three-docdiff/five bindings and active nativepin, then source-reviewed single identity exercise and actual final composed review before ONE diagnostic. Actual native coverage remains unknown; no integration/new freeze/gate promotion. Reversal is leave candidate unexecuted and preserve every previous input/result and original obligation.
+
+
+Current engineering update: D107 remaining-syntax diagnostic ended at its unchanged bound (outer1/heavy124). Original build/BOTH controls passed; first whole Wide proof has no completed native result, and Cursor/Types were NOT PERFORMED. Root observation D107-root-outcome-20261015-v1/observation.json SHAab079ad4a584d73543989b516d7f1991a41985cfd434cdb00dd7e160a5b73075 retains raw provenance, measured peak484474880/events0 and complete stable identity/own-terminal joins. No new gate pass or source integration follows. D104 ownership appendix is internally reviewed preparation with baseline/Cosmogony/provenance gaps, not a complete inventory approval. Decisions D108-D110 select source/method preparation for complete renderer diagnosis, existing ordinary context wiring and minimal actual String parser reachability; exact patches/runs remain unapproved/unexecuted. D105/D106 finite passes and ef7 tested freeze remain unchanged; independent acceptance NOT PERFORMED.
+
+
+D107 actual internal review6829c19a confirms incomplete bounded outcome and complete owned settlement, not a gate pass. D109 context proposal v1 was revised before application; v2 has exact internal reviewd64d3370 and remains unapplied/unexecuted. D108 renderer method has source eligibility reviewabd18a44; root fresh binding/checker/actualRO/final review precede one unchanged-bound diagnostic. Current product source and ef7 tested release freeze remain unchanged; independent acceptance NOT PERFORMED.
+
+
+### D109 applied wiring and finite controls; D108 incomplete proof retained
+
+TESTED on commit7513 plus exact transaction overlay d7458be8ebecbfce4b43440f3ff0f54dbdb8f7e39f92cf7fecdea21f361379fc and new test26a38147205aa9b386b1e904940bca74a58974161e73d43c9c4e4bd1df24a607: `python3 -B -m unittest discover -v -s /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/tests -p test_ordinary_syntax_context.py` completed0, Ran10/OK, no skipped rows. Actual command/UTC/source before-after/core0/output is retained at `records/phase1-blockers/D109-additive-context-run-20261015-v1/`. The shared heavy wrapper records admission24575660kB, live8G/swap0/peak48541696/events0 and unpopulated terminal scope. These tests only exercise existing-handle transport/refusal with uninitialized concrete objects. They establish no native authorization, production effect or original recovery-suite pass. Source application receipt is `D109-source-application-20261015-v1/application.json`; no original test or contract changed.
+
+D108 actual GPT-6.1 reviewd48bdccb3687a4a72f1e12fd74a7859911c2ea5e59f1ea1c1fe63b38c4fbc3d2 concurs FAILED-OPEN: build/BOTH unchanged controls0, outer1/heavy124, native Renderer proof exit/report/.spark absent. Candidate and matching launch directories retain exact commands/source/UTC and all failures; measured peak2610061312/live8G/swap0/events0, stable guards/errors[]/known-owned settlement. No unchanged retry or deadline increase selected.
+
+Next: qualify original full matching build/artifacts and attributed manager supervision for complete unchanged recovery_authority, recovery_packet_producer and typed_absence modules, then full same-source gates. D59 library source correspondence alone cannot satisfy original supervisor artifact guards. D110 reviewed source/pin proposal remains unapplied and its isolated proof does not transfer to product or cover generic/Within obligations. All gate-table statuses and independent acceptance NOT PERFORMED remain unchanged.
+
+
+D109 source commit `c8a73cd37f4c15e6b2f50ce8b9b018d7e231c9da` and D110 source/policy commit `df0bcaf28aa4d2d2c56786b05996e5e57eecd524` were published with normal owned-branch pushes and exact ls-remote readbacks, retained at `github-recovery-wiring-publication-v17` and `github-string-parser-publication-v18`. Actual GPT-6.1 reviews00b8261a/54af1ed9 confirm finite resolver evidence and source/policy mapping respectively; neither grants production qualification. D110's exact source application receipt is `D110-source-application-20261015-v1/application.json`. All original proof, test, source, helper, generic-template and Within requirements remain. Fresh full original build/artifacts and original production execution are next; ef7 remains the unchanged historical tested release freeze.
+
+
+### D112 partial native backup and the next qualification boundary
+
+MEASURED/TESTED native backup-only batch on df0 plus held documentary diff43aecd5a ended FAILED-OPEN (outer/heavy1, completefalse). Indices0..14 each returned0 with native full candidate recovery+SHA256/metadata declarations and retained local/iPad/job/snapshot/manifest and original-before/after joins. Index15 was refused because generic-scan-by-value-diagnostic-20261015-v1 is a pinned working set; later items NOT PERFORMED. All41originals stay local; no pin release, offload, automatic retry or reclaimed-space claim. Whole41fresh reader remains unexecuted. Exact argv/UTC/results/caps and all retained data are at `records/phase1-blockers/storage-D103-D109-settled-backup-20261015-v1/`; actual GPT-6.1 review5b06a4b1be77001d83f721e4b03893973351bddfd9155be4f7dcadc391561c6b. Complete new-cut archive coverage remains open, independently of earlier D102 verified backup.
+
+D111 fresh qualification preparation keeps separate original main45m/aux45m, full proof120m, original runtime controls and all strict source/proof/fixture/ownership requirements. Review rejected new runner metadata guards before execution for missing/null/boolean success confusion and physical-source/Git-tree correspondence gaps; immutable corrected proposals are being reviewed. No new build/proof/runtime success or frozen release is claimed from preparation. The remaining original Old/toolchain target is also being investigated without a narrowed claim. Gate-table statuses and independent acceptance NOT PERFORMED remain unchanged.
+
+D111 corrected source methods have actual GPT-6.1 preparation concurrence: outerv2ee02b0bf, typed runtimequalificationv25de3e226, unchanged fullproof invocation6be441f1. Root read full receipts/deltas and copied exact reviewed inner build/runtime methods into their required owned scratch locations (installation receipt D111-method-installation-20261015-v1/application.json). No metadata freeze, new product full build/proof/runtime or new tested release has run. Final clean-source/prerequisite binding and composed launch review are next.
