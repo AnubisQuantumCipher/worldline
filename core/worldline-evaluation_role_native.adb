@@ -1993,7 +1993,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
         Plan.Form /= J.Object_Value or else Sources.Form /= J.Object_Value or else Roles.Form /= J.Array_Value or else
         Boundary.Form /= J.Object_Value or else Result_Boundary.Form /= J.Object_Value or else Workers.Form /= J.Array_Value or else
         S (Plan, "trustedInterpreter") /= "/usr/bin/python3" or else
-        not J.Equal (Observed, F (Plan, "runId"), Expected, J.Field (Expected, Invocation, "runId")) or else
+        not J.Equal (Observed, F (Plan, "runId"), Expected, J.Field (Expected, Invocation, "invocationId")) or else
         not Equal (F (Plan, "runId"), F (Boundary, "runId")) then return False; end if;
       for I in 1 .. J.Count (Observed, Root) loop
          pragma Loop_Invariant (Acquired_Role_Count < I);

@@ -1,0 +1,112 @@
+{
+  "status": "UNAPPLIED / UNVERIFIED / NOT REVIEWED",
+  "readback_utc": "2026-10-15T02:58:04.449444+00:00",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "current_head": "b6a71439f131cd8d104037308b8a11db169c5260",
+  "source_file": "core/worldline-evaluation_role_native.adb",
+  "preimage_sha256": "cfda698ea10c94acf3288a0abf04b245846af7b5d9cb24a79099808018e6fc63",
+  "proposed_sha256": "d48d92343350610747b7dd94ca7cff43d403cca8297fcc271467f03dd0db0c79",
+  "patch_sha256": "f035f3eebf8e4c0e0dd0d474d96eb75ce009ce828d5bcdf411f1db4e21b287a4",
+  "files": [
+    {
+      "path": "core/worldline-evaluation_role_native.adb",
+      "sha256": "cfda698ea10c94acf3288a0abf04b245846af7b5d9cb24a79099808018e6fc63",
+      "bytes": 129701,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "core/worldline-producer_values.adb",
+      "sha256": "13730942dd5ab770e21bfca3041622935a78c438395c41ad674e004601716fd2",
+      "bytes": 26402,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "runtime/worldline/evaluation_writer.py",
+      "sha256": "b18df441d21685a28580e6bc0df83e2beab1e558c6cd6d666ca182528a3f1500",
+      "bytes": 21858,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "runtime/worldline/finalization_writer.py",
+      "sha256": "b92c4649daa30fa1f9740bd6dc62b72dcf84ee1073d7a639fdc37eb0d3a8fdd5",
+      "bytes": 32337,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "runtime/worldline/evaluation_producer.py",
+      "sha256": "c2ea2c7add1724c1297f1dfca6a909dc57676532c83e90209c46189345a74c26",
+      "bytes": 24715,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "runtime/worldline/linux/private_evaluator.py",
+      "sha256": "36094019564b0d4ce7911e07c0f0655bea03790ac9e8fbaadde5860ca830d42e",
+      "bytes": 154059,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "tests/test_protected_report_provider.py",
+      "sha256": "e4a26bbd0e0fac8bbbc1904ff6b3381730c29426627111a76ed07c2fbd5ffe4b",
+      "bytes": 12514,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "tests/test_private_acquisition_terminal.py",
+      "sha256": "4c30dfdb04002bfd5ca012761b4f26421c273d46e2f2aa45bc286e1e65f68713",
+      "bytes": 23122,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "tests/test_evaluation_acquisition_raw_producer.py",
+      "sha256": "9fa925e25f679e8aa170953a38cecbace47ad5c5c39d11568e844bdb1f0c4684",
+      "bytes": 22456,
+      "matches_frozen_ef7": true
+    },
+    {
+      "path": "tests/test_revalidation_binding.py",
+      "sha256": "180988e547c32d75742799da1f43b6867152e9499febb68d358b172e86aa168e",
+      "bytes": 37297,
+      "matches_frozen_ef7": true
+    }
+  ],
+  "original_start_schemas": [
+    {
+      "path": "runtime/worldline/evaluation_writer.py",
+      "function": "invocation_started",
+      "line": 224,
+      "literal_start_schemas": [
+        {
+          "line": 226,
+          "keys": [
+            "worldInstance",
+            "checkId",
+            "invocationId",
+            "candidateSnapshot",
+            "verifierEntries",
+            "evaluationRun"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "runtime/worldline/finalization_writer.py",
+      "function": "invocation_started",
+      "line": 397,
+      "literal_start_schemas": [
+        {
+          "line": 401,
+          "keys": [
+            "worldInstance",
+            "checkId",
+            "invocationId",
+            "candidateSnapshot",
+            "verifierEntries",
+            "evaluationRun"
+          ]
+        }
+      ]
+    }
+  ],
+  "validation": "Static byte/AST inspection only. No source import, Ada compilation, GNATprove, test, or private execution.",
+  "integrated_exit_patch": "Separate proposal remains UNAPPLIED; no dependency on its snapshot/custody/direct-owner changes."
+}
