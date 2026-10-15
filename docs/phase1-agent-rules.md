@@ -229,3 +229,15 @@ all those commits i hope your putting them to github were they belong
 ## Later user frozen-release steering (2026-10-14)
 
 ef7b7e3 frozen is good - that's exactly how WORLDLINE is supposed to release. Remember to keep doing that
+
+## User resumption and revised active goal (2026-10-15 UTC)
+
+# Files mentioned by the user:
+
+## Worldline.txt: /tmp/codex-remote-attachments/01a13631-cd95-7cd2-870d-21561e26c8f2/1DBF4611-1050-4383-A980-43D7E6732D32/1-Worldline.txt
+## Cosmology.txt: /tmp/codex-remote-attachments/01a13631-cd95-7cd2-870d-21561e26c8f2/1DBF4611-1050-4383-A980-43D7E6732D32/2-Cosmology.txt
+
+## My request:
+Why is phase 1 still open. Finish and complete phase 1.
+
+The active goal was explicitly edited to the same request. It supersedes the preceding report-completion stop boundary. Full attachment bytes and identity metadata are retained under `records/phase1-blockers/resume-20261015-v1/requirements/`; they are architecture context, not fresh evidence of implementation or proof. Original isolation, resource bounds, immutable failures, acceptance predicates and independent-acceptance requirements remain.

@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-15T02:45:08.895872+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR exact D42 patch and proposed bounded focused validation, conditional on exact preimage/proposed hash installation and unchanged complete test module/carrier safeguards. No test executed by reviewer.",
+  "observed_hashes": {
+    "preimage": "df75ed0beb5d5672369df4a79a4e69bb00b0906b1983937bef67a0bd4bf9bd2b",
+    "proposed_in_memory": "933f151938c138bedf1469d05b7847af08cd036556ec6bf1b7f546da9c34fb03",
+    "patch": "d0dbb3781163907fe6cdb2d1d76ac715b33a9882020853dcc02869c722ff7483",
+    "unchanged_tests": "6cf5537a5c6ad2085074f10b13fa866a6d1d35632805883c7a9eda016c3557ef",
+    "decisions_at_review": "4416a3d406c6c3e65d88f8539d5dc7725abed9c93785b1815b431cecd336276f"
+  },
+  "semantic_review": [
+    "Original _ordered_events first canonicalizes every ordinal in query order, checks equality, converts using int.from_bytes little endian, then sorts numeric keys and checks enumeration equality. Proposed count retains that same complete validation/conversion order and numeric sorted sequence predicate.",
+    "Original stable sorting of equal positions versus plain integer sorting cannot affect count or contiguous-sequence refusal; no payload-dependent tie ordering is consumed by count. _events and full payload ordering remain unchanged.",
+    "No SQL, transaction, schema, run filtering, append caller, replay conflict or capture-boundary edit. No hash set, max-only shortcut, cached frontier, capped integer or relaxed malformed/gap acceptance.",
+    "Allocation profile intentionally differs: retained position-row pairs and final row tuple disappear. This is source-supported removal of intermediate references, not a measured peak-memory/speed result or equivalence of allocation-failure timing.",
+    "Selected original module contains numeric byte-boundary/reverse order, empty sequence, canonical and gap refusal, duplicate/schema, run scoping, ordinal-only projection and complete prior-byte retention controls; remaining original codec/refusal controls must also execute, not a selected test subset."
+  ],
+  "conditions": [
+    "Record applied exact bytes and untouched test hash, full original command/environment/version/UTC/exit/output hashes prospectively.",
+    "Existing shared flock, post-lock memory admission, own 8G/swap0 scope, explicit 10m focused bound and unchanged disk reserve/early-stop monitoring mandatory; retain nonzero/timeout/refusal honestly.",
+    "Focused success cannot close A2, identify timeout cause, classify SLOW/HANG, consume or repeat the ONE positive diagnostic, or replace same-source original final gates.",
+    "D42 reviewer verdict can now cite this receipt before root applies or launches; root remains sole product editor/launcher."
+  ],
+  "non_claims": [
+    "No product source edit, import, test, process attachment or heavy launch by reviewer.",
+    "No full campaign acceptance, proof or independent acceptance."
+  ]
+}

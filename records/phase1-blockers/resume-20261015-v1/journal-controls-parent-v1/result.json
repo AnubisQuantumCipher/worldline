@@ -1,0 +1,53 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scripts/phase1_heavy.py",
+    "--timeout",
+    "10m",
+    "--out",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1",
+    "--",
+    "env",
+    "PYTHONPATH=/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/runtime",
+    "/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_finalization_journal_sequence.py",
+    "-v"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "started_utc": "2026-10-15T02:47:31.122302+00:00",
+  "commit": "b6a71439f131cd8d104037308b8a11db169c5260",
+  "source_diff_sha256": "e1f213f7a0c6c700d78b24e3107cc8b67ed15c1d775e14b2a6d832827cf81a57",
+  "python_version": "3.14.7 (main, Aug 12 2026, 13:41:09) [GCC 16.1.1 20260430]",
+  "python_path": "/usr/bin/python3",
+  "python_sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+  "driver_sha256": "9ee9a402ec1a46d2ddbb1ac78a0750667a98c493b1df97db63cb74385bd6e307",
+  "environment": {
+    "PATH": "/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "LD_LIBRARY_PATH": null,
+    "WORLDLINE_CORE_LIBRARY": null
+  },
+  "explicit_environment": {
+    "PYTHONPATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/runtime",
+    "worker_TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1/tmp",
+    "worker_XDG_CACHE_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1/cache",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "scope": "Complete unchanged focused journal module; not original acquisition case/full acceptance",
+  "ended_utc": "2026-10-15T02:47:46.162583+00:00",
+  "exit_code": 0,
+  "tracked_sources_unchanged": true,
+  "source_before_sha256": "fd35723cdd76b5e89beda32990a153e96d22b34e6cceebae7987fb9a74349c2e",
+  "source_after_sha256": "fd35723cdd76b5e89beda32990a153e96d22b34e6cceebae7987fb9a74349c2e",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
