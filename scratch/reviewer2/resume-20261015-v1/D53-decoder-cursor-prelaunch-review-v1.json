@@ -1,0 +1,46 @@
+{
+  "utc": "2026-10-15T03:56:41.298994+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR exact D53 isolated scalar cursor candidate launch under reviewed original resource/provenance safeguards. No production decoder replacement or fullgrammar correspondence approval.",
+  "sha256": {
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/worldline-json_source_cursor.ads": "05d0670b28d9cd3888e62624321f44a5b16db01c79a715e0e930a9233bf59ed0",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/worldline-json_source_cursor.adb": "0b28f52652493c0e6d00274e4019068f999e048d9ed4ff475c19d22b1b8ef264",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/decoder_cursor_controls.adb": "0e497575e2f65d334cf25452fd0e93820c02a0fa4f129ee6777004ece97b4c36",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/decoder_cursor_candidate.gpr": "2c14c313d4039130514b078a83f011107dd1bfd568ea236b9474860fbe1caa34",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/run.py": "51f0a4d2add1ea888d09b02810654ba27ab6845074c8a60c0d2834634f04be9f",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/root-copy.json": "58655aee801305f7c7425a500efb7a2a9332a363d402d131dd3657b0cd6084ff",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/preparation-receipt.json": "ae98d9b6951f97634b255fb149aa931fc8dc411974071c477e4d6b8338efd4ac",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/jackal-arithmetic.json": "49093db9bffc67fcbdf0e760b7731a7664776231d092d5624c82b8fcfc7318f1",
+    "records/phase1-blockers/resume-20261015-v1/run_decoder_cursor.py": "83ddb3872131d07fc0379cf54c64292f045311c1bd619c84fc99727a2b290b5a",
+    "docs/decisions.md": "e9711605229eb5c492ffabdf6059043bd6cf6ab0a134065562900b5431d4dbc8"
+  },
+  "root_copy_and_helper_bytes_match": true,
+  "dependency_snapshots_match_originals": true,
+  "fresh_outputs_absent": true,
+  "source_semantics": [
+    "Initial preserves complete source span/encoding/BOMoffset through original detectionprecedence; no Natural length/materialized expandedString or new inputcap.",
+    "Read first validates span and offset, distinguishes EOF/invalidposition/invalidsequence, uses Count-relative progress without one-past arenaindex, preserves unpairedsurrogate behavior and nonlowlookahead.",
+    "UTF8 delegates unchangedArchive_Text width/value; UTF16 pairlookahead and UTF32 byteorder recurrence correspond to original Scalar clauses. Reference_Read is local ghostdenotation with separate executableRead implementation, but shares lowlevel helpers\u2014not an independently implemented universal oracle.",
+    "Contracts retain total typedspan/cursor domain including forged/unaligned cursors. SuccessfulRead certifies one scalar only, not prefix/suffix/fullJSON/sourcecustody. Proof must discharge full range/modularrecurrence/progress/reference equality obligations; no such result inferred now."
+  ],
+  "controls_review": [
+    "Fixedexpected encoding/points/offsets/status cover BOMprecedence, BOMlessheuristics, surrogatepass/pairs, truncation/malformedbytes, arbitrarybounds/endpointindex, invalidhugeextent and stale/unalignedoffset. No hugevalidinput measured.",
+    "HelperPre conditions use referenceexpectedvalues; fullcontrolmain and callerpreconditions included in -U proof and enabled assertions. They must actually discharge at callsites, not be treated as external assumptions.",
+    "RetainedJACKAL arithmetic is status exact/outside certificate chain, informational about code; byteinterpretation/transcription/correctness remain separate. No numeric rederivation byreviewer."
+  ],
+  "scope_and_provenance": [
+    "Explicit Source_Files enrolls candidate spec/body/controlmain plus originalpinned Resource_Quantities/Archive_Text/Worldline/Attest.SHA dependencies. Existing fullprivateprebuiltSPARKlib imported; skipped/importeddependencybody status remains reportable, not silently proved.",
+    "Rootrun.py source/dependencybeforeafter/toolpathhashversions/rawargv/env/UTC/output and reporthash captured, assertionsALI required; sources/prebuiltwatch unchanged required. Watchedexistingdependencylist is selectedartifact protection, not fulltoolchainproof closure.",
+    "Outer15m8Gswap0/sharedflock/postlock14GiBadmission/diskreserveearlystop and innerrootRO/worktreeTMPwritable bwrap unchanged. Actualbuild/proof/runtime separated; nonzero or missingreport retained.",
+    "Complete configuredcandidateproject proofU/all/level3/reportall/checksaserrors/proofwarnings/solver60mem1024j2, no stub/reducedproductiongate substitution."
+  ],
+  "conditions": [
+    "Record actualD53verdict beforelaunch; no concurrenttrackedsourceedit or candidateoverwrite.",
+    "Inspect actualfullreport for every requiredcandidate/dependencybody/check/justified/Assume and callerpreconditions before any finiteproved claim.",
+    "No A2/SLOW/HANG/ONEdiagnostic/automaticOld/fullacceptance promotion; future sharedgrammar/integration needs separate originalfullscope review."
+  ],
+  "non_claims": [
+    "No candidatebuild/proof/runtime/import/productedit/job byreviewer.",
+    "No independentacceptance."
+  ]
+}

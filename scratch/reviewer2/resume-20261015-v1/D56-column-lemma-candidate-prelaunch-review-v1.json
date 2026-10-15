@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-15T04:11:05.845989+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR exact D56 candidate-only proof-repair direction and unchanged complete candidate validation, conditional actual D56log/verdict and D54terminal/knowncleanup/liveadmission beforelaunch. No productapply or completeproof preapproved.",
+  "sha256": {
+    "scratch/final-gates/resume-20261015-v1/capacity-fits-column-lemma-v1/core.patch": "10639424170b05f2a15636e93648946a47f7101b54ed78bf37f03de45c68c72c",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/v2-formation.json": "f805fc4955252abeb4eca763982aef8a7490da4994176c7b4fa2dde3f53dcc56",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/resource_quantities.adb": "23e67ed2f9fbb65741e5ddfab10fbde101a719feeb649a2bf1c9ae8052421a1a",
+    "records/phase1-blockers/resume-20261015-v1/run_decoder_cursor_v2.py": "94b332bb69772d312d4ed2062e36b1b9350862fabaca86f61d71c300b3ed2d9b",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/run.py": "51f0a4d2add1ea888d09b02810654ba27ab6845074c8a60c0d2834634f04be9f"
+  },
+  "only_dependency_code_delta_verified": true,
+  "lemma_review": [
+    "Existing Column_Bounds is Ghost/Globalnull/AlwaysTerminates; preconditions Low>=0,UnitValue>0,Low<UnitValue,Column<=255 and postcondition supplies nonnegative/strictnextcolumn bound. Its body remains enrolled, not assumed.",
+    "Saved Before_Residue/Before_Place are from loopinvariant Residue>=0 and Residue<Place, prior to mutations; existing assertion establishes Before_Place>0 and Column_Value<=255. All lemma actuals carry those saved values, not updated Place/Residue.",
+    "Column_Bounds call at that point adds the missing reusable fact before final Residue/Place assertions. Solver must discharge complete callPre and lemma/body/caller proof; review does not assert numeric theorem proved.",
+    "Executable Debit/Credit/Previous/return logic and public contracts/acceptedmagnitudes unchanged. CheckedGhost lemma executes extra work/allocations; no zero-cost/fault/performance equivalence claimed."
+  ],
+  "candidate_scope": [
+    "All cursor/spec/ghostdenotation/control/GPR/innerdriver bytes unchanged; otherdependencybytes unchanged. Fullcandidateproject -U/level3/60/1024/j2/15m8G0/flock/diskguard retained.",
+    "V1 sources/results untouched; v2formation binds changedactualdependency and sourcehash map at launch. Copied preparation/rootcopy receipts are historicalv1, not assertions that newdependency still matchesoriginal; newformation governs difference.",
+    "Existing fullprivateprebuilt artifact beforeafter watch/provenance/assertionsALI/report requirements unchanged. No dependencycheck excluded or fullWORLDLINEproof substituted.",
+    "Separate pending.patch not selected, reviewed for execution or productapply bythisreceipt."
+  ],
+  "conditions": [
+    "Record D56options/evidence/choice/actualreview/reversal beforelaunch; wait D54knownscopecleanup and freshmemory/storage admission.",
+    "Inspect completeactualreports and allrequiredcandidate/dependency/caller obligations; no inferredpass from scalar subset or rawexit.",
+    "Production integration and checkedGhost cost/exception/runtime originalcontrols require separate exactreview and fullsame-sourcegates."
+  ],
+  "non_claims": [
+    "No job/proof/test/sourceedit byreviewer.",
+    "No A2/ONEdiagnostic/Old/fullPhase1 or independentacceptance."
+  ]
+}

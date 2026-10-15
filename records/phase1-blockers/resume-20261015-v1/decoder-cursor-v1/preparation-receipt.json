@@ -1,0 +1,245 @@
+{
+  "all_snapshot_source_reads_stable": true,
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "725387f2b4f34e7595bce933426259be2f8372026d8c16107997b00797826980",
+      "size_bytes": 12542
+    },
+    {
+      "path": "decoder_cursor_candidate.gpr",
+      "sha256": "2c14c313d4039130514b078a83f011107dd1bfd568ea236b9474860fbe1caa34",
+      "size_bytes": 1136
+    },
+    {
+      "path": "decoder_cursor_controls.adb",
+      "sha256": "0e497575e2f65d334cf25452fd0e93820c02a0fa4f129ee6777004ece97b4c36",
+      "size_bytes": 11857
+    },
+    {
+      "path": "dependencies/attest-sha256.adb",
+      "sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863",
+      "size_bytes": 6962
+    },
+    {
+      "path": "dependencies/attest-sha256.ads",
+      "sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685",
+      "size_bytes": 2193
+    },
+    {
+      "path": "dependencies/attest.ads",
+      "sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+      "size_bytes": 981
+    },
+    {
+      "path": "dependencies/resource_quantities.adb",
+      "sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+      "size_bytes": 25038
+    },
+    {
+      "path": "dependencies/resource_quantities.ads",
+      "sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df",
+      "size_bytes": 6139
+    },
+    {
+      "path": "dependencies/worldline-archive_text.adb",
+      "sha256": "36d956de8a59e8c14132208170f4d9b2c1bd8b9e0ab62c9d86235f5bede21e3d",
+      "size_bytes": 970
+    },
+    {
+      "path": "dependencies/worldline-archive_text.ads",
+      "sha256": "876cb60cc9a9af9ad0ea584315b0433d980321fb40e3d292c7f88c520c4cf934",
+      "size_bytes": 6240
+    },
+    {
+      "path": "dependencies/worldline.ads",
+      "sha256": "7199d262b11690c1a22fab45263575b0f401a985482b673317a1f73a60f21f55",
+      "size_bytes": 609
+    },
+    {
+      "path": "jackal-arithmetic.json",
+      "sha256": "49093db9bffc67fcbdf0e760b7731a7664776231d092d5624c82b8fcfc7318f1",
+      "size_bytes": 8166
+    },
+    {
+      "path": "prepare_receipt.py",
+      "sha256": "27ba802e99a42c6354ef6428e8782e30aabe15a4af93136ef90c7a7a350f4cb6",
+      "size_bytes": 3965
+    },
+    {
+      "path": "reference-source/evaluation_pending.ads",
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "size_bytes": 7636
+    },
+    {
+      "path": "reference-source/worldline-producer_values.adb",
+      "sha256": "13730942dd5ab770e21bfca3041622935a78c438395c41ad674e004601716fd2",
+      "size_bytes": 26402
+    },
+    {
+      "path": "reference-source/worldline-producer_values.ads",
+      "sha256": "8526523b7196c84f5c0d30b88a254bc4c4dc23e28fdd6051d97f1d5bdec2aa30",
+      "size_bytes": 4859
+    },
+    {
+      "path": "reference-source/worldline-raw_json.adb",
+      "sha256": "55a8a3bac96f3cafa2f7ba0b8ceee4e6d60ae752546f6a1976c72d82678b77ed",
+      "size_bytes": 35928
+    },
+    {
+      "path": "reference-source/worldline-raw_json.ads",
+      "sha256": "594e80e8cd8e72a0da5371207ba9914090c655b1a05de6a18460c0abab18f18b",
+      "size_bytes": 3494
+    },
+    {
+      "path": "reference-source/worldline_core_sources.gpr",
+      "sha256": "c551271db906bcaa767d5b65c8c70cca7da94a781518d2f9bb9193d6b203b686",
+      "size_bytes": 1090
+    },
+    {
+      "path": "worldline-json_source_cursor.adb",
+      "sha256": "0b28f52652493c0e6d00274e4019068f999e048d9ed4ff475c19d22b1b8ef264",
+      "size_bytes": 3206
+    },
+    {
+      "path": "worldline-json_source_cursor.ads",
+      "sha256": "05d0670b28d9cd3888e62624321f44a5b16db01c79a715e0e930a9233bf59ed0",
+      "size_bytes": 10216
+    }
+  ],
+  "command_workdir": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "engineering_status": "UNVERIFIED / UNAPPLIED / NOT COMPILED / NOT PROVED / NOT TESTED",
+  "evidence_class": "MEASURED",
+  "exact_command": "python3 -B scratch/acquisition2/resume-20261015-v1/decoder-cursor-candidate-v1/prepare_receipt.py",
+  "formed_utc": "2026-10-15T03:52:14.434533+00:00",
+  "head_is_freeze": false,
+  "measurement_scope": "Source bytes, identities and scratch proposal formation only",
+  "mutations": "New files only within the assigned fresh scratch candidate directory",
+  "non_claims": [
+    "No compilation, proof, test, product import, reproducer, runtime or heavy job executed",
+    "No production file modified",
+    "No runtime measurement of decoder memory or time",
+    "No scalar semantic correspondence proof result",
+    "No full JSON grammar, full-value equivalence or whole-path integration claim",
+    "No valid enormous-input execution inferred from endpoint-index fixtures",
+    "No timeout classification or acceptance gate closed"
+  ],
+  "observed_head": "94691f5758be72728b84343607476127125562dd",
+  "payloads_executed": [],
+  "root": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "schema": "worldline-unapplied-cursor-candidate-v1",
+  "source_snapshots": [
+    {
+      "original": "core/resource_quantities.ads",
+      "second_read_sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df",
+      "sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df",
+      "size_bytes": 6139,
+      "snapshot": "dependencies/resource_quantities.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/resource_quantities.adb",
+      "second_read_sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+      "sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+      "size_bytes": 25038,
+      "snapshot": "dependencies/resource_quantities.adb",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline-archive_text.ads",
+      "second_read_sha256": "876cb60cc9a9af9ad0ea584315b0433d980321fb40e3d292c7f88c520c4cf934",
+      "sha256": "876cb60cc9a9af9ad0ea584315b0433d980321fb40e3d292c7f88c520c4cf934",
+      "size_bytes": 6240,
+      "snapshot": "dependencies/worldline-archive_text.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline-archive_text.adb",
+      "second_read_sha256": "36d956de8a59e8c14132208170f4d9b2c1bd8b9e0ab62c9d86235f5bede21e3d",
+      "sha256": "36d956de8a59e8c14132208170f4d9b2c1bd8b9e0ab62c9d86235f5bede21e3d",
+      "size_bytes": 970,
+      "snapshot": "dependencies/worldline-archive_text.adb",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline.ads",
+      "second_read_sha256": "7199d262b11690c1a22fab45263575b0f401a985482b673317a1f73a60f21f55",
+      "sha256": "7199d262b11690c1a22fab45263575b0f401a985482b673317a1f73a60f21f55",
+      "size_bytes": 609,
+      "snapshot": "dependencies/worldline.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/attest/attest.ads",
+      "second_read_sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+      "sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+      "size_bytes": 981,
+      "snapshot": "dependencies/attest.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/attest/attest-sha256.ads",
+      "second_read_sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685",
+      "sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685",
+      "size_bytes": 2193,
+      "snapshot": "dependencies/attest-sha256.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/attest/attest-sha256.adb",
+      "second_read_sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863",
+      "sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863",
+      "size_bytes": 6962,
+      "snapshot": "dependencies/attest-sha256.adb",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline-raw_json.ads",
+      "second_read_sha256": "594e80e8cd8e72a0da5371207ba9914090c655b1a05de6a18460c0abab18f18b",
+      "sha256": "594e80e8cd8e72a0da5371207ba9914090c655b1a05de6a18460c0abab18f18b",
+      "size_bytes": 3494,
+      "snapshot": "reference-source/worldline-raw_json.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline-raw_json.adb",
+      "second_read_sha256": "55a8a3bac96f3cafa2f7ba0b8ceee4e6d60ae752546f6a1976c72d82678b77ed",
+      "sha256": "55a8a3bac96f3cafa2f7ba0b8ceee4e6d60ae752546f6a1976c72d82678b77ed",
+      "size_bytes": 35928,
+      "snapshot": "reference-source/worldline-raw_json.adb",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/evaluation_pending.ads",
+      "second_read_sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "size_bytes": 7636,
+      "snapshot": "reference-source/evaluation_pending.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline-producer_values.ads",
+      "second_read_sha256": "8526523b7196c84f5c0d30b88a254bc4c4dc23e28fdd6051d97f1d5bdec2aa30",
+      "sha256": "8526523b7196c84f5c0d30b88a254bc4c4dc23e28fdd6051d97f1d5bdec2aa30",
+      "size_bytes": 4859,
+      "snapshot": "reference-source/worldline-producer_values.ads",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline-producer_values.adb",
+      "second_read_sha256": "13730942dd5ab770e21bfca3041622935a78c438395c41ad674e004601716fd2",
+      "sha256": "13730942dd5ab770e21bfca3041622935a78c438395c41ad674e004601716fd2",
+      "size_bytes": 26402,
+      "snapshot": "reference-source/worldline-producer_values.adb",
+      "source_unchanged_during_copy": true
+    },
+    {
+      "original": "core/worldline_core_sources.gpr",
+      "second_read_sha256": "c551271db906bcaa767d5b65c8c70cca7da94a781518d2f9bb9193d6b203b686",
+      "sha256": "c551271db906bcaa767d5b65c8c70cca7da94a781518d2f9bb9193d6b203b686",
+      "size_bytes": 1090,
+      "snapshot": "reference-source/worldline_core_sources.gpr",
+      "source_unchanged_during_copy": true
+    }
+  ]
+}

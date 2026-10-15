@@ -1,0 +1,109 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                                           Provers   Justified   Unproved
+-------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                41           41                                                 .           .          .
+Flow Dependencies                 1            1                                                 .           .          .
+Initialization                   12           12                                                 .           .          .
+Non-Aliasing                      3            3                                                 .           .          .
+Run-time Checks                 416            .    416 (CVC5 11%, Trivial 7%, Z3 81%, altergo 0%)           .          .
+Assertions                      128            .    127 (CVC5 22%, Trivial 4%, Z3 74%, altergo 1%)           .          1
+Functional Contracts            189            .     189 (CVC5 7%, Trivial 0%, Z3 92%, altergo 1%)           .          .
+LSP Verification                  .            .                                                 .           .          .
+Termination                      69           53                              16 (CVC5 6%, Z3 94%)           .          .
+Concurrency                       .            .                                                 .           .          .
+-------------------------------------------------------------------------------------------------------------------------
+Total                           859    110 (13%)                                         748 (87%)           .     1 (0%)
+
+
+max steps used for successful proof: 34500
+
+============================
+Most difficult proved checks
+============================
+
+resource_quantities.adb:508:13: assertion proved in max 7 seconds
+resource_quantities.adb:589:16: assertion proved in max 6 seconds
+resource_quantities.adb:200:6: Inline_For_Proof or Logical_Equal annotation proved in max 1 seconds
+resource_quantities.ads:133:14: postcondition proved in max 1 seconds
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 7 units
+in unit attest, 1 subprograms and packages out of 1 analyzed
+  Attest at attest.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit attest-sha256, 15 subprograms and packages out of 15 analyzed
+  Attest.SHA256 at attest-sha256.ads:11 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Absorbed at attest-sha256.ads:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Ch at attest-sha256.adb:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Compress at attest-sha256.adb:53 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (25 checks)
+  Attest.SHA256.Context at attest-sha256.ads:51 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Final at attest-sha256.ads:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)
+  Attest.SHA256.Hash at attest-sha256.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Attest.SHA256.Initial at attest-sha256.ads:29 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Attest.SHA256.Low_Byte at attest-sha256.adb:45 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Attest.SHA256.Maj at attest-sha256.adb:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Sigma0 at attest-sha256.adb:33 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Sigma1 at attest-sha256.adb:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Theta0 at attest-sha256.adb:39 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Theta1 at attest-sha256.adb:42 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Attest.SHA256.Update at attest-sha256.ads:32 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+in unit decoder_cursor_controls, 4 subprograms and packages out of 4 analyzed
+  Decoder_Cursor_Controls at decoder_cursor_controls.adb:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (113 checks)
+  Decoder_Cursor_Controls.Check_One at decoder_cursor_controls.adb:42 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Decoder_Cursor_Controls.Check_Start at decoder_cursor_controls.adb:14 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Decoder_Cursor_Controls.Check_Step at decoder_cursor_controls.adb:27 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (4 checks)
+in unit resource_quantities, 26 subprograms and packages out of 26 analyzed
+  Resource_Quantities at resource_quantities.ads:4 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Resource_Quantities.Borrow_Column_Facts at resource_quantities.adb:409 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+  Resource_Quantities.Capacity_Fits at resource_quantities.ads:129 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 54 checks out of 55 proved
+  Resource_Quantities.Column_Bounds at resource_quantities.adb:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Resource_Quantities.Compare at resource_quantities.ads:115 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Resource_Quantities.Digit at resource_quantities.ads:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Resource_Quantities.Higher_Column_Order at resource_quantities.adb:66 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Resource_Quantities.Is_Negative at resource_quantities.ads:110 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Resource_Quantities.Is_Zero at resource_quantities.ads:106 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Resource_Quantities.Magnitude at resource_quantities.ads:93 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Resource_Quantities.Power_Reference at resource_quantities.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Resource_Quantities.Prefix_Bounds at resource_quantities.adb:341 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Resource_Quantities.Prefix_Monotone at resource_quantities.adb:370 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Resource_Quantities.Prefix_Padding at resource_quantities.adb:389 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Resource_Quantities.Prefix_Reference at resource_quantities.ads:47 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Resource_Quantities.Prefix_Value at resource_quantities.ads:80 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Resource_Quantities.Prefix_Value_Checked at resource_quantities.adb:290 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Resource_Quantities.Prefix_Value_Recurrence at resource_quantities.adb:253 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (20 checks)
+  Resource_Quantities.Prefix_Value_Worker at resource_quantities.adb:195 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (35 checks)
+  Resource_Quantities.Radix_Power at resource_quantities.ads:70 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)
+  Resource_Quantities.Radix_Power_Checked at resource_quantities.adb:170 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Resource_Quantities.Radix_Power_Recurrence at resource_quantities.adb:142 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)
+  Resource_Quantities.Radix_Power_Worker at resource_quantities.adb:97 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+  Resource_Quantities.Scale_Column at resource_quantities.adb:15 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Resource_Quantities.Span_Valid at resource_quantities.ads:25 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Resource_Quantities.Value at resource_quantities.ads:100 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+in unit worldline, 2 subprograms and packages out of 2 analyzed
+  Worldline at worldline.ads:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Hash_Eq at worldline.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+in unit worldline-archive_text, 7 subprograms and packages out of 7 analyzed
+  Worldline.Archive_Text at worldline-archive_text.ads:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Archive_Text.Continuation at worldline-archive_text.ads:20 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Archive_Text.Read at worldline-archive_text.ads:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (11 checks)
+  Worldline.Archive_Text.Span_Valid at worldline-archive_text.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Archive_Text.Text_Valid at worldline-archive_text.ads:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Archive_Text.Unit_Width at worldline-archive_text.ads:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (46 checks)
+  Worldline.Archive_Text.Value_At at worldline-archive_text.ads:72 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (36 checks)
+in unit worldline-json_source_cursor, 10 subprograms and packages out of 10 analyzed
+  Worldline.JSON_Source_Cursor at worldline-json_source_cursor.ads:7 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.JSON_Source_Cursor.BOM_Length at worldline-json_source_cursor.ads:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (16 checks)
+  Worldline.JSON_Source_Cursor.Byte_At at worldline-json_source_cursor.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (3 checks)
+  Worldline.JSON_Source_Cursor.Detected_Encoding at worldline-json_source_cursor.ads:76 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (22 checks)
+  Worldline.JSON_Source_Cursor.Initial at worldline-json_source_cursor.ads:119 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.JSON_Source_Cursor.Pair_Value at worldline-json_source_cursor.ads:68 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.JSON_Source_Cursor.Read at worldline-json_source_cursor.ads:185 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)
+  Worldline.JSON_Source_Cursor.Reference_Read at worldline-json_source_cursor.ads:129 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (20 checks)
+  Worldline.JSON_Source_Cursor.Unit_16 at worldline-json_source_cursor.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (9 checks)
+  Worldline.JSON_Source_Cursor.Unit_32 at worldline-json_source_cursor.ads:51 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)

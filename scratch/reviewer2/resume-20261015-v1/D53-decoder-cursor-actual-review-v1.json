@@ -1,0 +1,58 @@
+{
+  "utc": "2026-10-15T04:04:42.266581+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "MEASURED candidatebuild/runtime pass and selectedcursor/control/ArchiveText proof obligations proved; COMPLETE candidateclosure FAILS strict proof. No gatePASS.",
+  "result_sha256": "04ff1b02839fc40c4765d73dad546b0d83c565fb3f20f492d1a2d6afb99f4b8a",
+  "report_sha256": "5784110817e2580bce55702c3170c43d7f029323861a54fbcaceb69076de5d22",
+  "build_exit": 0,
+  "proof_exit": 1,
+  "runtime_exit": 0,
+  "parent_exit": 1,
+  "sources_and_private_dependencies_unchanged_verified": true,
+  "assertions_enabled_ali": true,
+  "report_observed": {
+    "total": 859,
+    "unproved": 1,
+    "justified": ".",
+    "failure": "Resource_Quantities.Capacity_Fits resource_quantities.adb:587:50 Residue < Place; prover time limit"
+  },
+  "proof_scope": [
+    "JSON_Source_Cursor spec/body/Reference_Read/Read/fullencodinghelpers listed analyzed/proved; Archive_Text helpers and controlcallerpreconditions listedproved.",
+    "Sole retained report assertionfailure in copied unchanged Resource_Quantities dependency is part of enrolled completeproject and cannot be excluded or called fullproofsuccess.",
+    "Ghostreference shareslowlevelhelpers, and finitefixedruntimecontrols do not establish productionwideJSONgrammar/nativevaluecorrespondence or validhugeinputexecution.",
+    "Importedfullprivateprebuilt library status remains outside newlyprovedcandidate closure claim; unchangedselectedartifacts not fullprivateproof."
+  ],
+  "scope_after": {
+    "event": "after",
+    "exit_code": 1,
+    "memory.current": "70537216",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "1008234496",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-d91c1c4da6aa43f599c1b7edf89950a4.scope",
+    "utc": "2026-10-15T04:03:11.698080+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T04:03:12.283158+00:00"
+  },
+  "interpretation": [
+    "Live8Gswap0/events0 measured; terminalremovedscopeinfinity notlivecap.",
+    "No cap/solverbound increase, assumption, justifiedcheck or dropped dependency authorized by this review. Any exact truthful dependencyinvariant repair requires separate source review/newcandidate.",
+    "D53parent sourcebeforeafter unchanged; no A2/SLOW/HANG/ONEdiagnostic classification or automaticOld/fullacceptance inference."
+  ],
+  "non_claims": [
+    "No rerun/productedit/job byreviewer; no independentacceptance."
+  ]
+}

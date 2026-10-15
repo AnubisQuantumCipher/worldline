@@ -1,0 +1,11 @@
+--- a/pending-component/core/resource_quantities.adb
++++ b/pending-component/core/resource_quantities.adb
+@@ -447,6 +447,8 @@
+             begin
+                pragma Assert (Column_Value <= 255);
+                pragma Assert (Before_Residue >= 0 and then Before_Place > 0);
++               Column_Bounds
++                 (Before_Residue, Before_Place, Column_Value);
+                pragma Assert (Contribution >= 0);
+                pragma Assert
+                  (Contribution =

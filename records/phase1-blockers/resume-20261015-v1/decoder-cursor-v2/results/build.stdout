@@ -1,0 +1,16 @@
+Setup
+   [mkdir]        object directory for project Decoder_Cursor_Candidate
+   [mkdir]        exec directory for project Decoder_Cursor_Candidate
+Compile
+   [Ada]          decoder_cursor_controls.adb
+   [Ada]          resource_quantities.adb
+   [Ada]          worldline.ads
+   [Ada]          worldline-json_source_cursor.adb
+   [Ada]          attest.ads
+   [Ada]          attest-sha256.adb
+   [Ada]          worldline-archive_text.adb
+Bind
+   [gprbind]      decoder_cursor_controls.bexch
+   [Ada]          decoder_cursor_controls.ali
+Link
+   [link]         decoder_cursor_controls.adb

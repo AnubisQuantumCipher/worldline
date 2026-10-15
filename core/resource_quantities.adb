@@ -569,6 +569,8 @@ package body Resource_Quantities with SPARK_Mode is
             begin
                pragma Assert (Column_Value <= 255);
                pragma Assert (Before_Residue >= 0 and then Before_Place > 0);
+               Column_Bounds
+                 (Before_Residue, Before_Place, Column_Value);
                pragma Assert (Contribution >= 0);
                pragma Assert
                  (Contribution =
