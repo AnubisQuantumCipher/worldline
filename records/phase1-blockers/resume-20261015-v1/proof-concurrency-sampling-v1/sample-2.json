@@ -1,0 +1,48 @@
+{
+  "utc": "2026-10-15T05:26:06.955382+00:00",
+  "monotonic_ns": 55711693470072,
+  "scope": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-e7309976f98948ebb1fdc9b6f90f50d8.scope",
+  "unit": "wl-phase1-e7309976f98948ebb1fdc9b6f90f50d8.scope",
+  "readbacks": {
+    "cpu.stat": {
+      "raw": "usage_usec 3616301425\nuser_usec 3559660320\nsystem_usec 56641105\nnice_usec 0\nnr_periods 0\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0\n"
+    },
+    "cpu.max": {
+      "raw": "max 100000\n"
+    },
+    "cpu.weight": {
+      "raw": "100\n"
+    },
+    "memory.current": {
+      "raw": "645357568\n"
+    },
+    "memory.peak": {
+      "raw": "2769018880\n"
+    },
+    "memory.max": {
+      "raw": "8589934592\n"
+    },
+    "memory.events": {
+      "raw": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0\n"
+    },
+    "memory.pressure": {
+      "raw": "some avg10=0.00 avg60=0.00 avg300=0.00 total=14716\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=14716\n"
+    },
+    "cgroup.events": {
+      "raw": "populated 1\nfrozen 0\n"
+    },
+    "cgroup.procs": {
+      "raw": "3043575\n3043600\n3043601\n3044387\n3044388\n3044389\n3044590\n3044591\n3063922\n3063930\n3063931\n3063932\n3142802\n3142849\n3142850\n3142851\n3142852\n3142853\n3142854\n3142855\n3142856\n3142857\n3142858\n3142859\n3142860\n3142861\n3142862\n3142863\n3142865\n3142866\n3142867\n3142869\n3142870\n3142872\n3142873\n3142874\n3142875\n3142876\n3150857\n3159042\n3159344\n"
+    },
+    "io.stat": {
+      "raw": null,
+      "error": "FileNotFoundError(2, 'No such file or directory')"
+    },
+    "cpuset.cpus.effective": {
+      "raw": null,
+      "error": "FileNotFoundError(2, 'No such file or directory')"
+    }
+  },
+  "boundary": "Raw owned-scope measurement only; no proof outcome, solver-speed projection, timeout classification, concurrency or deadline change selected",
+  "first_sample_sha256": "e109768218f270d74f4a542bb2d7291314c62d2b2f48276d64e8ebcc9ed502ea"
+}

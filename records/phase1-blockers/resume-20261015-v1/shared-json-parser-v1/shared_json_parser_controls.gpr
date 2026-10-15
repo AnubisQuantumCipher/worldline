@@ -1,0 +1,46 @@
+with "sparklib.gpr";
+
+-- Candidate-only dependency closure. Never substitutes for the complete
+-- original WORLDLINE build/proof/runtime projects. No stub dependencies.
+project Shared_JSON_Parser_Controls is
+   type Resource_Body_Kind is ("current_D56", "historical_original");
+   Resource_Body : Resource_Body_Kind :=
+     external ("WORLDLINE_PARSER_RESOURCE_BODY", "current_D56");
+   for Languages use ("Ada");
+   case Resource_Body is
+      when "current_D56" =>
+         for Source_Dirs use (".", "src", "resource-current-D56");
+         for Object_Dir use "obj-current-D56";
+         for Exec_Dir use "bin-current-D56";
+      when "historical_original" =>
+         for Source_Dirs use (".", "src", "resource-historical-original");
+         for Object_Dir use "obj-historical-original";
+         for Exec_Dir use "bin-historical-original";
+   end case;
+   for Source_Files use
+     ("string_parser_controls.adb", "wide_parser_controls.adb",
+      "worldline.ads", "attest.ads", "attest-sha256.ads", "attest-sha256.adb",
+      "resource_quantities.ads", "resource_quantities.adb",
+      "worldline-archive_text.ads", "worldline-archive_text.adb",
+      "worldline-json_source_cursor.ads", "worldline-json_source_cursor.adb",
+      "worldline-json_syntax_types.ads",
+      "worldline-generic_json_syntax.ads", "worldline-generic_json_syntax.adb",
+      "worldline-raw_json_syntax.ads", "worldline-raw_json_syntax.adb",
+      "worldline-producer_values.ads", "worldline-producer_values.adb",
+      "evaluation_pending.ads", "evaluation_pending.adb",
+      "evaluation_epoch.ads", "evaluation_epoch.adb",
+      "exact_decimal.ads", "exact_decimal.adb",
+      "decimal_binary64.ads", "decimal_binary64.adb",
+      "worldline-producer_render.ads", "worldline-producer_render.adb",
+      "worldline-producer_unicode.ads");
+   for Main use ("string_parser_controls.adb", "wide_parser_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=3", "--report=all", "--checks-as-errors=on",
+         "--proof-warnings=on", "--memlimit=1024", "--timeout=60", "-j2");
+   end Prove;
+end Shared_JSON_Parser_Controls;

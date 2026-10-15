@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-15T04:54:25.593955+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR conditional static preparation only; no current launch or archive authorization of live v2",
+  "hashes": {
+    "backup_batch.py": "5516311bc0c641817594e375e338f55568c6a9ea94afbb10589380b5eed75ecc",
+    "run_backup.py": "c9e07190d1461eca82a949ea6f9bae1f4d4f7f8e991efa99c035fa3bc467a2aa",
+    "decision-proposal.md": "b751841874c44cd4b878b88a9a5546b9cfde1a0c2cdcc987731c8c268459b443"
+  },
+  "exact_delta": "Compared actual D54v2 methods: only selected list replaces six older paths with exact decoder-cursor-v1/v2 and shared-json-parser-v1/v2, plus v3 own output/method path literals. All other CLI/wrapper/resource/stop/readback behavior unchanged.",
+  "selected": [
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1",
+    "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2"
+  ],
+  "preserved": [
+    "Original project-vault put only, no --offload or archive pruning; all originals retained.",
+    "15m own8Gswap0 shared flock/postlock admission/disk reserve/early-stop and first nonzero/busy failstop; no retries, pin/config/service/queue changes.",
+    "CLI exit0/is_dir explicitly not full backup verification; exact item/job/snapshot/manifest/fullcandidate comparison and fresh local inventory readback required."
+  ],
+  "required_before_launch": [
+    "D62 actual terminal/source/private/artifact readback and known-owned cleanup reviewed; no current active changing output archived.",
+    "Fresh exact selection/inventory/readability/pin/activity and native vault preflight/tool identity receipts; current observed bytes not future fixed inventory.",
+    "D63 decision/options/reversal and actual reviewer launch verdict logged after current tracked-source window.",
+    "Methods remain exact and output paths fresh; original resource/storage admission live."
+  ],
+  "non_claims": [
+    "No current v2 outcome inferred",
+    "No vault/tool/status query or backup executed by reviewer",
+    "No acceptance, reclamation, wholearchive or wider coverage claim"
+  ],
+  "actions": "Read-only method/diff/design review; no jobs/staging/global writes."
+}

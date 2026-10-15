@@ -1,0 +1,74 @@
+{
+  "utc": "2026-10-15T05:41:12.036311+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR exact four-directory D63 backup-only launch after logged choice/verdict and fresh wrapper/native CLI admission",
+  "preflight_sha256": "a3258db96eec5ee297b2e7fbde465d4f518456e13a42fb62358e18c74a0c20c5",
+  "method_hashes": {
+    "backup_batch.py": "5516311bc0c641817594e375e338f55568c6a9ea94afbb10589380b5eed75ecc",
+    "run_backup.py": "70bd528e192d5adf18ca0bcaaf76944c8ab5efec69e43ac7648812720c96389c"
+  },
+  "selected": [
+    {
+      "active_users": [],
+      "content_manifest_sha256": "93c3db104d6b0814487cd8e6b76175a25b1c2f59d9f1b6b4c15aeaa651d06b58",
+      "inventory_file": "0.inventory.json",
+      "inventory_file_sha256": "e76dd57bbc9f1f83fc41d6612e4c8e3298b3c2323242adcc9dd493acdef08b99",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1",
+      "pin_overlaps": []
+    },
+    {
+      "active_users": [],
+      "content_manifest_sha256": "be6c9759963a2a8e550a2867127a4bd77bf6a4ebdf00c207d92b26d43f799bd0",
+      "inventory_file": "1.inventory.json",
+      "inventory_file_sha256": "c0e56726e29f6d4427ce13da7b674966fc47aa86ee83319915cee85a42b66122",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2",
+      "pin_overlaps": []
+    },
+    {
+      "active_users": [],
+      "content_manifest_sha256": "dad383b4f48c34f822b1f27e8f6d244f8dfaf06c7784d90f7bc9d95fe4a08a2c",
+      "inventory_file": "2.inventory.json",
+      "inventory_file_sha256": "8fa7cf4e04519e51dc7f7596d86a9dbe44f453f523ed2fac35872ada7ad50004",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1",
+      "pin_overlaps": []
+    },
+    {
+      "active_users": [],
+      "content_manifest_sha256": "fc34ed3bbb729fc5625a412c98b3cc199d795eb772ad2d47c6c6c66c7d7b4bd0",
+      "inventory_file": "3.inventory.json",
+      "inventory_file_sha256": "49c9ce270fcffae894756f6af2981f26f849d8bf49d76bb7b090faca8931aebd",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2",
+      "pin_overlaps": []
+    }
+  ],
+  "verified": [
+    "Exact selected own real paths decoder-cursor-v1/v2/shared-json-parser-v1/v2; inventory files and canonical contentmanifest digests match retained preflight. Pin overlaps and activeusers empty as observed, not perpetual inactivity.",
+    "All five exact original terminal receipt hashes/current last rows match unpopulated/inactive-notfound; D62/D65 actual reviews already retained.",
+    "Native status command0/raw hash joined, mountedtrue/initialtransferfalse; localstatus0/inactivebackgroundbackup, ownreserved coordination retained.",
+    "Vault Python source beforeafter stable and all current source/tool hashes match recorded identities; method hashes current, scope correction retained.",
+    "Fresh parent/scope/backup-results paths absent. Original15m8G0/sharedlock/postlockadmission/diskguard and peritem stopfirstfailure/no retry behavior retained.",
+    "Backup put without --offload, no deletion/reclamation/pruning/config/pin/service/queue action. Local originals kept."
+  ],
+  "observed_free_bytes": 96878415872,
+  "limits": [
+    "Operationlockavailability is observation only, not reservation; native CLI must revalidate device/mount/lock/source/activity/reserve and refuse races.",
+    "No archive yet; full peritem candidate restore/SHA256/metadata comparison plus exact persisted item/job/snapshot/manifest and fresh original inventory readback mandatory before backup-success claim.",
+    "Selection coverage only these candidate directories, not parent/outer run evidence or all project data.",
+    "Full native/local catalog/status and any rawhostmetadata stay private; eventual publication needs compact reviewed fields/hash references only.",
+    "No independent inventory regeneration/activity scan/vaultcommand/backup by reviewer; actual preflight snapshot examined."
+  ],
+  "actions": "Read-only actual preflight/method/rawselectedstatus/terminal/inventory hash joins; no tool execution, jobs/source/global writes.",
+  "non_claims": [
+    "No Phase1 acceptance or diskreclamation",
+    "No wholearchive scrub/recovery performed by reviewer",
+    "No hostprocess/service/config/pin mutation"
+  ]
+}

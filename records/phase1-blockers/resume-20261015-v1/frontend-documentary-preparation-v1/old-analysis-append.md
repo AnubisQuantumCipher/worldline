@@ -1,0 +1,10 @@
+
+## Bounded frontend follow-up (D64)
+
+MEASURED source research and exact fetch receipts are retained in `scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/`. Official GCC release source is pinned to commit `6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea`; exact correspondence to the installed GNAT/GNATprove binaries is UNVERIFIED. The checked installed hashes remain those of the actual D47 discriminator.
+
+The inspected source has strict Finalizable validation and ordinary Adjust/Finalize generation. In that same source, `sem_attr.adb:5762–5795` skips the inspected function-prefix Old expansion under GNATprove_Mode; `exp_ch7.adb:1102–1107` skips finalization collections and `Build_Finalizer` at `3142–3152` returns in that mode. No alternate cleanup route was identified in the bounded inspected SPARK expansion routines. These are observations about this expansion and these inspected routines, not a universal absence claim. D51's separately pinned translator allocation-in-executable-assertion condition remains a bounded observation too. Source-level consistency with D47 does not establish the exact installed failure's cause or disprove every other representation.
+
+Actual GPT-6.1 `finalizable-frontend-bounded-research-review-v1.json` confirms the finite source/hash joins and these limits. No new supported route was established. O1 remains FAILED-OPEN; no original guarantee or contract changes and no NARROWED CLAIM are selected. D47's value assertions and finite runtime success do not establish automatic physical retirement, independent ordinary assignment, or exceptional cleanup.
+
+A byte-exact local D47 support reproducer and factual outcome draft is retained at `scratch/final-gates/resume-20261015-v1/old-support-upstream-draft-v1/`. `old-support-unsent-draft-review-v1.json` is actual GPT-6.1 internal correspondence review, not toolchain support or independent acceptance. The draft remains UNSENT; no upstream communication, new probe or toolchain installation occurred. D64 records the choice and reversal conditions.

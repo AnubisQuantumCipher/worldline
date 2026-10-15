@@ -1,0 +1,6 @@
+
+D66 exact metadata-size disposition: actual GPT-6.1 D66-selection-size-disposition-review-v1.json CONCUR permits only the following immutable own metadata blobs, preserving the original selector exit1 and oversized flags. No global publication threshold or acceptance/resource/proof/runtime condition changes.
+- `records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/parent/result.json`: bytes `1103832`, SHA256 `48289ba9aa5ae9c6cd470044359fb142e4cc0120d9bf00cc3d28ceb5eb6f4e7b`; parsed own command/source/resource metadata, retained whole.
+- `records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/cgroup.jsonl`: bytes `1083602`, SHA256 `606ef71f178162e80d3d5dc33ad388b8b9369a5d2a251627a25a7c485411dfb8`; parsed own command/source/resource metadata, retained whole.
+- `records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/supervisor.jsonl`: bytes `1521618`, SHA256 `d8918f5d1df4d5cad34380847fc8044839f73662847386ac6b94b76b48ff660d`; parsed own command/source/resource metadata, retained whole.
+Finite audit reports no other findings in its assigned UTF8/NUL/token/path/container checks; this is not exhaustive secret/privacy/license certification. Exact successor and staged bytes still require actual GPT-6.1 review before commit/push.

@@ -1,0 +1,7 @@
+Oct 15 00:50:24 83 systemd[1022]: Started [systemd-run] /usr/bin/python3 /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scripts/phase1_heavy.py --phase worker --timeout 45m --swap-max 0 --out /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope -- bash -c "set -e; source /home/sicarii/opt/gnat/env.sh; unset PYTHONOPTIMIZE; exec python3 -B \"\$1\"" phase1-shared-json-parser /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/run_shared_parser.py.
+Oct 15 01:00:12 83 systemd-coredump[3075835]: Process 3075131 (alt-ergo) of user 1000 terminated abnormally without generating a coredump.
+Oct 15 01:01:08 83 systemd-coredump[3077498]: Process 3076610 (alt-ergo) of user 1000 terminated abnormally without generating a coredump.
+Oct 15 01:01:35 83 systemd-coredump[3078961]: Process 3078163 (alt-ergo) of user 1000 terminated abnormally without generating a coredump.
+Oct 15 01:02:38 83 systemd-coredump[3083244]: Process 3082451 (alt-ergo) of user 1000 terminated abnormally without generating a coredump.
+Oct 15 01:03:15 83 systemd-coredump[3086317]: Process 3085045 (alt-ergo) of user 1000 terminated abnormally without generating a coredump.
+Oct 15 01:35:24 83 systemd[1022]: wl-phase1-e7309976f98948ebb1fdc9b6f90f50d8.scope: Consumed 1h 15min 42.764s CPU time over 45min 850ms wall clock time, 2.5G memory peak.

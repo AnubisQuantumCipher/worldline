@@ -1,0 +1,128 @@
+--- v1/src/worldline-generic_json_syntax.ads
++++ v2/src/worldline-generic_json_syntax.ads
+@@ -4,10 +4,20 @@
+ generic
+    type Source_Data (<>) is private;
+    type Source_Context is private;
+-   with function Source_Length
++   with function Source_Length_Impl
++     (Data : Source_Data; Context : Source_Context) return Count;
++   with function Read_Unit_Impl
++     (Data : Source_Data; Context : Source_Context; Position : Count)
++      return Reader_Unit;
++package Worldline.Generic_JSON_Syntax with SPARK_Mode is
++   use Worldline.JSON_Syntax_Types;
++   use type Worldline.JSON_Syntax_Types.Count;
++   -- Every actual instance must establish the callback requirements through
++   -- these ordinary analyzed wrappers; the formal callbacks are not axioms.
++   function Source_Length
+      (Data : Source_Data; Context : Source_Context) return Count
+    with Global => null;
+-   with function Read_Unit
++   function Read_Unit
+      (Data : Source_Data; Context : Source_Context; Position : Count)
+       return Reader_Unit
+    with Global => null,
+@@ -18,9 +28,6 @@
+         else Read_Unit'Result.Next_Offset = Position) and then
+        (if Read_Unit'Result.Kind = End_Of_Source then
+            Position = Source_Length (Data, Context));
+-package Worldline.Generic_JSON_Syntax with SPARK_Mode is
+-   use Worldline.JSON_Syntax_Types;
+-   use type Worldline.JSON_Syntax_Types.Count;
+    procedure Space
+      (Data : Source_Data; Context : Source_Context; Position : in out Count)
+    with Global => null,
+--- v1/src/worldline-generic_json_syntax.adb
++++ v2/src/worldline-generic_json_syntax.adb
+@@ -1,4 +1,13 @@
+ package body Worldline.Generic_JSON_Syntax with SPARK_Mode is
++   function Source_Length
++     (Data : Source_Data; Context : Source_Context) return Count is
++     (Source_Length_Impl (Data, Context));
++
++   function Read_Unit
++     (Data : Source_Data; Context : Source_Context; Position : Count)
++      return Reader_Unit is
++     (Read_Unit_Impl (Data, Context, Position));
++
+    -- Outside string content, every recognized syntax character is ASCII.
+    -- NUL cannot match any punctuation, whitespace, digit, or literal prefix.
+    function Peek
+@@ -259,7 +268,7 @@
+    end Scan;
+ 
+    function Parse
+-     (Data : Source_Data; Context : Source_Context; Start : Count)
++     (Data : Source_Data; Context : Source_Context; Start : Count := 0)
+       return Node
+    is
+       Position : Count := Start;
+--- v1/src/worldline-producer_values.adb
++++ v2/src/worldline-producer_values.adb
+@@ -83,7 +83,7 @@
+ 
+    package String_Grammar is new Worldline.Generic_JSON_Syntax
+      (Source_Data => String, Source_Context => String_Context,
+-      Source_Length => String_Length, Read_Unit => String_Read);
++      Source_Length_Impl => String_Length, Read_Unit_Impl => String_Read);
+ 
+    function Original_Form (Form : JS.Value_Kind) return Value_Kind is
+      (case Form is
+--- v1/src/worldline-raw_json_syntax.ads
++++ v2/src/worldline-raw_json_syntax.ads
+@@ -31,7 +31,7 @@
+ 
+    package Grammar is new Worldline.Generic_JSON_Syntax
+      (Source_Data => Q.Byte_Array, Source_Context => C.Cursor,
+-      Source_Length => Source_Length, Read_Unit => Read_Unit);
++      Source_Length_Impl => Source_Length, Read_Unit_Impl => Read_Unit);
+ 
+    function Parse (Data : Q.Byte_Array; Item : C.Span) return JS.Node
+    with Global => null,
+--- v1/run_shared_parser.py
++++ v2/run_shared_parser.py
+@@ -17,12 +17,13 @@
+ EPOCH = "4ff3bf48b4323c051ffa8cf04ba4787982111f6d"
+ BUNDLE_SHA = "a23767c48c8c8c1b5677d53fac5ae79632407bd425a9329de06962016df62a98"
+ ROOT_FORMATION_SHA = "ff532976bc1422100e5d17193c572eb97af177deff62c38ad4f411d28801e788"
++OVERLAY_SHA = "94e5e1f64a8ab78f09c4281fc71d5dd4f886d79afd3bc6e44dc741464aa7f162"
+ REFERENCE = ROOT / "scratch/old-analysis/sparklib-standalone-final-v5/result.json"
+ REFERENCE_SHA = "9e2db83e321d936a3eca04f82f185403ed39a3893e295ac3936bce774ca311af"
+ SOURCE_MANIFEST = ROOT / "scratch/old-analysis/evidence/private-sparklib-experiment-source-v1.json"
+ PRIVATE_ROOT = ROOT / "scratch/old-analysis/private-sparklib-experiment"
+ PRIVATE = PRIVATE_ROOT / "lib/gnat"
+-DESTINATION = ROOT / "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1"
++DESTINATION = ROOT / "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2"
+ OUTPUT_NAMES = {"obj-current-D56", "bin-current-D56", "results", "parent", "scope"}
+ EXTERNALS = ["-XWORLDLINE_PARSER_RESOURCE_BODY=current_D56", "-XSPARKLIB_MODE=full",
+              "-XSPARKLIB_BUILD=Production", "-XSPARKLIB_LIBRARY_TYPE=static",
+@@ -104,11 +105,26 @@
+     manifest = json.loads(receipt.read_text())
+     if manifest["explicit_current_source_epoch"] != EPOCH:
+         raise RuntimeError("Unexpected controls source epoch")
++    overlay_path = candidate / "v2-formation.json"
++    if digest(overlay_path) != OVERLAY_SHA:
++        raise RuntimeError("Exact v2 overlay formation identity changed")
++    overlay = json.loads(overlay_path.read_text())
++    allowed = {"src/worldline-generic_json_syntax.ads", "src/worldline-generic_json_syntax.adb",
++               "src/worldline-producer_values.adb", "src/worldline-raw_json_syntax.ads"}
++    changes = {row["path"]: row for row in overlay["changes"]}
++    if set(changes) != allowed or len(changes) != len(overlay["changes"]):
++        raise RuntimeError("Unexpected v2 overlay source inventory")
+     for row in manifest["artifacts"]:
+         path = candidate / row["path"]
+         no_symlink(path, candidate)
+-        if digest(path) != row["sha256"]:
+-            raise RuntimeError("Immutable controls source changed: " + row["path"])
++        expected = row["sha256"]
++        if row["path"] in changes:
++            change = changes[row["path"]]
++            if change["preimage_sha256"] != expected:
++                raise RuntimeError("Overlay preimage differs from immutable original bundle")
++            expected = change["sha256"]
++        if digest(path) != expected:
++            raise RuntimeError("Immutable controls plus exact overlay changed: " + row["path"])
+     known_ada = {row["path"] for row in manifest["artifacts"]
+                  if Path(row["path"]).suffix in {".ads", ".adb", ".gpr"}}
+     actual_ada = {path for path in candidate_identity(candidate)

@@ -1,0 +1,16 @@
+ error: not fully conformant with declaration at worldline-generic_json_syntax.ads:58
+--> worldline-generic_json_syntax.adb:261:13
+  261 |       function Parse
+      |                ^~~~~
+      + default expression for "Start" does not match
+
+ error: incorrect placement of aspect "Global"
+--> worldline-generic_json_syntax.ads:9:09
+    9 |       with Global => null;
+      |            ^~~~~~~~~~~~~~
+
+ error: incorrect placement of aspect "Global"
+--> worldline-generic_json_syntax.ads:13:09
+   13 |       with Global => null,
+      |            ^~~~~~~~~~~~~~
+gnatprove: error during generation of Global contracts

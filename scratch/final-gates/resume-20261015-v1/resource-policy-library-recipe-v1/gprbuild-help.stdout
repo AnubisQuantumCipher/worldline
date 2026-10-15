@@ -1,0 +1,139 @@
+Usage: gprbuild [-P<proj>] [<proj>.gpr] [opts] [name]
+    {[-cargs opts] [-cargs:lang opts] [-largs opts] [-kargs opts] [-gargs opts]}
+
+  name is zero or more file names
+
+gprbuild switches:
+  --version   Display version and exit
+  --help      Display usage and exit
+
+  --no-project
+           Do not use project file
+  --distributed=slave1[,slave2]
+           Activate the remote/distributed compilations
+  --hash=string
+           Set an hash string to identified environment
+  --slave-env[=name]
+           Use a specific slave's environment
+
+  --complete-output
+           Display all previous errors and warnings
+  --no-complete-output, -n
+           Do not store compilation outputs in files
+
+  --config=file.cgpr
+           Specify the main config project file name
+  --autoconf=file.cgpr
+           Specify/create the main config project file name
+  --target=targetname
+           Specify a target for cross platforms
+  --db dir Parse dir as an additional knowledge base
+  --db-    Do not load the standard knowledge base
+  --implicit-with=filename
+           Add the given projects as a dependency on all loaded projects
+  --relocate-build-tree[=dir]
+           Root obj/lib/exec dirs are current-directory or dir
+  --root-dir=dir
+           Root directory of obj/lib/exec to relocate
+  --src-subdirs=dir
+           Prepend <obj>/dir to the list of source dirs for each project
+  --subdirs=dir
+           Use dir as suffix to obj/lib/exec directories
+  --getrusage=file
+           Print getrusage call results into file
+  --single-compile-per-obj-dir
+           No simultaneous compilations for the same obj dir
+  --build-script=script_file
+           Create build script script_file
+  --no-indirect-imports
+           Sources can import only from directly imported projects
+  --indirect-imports
+           Sources can import from directly and indirectly imported projects
+  --RTS=<runtime>
+           Use runtime <runtime> for language Ada
+  --RTS:<lang>=<runtime>
+           Use runtime <runtime> for language <lang>
+  --unchecked-shared-lib-imports
+           Shared lib projects may import any project
+  --no-object-check
+           Do not check object files
+  --no-sal-binding
+           Reuse binder files when linking SALs
+  --restricted-to-languages=<list of languages>
+           Restrict the languages of the sources
+
+  --create-map-file
+           Create map file mainprog.map
+  --create-map-file=mapfile
+           Create map file mapfile
+  --source-info=<filename>
+           Specify/create the project sources cache file
+  --keep-temp-files
+           Do not delete temporary files
+
+  --autodetect-jobserver
+           Autodetect GNU make jobserver and attempt to share job slots
+
+  -aP dir  Add directory dir to project search path
+  -b       Bind only
+  -c       Compile only
+  -d       Display compilation progress
+  -eInn    Index of main unit in multi-unit source file
+  -eL      Follow symbolic links when processing project files
+  -eS      (no action, for compatibility with gnatmake only)
+  -f       Force recompilations
+  -F       Full project path name in brief error messages
+  -j<num>    Use <num> processes to compile, bind, and link
+  -jc<num>    Use <num> processes to compile
+  -jb<num>    Use <num> processes to bind
+  -jl<num>    Use <num> processes to link
+  -k       Keep going after compilation errors
+  -l       Link only
+  -m       Minimum Ada recompilation
+  -m2      Checksum based Ada recompilation
+  -o name  Choose an alternate executable name
+  -p       Create missing obj, lib and exec dirs
+  -P proj  Use Project File proj
+  -q       Be quiet/terse
+  -r       Recursive (default except when using -c)
+  -R       Do not use run path option
+  -s       Recompile if compiler switches have changed
+  -u       Unique compilation, only compile the given files
+  -U       Unique compilation for all sources of all projects
+  -v       Verbose output
+  -vl      Verbose output (low verbosity)
+  -vm      Verbose output (medium verbosity)
+  -vh      Verbose output (high verbosity)
+  -vPx     Specify verbosity when parsing Project Files (x = 0/1/2)
+  -we      Treat all warnings as errors
+  -wn      Treat warnings as warnings
+  -ws      Suppress all gprbuild-specific warnings
+  -x       Always create include path file
+  -Xnm=val Specify an external reference for Project Files
+
+  -z       No main subprogram (zero main)
+  --compiler-subst=lang,tool    Specify alternate compiler
+  --compiler-pkg-subst=pkg    Specify alternate package
+
+
+  -cargs opts    opts are passed to all compilers
+  -cargs:<lang> opts
+                 opts are passed to the compiler for language <lang> 
+  -bargs opts    opts are passed to all binders
+  -bargs:<lang> opts
+                 opts are passed to the binder for language <lang> 
+  -largs opts    opts are passed to the linker
+  -kargs opts    opts are passed to gprconfig
+  -gargs opts    opts directly interpreted by gprbuild
+  -margs opts    equivalent to -gargs opts
+
+For compatibility with gnatmake, these switches are passed to the Ada compiler:
+  -nostdlib
+  -nostdinc
+  -fstack-check
+  -fno-inline
+  -gxxx
+  -Oxx
+
+
+Report bugs to support@adacore.com

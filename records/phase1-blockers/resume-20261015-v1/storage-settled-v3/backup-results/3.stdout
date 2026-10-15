@@ -1,0 +1,31 @@
+Inspecting source content: /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2
+no parent snapshot found, will read all files
+
+Files:         839 new,     0 changed,     0 unmodified
+Dirs:          108 new,     0 changed,     0 unmodified
+Added to the repository: 40.713 MiB (6.443 MiB stored)
+
+processed 839 files, 82.779 MiB in 0:08
+snapshot 94b22f0f saved
+Restoring the entire candidate and comparing content and metadata
+restoring snapshot 94b22f0f of [/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2] at 2026-10-15 01:43:07.272197199 -0400 EDT by sicarii@83 to /home/sicarii/.local/state/project-vault/cold-jobs/1c4ce7d895066906992b4bb638083a9cae6784b80b51e9568d8aef913e53140b/tree
+Summary: Restored 947 files/dirs (82.779 MiB) in 0:01
+verifying files in /home/sicarii/.local/state/project-vault/cold-jobs/1c4ce7d895066906992b4bb638083a9cae6784b80b51e9568d8aef913e53140b/tree
+finished verifying 839 files in /home/sicarii/.local/state/project-vault/cold-jobs/1c4ce7d895066906992b4bb638083a9cae6784b80b51e9568d8aef913e53140b/tree (took 13ms)
+{
+  "id": "ab69a53ec8124ef4a274fd853febeb36",
+  "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2",
+  "snapshot": "94b22f0fe985066137da4fd8ccaac2bff3f7d6845fb6912d1849bb218feab559",
+  "tag": "cold-ab69a53ec8124ef4a274fd853febeb36",
+  "time": "2026-10-15T05:43:27.520398+00:00",
+  "state": "backed-up-local",
+  "bytes": 86800118,
+  "verification": "full candidate restore, SHA256 and metadata comparison",
+  "content_manifest_sha256": "fc34ed3bbb729fc5625a412c98b3cc199d795eb772ad2d47c6c6c66c7d7b4bd0",
+  "single_device_archive_when_offloaded": true,
+  "provenance": {
+    "state": "unrecorded",
+    "boundary": "No original rebuild recipe or toolchain claim has been established."
+  },
+  "local_free_before": 96876306432
+}

@@ -1,0 +1,31 @@
+Inspecting source content: /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1
+no parent snapshot found, will read all files
+
+Files:          79 new,     0 changed,     0 unmodified
+Dirs:           21 new,     0 changed,     0 unmodified
+Added to the repository: 1.504 MiB (542.284 KiB stored)
+
+processed 79 files, 1.497 MiB in 0:07
+snapshot 79f10772 saved
+Restoring the entire candidate and comparing content and metadata
+restoring snapshot 79f10772 of [/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1] at 2026-10-15 00:06:35.135783774 -0400 EDT by sicarii@83 to /home/sicarii/.local/state/project-vault/cold-jobs/a1807e534b9cb0e7c7e7a43fd9abc619a3c52f3d1d605a4e6abce57b69e8711c/tree
+Summary: Restored 100 files/dirs (1.497 MiB) in 0:00
+verifying files in /home/sicarii/.local/state/project-vault/cold-jobs/a1807e534b9cb0e7c7e7a43fd9abc619a3c52f3d1d605a4e6abce57b69e8711c/tree
+finished verifying 79 files in /home/sicarii/.local/state/project-vault/cold-jobs/a1807e534b9cb0e7c7e7a43fd9abc619a3c52f3d1d605a4e6abce57b69e8711c/tree (took 1ms)
+{
+  "id": "4e71697e5a8342ff869d5b59ac9a35b7",
+  "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1",
+  "snapshot": "79f107724594b19c9ea2b6f5903b2e7c2d9e13c312d67341d0f26a137e90fb10",
+  "tag": "cold-4e71697e5a8342ff869d5b59ac9a35b7",
+  "time": "2026-10-15T04:06:51.557830+00:00",
+  "state": "backed-up-local",
+  "bytes": 1569679,
+  "verification": "full candidate restore, SHA256 and metadata comparison",
+  "content_manifest_sha256": "55d3a5fb99c0db179f7e98dc6e5ed0b0d0ba10e4fa9aa5527bfc077a019b8fc6",
+  "single_device_archive_when_offloaded": true,
+  "provenance": {
+    "state": "unrecorded",
+    "boundary": "No original rebuild recipe or toolchain claim has been established."
+  },
+  "local_free_before": 97276739584
+}

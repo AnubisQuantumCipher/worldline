@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-15T04:39:23.747814+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR actual finite original resource-policy module pass against exact newly built production library",
+  "evidence_sha256": {
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/test-results/result.json": "7f10fa97a8c43192d2cfbad310cece962714a1978c629f7f55eeeb61638d6a0e",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/test-results/stderr": "12d2d512585aa4c5eb25084fc91e6c9ae0dcdd01b14ea0177effa0361ff29ef9",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/test-parent/result.json": "4a605e4329dcf5d09a28eaa9d1afe3400d80ddf0d3db52967333e7dcbf85d561",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/test-scope/result.jsonl": "990177641cf4f525fe42c03f96b18befce246a85684479eb7367e8cc6eb31cc8",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/test-scope/cgroup.jsonl": "9db2c6a2353b976d912314734b1305ef90ba677a2920e2551eec0008ee4633b4",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/test-scope/terminal-scope.jsonl": "e69dfe5277f3c295d274248b22f82fa86340f6e4eb774235394db0247fb5e20c"
+  },
+  "observed": {
+    "commit": "4ff3bf48b4323c051ffa8cf04ba4787982111f6d",
+    "reported_tests": 8,
+    "runtime_seconds_reported": "0.303",
+    "native_exit": 0,
+    "parent_exit": 0,
+    "scope_worker_exit": 0,
+    "scope_result_exit": 0,
+    "OK": true,
+    "skips_reported": false,
+    "validation_passed": true,
+    "library_sha256": "c775ff7349810a1e1c1e39f3464a902bbaa68b4554445f571ec96bdce0568120",
+    "module_sha256": "ebb78414077adafceb1b7385296f6a02d2d6c28aaa60592179dcd3a961f50e83",
+    "full_roster": [
+      "test_actual_library_gate_order_and_inclusive_edges",
+      "test_full_magnitudes_are_not_machine_word_truncated",
+      "test_actual_kernel_negative_debit_is_unknown",
+      "test_unavailable_api_has_no_python_fallback",
+      "test_boolean_is_a_representation_error",
+      "test_actual_authority_refusals_and_reports_preserve_ledger",
+      "test_unknown_real_kernel_result_never_writes_ledger",
+      "test_liveness_filter_keeps_records_and_ready_is_required_for_append"
+    ],
+    "all_actual_methods_build_receipt_library_module_output_watched_hashes_match": true,
+    "tracked_before_after_identical": true,
+    "live_memory_max": "8589934592",
+    "live_swap_max": "0",
+    "live_peak": "42577920",
+    "all_memory_events_observed_zero": true,
+    "terminal_populated": false,
+    "terminal_UTC": "2026-10-15T04:38:16.239785+00:00"
+  },
+  "semantics": "Unchanged original numeric gates/order/equality/magnitude, negative debit/representation/no-fallback, ledger refusal/no-write/liveness controls all report ok. Direct selected Core real library remains used; original finite supplied observers/liveness and Core._shared fixture seams retained.",
+  "non_claims": [
+    "No universal numeric/authority/proof or native instruction-entry claim",
+    "No authentic protected execution/full runtime/A2/Phase1 acceptance",
+    "Original JACKAL exact fixture receipts outside Lean certificate chain, not formal-bounded",
+    "Known-owned terminal cleanup only; no global sibling census",
+    "No new source freeze/pin/pending/cursor integration promotion"
+  ],
+  "actions": "Read-only actual retained receipts/source/artifact hashes; no rerun, imports or product edits."
+}

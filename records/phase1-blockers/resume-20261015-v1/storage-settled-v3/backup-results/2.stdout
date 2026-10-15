@@ -1,0 +1,31 @@
+Inspecting source content: /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1
+no parent snapshot found, will read all files
+
+Files:         196 new,     0 changed,     0 unmodified
+Dirs:           24 new,     0 changed,     0 unmodified
+Added to the repository: 11.492 MiB (1.613 MiB stored)
+
+processed 196 files, 11.972 MiB in 0:09
+snapshot e5376a81 saved
+Restoring the entire candidate and comparing content and metadata
+restoring snapshot e5376a81 of [/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1] at 2026-10-15 01:42:42.121756987 -0400 EDT by sicarii@83 to /home/sicarii/.local/state/project-vault/cold-jobs/dca5ae8b10744a13cb62aa979fce85b3d438675a99392d619e783e1ac4844a23/tree
+Summary: Restored 220 files/dirs (11.972 MiB) in 0:00
+verifying files in /home/sicarii/.local/state/project-vault/cold-jobs/dca5ae8b10744a13cb62aa979fce85b3d438675a99392d619e783e1ac4844a23/tree
+finished verifying 196 files in /home/sicarii/.local/state/project-vault/cold-jobs/dca5ae8b10744a13cb62aa979fce85b3d438675a99392d619e783e1ac4844a23/tree (took 6ms)
+{
+  "id": "88f34506ca254715bc9b226005bbe921",
+  "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1",
+  "snapshot": "e5376a81a38c300a0112b6a7c7b2d0ab4dcd04a32612a3f982d729b49d38202f",
+  "tag": "cold-88f34506ca254715bc9b226005bbe921",
+  "time": "2026-10-15T05:43:02.195816+00:00",
+  "state": "backed-up-local",
+  "bytes": 12553540,
+  "verification": "full candidate restore, SHA256 and metadata comparison",
+  "content_manifest_sha256": "dad383b4f48c34f822b1f27e8f6d244f8dfaf06c7784d90f7bc9d95fe4a08a2c",
+  "single_device_archive_when_offloaded": true,
+  "provenance": {
+    "state": "unrecorded",
+    "boundary": "No original rebuild recipe or toolchain claim has been established."
+  },
+  "local_free_before": 96876507136
+}

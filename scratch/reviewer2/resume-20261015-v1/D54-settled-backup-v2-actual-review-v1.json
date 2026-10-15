@@ -1,0 +1,99 @@
+{
+  "utc": "2026-10-15T04:15:44.832697+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR exactselected backup-only CLI recovery/persistedmetadata/localinventory correspondence. All originals local; no offload/reclaimedspace or widercoverage claim.",
+  "readback_sha256": "4f2af5ebf7b2cbe15605818698f41b73d095522439677ed3663d51f67f0925a5",
+  "independent_joins": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1",
+      "item_id": "4e71697e5a8342ff869d5b59ac9a35b7",
+      "snapshot": "79f107724594b19c9ea2b6f5903b2e7c2d9e13c312d67341d0f26a137e90fb10",
+      "content_manifest_sha256": "55d3a5fb99c0db179f7e98dc6e5ed0b0d0ba10e4fa9aa5527bfc077a019b8fc6",
+      "persisted_equals_CLI": true,
+      "completed_job_matches": true,
+      "fresh_local_inventory_matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1",
+      "item_id": "3509b14cd59c45d18b07222c7b482126",
+      "snapshot": "504376f16b56a50cb24bfd3fb38bedd1f0fd85e4f0a6abecc4bced3242046600",
+      "content_manifest_sha256": "1422f25cf9ef29ef6ab8ef490b084afdb92d0553ee6fda25ddbc698d5aebfb32",
+      "persisted_equals_CLI": true,
+      "completed_job_matches": true,
+      "fresh_local_inventory_matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-heap-v2",
+      "item_id": "818a3d69ce1e49ec9896d2447b3519f5",
+      "snapshot": "d64b6777e3f46ea84f86d42e36f8fc49222af5dbd8ec2ae262d6b9a4586c557b",
+      "content_manifest_sha256": "ca5ed29cadad7f84f940de52dda3e372bf4bf1c5a3adbb62db39c3fd0f7386e5",
+      "persisted_equals_CLI": true,
+      "completed_job_matches": true,
+      "fresh_local_inventory_matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1",
+      "item_id": "7f8624e8f4bb4ac1b4a5520f872a8723",
+      "snapshot": "18086c6c7ce4ac1ec9b9920e215cd8d387500e2662d650b019743e18f908b9d7",
+      "content_manifest_sha256": "aeebb2d54e561b80c6a76360a433a0ae46620fd5e559f0e4ce6ac5eb57535233",
+      "persisted_equals_CLI": true,
+      "completed_job_matches": true,
+      "fresh_local_inventory_matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/toolchain-support-research-v1",
+      "item_id": "902f37332433499c95dbbf4b0f1d0d2e",
+      "snapshot": "2e389b0500aaa82a865c5c610b6321ead90dd7a5d2b155381f72e88cb88916fd",
+      "content_manifest_sha256": "384909df16a1e2d1eb65f211afcde5fce77842de60a838f5932dc10574446324",
+      "persisted_equals_CLI": true,
+      "completed_job_matches": true,
+      "fresh_local_inventory_matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1",
+      "item_id": "13d21e9b32c24aa1bc6bc71173e9f580",
+      "snapshot": "b1844ee8bab9369b87af276e4ae96e111c914b64fccb5df237a8171c3e54b148",
+      "content_manifest_sha256": "7793a9f08e8a3a54adee296f946707f5fe3bb4db248def10327e910b8fb19f47",
+      "persisted_equals_CLI": true,
+      "completed_job_matches": true,
+      "fresh_local_inventory_matches": true
+    }
+  ],
+  "parent_exit": 0,
+  "parent_sources_equal": true,
+  "scope_after": {
+    "event": "after",
+    "exit_code": 0,
+    "memory.current": "69689344",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "580669440",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-0fa61c50c0c74c519758311f68164940.scope",
+    "utc": "2026-10-15T04:08:34.959513+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T04:08:35.407250+00:00"
+  },
+  "limits": [
+    "InstalledCLI fullrestore/SHA/metadata comparisons reported in retained stdout, completeditem/job and freshoriginalmanifest matches independentlyread. Reviewer didnot run anotherrestore or archivewholescrub.",
+    "Post-runtoolsourcehashes afteronly; no invented pre-run toolidentity or missingprovenancefilled.",
+    "Privateupstreamsource backedup to iPad is not publicredistribution or toolchainqualification.",
+    "No localremoval/pin/config/queue/processchange or fullcampaignbackup coverage."
+  ],
+  "non_claims": [
+    "No backup/CLI/restore/job/productedit byreviewer.",
+    "No Phase1proof/runtime/independentacceptance."
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-15T05:05:05.268066+00:00",
+  "reviewer_model": "GPT-6.1",
+  "evidence_class": "Static source/contract assessment; active proof outcome UNVERIFIED",
+  "source_hashes": {
+    "worldline-producer_values.ads": "8526523b7196c84f5c0d30b88a254bc4c4dc23e28fdd6051d97f1d5bdec2aa30",
+    "worldline-producer_values.adb": "241034b467780e8ddca2168efd815e710e432e15e2c005ffed19a56f3f479cbb",
+    "worldline-raw_json_syntax.ads": "577ccf90f7716aff754b0768560ce1b92521fb750108e299c048f1dd42fd4e56",
+    "worldline-generic_json_syntax.ads": "8360bd266bbb6258679d9b0315e911664ed73c0755cafdc4d6bdb84ed5a307c9",
+    "worldline-json_syntax_types.ads": "7dfce59747772d0a53d0e9ea56809dd1b9b053a61766af9ee363a5ca80c7f16b"
+  },
+  "modular_facts_available": [
+    "Global null expresses effect boundaries, not return-value correctness.",
+    "Reader posts constrain progress/bounds and EOF implies Position=length; they do not specify which byte/scalar produces ASCII/nonASCII/Invalid, which ASCII Value, exact width or the converse EOF condition.",
+    "Generic Space/ScanString/Scan posts give progress, node bounds and successful-node coordinates relative to consumed region. They do not characterize recognized grammar, exact failure point, whitespace bytes, token kind or source contents.",
+    "Raw Parse post Within permits Missing for every input; it cannot modularly entail literal arrays/integers/strings or exact BOM/token coordinates.",
+    "Public ProducerValues Parse has only Global null. Field/Element/Count posts give limited coordinate safety, Slice gives length, UTF8Width gives extent. They do not entail actual literal fixture results.",
+    "Visible expression functions IsNull/Present/OriginalExactJSON can unfold definitions, but their opaque argument operations still need semantic facts. Original_Node local post maps an already-known generic node; it cannot manufacture known token kinds."
+  ],
+  "not_available_modularly": [
+    "Literal Parse acceptance/refusal/forms/exact coordinates; last-key-wins/count/equality/escape semantics; numeric rendering/negativezero/nonfinite/Truth/Quote/PythonString literal results.",
+    "Claim that actual compiler will fail these assertions: proof-body visibility/inlining and instance specialization may expose more than bare modular contracts; inspect actual report first."
+  ],
+  "actionable_if_actual_report_fails": [
+    "Classify actual failures by reader/wrapper legality/global/progress, grammar invariants, concrete semantic controls, untouched numeric/render bodies; preserve complete report and each body status before selecting repair.",
+    "First add truthful exact source-reader correspondence: characterize kind/value/next offset through analyzed byte/scalar reader functions; enforce valid/invalid/EOF distinctions without adding accepted-domain preconditions. Prove both actual readers and every wrapper instance.",
+    "Add an executable or Ghost grammar denotation over the same full source/Count domain with explicit success/failure/end/token-kind relation, then prove Scan/Parse soundness and completeness including invalid encoding and full consumption. Do not treat shared helpers as an independent oracle; relate denotation to original semantics separately.",
+    "Strengthen public parser/selector/text/numeric/render postconditions only with facts their analyzed bodies establish. Expose complete source/Node relations, duplicate resolution and exact numeric rendering where asserted. No finite-literal whitelist contracts, asserted axioms or freshly assumed expected values.",
+    "Alternatively investigate explicit proof-body exposure for nonrecursive local adapters/helpers under installed-tool-supported facilities after exact review. Retain every body and full semantic assertion; do not assume recursive grammar or large numeric algorithms inline successfully. Body exposure is an engineering option, not a guarantee.",
+    "Keep fixture expectations fixed and add meaningful independent failure-position/reader-invalid/full-consumption controls to detect weakened semantics; never weaken current semantic assertions because contracts are insufficient.",
+    "Use new immutable diagnosed successor only after actual terminal report. No unchanged repeat of current large proof, solver increase, body exclusion, new Off/Assume/justification or product apply."
+  ],
+  "important_limit": "A zero-unproved report on structural contracts alone cannot discharge universal semantic equivalence. Conversely missing semantic postconditions are proof-interface gaps, not demonstrated implementation bugs or universal tool infeasibility.",
+  "non_claims": [
+    "No active proof/result/process read or poll",
+    "No numeric result derived or tool prediction",
+    "No launch/import/product edit",
+    "No universal equivalence/Phase1 acceptance"
+  ],
+  "actions": "Read only current copied specs/body prefix/types; no current run output inspection."
+}

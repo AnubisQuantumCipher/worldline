@@ -1,0 +1,691 @@
+{
+  "utc": "2026-10-15T05:28:47.515231+00:00",
+  "commit": "4ff3bf48b4323c051ffa8cf04ba4787982111f6d",
+  "command": [
+    "python3",
+    "-B",
+    "-"
+  ],
+  "source": "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/obj-current-D56/gnatprove/worldline-producer_render.spark",
+  "sha256": "18af02661ff748d77a81599e6350e9e516575b1a3079107a0154b192fa4ec36d",
+  "progress": "PROGRESS_PROOF",
+  "stop_reason": "STOP_REASON_NONE",
+  "non_info": {
+    "proof": [
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 34,
+        "check_col": 23,
+        "file": "worldline-producer_render.adb",
+        "line": 34,
+        "col": 23,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Piece & Escape_JSON (Text, I + 1)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 31,
+        "check_col": 54,
+        "file": "worldline-producer_render.adb",
+        "line": 31,
+        "col": 54,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"\\u00\" & Hex_Image (Character'Pos (C), 2)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 38,
+        "check_col": 11,
+        "file": "worldline-producer_render.adb",
+        "line": 38,
+        "col": 11,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for '\"' & Escape_JSON (Text, 0)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 38,
+        "check_col": 35,
+        "file": "worldline-producer_render.adb",
+        "line": 38,
+        "col": 35,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for '\"' & Escape_JSON (Text, 0) & '\"'"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 63,
+        "check_col": 23,
+        "file": "worldline-producer_render.adb",
+        "line": 63,
+        "col": 23,
+        "message": {
+          "text": "overflow check might fail, cannot prove upper bound for Code * 64"
+        },
+        "rule": "VC_OVERFLOW_CHECK",
+        "severity": "medium",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 78,
+        "check_col": 23,
+        "file": "worldline-producer_render.adb",
+        "line": 78,
+        "col": 23,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Piece & Escape_Repr (Text, I + Width, Mark)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 73,
+        "check_col": 40,
+        "file": "worldline-producer_render.adb",
+        "line": 73,
+        "col": 40,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"\\x\" & Hex_Image (Code, 2)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 74,
+        "check_col": 46,
+        "file": "worldline-producer_render.adb",
+        "line": 74,
+        "col": 46,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"\\u\" & Hex_Image (Code, 4)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 75,
+        "check_col": 26,
+        "file": "worldline-producer_render.adb",
+        "line": 75,
+        "col": 26,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"\\U\" & Hex_Image (Code, 8)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 76,
+        "check_col": 57,
+        "file": "worldline-producer_render.adb",
+        "line": 76,
+        "col": 57,
+        "message": {
+          "text": "overflow check might fail, cannot prove upper bound for Text'First + I + Width"
+        },
+        "rule": "VC_OVERFLOW_CHECK",
+        "severity": "medium",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 109,
+        "check_col": 25,
+        "file": "worldline-producer_render.adb",
+        "line": 109,
+        "col": 25,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Mark & Escape_Repr (Text, 0, Mark)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 109,
+        "check_col": 55,
+        "file": "worldline-producer_render.adb",
+        "line": 109,
+        "col": 55,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Mark & Escape_Repr (Text, 0, Mark) & Mark"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 116,
+        "check_col": 43,
+        "file": "worldline-producer_render.adb",
+        "line": 116,
+        "col": 43,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"[\" & Sequence (Value, 0, False)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 116,
+        "check_col": 72,
+        "file": "worldline-producer_render.adb",
+        "line": 116,
+        "col": 72,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"[\" & Sequence (Value, 0, False) & \"]\""
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 117,
+        "check_col": 44,
+        "file": "worldline-producer_render.adb",
+        "line": 117,
+        "col": 44,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"{\" & Sequence (Value, 0, True)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 117,
+        "check_col": 72,
+        "file": "worldline-producer_render.adb",
+        "line": 117,
+        "col": 72,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for \"{\" & Sequence (Value, 0, True) & \"}\""
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 119,
+        "check_col": 33,
+        "file": "worldline-producer_render.adb",
+        "line": 119,
+        "col": 33,
+        "message": {
+          "text": "unreachable code"
+        },
+        "rule": "VC_DEAD_CODE",
+        "severity": "warning",
+        "unproved_status": {
+          "status": "unknown"
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 83,
+        "check_col": 62,
+        "file": "worldline-producer_render.adb",
+        "line": 83,
+        "col": 62,
+        "message": {
+          "text": "overflow check might fail, cannot prove upper bound for V.Count (Value) + 1"
+        },
+        "rule": "VC_OVERFLOW_CHECK",
+        "severity": "medium",
+        "unproved_status": {
+          "memory": true,
+          "status": "limit",
+          "steps": false,
+          "time": false
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 94,
+        "check_col": 20,
+        "file": "worldline-producer_render.adb",
+        "line": 94,
+        "col": 20,
+        "message": {
+          "text": "subprogram variant might fail"
+        },
+        "rule": "VC_SUBPROGRAM_VARIANT",
+        "severity": "medium",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 94,
+        "check_col": 49,
+        "file": "worldline-producer_render.adb",
+        "line": 94,
+        "col": 49,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \""
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 95,
+        "check_col": 15,
+        "file": "worldline-producer_render.adb",
+        "line": 95,
+        "col": 15,
+        "message": {
+          "text": "subprogram variant might fail"
+        },
+        "rule": "VC_SUBPROGRAM_VARIANT",
+        "severity": "medium",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 94,
+        "check_col": 56,
+        "file": "worldline-producer_render.adb",
+        "line": 94,
+        "col": 56,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \" & Python_Repr (V.Field (Value, Name))"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 95,
+        "check_col": 51,
+        "file": "worldline-producer_render.adb",
+        "line": 95,
+        "col": 51,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \" & Python_Repr (V.Field (Value, Name)) & (if I + 1 < V.Count (Value) then \", \" else \"\")"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 96,
+        "check_col": 62,
+        "file": "worldline-producer_render.adb",
+        "line": 96,
+        "col": 62,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \" & Python_Repr (V.Field (Value, Name)) & (if I + 1 < V.Count (Value) then \", \" else \"\") & Sequence (Value, I + 1, True)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 99,
+        "check_col": 14,
+        "file": "worldline-producer_render.adb",
+        "line": 99,
+        "col": 14,
+        "message": {
+          "text": "subprogram variant might fail"
+        },
+        "rule": "VC_SUBPROGRAM_VARIANT",
+        "severity": "medium",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 99,
+        "check_col": 49,
+        "file": "worldline-producer_render.adb",
+        "line": 99,
+        "col": 49,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Element (Value, I)) & (if I + 1 < V.Count (Value) then \", \" else \"\")"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      },
+      {
+        "check_file": "worldline-producer_render.adb",
+        "check_line": 100,
+        "check_col": 56,
+        "file": "worldline-producer_render.adb",
+        "line": 100,
+        "col": 56,
+        "message": {
+          "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Element (Value, I)) & (if I + 1 < V.Count (Value) then \", \" else \"\") & Sequence (Value, I + 1, False)"
+        },
+        "rule": "VC_RANGE_CHECK",
+        "severity": "low",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      }
+    ],
+    "flow": []
+  },
+  "skip_flow_proof": [],
+  "skip_proof": [],
+  "pragma_assume": [],
+  "warn_error": [
+    {
+      "check_tree": {},
+      "col": 62,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 63,
+      "message": {
+        "text": "possible reassociation due to missing parentheses [operator-reassociation]"
+      },
+      "rule": "operator-reassociation",
+      "severity": "warning",
+      "suppressed": "",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 53,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 76,
+      "message": {
+        "text": "possible reassociation due to missing parentheses [operator-reassociation]"
+      },
+      "rule": "operator-reassociation",
+      "severity": "warning",
+      "suppressed": "",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 57,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 76,
+      "message": {
+        "text": "possible reassociation due to missing parentheses [operator-reassociation]"
+      },
+      "rule": "operator-reassociation",
+      "severity": "warning",
+      "suppressed": "",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 13,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 17,
+      "message": {
+        "text": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+      },
+      "rule": "contracts-recursive",
+      "severity": "warning",
+      "suppressed": "",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 13,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 49,
+      "message": {
+        "text": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+      },
+      "rule": "contracts-recursive",
+      "severity": "warning",
+      "suppressed": "",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 13,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 81,
+      "message": {
+        "text": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+      },
+      "rule": "contracts-recursive",
+      "severity": "warning",
+      "suppressed": "",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 13,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 84,
+      "message": {
+        "text": "implicit function contract might not be available on recursive calls [contracts-recursive]"
+      },
+      "rule": "contracts-recursive",
+      "severity": "warning",
+      "suppressed": "",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 37,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 11,
+      "message": {
+        "text": "cannot unroll loop (too many loop iterations) [info-unrolling-inlining]"
+      },
+      "rule": "error",
+      "severity": "info",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 21,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 43,
+      "message": {
+        "text": "cannot unroll loop (too many loop iterations) [info-unrolling-inlining]"
+      },
+      "rule": "error",
+      "severity": "info",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    },
+    {
+      "check_tree": {},
+      "col": 31,
+      "file": "worldline-producer_render.adb",
+      "how_proved": "trivial",
+      "line": 62,
+      "message": {
+        "text": "cannot unroll loop (too many loop iterations) [info-unrolling-inlining]"
+      },
+      "rule": "error",
+      "severity": "info",
+      "unproved_status": {
+        "status": "unknown"
+      }
+    }
+  ],
+  "boundary": "Partial unit-file readback during still-running complete candidate campaign; no complete aggregate counts/report/runtime/terminal or F2 claim. Solver-limit failures differ from scope OOM. Full original raw unit data retained in candidate tree."
+}

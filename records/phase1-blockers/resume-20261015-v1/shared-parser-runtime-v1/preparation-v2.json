@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-15T05:37:58.097193+00:00",
+  "command": [
+    "python3",
+    "-B",
+    "-"
+  ],
+  "artifacts": {
+    "test.py": "42566a7c79e4ddca5eb112e8f72df89028497633b1d402a854f7597f3ec8714b",
+    "run_test.py": "bf043815e3b1784e6c94846f425269a4f702ebc6e2f2106836e3b465ebee291e",
+    "decision-proposal.md": "00c022cb3e7c7ae26659b4d0b412d8bb50f62d4939f8907ebbbfa805e550464c"
+  },
+  "prior_preparation": "preparation.json retained unchanged for first rejected method",
+  "reviews": [
+    "D65-conditional-runtime-corrected-static-review-v2.json",
+    "D62-v2-terminal-and-D65-eligibility-review-v1.json"
+  ],
+  "decision": "D65 logged before launch",
+  "boundary": "Static parse/identity only, actual runtime separate"
+}

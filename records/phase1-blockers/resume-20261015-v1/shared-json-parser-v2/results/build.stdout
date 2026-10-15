@@ -1,0 +1,27 @@
+Compile
+   [Ada]          string_parser_controls.adb
+   [Ada]          wide_parser_controls.adb
+   [Ada]          resource_quantities.adb
+   [Ada]          worldline.ads
+   [Ada]          worldline-json_source_cursor.adb
+   [Ada]          worldline-json_syntax_types.ads
+   [Ada]          worldline-raw_json_syntax.adb
+   [Ada]          worldline-producer_values.adb
+   [Ada]          attest.ads
+   [Ada]          attest-sha256.adb
+   [Ada]          worldline-archive_text.adb
+   [Ada]          worldline-generic_json_syntax.adb
+   [Ada]          decimal_binary64.adb
+   [Ada]          evaluation_pending.adb
+   [Ada]          exact_decimal.adb
+   [Ada]          worldline-producer_render.adb
+   [Ada]          evaluation_epoch.adb
+   [Ada]          worldline-producer_unicode.ads
+Bind
+   [gprbind]      string_parser_controls.bexch
+   [gprbind]      wide_parser_controls.bexch
+   [Ada]          string_parser_controls.ali
+   [Ada]          wide_parser_controls.ali
+Link
+   [link]         string_parser_controls.adb
+   [link]         wide_parser_controls.adb
