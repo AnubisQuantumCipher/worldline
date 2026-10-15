@@ -795,6 +795,60 @@ class CollapseTransaction:
         record["decisionInputsAtCommit"] = json.loads(canonical_bytes(inputs))
         return decision
 
+    def _ordinary_syntax_context(self):
+        """Borrow source-acquisition handles from the selected owned validator.
+
+        This supplies ordinary resource plumbing, never a protected principal
+        or an authorization verdict. Custom callbacks keep the existing lazy
+        native refusal when their packet needs source acquisition.
+        """
+        if type(self) is not CollapseTransaction:
+            return None
+        from types import MethodType
+        from .admission import Gate
+        from .checks import CheckRunner
+        from .linux.systemd import SystemdAdapter
+        from .recovery_observation import ReadonlySyntaxContext
+        from .revalidate import Revalidator
+
+        fields = object.__getattribute__(self, '__dict__')
+        subject = fields.get('staged_subject_validator')
+        legacy = fields.get('validator')
+        callback, function = (
+            (subject, Revalidator.validate_staged_for_subject)
+            if subject is not None else (legacy, Revalidator.validate_staged))
+        if type(callback) is not MethodType or callback.__func__ is not function:
+            return None
+        owner = callback.__self__
+        if type(owner) is not Revalidator:
+            return None
+        # The selected callback establishes the owner. A known alternate
+        # callback cannot name a different owner; never borrow its handles.
+        for alternate, expected in (
+            (subject, Revalidator.validate_staged_for_subject),
+            (legacy, Revalidator.validate_staged),
+        ):
+            if (type(alternate) is MethodType and alternate.__func__ is expected
+                    and alternate.__self__ is not owner):
+                return None
+        owned = object.__getattribute__(owner, '__dict__')
+        for name in ('store', 'paths', 'core', 'config'):
+            if (name not in fields or name not in owned
+                    or fields[name] is None or owned[name] is None
+                    or owned[name] is not fields[name]):
+                return None
+        checks = owned.get('checks')
+        if type(checks) is not CheckRunner:
+            return None
+        handles = object.__getattribute__(checks, '__dict__')
+        if ('paths' not in handles or handles['paths'] is None
+                or handles['paths'] is not fields['paths']):
+            return None
+        systemd, gate = handles.get('systemd'), handles.get('gate')
+        if type(systemd) is not SystemdAdapter or type(gate) is not Gate:
+            return None
+        return ReadonlySyntaxContext(fields['core'], systemd, gate)
+
     def _observe_authorization(self, record: dict[str, Any], candidate: World, *, current_manifests: Mapping[str, CapturedManifest],
                    staged_root: str, staged_content_root: str, current_requirement: Mapping[str, Any],
                    generation_before: int | None) -> tuple[str, object]:
@@ -811,7 +865,13 @@ class CollapseTransaction:
             current_requirement=current_requirement, generation_before=generation_before)
         observed = CollapseTransaction._observe_decision(self, **arguments, retain_packet=True)
         principal = getattr(self.store, 'canonical_operation_principal', None)
-        decision = observed.decide(self.core, principal=principal)
+        syntax_context = (CollapseTransaction._ordinary_syntax_context(self)
+                          if principal is None else None)
+        if syntax_context is None:
+            decision = observed.decide(self.core, principal=principal)
+        else:
+            decision = observed.decide(self.core, principal=principal,
+                                       syntax_context=syntax_context)
         record["decisionInputsAtCommit"] = json.loads(canonical_bytes(inputs))
         return decision, observed
 
