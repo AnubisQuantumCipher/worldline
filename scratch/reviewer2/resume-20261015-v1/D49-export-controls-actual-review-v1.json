@@ -1,0 +1,70 @@
+{
+  "utc": "2026-10-15T03:29:16.825504+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "MEASURED all new source-mutation controls and original export rebinding control pass; complete original-plus-additional audit FAILS and remains failed. Suitable honest narrow retention, not authority closure.",
+  "parent_exit": 1,
+  "result_sha256": "9dd3efe2cee0c0a98837a5460103b3b8a6a75c9e6cbd98b5031a68409b62f2dc",
+  "scope_stderr_sha256": "44d8d514dbbaffbd64f212c0ae1810603f925a83392ee16e323fc6b6e2b96af8",
+  "summary_observed": "Ran 34 tests in 13.639s; FAILED(failures=49), includes pin subtests.",
+  "all_proposed_new_test_names_observed_ok": [
+    "test_comment_text_cannot_create_a_binding_or_hide_a_body_change",
+    "test_complete_arena_copy_cannot_be_replaced_by_zeroes",
+    "test_complete_row_copy_cannot_be_replaced_by_an_empty_loop",
+    "test_every_profile_is_bound_exactly_and_duplicate_profiles_refuse",
+    "test_existing_ada_literal_whitespace_is_bound_by_raw_bytes",
+    "test_fail_closed_exception_return_cannot_be_success",
+    "test_finalization_full_data_copy_remains_bound",
+    "test_layout_body_remains_bound",
+    "test_legacy_and_typed_duplicate_bindings_refuse",
+    "test_partial_fixture_and_original_collapse_rebinding_fail_closed",
+    "test_pragma_export_duplicate_in_another_unit_refuses",
+    "test_rebound_symbol_refuses_even_if_original_profile_name_survives",
+    "test_result_write_helper_cannot_discard_typed_result",
+    "test_transport_check_cannot_be_replaced_by_an_unreachable_guard",
+    "test_typed_callee_alias_cannot_be_rebound",
+    "test_typed_chain_decision_call_cannot_become_a_dummy_call"
+  ],
+  "source_before_after_equal": true,
+  "installed_proofmanifest_sha256": "9d9ac3fc8ad726da3818aa3db09eaa6491f34d04dbd40fae16254e6f8ad78811",
+  "installed_newtests_sha256": "af7b53695f7b7983fef6b5490d7ad3835e6f22d191d2c3f02865af52d278c150",
+  "failures_retained": [
+    "Existing exact contract-pin set/tree mismatches",
+    "Original expected collapse wrapper/body source-shape check",
+    "Project/source-closure audit expectation",
+    "Original Python-authority audit comparison expectations"
+  ],
+  "scope_after": {
+    "event": "after",
+    "exit_code": 1,
+    "memory.current": "10915840",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "48889856",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-3f91faea2ec643399a5a942faad7d14b.scope",
+    "utc": "2026-10-15T03:25:47.863142+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T03:25:47.908614+00:00"
+  },
+  "limits": [
+    "Newbaseline/exportguard-mutant pass demonstrates finite sourceguard behavior only; no compiled mutant/nativecall/layout/ELF alias or full semantic proof.",
+    "Original audit failures are not skips or accepted negatives; no assertion/fixture changed to obtain green. Each requires its own semantic review/repair before fullgate closure.",
+    "Original contracts/pins remain unchanged; exactraw correspondence pins do not approve underlying code/lifetime/imported closure."
+  ],
+  "non_claims": [
+    "No rerun/import/productedit by reviewer.",
+    "No F1/F2/C1-C4/Phase1 or independentacceptance."
+  ]
+}

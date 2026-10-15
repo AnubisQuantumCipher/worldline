@@ -1,0 +1,70 @@
+{
+  "evidence_class": "MEASURED",
+  "purpose": "source-only proposal formation; candidate NOT EXECUTED, NOT APPLIED, NOT PROVED",
+  "commit_observed": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+  "command": "python3 -B scratch/acquisition2/resume-20261015-v1/form_export_guard_proposal_v2.py",
+  "source_sha256": {
+    "runtime/worldline/proof_manifest.py": "b534fa1cb27db5c2c3601a04c7c2693ed012fdc4f940ab4e897cd9ebf852979c",
+    "core/evaluation_finalization_c.adb": "dee2db8b374345f30aa39877e6489f1670509aa8a428ccf2be90ded8c3069fef",
+    "core/evaluation_finalization_c.ads": "93bfb1a973ba6b72ca201e3e3869e094bdb162c931a786f3ca82df2594120b73",
+    "core/worldline-c_api.adb": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+    "core/worldline-c_api.ads": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+    "core/worldline-chain_authority_c_api.adb": "d249c6368abc6d0fd8900b8864d7b17d4b1d52791324334044513551e3c7def2",
+    "core/worldline-chain_authority_c_api.ads": "d9be8c4167d43909e2d9e0aa1ba1cf53be115426f14029e9980b699741e56279",
+    "core/worldline-recovery_authorization_v3_c_api.adb": "e5b06e6ce91f9e1667c1ffa51ec05cc2fe519fde52d599f75a178f9a1cdc6c7b",
+    "core/worldline-recovery_authorization_v3_c_api.ads": "4523ee8a7a771e92d12831720b37908fc115f5c8f7b9963221a3e37c5bfef99a",
+    "core/worldline-recovery_protocol_c_api.adb": "e8cde5b8c8fde61d16991755de370c2559c3105ba58c98f083fb86535d806c45",
+    "core/worldline-recovery_protocol_c_api.ads": "425970d3ac20aba3f0895a75f894c1b877ba65566340f126c3cddc24d5528270"
+  },
+  "proposed_normalized_transport_pins": {
+    "core/evaluation_finalization_c.adb": "e16932c56e25577c1782a927c60ad0cab68e3b503b11541a187cb5787bac5ac3",
+    "core/evaluation_finalization_c.ads": "28eb6e663262e471f71a97acf44c7683ba9c1f0979dcc88e1981a4395ea0f3c8",
+    "core/worldline-c_api.adb": "2036cd7eb2541ee402936fff3e6886636cdb01f502d6b5b1a74b1cc6671ffaa1",
+    "core/worldline-c_api.ads": "1da0afffd071cb78449216a359b362f9d31e6cae22e9d02c09cb19bfce097efe",
+    "core/worldline-chain_authority_c_api.adb": "f3a7c76c681bf8e82960929a3c30659c1926dba38d71bd59f96abaa875c5326a",
+    "core/worldline-chain_authority_c_api.ads": "c44a9c3ddd2dce171d5ff88c2da981b36afec678db7e830e24fa60699b1784b0",
+    "core/worldline-recovery_authorization_v3_c_api.adb": "9a90152c2f15a615f61dbe3d96aa520f48ce541a0f8b9843dbb51553aef19ac4",
+    "core/worldline-recovery_authorization_v3_c_api.ads": "06832ec39eec8162227eadb2f158d7ca53ec6af0d796693d0701b32d430cf6c9",
+    "core/worldline-recovery_protocol_c_api.adb": "b8921fc27ccca361edcb7b6477e3804c16cff2aa154fe279bc368d65f51ddf77",
+    "core/worldline-recovery_protocol_c_api.ads": "659e9b509e0350d58039f67ce3741cb01eff6a266b970b00bf56f601b550d413"
+  },
+  "proposed_raw_transport_pins": {
+    "core/evaluation_finalization_c.adb": "dee2db8b374345f30aa39877e6489f1670509aa8a428ccf2be90ded8c3069fef",
+    "core/evaluation_finalization_c.ads": "93bfb1a973ba6b72ca201e3e3869e094bdb162c931a786f3ca82df2594120b73",
+    "core/worldline-c_api.adb": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+    "core/worldline-c_api.ads": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+    "core/worldline-chain_authority_c_api.adb": "d249c6368abc6d0fd8900b8864d7b17d4b1d52791324334044513551e3c7def2",
+    "core/worldline-chain_authority_c_api.ads": "d9be8c4167d43909e2d9e0aa1ba1cf53be115426f14029e9980b699741e56279",
+    "core/worldline-recovery_authorization_v3_c_api.adb": "e5b06e6ce91f9e1667c1ffa51ec05cc2fe519fde52d599f75a178f9a1cdc6c7b",
+    "core/worldline-recovery_authorization_v3_c_api.ads": "4523ee8a7a771e92d12831720b37908fc115f5c8f7b9963221a3e37c5bfef99a",
+    "core/worldline-recovery_protocol_c_api.adb": "e8cde5b8c8fde61d16991755de370c2559c3105ba58c98f083fb86535d806c45",
+    "core/worldline-recovery_protocol_c_api.ads": "425970d3ac20aba3f0895a75f894c1b877ba65566340f126c3cddc24d5528270"
+  },
+  "raw_identity_policy": "ADDITIVE stricter source guard; comments/layout/literal whitespace changes refuse. Each new raw pin requires review. No original normalizer or CONTRACT_PINS change.",
+  "per_symbol_correspondence": {
+    "wl_finalization_decide_v1": [
+      "Finalization_Decide",
+      "evaluation_finalization_c"
+    ],
+    "wl_collapse_decide_finalization_v1": [
+      "Finalization_Decide_Mixed",
+      "evaluation_finalization_c"
+    ],
+    "wl_recovery_authorization_decide_v3": [
+      "Owned_recovery_authorization_v3",
+      "worldline-recovery_authorization_v3_c_api"
+    ],
+    "wl_recovery_protocol_decide_v1": [
+      "Owned_recovery_protocol",
+      "worldline-recovery_protocol_c_api"
+    ],
+    "wl_chain_authority_replay_v1": [
+      "Owned_Chain_Replay",
+      "worldline-chain_authority_c_api"
+    ]
+  },
+  "candidate_sha256": "9d9ac3fc8ad726da3818aa3db09eaa6491f34d04dbd40fae16254e6f8ad78811",
+  "patch_sha256": "f13411b880aed9fc91a1a1813fe0aa8eb8778bce72bf6521a859139d23db0bff",
+  "CONTRACT_PINS": "unchanged; existing mismatches remain independent refusals",
+  "audit_limits": "No linker/ABI/runtime/proof checks. New identities require coordinator/reviewer approval before application. Legacy path retains original checks; no historical positive execution claimed."
+}

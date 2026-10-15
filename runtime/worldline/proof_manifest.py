@@ -451,6 +451,112 @@ def contract_pin(root: Path, key: str) -> str:
     return hashlib.sha256(contract_text(root, key).encode("utf-8")).hexdigest()
 
 
+# The public ABI stayed in C_API when typed semantic entries gained observer
+# parameters. These identities are additional migration guards, NOT replacement
+# CONTRACT_PINS or a proof of their contents. Full contract/source/proof/ABI gates
+# remain required. Normalized identities are projections only: normalized_ada
+# also collapses whitespace inside strings. Additive raw-byte identities below
+# bind every source byte, including literal contents and comments. Each new raw
+# pin requires complete-unit review; this intentionally refuses comment/layout
+# changes as well. Aliases, bounds, copies, helpers, status branches, exception
+# paths and literal bytes are within these complete raw source identities.
+_TYPED_EXPORT_DECLARATIONS = {'wl_chain_authority_replay_v1': 'function Owned_Chain_Replay (Anchors : System.Address; '
+                                 'Anchors_Length : Interfaces.C.size_t; Rows : System.Address; '
+                                 'Rows_Count, Rows_Length : Interfaces.C.size_t; Output : '
+                                 'System.Address; Output_Length : Interfaces.C.size_t) return '
+                                 'Interfaces.C.int with Export, Convention => C, External_Name => '
+                                 '"wl_chain_authority_replay_v1";',
+ 'wl_collapse_decide_finalization_v1': 'function Finalization_Decide_Mixed (Collapse : '
+                                       'System.Address; Primary_Kind : Interfaces.Unsigned_32; '
+                                       'Primary, Primary_Raw, Primary_Confinement, Primary_Context '
+                                       ': System.Address; Staged_Kind : Interfaces.Unsigned_32; '
+                                       'Staged, Staged_Raw, Staged_Confinement, Staged_Context, '
+                                       'Agent : System.Address; Agent_Confinement : '
+                                       'Interfaces.Unsigned_8) return Interfaces.Unsigned_8 with '
+                                       'Export, Convention => C, External_Name => '
+                                       '"wl_collapse_decide_finalization_v1";',
+ 'wl_finalization_decide_v1': 'function Finalization_Decide (Input, Output : System.Address) '
+                              'return Interfaces.C.int with Export, Convention => C, External_Name '
+                              '=> "wl_finalization_decide_v1";',
+ 'wl_recovery_authorization_decide_v3': 'function Owned_recovery_authorization_v3 (Input : '
+                                        'System.Address; Input_Length : Interfaces.C.size_t; Arena '
+                                        ': System.Address; Arena_Length : Interfaces.C.size_t; '
+                                        'Output : System.Address; Output_Length : '
+                                        'Interfaces.C.size_t) return Interfaces.C.int with Export, '
+                                        'Convention => C, External_Name => '
+                                        '"wl_recovery_authorization_decide_v3";',
+ 'wl_recovery_protocol_decide_v1': 'function Owned_recovery_protocol (Input : System.Address; '
+                                   'Input_Length : Interfaces.C.size_t; Output : System.Address; '
+                                   'Output_Length : Interfaces.C.size_t) return Interfaces.C.int '
+                                   'with Export, Convention => C, External_Name => '
+                                   '"wl_recovery_protocol_decide_v1";'}
+_TYPED_EXPORT_NORMALIZED_UNIT_PINS = {'core/evaluation_finalization_c.adb': 'e16932c56e25577c1782a927c60ad0cab68e3b503b11541a187cb5787bac5ac3',
+ 'core/evaluation_finalization_c.ads': '28eb6e663262e471f71a97acf44c7683ba9c1f0979dcc88e1981a4395ea0f3c8',
+ 'core/worldline-c_api.adb': '2036cd7eb2541ee402936fff3e6886636cdb01f502d6b5b1a74b1cc6671ffaa1',
+ 'core/worldline-c_api.ads': '1da0afffd071cb78449216a359b362f9d31e6cae22e9d02c09cb19bfce097efe',
+ 'core/worldline-chain_authority_c_api.adb': 'f3a7c76c681bf8e82960929a3c30659c1926dba38d71bd59f96abaa875c5326a',
+ 'core/worldline-chain_authority_c_api.ads': 'c44a9c3ddd2dce171d5ff88c2da981b36afec678db7e830e24fa60699b1784b0',
+ 'core/worldline-recovery_authorization_v3_c_api.adb': '9a90152c2f15a615f61dbe3d96aa520f48ce541a0f8b9843dbb51553aef19ac4',
+ 'core/worldline-recovery_authorization_v3_c_api.ads': '06832ec39eec8162227eadb2f158d7ca53ec6af0d796693d0701b32d430cf6c9',
+ 'core/worldline-recovery_protocol_c_api.adb': 'b8921fc27ccca361edcb7b6477e3804c16cff2aa154fe279bc368d65f51ddf77',
+ 'core/worldline-recovery_protocol_c_api.ads': '659e9b509e0350d58039f67ce3741cb01eff6a266b970b00bf56f601b550d413'}
+_TYPED_EXPORT_RAW_UNIT_PINS = {'core/evaluation_finalization_c.adb': 'dee2db8b374345f30aa39877e6489f1670509aa8a428ccf2be90ded8c3069fef',
+ 'core/evaluation_finalization_c.ads': '93bfb1a973ba6b72ca201e3e3869e094bdb162c931a786f3ca82df2594120b73',
+ 'core/worldline-c_api.adb': '04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a',
+ 'core/worldline-c_api.ads': 'd947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6',
+ 'core/worldline-chain_authority_c_api.adb': 'd249c6368abc6d0fd8900b8864d7b17d4b1d52791324334044513551e3c7def2',
+ 'core/worldline-chain_authority_c_api.ads': 'd9be8c4167d43909e2d9e0aa1ba1cf53be115426f14029e9980b699741e56279',
+ 'core/worldline-recovery_authorization_v3_c_api.adb': 'e5b06e6ce91f9e1667c1ffa51ec05cc2fe519fde52d599f75a178f9a1cdc6c7b',
+ 'core/worldline-recovery_authorization_v3_c_api.ads': '4523ee8a7a771e92d12831720b37908fc115f5c8f7b9963221a3e37c5bfef99a',
+ 'core/worldline-recovery_protocol_c_api.adb': 'e8cde5b8c8fde61d16991755de370c2559c3105ba58c98f083fb86535d806c45',
+ 'core/worldline-recovery_protocol_c_api.ads': '425970d3ac20aba3f0895a75f894c1b877ba65566340f126c3cddc24d5528270'}
+
+
+def _uses_typed_export_layout(text: str) -> bool:
+    # A partial or mixed migration takes the strict typed branch and refuses.
+    return any('"' + symbol + '"' in text for symbol in _TYPED_EXPORT_DECLARATIONS)
+
+
+def _typed_export_correspondence_problems(root: Path) -> list[str]:
+    """Closed reviewed transport layout; never infer authority from symbol presence.
+
+    The literal inventory catches direct aspect/pragma/link-name duplicates.
+    It is not an Ada constant-expression resolver or linker symbol audit. The
+    unchanged complete source inventory and CONTRACT_PINS additionally reject
+    nonliteral aliases/new sources; linked ELF/ABI controls remain required.
+    """
+    problems = []
+    texts = {}
+    raw_digests = {}
+    paths = sorted(set((root / 'core').rglob('*.ads')) |
+                   set((root / 'core').rglob('*.adb')))
+    for path in paths:
+        relative = path.relative_to(root).as_posix()
+        try:
+            raw = path.read_bytes()
+            if relative in _TYPED_EXPORT_RAW_UNIT_PINS:
+                raw_digests[relative] = hashlib.sha256(raw).hexdigest()
+            texts[relative] = normalized_ada(raw.decode('utf-8'))
+        except (OSError, UnicodeError) as exc:
+            problems.append(f'typed export source unreadable: {relative}: {exc}')
+    spec = texts.get('core/worldline-c_api.ads', '')
+    for symbol, declaration in _TYPED_EXPORT_DECLARATIONS.items():
+        locations = [relative for relative, text in texts.items()
+                     for _ in range(text.count('"' + symbol + '"'))]
+        if locations != ['core/worldline-c_api.ads']:
+            problems.append(f'typed export binding inventory differs: {symbol}: {locations}')
+        if spec.count(declaration) != 1:
+            problems.append(f'typed export ABI declaration differs: {symbol}')
+    for relative, expected in _TYPED_EXPORT_NORMALIZED_UNIT_PINS.items():
+        text = texts.get(relative)
+        if text is None or hashlib.sha256(text.encode('utf-8')).hexdigest() != expected:
+            problems.append(f'typed export normalized transport projection differs: {relative}')
+    for relative, expected in _TYPED_EXPORT_RAW_UNIT_PINS.items():
+        if raw_digests.get(relative) != expected:
+            problems.append(f'typed export raw transport bytes differ: {relative}')
+    return problems
+
+
 def export_problems(root: Path) -> list[str]:
     """The C symbol the runtime calls for the collapse decision must be bound exactly once, to
     Collapse_Decide, whose body is pinned (review of 0ee1112: moving the binding to another
@@ -486,6 +592,13 @@ def export_problems(root: Path) -> list[str]:
         'External_Name => "wl_collapse_decide_raw_evaluation_v3";')
     if text.count('External_Name => "wl_collapse_decide_raw_evaluation_v3"') != 1 or metadata_declared not in text:
         problems.append('full-row metadata raw collapse authority binding differs')
+    if problems:
+        return problems
+    typed_layout = _uses_typed_export_layout(text)
+    if typed_layout:
+        problems.extend(_typed_export_correspondence_problems(root))
+        if problems:
+            return problems
     finalization = normalized_ada((root / 'core/evaluation_finalization_c.ads').read_text(encoding='utf-8'))
     final_entry = ('function Decide (Input, Output : System.Address) return Interfaces.C.int '
         'with Export, Convention => C, External_Name => "wl_finalization_decide_v1";')
@@ -494,13 +607,15 @@ def export_problems(root: Path) -> list[str]:
         'Staged_Kind : U32; Staged, Staged_Raw, Staged_Confinement, Staged_Context, Agent : System.Address; '
         'Agent_Confinement : U8) return U8 with Export, Convention => C, '
         'External_Name => "wl_collapse_decide_finalization_v1";')
-    if finalization.count('External_Name => "wl_finalization_decide_v1"') != 1 or final_entry not in finalization:
+    if not typed_layout and (finalization.count('External_Name => "wl_finalization_decide_v1"') != 1 or final_entry not in finalization):
         problems.append('finalization Start/Input/Seal native entry differs')
-    if finalization.count('External_Name => "wl_collapse_decide_finalization_v1"') != 1 or mixed_entry not in finalization:
+    if not typed_layout and (finalization.count('External_Name => "wl_collapse_decide_finalization_v1"') != 1 or mixed_entry not in finalization):
         problems.append('finalization mixed collapse native entry differs')
     v3 = normalized_ada((root / 'core/worldline-recovery_authorization_v3_c_api.ads').read_text(encoding='utf-8'))
     for symbol in ('wl_recovery_authorization_version_v3', 'wl_recovery_authorization_layout_v3',
                    'wl_recovery_authorization_decide_v3'):
+        if typed_layout and symbol == 'wl_recovery_authorization_decide_v3':
+            continue  # Exact public profile and whole typed transport already checked.
         if v3.count(f'External_Name => "{symbol}"') != 1:
             problems.append(f'full-domain recovery export binding differs: {symbol}')
     owner_entry = ('function Excluded_Source_Owner_Decide_V1 (Input : System.Address; Length : Interfaces.C.size_t; '
@@ -964,9 +1079,14 @@ _protected_protocol_original_export_problems = export_problems
 def export_problems(root: Path) -> list[str]:
     # Preserve every established export/control before checking new bindings.
     problems = _protected_protocol_original_export_problems(root)
+    if problems:
+        return problems
+    typed_layout = _uses_typed_export_layout(normalized_ada((root / 'core/worldline-c_api.ads').read_text(encoding='utf-8')))
     text = normalized_ada((root / 'core/worldline-recovery_protocol_c_api.ads').read_text(encoding='utf-8'))
     for symbol in ('wl_recovery_protocol_version_v1', 'wl_recovery_protocol_layout_v1',
                    'wl_recovery_protocol_decide_v1'):
+        if typed_layout and symbol == 'wl_recovery_protocol_decide_v1':
+            continue  # Exact public profile and whole typed transport already checked.
         if text.count(f'External_Name => "{symbol}"') != 1:
             problems.append(f'protected recovery protocol export binding differs: {symbol}')
     return problems
@@ -978,6 +1098,14 @@ CONTRACT_PINS.update({'core/worldline-chain_authority.adb': 'ce870f0d6dba2859e5e
 _chain_predecessor_export_problems = export_problems
 def export_problems(root: Path) -> list[str]:
     problems = _chain_predecessor_export_problems(root)
+    if problems:
+        return problems
+    typed_layout = _uses_typed_export_layout(normalized_ada((root / 'core/worldline-c_api.ads').read_text(encoding='utf-8')))
+    if typed_layout:
+        # Predecessor verified all exact wrapper/typed-unit identities, including
+        # Read_Anchors, every Read_Row/Decode, Write_Result(W.Decide(Owned,H)) and
+        # the C_API status-zero-only publication. No call-substring substitution.
+        return problems
     spec = (root / 'core/worldline-chain_authority_c_api.ads').read_text()
     body = (root / 'core/worldline-chain_authority_c_api.adb').read_text()
     if spec.count('External_Name => "wl_chain_authority_replay_v1"') != 1 or 'Result_At (Output).all := W.Decide (Owned, H);' not in body:
@@ -991,6 +1119,8 @@ CONTRACT_PINS.update({'core/worldline-owner_transitions.adb': 'b3049b6773bed28e2
 _owner_predecessor_export_problems = export_problems
 def export_problems(root: Path) -> list[str]:
     problems = _owner_predecessor_export_problems(root)
+    if problems:
+        return problems
     spec = (root / 'core/worldline-c_api.ads').read_text()
     body = (root / 'core/worldline-c_api.adb').read_text()
     exports = ('wl_owner_transition_version_v1','wl_owner_transition_layout_v1','wl_owner_transition_authorize_v1')
@@ -1010,6 +1140,8 @@ CONTRACT_PINS.update({'core/worldline-owner_retry_audit.ads': 'f10e8a5758de157d4
 _owner_audit_predecessor_export_problems = export_problems
 def export_problems(root: Path) -> list[str]:
     problems = _owner_audit_predecessor_export_problems(root)
+    if problems:
+        return problems
     spec = normalized_ada((root / 'core/worldline-c_api.ads').read_text())
     body = normalized_ada((root / 'core/worldline-c_api.adb').read_text())
     exports = ('wl_owner_audit_version_v1','wl_owner_audit_layout_v1','wl_owner_audit_decide_v1')

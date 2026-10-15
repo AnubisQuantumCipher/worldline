@@ -1,0 +1,302 @@
+diff --git a/core/worldline-evaluation_role_native.adb b/core/worldline-evaluation_role_native.adb
+index fbb5678..639ab98 100644
+--- a/core/worldline-evaluation_role_native.adb
++++ b/core/worldline-evaluation_role_native.adb
+@@ -1993,7 +1993,7 @@ package body Worldline.Evaluation_Role_Native with SPARK_Mode is
+         Plan.Form /= J.Object_Value or else Sources.Form /= J.Object_Value or else Roles.Form /= J.Array_Value or else
+         Boundary.Form /= J.Object_Value or else Result_Boundary.Form /= J.Object_Value or else Workers.Form /= J.Array_Value or else
+         S (Plan, "trustedInterpreter") /= "/usr/bin/python3" or else
+-        not J.Equal (Observed, F (Plan, "runId"), Expected, J.Field (Expected, Invocation, "runId")) or else
++        not J.Equal (Observed, F (Plan, "runId"), Expected, J.Field (Expected, Invocation, "invocationId")) or else
+         not Equal (F (Plan, "runId"), F (Boundary, "runId")) then return False; end if;
+       for I in 1 .. J.Count (Observed, Root) loop
+          pragma Loop_Invariant (Acquired_Role_Count < I);
+diff --git a/docs/decisions.md b/docs/decisions.md
+index db94d8d..c59f677 100644
+--- a/docs/decisions.md
++++ b/docs/decisions.md
+@@ -562,3 +562,87 @@ D40 actual outcome: all six selected backup-only puts completed with native CLI
+ **Reversal.** Retain the patch, preimage and all results. Before publication, reverse only this exact product delta after verifying its current hash; after publication, append a corrective commit. Never restore an old whole tree, weaken tests/contracts, remove failures or change another workflow.
+ 
+ D42 actual outcome: the complete unchanged journal module returned `0` with `Ran 34 tests in 9.352s` and `OK`. Exact command, UTC bounds, Python binary/version, dirty-source patch and before/after source identities are in `records/phase1-blockers/resume-20261015-v1/journal-controls-parent-v1/result.json`; actual tests are in `journal-controls-scope-v1/stderr`. Source identities remained unchanged during execution. Actual GPT-6.1 `scratch/reviewer2/resume-20261015-v1/D42-journal-controls-actual-result-review-v1.json` concurs only with focused regression success: observed live MemoryMax `8589934592`, swap `0`, event counters `0`, peak `166891520`, terminal unpopulated. This is TESTED, not an acquisition, full proof, performance or timeout-cause claim.
++
++## D43 — Discriminate installed strict generalized-finalization support
++
++**Options/evidence.** Repeat failed Controlled/manual/fresh-owning approaches; conclude universal impossibility from those finite failures; or test a materially distinct GNAT root-record `Finalizable` mechanism. Select the last. GNAT Reference Manual live revision `28.0w`, section 18.2.11, documents this aspect and strict `Relaxed_Finalization => False`; the SPARK Pro 27 roadmap lists generalized finalization as planned and is not installed-support evidence. Actual GPT-6.1 route review `scratch/reviewer2/resume-20261015-v1/finalizable-primary-source-O1-route-review-v1.json` concurs that a genuinely supported/proved strict root-record mechanism is not excluded merely by its lifetime hooks. No application Controlled, Off, proof-boundary change or restatement is selected.
++
++**Choice/validation.** First run only the minimal scalar discriminator in `records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1`: a nonlimited strict finalizable record, analyzed null adjustment/finalization bodies, assignment plus independent-copy assertion, and a whole-object implicit `'Old` postcondition. Root-only `run_finalizable_scalar.py` runs versions, compiler, full discriminator proof at configured level 3 with timeout 60/memlimit 1024/j1 and, only if built, the assertion-enabled executable. Exact heavy carrier timeout 10m, existing flock/post-lock 14GiB admission, actual 8G/swap0 cap and existing disk reserve/early-stop apply. All command outputs/exits remain, including failures. This is only an installed-support discriminator, not proof of heap ownership, hooks firing, leak freedom, exceptional cleanup or O1. A supported result requires a separately reviewed heap/full-value/implicit-Old positive/negative/exception probe; an unsupported result is finite toolchain evidence, never universal impossibility. No acquisition diagnostic is selected.
++
++**Reviewer verdict.** Actual GPT-6.1 launch CONCUR in `scratch/reviewer2/resume-20261015-v1/D43-finalizable-scalar-prelaunch-review-v1.json` over the exact source/driver/decision. Source and outputs are new scratch/evidence only; no product representation is changed. Null hooks cannot establish hook firing, heap cleanup or O1; compiler success alone is insufficient.
++
++**Reversal.** Preserve all source, output and receipts. Do not turn a parser/proof rejection into success by hiding units, weakening the strict aspect, adding assumptions or changing toolchain. Correct interpretation through an appended decision; no evidence deletion or other-worktree mutation.
++
++D43 actual result: compiler, complete discriminator proof and runtime each exited `0`. The report says all `12` checks proved and both units plus explicit hook bodies analyzed; compiler unused-parameter and flow not-modified warnings remain recorded. Parent tracked-source identities remained unchanged. Actual GPT-6.1 `scratch/reviewer2/resume-20261015-v1/D43-finalizable-scalar-actual-review-v1.json` concurs only with scalar support, not modeled implicit hook effects, heap ownership, cleanup or O1. Exact source/tool hashes, argv/UTC/environment/output are retained under the scalar results and parent/scope directories. This is a finite TESTED/PROVED discriminator; it does not supersede any full gate failure.
++
++## D44 — Test strict Finalizable full-String owning-copy and implicit Old support
++
++**Options/evidence.** Treat the scalar null-hook success as full retirement; stop without testing the newly supported mechanism; or build a materially stronger ownership discriminator preserving the original guarantee. Select the last, following the actual GPT-6.1 design `scratch/reviewer2/resume-20261015-v1/finalizable-owning-heap-next-discriminator-design-v1.md`. Scalar evidence does not establish native hooks or prover ownership support. No production representation, restatement, heap proof success or universal infeasibility is assumed.
++
++**Choice/validation.** Exact new source `records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1` uses a named owning access-to-unconstrained-String component in a nonlimited strict Finalizable root record. Make allocates full content/bounds; Adjust attempts a complete deep copy; Finalize uses ordinary Unchecked_Deallocation. Complete explicit hook bodies remain in SPARK. The actual caller assigns `B := A`, reuses A, performs a whole-object `Object'Old` content postcheck and mutates A while asserting B is unchanged. Contracts retain full content/bounds; no source gets moved into Off, custom pool, Controlled, hidden global observer, Ghost leak counter or manual Clone substitute. The same reviewed parent pattern records versions/source/argv/env/UTC/exit/output and uses the unchanged shared lock/admission/8G/swap0/disk guards, 10m scope, level3/full-discriminator proof, solver60/mem1024/j1. Build/proof run and the assertion-enabled runtime runs only if built, retaining every failure. A successful discriminator would still require separately reviewed negative controls, exceptional postcheck/allocation behavior, external actual leak observation and production integration; it cannot pass O1 by itself. A move/ownership rejection is retained finite evidence, never hidden by ceasing to reuse A.
++
++**Reviewer verdict.** Actual GPT-6.1 launch CONCUR in `scratch/reviewer2/resume-20261015-v1/D44-finalizable-heap-prelaunch-review-v1.json` over the corrected exact candidate and unchanged resource/provenance safeguards. Reviewer required complete suffix/bounds preservation, now included. No physical snapshot retirement or ownership success is pre-approved.
++
++**Reversal.** Preserve source, expansions, outputs and every rejection. Do not edit a failed source in place for a retry: use a new named candidate only for a justified distinct repair. No toolchain/global modification, cap/deadline/accepted-domain/proof-boundary change or evidence deletion is a reversal.
++
++### D44 v1 outcome and fresh v2 syntax correction
++
++The first owning candidate did not reach ownership analysis: build and proof each exited `4`/`1` as recorded in `finalizable-heap-v1/results/result.json`, with RM 6.1.1(27) rejection of potentially unevaluated `Read(Object)'First'Old` and `Last'Old` prefixes in Adjust's short-circuit postcondition. The runtime was NOT PERFORMED because no binary built. Exact parent/scope outputs remain in their v1 directories and tracked-source identities were unchanged. This is a source-contract syntax defect, not evidence that Finalizable ownership is unsupported. No pragma Unevaluated_Use_Of_Old or ignored assertion is selected.
++
++Options: hide/omit bounds; add a permissive pragma; or evaluate all safe Read-derived bounds unconditionally with Boolean `and` rather than short-circuit `and then` inside Adjust's contract. Select the last in fresh `finalizable-heap-v2`, leaving v1 untouched. Read is total for null/non-null objects, and all three conjuncts have no dependent indexing, so eager evaluation preserves the intended content/bounds conjunction and avoids potentially unevaluated Old. No other source is changed. Parent method `run_finalizable_heap_v2.py` uses fresh v2 destinations with identical resource/proof settings and remains a finite discriminator. Actual GPT-6.1 exact v2 launch CONCUR is retained in `scratch/reviewer2/resume-20261015-v1/D44-heap-v2-syntax-prelaunch-review-v1.json`; no ownership or retirement success is pre-approved. Reversal: preserve both candidates and outputs; never overwrite failed v1, omit a conjunct or infer support from this correction.
++
++## D45 — Observe actual bwrap approval operands in the retained private carrier
++
++**Options/evidence.** Infer the failed predicate from generic errors or outside-carrier stat; weaken executable ownership checks; rerun the complete failed private suite unchanged; or measure just the exact approval operands in the retained carrier recipe. Select the last. Existing private-host failures did not retain bwrap stat and user-ID mapping together. Other namespace controls used different recipes; ownership translation is currently UNVERIFIED, not established cause.
++
++**Choice.** One metadata-only child using the original private carrier prefix through `/usr/bin/python3 -B`, substituting only a pinned inline read-only query. Method `scratch/final-gates/resume-20261015-v1/bwrap-guard-diagnostic-v1/run_bwrap_guard_diagnostic.py` pins the old launch/environment/carrier, current/frozen identical guard source, payload and metadata. It restores every retained explicit worker override and states historical ambient values remain unknown. Observe requested/selected/resolved path, stat/descriptor identity and hash, mode/owner/access, actual real/effective IDs and namespace maps, and every operand of the unchanged approval expression. No private evaluator, tests, service, compiler or source mutation occurs. Root uses the existing admitted 8G/swap0 heavy wrapper with 2m administrative timeout, the same disk guard, a fresh output path, current baseline HEAD and exact decision-log hash. Query-only child timeout 60s affects only its own launched child. This is current diagnostic evidence, never historical metadata reconstruction or acceptance. A guard refusal may be a completed metadata observation and must not be labeled approval.
++
++**Reviewer verdict.** Actual GPT-6.1 exact metadata-only launch CONCUR is retained in `scratch/reviewer2/resume-20261015-v1/D45-bwrap-metadata-diagnostic-prelaunch-review-v1.json`, conditional on the root existing 2m/8G/swap0 admitted scope, disk guards and fresh actual HEAD/log hash. No executable approval or private-test success is pre-approved. Reversal: leave method unexecuted before approval; after execution retain every output/refusal and interpretation. Do not relax a predicate, reconstruct historical stat, change a carrier or repeat the private suite without its own subsequent reviewed decision.
++
++D44 v2 actual outcome: build `0`, runtime `0`, proof `1`. GNATprove rejects owning-variable `Object'Old` under SPARK RM 3.10(13) for aliasing; ordinary assignment proof was not reached. No physical cleanup observation or negative control was executed. Actual GPT-6.1 review `D44-heap-v2-actual-result-review-v1.json` preserves that finite result. Production diagnostic contracts use fresh function-result `Pending_Contents'Old`, so this failure is not evidence that their exact prefix is unsupported. The original ordinary independent-copy obligation remains open.
++
++D45 actual outcome: metadata query, parent and bounded worker exited `0`, with tracked source unchanged. `bwrap-guard-observation-v1/result.json` records complete current-carrier observation and guard refusal solely at `owner_is_root_or_real_uid`: `/usr/bin/bwrap` stat UID `65534`, current UID `1000`, actual uid_map `1000 0 1`, executable regular file with forbidden mode bits `0`, descriptor/stat identity stable and binary SHA256 `3016d82c88481eeb15c1145ea82a591b11890faa6e957635b75bc148a1701e45`. This MEASURED operand result explains current reproduction of the guard refusal; it does not reconstruct missing historical stat or establish any private test pass. Original guard remains unchanged. Any carrier/tool-identity repair requires separate review.
++
++## D47 — Discriminate the actual fresh full-value function-result Old route
++
++**Options/evidence.** Treat D44's variable-prefix rejection as universal; replace the original full snapshot with scalar/borrow/manual cleanup; or test strict Finalizable combined with the production contract's fresh function-result prefix. Select the last. Original `Push`/`Take_All` use `Pending_Contents'Old`; earlier `fresh_old_legal` proved content but failed reclamation without automatic Finalizable. D43 establishes only scalar aspect acceptance, not heap support. The combination is a materially distinct remaining discriminator, not a relaxation or inference of success.
++
++**Choice.** Root copied the reviewed-design source from `scratch/reviewer2/resume-20261015-v1/fresh-finalizable-candidate-v1` to fresh `records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1`. Full String owning record, strict False, analyzed deep-copy Adjust/Free Finalize and all units remain. `Check_Fresh` retains actual allocating `Capture(Text)'Old` full content/bounds and assertion checking. Main's two separate fresh captures do not test ordinary `B := A`; that separate original obligation stays open. No leak counter, offloaded implementation, changed accepted domain, assumption or new proof boundary is selected. Exact root method `run_finalizable_fresh.py` preserves D44 resource/provenance safeguards and configured full-discriminator proof, fresh outputs, 10m8G/swap0 carrier and solver60/mem1024/j1. Build/proof/runtime outputs and complete reports remain whether failed or successful. A proof success would still not establish physical cleanup, exceptional paths, negative controls, ordinary copy or production O1.
++
++**Reviewer verdict.** Actual GPT-6.1 exact root-copied source/driver/decision launch CONCUR in `scratch/reviewer2/resume-20261015-v1/D47-fresh-finalizable-prelaunch-review-v1.json`. No ordinary-copy, physical lifetime or full gate success is pre-approved. Reversal: preserve every candidate/result; do not rewrite D44 failure, delete lifetime requirements, reinterpret ordinary-copy omission as coverage, or infer universal impossibility from a finite rejection.
++
++## D46 — Join role-plan identity to the actual retained invocation key
++
++**Options/evidence.** Retain a consumer lookup for an absent producer alias; add a new duplicated `runId` producer field with conflict rules; or read the existing retained `invocationId`. Select the last. Both original writer schemas retain `invocationId`; CheckRunner supplies the same fresh UUID to that writer and PrivateEvaluationSpec, whose actual plan uses `runId`. Exact source/preimage/proposed/patch identities and original control limits are `scratch/final-gates/resume-20261015-v1/invocation-id-only-v1/metadata.json`. This is a schema correspondence observation, not a complete native acceptance result.
++
++**Choice/reviewer verdict.** Apply only the consumer key change at Evaluation_Role_Native.Valid after exact preimage verification. Actual GPT-6.1 static CONCUR is `scratch/reviewer2/resume-20261015-v1/D46-invocation-id-only-static-review-v1.json`, joining the sole inspected native caller and both original writer schemas. No alias, fallback, domain rewrite, snapshot, confinement, custody, source, lifetime or threshold predicate changes. Preserve the review correction: Producer_Values.Equal accepts null/null; the actual string plan refuses null/missing/mismatched expected identity, and full producer separately requires nonempty invocationId. Do not claim this isolated equality universally refuses null. Actual-valid-full-native-capture plus ID-only mutation coverage remains UNVERIFIED. Full original same-source build/proof/runtime/private gates remain required on the integrated successor; compile, proof and runtime are not claimed by this static application. No synthetic full capture or subset may close that obligation.
++
++**Reversal.** Preserve exact patch/preimage, review and failed successor outputs. Before publication reverse only this hash-checked single delta; after publication append a dedicated corrective commit. Never modify original schema/fixtures, restore another tree, weaken another predicate, reuse ef7 outcomes as successor passes or rewrite history.
++
++D47 actual outcome: build `0`, runtime `0`, complete discriminator proof `1`. The final report records total `23`, unproved `6`, justified `.`, with reclamation checks remaining in Adjust, all three fresh allocating Old prefixes and Main scope exits. Content/bounds and caller assertions proved where listed; that does not discharge reclamation. The standard instantiated deallocator body is listed SPARK_Mode Off and is not relabeled proved. Exact sources, tool/command/UTC/environment/output and before/after identities are under the fresh-v1 results/parent/scope directories. This is a finite failed strict Finalizable candidate, not measured native leakage or a universal impossibility theorem. No restatement, hidden hook effect, extra precondition, suppression or success gate follows. Do not repeat this unchanged mechanism for a green result; continue independent repairs.
++
++## D49 — Restore strict export correspondence for the existing typed ABI layout
++
++**Options/evidence.** Keep stale declaration-location checks that reject the already migrated public ABI; waive them on symbol presence; or check exact public profiles, unique binding and complete reviewed wrapper/typed-entry units while retaining all other contract/source/proof requirements. Select the last proposal, `scratch/acquisition2/resume-20261015-v1/proof_manifest-export-guard-v1.patch`, formed mechanically from actual source bytes. Existing actual GPT-6.1 correspondence reviews identified the typed C_API wrappers and source/copy/transport/result relationships; no linked ABI or full proof was inferred.
++
++**Choice/validation.** Subject to exact GPT-6.1 source/design review, apply only the guard migration and its proposed meaningful source-mutation controls as `tests/test_typed_export_correspondence.py`. Exact public declarations and additional complete normalized transport-unit pins reject partial/mixed/duplicate exports, changed checks, copy loops, aliases, typed calls, status publication and exception paths. Legacy checks remain for the legacy layout, every unaffected export check remains, and all CONTRACT_PINS, source inventories, proof floors, analyzed bodies/callers and full native ABI/runtime requirements remain unchanged. These additional identities do not approve their underlying unproved semantic closure or repin any failed contract. Direct literals/normalization are not a complete Ada or linker resolver; full source guards and ELF/ABI controls remain required. No new source-boundary exemption or source-generated expected hash during validation is permitted.
++
++Run the complete unchanged `test_authority_static_audit` module plus the complete additional `test_typed_export_correspondence` module, with exact fresh source/provenance and original admitted 8G/swap0/disk safeguards, explicit 10m diagnostic bound. Preserve any original contract-pin or Python-authority audit failures as failures rather than changing assertions; this focused execution is not full proof, linked ABI, C1-C4 or final runtime acceptance. New controls must establish a clean export-guard baseline before each specific mutant refusal so inherited unrelated refusal cannot fake detection.
++
++**Reviewer verdict.** Pending actual GPT-6.1 exact whole-unit correspondence, proposed guard/test and validation-method review before application. No hashes or tests have been promoted by this decision.
++
++**Reversal.** Preserve exact proposal/preimages/results. Before publication reverse only the two reviewed applied deltas after hash checks; after publication append a corrective commit. Never drop original guards, mass-repin CONTRACT_PINS, delete tests or mutate frozen evidence to reverse the migration.
++
++### D46 focused compilation validation
++
++Before publishing the one-key product correction, select one unchanged-project focused compilation of the actual changed unit using `compile_invocation_id.py` and `run_invocation_id_compile.py`. Existing `core/worldline_core_sources.gpr`, full-mode private prebuilt dependency and checks flags remain; `-c -u` selects the edited unit and `--subdirs=phase1-d46-compile-v1` preserves prior root object/ALI/library bytes. This is explicitly not a full build or proof-scope substitute. The inner actual compiler command is retained, bounded by existing 10m8G/swap0 heavy scope/disk guards and read-only-root bwrap, with only the owned worktree/TMPDIR writable. Real GPR_TOOL selection is not spoofed. Versions, method/source/environment/UTC/output and selected existing private dependency/root-object/library hashes before/after must be retained. A successful object/ALI must show assertion-enabled checks and source correspondence; unchanged watched artifacts must compare exactly. Any missing dependency/subdir refusal remains failed evidence and cannot be called a compile pass. Actual GPT-6.1 exact method review is required before launch. Reversal preserves all artifacts and never overwrites/moves an old pinned library or object to force this command to succeed.
++
++### D49 stronger v2 selected before application
++
++Actual GPT-6.1 review of v1 identified that the unchanged normalizer collapses whitespace inside string literals. Therefore normalized identities alone cannot justify a complete-byte transport claim. V1 stays unapplied. Options: accept a bounded normalized-only guarantee with later source checks, change the old normalizer/pins, or add separately generated exact raw-byte pins for the same transport units. Select the last stronger source guard in fresh `proof_manifest-export-guard-v2.patch`; all original normalizer/CONTRACT_PINS semantics remain unchanged. Formation from actual `read_bytes()` and exact source values are retained in the v2 proposal/formation receipts, not inferred from a candidate during validation. Raw pins intentionally reject comment/layout changes too; this is an added strict source-identity condition, not approval of the bytes' semantics.
++
++The additional controls now distinguish comment text from binding inventory while expecting exact raw identity refusal, restore the clean baseline before mutating a body, and test a real existing literal-whitespace change that normalized hashing alone misses. Original test fixtures/accepted cases are unchanged. D49 full-module diagnostic method remains `run_export_controls.py`; fresh exact GPT-6.1 v2 raw-pin/test/method concurrence is still required before application/execution. Retain all v1 output and do not call its conditional direction approval of v2.
++
++D46 focused compilation prerequisite met: actual GPT-6.1 CONCUR over the tightened exact method is `scratch/reviewer2/resume-20261015-v1/D46-focused-compile-prelaunch-review-v2.json`. Success now requires compiler zero, expected regular object/ALI, enabled assertions, source equality and unchanged watched objects/dependency/library; selected tool paths/hashes/versions are retained. No full-build/link/proof/runtime success is pre-approved.
++
++D49 v2 exact application and full focused-module execution prerequisite met: actual GPT-6.1 CONCUR is `scratch/reviewer2/resume-20261015-v1/D49-export-guard-v2-preapplication-review-v1.json`. Root verified the exact original/proposed guard and test hashes and active compile scope settled before product edits. No old CONTRACT_PINS or audit assertions change; all actual failures remain failures. Current parent environment has no PYTHONOPTIMIZE, checked before launch.
+diff --git a/runtime/worldline/proof_manifest.py b/runtime/worldline/proof_manifest.py
+index a22032f..41a5938 100644
+--- a/runtime/worldline/proof_manifest.py
++++ b/runtime/worldline/proof_manifest.py
+@@ -451,6 +451,112 @@ def contract_pin(root: Path, key: str) -> str:
+     return hashlib.sha256(contract_text(root, key).encode("utf-8")).hexdigest()
+ 
+ 
++# The public ABI stayed in C_API when typed semantic entries gained observer
++# parameters. These identities are additional migration guards, NOT replacement
++# CONTRACT_PINS or a proof of their contents. Full contract/source/proof/ABI gates
++# remain required. Normalized identities are projections only: normalized_ada
++# also collapses whitespace inside strings. Additive raw-byte identities below
++# bind every source byte, including literal contents and comments. Each new raw
++# pin requires complete-unit review; this intentionally refuses comment/layout
++# changes as well. Aliases, bounds, copies, helpers, status branches, exception
++# paths and literal bytes are within these complete raw source identities.
++_TYPED_EXPORT_DECLARATIONS = {'wl_chain_authority_replay_v1': 'function Owned_Chain_Replay (Anchors : System.Address; '
++                                 'Anchors_Length : Interfaces.C.size_t; Rows : System.Address; '
++                                 'Rows_Count, Rows_Length : Interfaces.C.size_t; Output : '
++                                 'System.Address; Output_Length : Interfaces.C.size_t) return '
++                                 'Interfaces.C.int with Export, Convention => C, External_Name => '
++                                 '"wl_chain_authority_replay_v1";',
++ 'wl_collapse_decide_finalization_v1': 'function Finalization_Decide_Mixed (Collapse : '
++                                       'System.Address; Primary_Kind : Interfaces.Unsigned_32; '
++                                       'Primary, Primary_Raw, Primary_Confinement, Primary_Context '
++                                       ': System.Address; Staged_Kind : Interfaces.Unsigned_32; '
++                                       'Staged, Staged_Raw, Staged_Confinement, Staged_Context, '
++                                       'Agent : System.Address; Agent_Confinement : '
++                                       'Interfaces.Unsigned_8) return Interfaces.Unsigned_8 with '
++                                       'Export, Convention => C, External_Name => '
++                                       '"wl_collapse_decide_finalization_v1";',
++ 'wl_finalization_decide_v1': 'function Finalization_Decide (Input, Output : System.Address) '
++                              'return Interfaces.C.int with Export, Convention => C, External_Name '
++                              '=> "wl_finalization_decide_v1";',
++ 'wl_recovery_authorization_decide_v3': 'function Owned_recovery_authorization_v3 (Input : '
++                                        'System.Address; Input_Length : Interfaces.C.size_t; Arena '
++                                        ': System.Address; Arena_Length : Interfaces.C.size_t; '
++                                        'Output : System.Address; Output_Length : '
++                                        'Interfaces.C.size_t) return Interfaces.C.int with Export, '
++                                        'Convention => C, External_Name => '
++                                        '"wl_recovery_authorization_decide_v3";',
++ 'wl_recovery_protocol_decide_v1': 'function Owned_recovery_protocol (Input : System.Address; '
++                                   'Input_Length : Interfaces.C.size_t; Output : System.Address; '
++                                   'Output_Length : Interfaces.C.size_t) return Interfaces.C.int '
++                                   'with Export, Convention => C, External_Name => '
++                                   '"wl_recovery_protocol_decide_v1";'}
++_TYPED_EXPORT_NORMALIZED_UNIT_PINS = {'core/evaluation_finalization_c.adb': 'e16932c56e25577c1782a927c60ad0cab68e3b503b11541a187cb5787bac5ac3',
++ 'core/evaluation_finalization_c.ads': '28eb6e663262e471f71a97acf44c7683ba9c1f0979dcc88e1981a4395ea0f3c8',
++ 'core/worldline-c_api.adb': '2036cd7eb2541ee402936fff3e6886636cdb01f502d6b5b1a74b1cc6671ffaa1',
++ 'core/worldline-c_api.ads': '1da0afffd071cb78449216a359b362f9d31e6cae22e9d02c09cb19bfce097efe',
++ 'core/worldline-chain_authority_c_api.adb': 'f3a7c76c681bf8e82960929a3c30659c1926dba38d71bd59f96abaa875c5326a',
++ 'core/worldline-chain_authority_c_api.ads': 'c44a9c3ddd2dce171d5ff88c2da981b36afec678db7e830e24fa60699b1784b0',
++ 'core/worldline-recovery_authorization_v3_c_api.adb': '9a90152c2f15a615f61dbe3d96aa520f48ce541a0f8b9843dbb51553aef19ac4',
++ 'core/worldline-recovery_authorization_v3_c_api.ads': '06832ec39eec8162227eadb2f158d7ca53ec6af0d796693d0701b32d430cf6c9',
++ 'core/worldline-recovery_protocol_c_api.adb': 'b8921fc27ccca361edcb7b6477e3804c16cff2aa154fe279bc368d65f51ddf77',
++ 'core/worldline-recovery_protocol_c_api.ads': '659e9b509e0350d58039f67ce3741cb01eff6a266b970b00bf56f601b550d413'}
++_TYPED_EXPORT_RAW_UNIT_PINS = {'core/evaluation_finalization_c.adb': 'dee2db8b374345f30aa39877e6489f1670509aa8a428ccf2be90ded8c3069fef',
++ 'core/evaluation_finalization_c.ads': '93bfb1a973ba6b72ca201e3e3869e094bdb162c931a786f3ca82df2594120b73',
++ 'core/worldline-c_api.adb': '04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a',
++ 'core/worldline-c_api.ads': 'd947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6',
++ 'core/worldline-chain_authority_c_api.adb': 'd249c6368abc6d0fd8900b8864d7b17d4b1d52791324334044513551e3c7def2',
++ 'core/worldline-chain_authority_c_api.ads': 'd9be8c4167d43909e2d9e0aa1ba1cf53be115426f14029e9980b699741e56279',
++ 'core/worldline-recovery_authorization_v3_c_api.adb': 'e5b06e6ce91f9e1667c1ffa51ec05cc2fe519fde52d599f75a178f9a1cdc6c7b',
++ 'core/worldline-recovery_authorization_v3_c_api.ads': '4523ee8a7a771e92d12831720b37908fc115f5c8f7b9963221a3e37c5bfef99a',
++ 'core/worldline-recovery_protocol_c_api.adb': 'e8cde5b8c8fde61d16991755de370c2559c3105ba58c98f083fb86535d806c45',
++ 'core/worldline-recovery_protocol_c_api.ads': '425970d3ac20aba3f0895a75f894c1b877ba65566340f126c3cddc24d5528270'}
++
++
++def _uses_typed_export_layout(text: str) -> bool:
++    # A partial or mixed migration takes the strict typed branch and refuses.
++    return any('"' + symbol + '"' in text for symbol in _TYPED_EXPORT_DECLARATIONS)
++
++
++def _typed_export_correspondence_problems(root: Path) -> list[str]:
++    """Closed reviewed transport layout; never infer authority from symbol presence.
++
++    The literal inventory catches direct aspect/pragma/link-name duplicates.
++    It is not an Ada constant-expression resolver or linker symbol audit. The
++    unchanged complete source inventory and CONTRACT_PINS additionally reject
++    nonliteral aliases/new sources; linked ELF/ABI controls remain required.
++    """
++    problems = []
++    texts = {}
++    raw_digests = {}
++    paths = sorted(set((root / 'core').rglob('*.ads')) |
++                   set((root / 'core').rglob('*.adb')))
++    for path in paths:
++        relative = path.relative_to(root).as_posix()
++        try:
++            raw = path.read_bytes()
++            if relative in _TYPED_EXPORT_RAW_UNIT_PINS:
++                raw_digests[relative] = hashlib.sha256(raw).hexdigest()
++            texts[relative] = normalized_ada(raw.decode('utf-8'))
++        except (OSError, UnicodeError) as exc:
++            problems.append(f'typed export source unreadable: {relative}: {exc}')
++    spec = texts.get('core/worldline-c_api.ads', '')
++    for symbol, declaration in _TYPED_EXPORT_DECLARATIONS.items():
++        locations = [relative for relative, text in texts.items()
++                     for _ in range(text.count('"' + symbol + '"'))]
++        if locations != ['core/worldline-c_api.ads']:
++            problems.append(f'typed export binding inventory differs: {symbol}: {locations}')
++        if spec.count(declaration) != 1:
++            problems.append(f'typed export ABI declaration differs: {symbol}')
++    for relative, expected in _TYPED_EXPORT_NORMALIZED_UNIT_PINS.items():
++        text = texts.get(relative)
++        if text is None or hashlib.sha256(text.encode('utf-8')).hexdigest() != expected:
++            problems.append(f'typed export normalized transport projection differs: {relative}')
++    for relative, expected in _TYPED_EXPORT_RAW_UNIT_PINS.items():
++        if raw_digests.get(relative) != expected:
++            problems.append(f'typed export raw transport bytes differ: {relative}')
++    return problems
++
++
+ def export_problems(root: Path) -> list[str]:
+     """The C symbol the runtime calls for the collapse decision must be bound exactly once, to
+     Collapse_Decide, whose body is pinned (review of 0ee1112: moving the binding to another
+@@ -486,6 +592,13 @@ def export_problems(root: Path) -> list[str]:
+         'External_Name => "wl_collapse_decide_raw_evaluation_v3";')
+     if text.count('External_Name => "wl_collapse_decide_raw_evaluation_v3"') != 1 or metadata_declared not in text:
+         problems.append('full-row metadata raw collapse authority binding differs')
++    if problems:
++        return problems
++    typed_layout = _uses_typed_export_layout(text)
++    if typed_layout:
++        problems.extend(_typed_export_correspondence_problems(root))
++        if problems:
++            return problems
+     finalization = normalized_ada((root / 'core/evaluation_finalization_c.ads').read_text(encoding='utf-8'))
+     final_entry = ('function Decide (Input, Output : System.Address) return Interfaces.C.int '
+         'with Export, Convention => C, External_Name => "wl_finalization_decide_v1";')
+@@ -494,13 +607,15 @@ def export_problems(root: Path) -> list[str]:
+         'Staged_Kind : U32; Staged, Staged_Raw, Staged_Confinement, Staged_Context, Agent : System.Address; '
+         'Agent_Confinement : U8) return U8 with Export, Convention => C, '
+         'External_Name => "wl_collapse_decide_finalization_v1";')
+-    if finalization.count('External_Name => "wl_finalization_decide_v1"') != 1 or final_entry not in finalization:
++    if not typed_layout and (finalization.count('External_Name => "wl_finalization_decide_v1"') != 1 or final_entry not in finalization):
+         problems.append('finalization Start/Input/Seal native entry differs')
+-    if finalization.count('External_Name => "wl_collapse_decide_finalization_v1"') != 1 or mixed_entry not in finalization:
++    if not typed_layout and (finalization.count('External_Name => "wl_collapse_decide_finalization_v1"') != 1 or mixed_entry not in finalization):
+         problems.append('finalization mixed collapse native entry differs')
+     v3 = normalized_ada((root / 'core/worldline-recovery_authorization_v3_c_api.ads').read_text(encoding='utf-8'))
+     for symbol in ('wl_recovery_authorization_version_v3', 'wl_recovery_authorization_layout_v3',
+                    'wl_recovery_authorization_decide_v3'):
++        if typed_layout and symbol == 'wl_recovery_authorization_decide_v3':
++            continue  # Exact public profile and whole typed transport already checked.
+         if v3.count(f'External_Name => "{symbol}"') != 1:
+             problems.append(f'full-domain recovery export binding differs: {symbol}')
+     owner_entry = ('function Excluded_Source_Owner_Decide_V1 (Input : System.Address; Length : Interfaces.C.size_t; '
+@@ -964,9 +1079,14 @@ _protected_protocol_original_export_problems = export_problems
+ def export_problems(root: Path) -> list[str]:
+     # Preserve every established export/control before checking new bindings.
+     problems = _protected_protocol_original_export_problems(root)
++    if problems:
++        return problems
++    typed_layout = _uses_typed_export_layout(normalized_ada((root / 'core/worldline-c_api.ads').read_text(encoding='utf-8')))
+     text = normalized_ada((root / 'core/worldline-recovery_protocol_c_api.ads').read_text(encoding='utf-8'))
+     for symbol in ('wl_recovery_protocol_version_v1', 'wl_recovery_protocol_layout_v1',
+                    'wl_recovery_protocol_decide_v1'):
++        if typed_layout and symbol == 'wl_recovery_protocol_decide_v1':
++            continue  # Exact public profile and whole typed transport already checked.
+         if text.count(f'External_Name => "{symbol}"') != 1:
+             problems.append(f'protected recovery protocol export binding differs: {symbol}')
+     return problems
+@@ -978,6 +1098,14 @@ CONTRACT_PINS.update({'core/worldline-chain_authority.adb': 'ce870f0d6dba2859e5e
+ _chain_predecessor_export_problems = export_problems
+ def export_problems(root: Path) -> list[str]:
+     problems = _chain_predecessor_export_problems(root)
++    if problems:
++        return problems
++    typed_layout = _uses_typed_export_layout(normalized_ada((root / 'core/worldline-c_api.ads').read_text(encoding='utf-8')))
++    if typed_layout:
++        # Predecessor verified all exact wrapper/typed-unit identities, including
++        # Read_Anchors, every Read_Row/Decode, Write_Result(W.Decide(Owned,H)) and
++        # the C_API status-zero-only publication. No call-substring substitution.
++        return problems
+     spec = (root / 'core/worldline-chain_authority_c_api.ads').read_text()
+     body = (root / 'core/worldline-chain_authority_c_api.adb').read_text()
+     if spec.count('External_Name => "wl_chain_authority_replay_v1"') != 1 or 'Result_At (Output).all := W.Decide (Owned, H);' not in body:
+@@ -991,6 +1119,8 @@ CONTRACT_PINS.update({'core/worldline-owner_transitions.adb': 'b3049b6773bed28e2
+ _owner_predecessor_export_problems = export_problems
+ def export_problems(root: Path) -> list[str]:
+     problems = _owner_predecessor_export_problems(root)
++    if problems:
++        return problems
+     spec = (root / 'core/worldline-c_api.ads').read_text()
+     body = (root / 'core/worldline-c_api.adb').read_text()
+     exports = ('wl_owner_transition_version_v1','wl_owner_transition_layout_v1','wl_owner_transition_authorize_v1')
+@@ -1010,6 +1140,8 @@ CONTRACT_PINS.update({'core/worldline-owner_retry_audit.ads': 'f10e8a5758de157d4
+ _owner_audit_predecessor_export_problems = export_problems
+ def export_problems(root: Path) -> list[str]:
+     problems = _owner_audit_predecessor_export_problems(root)
++    if problems:
++        return problems
+     spec = normalized_ada((root / 'core/worldline-c_api.ads').read_text())
+     body = normalized_ada((root / 'core/worldline-c_api.adb').read_text())
+     exports = ('wl_owner_audit_version_v1','wl_owner_audit_layout_v1','wl_owner_audit_decide_v1')
