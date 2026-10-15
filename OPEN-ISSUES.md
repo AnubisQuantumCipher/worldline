@@ -1,5 +1,13 @@
 # Open issues outside this run's repair authority
 
+- D100 roadmap scope: the attachment's eventual user-facing kernel installation/update
+  activation conjunction (artifact, proof manifest, expected source, migration, backup,
+  running version) remains UNVERIFIED. Main's shell/Python checks and the later protected
+  startup inventory do not establish that full conjunction. No new installer feature is
+  selected by this audit; existing binding F4 protected installation/startup/source
+  requirements remain required. Exact main/development source and callers are mapped in
+  docs/phase1-main-roadmap-audit.md and its companion JSON.
+
 - Cosmogony files are unchanged. WORLDLINE aggregate library currently includes Cosmogony interfaces;
   any failed dependency obligation in those sources stays open with evidence. This run cannot repair
   it by editing them or excluding their original proof/build scope.

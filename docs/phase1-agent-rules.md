@@ -241,3 +241,8 @@ ef7b7e3 frozen is good - that's exactly how WORLDLINE is supposed to release. Re
 Why is phase 1 still open. Finish and complete phase 1.
 
 The active goal was explicitly edited to the same request. It supersedes the preceding report-completion stop boundary. Full attachment bytes and identity metadata are retained under `records/phase1-blockers/resume-20261015-v1/requirements/`; they are architecture context, not fresh evidence of implementation or proof. Original isolation, resource bounds, immutable failures, acceptance predicates and independent-acceptance requirements remain.
+
+
+## Latest user roadmap steering (2026-10-15)
+
+The user supplied new Worldline/Cosmology attachments and requested comparison against actual main631d0d5. Their assessment claims Phase0 result-file isolation still blocks completion and maps the seven Phase1 authority-kernel requirements. Treat this as steering the existing completion goal, verify every claim against exact main plus the later isolated development line, and do not silently remove original binding acceptance gates. New exact attachments/identity commands are retained at `records/phase1-blockers/roadmap-main-631d0d5-audit-20261015-v1/`. D100 records the audit decision. D97 packet formation/offload was approved only prospectively and never launched; its old cut/binding/launcher is now withdrawn/stale and must not execute. Work remains in the same sole isolated worktree/branch; main is read-only.
