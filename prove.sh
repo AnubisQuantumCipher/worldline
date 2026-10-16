@@ -7,12 +7,22 @@ cd "$ROOT"
 # toolchain is already on PATH.
 if [[ -f "${GNAT_ENV:-$HOME/opt/gnat/env.sh}" ]]; then source "${GNAT_ENV:-$HOME/opt/gnat/env.sh}"; fi
 
+PRIVATE_SPARKLIB="$ROOT/scratch/coordinator/private-sparklib/lib/gnat"
+if [[ ! -f "$PRIVATE_SPARKLIB/sparklib.gpr" ]]; then
+  echo "prove: private SPARKlib project missing: $PRIVATE_SPARKLIB/sparklib.gpr" >&2
+  exit 2
+fi
+# env.sh replaces GPR_PROJECT_PATH. Restore the reviewed private library after it,
+# and do not rebuild that archive as part of the aggregate.
+export GPR_PROJECT_PATH="$PRIVATE_SPARKLIB${GPR_PROJECT_PATH:+:$GPR_PROJECT_PATH}"
+export WORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True
+
 OUT="obj/core-library/gnatprove/gnatprove.out"
 LIB="lib/libworldline_core.so"
 OPTIONS=("-P" "core/worldline_core.gpr" "-U" "--level=3" "--report=fail" "-j0")
 
 echo "== build libworldline_core.so =="
-gprbuild -q -P worldline.gpr
+gprbuild -q -P worldline.gpr -XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True -XSPARKLIB_MODE=full -XSPARKLIB_BUILD=Production -XSPARKLIB_LIBRARY_TYPE=static -XSPARKLIB_INSTALLED=True
 
 echo "== prove every Worldline core unit =="
 # Remove any previous summary first: without this, a gnatprove run that fails or aborts can
