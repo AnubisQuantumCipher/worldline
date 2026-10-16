@@ -1,0 +1,21 @@
+{
+  "classification": "MEASURED",
+  "source_commit": "58262a0b89cdc0a10ed668b4bd1405b8814af34b",
+  "source_unchanged": true,
+  "command": [
+    "gprbuild",
+    "-p",
+    "-P",
+    "worldline.gpr",
+    "-XWORLDLINE_BUILD=checks",
+    "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True",
+    "-j4"
+  ],
+  "ada_tests": "bin/worldline_core_tests printed PASS and exited 0",
+  "note": "Relink against prebuilt private SPARKlib after aggregate rebuild failed to rebuild SPARKlib. Not the official final_build_v5.py sequence. Not acceptance.",
+  "artifacts": {
+    "lib/libworldline_core.so": "7f52a18d8dcd26919ae879494fcd843e12311921b7ff084f6abf021c7256e45d",
+    "bin/worldline_core_tests": "c1ce860ed1698649386a6fb0e60b77e66196b54460392fa40e0e65a6a2c29e42",
+    "bin/worldline_core_fuzz": "89daeaf901975155ad9d2a6452dc56efa24b6dfca8b319b7446a511ff5b4f441"
+  }
+}

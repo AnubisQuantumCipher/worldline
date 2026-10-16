@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "bwrap",
+    "--die-with-parent",
+    "--ro-bind",
+    "/",
+    "/",
+    "--dev",
+    "/dev",
+    "--proc",
+    "/proc",
+    "--bind",
+    "/home/sicarii/Work/worldline-phase1-completion-20261016",
+    "/home/sicarii/Work/worldline-phase1-completion-20261016",
+    "--chdir",
+    "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/coordinator/final-frame-v6/source",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/old-analysis/runtime_audit_entry.py",
+    "--audit",
+    "plain",
+    "--out",
+    "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/old-analysis/runtime-qualification-v6/attempt-0050fa054a654678855dfd5049ba0067/worker/qualification-plain/audit",
+    "--",
+    "-v",
+    "test_supervision_real"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/coordinator/final-frame-v6/source",
+  "scope": "unchanged original unittest cases"
+}
