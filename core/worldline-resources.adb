@@ -700,6 +700,41 @@ package body Worldline.Resources with SPARK_Mode is
       end;
    end Reserve_Prefix_Step;
 
+   procedure Reserve_Outgoing
+     (Original, Requested, Before, After : Byte_Array;
+      Offset : Byte_Count; Incoming, Outgoing : Natural)
+     with Ghost, Global => null, Always_Terminates,
+          Pre => Offset < Byte_Count'Last and then Incoming <= 1
+            and then Outgoing =
+              (Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+               + Incoming) / 256
+            and then Prefix_Value (Original, Offset) + Prefix_Value (Requested, Offset)
+              = Prefix_Value (Before, Offset)
+                + To_Big_Integer (Incoming) * Radix_Power (Offset)
+            and then
+              (if Offset > 0 then
+                (for all Lower in 0 .. Offset - 1 =>
+                   Digit_At (Before, Lower) = Digit_At (After, Lower)))
+            and then Digit_At (After, Offset) =
+              (Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+               + Incoming) mod 256,
+          Post => Prefix_Value (After, Offset + 1)
+            + To_Big_Integer (Outgoing) * Radix_Power (Offset + 1)
+            = Prefix_Value (Original, Offset + 1)
+              + Prefix_Value (Requested, Offset + 1)
+   is
+   begin
+      Reserve_Prefix_Step
+        (Original, Requested, Before, After, Offset, Incoming);
+      pragma Assert
+        (Prefix_Value (After, Offset + 1)
+           + To_Big_Integer
+               ((Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+                 + Incoming) / 256) * Radix_Power (Offset + 1)
+         = Prefix_Value (Original, Offset + 1)
+           + Prefix_Value (Requested, Offset + 1));
+   end Reserve_Outgoing;
+
    procedure Mismatching_Sum_Column
      (Left, Right, Result : Byte_Array; Offset : Byte_Count; Carry : Natural)
      with Ghost, Global => null, Always_Terminates,
@@ -1052,9 +1087,19 @@ package body Worldline.Resources with SPARK_Mode is
                pragma Assert (Sum = Digit_At (Original, Offset)
                                     + Digit_At (Requested, Offset) + Carry);
                State.Outstanding (Index) := Byte (Sum mod 256);
-               Reserve_Prefix_Step
-                 (Original, Requested, Before_Step, State.Outstanding, Offset, Carry);
-               Carry := Sum / 256;
+               declare
+                  Incoming : constant Natural := Carry;
+                  Outgoing : constant Natural := Sum / 256;
+               begin
+                  pragma Assert
+                    (Outgoing =
+                       (Digit_At (Original, Offset) + Digit_At (Requested, Offset)
+                        + Incoming) / 256);
+                  Reserve_Outgoing
+                    (Original, Requested, Before_Step, State.Outstanding,
+                     Offset, Incoming, Outgoing);
+                  Carry := Outgoing;
+               end;
                Matching_Prefix (Before_Step, State.Outstanding, Offset);
                Prefix_Step (State.Outstanding, Offset);
                pragma Assert (Digit_At (State.Outstanding, Offset) = Sum mod 256);
