@@ -940,8 +940,7 @@ package body Resource_Ledger with SPARK_Mode is
    end Index_In_Details;
 
    --  Public success formula, proved here from facts the caller already
-   --  holds. The precondition does not repeat the detail index. Expression
-   --  bodies stay hidden so the case split stays propositional.
+   --  holds. The precondition does not repeat the detail index.
    function Conforms_Success
      (Data : Byte_Array; Rows : Reservation_Array; Slots : Span_Array;
       Detail_Data, Total_Data : Byte_Array; Details : Quantity_Array;
@@ -984,13 +983,6 @@ package body Resource_Ledger with SPARK_Mode is
            (for all I in Detail_Data'Range => Detail_Data (I) = 0) and then
            (for all I in Total_Data'Range => Total_Data (I) = 0)))
    is
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Rows_Valid);
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Layout_Valid);
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body",
-         Output_Representation);
    begin
       pragma Assert (Status = Computed);
       pragma Assert (Rows_Valid (Data, Rows));
@@ -1038,13 +1030,6 @@ package body Resource_Ledger with SPARK_Mode is
       Detail_Data, Total_Data : Byte_Array; Details : Quantity_Array;
       Total : Quantity; Status : Result_Status) return Boolean
    is
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Details_Checked);
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Layout_Valid);
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body",
-         Output_Representation);
       Completed : Byte_Count := 0 with Ghost;
    begin
       if not Rows_Valid (Data, Rows) then
@@ -1392,8 +1377,6 @@ package body Resource_Ledger with SPARK_Mode is
      Post => Produced =
        Prefix_Reference (After, Whole (After), Offset + 1)
    is
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Reference);
    begin
       Written_Prefix_Step (Before, After, Offset, Octet);
       pragma Assert
@@ -1692,9 +1675,6 @@ package body Resource_Ledger with SPARK_Mode is
           then Detail_Data (I) = 0)))
    with Ghost, Global => null;
 
-   --  One row ordinal from the proved row-indexed canonical fact.
-   --  The body stays hidden so this is instantiation, not a second proof
-   --  of Canonical_In_Slot's conjuncts.
    procedure Canonical_At_Ordinal
      (Detail_Data : Byte_Array; Rows : Reservation_Array;
       Slots : Span_Array; Details : Quantity_Array; Ordinal : Byte_Count)
@@ -1711,8 +1691,6 @@ package body Resource_Ledger with SPARK_Mode is
        (Detail_Data, Slots (Slots'First + Ordinal),
         Details (Details'First + Ordinal))
    is
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Canonical_In_Slot);
    begin
       pragma Assert ((Rows'First + Ordinal) in Rows'Range);
       pragma Assert

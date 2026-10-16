@@ -563,7 +563,7 @@ package body Worldline.Resources with SPARK_Mode is
    end Sum_Prefix_Step;
 
    --  Column equation in a context that does not reopen the caller's proof
-   --  state. Prefix_Value and Radix_Power stay contracted, not unfolded.
+   --  state.
    procedure Close_Reserve_Column
      (Original, Requested, Before, After : Byte_Array;
       Offset : Byte_Count; Incoming : Natural)
