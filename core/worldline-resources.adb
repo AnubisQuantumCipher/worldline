@@ -1,6 +1,13 @@
 package body Worldline.Resources with SPARK_Mode is
    use type Byte;
 
+   procedure Power_Recurs (Count : Byte_Count) is
+   begin
+      pragma Assert (Radix_Power (Count) = Power_Model (Count));
+      pragma Assert (Radix_Power (Count - 1) = Power_Model (Count - 1));
+      pragma Assert (Power_Model (Count) = 256 * Power_Model (Count - 1));
+   end Power_Recurs;
+
    --  Every lemma below has an ordinary checked Ghost body. Its Post,
    --  call-site Pre, recursion and arithmetic remain proof obligations.
    --  Keep a complete quotient witness instead of asking the solver to infer
@@ -23,6 +30,7 @@ package body Worldline.Resources with SPARK_Mode is
          begin
             pragma Assert
               (Radix_Power (High - 1) = Radix_Power (Low) * Previous);
+            Power_Recurs (High);
             pragma Assert
               (Radix_Power (High) = 256 * Radix_Power (High - 1));
             return 256 * Previous;
@@ -261,6 +269,7 @@ package body Worldline.Resources with SPARK_Mode is
          return;
       end if;
       pragma Assert (Offset + 1 - 1 = Offset);
+      Power_Recurs (Offset + 1);
       pragma Assert
         (Radix_Power (Offset + 1) = 256 * Radix_Power (Offset));
       pragma Assert
@@ -576,10 +585,6 @@ package body Worldline.Resources with SPARK_Mode is
           = Prefix_Value (Original, Offset + 1)
             + Prefix_Value (Requested, Offset + 1)
    is
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Value);
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Radix_Power);
       Sum : constant Natural := Digit_At (Original, Offset)
         + Digit_At (Requested, Offset) + Incoming;
       Wanted : constant Natural := Sum mod 256;
@@ -620,10 +625,6 @@ package body Worldline.Resources with SPARK_Mode is
                 ((Digit_At (Left, Offset) + Digit_At (Right, Offset) + Carry)
                  mod 256) * Radix_Power (Offset)
    is
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Value);
-      pragma Annotate
-        (GNATprove, Hide_Info, "Expression_Function_Body", Radix_Power);
       Place : constant Big_Positive := Radix_Power (Offset);
       Next_Place : constant Big_Positive := Radix_Power (Offset + 1);
       Low : constant Big_Natural := Prefix_Value (Result, Offset);
@@ -634,6 +635,7 @@ package body Worldline.Resources with SPARK_Mode is
       Extended : constant Big_Natural := Low + To_Big_Integer (Wanted) * Place;
    begin
       Sum_Prefix_Step (Left, Right, Result, Offset, Carry);
+      Power_Recurs (Offset + 1);
       pragma Assert (Radix_Power (Offset + 1) = 256 * Radix_Power (Offset));
       pragma Assert (Next_Place = 256 * Place);
       pragma Assert (Low < Place);
