@@ -206,7 +206,6 @@ package body Worldline.Chain_Authority with SPARK_Mode is
        Prefix_Reference (Kind, Rows, Genesis, From),
      Subprogram_Variant => (Decreases => To - From)
    is
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Reference);
    begin
       if To > From then
          Prefix_Stays (Kind, Rows, Genesis, From, To - 1);
@@ -251,9 +250,6 @@ package body Worldline.Chain_Authority with SPARK_Mode is
      Post => Replay_Reference
        (Kind, Rows, Observed_Genesis, Witnessed_Genesis, Witnessed_Head) = Stopped
    is
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Reference);
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Step);
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Replay_Reference);
    begin
       Step_Image (Kind, Rows, Genesis, Count);
       Step_Same
@@ -292,8 +288,6 @@ package body Worldline.Chain_Authority with SPARK_Mode is
        Expected = (Disposition => Ready, Head => Row.Stored_Head.Value,
                    Accepted_Count => Count + 1)
    is
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Reference);
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Step);
       Previous : constant Result := Expected;
    begin
       Step_Image (Kind, Rows, Genesis, Count);
@@ -323,7 +317,6 @@ package body Worldline.Chain_Authority with SPARK_Mode is
        (Kind, Rows, Observed_Genesis, Witnessed_Genesis, Witnessed_Head) =
        Finish_Reference (Expected, Witnessed_Head.Value)
    is
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Reference);
    begin
       null;
    end Close_Finished;
@@ -333,7 +326,6 @@ package body Worldline.Chain_Authority with SPARK_Mode is
       Observed_Genesis, Witnessed_Genesis, Witnessed_Head : Optional_Digest)
       return Result
    is
-      pragma Annotate (GNATprove, Hide_Info, "Expression_Function_Body", Prefix_Reference);
       Receipt : Receipts.Chain := Receipts.New_Chain (Observed_Genesis.Value);
       Causal : Causal_Graph.Chain := Causal_Graph.New_Chain (Observed_Genesis.Value);
       Current : Hash := Observed_Genesis.Value;
