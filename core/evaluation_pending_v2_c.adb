@@ -286,7 +286,5 @@ package body Evaluation_Pending_V2_C with SPARK_Mode => On is
                 Requirement => Export_Requirement (P.Requirement)));
             return 0;
          end;
-   exception
-      when others => return 255;
    end Decide;
 end Evaluation_Pending_V2_C;

@@ -265,6 +265,5 @@ package body Resource_Run_Ledger_C_API with SPARK_Mode => On is
          Output := W.Decide (Data, Raw, Before, Proposed, Observed);
       end;
       return 0;
-   exception when others => return -1;
    end Check;
 end Resource_Run_Ledger_C_API;

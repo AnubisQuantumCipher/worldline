@@ -11,11 +11,11 @@ package Worldline.Resources_C_API with SPARK_Mode => On is
    function ABI_Version return Interfaces.Unsigned_32;
 
    --  Return 1 for admissible arithmetic, 0 for insufficient capacity and 255
-   --  for a checked shape error or caught exception. Input storage is
-   --  caller-owned, readable for the stated extent, and must remain live and
-   --  unchanged throughout the call; raw-pointer readability is not proved.
-   --  A null pointer
-   --  denotes zero only when its length is zero.
+   --  for a checked shape error. Storage or contract exceptions propagate to
+   --  the existing Off Worldline.C_API transport, which returns 255. Input
+   --  storage is caller-owned, readable for the stated extent, and must remain
+   --  live and unchanged throughout the call; raw-pointer readability is not
+   --  proved. A null pointer denotes zero only when its length is zero.
    function Can_Reserve
      (Available_Negative : Interfaces.Unsigned_8;
       Available, Withheld, Floor, Requested : not null access constant Resources.Byte_Array)

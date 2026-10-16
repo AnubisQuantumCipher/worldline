@@ -50,7 +50,5 @@ package body Worldline.Resources_C_API with SPARK_Mode => On is
          end if;
       end;
       return 0;
-   exception
-      when others => return 255;
    end Can_Reserve;
 end Worldline.Resources_C_API;

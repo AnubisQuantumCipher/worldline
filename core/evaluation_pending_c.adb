@@ -247,7 +247,5 @@ package body Evaluation_Pending_C with SPARK_Mode => On is
                 Selected => I64 (P.Selected)));
             return 0;
          end;
-   exception
-      when others => return 255;
    end Decide;
 end Evaluation_Pending_C;

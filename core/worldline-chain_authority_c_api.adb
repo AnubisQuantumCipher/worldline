@@ -152,6 +152,7 @@ package body Worldline.Chain_Authority_C_API with SPARK_Mode => On is
          Write_Result (Output_View, W.Decide (Owned, H));
       end;
       return 0;
-   exception when others => return -1;
+   exception
+      when others => return -1;
    end Replay;
 end Worldline.Chain_Authority_C_API;
