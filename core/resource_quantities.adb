@@ -91,14 +91,12 @@ package body Resource_Quantities with SPARK_Mode is
       pragma Assert (Gap + Extra > 0);
    end Higher_Column_Order;
 
-   --  Private iterative producer; its complete value equation and the
-   --  Inline_For_Proof correspondence are mandatory proof obligations.
-   --  No smaller public producer is called by this worker body.
+   --  Private iterative producer. Its complete value equation remains a
+   --  proof obligation. No smaller public producer is called by this body.
    function Radix_Power_Worker (Exponent : Byte_Count)
       return Valid_Big_Integer
    with Ghost, Global => null,
-     Post => Radix_Power_Worker'Result = Power_Reference (Exponent),
-     Annotate => (GNATprove, Inline_For_Proof)
+     Post => Radix_Power_Worker'Result = Power_Reference (Exponent)
    is
       Completed : Byte_Count := 0;
       Result : Valid_Big_Integer := To_Big_Integer (1);
@@ -169,8 +167,7 @@ package body Resource_Quantities with SPARK_Mode is
    --  Its independent equality must be proved; it is not imported or assumed.
    function Radix_Power_Checked (Exponent : Byte_Count) return Valid_Big_Integer
    with Ghost, Global => null,
-     Post => Radix_Power_Checked'Result = Power_Reference (Exponent),
-     Annotate => (GNATprove, Inline_For_Proof)
+     Post => Radix_Power_Checked'Result = Power_Reference (Exponent)
    is
       Result : constant Valid_Big_Integer := Radix_Power_Worker (Exponent);
    begin
@@ -196,8 +193,7 @@ package body Resource_Quantities with SPARK_Mode is
      (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
       return Valid_Big_Integer
    with Ghost, Global => null,
-     Post => Prefix_Value_Worker'Result = Prefix_Reference (Data, Q, Count),
-     Annotate => (GNATprove, Inline_For_Proof)
+     Post => Prefix_Value_Worker'Result = Prefix_Reference (Data, Q, Count)
    is
       Completed : Byte_Count := 0;
       Result : Valid_Big_Integer := To_Big_Integer (0);
@@ -291,8 +287,7 @@ package body Resource_Quantities with SPARK_Mode is
      (Data : Byte_Array; Q : Quantity; Count : Byte_Count)
       return Valid_Big_Integer
    with Ghost, Global => null,
-     Post => Prefix_Value_Checked'Result = Prefix_Reference (Data, Q, Count),
-     Annotate => (GNATprove, Inline_For_Proof)
+     Post => Prefix_Value_Checked'Result = Prefix_Reference (Data, Q, Count)
    is
       Result : constant Valid_Big_Integer :=
         Prefix_Value_Worker (Data, Q, Count);

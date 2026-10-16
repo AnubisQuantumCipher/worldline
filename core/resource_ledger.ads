@@ -155,9 +155,7 @@ package Resource_Ledger with SPARK_Mode is
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)
       return Valid_Big_Integer
    with Ghost, Global => null,
-     Subprogram_Variant => (Decreases => Count),
-     Post => Prefix_Total_Checked'Result = Total_Model (Data, Rows, Count),
-     Annotate => (GNATprove, Inline_For_Proof);
+     Post => Prefix_Total_Checked'Result = Total_Model (Data, Rows, Count);
 
    function Prefix_Total
      (Data : Byte_Array; Rows : Reservation_Array; Count : Byte_Count)

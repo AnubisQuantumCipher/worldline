@@ -66,7 +66,6 @@ package Resource_Quantities with SPARK_Mode is
    --  The already-identical independent step conjunct is folded into this
    --  recurrence, rather than recomputing the same predecessor a second time.
    --  These expression definitions keep the complete public postconditions.
-   --  Explicit proof inlining is reserved for the single-equality workers.
    function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
      (Power_Reference (Exponent))
    with Ghost, Global => null,
