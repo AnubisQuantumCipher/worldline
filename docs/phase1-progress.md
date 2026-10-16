@@ -329,3 +329,10 @@ MEASURED/TESTED native backup-only batch on df0 plus held documentary diff43aecd
 D111 fresh qualification preparation keeps separate original main45m/aux45m, full proof120m, original runtime controls and all strict source/proof/fixture/ownership requirements. Review rejected new runner metadata guards before execution for missing/null/boolean success confusion and physical-source/Git-tree correspondence gaps; immutable corrected proposals are being reviewed. No new build/proof/runtime success or frozen release is claimed from preparation. The remaining original Old/toolchain target is also being investigated without a narrowed claim. Gate-table statuses and independent acceptance NOT PERFORMED remain unchanged.
 
 D111 corrected source methods have actual GPT-6.1 preparation concurrence: outerv2ee02b0bf, typed runtimequalificationv25de3e226, unchanged fullproof invocation6be441f1. Root read full receipts/deltas and copied exact reviewed inner build/runtime methods into their required owned scratch locations (installation receipt D111-method-installation-20261015-v1/application.json). No metadata freeze, new product full build/proof/runtime or new tested release has run. Final clean-source/prerequisite binding and composed launch review are next.
+
+### Current checkpoint qualification, 2026-10-16
+
+Paired supervision qualification on commit `58262a0b89cdc0a10ed668b4bd1405b8814af34b` passed. Plain and audit each ran `test_supervision_real`: 5 tests, 0 failures, 0 errors, exit 0. Both required launch forms matched typed manager ExecStart. Locked exit 0. Evidence: `scratch/old-analysis/runtime-qualification-v6/`. This is not full runtime and not acceptance.
+
+`bin/worldline_core_tests` printed PASS and exited 0 after relink against the prebuilt private SPARKlib. `prove.sh` then started `gnatprove -P core/worldline_core.gpr -U --level=3 --report=fail -j0`. That proof is still running and has not written `gnatprove.out`. `Logical_Equal` remains in `core/worldline.ads`. The iPad is attached and unconfigured, so no archive backup was started. Independent acceptance remains NOT PERFORMED.
+
