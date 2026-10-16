@@ -334,5 +334,9 @@ D111 corrected source methods have actual GPT-6.1 preparation concurrence: outer
 
 Paired supervision qualification on commit `58262a0b89cdc0a10ed668b4bd1405b8814af34b` passed. Plain and audit each ran `test_supervision_real`: 5 tests, 0 failures, 0 errors, exit 0. Both required launch forms matched typed manager ExecStart. Locked exit 0. Evidence: `scratch/old-analysis/runtime-qualification-v6/`. This is not full runtime and not acceptance.
 
-`bin/worldline_core_tests` printed PASS and exited 0 after relink against the prebuilt private SPARKlib. `prove.sh` then started `gnatprove -P core/worldline_core.gpr -U --level=3 --report=fail -j0`. That proof is still running and has not written `gnatprove.out`. `Logical_Equal` remains in `core/worldline.ads`. The iPad is attached and unconfigured, so no archive backup was started. Independent acceptance remains NOT PERFORMED.
+`bin/worldline_core_tests` printed PASS and exited 0 after relink against the prebuilt private SPARKlib. `prove.sh` then started `gnatprove -P core/worldline_core.gpr -U --level=3 --report=fail -j0`. After 53 minutes that proof was still running and had not written `gnatprove.out`. Units were leaving `gnat2why` and new ones were starting. `Logical_Equal` remains in `core/worldline.ads`, so the proof screen will reject the run before it can write a new manifest.
+
+The working-tree contract pins match (`test_reviewed_working_tree_contracts_and_projects_match_literal_pins` passed). `proof-manifest.json` claims 251 checks and 90 subprograms. The pin roster requires 1650 names; 1635 are absent, starting with `Worldline.Evaluation_V2.Transition_Allowed`. Those claims were not written in by hand.
+
+In-process `prepare` on a fresh store raises `EVALUATION_AUTHORITY_UNAVAILABLE` before a transaction. An empty journal changes that to `INPUT_ABSENT`. A hand-built validation context is not an admitted evaluation. The iPad is attached and unconfigured, so no archive backup was started. Independent acceptance remains NOT PERFORMED.
 
