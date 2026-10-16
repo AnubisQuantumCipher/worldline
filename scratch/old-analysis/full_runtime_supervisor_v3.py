@@ -5,7 +5,7 @@ The flock holder remains outside the 8G worker and owns only recorded UUID units
 No product test, daemon instrumentation or assertion is modified.
 """
 from __future__ import annotations
-import argparse,hashlib,importlib.util,json,os,re,signal,subprocess,sys,time,traceback,uuid
+import argparse,hashlib,importlib.util,json,os,re,signal,subprocess,sys,threading,time,traceback,uuid
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];OWN=ROOT/'scratch/old-analysis'
 LOCK='/home/sicarii/.worldline-heavy.lock'
@@ -97,7 +97,7 @@ def typed_exec(unit):
 class RuntimeUnits:
     def __init__(self,out,commit):
         self.out=out;self.commit=commit;self.module=reference();self.initial,self.initial_receipt=units();save(out/'manager-initial.json',self.initial_receipt)
-        self.known={};self.intent_rows=[];self.failure=[];self.offsets={};self.exact_matches=[];self.exact_keys=set();self.unattributed=set();self.readonly={}
+        self.known={};self.intent_rows=[];self.failure=[];self.offsets={};self.exact_matches=[];self.exact_keys=set();self.unattributed=set();self.readonly={};self.intent_lock=threading.Lock()
     def intents(self):
         for path in self.out.rglob('popen.jsonl'):
             if path.is_symlink():continue
@@ -113,13 +113,46 @@ class RuntimeUnits:
                     if row.get('intent'):
                         row['receipt_path']=str(path);self.intent_rows.append(row)
                 self.offsets[str(path)]=f.tell()
+    def sample_new_intents(self, tight_keys=()):
+        # Read-only. Retry each unmatched fsynced systemd intent until its typed
+        # ExecStart matches. A newly seen intent is queried immediately and then
+        # every millisecond for 0.25s, because --collect removes a short unit
+        # before the 0.05s poll. An early miss is not success and is not forgotten.
+        # Does not admit, stop, or change the original match predicate.
+        with self.intent_lock:
+            self.intents()
+            pending=[]
+            for row in self.intent_rows:
+                intent=row.get('intent')
+                if not isinstance(intent,dict):continue
+                key=(intent.get('unit'),row.get('receipt_path'),row.get('monotonic_ns'))
+                if key not in self.exact_keys:pending.append((key,row))
+        for key,row in pending:
+            intent=row.get('intent')
+            unit=intent.get('unit','');argv=intent.get('exec_argv')
+            if not canonical(unit) or unit in self.initial or not isinstance(argv,list) or not argv:continue
+            deadline=time.monotonic()+(0.25 if key in tight_keys else 0)
+            while True:
+                info,raw=typed_exec(unit)
+                if info and any(entry['argv']==argv and entry['executable']==argv[0] for entry in info['execs']):
+                    with self.intent_lock:
+                        if key not in self.exact_keys:
+                            self.exact_keys.add(key)
+                            matched={'unit':unit,'receipt':row,'typed_manager':raw}
+                            self.exact_matches.append(matched);log(self.out/'exact-launch-matches.jsonl',matched)
+                    break
+                if time.monotonic()>=deadline:break
+                time.sleep(0.001)
     def refresh(self):
-        self.intents();current,receipt=units();log(self.out/'manager-rosters.jsonl',receipt)
-        wanted={r['intent']['unit'] for r in self.intent_rows if isinstance(r.get('intent'),dict) and canonical(r['intent'].get('unit',''))}
+        self.sample_new_intents()
+        with self.intent_lock:
+            rows=list(self.intent_rows)
+        current,receipt=units();log(self.out/'manager-rosters.jsonl',receipt)
+        wanted={r['intent']['unit'] for r in rows if isinstance(r.get('intent'),dict) and canonical(r['intent'].get('unit',''))}
         for unit in sorted(set(current)|wanted):
             if not canonical(unit) or unit in self.initial:continue
             info,raw=typed_exec(unit)
-            direct=[r for r in self.intent_rows if r['intent']['unit']==unit]
+            direct=[r for r in rows if r['intent']['unit']==unit]
             basis=None
             if info:
                 matches=[r for entry in info['execs'] for r in direct
@@ -128,10 +161,11 @@ class RuntimeUnits:
                     basis='direct root Popen intent with exact typed manager ExecStart executable and argv equality'
                     for receipt in matches:
                         key=(unit,receipt['receipt_path'],receipt['monotonic_ns'])
-                        if key not in self.exact_keys:
-                            self.exact_keys.add(key)
-                            matched={'unit':unit,'receipt':receipt,'typed_manager':raw}
-                            self.exact_matches.append(matched);log(self.out/'exact-launch-matches.jsonl',matched)
+                        with self.intent_lock:
+                            if key not in self.exact_keys:
+                                self.exact_keys.add(key)
+                                matched={'unit':unit,'receipt':receipt,'typed_manager':raw}
+                                self.exact_matches.append(matched);log(self.out/'exact-launch-matches.jsonl',matched)
                 elif inside(info['cwd']):basis='exact typed manager WorkingDirectory resolves inside owned worktree'
                 elif any(owned_exec(entry) for entry in info['execs']):basis='exact typed manager ExecStart executable, Python script, or bwrap mount source resolves inside owned worktree'
             if unit in self.known:continue
@@ -252,6 +286,24 @@ def locked(args):
     for sig in (signal.SIGINT,signal.SIGTERM,signal.SIGHUP):signal.signal(sig,lambda s,f:cancel.update(requested=True))
     argv=[sys.executable,'-B',str(ROOT/'scripts/phase1_heavy.py'),'--phase','locked','--out',str(out/'scope'),'--timeout',args.scope_timeout,'--swap-max','0','--',*base(args,'worker',out/'worker')]
     save(out/'watcher.json',{'argv':argv,'pid':os.getpid(),'shared_lock':LOCK,'outside_worker_scope':True,'reference_sha256':sha(REFERENCE),'audit_sha256':sha(AUDIT),'original_enforcement_none_preserved':True,'aggregate_sibling_cap_equivalence':'NOT CLAIMED'})
+    stop_sample=threading.Event()
+    def sample_loop():
+        seen=set()
+        while not stop_sample.is_set():
+            try:
+                with watch.intent_lock:
+                    watch.intents()
+                    fresh=[]
+                    for row in watch.intent_rows:
+                        intent=row.get('intent')
+                        if not isinstance(intent,dict):continue
+                        key=(intent.get('unit'),row.get('receipt_path'),row.get('monotonic_ns'))
+                        if key not in seen and key not in watch.exact_keys:
+                            fresh.append(key);seen.add(key)
+                watch.sample_new_intents(tight_keys=tuple(fresh))
+            except BaseException as e:log(out/'intent-sampler-errors.jsonl',{'error':repr(e),'traceback':traceback.format_exc()})
+            stop_sample.wait(0.05)
+    sampler=threading.Thread(target=sample_loop,name='intent-sampler',daemon=True);sampler.start()
     process=None;failure=None
     try:
         with (out/'heavy.stdout').open('xb') as stdout,(out/'heavy.stderr').open('xb') as stderr:
@@ -262,6 +314,7 @@ def locked(args):
     except BaseException as e:
         failure=repr(e);log(out/'watcher-errors.jsonl',{'error':failure,'traceback':traceback.format_exc()})
     finally:
+        stop_sample.set();sampler.join(timeout=2)
         # Make all worker/daemon descendants unable to launch more siblings
         # before settlement; no absent service is treated as final while live.
         while process is not None and process.poll() is None:
