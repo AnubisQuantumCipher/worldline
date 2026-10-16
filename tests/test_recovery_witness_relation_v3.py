@@ -34,7 +34,7 @@ def binding():
 class FullDomainRecoveryRelationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
         cls.kernel = RecoveryAuthorityKernelV3(cls.core)
 
     def setUp(self):

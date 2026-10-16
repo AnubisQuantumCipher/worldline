@@ -12,6 +12,8 @@ from worldline.operation_capture import archive, restore_archive
 
 
 class JournalWitnessNativeControls(unittest.TestCase):
+    @unittest.skipUnless(os.environ.get('WORLDLINE_JOURNAL_WITNESS_CORPUS') and os.environ.get('WORLDLINE_SOURCE_IDENTITY'),
+                         'original journal witness corpus is selected by the campaign environment')
     def test_full_original_fixture_corpus(self):
         root = Path(os.environ['WORLDLINE_JOURNAL_WITNESS_CORPUS'])
         identity = os.environ['WORLDLINE_SOURCE_IDENTITY']

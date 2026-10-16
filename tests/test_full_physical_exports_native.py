@@ -10,7 +10,7 @@ from worldline.canonical_exchange_kernel import CanonicalExchangeKernel, Input
 class FullPhysicalExportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
 
     def test_physical_layout_and_hidden_helpers(self):
         version = self.core._lib.wl_full_physical_version_v1

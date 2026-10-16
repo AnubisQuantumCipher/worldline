@@ -5,6 +5,7 @@ source. Original fixture suites remain enrolled unchanged alongside this file.
 """
 import ctypes as C
 import os
+from pathlib import Path
 from types import SimpleNamespace
 import unittest
 from test_resource_child_execution_v1 import full_child
@@ -47,7 +48,7 @@ def malformed_presence(value):
 class NativeExecutionCompletionControls(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = SimpleNamespace(_lib=C.CDLL(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = SimpleNamespace(_lib=C.CDLL(os.environ.get('WORLDLINE_CORE_LIB', str(Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so'))))
         cls.kernel = J.ResourceChildExecutionKernel(cls.core)
 
     def owned(self, mode):

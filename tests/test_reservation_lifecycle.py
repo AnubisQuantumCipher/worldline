@@ -17,7 +17,7 @@ from worldline.reservation_lifecycle import _Row, _api, release_plan, reconcile_
 class ReservationLifecycleTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
 
     def wire(self, raw, rows, mode, present, first, length, mask):
         arena = (ctypes.c_uint8 * len(raw)).from_buffer_copy(raw)

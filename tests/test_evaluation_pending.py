@@ -11,7 +11,7 @@ from worldline.evaluation_pending import PendingJournal, PendingRefused, previou
 from worldline.pending_kernel import PendingKernel, Intent, Reason, Span, Cursor, Row, Request, Result
 
 
-LIBRARY = pathlib.Path(os.environ["WORLDLINE_CORE_LIB"]).resolve()
+LIBRARY = pathlib.Path(os.environ.get("WORLDLINE_CORE_LIB", pathlib.Path(__file__).resolve().parents[1] / "lib/libworldline_core.so")).resolve()
 
 
 class OrdinaryPending(unittest.TestCase):

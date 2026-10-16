@@ -5,7 +5,7 @@ The flock holder remains outside the 8G worker and owns only recorded UUID units
 No product test, daemon instrumentation or assertion is modified.
 """
 from __future__ import annotations
-import argparse,hashlib,importlib.util,json,os,re,signal,subprocess,sys,threading,time,traceback,uuid
+import argparse,hashlib,importlib.util,json,os,re,select,signal,subprocess,sys,threading,time,traceback,uuid
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];OWN=ROOT/'scratch/old-analysis'
 LOCK='/home/sicarii/.worldline-heavy.lock'
@@ -286,24 +286,43 @@ def locked(args):
     for sig in (signal.SIGINT,signal.SIGTERM,signal.SIGHUP):signal.signal(sig,lambda s,f:cancel.update(requested=True))
     argv=[sys.executable,'-B',str(ROOT/'scripts/phase1_heavy.py'),'--phase','locked','--out',str(out/'scope'),'--timeout',args.scope_timeout,'--swap-max','0','--',*base(args,'worker',out/'worker')]
     save(out/'watcher.json',{'argv':argv,'pid':os.getpid(),'shared_lock':LOCK,'outside_worker_scope':True,'reference_sha256':sha(REFERENCE),'audit_sha256':sha(AUDIT),'original_enforcement_none_preserved':True,'aggregate_sibling_cap_equivalence':'NOT CLAIMED'})
-    stop_sample=threading.Event()
+    stop_sample=threading.Event();watches_ready=threading.Event()
     def sample_loop():
-        seen=set()
-        while not stop_sample.is_set():
-            try:
-                with watch.intent_lock:
-                    watch.intents()
-                    fresh=[]
-                    for row in watch.intent_rows:
-                        intent=row.get('intent')
-                        if not isinstance(intent,dict):continue
-                        key=(intent.get('unit'),row.get('receipt_path'),row.get('monotonic_ns'))
-                        if key not in seen and key not in watch.exact_keys:
-                            fresh.append(key);seen.add(key)
-                watch.sample_new_intents(tight_keys=tuple(fresh))
-            except BaseException as e:log(out/'intent-sampler-errors.jsonl',{'error':repr(e),'traceback':traceback.format_exc()})
-            stop_sample.wait(0.05)
+        seen=set();notifier=None
+        try:
+            notifier=subprocess.Popen(['inotifywait','-m','-r','-e','create,close_write,moved_to','--format','%w%f',str(out)],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            err=b'';deadline=time.monotonic()+2
+            while notifier.poll() is None and time.monotonic()<deadline and b'Watches established' not in err:
+                ready,_,_=select.select([notifier.stderr],[],[],0.05)
+                if ready:err+=notifier.stderr.read1(4096)
+            watches_ready.set()
+            while not stop_sample.is_set():
+                try:
+                    if notifier.poll() is None:
+                        select.select([notifier.stdout],[],[],0.05)
+                        while notifier.poll() is None:
+                            ready,_,_=select.select([notifier.stdout],[],[],0)
+                            if not ready or not notifier.stdout.readline():break
+                    else:stop_sample.wait(0.001)
+                    with watch.intent_lock:
+                        watch.intents()
+                        fresh=[]
+                        for row in watch.intent_rows:
+                            intent=row.get('intent')
+                            if not isinstance(intent,dict):continue
+                            key=(intent.get('unit'),row.get('receipt_path'),row.get('monotonic_ns'))
+                            if key not in seen and key not in watch.exact_keys:
+                                fresh.append(key);seen.add(key)
+                    watch.sample_new_intents(tight_keys=tuple(fresh))
+                except BaseException as e:log(out/'intent-sampler-errors.jsonl',{'error':repr(e),'traceback':traceback.format_exc()})
+        finally:
+            watches_ready.set()
+            if notifier is not None and notifier.poll() is None:
+                notifier.terminate()
+                try:notifier.wait(timeout=2)
+                except subprocess.TimeoutExpired:notifier.kill()
     sampler=threading.Thread(target=sample_loop,name='intent-sampler',daemon=True);sampler.start()
+    watches_ready.wait(2)
     process=None;failure=None
     try:
         with (out/'heavy.stdout').open('xb') as stdout,(out/'heavy.stderr').open('xb') as stderr:

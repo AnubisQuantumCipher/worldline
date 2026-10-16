@@ -9,7 +9,7 @@ from worldline.protected_operations import empty_evidence, quantity, clone
 class OperationExportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
         # Actual original constructor also checks every recovery and chain layout.
         cls.kernel = OperationAuthorityKernel(cls.core)
 

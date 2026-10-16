@@ -15,7 +15,7 @@ from worldline.resource_run_ledger import (RunContext, RunBinding, RunState,
 class CanonicalOperationExportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.kernel = CanonicalOperationKernel(Core(Path(os.environ['WORLDLINE_CORE_LIB'])))
+        cls.kernel = CanonicalOperationKernel(Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so'))))
 
     def fixture(self):
         # Operation fixture identities/quantities retain the prior native control

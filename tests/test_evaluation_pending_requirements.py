@@ -12,7 +12,7 @@ from worldline.pending_kernel_v2 import (
     OptionalRequirement,
 )
 
-LIBRARY = pathlib.Path(os.environ["WORLDLINE_CORE_LIB"]).resolve()
+LIBRARY = pathlib.Path(os.environ.get("WORLDLINE_CORE_LIB", pathlib.Path(__file__).resolve().parents[1] / "lib/libworldline_core.so")).resolve()
 
 
 class PendingRequirementControls(unittest.TestCase):

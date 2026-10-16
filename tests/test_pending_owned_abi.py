@@ -12,7 +12,7 @@ import unittest
 from worldline import pending_kernel as V1
 from worldline import pending_kernel_v2 as V2
 
-LIBRARY = Path(os.environ["WORLDLINE_CORE_LIB"]).resolve()
+LIBRARY = Path(os.environ.get("WORLDLINE_CORE_LIB", Path(__file__).resolve().parents[1] / "lib/libworldline_core.so")).resolve()
 
 
 def empty_span(module):

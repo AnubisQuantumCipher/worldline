@@ -386,8 +386,17 @@ class ContractPins(unittest.TestCase):
             for name in ("verify_proof_manifest.py", "proof-manifest.json", "worldline.gpr"):
                 shutil.copy2(ROOT / name, tree / name)
             shutil.copytree(ROOT / "core", tree / "core")
-            (tree / "tests").mkdir()
-            shutil.copy2(ROOT / "tests/worldline_tests.gpr", tree / "tests/worldline_tests.gpr")
+            for relative in {key.partition("#")[0] for key in self.verifier.CONTRACT_PINS}:
+                source = ROOT / relative
+                target = tree / relative
+                if target.exists():
+                    continue
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+            runtime = tree / "runtime/worldline"
+            runtime.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / "runtime/worldline/__init__.py", runtime / "__init__.py")
+            shutil.copy2(ROOT / "runtime/worldline/proof_manifest.py", runtime / "proof_manifest.py")
             run = lambda: subprocess.run([sys.executable, "verify_proof_manifest.py", "--sources-only"], cwd=tree,
                                          capture_output=True, text=True, env={"PYTHONDONTWRITEBYTECODE": "1"})
             self.assertEqual(run().returncode, 0)

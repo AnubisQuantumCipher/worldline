@@ -23,7 +23,7 @@ from worldline.finalize import ENGINE_DECLARATIONS
 class FinalizationNativeControls(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.library = Path(os.environ['WORLDLINE_CORE_LIB'])
+        cls.library = Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so'))
         cls.core = Core(cls.library)
         cls.kernel = FinalizationKernel(cls.library)
 

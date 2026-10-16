@@ -25,7 +25,7 @@ from worldline.linux.private_evaluator import (
 from worldline.raw_observation import optional_bytes
 
 
-LIBRARY = Path(os.environ['WORLDLINE_CORE_LIB']).resolve()
+LIBRARY = Path(os.environ.get("WORLDLINE_CORE_LIB", Path(__file__).resolve().parents[1] / "lib/libworldline_core.so")).resolve()
 ORIGINAL_SITES = (
     'legacy-process-return', 'legacy-process-exception', 'legacy-report',
     'private-process-return', 'private-report-binding', 'private-report',

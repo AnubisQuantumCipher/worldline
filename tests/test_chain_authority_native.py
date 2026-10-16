@@ -9,7 +9,7 @@ from worldline.chain_authority import ChainAnchors, ChainRow, replay_chain
 class NativeChainAuthorityTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
         cls.genesis = bytes(HASH_BYTES)
 
     def material(self, kind):

@@ -21,7 +21,7 @@ from worldline.pending_kernel_v2 import Intent
 class RequiredFailureControls(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        library = Path(os.environ['WORLDLINE_CORE_LIB']).resolve(strict=True)
+        library = Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')).resolve(strict=True)
         cls.core = Core(library)
         cls.kernel = CompletionKernel(library)
 

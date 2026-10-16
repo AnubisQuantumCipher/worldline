@@ -7,6 +7,8 @@ import tempfile
 import unittest
 
 
+@unittest.skipUnless(os.environ.get('WORLDLINE_ACTOR_ARCHIVE_CONTROL'),
+                     'original actor archive control is selected by the campaign environment')
 class ActorArchiveReplayV35(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

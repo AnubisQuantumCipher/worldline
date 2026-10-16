@@ -35,7 +35,7 @@ class RequestResultAliasV3(C.Union):
 class OwnedRecoveryHistoryAbiControls(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
         cls.history = _api(cls.core)
         cls.v2 = RecoveryAuthorityKernel(cls.core)
         cls.v3 = RecoveryAuthorityKernelV3(cls.core)

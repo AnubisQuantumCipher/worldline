@@ -20,7 +20,7 @@ class RawRequiredFailureControls(RequiredFailureControls):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.raw_kernel = RawCompletionKernel(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.raw_kernel = RawCompletionKernel(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
 
     def prepared(self, rows):
         from worldline.evaluation_context import RowMetadata
@@ -518,7 +518,7 @@ class RawRequiredFailureControls(RequiredFailureControls):
 class RawDependencyControls(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.core = Core(Path(os.environ['WORLDLINE_CORE_LIB']))
+        cls.core = Core(Path(os.environ.get('WORLDLINE_CORE_LIB', Path(__file__).resolve().parents[1] / 'lib/libworldline_core.so')))
 
     @staticmethod
     def checkpoint():

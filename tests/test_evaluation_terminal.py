@@ -16,7 +16,7 @@ from worldline.evaluation_writer import EngineEvaluationWriter
 from worldline.evaluation_history import EvaluationRecord, EvaluationCursor, EvaluationQuery, select_history
 from worldline.finalize import CheckDeclaration
 
-LIBRARY = Path(os.environ['WORLDLINE_CORE_LIB']).resolve()
+LIBRARY = Path(os.environ.get("WORLDLINE_CORE_LIB", Path(__file__).resolve().parents[1] / "lib/libworldline_core.so")).resolve()
 
 class TerminalControls(unittest.TestCase):
     def setUp(self):

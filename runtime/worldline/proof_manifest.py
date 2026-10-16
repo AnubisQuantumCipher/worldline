@@ -504,7 +504,7 @@ _TYPED_EXPORT_RAW_UNIT_PINS = {'core/evaluation_finalization_c.adb': 'dee2db8b37
  'core/evaluation_finalization_c.ads': '93bfb1a973ba6b72ca201e3e3869e094bdb162c931a786f3ca82df2594120b73',
  'core/worldline-c_api.adb': '04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a',
  'core/worldline-c_api.ads': 'd947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6',
- 'core/worldline-chain_authority_c_api.adb': 'd249c6368abc6d0fd8900b8864d7b17d4b1d52791324334044513551e3c7def2',
+ 'core/worldline-chain_authority_c_api.adb': '9302e23d571f580aa0ed78b7c18158ae202000bae04109c9a5d61422e6569b50',
  'core/worldline-chain_authority_c_api.ads': 'd9be8c4167d43909e2d9e0aa1ba1cf53be115426f14029e9980b699741e56279',
  'core/worldline-recovery_authorization_v3_c_api.adb': 'e5b06e6ce91f9e1667c1ffa51ec05cc2fe519fde52d599f75a178f9a1cdc6c7b',
  'core/worldline-recovery_authorization_v3_c_api.ads': '4523ee8a7a771e92d12831720b37908fc115f5c8f7b9963221a3e37c5bfef99a',
