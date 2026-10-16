@@ -684,7 +684,9 @@ class AnchorLedger:
             result["receipts"] = coverage["receipts"]
             result["unanchoredReceipts"] = len(coverage["unanchoredReceiptIds"])
         elif receipts_known is not None:
+            anchored_receipts = len(self.anchored()["receipts"])
             result["receipts"] = receipts_known
+            result["unanchoredReceipts"] = max(0, receipts_known - anchored_receipts)
         return result
 
     def _coverage(self, items: Mapping[str, Any]) -> dict[str, Any]:
