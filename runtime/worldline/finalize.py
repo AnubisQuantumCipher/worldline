@@ -557,6 +557,21 @@ class Finalizer:
                 item["executionBinding"] = execution_binding(item)
                 item["evaluation"] = evaluation_record(
                     item, declared=declarations.get(str(item.get("id"))), core=self.core)
+            _, empty_declared = required_roster(requirement, core=self.core)
+            roster = roster_decision(
+                required_checks,
+                {str(item.get("id")): item for item in check_results},
+                declarations,
+                empty_declared=empty_declared and not required_checks,
+                core=self.core,
+            )
+            if not roster["complete"]:
+                refused = [item["id"] for item in roster["refused"]] or ["roster-undeclared"]
+                raise WorldlineError(
+                    "CORE_INVALID_EVALUATION",
+                    "the kernel refused the evaluation roster",
+                    {"refused": refused},
+                )
             dependencies = capture_dependencies(dependency_roots, self.core)
             dependency_counts = [item["count"] for item in dependencies]
             dependency_count = (

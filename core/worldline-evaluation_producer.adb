@@ -135,7 +135,8 @@ package body Worldline.Evaluation_Producer with SPARK_Mode is
       if Field_Is (Result, "origin", "agent") then
          if V.Is_True (Result_Record, F (Resource, "ceilingFired")) then
             Produced.Raw.Observations (W.Supervisor_Stopped_Field) := 1;
-         elsif not V.Is_False (Result_Record, F (Resource, "ceilingFired")) then
+         elsif not Absent (F (Resource, "ceilingFired"))
+           and then not V.Is_False (Result_Record, F (Resource, "ceilingFired")) then
             Produced.Raw.Observations (W.Supervisor_Field) := 3;
          end if;
       end if;

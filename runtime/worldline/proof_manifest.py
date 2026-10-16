@@ -1985,7 +1985,7 @@ CONTRACT_PINS.update({
     'core/worldline-evaluation_agent_native.ads': '14088300d81a83e26aad345de50e08df2d4b824a76cc46a5dc5587287d43607c',
     'core/worldline-evaluation_policy.adb': 'dfbe8685b54c53d1b52178482ac438c8ac9d05eef59c1e9e4d9e6e55bdf02767',
     'core/worldline-evaluation_policy.ads': '1663973beb7da58a32cc7e9fb2c5bcb4aede5edd1be90acb218c6f7ec7ed2485',
-    'core/worldline-evaluation_producer.adb': '4333d16e6990453e9cb5e7298acc1e3f6075dd7300c274b00543cce7cc3c774f',
+    'core/worldline-evaluation_producer.adb': '8cd4b6c29d82588e95348a24c0a885144b8cc7d593d7a19998e4121047a09714',
     'core/worldline-evaluation_producer.ads': '1994cf62f1a0f060baffcdb24fbbdafedb13f1b358901d913867e5eaf0e1411f',
     'core/worldline-evaluation_role_native.adb': '7519c90117206ae779b09226ae8de6a80837343c79b99b0953f612e368910798',
     'core/worldline-evaluation_role_native.ads': '6b5d3f9b4fd6fe6f43f4aeb4298346fa1c7acf6d9ee92f1e18fa5f2c2f01609d',

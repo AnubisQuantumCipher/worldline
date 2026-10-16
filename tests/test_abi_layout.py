@@ -125,7 +125,7 @@ class AbiLayout(unittest.TestCase):
                 for name, _type in record._fields_:
                     self.assertEqual(int(seen[f"{struct} {name}"]), getattr(record, name).offset, name)
         self.assertEqual(int(seen["abi"]), ABI_VERSION)
-        self.assertEqual(int(seen["collapse-layout"]), 5)
+        self.assertEqual(int(seen["collapse-layout"]), 6)
 
     def test_header_codes_match_the_runtime_tables(self) -> None:
         text = HEADER.read_text(encoding="utf-8")
