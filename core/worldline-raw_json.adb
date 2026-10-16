@@ -25,30 +25,77 @@ package body Worldline.Raw_JSON with SPARK_Mode is
    function Decode_JSON (Data : P.Bytes; Item : P.Span) return Decoded_JSON is
       type Encoding is (UTF8, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE);
       Kind : Encoding := UTF8;
-      Start, Offset : P.Count := 0;
-      Length : Natural := 0;
+      Start : P.Count := 0;
+      Offset : P.Count;
+      --  Length is the exact emitted prefix, not a second accumulator.
       Invalid : Boolean := False;
-      function Byte (At_Offset : P.Count) return Natural is
-        (if At_Offset < Item.Length then Natural (Data (Item.First + At_Offset)) else 0);
-      function Unit_16 (At_Offset : P.Count) return Natural is
-        (if Kind = UTF16_LE then Byte (At_Offset) + 256 * Byte (At_Offset + 1)
-         else Byte (At_Offset) * 256 + Byte (At_Offset + 1));
-      procedure Scalar (Position : in out P.Count; Code : out Natural) is
+      --  Representation ceiling for the Natural-discriminant result, not a
+      --  token or row admission policy. Four UTF-8 bytes is the maximum one
+      --  consumed input byte can contribute. A larger span cannot be returned
+      --  without overflow, so it is invalid rather than wrapped.
+      function Representable return Boolean is
+        (Item.Length <= P.Count (Natural'Last / 4));
+      function Byte (At_Offset : P.Count) return Natural
+      with Pre => P.Valid (Data, Item),
+        Post => Byte'Result <= 255 and then
+          (if At_Offset < Item.Length then
+             Byte'Result = Natural (Data (Item.First + At_Offset))
+           else Byte'Result = 0)
+      is
+      begin
+         if At_Offset < Item.Length then
+            pragma Assert (Item.Length > 0);
+            pragma Assert (Item.First in Data'Range);
+            pragma Assert (Item.Length - 1 <= Data'Last - Item.First);
+            pragma Assert (At_Offset <= Item.Length - 1);
+            pragma Assert (Item.First + (Item.Length - 1) <= Data'Last);
+            pragma Assert (Item.First + At_Offset in Data'Range);
+            return Natural (Data (Item.First + At_Offset));
+         end if;
+         return 0;
+      end Byte;
+      function Unit_16 (At_Offset : P.Count) return Natural
+      with Pre => P.Valid (Data, Item) and then Item.Length >= 2
+        and then At_Offset <= Item.Length - 2,
+        Post => Unit_16'Result <= 65535
+      is
+         Low : constant Natural := Byte (At_Offset);
+         High : constant Natural := Byte (At_Offset + 1);
+      begin
+         if Kind = UTF16_LE then
+            return Low + 256 * High;
+         end if;
+         return Low * 256 + High;
+      end Unit_16;
+      procedure Scalar (Position : in out P.Count; Code : out Natural)
+      with Pre => P.Valid (Data, Item) and then Position <= Item.Length and then not Invalid,
+        Post => Code <= 16#10FFFF# and then
+          (if Invalid then Position = Position'Old
+           else Position >= Position'Old + 1 and then Position <= Item.Length)
+      is
          Width : P.Count;
          Next : Natural;
          U : Interfaces.Unsigned_32;
+         Previous : constant P.Count := Position;
       begin
          Code := 0;
          case Kind is
             when UTF8 =>
-               Width := T.Unit_Width (Data,(Item.First,Item.Length),Position);
-               if Width = 0 then Invalid := True; return; end if;
-               Code := Natural (T.Value_At (Data,(Item.First,Item.Length),Position));
+               Width := T.Unit_Width (Data, (Item.First, Item.Length), Position);
+               if Width = 0 then
+                  Invalid := True;
+                  return;
+               end if;
+               Code := Natural (T.Value_At (Data, (Item.First, Item.Length), Position));
                Position := Position + Width;
             when UTF16_LE | UTF16_BE =>
-               if Item.Length - Position < 2 then Invalid := True; return; end if;
-               Code := Unit_16 (Position); Position := Position + 2;
-               if Code in 16#D800# .. 16#DBFF# and then Item.Length - Position >= 2 then
+               if Item.Length < 2 or else Position > Item.Length - 2 then
+                  Invalid := True;
+                  return;
+               end if;
+               Code := Unit_16 (Position);
+               Position := Position + 2;
+               if Code in 16#D800# .. 16#DBFF# and then Position <= Item.Length - 2 then
                   Next := Unit_16 (Position);
                   if Next in 16#DC00# .. 16#DFFF# then
                      Code := 65536 + (Code - 16#D800#) * 1024 + Next - 16#DC00#;
@@ -56,71 +103,129 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                   end if;
                end if;
             when UTF32_LE | UTF32_BE =>
-               if Item.Length - Position < 4 then Invalid := True; return; end if;
+               if Item.Length < 4 or else Position > Item.Length - 4 then
+                  Invalid := True;
+                  return;
+               end if;
                U := 0;
                for K in P.Count range 0 .. 3 loop
+                  pragma Loop_Invariant (Position <= Item.Length - 4);
+                  pragma Loop_Invariant (K <= 3);
+                  pragma Loop_Invariant (Position + K <= Item.Length - 1);
                   U := U * 256 + Interfaces.Unsigned_32
                     (Byte (Position + (if Kind = UTF32_BE then K else 3 - K)));
                end loop;
-               if U > 16#10FFFF# then Invalid := True; return; end if;
-               Code := Natural (U); Position := Position + 4;
+               if U > 16#10FFFF# then
+                  Invalid := True;
+                  return;
+               end if;
+               Code := Natural (U);
+               Position := Position + 4;
          end case;
+         pragma Assert (if not Invalid then Position >= Previous + 1);
       end Scalar;
-      function Width (C : Natural) return Positive is
-        (if C < 128 then 1 elsif C < 2048 then 2 elsif C < 65536 then 3 else 4);
    begin
-      if not P.Valid (Data,Item) then return (0,False,""); end if;
+      if not P.Valid (Data, Item) or else not Representable then
+         return (0, False, "");
+      end if;
       -- Exact json.detect_encoding(bytes) precedence, including BOM-less
       -- UTF16/32 and UTF8-sig. Decoding uses the original surrogatepass policy.
       if Item.Length >= 4 and then Byte (0) = 0 and then Byte (1) = 0
-        and then Byte (2) = 254 and then Byte (3) = 255 then Kind := UTF32_BE; Start := 4;
+        and then Byte (2) = 254 and then Byte (3) = 255 then
+         Kind := UTF32_BE;
+         Start := 4;
       elsif Item.Length >= 4 and then Byte (0) = 255 and then Byte (1) = 254
-        and then Byte (2) = 0 and then Byte (3) = 0 then Kind := UTF32_LE; Start := 4;
-      elsif Item.Length >= 2 and then Byte (0) = 254 and then Byte (1) = 255 then Kind := UTF16_BE; Start := 2;
-      elsif Item.Length >= 2 and then Byte (0) = 255 and then Byte (1) = 254 then Kind := UTF16_LE; Start := 2;
-      elsif Item.Length >= 3 and then Byte (0) = 239 and then Byte (1) = 187 and then Byte (2) = 191 then Start := 3;
+        and then Byte (2) = 0 and then Byte (3) = 0 then
+         Kind := UTF32_LE;
+         Start := 4;
+      elsif Item.Length >= 2 and then Byte (0) = 254 and then Byte (1) = 255 then
+         Kind := UTF16_BE;
+         Start := 2;
+      elsif Item.Length >= 2 and then Byte (0) = 255 and then Byte (1) = 254 then
+         Kind := UTF16_LE;
+         Start := 2;
+      elsif Item.Length >= 3 and then Byte (0) = 239 and then Byte (1) = 187
+        and then Byte (2) = 191 then
+         Start := 3;
       elsif Item.Length >= 4 then
-         if Byte (0) = 0 then Kind := (if Byte (1) /= 0 then UTF16_BE else UTF32_BE);
-         elsif Byte (1) = 0 then Kind := (if Byte (2) /= 0 or else Byte (3) /= 0 then UTF16_LE else UTF32_LE);
+         if Byte (0) = 0 then
+            Kind := (if Byte (1) /= 0 then UTF16_BE else UTF32_BE);
+         elsif Byte (1) = 0 then
+            Kind := (if Byte (2) /= 0 or else Byte (3) /= 0 then UTF16_LE else UTF32_LE);
          end if;
       elsif Item.Length = 2 then
-         if Byte (0) = 0 then Kind := UTF16_BE;
-         elsif Byte (1) = 0 then Kind := UTF16_LE;
+         if Byte (0) = 0 then
+            Kind := UTF16_BE;
+         elsif Byte (1) = 0 then
+            Kind := UTF16_LE;
          end if;
       end if;
       Offset := Start;
-      while Offset < Item.Length loop
-         pragma Loop_Variant (Decreases => Item.Length - Offset);
-         declare C : Natural; begin
-            Scalar (Offset,C);
-            if Invalid then return (0,False,""); end if;
-            Length := Length + Width (C);
-         end;
-      end loop;
-      -- One exact-size owned String feeds the existing String-native grammar.
-      -- There is no token/depth/magnitude/number-of-rows admission bound.
       declare
-         --  SPARK: a constraint may not read a variable; the computed extent
-         --  is frozen into a constant first.
-         Final_Length : constant Natural := Length;
-         Text : String (1 .. Final_Length);
+         Capacity : constant Natural := 4 * Natural (Item.Length);
+         Buffer : String (1 .. Capacity) := (others => ' ');
          Used : Natural := 0;
-         procedure Emit (B : Natural) is
-         begin Used := Used + 1; Text (Used) := Character'Val (B); end Emit;
+         procedure Emit (B : Natural)
+         with Pre => Used < Capacity and then B <= 255,
+           Post => Used = Used'Old + 1
+         is
+         begin
+            Used := Used + 1;
+            Buffer (Used) := Character'Val (B);
+         end Emit;
+         procedure Emit_Scalar (C : Natural)
+         with Pre => C <= 16#10FFFF# and then Used <= Capacity - 4,
+           Post => Used >= Used'Old + 1 and then Used <= Used'Old + 4
+         is
+         begin
+            if C < 128 then
+               Emit (C);
+            elsif C < 2048 then
+               Emit (192 + C / 64);
+               Emit (128 + C mod 64);
+            elsif C < 65536 then
+               Emit (224 + C / 4096);
+               Emit (128 + C / 64 mod 64);
+               Emit (128 + C mod 64);
+            else
+               Emit (240 + C / 262144);
+               Emit (128 + C / 4096 mod 64);
+               Emit (128 + C / 64 mod 64);
+               Emit (128 + C mod 64);
+            end if;
+         end Emit_Scalar;
       begin
-         Offset := Start;
          while Offset < Item.Length loop
+            pragma Loop_Invariant (P.Valid (Data, Item));
+            pragma Loop_Invariant (Representable);
+            pragma Loop_Invariant (Offset >= Start and then Offset <= Item.Length);
+            pragma Loop_Invariant (Used <= 4 * Natural (Offset - Start));
+            pragma Loop_Invariant (not Invalid);
             pragma Loop_Variant (Decreases => Item.Length - Offset);
-            declare C : Natural; begin
-               Scalar (Offset,C);
-               if C < 128 then Emit (C);
-               elsif C < 2048 then Emit (192 + C / 64); Emit (128 + C mod 64);
-               elsif C < 65536 then Emit (224 + C / 4096); Emit (128 + C / 64 mod 64); Emit (128 + C mod 64);
-               else Emit (240 + C / 262144); Emit (128 + C / 4096 mod 64); Emit (128 + C / 64 mod 64); Emit (128 + C mod 64);
+            declare
+               C : Natural;
+               Before : constant P.Count := Offset;
+            begin
+               Scalar (Offset, C);
+               if Invalid then
+                  return (0, False, "");
                end if;
+               pragma Assert (Offset >= Before + 1);
+               pragma Assert (Used <= 4 * Natural (Before - Start));
+               pragma Assert (4 * Natural (Offset - Start) >= Used + 4);
+               Emit_Scalar (C);
             end;
          end loop;
-         return (Length,True,Text);
+         declare
+            Final_Length : constant Natural := Used;
+            Text : String (1 .. Final_Length);
+         begin
+            for K in Text'Range loop
+               pragma Loop_Invariant (K in Text'Range);
+               Text (K) := Buffer (K);
+            end loop;
+            return (Final_Length, True, Text);
+         end;
       end;
    end Decode_JSON;
 
@@ -176,7 +281,8 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                   return Result;
                end;
             end if;
-            if N.After /= P.Count (Item.Last - Item.First + 1) then return Result; end if;
+            if Item.Last < Item.First or else Item.Last - Item.First > Natural'Last - 1
+              or else N.After /= P.Count (Item.Last - Item.First + 1) then return Result; end if;
             if Item.Form = V.Integer_Value then
                Result.Kind := Integral;
                Result.Negative := N.Negative and then N.Coefficient /= To_Big_Integer (0);
@@ -245,7 +351,15 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                while Position > 0 loop
                   pragma Loop_Variant (Decreases => Position);
                   if Scoped then
+                     if Position < 2 then return (Not_Numeric,False,To_Big_Integer (0),0); end if;
                      Position := Position - 2;
+                     if Raw'First > P.Count'Last - Position
+                       or else Raw'First + Position > P.Count'Last - 1
+                       or else Raw'First + Position not in Raw'Range
+                       or else Raw'First + Position + 1 not in Raw'Range
+                     then
+                        return (Not_Numeric,False,To_Big_Integer (0),0);
+                     end if;
                      declare Hi : constant Integer := Hex (Raw (Raw'First + Position));
                              Lo : constant Integer := Hex (Raw (Raw'First + Position + 1)); begin
                         if Hi < 0 or else Lo < 0 then return (Not_Numeric,False,To_Big_Integer (0),0); end if;
@@ -253,6 +367,9 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                      end;
                   else
                      Position := Position - 1;
+                     if Raw'First > P.Count'Last - Position
+                       or else Raw'First + Position not in Raw'Range
+                     then return (Not_Numeric,False,To_Big_Integer (0),0); end if;
                      Result.Coefficient := Result.Coefficient * To_Big_Integer (256) +
                        To_Big_Integer (Integer (Raw (Raw'First + Position)));
                   end if;
@@ -293,32 +410,58 @@ package body Worldline.Raw_JSON with SPARK_Mode is
    function JSON_Trees_Equal
      (Left_Data, Right_Data : String; Left, Right : V.Node) return Boolean is
    begin
-      if Left.Form = V.Missing or else Right.Form = V.Missing then return False; end if;
-      if Left.Form in V.Boolean_Value | V.Integer_Value | V.Number_Value and then
-        Right.Form in V.Boolean_Value | V.Integer_Value | V.Number_Value then
-         return Numbers_Equal (JSON_Number (Left_Data,Left),JSON_Number (Right_Data,Right));
-      end if;
-      if Left.Form /= Right.Form then return False; end if;
       case Left.Form is
-         when V.Null_Value => return True;
-         when V.String_Value => return V.Text (Left_Data,Left) = V.Text (Right_Data,Right);
+         when V.Missing =>
+            return False;
+         when V.Boolean_Value | V.Integer_Value | V.Number_Value =>
+            if Right.Form in V.Boolean_Value | V.Integer_Value | V.Number_Value then
+               return Numbers_Equal
+                 (JSON_Number (Left_Data, Left), JSON_Number (Right_Data, Right));
+            end if;
+            return False;
+         when V.Null_Value =>
+            return Right.Form = V.Null_Value;
+         when V.String_Value =>
+            if Right.Form /= V.String_Value then return False; end if;
+            return V.Text (Left_Data, Left) = V.Text (Right_Data, Right);
          when V.Array_Value | V.Object_Value =>
-            if V.Count (Left_Data,Left) /= V.Count (Right_Data,Right) then return False; end if;
-            for K in 1 .. V.Count (Left_Data,Left) loop
+            if Right.Form /= Left.Form then return False; end if;
+            if V.Count (Left_Data, Left) /= V.Count (Right_Data, Right) then return False; end if;
+            for K in 1 .. V.Count (Left_Data, Left) loop
+               pragma Loop_Variant (Decreases => V.Count (Left_Data, Left) - K);
                if Left.Form = V.Object_Value then
                   declare
-                     Name : constant String := V.Member_Name (Left_Data,Left,K);
-                     L_Item : constant V.Node := V.Field (Left_Data,Left,Name);
-                     R_Item : constant V.Node := V.Field (Right_Data,Right,Name);
+                     Name : constant String := V.Member_Name (Left_Data, Left, K);
+                     L_Item : constant V.Node := V.Field (Left_Data, Left, Name);
+                     R_Item : constant V.Node := V.Field (Right_Data, Right, Name);
                   begin
-                     if not JSON_Trees_Equal (Left_Data,Right_Data,L_Item,R_Item) then return False; end if;
+                     if L_Item.Last - Natural'Min (L_Item.First, L_Item.Last) >=
+                        Left.Last - Natural'Min (Left.First, Left.Last)
+                     then
+                        return False;
+                     end if;
+                     if not JSON_Trees_Equal (Left_Data, Right_Data, L_Item, R_Item) then
+                        return False;
+                     end if;
                   end;
-               elsif not JSON_Trees_Equal (Left_Data,Right_Data,
-                 V.Element (Left_Data,Left,K),V.Element (Right_Data,Right,K)) then return False;
+               else
+                  declare
+                     Elem : constant V.Node := V.Element (Left_Data, Left, K);
+                  begin
+                     if Elem.Last - Natural'Min (Elem.First, Elem.Last) >=
+                        Left.Last - Natural'Min (Left.First, Left.Last)
+                     then
+                        return False;
+                     end if;
+                     if not JSON_Trees_Equal
+                       (Left_Data, Right_Data, Elem, V.Element (Right_Data, Right, K))
+                     then
+                        return False;
+                     end if;
+                  end;
                end if;
             end loop;
             return True;
-         when V.Boolean_Value | V.Integer_Value | V.Number_Value | V.Missing => return False;
       end case;
    end JSON_Trees_Equal;
    function Python_JSON_Equal (Left, Right : String) return Boolean is
@@ -342,7 +485,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       Pair : E.View;
       Child : P.Span;
    begin
-      if Item.Form = V.Missing then return False; end if;
+      -- Missing is refused by the case alternatives below; do not filter it first.
       if Python_Equality and then Item.Form in V.Boolean_Value | V.Integer_Value | V.Number_Value then
          return Numbers_Equal (JSON_Number (Data,Item),Archive_Number (Archive,Encoded,Scoped));
       end if;
@@ -376,7 +519,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                if N.Valid and then N.After /= P.Count (Token'Length) then return False; end if;
                if Item.Form = V.Number_Value then
                   declare
-                     C : Decimal_Binary64.Conversion := Decimal_Binary64.No_Conversion;
+                     C : Decimal_Binary64.Conversion;
                      Bits, Expected : Interfaces.Unsigned_64 := 0;
                   begin
                      if N.Valid then
@@ -431,7 +574,15 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                         while Position > 0 loop
                            pragma Loop_Variant (Decreases => Position);
                            if Scoped then
+                              if Position < 2 then return False; end if;
                               Position := Position - 2;
+                              if Raw'First > P.Count'Last - Position
+                                or else Raw'First + Position > P.Count'Last - 1
+                                or else Raw'First + Position not in Raw'Range
+                                or else Raw'First + Position + 1 not in Raw'Range
+                              then
+                                 return False;
+                              end if;
                               declare Hi : constant Integer := Hex (Raw (Raw'First + Position));
                                       Lo : constant Integer := Hex (Raw (Raw'First + Position + 1)); begin
                                  if Hi < 0 or else Lo < 0 then return False; end if;
@@ -439,6 +590,11 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                               end;
                            else
                               Position := Position - 1;
+                              if Raw'First > P.Count'Last - Position
+                                or else Raw'First + Position not in Raw'Range
+                              then
+                                 return False;
+                              end if;
                               Magnitude := Magnitude * To_Big_Integer (256) + To_Big_Integer (Integer (Raw (Raw'First + Position)));
                            end if;
                         end loop;
@@ -480,16 +636,34 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                   Pair := E.Decode (Archive,Child,
                     (if At_Layer = E.Finalization then E.Terminal else E.Finalization));
                   if Pair.Form /= E.List_Value or else E.Array_Length (Archive,Pair.Children) /= 2 then return False; end if;
-                  declare Key : constant V.Node := V.Member_Key (Data,Item,K); begin
+                  declare
+                     Key : constant V.Node := V.Member_Key (Data,Item,K);
+                     Child_Node : constant V.Node := V.Field (Data,Item,V.Text (Data,Key));
+                  begin
                      if not Text_Matches (Data,Key,Archive,E.Decode
                        (Archive,E.Array_Element (Archive,Pair.Children,0),
                         (if At_Layer = E.Finalization then E.Terminal else E.Operation))) then return False; end if;
-                     if not Match_Tree (Data,V.Field (Data,Item,V.Text (Data,Key)),Archive,
+                     if Child_Node.Last - Natural'Min (Child_Node.First, Child_Node.Last) >=
+                        Item.Last - Natural'Min (Item.First, Item.Last)
+                     then
+                        return False;
+                     end if;
+                     if not Match_Tree (Data,Child_Node,Archive,
                        E.Array_Element (Archive,Pair.Children,1),Scoped,Python_Equality,
                        Object_Order_Independent,At_Layer) then return False; end if;
                   end;
-               elsif not Match_Tree (Data,V.Element (Data,Item,K),Archive,Child,
-                 Scoped,Python_Equality,Object_Order_Independent,At_Layer) then return False;
+               else
+                  declare
+                     Elem : constant V.Node := V.Element (Data,Item,K);
+                  begin
+                     if Elem.Last - Natural'Min (Elem.First, Elem.Last) >=
+                        Item.Last - Natural'Min (Item.First, Item.Last)
+                     then
+                        return False;
+                     end if;
+                     if not Match_Tree (Data,Elem,Archive,Child,
+                       Scoped,Python_Equality,Object_Order_Independent,At_Layer) then return False; end if;
+                  end;
                end if;
             end loop;
             return True;
@@ -550,16 +724,32 @@ package body Worldline.Raw_JSON with SPARK_Mode is
      (JSON_Data, Archive_Data : P.Bytes; JSON_Value, Encoded : P.Span) return Boolean is
      (Matches (JSON_Data,Archive_Data,JSON_Value,Encoded,True,True,True));
 
-   function Scalar_Code (Text : String; Offset, Width : Natural) return Natural is
+   function Scalar_Code (Text : String; Offset, Width : Natural) return Natural
+   with Pre => Offset <= Text'Length and then Width in 1 .. 4
+     and then Width <= Text'Length - Offset
+     and then Offset + Width >= 1
+     and then Text'First <= Natural'Last - (Offset + Width - 1)
+   is
       Code : Natural := Character'Pos (Text (Text'First + Offset));
    begin
       if Width > 1 then
          Code := Code mod (if Width = 2 then 32 elsif Width = 3 then 16 else 8);
-         for K in 1 .. Width - 1 loop Code := Code * 64 + Character'Pos (Text (Text'First + Offset + K)) mod 64; end loop;
+         if Width >= 2 then
+            Code := Code * 64 + Character'Pos (Text (Text'First + Offset + 1)) mod 64;
+         end if;
+         if Width >= 3 then
+            Code := Code * 64 + Character'Pos (Text (Text'First + Offset + 2)) mod 64;
+         end if;
+         if Width = 4 then
+            Code := Code * 64 + Character'Pos (Text (Text'First + Offset + 3)) mod 64;
+         end if;
       end if;
       return Code;
    end Scalar_Code;
-   function Hex_Unit (C : Natural) return String is
+   function Hex_Unit (C : Natural) return String
+   with Pre => C <= 16#FFFF#,
+        Post => Hex_Unit'Result'First = 1 and then Hex_Unit'Result'Length = 6
+   is
       Hexes : constant String := "0123456789abcdef";
    begin
       return "\u" & Hexes (C / 4096 mod 16 + 1) & Hexes (C / 256 mod 16 + 1)
@@ -571,25 +761,47 @@ package body Worldline.Raw_JSON with SPARK_Mode is
       elsif Code = 12 then "\f" elsif Code = 13 then "\r"
       elsif Code in 32 .. 126 then String'(1 => Character'Val (Code))
       elsif Code <= 65535 then Hex_Unit (Code)
-      else Hex_Unit (16#D800# + (Code - 65536) / 1024) & Hex_Unit (16#DC00# + (Code - 65536) mod 1024));
+      else Hex_Unit (16#D800# + (Code - 65536) / 1024)
+        & Hex_Unit (16#DC00# + (Code - 65536) mod 1024))
+   with Pre => Code <= 16#10FFFF#;
    function Canonical_ASCII_Quote (Text : String) return String is
-      Offset, Length, Width : Natural := 0;
+      Offset, Length : Natural := 0;
+      Width : Natural;
    begin
       while Offset < Text'Length loop
-         Width := V.UTF8_Width (Text,Offset);
-         if Width = 0 then return ""; end if;
-         Length := Length + ASCII_Piece (Scalar_Code (Text,Offset,Width))'Length;
+         pragma Loop_Variant (Decreases => Text'Length - Offset);
+         Width := V.UTF8_Width (Text, Offset);
+         if Width not in 1 .. 4 or else Width > Text'Length - Offset then return ""; end if;
+         declare
+            Code : constant Natural := Scalar_Code (Text, Offset, Width);
+            Piece_Length : constant Natural := (if Code <= 16#10FFFF# then ASCII_Piece (Code)'Length else 0);
+         begin
+            if Code > 16#10FFFF# or else Piece_Length > Natural'Last - Length then return ""; end if;
+            Length := Length + Piece_Length;
+         end;
          Offset := Offset + Width;
       end loop;
+      if Length > Natural'Last - 2 then return ""; end if;
       declare
          Final_Length : constant Natural := Length;
-         Result : String (1 .. Final_Length + 2); Used : Natural := 1;
+         Result : String (1 .. Final_Length + 2) := (others => ' ');
+         Used : Natural := 1;
       begin
-         Result (1) := '"'; Offset := 0;
+         Result (1) := '"';
+         Offset := 0;
          while Offset < Text'Length loop
-            Width := V.UTF8_Width (Text,Offset);
-            declare Piece : constant String := ASCII_Piece (Scalar_Code (Text,Offset,Width)); begin
-               Result (Used + 1 .. Used + Piece'Length) := Piece; Used := Used + Piece'Length;
+            pragma Loop_Variant (Decreases => Text'Length - Offset);
+            Width := V.UTF8_Width (Text, Offset);
+            if Width not in 1 .. 4 or else Width > Text'Length - Offset then return ""; end if;
+            declare
+               Code : constant Natural := Scalar_Code (Text, Offset, Width);
+               Piece : constant String := (if Code <= 16#10FFFF# then ASCII_Piece (Code) else "");
+            begin
+               if Code > 16#10FFFF# then return ""; end if;
+               if Piece'Length > Natural'Last - Used then return ""; end if;
+               if Used + Piece'Length > Final_Length + 1 then return ""; end if;
+               Result (Used + 1 .. Used + Piece'Length) := Piece;
+               Used := Used + Piece'Length;
             end;
             Offset := Offset + Width;
          end loop;
@@ -600,34 +812,56 @@ package body Worldline.Raw_JSON with SPARK_Mode is
    function Canonical_ASCII_Valid (Data : String) return Boolean is
       Root : constant V.Node := V.Parse (Data);
       function Byte (Offset : Natural) return Character is
-        (if Offset < Data'Length then Data (Data'First + Offset) else Character'Val (0));
+        (if Offset < Data'Length and then Data'First <= Natural'Last - Offset
+         then Data (Data'First + Offset) else Character'Val (0));
       function String_Canonical (Item : V.Node) return Boolean is
          Text : constant String := V.Text (Data,Item);
          Offset : Natural := 0;
          Position : Natural := Item.First;
          Width, Code : Natural;
-         function Consume (Piece : String) return Boolean is
-           (Piece'Length <= Item.Last - Position and then
-             Data (Data'First + Position .. Data'First + Position + Piece'Length - 1) = Piece);
+         function Consume (Piece : String) return Boolean
+         with Post => (if Consume'Result then Piece'Length <= Natural'Last - Position)
+         is
+            First_Index, Last_Index : Natural;
+         begin
+            if Position > Item.Last then return False; end if;
+            if Piece'Length > Item.Last - Position then return False; end if;
+            if Data'First < 1 or else Data'First > Natural'Last - Position then
+               return False;
+            end if;
+            First_Index := Data'First + Position;
+            if Piece'Length = 0 then return True; end if;
+            if Piece'Length - 1 > Natural'Last - First_Index then return False; end if;
+            Last_Index := First_Index + (Piece'Length - 1);
+            if Last_Index > Data'Last then return False; end if;
+            return Data (First_Index .. Last_Index) = Piece;
+         end Consume;
       begin
          while Offset < Text'Length loop
-            Width := V.UTF8_Width (Text,Offset);
-            if Width = 0 then return False; end if;
-            Code := Scalar_Code (Text,Offset,Width);
-            declare Piece : constant String := ASCII_Piece (Code);
+            pragma Loop_Variant (Decreases => Text'Length - Offset);
+            Width := V.UTF8_Width (Text, Offset);
+            if Width not in 1 .. 4 or else Width > Text'Length - Offset then
+               return False;
+            end if;
+            Code := Scalar_Code (Text, Offset, Width);
+            if Code > 16#10FFFF# then return False; end if;
+            declare
+               Piece : constant String := ASCII_Piece (Code);
             begin
                if not Consume (Piece) then return False; end if;
                Position := Position + Piece'Length;
             end;
             Offset := Offset + Width;
          end loop;
+         if Item.Last = 0 then return False; end if;
          return Position = Item.Last - 1;
       end String_Canonical;
       function Canonical (Item : V.Node) return Boolean
         with Subprogram_Variant => (Decreases => Item.Last - Natural'Min (Item.First,Item.Last));
       function Canonical (Item : V.Node) return Boolean is
          Position : Natural := Item.First;
-         Child, Key, Prior : V.Node := V.No_Node;
+         Child, Key : V.Node;
+         Prior : V.Node := V.No_Node;
       begin
          case Item.Form is
             when V.Missing => return False;
@@ -636,6 +870,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
             when V.Integer_Value | V.Number_Value => return V.Slice (Data,Item) = V.Number_Image (Data,Item);
             when V.Array_Value | V.Object_Value =>
                for K in 1 .. V.Count (Data,Item) loop
+                  if Position = Natural'Last then return False; end if;
                   if Item.Form = V.Object_Value then
                      Key := V.Member_Key (Data,Item,K);
                      if Key.First /= Position + 1 or else not String_Canonical (Key)
@@ -645,6 +880,12 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                      Child := V.Field (Data,Item,V.Text (Data,Key));
                   else Child := V.Element (Data,Item,K);
                   end if;
+                  if Child.Last - Natural'Min (Child.First, Child.Last) >=
+                     Item.Last - Natural'Min (Item.First, Item.Last)
+                  then
+                     return False;
+                  end if;
+                  if Position = Natural'Last then return False; end if;
                   if Child.First /= Position + 1 or else not Canonical (Child) then return False; end if;
                   Position := Child.Last;
                   if K < V.Count (Data,Item) then
@@ -652,6 +893,7 @@ package body Worldline.Raw_JSON with SPARK_Mode is
                      Position := Position + 1;
                   end if;
                end loop;
+               if Item.Last = 0 then return False; end if;
                return Position = Item.Last - 1;
          end case;
       end Canonical;
