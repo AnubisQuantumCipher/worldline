@@ -23,7 +23,13 @@ package body Worldline.Confinement_Filter with SPARK_Mode is
       (16#15#, 0, 1, 435), (16#06#, 0, 0, 16#00050026#),
       (16#15#, 0, 1, 117), (16#06#, 0, 0, Deny),
       (16#15#, 0, 1, 268), (16#06#, 0, 0, Deny),
-      (16#15#, 0, 1, 97), (16#06#, 0, 0, Deny),
+      --  The constructor denies every unshare call but preserves ENOSPC for
+      --  CLONE_NEWUSER. Recognize its actual flags load and branch, not an
+      --  older expected-program projection that no longer matches the input.
+      (16#15#, 0, 4, 97),
+      (16#20#, 0, 0, 16),
+      (16#45#, 1, 0, 16#10000000#),
+      (16#06#, 0, 0, Deny), (16#06#, 0, 0, 16#0005001C#),
       (16#15#, 1, 0, 220), (16#06#, 0, 0, Allow),
       (16#20#, 0, 0, 16),
       (16#54#, 0, 0, Thread_Flags or 16#FF#),
@@ -32,7 +38,12 @@ package body Worldline.Confinement_Filter with SPARK_Mode is
    function Establishes (Encoded_Program : String) return Boolean is
       Actual : constant B.Decoded := B.Base64 (Encoded_Program);
       function Octet (Index : Natural) return Natural is
-        (Character'Pos (Actual.Data (Index + 1)));
+      begin
+         if Index >= Actual.Length or else Index = Natural'Last then
+            return 0;
+         end if;
+         return Character'Pos (Actual.Data (Index + 1));
+      end Octet;
    begin
       if not Actual.Valid or else Actual.Length /= Reference'Length * 8 then return False; end if;
       for I in Reference'Range loop

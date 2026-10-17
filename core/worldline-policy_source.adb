@@ -31,8 +31,11 @@ package body Worldline.Policy_Source with SPARK_Mode is
    end Defaulted;
    function Occurrences (Array_Value, Item : String) return Natural is
       N : Natural := 0;
+      Bound : constant Natural := V.Count (Array_Value);
    begin
-      for I in 1 .. V.Count (Array_Value) loop
+      for I in 1 .. Bound loop
+         pragma Loop_Invariant (N < I);
+         pragma Loop_Invariant (Bound < Natural'Last);
          if V.Equal (V.Element (Array_Value, I - 1), Item) then N := N + 1; end if;
       end loop;
       return N;
@@ -78,8 +81,11 @@ package body Worldline.Policy_Source with SPARK_Mode is
    end Check_Matches;
    function Roster_Matches (Raw_Checks, Required : String) return Boolean is
       N : Natural := 0;
+      Bound : constant Natural := V.Count (Raw_Checks);
    begin
-      for I in 1 .. V.Count (Raw_Checks) loop
+      for I in 1 .. Bound loop
+         pragma Loop_Invariant (N < I);
+         pragma Loop_Invariant (Bound < Natural'Last);
          declare C : constant String := V.Element (Raw_Checks, I - 1);
          begin
             if V.Truth (V.Field (C, "required")) then
@@ -129,8 +135,11 @@ package body Worldline.Policy_Source with SPARK_Mode is
    end Root_Key;
    function Generated_Occurrences (Raw, Item, Roots : String) return Natural is
       N : Natural := 0;
+      Bound : constant Natural := V.Count (Raw);
    begin
-      for I in 1 .. V.Count (Raw) loop
+      for I in 1 .. Bound loop
+         pragma Loop_Invariant (N < I);
+         pragma Loop_Invariant (Bound < Natural'Last);
          declare Source : constant String := V.Element (Raw, I - 1);
          begin
             if V.Equal (Root_Key (V.Field (Source, "root"), Roots), V.Field (Item, "root")) and then

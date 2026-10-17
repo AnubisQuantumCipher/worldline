@@ -46,8 +46,14 @@ def reference_program():
     rows = [(0x20, 0, 0, 4), (0x15, 1, 0, 0xc00000b7), (6, 0, 0, 0x80000000),
             (0x20, 0, 0, 0)]
     for nr, result in ((221, deny), (281, deny), (435, 0x00050026),
-                       (117, deny), (268, deny), (97, deny)):
+                       (117, deny), (268, deny)):
         rows.extend(((0x15, 0, 1, nr), (6, 0, 0, result)))
+    # Exact native constructor branch: user namespaces retain ENOSPC, every
+    # other unshare call retains EPERM. Observed bytes still come from the
+    # producer's immutable syscall input, never from this expected projection.
+    rows.extend(((0x15, 0, 4, 97), (0x20, 0, 0, 16),
+                 (0x45, 1, 0, 0x10000000), (6, 0, 0, deny),
+                 (6, 0, 0, 0x0005001c)))
     rows.extend(((0x15, 1, 0, 220), (6, 0, 0, 0x7fff0000),
                  (0x20, 0, 0, 16), (0x54, 0, 0, 0x109ff),
                  (0x15, 1, 0, 0x10900), (6, 0, 0, deny),

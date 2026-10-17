@@ -262,21 +262,57 @@ package body Resource_Reservation_Transition with SPARK_Mode is
          = Prefix_Value (Data, Left, Offset + 1)
            + Prefix_Value (Data, Right, Offset + 1) + To_Big_Integer (Bias)
    is
+      --  Ghost assertions execute in the checked profile. Share their model
+      --  values without changing the equations or the separately checked
+      --  Prefix_Step calls and Addition_Step contracts.
+      Next : constant Byte_Count := Offset + 1;
+      Place : constant Valid_Big_Integer := Radix_Power (Offset);
+      Next_Place : constant Valid_Big_Integer := Radix_Power (Next);
+      Sum_Prefix : constant Valid_Big_Integer :=
+        Prefix_Value (Data, Sum, Offset);
+      Next_Sum_Prefix : constant Valid_Big_Integer :=
+        Prefix_Value (Data, Sum, Next);
+      Next_Left_Prefix : constant Valid_Big_Integer :=
+        Prefix_Value (Data, Left, Next);
+      Next_Right_Prefix : constant Valid_Big_Integer :=
+        Prefix_Value (Data, Right, Next);
+      Column_Value : constant Valid_Big_Integer := To_Big_Integer (Column);
+      Quotient_Value : constant Valid_Big_Integer :=
+        To_Big_Integer (Column / 256);
+      Remainder_Value : constant Valid_Big_Integer :=
+        To_Big_Integer (Column mod 256);
+      Radix : constant Valid_Big_Integer := To_Big_Integer (256);
+      Bias_Value : constant Valid_Big_Integer := To_Big_Integer (Bias);
    begin
       Prefix_Step (Data, Left, Offset);
       Prefix_Step (Data, Right, Offset);
       Prefix_Step (Data, Sum, Offset);
       Column_Quotient (Column);
       pragma Assert
-        (To_Big_Integer (Column) =
+        (Column_Value =
            To_Big_Integer (Digit (Data, Left, Offset))
              + To_Big_Integer (Digit (Data, Right, Offset))
              + To_Big_Integer (Carry));
       pragma Assert
-        (Prefix_Value (Data, Left, Offset + 1)
-           + Prefix_Value (Data, Right, Offset + 1) + To_Big_Integer (Bias)
-             = Prefix_Value (Data, Sum, Offset)
-               + To_Big_Integer (Column) * Radix_Power (Offset));
+        (Next_Left_Prefix + Next_Right_Prefix + Bias_Value =
+           Sum_Prefix + Column_Value * Place);
+      pragma Assert
+        (To_Big_Integer (Digit (Data, Sum, Offset)) = Remainder_Value);
+      pragma Assert
+        (Next_Sum_Prefix = Sum_Prefix + Remainder_Value * Place);
+      pragma Assert
+        (Next_Place = Radix * Place);
+      pragma Assert
+        (Column_Value = Quotient_Value * Radix + Remainder_Value);
+      pragma Assert
+        (Column_Value * Place =
+           Remainder_Value * Place + Quotient_Value * Next_Place);
+      pragma Assert
+        (Next_Sum_Prefix + Quotient_Value * Next_Place =
+           Sum_Prefix + Column_Value * Place);
+      pragma Assert
+        (Next_Sum_Prefix + Quotient_Value * Next_Place =
+           Next_Left_Prefix + Next_Right_Prefix + Bias_Value);
    end Addition_Step;
 
    --  Candidate multivariate arguments are unverified until GNATprove

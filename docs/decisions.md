@@ -1571,3 +1571,131 @@ The 50 ms idle poll could notice a fsynced `popen.jsonl` intent only after `--co
 
 A local probe wrote the intent, launched `systemd-run --user --collect --unit wl-phase1-observerwake3.service /usr/bin/true`, and matched typed ExecStart `["/usr/bin/true"]` on the second query. That is a timing probe, not a qualification result. The original qualification has not been re-run. Phase 1 is not accepted. Independent acceptance remains NOT PERFORMED.
 
+
+## D116 — Repair observed semantic regressions before final qualification
+
+**Options:** retain proof-driven helpers despite changed behavior, add input caps
+or empty-result fallbacks, disable checked equations, or repair implementations
+with the original domains/contracts and failure evidence intact. Choose the last.
+No proof floor, original gate, assumption policy or deployment boundary changes.
+
+**Evidence and choices:**
+
+- The unchanged SHA vector caught lost incoming-state feed-forward: restore all
+  eight additions. Remove redundant self-Posts only where identical complete
+  transparent definitions remain; retain production compression and independent
+  append/replay contracts. Cache repeated reservation-model terms instead of
+  repeatedly evaluating them in added assertions. Evidence: semantic controls,
+  v3/v4 and v2 crypto/authority reviews.
+- A direct valid 16 MiB decoder call raised `Storage_Error`: construct its exact
+  result in place with one count/write decoder. Replace renderer prefix replay
+  with advancing cursors and decoded-key indexing, preserving first occurrence
+  order/last value. Share escaped-size/direct-output operations instead of full
+  quoted temporaries in count passes. The limited scratch index does not replace
+  O1's original nonlimited independent owning values. Evidence: decoder
+  discriminator, v5/v8 and the 519-case native oracle.
+- The ordinary policy-positive exposed a false empty declaration: require zero
+  canonical required entries and retain explicit-empty/absent distinction.
+  Oversized supplied recovery operands fail explicitly, never select absence.
+  Actual-bound offsets replace whole-input rebasing copies. Evidence: v3
+  failure, v4's 88 controls and v8 native smoke.
+- Three source-screen counterexamples compile with the actual GNAT profile:
+  share one Ada tokenizer for screening/pins, decode Latin-1/BOM-selected UTF-8,
+  recognize RM identifier categories/Unicode separators and preserve literal
+  whitespace. Derive every affected literal pin with `refresh_contract_pins.py`;
+  keep the historical stale manifest refused. Evidence: v2 Unicode before/
+  compiler records and 22 passing successor behavior controls.
+- The real C constructor supplies 26 instructions/208 bytes; the old Ada/Python
+  projection had 23/184 and refused it. Match the actual user-namespace ENOSPC
+  branch, not a weakened constructor or substituted expected observation.
+  Evidence: actual producer/native-consumer before refusal and v8 acceptance.
+  This component smoke does not establish independent kernel-program/custody
+  observation.
+
+**Review:** four actual-model v2 internal source reviews reported REQUEST CHANGES.
+Successor repairs need fresh exact-source review and full proof/runtime
+qualification. The owned pre-freeze proof was cancelled for those repairs,
+not converted into a pass.
+
+**Reversal:** a separate reviewed source revert if disproved; retain failed runs,
+snapshots, controls and original requirements. Never suppress checks, hand-pin
+digests, return successful empty data or relabel finite controls as phase exit.
+
+## D117 — Preserve source-effective identifier boundaries and count-only cost
+
+**Options:** keep Unicode full uppercasing; exclude non-ASCII identifiers; or use
+simple folding consistently for keyword, pragma-alias and configuration names.
+For escaping, keep constructing bounded pieces while counting or count their
+classified extents without rendering them.
+
+**Evidence:** the v4 actual-model lexical review found `Acceß` being expanded to
+the reserved word `ACCESS`. The retained Latin-1 witness compiles with installed
+GNAT, passes the predecessor source screen and hides a changed executable
+expression from its normalized pin. The earlier alias and source-selected
+encoding/language witnesses also compile and pass the predecessor screen.
+Evidence is retained in `simple-case-controls-20261017-v1` and
+`source-effective-controls-20261017-v1`, beneath `records/phase1-blockers`.
+
+**Choice:** one shared simple-fold key, preserving original token/literal spelling
+in pins. Derive the complete 31-row Unicode 16 `S` relation from the normative
+CaseFolding data rather than adding witness-specific substitutions. Exhaustive
+comparison over 1,114,112 code points passes, with explicit Ada format-character
+removal; this is not exhaustive compiler correspondence. The compiler accepts
+the paired permitted inline, harmless alias and dotless-identifier witnesses.
+All 32 current source-screen/pin controls pass. The AST-isolated pin refresher
+loads the same seven definitions without executing the target module.
+
+For rendering, use escape widths during counting and construct hexadecimal
+pieces only during writing. Checked v10 build/core/fuzz, direct shared-library
+regression, 16 MiB decoding and 20 native semantic checks pass; its unchanged
+519-case oracle passes. These results do not close the large-array, imported
+proof, automatic-retirement or complete original runtime obligations.
+
+**Review:** actual-model v4 reviews requested these repairs. Their reports and
+fixed-source identities remain preserved; the successor still needs exact-source
+internal review and the original full qualification. Independent acceptance is
+NOT PERFORMED.
+
+**Reversal:** retain all counterexamples and failed attempts; revert only in a
+separate reviewed source change that preserves visible forbidden-token refusal,
+positive source profiles, literal-sensitive pins and original value domains.
+
+## D118 — Classify complete finalization operands and retain ordinary failure
+
+**Options:** keep promotion admission on bare returned dictionaries; move that
+legacy fixed-size roster gate after capture; or use the complete native
+capture/seal authority after independently retained operands are attached.
+
+**Evidence:** `finalization-order-before-20261017-v2` runs a real isolated
+AgentRunner workload that exits 7. The old early gate raises
+`CORE_INVALID_EVALUATION` and stores `DEAD` before capture can retain the failure.
+The initial recorder's mode-000 overlay archive failure is retained separately;
+no fixture permissions were changed to obtain the subsequent durable receipt.
+
+**Choice:** remove the premature duplicate gate, not a native admission
+predicate. The writer's existing native plan still selects every invocation
+position and checks original returns. Retained starts, original returns and
+acquisitions are attached and acquisition closure succeeds before diagnostic
+classification. Complete typed native capture and native seal still govern
+state and publication. Completed FAIL therefore remains a completed failure,
+not a failed materialization; whole-policy execution does not inherit the
+legacy 4,096-row completion ABI.
+
+**Check:** the real after-run returns/stores `DEGRADED`, retains exit 7 and
+native `COMPLETED/FAIL`, and has no materialization exception. Original positive
+finalization, reopen and readonly-recovery controls pass. The additive real
+failure regression initially unpacked the journal's triple into two values;
+that test-only defect and failed batch remain retained, and the corrected
+targeted regression passes. Genuine protected external positives, complete
+strict proof and original full campaigns remain separate open obligations.
+
+**Review:** actual-model `FinalizationOrderReview` affirms the source repair,
+but requests migrated audit coverage. Preserve that intent using actual native
+consumer behavior and real pin-mutation publication refusal, not assertions
+about particular call names or forwarding syntax. Include the writer's fresh
+native seal comparisons in the syntactic audit. Corrected controls and mutation
+qualification require terminal results and successor internal review.
+
+**Reversal:** a separately reviewed change supported by a concrete counterexample;
+never restore an early bare-record admission gate, manufacture protected inputs,
+suppress native refusal or change genuine failures into passing evaluations.

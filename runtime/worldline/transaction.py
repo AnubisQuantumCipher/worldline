@@ -1383,16 +1383,10 @@ class CollapseTransaction:
         # finalization's here bound run 2's freshness to run 1's execution identity (F5).
         recorded = {str(item.get("id")): item
                     for item in recorded_checks if isinstance(item, Mapping)}
-        from .finalize import evaluation_record, refusal_reason
-        evaluations = {name: evaluation_record(recorded[name], declared=declarations.get(name), core=self.core)
-                       for name in required if name in recorded}
-        refused_rows = [{'id': name, 'reason': ('no execution record' if name not in evaluations
-                        else refusal_reason(evaluations[name]))}
-                        for name in required if name not in evaluations
-                        or evaluations[name]['admissibleForPromotion'] is not True]
-        roster = {'complete': not refused_rows and (bool(required) or empty_declared),
-                  'refused': refused_rows, 'evaluations': evaluations}
-        refused = {item["id"]: item["reason"] for item in roster["refused"]}
+        from .finalize import _roster_evaluations
+        _admitted, refused_rows, _evaluations = _roster_evaluations(
+            required, recorded, declarations, core=self.core)
+        refused = {item["id"]: item["reason"] for item in refused_rows}
         agent_refused = {item["id"]: item["reason"] for item in agent["refused"]}
         expected_members: list[tuple[str, str, str]] = []
         actual_members: list[tuple[str, str, str]] = []
@@ -1420,7 +1414,7 @@ class CollapseTransaction:
             else:
                 actual_absent = True
         problems = [f"{check_id}: {reason}" for check_id, reason in {**agent_refused, **refused}.items()]
-        if not roster["complete"] and not required:
+        if not required and not empty_declared:
             problems.append("no .worldline.json declares what a collapse requires; add one"
                             " (\"checks\": [] declares that nothing is required)")
         # Two kernel verdicts, both required: the policy roster (which may be empty only when

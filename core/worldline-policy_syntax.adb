@@ -3,6 +3,15 @@ with Worldline.Protected_Paths;
 package body Worldline.Policy_Syntax with SPARK_Mode is
    package V renames Worldline.Producer_Values;
    use type V.Value_Kind;
+   function Text_Index (Text : String; Offset : Natural) return Positive
+     with Global => null, Pre => Offset < Text'Length,
+       Post => Text_Index'Result in Text'Range and then
+         Text_Index'Result - Text'First = Offset
+   is
+   begin
+      pragma Assert (Offset <= Text'Last - Text'First);
+      return Text'First + Offset;
+   end Text_Index;
    function Named (Name, Allowed : String) return Boolean is
    begin
       for I in 1 .. V.Count (Allowed) loop
@@ -31,8 +40,10 @@ package body Worldline.Policy_Syntax with SPARK_Mode is
       end loop;
       if Text = "." then return True; end if;
       for I in 0 .. Text'Length loop
-         if I = Text'Length or else Text (Text'First + I) = '/' then
-            declare Part : constant String := Text (Text'First + First .. Text'First + I - 1);
+         pragma Loop_Invariant (First <= I);
+         if I = Text'Length or else Text (Text_Index (Text, I)) = '/' then
+            declare Part : constant String :=
+              (if First < I then Text (Text_Index (Text, First) .. Text_Index (Text, I - 1)) else "");
             begin
                if Part = "" or else Part = "." or else Part = ".." then return False; end if;
             end;
@@ -86,22 +97,106 @@ package body Worldline.Policy_Syntax with SPARK_Mode is
       end loop;
       return False;
    end Has_Glob;
-   function Probe (Pattern : String; First : Natural := 0) return String
-     with Subprogram_Variant => (Decreases => Pattern'Length - Natural'Min (First, Pattern'Length))
-   is
-      Last : Natural := First;
-   begin
-      if First >= Pattern'Length then return "__probe__"; end if;
-      while Last < Pattern'Length and then Pattern (Pattern'First + Last) /= '/' loop
-         Last := Last + 1;
-      end loop;
-      declare Part : constant String := Pattern (Pattern'First + First .. Pattern'First + Last - 1);
+   function Probe (Pattern : String; First : Natural := 0) return String is
+      Suffix : constant String := "__probe__";
+
+      --  Count and write the same retained components, without constructing
+      --  recursive suffixes or prefilling the exactly sized output.
+      procedure Scan
+        (Render : Boolean; Output : out String; Size : out Natural)
+        with Always_Terminates,
+          Pre => Render or else Output'Length = 0,
+          Relaxed_Initialization => Output,
+          Post => Output'Initialized and then Size >= Suffix'Length and then
+            (if Render then Size = Output'Length)
+      is
+         Position : Natural := Natural'Min (First, Pattern'Length);
+         Used : Natural := 0;
+
+         function Ready return Boolean is
+           (not Render or else
+              (Used <= Output'Length and then
+                 (Used = 0 or else
+                    Output (Output'First .. Output'First + (Used - 1))'Initialized)))
+           with Ghost;
+
+         procedure Put (Piece : String)
+           with Always_Terminates, Pre => Ready,
+             Post => Ready and then Used >= Used'Old and then
+               Used - Used'Old = Piece'Length
+         is
+         begin
+            if Piece'Length > Natural'Last - Used then
+               raise Constraint_Error with "policy probe exceeds String capacity";
+            end if;
+            if Render and then Piece'Length > Output'Length - Used then
+               raise Program_Error with "policy probe extent mismatch";
+            end if;
+            declare
+               Next : constant Natural := Used + Piece'Length;
+            begin
+               if Render and then Piece'Length > 0 then
+                  Output (Output'First + Used .. Output'First + (Next - 1)) := Piece;
+               end if;
+               Used := Next;
+            end;
+         end Put;
       begin
-         if Has_Glob (Part) then
-            return (if Last < Pattern'Length then Probe (Pattern, Last + 1) else "__probe__");
+         while Position < Pattern'Length loop
+            pragma Loop_Invariant (Ready);
+            pragma Loop_Invariant (Position <= Pattern'Length);
+            pragma Loop_Variant (Increases => Position);
+            declare
+               Part_First : constant Natural := Position;
+               Glob : Boolean := False;
+            begin
+               while Position < Pattern'Length loop
+                  pragma Loop_Invariant (Ready);
+                  pragma Loop_Invariant
+                    (Position >= Part_First and then Position <= Pattern'Length);
+                  pragma Loop_Variant (Increases => Position);
+                  declare
+                     C : constant Character := Pattern (Text_Index (Pattern, Position));
+                  begin
+                     exit when C = '/';
+                     Glob := Glob or else C = '*' or else C = '?' or else C = '[';
+                  end;
+                  Position := Position + 1;
+               end loop;
+               if not Glob then
+                  if Part_First < Position then
+                     Put (Pattern
+                       (Text_Index (Pattern, Part_First) ..
+                        Text_Index (Pattern, Position - 1)));
+                  end if;
+                  --  Empty components retain their separator too. A trailing
+                  --  separator does not introduce another empty component.
+                  Put ("/");
+               end if;
+               if Position < Pattern'Length then Position := Position + 1; end if;
+            end;
+         end loop;
+         Put (Suffix);
+         if Render and then Used /= Output'Length then
+            raise Program_Error with "policy probe extent mismatch";
          end if;
-         return Part & "/" & (if Last < Pattern'Length then Probe (Pattern, Last + 1) else "__probe__");
-      end;
+         Size := Used;
+         pragma Assert (Output'Initialized);
+      end Scan;
+
+      Empty : String (1 .. 0);
+      Size : Natural;
+   begin
+      if First >= Pattern'Length then return Suffix; end if;
+      Scan (False, Empty, Size);
+      return Result : String (1 .. Size) do
+         declare
+            Written : Natural;
+         begin
+            Scan (True, Result, Written);
+            pragma Assert (Written = Size);
+         end;
+      end return;
    end Probe;
    function Verifier_Separate (Verifiers, Covers : String) return Boolean is
    begin
@@ -164,11 +259,10 @@ package body Worldline.Policy_Syntax with SPARK_Mode is
       Next : Natural := 0;
    end record;
    function Secret_Letter (Text : String; Position : Natural; Letter : Character) return Scalar_Match is
-      Code, Width : Natural;
-      First : Natural;
+      Code, Width, First : Natural;
    begin
       if Position >= Text'Length then return (False, Position); end if;
-      First := Character'Pos (Text (Text'First + Position));
+      First := Character'Pos (Text (Text_Index (Text, Position)));
       if First < 128 then Code := First; Width := 1;
       elsif First in 192 .. 223 then Code := First mod 32; Width := 2;
       elsif First in 224 .. 239 then Code := First mod 16; Width := 3;
@@ -176,18 +270,36 @@ package body Worldline.Policy_Syntax with SPARK_Mode is
       else return (False, Position);
       end if;
       if Width > Text'Length - Position then return (False, Position); end if;
-      for I in 1 .. Width - 1 loop
-         declare Next : constant Natural := Character'Pos (Text (Text'First + Position + I));
+      if Width >= 2 then
+         declare Next : constant Natural := Character'Pos (Text (Text_Index (Text, Position + 1)));
          begin
             if Next not in 128 .. 191 then return (False, Position); end if;
+            pragma Assert (Code < 32);
             Code := Code * 64 + Next mod 64;
          end;
-      end loop;
+      end if;
+      if Width >= 3 then
+         declare Next : constant Natural := Character'Pos (Text (Text_Index (Text, Position + 2)));
+         begin
+            if Next not in 128 .. 191 then return (False, Position); end if;
+            pragma Assert (Code < 2112);
+            Code := Code * 64 + Next mod 64;
+         end;
+      end if;
+      if Width = 4 then
+         declare Next : constant Natural := Character'Pos (Text (Text_Index (Text, Position + 3)));
+         begin
+            if Next not in 128 .. 191 then return (False, Position); end if;
+            pragma Assert (Code < 135168);
+            Code := Code * 64 + Next mod 64;
+         end;
+      end if;
       if Code in Character'Pos ('a') .. Character'Pos ('z') then Code := Code - 32;
       elsif Code = 304 or else Code = 305 then Code := Character'Pos ('I');
       elsif Code = 383 then Code := Character'Pos ('S');
       elsif Code = 8490 then Code := Character'Pos ('K');
       end if;
+      pragma Assert (Width <= Text'Length - Position);
       return (Code = Character'Pos (Letter), Position + Width);
    end Secret_Letter;
    function Has_Secret (Text : String) return Boolean is

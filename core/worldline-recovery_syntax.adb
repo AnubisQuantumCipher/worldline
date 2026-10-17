@@ -20,12 +20,21 @@ package body Worldline.Recovery_Syntax with SPARK_Mode is
       end if;
       declare
          Raw : constant E.Bytes := E.Materialize (Facts_Data, Value.Payload);
-         Result : String (1 .. Natural (Raw'Length));
       begin
-         for I in Result'Range loop
-            Result (I) := Character'Val (Raw (Raw'First + E.Count (I - 1)));
-         end loop;
-         return Result;
+         if Raw'Length = 0 then return ""; end if;
+         if Raw'Length > E.Count (Natural'Last) then
+            raise Constraint_Error with "recovery operand exceeds String capacity";
+         end if;
+         return Result : String (1 .. Natural (Raw'Length))
+           with Relaxed_Initialization
+         do
+            for I in Result'Range loop
+               Result (I) := Character'Val (Raw (Raw'First + E.Count (I - 1)));
+               pragma Loop_Invariant (Raw'First + E.Count (I - 1) in Raw'Range);
+               pragma Loop_Invariant (Result (Result'First .. I)'Initialized);
+            end loop;
+            pragma Assert (Result'Initialized);
+         end return;
       end;
    end Operand_Text;
    function Item_Valid (Data : E.Bytes; Item : E.Span) return Boolean is

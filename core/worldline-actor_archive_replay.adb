@@ -72,6 +72,15 @@ package body Worldline.Actor_Archive_Replay with SPARK_Mode is
      with Global => null,
        Pre => B in Character'Pos ('0') .. Character'Pos ('9') or else B in Character'Pos ('a') .. Character'Pos ('f'),
        Post => Nibble'Result <= 15;
+   function Byte_Index (Data : E.Bytes; Offset : E.Count) return Q.Byte_Index
+     with Global => null, Pre => Offset < Data'Length,
+       Post => Byte_Index'Result in Data'Range and then
+         Byte_Index'Result - Data'First = Offset
+   is
+   begin
+      pragma Assert (Offset <= Data'Last - Data'First);
+      return Data'First + Offset;
+   end Byte_Index;
    function Text_Bytes (Data : E.Bytes; Item : E.Span) return E.Bytes is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
@@ -81,18 +90,13 @@ package body Worldline.Actor_Archive_Replay with SPARK_Mode is
       else return (1 .. 0 => 0); end if;
    end Text_Bytes;
    function Hex_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
-      View : constant E.View := E.Decode (Data, Item, E.Operation);
-   begin
-      if not P.Valid_Text (Data, Item) and then
-        not (OA.Valid (Data, Item) and then View.Form = E.Text_Value and then E.Bytes_Valid (Data, View.Payload))
-      then return False; end if;
-      declare
-         Raw : constant E.Bytes := Text_Bytes (Data, Item);
+     (declare
+         View : constant E.View := E.Decode (Data, Item, E.Operation);
       begin
-         return Raw'Length mod 2 = 0 and then
-           (for all B of Raw => B in Character'Pos ('0') .. Character'Pos ('9') or else B in Character'Pos ('a') .. Character'Pos ('f'));
-      end;
-   end Hex_Valid;
+         (P.Valid_Text (Data, Item) or else
+          (OA.Valid (Data, Item) and then View.Form = E.Text_Value and then E.Bytes_Valid (Data, View.Payload)))
+         and then P.Hex_Domain (Text_Bytes (Data, Item)))
+     with Global => null;
    function Hex_Bytes (Data : E.Bytes; Item : E.Span) return E.Bytes
      with Global => null, Pre => Hex_Valid (Data, Item)
    is
@@ -100,7 +104,12 @@ package body Worldline.Actor_Archive_Replay with SPARK_Mode is
       Result : E.Bytes (1 .. Raw'Length / 2);
    begin
       for I in Result'Range loop
-         Result (I) := 16 * Nibble (Raw (Raw'First + (I - 1) * 2)) + Nibble (Raw (Raw'First + (I - 1) * 2 + 1));
+         declare
+            Hi : constant Q.Byte := Raw (Byte_Index (Raw, (I - 1) * 2));
+            Lo : constant Q.Byte := Raw (Byte_Index (Raw, (I - 1) * 2 + 1));
+         begin
+            Result (I) := 16 * Nibble (Hi) + Nibble (Lo);
+         end;
       end loop;
       return Result;
    end Hex_Bytes;

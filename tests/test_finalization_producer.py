@@ -168,6 +168,23 @@ class DefaultProducerRecoveryTests(unittest.TestCase):
         self.assertEqual(selected.raw.value.finalization_outcome, 'PASS')
         self.assertEqual(self.store.evaluation_terminal.snapshot(finalized.instance_id)['history'], [])
 
+    def test_failed_primary_is_retained_as_completed_failure_not_materialization_error(self):
+        world, _adapter, project = self._world_and_command()
+        command = GenericAgentCommand(name='failed-primary',
+            argv=('/usr/bin/python3', '-c', 'import sys; sys.exit(7)'),
+            credential_mounts=(), event_format='jsonl', network_hosts=())
+        finalized = self.runner.run(
+            world.alias, GenericAdapter(command), world.cause, project, timeout=15)
+        self.assertEqual(finalized.state, WorldState.DEGRADED)
+        agent = next(row for row in finalized.evidence['checks'] if row['id'] == 'agent')
+        self.assertEqual(agent['exitCode'], 7)
+        self.assertEqual(agent['evaluation']['executionStatus'], 'COMPLETED')
+        self.assertEqual(agent['evaluation']['evaluationOutcome'], 'FAIL')
+        self.assertNotIn('materializationError', finalized.evidence)
+        _start, sealed, _events = self.store.evaluation_finalization.retained(world.instance_id)
+        self.assertEqual(sealed.finalization_state, 'COMPLETED')
+        self.assertEqual(sealed.finalization_outcome, 'FAIL')
+
 
 if __name__ == '__main__':
     unittest.main()

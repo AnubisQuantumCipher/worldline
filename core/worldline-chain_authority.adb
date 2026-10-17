@@ -233,7 +233,7 @@ package body Worldline.Chain_Authority with SPARK_Mode is
    end Note_Base;
 
    procedure Close_Stopped
-     (Kind : Chain_Kind; Rows : Retained_Rows; Genesis : Hash;
+     (Kind : Chain_Kind; Rows : Retained_Rows;
       Observed_Genesis, Witnessed_Genesis, Witnessed_Head : Optional_Digest;
       Count : Q.Byte_Count; Expected : Result; Row : Chain_Row; Stopped : Result)
    with Ghost, Global => null, Always_Terminates,
@@ -242,36 +242,28 @@ package body Worldline.Chain_Authority with SPARK_Mode is
        R.Same (Observed_Genesis, Witnessed_Genesis) and then
        Count < Rows'Length and then
        Row = Rows (Rows'First + Count) and then
-       Expected = Prefix_Reference (Kind, Rows, Genesis, Count) and then
+       Expected = Prefix_Reference
+         (Kind, Rows, Observed_Genesis.Value, Count) and then
        Expected.Disposition = Ready and then
        Stopped = Prefix_Step (Kind, Row, Expected, Count + 1) and then
-       Stopped.Disposition /= Ready and then
-       Genesis = Observed_Genesis.Value,
+       Stopped.Disposition /= Ready,
      Post => Replay_Reference
        (Kind, Rows, Observed_Genesis, Witnessed_Genesis, Witnessed_Head) = Stopped
    is
+      Before : constant Result :=
+        Prefix_Reference (Kind, Rows, Observed_Genesis.Value, Count);
    begin
-      Step_Image (Kind, Rows, Genesis, Count);
-      Step_Same
-        (Kind, Row, Expected, Prefix_Reference (Kind, Rows, Genesis, Count), Count + 1);
-      Step_Row
-        (Kind, Row, Rows (Rows'First + Count),
-         Prefix_Reference (Kind, Rows, Genesis, Count), Count + 1);
+      -- The same anchor expression is used by the prefix and replay equations;
+      -- no second genesis fold or prefix-by-prefix equality bridge is needed.
+      Step_Image (Kind, Rows, Observed_Genesis.Value, Count);
+      Step_Same (Kind, Row, Expected, Before, Count + 1);
+      Step_Row (Kind, Row, Rows (Rows'First + Count), Before, Count + 1);
       pragma Assert
-        (Prefix_Reference (Kind, Rows, Genesis, Count + 1) = Stopped);
-      Prefix_Stays (Kind, Rows, Genesis, Count + 1, Rows'Length);
-      pragma Assert (Hash_Eq (Genesis, Observed_Genesis.Value));
-      pragma Assert
-        (Finish_Reference
-           (Prefix_Reference (Kind, Rows, Genesis, Rows'Length),
-            Witnessed_Head.Value) = Stopped);
-      pragma Assert
-        (Replay_Reference
-           (Kind, Rows, Observed_Genesis, Witnessed_Genesis, Witnessed_Head) =
-         Finish_Reference
-           (Prefix_Reference
-              (Kind, Rows, Observed_Genesis.Value, Rows'Length),
-            Witnessed_Head.Value));
+        (Prefix_Reference
+           (Kind, Rows, Observed_Genesis.Value, Count + 1) = Stopped);
+      Prefix_Stays
+        (Kind, Rows, Observed_Genesis.Value, Count + 1, Rows'Length);
+      pragma Assert (Finish_Reference (Stopped, Witnessed_Head.Value) = Stopped);
    end Close_Stopped;
 
    procedure Advance
@@ -289,13 +281,13 @@ package body Worldline.Chain_Authority with SPARK_Mode is
                    Accepted_Count => Count + 1)
    is
       Previous : constant Result := Expected;
+      Before : constant Result := Prefix_Reference (Kind, Rows, Genesis, Count);
    begin
       Step_Image (Kind, Rows, Genesis, Count);
       Step_Same
-        (Kind, Row, Previous, Prefix_Reference (Kind, Rows, Genesis, Count), Count + 1);
+        (Kind, Row, Previous, Before, Count + 1);
       Step_Row
-        (Kind, Row, Rows (Rows'First + Count),
-         Prefix_Reference (Kind, Rows, Genesis, Count), Count + 1);
+        (Kind, Row, Rows (Rows'First + Count), Before, Count + 1);
       Expected :=
         (Disposition => Ready, Head => Row.Stored_Head.Value,
          Accepted_Count => Count + 1);
@@ -364,7 +356,7 @@ package body Worldline.Chain_Authority with SPARK_Mode is
          begin
             if not Present (Row) then
                Close_Stopped
-                 (Kind, Rows, Observed_Genesis.Value,
+                 (Kind, Rows,
                   Observed_Genesis, Witnessed_Genesis, Witnessed_Head,
                   Count, Expected, Row,
                   (Disposition => Row_Absent, Head => Current, Accepted_Count => Count));
@@ -372,7 +364,7 @@ package body Worldline.Chain_Authority with SPARK_Mode is
                        Accepted_Count => Count);
             elsif not R.Same (Row.Actual_Payload_Root, Row.Stored_Payload_Root) then
                Close_Stopped
-                 (Kind, Rows, Observed_Genesis.Value,
+                 (Kind, Rows,
                   Observed_Genesis, Witnessed_Genesis, Witnessed_Head,
                   Count, Expected, Row,
                   (Disposition => Payload_Mismatch, Head => Current,
@@ -387,7 +379,7 @@ package body Worldline.Chain_Authority with SPARK_Mode is
                   if not Receipts.Accepted (Receipt) then
                      Prove_Predecessor (Kind, Row, Expected, Count, Current);
                      Close_Stopped
-                       (Kind, Rows, Observed_Genesis.Value,
+                       (Kind, Rows,
                         Observed_Genesis, Witnessed_Genesis, Witnessed_Head,
                         Count, Expected, Row,
                         (Disposition => Predecessor_Mismatch, Head => Current,
@@ -407,7 +399,7 @@ package body Worldline.Chain_Authority with SPARK_Mode is
                   if Current /= Row.Stored_Head.Value then
                      Prove_Stored (Kind, Row, Expected, Count, Before);
                      Close_Stopped
-                       (Kind, Rows, Observed_Genesis.Value,
+                       (Kind, Rows,
                         Observed_Genesis, Witnessed_Genesis, Witnessed_Head,
                         Count, Expected, Row,
                         (Disposition => Stored_Head_Mismatch, Head => Before,
@@ -431,7 +423,7 @@ package body Worldline.Chain_Authority with SPARK_Mode is
                   if not Causal_Graph.Accepted (Causal) then
                      Prove_Predecessor (Kind, Row, Expected, Count, Current);
                      Close_Stopped
-                       (Kind, Rows, Observed_Genesis.Value,
+                       (Kind, Rows,
                         Observed_Genesis, Witnessed_Genesis, Witnessed_Head,
                         Count, Expected, Row,
                         (Disposition => Predecessor_Mismatch, Head => Current,
@@ -451,7 +443,7 @@ package body Worldline.Chain_Authority with SPARK_Mode is
                   if Current /= Row.Stored_Head.Value then
                      Prove_Stored (Kind, Row, Expected, Count, Before);
                      Close_Stopped
-                       (Kind, Rows, Observed_Genesis.Value,
+                       (Kind, Rows,
                         Observed_Genesis, Witnessed_Genesis, Witnessed_Head,
                         Count, Expected, Row,
                         (Disposition => Stored_Head_Mismatch, Head => Before,

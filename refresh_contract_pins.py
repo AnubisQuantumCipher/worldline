@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 import re
 import sys
+import unicodedata
 
 
 def _pin_tables(tree: ast.Module) -> list[ast.Dict]:
@@ -64,7 +65,8 @@ def _pin_tables(tree: ast.Module) -> list[ast.Dict]:
 
 
 def _pin_normalizer(tree: ast.Module, path: Path):
-    names = ("normalized_ada", "contract_text", "contract_pin")
+    names = ("ada_source_text", "ada_identifier_key", "ada_tokens", "normalized_ada",
+             "source_profile_problems", "contract_text", "contract_pin")
     definitions = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in names]
     if len(definitions) != len(names) or {node.name for node in definitions} != set(names):
         raise ValueError("cannot isolate the existing source pin normalizer")
@@ -74,9 +76,9 @@ def _pin_normalizer(tree: ast.Module, path: Path):
         ast.ImportFrom(module="__future__", names=[ast.alias(name="annotations")], level=0),
         *definitions,
     ], type_ignores=[])
-    namespace = {"Path": Path, "hashlib": hashlib}
+    namespace = {"Path": Path, "hashlib": hashlib, "re": re, "unicodedata": unicodedata}
     exec(compile(ast.fix_missing_locations(normalizer_tree), str(path), "exec"), namespace)
-    return namespace["contract_pin"]
+    return namespace["contract_pin"], namespace["source_profile_problems"]
 
 
 def refresh(root: Path, *, write: bool) -> dict:
@@ -87,7 +89,11 @@ def refresh(root: Path, *, write: bool) -> dict:
     stored = {}
     for table in tables:
         stored.update(ast.literal_eval(table))
-    contract_pin = _pin_normalizer(tree, path)
+    contract_pin, source_profile_problems = _pin_normalizer(tree, path)
+    profile_problems = source_profile_problems(
+        root, (root / relative for relative in dict.fromkeys(key.partition("#")[0] for key in stored)))
+    if profile_problems:
+        raise ValueError("; ".join(profile_problems))
     derived = {key: contract_pin(root, key) for key in stored}
     source_hashes = {
         relative: hashlib.sha256((root / relative).read_bytes()).hexdigest()

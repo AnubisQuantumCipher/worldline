@@ -3,6 +3,7 @@ with Exact_Decimal;
 with Decimal_Binary64;
 with SPARK.Big_Integers;
 with Worldline.Producer_Values;
+with Worldline.Producer_Render;
 with Worldline.Producer_Bytes;
 with Worldline.Raw_JSON;
 with Worldline.Runner_Outcome;
@@ -11,6 +12,7 @@ with Worldline.Manager_Resource_Lifecycle;
 
 package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
    package V renames Worldline.Producer_Values;
+   package JSON_Render renames Worldline.Producer_Render;
    package B renames Worldline.Producer_Bytes;
    package L renames Worldline.Runner_Lifecycle_Bytes;
    package P renames Evaluation_Pending;
@@ -41,23 +43,56 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
       return B.Base64 (V.Text (Text, V.Field (Text, Item, "payload")));
    end Raw_Bytes;
 
+   function Character_At (Text : String; Offset : Natural) return Character
+     with Pre => Offset < Text'Length
+   is
+   begin
+      pragma Assert (Offset <= Text'Last - Text'First);
+      return Text (Text'First + Offset);
+   end Character_At;
+
+   function Text_Slice (Text : String; First, After : Natural) return String
+     with Pre => First <= After and then After <= Text'Length,
+          Post => Text_Slice'Result'Length = After - First
+   is
+   begin
+      if First = After then return ""; end if;
+      return Text (Text'First + First .. Text'First + (After - 1));
+   end Text_Slice;
+
    --  Decode exactly one Unicode scalar (surrogates remain representable in
    --  decoded JSON text but are not admitted by UTF8 strict/replace byte reads).
-   function Code (Text : String; Offset : Natural; Width : Positive) return Natural is
-      Result : Natural := Character'Pos (Text (Text'First + Offset));
+   function Code (Text : String; Offset : Natural; Width : Positive) return Natural
+     with Pre => Width <= 4
+            and then Offset < Text'Length
+            and then Width <= Text'Length - Offset
+   is
+      Lead : constant Natural := Character'Pos (Text (Text'First + Offset));
    begin
-      if Width = 1 then return Result; end if;
-      Result := Result mod (2 ** (7 - Width));
-      for J in 1 .. Width - 1 loop
-         Result := Result * 64 + Character'Pos (Text (Text'First + Offset + J)) mod 64;
-      end loop;
-      return Result;
+      case Width is
+         when 1 =>
+            return Lead;
+         when 2 =>
+            return (Lead mod 32) * 64
+              + Character'Pos (Text (Text'First + Offset + 1)) mod 64;
+         when 3 =>
+            return ((Lead mod 16) * 64
+              + Character'Pos (Text (Text'First + Offset + 1)) mod 64) * 64
+              + Character'Pos (Text (Text'First + Offset + 2)) mod 64;
+         when others =>
+            return (((Lead mod 8) * 64
+              + Character'Pos (Text (Text'First + Offset + 1)) mod 64) * 64
+              + Character'Pos (Text (Text'First + Offset + 2)) mod 64) * 64
+              + Character'Pos (Text (Text'First + Offset + 3)) mod 64;
+      end case;
    end Code;
    function White (C : Natural) return Boolean is
      (C in 9 .. 13 | 16#20# | 16#85# | 16#A0# | 16#1680# |
        16#2000# .. 16#200A# | 16#2028# .. 16#2029# | 16#202F# |
        16#205F# | 16#3000#);
-   function Digit (C : Natural) return Integer is
+   function Digit (C : Natural) return Integer
+     with Post => Digit'Result in -1 .. 9
+   is
       type Starts_Array is array (Positive range <>) of Natural;
       Starts : constant Starts_Array := (16#30#, 16#660#, 16#6F0#, 16#7C0#, 16#966#, 16#9E6#, 16#A66#, 16#AE6#, 16#B66#, 16#BE6#, 16#C66#, 16#CE6#, 16#D66#, 16#DE6#, 16#E50#, 16#ED0#, 16#F20#, 16#1040#, 16#1090#, 16#17E0#, 16#1810#, 16#1946#, 16#19D0#, 16#1A80#, 16#1A90#, 16#1B50#, 16#1BB0#, 16#1C40#, 16#1C50#, 16#A620#, 16#A8D0#, 16#A900#, 16#A9D0#, 16#A9F0#, 16#AA50#, 16#ABF0#, 16#FF10#, 16#104A0#, 16#10D30#, 16#10D40#, 16#11066#, 16#110F0#, 16#11136#, 16#111D0#, 16#112F0#, 16#11450#, 16#114D0#, 16#11650#, 16#116C0#, 16#116D0#, 16#116DA#, 16#11730#, 16#118E0#, 16#11950#, 16#11BF0#, 16#11C50#, 16#11D50#, 16#11DA0#, 16#11F50#, 16#16130#, 16#16A60#, 16#16AC0#, 16#16B50#, 16#16D70#, 16#1CCF0#, 16#1D7CE#, 16#1D7D8#, 16#1D7E2#, 16#1D7EC#, 16#1D7F6#, 16#1E140#, 16#1E2F0#, 16#1E4F0#, 16#1E5F1#, 16#1E950#, 16#1FBF0#);
    begin
@@ -82,6 +117,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
       Result : Integer_Result;
    begin
       while Offset < Text'Length loop
+         pragma Loop_Variant (Increases => Offset);
          Width := V.UTF8_Width (Text, Offset);
          if Width = 0 then return Result; end if;
          C := Code (Text, Offset, Width);
@@ -99,6 +135,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          else
             return (False, To_Big_Integer (0));
          end if;
+         pragma Assert (Width >= 1 and then Width <= Text'Length - Offset);
          Offset := Offset + Width;
       end loop;
       Result.Valid := Seen and then not Need_Digit;
@@ -132,9 +169,17 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
    function Image (Value : Big_Integer) return String is
       Text : constant String := To_String (Value);
    begin
-      return (if Text'Length > 0 and then Text (Text'First) = ' '
-              then Text (Text'First + 1 .. Text'Last) else Text);
+      return (if Text'Length > 0 and then Character_At (Text, 0) = ' '
+              then Text_Slice (Text, 1, Text'Length) else Text);
    end Image;
+
+   function Image_Matches
+     (Text, Prefix, Suffix : String; Value : Big_Integer) return Boolean is
+     (Text'Length >= Prefix'Length
+      and then Suffix'Length <= Text'Length - Prefix'Length
+      and then Text_Slice (Text, 0, Prefix'Length) = Prefix
+      and then Text_Slice (Text, Text'Length - Suffix'Length, Text'Length) = Suffix
+      and then Text_Slice (Text, Prefix'Length, Text'Length - Suffix'Length) = Image (Value));
    function Str (Text : String; Item : V.Node; Default : String := "None") return String is
      (if Item.Form = V.Missing then Default else V.Python_String (V.Slice (Text, Item)));
    function Bit (Value : Boolean) return String is (if Value then "true" else "false");
@@ -144,7 +189,10 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
      (if Item.Form = V.Missing then "null" else V.Slice (Text, Item));
 
    function UTF8 (Bytes : String; Replace_Errors : Boolean) return B.Decoded is
-      procedure Step (Position : Natural; Advance, Width : out Natural) is
+      procedure Step (Position : Natural; Advance, Width : out Natural)
+        with Pre => Position < Bytes'Length,
+             Post => Advance >= 1 and then Advance <= 4 and then Width <= 4
+      is
          Lead, Next, Wanted : Natural;
       begin
          Width := V.UTF8_Width (Bytes, Position);
@@ -152,11 +200,13 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
             Advance := Width; return;
          end if;
          Width := 0; Advance := 1;
-         Lead := Character'Pos (Bytes (Bytes'First + Position));
+         Lead := Character'Pos (Character_At (Bytes, Position));
          Wanted := (if Lead in 16#C2# .. 16#DF# then 2 elsif Lead in 16#E0# .. 16#EF# then 3
                     elsif Lead in 16#F0# .. 16#F4# then 4 else 1);
-         while Advance < Wanted and then Position + Advance < Bytes'Length loop
-            Next := Character'Pos (Bytes (Bytes'First + Position + Advance));
+         while Advance < Wanted and then Advance < Bytes'Length - Position loop
+            pragma Loop_Invariant (Advance >= 1 and then Advance <= 4);
+            pragma Loop_Variant (Increases => Advance);
+            Next := Character'Pos (Character_At (Bytes, Position + Advance));
             exit when Next not in 16#80# .. 16#BF# or else
               (Advance = 1 and then ((Lead = 16#E0# and then Next < 16#A0#) or else
                (Lead = 16#ED# and then Next >= 16#A0#) or else
@@ -166,84 +216,135 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          end loop;
       end Step;
       Position, Width, Advance, Length : Natural := 0;
+      function Add_For (W : Natural) return Natural is (if W = 0 then 3 else W);
    begin
-      --  Exact derived output extent, not a worst-case input-sized allocation
-      --  or an input length admission cap. Replacement consumes CPython's
-      --  maximal valid prefix of the malformed multibyte sequence.
       while Position < Bytes'Length loop
+         pragma Loop_Invariant (Position <= Bytes'Length);
+         pragma Loop_Variant (Increases => Position);
          Step (Position, Advance, Width);
          if Width = 0 and then not Replace_Errors then return (0, False, ""); end if;
-         Length := Length + (if Width = 0 then 3 else Width);
+         if Advance = 0 or else Advance > Bytes'Length - Position or else
+           Add_For (Width) > Natural'Last - Length then
+            return (0, False, "");
+         end if;
+         Length := Length + Add_For (Width);
          Position := Position + Advance;
       end loop;
-      declare
-         --  SPARK: a constraint may not read a variable; the computed extent
-         --  is frozen into a constant first.
-         Final_Length : constant Natural := Length;
-         Output : String (1 .. Final_Length);
-         Used : Natural := 0;
-      begin
-         Position := 0;
-         while Position < Bytes'Length loop
-            Step (Position, Advance, Width);
-            if Width > 0 then
-               Output (Used + 1 .. Used + Width) := Bytes (Bytes'First + Position .. Bytes'First + Position + Width - 1);
-               Used := Used + Width;
-            else
-               Output (Used + 1 .. Used + 3) := Character'Val (16#EF#) & Character'Val (16#BF#) & Character'Val (16#BD#);
-               Used := Used + 3;
+      --  The same immutable source has already passed validation and sizing.
+      --  A disagreement while writing is an invariant failure, not absence.
+      return Result : B.Decoded (Length) with Relaxed_Initialization do
+         declare
+            Used : Natural := 0;
+         begin
+            Result.Valid := True;
+            Position := 0;
+            while Position < Bytes'Length loop
+               pragma Loop_Invariant (Position <= Bytes'Length);
+               pragma Loop_Invariant (Used <= Result.Length);
+               pragma Loop_Invariant (Result.Valid'Initialized);
+               pragma Loop_Invariant
+                 (if Used > 0 then Result.Data (1 .. Used)'Initialized);
+               pragma Loop_Variant (Increases => Position);
+               Step (Position, Advance, Width);
+               if Advance = 0 or else Advance > Bytes'Length - Position or else
+                 (Width = 0 and then not Replace_Errors)
+               then
+                  raise Program_Error with "UTF8 decode extent mismatch";
+               end if;
+               if Width > 0 then
+                  if Width > Result.Length - Used or else Width > Bytes'Length - Position then
+                     raise Program_Error with "UTF8 decode extent mismatch";
+                  end if;
+                  Result.Data (Used + 1 .. Used + Width) :=
+                    Text_Slice (Bytes, Position, Position + Width);
+                  Used := Used + Width;
+               else
+                  if 3 > Result.Length - Used then
+                     raise Program_Error with "UTF8 decode extent mismatch";
+                  end if;
+                  Result.Data (Used + 1 .. Used + 3) :=
+                    Character'Val (16#EF#) & Character'Val (16#BF#) & Character'Val (16#BD#);
+                  Used := Used + 3;
+               end if;
+               Position := Position + Advance;
+            end loop;
+            if Used /= Result.Length then
+               raise Program_Error with "UTF8 decode extent mismatch";
             end if;
-            Position := Position + Advance;
-         end loop;
-         return (Length, True, Output);
-      end;
+            pragma Assert (Result'Initialized);
+         end;
+      end return;
    end UTF8;
    function Strip (Text : String) return String is
       First, Last, Position, Width : Natural := 0;
       Start_Found : Boolean := False;
    begin
       while Position < Text'Length loop
+         pragma Loop_Invariant (Position <= Text'Length);
+         pragma Loop_Invariant
+           (if Start_Found then First < Last and then Last <= Position
+            else Last = 0 and then First = 0);
+         pragma Loop_Variant (Increases => Position);
          Width := V.UTF8_Width (Text, Position);
          if Width = 0 then return ""; end if;
          if not White (Code (Text, Position, Width)) and then
            Code (Text, Position, Width) not in 28 .. 31 then
             if not Start_Found then First := Position; Start_Found := True; end if;
+            pragma Assert (Width >= 1 and then Width <= Text'Length - Position);
             Last := Position + Width;
          end if;
+         pragma Assert (Width >= 1 and then Width <= Text'Length - Position);
          Position := Position + Width;
       end loop;
-      return Text (Text'First + First .. Text'First + Last - 1);
+      if not Start_Found then return ""; end if;
+      return Text_Slice (Text, First, Last);
    end Strip;
    function Prefix (Text : String; Limit : Natural) return String is
       Position, Width, Seen : Natural := 0;
    begin
       while Position < Text'Length and then Seen < Limit loop
+         pragma Loop_Invariant (Position <= Text'Length);
+         pragma Loop_Variant (Increases => Position);
          Width := V.UTF8_Width (Text, Position);
          if Width = 0 then return ""; end if;
-         Position := Position + Width; Seen := Seen + 1;
+         pragma Assert (Width >= 1 and then Width <= Text'Length - Position);
+         Position := Position + Width;
+         Seen := Seen + 1;
       end loop;
-      return Text (Text'First .. Text'First + Position - 1);
+      if Position = 0 then return ""; end if;
+      return Text_Slice (Text, 0, Position);
    end Prefix;
-   function Line_End (Text : String; First : Natural) return Natural is
+   function Line_End (Text : String; First : Natural) return Natural
+     with Post => Line_End'Result >= First
+            and then (if First <= Text'Length then Line_End'Result <= Text'Length)
+   is
       Position : Natural := First;
       Width : Natural;
    begin
       while Position < Text'Length loop
+         pragma Loop_Invariant (Position >= First and then Position <= Text'Length);
+         pragma Loop_Variant (Increases => Position);
          Width := V.UTF8_Width (Text, Position);
          exit when Width = 0 or else Code (Text, Position, Width) in
            10 .. 13 | 28 .. 30 | 16#85# | 16#2028# .. 16#2029#;
+         pragma Assert (Width >= 1 and then Width <= Text'Length - Position);
          Position := Position + Width;
       end loop;
       return Position;
    end Line_End;
-   function Next_Line (Text : String; Last : Natural) return Natural is
+   function Next_Line (Text : String; Last : Natural) return Natural
+     with Post => Next_Line'Result <= Text'Length
+            and then (if Last < Text'Length then Next_Line'Result > Last
+                      else Next_Line'Result = Text'Length)
+   is
       Width : Natural;
    begin
       if Last >= Text'Length then return Text'Length; end if;
       Width := V.UTF8_Width (Text, Last);
       if Width = 0 then return Text'Length; end if;
-      if Text (Text'First + Last) = Character'Val (13) and then Last + 1 < Text'Length and then
-        Text (Text'First + Last + 1) = Character'Val (10) then return Last + 2; end if;
+      if Character_At (Text, Last) = Character'Val (13) and then Last + 1 < Text'Length and then
+        Character_At (Text, Last + 1) = Character'Val (10) then return Last + 2; end if;
+      pragma Assert (Width <= Text'Length - Last);
       return Last + Width;
    end Next_Line;
 
@@ -256,10 +357,14 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
    begin
       if Text'Length = 0 then return False; end if;
       while Position < Text'Length loop
+         pragma Loop_Variant (Increases => Position);
          Width := V.UTF8_Width (Text, Position);
          if Width = 0 then return False; end if;
          C := Code (Text, Position, Width);
-         if not (for some R of Ranges => C >= R.First and then C <= R.Last) then return False; end if;
+         if not (for some R of Ranges => C >= R.First and then C <= R.Last) then
+            return False;
+         end if;
+         pragma Assert (Width >= 1 and then Width <= Text'Length - Position);
          Position := Position + Width;
       end loop;
       return True;
@@ -289,7 +394,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
             else Integer_Value (Line, J ("__REALTIME_TIMESTAMP")));
       begin
          return Journal_Row.Form = V.Object_Value and then
-           V.Is_Text (Line, J ("_SYSTEMD_UNIT"), "user@" & Image (Reader) & ".service") and then
+           J ("_SYSTEMD_UNIT").Form = V.String_Value and then
+           Image_Matches (V.Text (Line, J ("_SYSTEMD_UNIT")), "user@", ".service", Reader) and then
            V.Is_Text (Line, J ("_COMM"), "systemd") and then
            (Null_Or_Missing (J ("USER_UNIT")) or else V.Is_Text (Line, J ("USER_UNIT"), Unit) or else
             Null_Or_Missing (J ("UNIT")) or else V.Is_Text (Line, J ("UNIT"), Unit)) and then
@@ -335,7 +441,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
            V.Is_Text (Observed, V.Element (Observed, Args, 5), "-o") and then
            V.Is_Text (Observed, V.Element (Observed, Args, 6), "json") and then
            V.Is_Text (Observed, V.Element (Observed, Args, 7), "--no-pager") and then
-           V.Is_Text (Observed, V.Element (Observed, Args, 8), "--since=@" & Image (Seconds));
+           V.Element (Observed, Args, 8).Form = V.String_Value and then
+           Image_Matches (V.Text (Observed, V.Element (Observed, Args, 8)), "--since=@", "", Seconds);
       end Query_Valid;
       procedure Parse_Poll (Index : Positive; Match_Events : Boolean; Valid : out Boolean) is
          Item : constant V.Node := O (Row (Index), "observation");
@@ -365,7 +472,10 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
             else V.Parse (Reader_UID).Form /= V.Integer_Value) or else
            not Raw.Valid or else not Text.Valid then return; end if;
          while First < Text.Length loop
+            pragma Loop_Invariant (First <= Text.Length);
+            pragma Loop_Variant (Increases => First);
             Last := Line_End (Text.Data, First);
+            pragma Assert (First < Text.Length and then Last <= Text.Length and then Last >= First);
             declare
                Line : constant String := Text.Data (First + 1 .. Last);
                Journal_Row : constant V.Node := V.Parse (Line);
@@ -373,7 +483,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
                ID : constant String := V.Text (Line, J ("MESSAGE_ID"));
             begin
                if Journal_Row.Form = V.Object_Value and then
-                 V.Is_Text (Line, J ("_SYSTEMD_UNIT"), "user@" & Image (Reader.Value) & ".service") and then
+                 J ("_SYSTEMD_UNIT").Form = V.String_Value and then
+                 Image_Matches (V.Text (Line, J ("_SYSTEMD_UNIT")), "user@", ".service", Reader.Value) and then
                  V.Is_Text (Line, J ("_COMM"), "systemd") and then
                  (Null_Or_Missing (J ("USER_UNIT")) or else V.Is_Text (Line, J ("USER_UNIT"), Unit) or else
                   Null_Or_Missing (J ("UNIT")) or else V.Is_Text (Line, J ("UNIT"), Unit)) and then
@@ -383,6 +494,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
                end if;
                if Accepted (Line, Journal_Row, Reader.Value) then
                   if J ("MESSAGE_ID").Form in V.Array_Value | V.Object_Value then return; end if;
+                  if Count = Natural'Last then return; end if;
                   Count := Count + 1;
                   if Match_Events then
                      declare
@@ -405,7 +517,12 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
                   Ended := Ended or else ID in EXIT_ID | FAILURE_ID | STOPPED_ID;
                end if;
             end;
-            First := Next_Line (Text.Data, Last);
+            declare
+               Next : constant Natural := Next_Line (Text.Data, Last);
+            begin
+               pragma Assert (Next > First and then Next <= Text.Length);
+               First := Next;
+            end;
          end loop;
          Started := Started_Entry or else Exit_Seen;
          Break_Reached := (Started and then (Ended or else Wait_Zero or else Stopped)) or else not Readable;
@@ -613,29 +730,124 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          return UTF8 (Raw.Data, Replace_Errors);
       end Process_Text;
       function Show_Values (Text : String) return String is
-         --  Keep insertion/last-key-wins semantics of the original partition
-         --  loop; no whitelist discards independently acquired extra fields.
-         function Fold (First : Natural; Comma : Boolean) return String
-           with Subprogram_Variant => (Decreases => Text'Length - First);
-         function Fold (First : Natural; Comma : Boolean) return String is
-            Last : constant Natural := Line_End (Text, First);
-            Following : constant Natural := Next_Line (Text, Last);
-            Separator : Natural := First;
+         --  Retain every partition in order, including duplicate keys: the
+         --  object selectors retain first-key order and last-key values.
+         procedure Scan (Render : Boolean; Output : out String; Size : out Natural)
+           with Pre => Render or else Output'Length = 0,
+                Relaxed_Initialization => Output,
+                Post => Output'Initialized and then
+                  (if Render then Size = Output'Length)
+         is
+            Used, First : Natural := 0;
+            Comma : Boolean := False;
+            function Ready return Boolean is
+              (not Render or else
+                 (Used <= Output'Length and then
+                    (Used = 0 or else
+                       Output (Output'First .. Output'First + (Used - 1))'Initialized)))
+              with Ghost;
+            procedure Put (Piece : String)
+              with Pre => Ready,
+                   Post => Ready and then Used >= Used'Old and then
+                     Used - Used'Old = Piece'Length
+            is
+            begin
+               if Piece'Length > Natural'Last - Used then
+                  raise Constraint_Error with "show values exceed String capacity";
+               end if;
+               if Render and then Piece'Length > Output'Length - Used then
+                  raise Program_Error with "show values extent mismatch";
+               end if;
+               declare
+                  Next : constant Natural := Used + Piece'Length;
+               begin
+                  if Render and then Piece'Length > 0 then
+                     Output (Output'First + Used .. Output'First + (Next - 1)) := Piece;
+                  end if;
+                  Used := Next;
+               end;
+            end Put;
+            procedure Put_Quoted (Piece : String)
+              with Pre => Ready,
+                   Post => Ready and then Used >= Used'Old and then
+                     Used - Used'Old >= 2
+            is
+               Extent : constant Natural := JSON_Render.Quote_Size (Piece);
+            begin
+               if Extent > Natural'Last - Used then
+                  raise Constraint_Error with "show values exceed String capacity";
+               end if;
+               if Render and then Extent > Output'Length - Used then
+                  raise Program_Error with "show values extent mismatch";
+               end if;
+               declare
+                  Next : constant Natural := Used + Extent;
+               begin
+                  if Render then
+                     JSON_Render.Write_Quote
+                       (Piece, Output (Output'First + Used .. Output'First + (Next - 1)));
+                  end if;
+                  Used := Next;
+               end;
+            end Put_Quoted;
          begin
-            if First >= Text'Length then return ""; end if;
-            while Separator < Last and then Text (Text'First + Separator) /= '=' loop
-               Separator := Separator + 1;
+            Put ("{");
+            while First < Text'Length loop
+               pragma Loop_Invariant (Ready);
+               pragma Loop_Invariant (First <= Text'Length);
+               pragma Loop_Variant (Increases => First);
+               declare
+                  Last : constant Natural := Line_End (Text, First);
+                  Following : constant Natural := Next_Line (Text, Last);
+                  Separator : Natural := First;
+               begin
+                  while Separator < Last loop
+                     pragma Loop_Invariant (Separator >= First and then Separator <= Last);
+                     pragma Loop_Variant (Increases => Separator);
+                     pragma Assert (Separator < Text'Length);
+                     exit when Character_At (Text, Separator) = '=';
+                     Separator := Separator + 1;
+                  end loop;
+                  if Separator < Last then
+                     if Comma then Put (","); end if;
+                     if First = Separator then
+                        Put_Quoted ("");
+                     else
+                        Put_Quoted
+                          (Text (Text'First + First .. Text'First + (Separator - 1)));
+                     end if;
+                     Put (":");
+                     if Separator + 1 = Last then
+                        Put_Quoted ("");
+                     else
+                        Put_Quoted
+                          (Text (Text'First + (Separator + 1) .. Text'First + (Last - 1)));
+                     end if;
+                     Comma := True;
+                  end if;
+                  pragma Assert (Following > First and then Following <= Text'Length);
+                  First := Following;
+               end;
             end loop;
-            if Separator < Last then
-               return (if Comma then "," else "") &
-                 V.Quote (Text (Text'First + First .. Text'First + Separator - 1)) & ":" &
-                 V.Quote (Text (Text'First + Separator + 1 .. Text'First + Last - 1)) &
-                 Fold (Following, True);
+            Put ("}");
+            if Render and then Used /= Output'Length then
+               raise Program_Error with "show values extent mismatch";
             end if;
-            return Fold (Following, Comma);
-         end Fold;
+            Size := Used;
+            pragma Assert (Output'Initialized);
+         end Scan;
+         Empty : String (1 .. 0);
+         Size : Natural;
       begin
-         return "{" & Fold (0, False) & "}";
+         Scan (False, Empty, Size);
+         return Result : String (1 .. Size) do
+            declare
+               Written : Natural;
+            begin
+               Scan (True, Result, Written);
+               pragma Assert (Written = Size);
+            end;
+         end return;
       end Show_Values;
       function Telemetry_Show (Observation : V.Node) return Boolean is
          Args : constant V.Node := O (Observation, "argv");
@@ -691,26 +903,109 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          return Found;
       end Find_Show;
       function Cgroup_Path (Group, Name : String) return String is
-         Output : String (1 .. Group'Length) := [others => ' '];
-         Used, Position, First : Natural := 0;
-      begin
-         -- Original pathlib POSIX lexical normalization: repeated slash and
-         -- dot components disappear; '..' remains a component, not resolved.
-         while Position < Group'Length loop
-            while Position < Group'Length and then Group (Group'First + Position) = '/' loop
-               Position := Position + 1;
+         procedure Scan (Render : Boolean; Output : out String; Size : out Natural)
+           with Pre => Render or else Output'Length = 0,
+                Relaxed_Initialization => Output,
+                Post => Output'Initialized and then
+                  (if Render then Size = Output'Length)
+         is
+            Used, Normalized, Position, First : Natural := 0;
+            function Ready return Boolean is
+              (not Render or else
+                 (Used <= Output'Length and then
+                    (Used = 0 or else
+                       Output (Output'First .. Output'First + (Used - 1))'Initialized)))
+              with Ghost;
+            procedure Put (Piece : String)
+              with Pre => Ready,
+                   Post => Ready and then Used >= Used'Old and then
+                     Used - Used'Old = Piece'Length
+            is
+            begin
+               if Piece'Length > Natural'Last - Used then
+                  raise Constraint_Error with "cgroup path exceeds String capacity";
+               end if;
+               if Render and then Piece'Length > Output'Length - Used then
+                  raise Program_Error with "cgroup path extent mismatch";
+               end if;
+               declare
+                  Next : constant Natural := Used + Piece'Length;
+               begin
+                  if Render and then Piece'Length > 0 then
+                     Output (Output'First + Used .. Output'First + (Next - 1)) := Piece;
+                  end if;
+                  Used := Next;
+               end;
+            end Put;
+         begin
+            Put ("/sys/fs/cgroup/");
+            while Position < Group'Length loop
+               pragma Loop_Invariant (Ready);
+               pragma Loop_Invariant (Position <= Group'Length);
+               pragma Loop_Invariant (Normalized <= Position);
+               pragma Loop_Invariant
+                 (if Normalized > 0 and then Position < Group'Length and then
+                     Character_At (Group, Position) /= '/'
+                  then Normalized < Position);
+               pragma Loop_Variant (Increases => Position);
+               if Character_At (Group, Position) = '/' then
+                  Position := Position + 1;
+               else
+                  First := Position;
+                  while Position < Group'Length and then Character_At (Group, Position) /= '/' loop
+                     pragma Loop_Invariant (Position >= First and then Position <= Group'Length);
+                     pragma Loop_Variant (Increases => Position);
+                     Position := Position + 1;
+                  end loop;
+                  if First < Position and then
+                    not (Position - First = 1 and then Character_At (Group, First) = '.') then
+                     declare
+                        Piece : constant Natural := Position - First;
+                        Extra : constant Natural := (if Normalized > 0 then 1 else 0);
+                     begin
+                        if Extra > Group'Length - Normalized or else
+                          Piece > Group'Length - Normalized - Extra then
+                           raise Constraint_Error with "normalized cgroup path exceeds input extent";
+                        end if;
+                        if Extra = 1 then Put ("/"); end if;
+                        if Piece > Natural'Last - Used then
+                           raise Constraint_Error with "cgroup path exceeds String extent";
+                        end if;
+                        if Render then
+                           if Piece > Output'Length - Used then
+                              raise Program_Error with "cgroup path extent mismatch";
+                           end if;
+                           Output (Output'First + Used ..
+                             Output'First + (Used + Piece - 1)) :=
+                               Group (Group'First + First ..
+                                 Group'First + (Position - 1));
+                        end if;
+                        Used := Used + Piece;
+                        Normalized := Normalized + Extra + Piece;
+                     end;
+                  end if;
+               end if;
             end loop;
-            First := Position;
-            while Position < Group'Length and then Group (Group'First + Position) /= '/' loop
-               Position := Position + 1;
-            end loop;
-            if First < Position and then Group (Group'First + First .. Group'First + Position - 1) /= "." then
-               if Used > 0 then Used := Used + 1; Output (Used) := '/'; end if;
-               Output (Used + 1 .. Used + Position - First) := Group (Group'First + First .. Group'First + Position - 1);
-               Used := Used + Position - First;
+            if Normalized > 0 then Put ("/"); end if;
+            Put (Name);
+            if Render and then Used /= Output'Length then
+               raise Program_Error with "cgroup path extent mismatch";
             end if;
-         end loop;
-         return "/sys/fs/cgroup/" & (if Used = 0 then "" else Output (1 .. Used) & "/") & Name;
+            Size := Used;
+            pragma Assert (Output'Initialized);
+         end Scan;
+         Empty : String (1 .. 0);
+         Size : Natural;
+      begin
+         Scan (False, Empty, Size);
+         return Result : String (1 .. Size) do
+            declare
+               Written : Natural;
+            begin
+               Scan (True, Result, Written);
+               pragma Assert (Written = Size);
+            end;
+         end return;
       end Cgroup_Path;
       function Cgroup (From, Before : Natural; Group, Name : String) return String is
          Found : V.Node := V.No_Node;
@@ -747,17 +1042,26 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
                --  Universal newlines are equivalent to ordinary whitespace for
                --  memory.events and limits values; preserve internal newlines.
                declare
-                  Text : String (1 .. Decoded.Length) := [others => ' '];
+                  Text : String (1 .. Decoded.Length) with Relaxed_Initialization;
                   Used : Natural := 0;
                   Position : Natural := 0;
+                  function Ready return Boolean is
+                    (Used = 0 or else Text (1 .. Used)'Initialized)
+                    with Ghost;
                begin
                   while Position < Decoded.Length loop
+                     pragma Loop_Invariant (Position <= Decoded.Length);
+                     pragma Loop_Invariant (Used <= Position);
+                     pragma Loop_Invariant (Ready);
+                     pragma Loop_Variant (Increases => Position);
                      Used := Used + 1;
-                     if Decoded.Data (Position + 1) = Character'Val (13) then
+                     if Character_At (Decoded.Data, Position) = Character'Val (13) then
                         Text (Used) := Character'Val (10);
                         if Position + 1 < Decoded.Length and then
-                          Decoded.Data (Position + 2) = Character'Val (10) then Position := Position + 1; end if;
-                     else Text (Used) := Decoded.Data (Position + 1);
+                          Character_At (Decoded.Data, Position + 1) = Character'Val (10) then
+                           Position := Position + 1;
+                        end if;
+                     else Text (Used) := Character_At (Decoded.Data, Position);
                      end if;
                      Position := Position + 1;
                   end loop;
@@ -767,43 +1071,234 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          end;
       end Cgroup;
       function Counters (Text : String) return String is
-         function Fold (First : Natural; Comma : Boolean) return String
-           with Subprogram_Variant => (Decreases => Text'Length - First);
-         function Fold (First : Natural; Comma : Boolean) return String is
-            Last : constant Natural := Line_End (Text, First);
-            Following : constant Natural := Next_Line (Text, Last);
-            Offset : Natural := First;
-            Key_First, Key_Last, Value_First, Value_Last, Width : Natural;
-            Parsed : Integer_Result;
-            function Space return Boolean is
-              (White (Code (Text, Offset, V.UTF8_Width (Text, Offset))) or else
-               Code (Text, Offset, V.UTF8_Width (Text, Offset)) in 28 .. 31);
+         procedure Scan (Render : Boolean; Output : out String; Size : out Natural)
+           with Pre => Render or else Output'Length = 0,
+                Relaxed_Initialization => Output,
+                Post => Output'Initialized and then
+                  (if Render then Size = Output'Length)
+         is
+            Used, First : Natural := 0;
+            Comma : Boolean := False;
+            function Ready return Boolean is
+              (not Render or else
+                 (Used <= Output'Length and then
+                    (Used = 0 or else
+                       Output (Output'First .. Output'First + (Used - 1))'Initialized)))
+              with Ghost;
+            procedure Put (Piece : String)
+              with Pre => Ready,
+                   Post => Ready and then Used >= Used'Old and then
+                     Used - Used'Old = Piece'Length
+            is
+            begin
+               if Piece'Length > Natural'Last - Used then
+                  raise Constraint_Error with "counter values exceed String capacity";
+               end if;
+               if Render and then Piece'Length > Output'Length - Used then
+                  raise Program_Error with "counter values extent mismatch";
+               end if;
+               declare
+                  Next : constant Natural := Used + Piece'Length;
+               begin
+                  if Render and then Piece'Length > 0 then
+                     Output (Output'First + Used .. Output'First + (Next - 1)) := Piece;
+                  end if;
+                  Used := Next;
+               end;
+            end Put;
+            procedure Put_Quoted (Piece : String)
+              with Pre => Ready,
+                   Post => Ready and then Used >= Used'Old and then
+                     Used - Used'Old >= 2
+            is
+               Extent : constant Natural := JSON_Render.Quote_Size (Piece);
+            begin
+               if Extent > Natural'Last - Used then
+                  raise Constraint_Error with "counter values exceed String capacity";
+               end if;
+               if Render and then Extent > Output'Length - Used then
+                  raise Program_Error with "counter values extent mismatch";
+               end if;
+               declare
+                  Next : constant Natural := Used + Extent;
+               begin
+                  if Render then
+                     JSON_Render.Write_Quote
+                       (Piece, Output (Output'First + Used .. Output'First + (Next - 1)));
+                  end if;
+                  Used := Next;
+               end;
+            end Put_Quoted;
+            procedure Put_Decimal (From, After : Natural; Extent : Positive)
+              with Pre => Ready and then From < After and then After <= Text'Length,
+                   Post => Ready and then Used >= Used'Old and then
+                     Used - Used'Old = Extent
+            is
+            begin
+               if Extent > Natural'Last - Used then
+                  raise Constraint_Error with "counter values exceed String capacity";
+               end if;
+               if Render and then Extent > Output'Length - Used then
+                  raise Program_Error with "counter values extent mismatch";
+               end if;
+               declare
+                  Next : constant Natural := Used + Extent;
+                  Position : Natural := From;
+                  Written, Width : Natural := 0;
+                  Value : Integer;
+               begin
+                  if Render then
+                     while Position < After loop
+                        pragma Loop_Invariant (Position >= From and then Position <= After);
+                        pragma Loop_Invariant (Written <= Extent);
+                        pragma Loop_Invariant (Used <= Output'Length);
+                        pragma Loop_Invariant (Extent <= Output'Length - Used);
+                        pragma Loop_Invariant
+                          (if Used + Written > 0 then
+                             Output (Output'First ..
+                                       Output'First + (Used + Written - 1))'Initialized);
+                        pragma Loop_Variant (Increases => Position);
+                        Width := V.UTF8_Width (Text, Position);
+                        if Width = 0 or else Width > After - Position or else Written = Extent then
+                           raise Program_Error with "counter decimal extent mismatch";
+                        end if;
+                        Value := Digit (Code (Text, Position, Width));
+                        if Value < 0 then
+                           raise Program_Error with "counter decimal extent mismatch";
+                        end if;
+                        Output (Output'First + (Used + Written)) :=
+                          Character'Val (Character'Pos ('0') + Value);
+                        Written := Written + 1;
+                        Position := Position + Width;
+                     end loop;
+                     if Written /= Extent then
+                        raise Program_Error with "counter decimal extent mismatch";
+                     end if;
+                  end if;
+                  Used := Next;
+               end;
+            end Put_Decimal;
          begin
-            if First >= Text'Length then return ""; end if;
-            while Offset < Last and then Space loop Offset := Offset + V.UTF8_Width (Text, Offset); end loop;
-            Key_First := Offset;
-            while Offset < Last and then not Space loop Offset := Offset + V.UTF8_Width (Text, Offset); end loop;
-            Key_Last := Offset;
-            while Offset < Last and then Space loop Offset := Offset + V.UTF8_Width (Text, Offset); end loop;
-            Value_First := Offset;
-            while Offset < Last and then not Space loop
-               Width := V.UTF8_Width (Text, Offset); Offset := Offset + Width;
+            Put ("{");
+            while First < Text'Length loop
+               pragma Loop_Invariant (Ready);
+               pragma Loop_Invariant (First <= Text'Length);
+               pragma Loop_Variant (Increases => First);
+               declare
+                  Last : constant Natural := Line_End (Text, First);
+                  Following : constant Natural := Next_Line (Text, Last);
+                  Offset : Natural := First;
+                  Key_First, Key_Last, Value_First, Value_Last : Natural := 0;
+                  function Space_At (Pos : Natural) return Boolean is
+                     W : constant Natural := V.UTF8_Width (Text, Pos);
+                  begin
+                     return W > 0 and then Pos < Text'Length and then W <= Text'Length - Pos
+                       and then (White (Code (Text, Pos, W)) or else Code (Text, Pos, W) in 28 .. 31);
+                  end Space_At;
+                  function Advance (From : Natural; Want_Space : Boolean) return Natural
+                    with Pre => From <= Text'Length,
+                         Post => Advance'Result >= From and then Advance'Result <= Text'Length
+                  is
+                     Pos : Natural := From;
+                     W : Natural;
+                  begin
+                     while Pos < Last and then Pos < Text'Length loop
+                        pragma Loop_Invariant (Pos >= From and then Pos <= Text'Length);
+                        pragma Loop_Variant (Increases => Pos);
+                        W := V.UTF8_Width (Text, Pos);
+                        exit when W = 0 or else W > Text'Length - Pos
+                          or else (if Want_Space then not Space_At (Pos) else Space_At (Pos));
+                        Pos := Pos + W;
+                     end loop;
+                     return Pos;
+                  end Advance;
+               begin
+                  Offset := Advance (Offset, True);
+                  Key_First := Offset;
+                  Offset := Advance (Offset, False);
+                  Key_Last := Offset;
+                  Offset := Advance (Offset, True);
+                  Value_First := Offset;
+                  Offset := Advance (Offset, False);
+                  Value_Last := Offset;
+                  Offset := Advance (Offset, True);
+                  pragma Assert (Following > First and then Following <= Text'Length);
+                  if Key_First < Key_Last and then Value_First < Value_Last and then Offset = Last then
+                     declare
+                        Position : Natural := Value_First;
+                        Significant_First : Natural := Value_Last;
+                        Extent, Width : Natural := 0;
+                        Value : Integer;
+                        Valid : Boolean := True;
+                     begin
+                        --  String_Integer(..., True) admits exactly the decimal
+                        --  scalars recognized by Digit. Count its canonical
+                        --  image without constructing either a big integer or
+                        --  an image; leading zeroes vanish and zero stays "0".
+                        while Position < Value_Last loop
+                           pragma Loop_Invariant
+                             (Position >= Value_First and then Position <= Value_Last);
+                           pragma Loop_Invariant
+                             (Significant_First >= Value_First and then
+                                Significant_First <= Value_Last);
+                           pragma Loop_Invariant (Extent <= Position - Value_First);
+                           pragma Loop_Variant (Increases => Position);
+                           Width := V.UTF8_Width (Text, Position);
+                           if Width = 0 or else Width > Value_Last - Position then
+                              Valid := False; exit;
+                           end if;
+                           Value := Digit (Code (Text, Position, Width));
+                           if Value < 0 then Valid := False; exit; end if;
+                           if Value > 0 and then Significant_First = Value_Last then
+                              Significant_First := Position;
+                           end if;
+                           if Significant_First < Value_Last then Extent := Extent + 1; end if;
+                           Position := Position + Width;
+                        end loop;
+                        if not Valid and then Is_Digits
+                          (Text (Text'First + Value_First .. Text'First + (Value_Last - 1)))
+                        then
+                           --  The old fold stopped here without a comma before
+                           --  this marker, even after earlier valid counters.
+                           Put ("INVALID_INTEGER");
+                           exit;
+                        end if;
+                        if Valid then
+                           if Comma then Put (","); end if;
+                           Put_Quoted
+                             (Text (Text'First + Key_First .. Text'First + (Key_Last - 1)));
+                           Put (":");
+                           if Extent = 0 then
+                              Put ("0");
+                           else
+                              Put_Decimal (Significant_First, Value_Last, Extent);
+                           end if;
+                           Comma := True;
+                        end if;
+                     end;
+                  end if;
+                  First := Following;
+               end;
             end loop;
-            Value_Last := Offset;
-            while Offset < Last and then Space loop Offset := Offset + V.UTF8_Width (Text, Offset); end loop;
-            Parsed := String_Integer (Text (Text'First + Value_First .. Text'First + Value_Last - 1), True);
-            if Key_First < Key_Last and then Offset = Last and then
-              Is_Digits (Text (Text'First + Value_First .. Text'First + Value_Last - 1)) and then
-              not Parsed.Valid then return "INVALID_INTEGER"; end if;
-            if Key_First < Key_Last and then Parsed.Valid and then Offset = Last then
-               return (if Comma then "," else "") &
-                 V.Quote (Text (Text'First + Key_First .. Text'First + Key_Last - 1)) & ":" &
-                 Image (Parsed.Value) & Fold (Following, True);
+            Put ("}");
+            if Render and then Used /= Output'Length then
+               raise Program_Error with "counter values extent mismatch";
             end if;
-            return Fold (Following, Comma);
-         end Fold;
+            Size := Used;
+            pragma Assert (Output'Initialized);
+         end Scan;
+         Empty : String (1 .. 0);
+         Size : Natural;
       begin
-         return "{" & Fold (0, False) & "}";
+         Scan (False, Empty, Size);
+         return Result : String (1 .. Size) do
+            declare
+               Written : Natural;
+            begin
+               Scan (True, Result, Written);
+               pragma Assert (Written = Size);
+            end;
+         end return;
       end Counters;
       function Derive_Reading (Index : Positive; Telemetry : Boolean) return String is
          Source_Index : constant Natural := Find_Show (Index, Telemetry);
@@ -914,6 +1409,11 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
             when 3 => "cpuTimeNanoseconds", when others => "tasksCurrent");
       begin
          for I in 1 .. V.Count (Observed, Rows) loop
+            pragma Loop_Invariant
+              (if Last_State then
+                 Last_Telemetry.Form = V.Object_Value and then Last_Telemetry.First > 0
+                 and then Last_Telemetry.First < Last_Telemetry.Last
+                 and then Last_Telemetry.Last <= Observed'Length);
             if Kind (I, "agent-resource-limits-acquisition") or else
               Kind (I, "agent-resource-telemetry-acquisition") then
                declare
@@ -967,26 +1467,148 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
               "resourceObservationArchive");
          end if;
          declare
-            function Fields (Index : Positive) return String
-              with Subprogram_Variant => (Decreases => V.Count (Observed, Last_Telemetry) + 1 - Index);
-            function Fields (Index : Positive) return String is
-            begin
-               if Index > V.Count (Observed, Last_Telemetry) then return ""; end if;
-               declare
-                  Name : constant String := V.Member_Name (Observed, Last_Telemetry, Index);
-                  Expected_Value : V.Node := O (Last_Telemetry, Name);
+            function Fields return String is
+               Members : constant V.Member_Index := V.Members (Observed, Last_Telemetry);
+               procedure Scan (Render : Boolean; Output : out String; Size : out Natural)
+                 with Pre => Render or else Output'Length = 0,
+                      Relaxed_Initialization => Output,
+                      Post => Output'Initialized and then
+                        (if Render then Size = Output'Length)
+               is
+                  Used : Natural := 0;
+                  function Ready return Boolean is
+                    (not Render or else
+                       (Used <= Output'Length and then
+                          (Used = 0 or else
+                             Output (Output'First .. Output'First + (Used - 1))'Initialized)))
+                    with Ghost;
+                  procedure Put (Piece : String)
+                    with Pre => Ready,
+                         Post => Ready and then Used >= Used'Old and then
+                           Used - Used'Old = Piece'Length
+                  is
+                  begin
+                     if Piece'Length > Natural'Last - Used then
+                        raise Constraint_Error with "telemetry fields exceed String capacity";
+                     end if;
+                     if Render and then Piece'Length > Output'Length - Used then
+                        raise Program_Error with "telemetry fields extent mismatch";
+                     end if;
+                     declare
+                        Next : constant Natural := Used + Piece'Length;
+                     begin
+                        if Render and then Piece'Length > 0 then
+                           Output (Output'First + Used .. Output'First + (Next - 1)) := Piece;
+                        end if;
+                        Used := Next;
+                     end;
+                  end Put;
+                  procedure Put_Quoted (Item : V.Node)
+                    with Pre => Ready and then Item.Form = V.String_Value
+                           and then Item.First > 0 and then Item.First < Item.Last
+                           and then Item.Last <= Observed'Length,
+                         Post => Ready and then Used >= Used'Old and then
+                           Used - Used'Old >= 2
+                  is
+                     Extent : constant Natural := JSON_Render.Quote_Size (Observed, Item);
+                  begin
+                     if Extent > Natural'Last - Used then
+                        raise Constraint_Error with "telemetry fields exceed String capacity";
+                     end if;
+                     if Render and then Extent > Output'Length - Used then
+                        raise Program_Error with "telemetry fields extent mismatch";
+                     end if;
+                     declare
+                        Next : constant Natural := Used + Extent;
+                     begin
+                        if Render then
+                           JSON_Render.Write_Quote
+                             (Observed, Item,
+                              Output (Output'First + Used .. Output'First + (Next - 1)));
+                        end if;
+                        Used := Next;
+                     end;
+                  end Put_Quoted;
+                  procedure Put_Raw (Item : V.Node)
+                    with Pre => Ready,
+                         Post => Ready and then Used >= Used'Old
+                  is
+                  begin
+                     if Item.Form = V.Missing then
+                        Put ("null");
+                     elsif Item.First > 0 and then Item.First <= Item.Last
+                       and then Item.Last <= Observed'Length
+                     then
+                        declare
+                           Extent : constant Natural := Item.Last - Item.First + 1;
+                        begin
+                           if Extent > Natural'Last - Used then
+                              raise Constraint_Error with "telemetry fields exceed String capacity";
+                           end if;
+                           if Render and then Extent > Output'Length - Used then
+                              raise Program_Error with "telemetry fields extent mismatch";
+                           end if;
+                           declare
+                              Next : constant Natural := Used + Extent;
+                           begin
+                              if Render then
+                                 Output (Output'First + Used .. Output'First + (Next - 1)) :=
+                                   Observed (Observed'First + (Item.First - 1) ..
+                                             Observed'First + (Item.Last - 1));
+                              end if;
+                              Used := Next;
+                           end;
+                        end;
+                     end if;
+                  end Put_Raw;
                begin
-                  for K in Maximum'Range loop
-                     if Name = Maximum_Name (K) then Expected_Value := Maximum (K); end if;
+                  Put ("{");
+                  for Index in 1 .. Members.Length loop
+                     pragma Loop_Invariant (Ready);
+                     declare
+                        Member : constant V.Member_Entry := Members.Entries (Index);
+                        Expected_Value : V.Node := Member.Item;
+                     begin
+                        for K in Maximum'Range loop
+                           if V.Is_Text (Observed, Member.Key, Maximum_Name (K)) then
+                              Expected_Value := Maximum (K);
+                           end if;
+                        end loop;
+                        if Index > 1 then Put (","); end if;
+                        Put_Quoted (Member.Key);
+                        Put (":");
+                        if (Hit and then V.Is_Text (Observed, Member.Key, "hitMemoryCeiling")) or else
+                          (Oom and then V.Is_Text (Observed, Member.Key, "oomKilled"))
+                        then
+                           Put ("true");
+                        else
+                           Put_Raw (Expected_Value);
+                        end if;
+                     end;
                   end loop;
-                  return (if Index > 1 then "," else "") & V.Quote (Name) & ":" &
-                    (if Name = "hitMemoryCeiling" and then Hit then "true"
-                     elsif Name = "oomKilled" and then Oom then "true"
-                     else Get (Observed, Expected_Value)) & Fields (Index + 1);
-               end;
+                  Put ("}");
+                  if Render and then Used /= Output'Length then
+                     raise Program_Error with "telemetry fields extent mismatch";
+                  end if;
+                  Size := Used;
+                  pragma Assert (Output'Initialized);
+               end Scan;
+               Empty : String (1 .. 0);
+               Size : Natural;
+            begin
+               Scan (False, Empty, Size);
+               return Result : String (1 .. Size) do
+                  declare
+                     Written : Natural;
+                  begin
+                     Scan (True, Result, Written);
+                     pragma Assert (Written = Size);
+                  end;
+               end return;
             end Fields;
          begin
-            return Source_Archive_Matches ("{" & Fields (1) & "}", "resourceObservationArchive");
+            return Source_Archive_Matches (Fields,
+              "resourceObservationArchive");
          end;
       end Resource_Join;
 
@@ -997,14 +1619,21 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
            (if C in 'A' .. 'Z' then Character'Pos (C) - Character'Pos ('A')
             elsif C in 'a' .. 'z' then Character'Pos (C) - Character'Pos ('a') + 26
             elsif C in '0' .. '9' then Character'Pos (C) - Character'Pos ('0') + 52
-            elsif C = '+' then 62 elsif C = '/' then 63 else 0);
+            elsif C = '+' then 62 elsif C = '/' then 63 else 0)
+           with Post => Digit64'Result <= 63;
          function Byte_At (Offset : Natural) return Natural is
-            Position : constant Natural := (Offset / 3) * 4;
-            A : constant Natural := Digit64 (Payload (Payload'First + Position));
-            B1 : constant Natural := Digit64 (Payload (Payload'First + Position + 1));
-            C : constant Natural := Digit64 (Payload (Payload'First + Position + 2));
-            D : constant Natural := Digit64 (Payload (Payload'First + Position + 3));
+            Quartets : constant Natural := Offset / 3;
+            Position, A, B1, C, D : Natural;
          begin
+            if Quartets > Natural'Last / 4 or else Payload'Length < 4 then
+               return Natural'Last;
+            end if;
+            Position := Quartets * 4;
+            if Position > Payload'Length - 4 then return Natural'Last; end if;
+            A := Digit64 (Character_At (Payload, Position));
+            B1 := Digit64 (Character_At (Payload, Position + 1));
+            C := Digit64 (Character_At (Payload, Position + 2));
+            D := Digit64 (Character_At (Payload, Position + 3));
             return (case Offset mod 3 is when 0 => A * 4 + B1 / 16,
                     when 1 => (B1 mod 16) * 16 + C / 4,
                     when others => (C mod 4) * 64 + D);

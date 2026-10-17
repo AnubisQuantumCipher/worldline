@@ -17,26 +17,32 @@ fi
 export GPR_PROJECT_PATH="$PRIVATE_SPARKLIB${GPR_PROJECT_PATH:+:$GPR_PROJECT_PATH}"
 export WORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True
 
+# Bind both commands to the reviewed checks build and installed private library,
+# rather than inheriting scenario values from an operator's environment.
+SCENARIOS=("-XWORLDLINE_BUILD=checks" "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True" "-XSPARKLIB_MODE=full" "-XSPARKLIB_BUILD=Production" "-XSPARKLIB_LIBRARY_TYPE=static" "-XSPARKLIB_INSTALLED=True")
+# This gate consumes externally built SPARKlib. The complete F2 campaign also
+# needs the separate imported-source proof driver; -U cannot override that boundary.
+
 OUT="obj/core-library/gnatprove/gnatprove.out"
 LIB="lib/libworldline_core.so"
-OPTIONS=("-P" "core/worldline_core.gpr" "-U" "--level=3" "--report=fail" "-j0")
+OPTIONS=("-P" "core/worldline_core.gpr" "-U" "--mode=all" "--level=3" "--report=all" "--checks-as-errors=on" "--proof-warnings=on" "--warnings=error" "--memlimit=1024" "--timeout=60" "-j2")
 
 echo "== build libworldline_core.so =="
-gprbuild -q -P worldline.gpr -XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True -XSPARKLIB_MODE=full -XSPARKLIB_BUILD=Production -XSPARKLIB_LIBRARY_TYPE=static -XSPARKLIB_INSTALLED=True
+gprbuild -p -q -j2 -P worldline.gpr "${SCENARIOS[@]}"
 
 echo "== prove every Worldline core unit =="
 # Remove any previous summary first: without this, a gnatprove run that fails or aborts can
 # leave the PREVIOUS run's summary in place to be read as this run's result, while the manifest
 # is regenerated over today's (unproved) sources. Also stop discarding gnatprove's exit status.
 rm -f "$OUT"
-if ! gnatprove "${OPTIONS[@]}"; then
+if ! gnatprove "${OPTIONS[@]}" "${SCENARIOS[@]}"; then
   echo "prove: gnatprove exited non-zero" >&2
   exit 2
 fi
 [[ -f "$OUT" ]] || { echo "prove: gnatprove produced no summary"; exit 2; }
 [[ -f "$LIB" ]] || { echo "prove: shared library is missing"; exit 2; }
 
-python3 - "$ROOT" "$OUT" "$LIB" <<'PY'
+python3 - "$ROOT" "$OUT" "$LIB" "${OPTIONS[@]:2}" "${SCENARIOS[@]}" <<'PY'
 from __future__ import annotations
 
 import hashlib
@@ -52,6 +58,7 @@ root = Path(sys.argv[1]).resolve()
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(root))
 from verify_proof_manifest import MINIMUM_CHECKS, REQUIRED_PROVED, UNANALYZED_BOUNDARY, SummaryError, contract_problems, parse_summary, source_paths  # noqa: E402
+from worldline.proof_manifest import ada_identifier_key, ada_tokens, source_profile_problems
 # The pinned contracts are checked before the manifest is written, so the gate never prints
 # PASSED for a tree whose contracts changed (review of 0ee1112).
 if contract_problems(root):
@@ -76,64 +83,130 @@ sources = source_paths(root)
 missing = [key for key, path in sources.items() if not path.is_file()]
 if missing:
     raise SystemExit("prove: proof source missing: " + ", ".join(missing))
+profile_problems = source_profile_problems(root, sources.values())
+if profile_problems:
+    raise SystemExit("PROOF GATE FAILED: " + "; ".join(profile_problems))
 
-# `pragma Assume` screening must be case-insensitive and whitespace-tolerant: Ada accepts
-# "pragma  assume" and "pragma\nAssume", which a raw byte count silently scores as zero. Also
-# screen for justification pragmas and for a body quietly leaving SPARK analysis entirely.
-_ASSUME = re.compile(rb"(?is)\bpragma\s+assume\b")
-# Any GNATprove annotation, in pragma or aspect form: justifications (False_Positive,
-# Intentional) and exclusions (Skip_Proof, Skip_Flow_And_Proof) alike. None is allowed.
-_JUSTIFY = re.compile(rb"(?is)\b(pragma\s+annotate\s*\(|annotate\s*=>\s*\()\s*gnatprove\b")
-_SPARK_OFF = re.compile(rb"(?is)\bspark_mode\s*(=>|\()\s*off\b")
+# Screen Ada syntax, not comments or literal payloads. Only Inline_For_Proof is
+# admitted: GNATprove checks its regular-function equivalence against the body;
+# expression functions use their definition directly. It does not justify a
+# check or skip a body. Full coverage and the zero-exception gates below still
+# apply. Every other GNATprove annotation, including unknown future tags, refuses.
+# Policy: SPARK User's Guide, "Annotation for Inlining Functions for Proof":
+# https://docs.adacore.com/spark2014-docs/html/ug/en/appendix/additional_annotate_pragmas.html#annotation-for-inlining-functions-for-proof
+_OPERATOR = re.compile(r'"(?:\*\*|<=|>=|/=|[+\-*/=&<>]|and|or|xor|mod|rem|abs|not)"', re.I)
+
+
+def spelling(token):
+    kind, value = token
+    if kind == "identifier":
+        return ada_identifier_key(value)
+    return value if kind == "symbol" else "<literal>"
 
 
 def code_only(path):
-    """Source with Ada comments removed, so prose about these constructs is not screened.
+    """Use the same encoding and token boundaries as the contract normalizer."""
+    try:
+        return [token for token in ada_tokens(path.read_bytes(), canonical_pragmas=True)
+                if token[0] != "layout"]
+    except (UnicodeError, ValueError) as exc:
+        raise SystemExit(f"PROOF GATE FAILED: {path}: {exc}") from exc
 
-    An `--` inside a string literal is not a comment, so quote state is tracked; screening
-    comments would otherwise flag a header that merely *describes* where SPARK is disabled.
-    """
-    stripped = []
-    for line in path.read_bytes().splitlines():
-        in_string = False
-        cut = len(line)
-        index = 0
-        while index < len(line):
-            character = line[index : index + 1]
-            if not in_string and character == b"'":
-                # After an identifier or ')' this is an attribute tick (Character'( ... ));
-                # otherwise 'x' is a character literal, and '"' or '-' inside it is neither a
-                # string delimiter nor a comment.
-                previous = line[:index].rstrip()[-1:]
-                if not (previous.isalnum() or previous in (b"_", b")")) and line[index + 2 : index + 3] == b"'":
-                    index += 3
-                    continue
-            if character == b'"':
-                in_string = not in_string
-            elif not in_string and line[index : index + 2] == b"--":
-                cut = index
-                break
-            index += 1
-        stripped.append(line[:cut])
-    return b"\n".join(stripped)
+
+def entity_name(tokens):
+    """A selected Ada name, optionally ending in a quoted operator."""
+    if not tokens or len(tokens) % 2 == 0:
+        return False
+    for index, token in enumerate(tokens):
+        kind, value = token
+        if index % 2:
+            if token != ("symbol", "."):
+                return False
+        elif kind != "identifier":
+            operator = '"' + value[1:-1] + '"'
+            if index != len(tokens) - 1 or kind != "string" or not _OPERATOR.fullmatch(operator):
+                return False
+    return True
+
+
+def unsupported_annotations(tokens, *, allow_inline):
+    """Validate complete token lists, never a tag prefix or a name substring."""
+    words = [spelling(token) for token in tokens]
+    problems = []
+    for index, word in enumerate(words):
+        if words[index:index + 2] == ["PRAGMA", "ANNOTATE"]:
+            pragma = True
+            start = index + 2
+        elif word == "ANNOTATE" and words[index + 1:index + 3] == ["=", ">"]:
+            pragma = False
+            start = index + 3
+        else:
+            continue
+        if words[start:start + 1] != ["("]:
+            problems.append("malformed Annotate arguments")
+            continue
+        depth = 0
+        for end in range(start, len(words)):
+            if words[end] == "(":
+                depth += 1
+            elif words[end] == ")":
+                depth -= 1
+                if depth == 0:
+                    break
+        else:
+            problems.append("unterminated Annotate arguments")
+            continue
+        arguments = words[start:end + 1]
+        if "GNATPROVE" not in arguments:
+            continue
+        if pragma:
+            supported = (
+                arguments[:8] ==
+                ["(", "GNATPROVE", ",", "INLINE_FOR_PROOF", ",", "ENTITY", "=", ">"]
+                and arguments[-1:] == [")"]
+                and entity_name(tokens[start + 8:end])
+                and words[end + 1:end + 2] == [";"])
+        else:
+            supported = (
+                arguments == ["(", "GNATPROVE", ",", "INLINE_FOR_PROOF", ")"]
+                and words[end + 1:end + 2] in ([","], [";"], ["IS"]))
+        if not allow_inline or not supported:
+            original = " ".join(value for _, value in tokens[start:end + 1])
+            problems.append("unsupported GNATprove annotation: " + original)
+    return problems
 
 
 code = {key: code_only(path) for key, path in sources.items()}
-assumes = sum(len(_ASSUME.findall(text)) for text in code.values())
-justifications = sum(len(_JUSTIFY.findall(text)) for text in code.values())
-# worldline-c_api is the one declared, documented exception: it is the unproved C/Python
-# boundary named in the manifest's own boundary.notProved list.
+spellings = {key: [spelling(token) for token in tokens] for key, tokens in code.items()}
+assumes = sum(
+    words[index:index + 2] == ["PRAGMA", "ASSUME"]
+    for words in spellings.values() for index in range(len(words)))
+# Only the exact core spec/body paths for the contract's declared unit may
+# leave SPARK. Neither another *_c_api unit nor a same-named nested source is
+# that boundary. Do not admit proof annotations on its unanalyzed implementation.
+boundary_sources = {f"core/{unit}{suffix}" for unit in UNANALYZED_BOUNDARY for suffix in (".ads", ".adb")}
+annotation_problems = [
+    f"{key}: {problem}"
+    for key, text in code.items()
+    for problem in unsupported_annotations(text, allow_inline=key not in boundary_sources)
+]
 spark_off = sorted(
-    key for key, text in code.items()
-    if _SPARK_OFF.search(text) and "c_api" not in key
+    key for key, words in spellings.items()
+    if key not in boundary_sources and any(
+        word == "SPARK_MODE" and
+        (words[index + 1:index + 4] == ["=", ">", "OFF"] or
+         words[index + 1:index + 3] == ["(", "OFF"])
+        for index, word in enumerate(words))
 )
 print(f"checks total   {total}")
 print(f"justified      {justified}")
 print(f"unproved       {unproved}")
 print(f"pragma Assume  {assumes}")
-print(f"justify pragma {justifications}")
-if unproved or justified or assumes or justifications:
+print(f"forbidden annotations {len(annotation_problems)}")
+if unproved or justified or assumes:
     raise SystemExit("PROOF GATE FAILED")
+if annotation_problems:
+    raise SystemExit("PROOF GATE FAILED: " + "; ".join(annotation_problems))
 if spark_off:
     raise SystemExit("PROOF GATE FAILED: SPARK_Mode => Off outside the declared boundary: "
                      + ", ".join(spark_off))
@@ -180,7 +253,7 @@ manifest = {
     "schemaVersion": 1,
     "claim": "all checks proved, nothing assumed",
     "project": "core/worldline_core.gpr",
-    "options": ["-U", "--level=3", "--report=fail", "-j0"],
+    "options": sys.argv[4:],
     "proof": {
         "total": total,
         "justified": justified,

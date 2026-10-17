@@ -113,17 +113,13 @@ class TypedExportCorrespondence(unittest.TestCase):
         self.assertEqual(original.count(before), 1)
         changed = original.replace(before, after, 1)
         self.assertNotEqual(changed, original)
-        # This existing runtime diagnostic literal exposes the inherited
-        # normalizer blind spot without changing the normalizer or its pins.
-        self.assertEqual(verifier.normalized_ada(original.decode('utf-8')),
-                         verifier.normalized_ada(changed.decode('utf-8')))
         path.write_bytes(changed)
-        problems = verifier.export_problems(self.root)
-        self.assertNotIn(
-            'typed export normalized transport projection differs: core/worldline-c_api.adb',
-            problems)
-        self.assertEqual(problems, [
-            'typed export raw transport bytes differ: core/worldline-c_api.adb'])
+        # Raw-byte correspondence remains required even when normalization also
+        # detects this mutation. Literal-space projection sensitivity has its
+        # own behavioral controls; this case exercises the raw transport guard.
+        self.assertIn(
+            'typed export raw transport bytes differ: core/worldline-c_api.adb',
+            verifier.export_problems(self.root))
 
     def test_transport_check_cannot_be_replaced_by_an_unreachable_guard(self):
         self.change_function('core/worldline-c_api.adb', 'Owned_recovery_protocol',

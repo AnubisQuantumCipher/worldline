@@ -8,7 +8,8 @@ package Worldline.Evaluation_Policy with SPARK_Mode is
    function Required (Requirement : String; Ordinal : Natural) return String
      with Global => null;
    function Empty_Declared (Requirement : String) return Boolean
-     with Global => null;
+     with Global => null,
+       Post => (if Empty_Declared'Result then Required_Count (Requirement) = 0);
    function Declaration (Requirement, Check : String) return String
      with Global => null;
    function Declaration_Count (Requirement : String) return Natural

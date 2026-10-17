@@ -514,6 +514,14 @@ class EngineFinalizationWriter:
                      'nativeVerifierInputs': {
                          'expectedRequirement': bytes_value(self.start.policy),
                          'returnedContext': context}})
+        from .finalize import evaluation_record, execution_binding
+        # Classify the complete owned rows only after their retained operands
+        # are attached. These saved projections are diagnostic, never authority;
+        # the typed capture and seal below independently decide completion.
+        for row in rows:
+            row['executionBinding'] = execution_binding(row)
+            row['evaluation'] = evaluation_record(
+                row, declared=self.declarations.get(str(row.get('id'))), core=self.core)
         typed = tuple(self._row(row) for row in rows)
         for row in typed:
             self.journal.record_result(self.start, identity(str(uuid.uuid4())), self.start.run, row)

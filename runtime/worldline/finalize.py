@@ -158,6 +158,37 @@ def refusal_reason(evaluation: Mapping[str, Any]) -> str:
     return "not admitted"
 
 
+def _roster_evaluations(
+    required: Sequence[str],
+    results_by_id: Mapping[str, Any],
+    declarations: Mapping[str, CheckDeclaration],
+    *,
+    core: Core,
+) -> tuple[list[bool], list[dict[str, str]], dict[str, dict[str, Any]]]:
+    """Render fresh native per-check decisions, without defining completeness.
+
+    Both legacy roster admission and full-domain execution diagnostics consume
+    these classifications. Diagnostics must not inherit the legacy ABI's count
+    bound or reconstruct a Python authorization rule.
+    """
+    admitted: list[bool] = []
+    refused: list[dict[str, str]] = []
+    evaluations: dict[str, dict[str, Any]] = {}
+    for check_id in required:
+        result = results_by_id.get(check_id)
+        if not isinstance(result, Mapping):
+            admitted.append(False)
+            refused.append({"id": check_id, "reason": "no execution record"})
+            continue
+        evaluation = evaluation_record(result, declared=declarations.get(check_id), core=core)
+        evaluations[check_id] = evaluation
+        ok = evaluation["admissibleForPromotion"] is True
+        admitted.append(ok)
+        if not ok:
+            refused.append({"id": check_id, "reason": refusal_reason(evaluation)})
+    return admitted, refused, evaluations
+
+
 def roster_decision(
     required: Sequence[str],
     results_by_id: Mapping[str, Any],
@@ -174,21 +205,8 @@ def roster_decision(
     kernel's.
     """
     core = core or Core.shared()
-    admitted: list[bool] = []
-    refused: list[dict[str, str]] = []
-    evaluations: dict[str, dict[str, Any]] = {}
-    for check_id in required:
-        result = results_by_id.get(check_id)
-        if not isinstance(result, Mapping):
-            admitted.append(False)
-            refused.append({"id": check_id, "reason": "no execution record"})
-            continue
-        evaluation = evaluation_record(result, declared=declarations.get(check_id), core=core)
-        evaluations[check_id] = evaluation
-        ok = evaluation["admissibleForPromotion"] is True
-        admitted.append(ok)
-        if not ok:
-            refused.append({"id": check_id, "reason": refusal_reason(evaluation)})
+    admitted, refused, evaluations = _roster_evaluations(
+        required, results_by_id, declarations, core=core)
     complete = core.evaluation_roster_complete(admitted, empty_declared=empty_declared)
     return {"complete": complete, "required": list(required), "emptyDeclared": empty_declared,
             "refused": refused, "evaluations": evaluations}
@@ -529,49 +547,11 @@ class Finalizer:
                     }
                 )
                 required_checks.append("protected-paths")
-            # These belong to the RECORD, so they are attached before the evidence manifest is
-            # built and hashed -- not afterwards.
-            #
-            # `evidence_manifest` shallow-copies each result, so anything attached after it was
-            # built lived only on the runner's own list. Finalization read the originals and
-            # correctly degraded the world, but the COMMIT-time gate reads
-            # `subject.evidence["checks"]`, i.e. the copies, where `executionBinding` and
-            # `evaluation` were simply absent. Both of its guards therefore compared against
-            # nothing: `executionBinding == "UNESTABLISHED"` could never be true, and a missing
-            # `executionStatus` reads as None, which is permitted. The second gate that feeds
-            # the kernel's completeness input was passing by not asking -- the exact failure its
-            # own docstring warns about.
-            #
-            # Each record is classified against the policy's declaration for its check, from the
-            # requirement this evaluation was bound to. Without a requirement nothing is declared,
-            # and a check with no declaration is never admitted.
-            requirement = validation.get("requirement") if validation is not None else None
-            declarations = check_declarations(requirement)
-            # WORLDLINE's own results have fixed shapes that no policy writes: the agent's exit is
-            # always on this roster, and protected-paths whenever this finalization protects
-            # anything.
-            declarations["agent"] = ENGINE_DECLARATIONS["agent"]
-            if protected:
-                declarations["protected-paths"] = ENGINE_DECLARATIONS["protected-paths"]
-            for item in check_results:
-                item["executionBinding"] = execution_binding(item)
-                item["evaluation"] = evaluation_record(
-                    item, declared=declarations.get(str(item.get("id"))), core=self.core)
-            _, empty_declared = required_roster(requirement, core=self.core)
-            roster = roster_decision(
-                required_checks,
-                {str(item.get("id")): item for item in check_results},
-                declarations,
-                empty_declared=empty_declared and not required_checks,
-                core=self.core,
-            )
-            if not roster["complete"]:
-                refused = [item["id"] for item in roster["refused"]] or ["roster-undeclared"]
-                raise WorldlineError(
-                    "CORE_INVALID_EVALUATION",
-                    "the kernel refused the evaluation roster",
-                    {"refused": refused},
-                )
+            # The writer attaches independently retained invocation/acquisition
+            # operands before classifying returned rows. Its complete native
+            # capture and seal decide the outcome, including completed FAIL.
+            # A bare-return admission gate here would lose those operands and
+            # turn an ordinary primary failure into a materialization error.
             dependencies = capture_dependencies(dependency_roots, self.core)
             dependency_counts = [item["count"] for item in dependencies]
             dependency_count = (

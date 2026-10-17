@@ -19,18 +19,6 @@ package body Resource_Observation_Classification with SPARK_Mode is
       and then not F.Genesis_Prime.Present
       and then Zero (Data, F.Genesis_Root_Count));
    end Genesis_Current;
-   function Events (Data : Q.Byte_Array; Raw : Identity) return Population is
-   begin
-      if Text (Data, Raw, "populated 0" & Ada.Characters.Latin_1.LF & "frozen 0" & Ada.Characters.Latin_1.LF)
-        or else Text (Data, Raw, "frozen 0" & Ada.Characters.Latin_1.LF & "populated 0" & Ada.Characters.Latin_1.LF)
-        or else Text (Data, Raw, "populated 0" & Ada.Characters.Latin_1.LF & "frozen 1" & Ada.Characters.Latin_1.LF)
-        or else Text (Data, Raw, "frozen 1" & Ada.Characters.Latin_1.LF & "populated 0" & Ada.Characters.Latin_1.LF) then return Empty;
-      elsif Text (Data, Raw, "populated 1" & Ada.Characters.Latin_1.LF & "frozen 0" & Ada.Characters.Latin_1.LF)
-        or else Text (Data, Raw, "frozen 0" & Ada.Characters.Latin_1.LF & "populated 1" & Ada.Characters.Latin_1.LF)
-        or else Text (Data, Raw, "populated 1" & Ada.Characters.Latin_1.LF & "frozen 1" & Ada.Characters.Latin_1.LF)
-        or else Text (Data, Raw, "frozen 1" & Ada.Characters.Latin_1.LF & "populated 1" & Ada.Characters.Latin_1.LF) then return Populated;
-      else return Population_Unknown; end if;
-   end Events;
    function Classify (Data : Q.Byte_Array; State : L.Ledger_State; Item : L.Row; F : Facts) return L.Liveness is
    begin
       if not Common (Data, State, Item, F) then return L.Unknown;

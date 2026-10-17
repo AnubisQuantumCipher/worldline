@@ -36,18 +36,17 @@ package Resource_Observation_Classification with SPARK_Mode is
       and then (for all Offset in Q.Byte_Count range 0 .. Item.Value.Length - 1 =>
         Data (Item.Value.First + Offset) = Q.Byte (Character'Pos (Value (Value'First + Integer (Offset))))))
    with Global => null;
-   function Events (Data : Q.Byte_Array; Raw : Identity) return Population
-   with Global => null,
-     Post => Events'Result =
-       (if Text (Data, Raw, "populated 0" & Ada.Characters.Latin_1.LF & "frozen 0" & Ada.Characters.Latin_1.LF)
-         or else Text (Data, Raw, "frozen 0" & Ada.Characters.Latin_1.LF & "populated 0" & Ada.Characters.Latin_1.LF)
-         or else Text (Data, Raw, "populated 0" & Ada.Characters.Latin_1.LF & "frozen 1" & Ada.Characters.Latin_1.LF)
-         or else Text (Data, Raw, "frozen 1" & Ada.Characters.Latin_1.LF & "populated 0" & Ada.Characters.Latin_1.LF) then Empty
-        elsif Text (Data, Raw, "populated 1" & Ada.Characters.Latin_1.LF & "frozen 0" & Ada.Characters.Latin_1.LF)
-         or else Text (Data, Raw, "frozen 0" & Ada.Characters.Latin_1.LF & "populated 1" & Ada.Characters.Latin_1.LF)
-         or else Text (Data, Raw, "populated 1" & Ada.Characters.Latin_1.LF & "frozen 1" & Ada.Characters.Latin_1.LF)
-         or else Text (Data, Raw, "frozen 1" & Ada.Characters.Latin_1.LF & "populated 1" & Ada.Characters.Latin_1.LF) then Populated
-        else Population_Unknown);
+   function Events (Data : Q.Byte_Array; Raw : Identity) return Population is
+     (if Text (Data, Raw, "populated 0" & Ada.Characters.Latin_1.LF & "frozen 0" & Ada.Characters.Latin_1.LF)
+       or else Text (Data, Raw, "frozen 0" & Ada.Characters.Latin_1.LF & "populated 0" & Ada.Characters.Latin_1.LF)
+       or else Text (Data, Raw, "populated 0" & Ada.Characters.Latin_1.LF & "frozen 1" & Ada.Characters.Latin_1.LF)
+       or else Text (Data, Raw, "frozen 1" & Ada.Characters.Latin_1.LF & "populated 0" & Ada.Characters.Latin_1.LF) then Empty
+      elsif Text (Data, Raw, "populated 1" & Ada.Characters.Latin_1.LF & "frozen 0" & Ada.Characters.Latin_1.LF)
+       or else Text (Data, Raw, "frozen 0" & Ada.Characters.Latin_1.LF & "populated 1" & Ada.Characters.Latin_1.LF)
+       or else Text (Data, Raw, "populated 1" & Ada.Characters.Latin_1.LF & "frozen 1" & Ada.Characters.Latin_1.LF)
+       or else Text (Data, Raw, "frozen 1" & Ada.Characters.Latin_1.LF & "populated 1" & Ada.Characters.Latin_1.LF) then Populated
+      else Population_Unknown)
+   with Global => null;
    function Zero (Data : Q.Byte_Array; Item : Q.Optional_Quantity) return Boolean is
      (Resource_Run_Ledger.T.Epoch_Valid (Data, Item)
       and then Q.Is_Zero (Data, Item.Value))

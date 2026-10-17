@@ -160,6 +160,390 @@ package body Worldline.Producer_Values with SPARK_Mode is
    begin
       return Original_Node (Wide_Item, Data'Length);
    end Parse;
+   type Child_Status is
+     (Child_Ready, Invalid_Container_Delimiters, Invalid_Container_Span,
+      Invalid_Member_Key, Invalid_Member_Separator, Invalid_Child_Span,
+      Invalid_Child_Separator, Invalid_Trailing_Separator);
+
+   --  The capacity pass must distinguish malformed input from the closing
+   --  delimiter, including a malformed suffix after otherwise valid members.
+   --  Publish neither a child nor a cursor advance unless the whole step is
+   --  valid. The strict iterator below shares this scan, not a second grammar.
+   procedure Try_Next_Child
+     (Data : String; Parent : Node; Position : in out Natural;
+      Key, Item : out Node; Status : out Child_Status)
+   with
+     Global => null, Always_Terminates,
+     Post =>
+       (if Status = Child_Ready then
+           Parent.Form in Array_Value | Object_Value and then
+           Parent.First > 0 and then Parent.First < Parent.Last and then
+           Parent.Last <= Data'Length and then
+           Position'Old in Parent.First .. Parent.Last - 1 and then
+           Position in Position'Old .. Parent.Last - 1 and then
+           (if Item.Form = Missing then
+               Position = Parent.Last - 1 and then Key.Form = Missing
+            else
+               Position > Position'Old and then Item.First > Parent.First and then
+               Item.First > Position'Old and then Item.First <= Item.Last and then
+               Item.Last < Parent.Last and then
+               (if Parent.Form = Object_Value then
+                   Key.Form = String_Value and then Key.First > Parent.First and then
+                   Key.First < Key.Last and then Key.Last < Item.First
+                else Key.Form = Missing))
+        else Position = Position'Old and then Key = No_Node and then Item = No_Node)
+   is
+      Start : constant Natural := Position;
+      Next : Natural := Position;
+      Found_Key, Found_Item : Node := No_Node;
+   begin
+      Key := No_Node;
+      Item := No_Node;
+      Status := Invalid_Container_Span;
+      if Parent.Form not in Array_Value | Object_Value or else
+        Parent.First = 0 or else Parent.First >= Parent.Last or else
+        Parent.Last > Data'Length or else
+        Position < Parent.First or else Position >= Parent.Last
+      then
+         return;
+      end if;
+      if Byte_At (Data, Parent.First - 1) /=
+        (if Parent.Form = Array_Value then '[' else '{') or else
+        Byte_At (Data, Parent.Last - 1) /=
+          (if Parent.Form = Array_Value then ']' else '}')
+      then
+         Status := Invalid_Container_Delimiters;
+         return;
+      end if;
+      Space (Data, Next);
+      if Next > Parent.Last - 1 then
+         return;
+      elsif Next = Parent.Last - 1 then
+         Position := Next;
+         Status := Child_Ready;
+         return;
+      end if;
+      if Parent.Form = Object_Value then
+         Scan (Data, Next, Found_Key);
+         if Found_Key.Form /= String_Value or else
+           Found_Key.First <= Parent.First or else
+           Found_Key.First >= Found_Key.Last or else Found_Key.Last >= Parent.Last
+         then
+            Status := Invalid_Member_Key;
+            return;
+         end if;
+         Space (Data, Next);
+         if Next >= Parent.Last - 1 or else Byte_At (Data, Next) /= ':' then
+            Status := Invalid_Member_Separator;
+            return;
+         end if;
+         Next := Next + 1;
+      end if;
+      Scan (Data, Next, Found_Item);
+      if Found_Item.Form = Missing or else Found_Item.First <= Parent.First or else
+        Found_Item.First <= Start or else Found_Item.First > Found_Item.Last or else
+        Found_Item.Last >= Parent.Last or else
+        (Parent.Form = Object_Value and then Found_Key.Last >= Found_Item.First)
+      then
+         Status := Invalid_Child_Span;
+         return;
+      end if;
+      Space (Data, Next);
+      if Next > Parent.Last - 1 then
+         return;
+      elsif Next < Parent.Last - 1 then
+         if Byte_At (Data, Next) /= ',' then
+            Status := Invalid_Child_Separator;
+            return;
+         end if;
+         Next := Next + 1;
+         Space (Data, Next);
+         if Next >= Parent.Last - 1 then
+            Status := Invalid_Trailing_Separator;
+            return;
+         end if;
+      end if;
+      Position := Next;
+      Key := Found_Key;
+      Item := Found_Item;
+      Status := Child_Ready;
+   end Try_Next_Child;
+
+   procedure Next_Child
+     (Data : String; Parent : Node; Position : in out Natural;
+      Key, Item : out Node)
+   is
+      Status : Child_Status;
+   begin
+      Try_Next_Child (Data, Parent, Position, Key, Item, Status);
+      case Status is
+         when Child_Ready => null;
+         when Invalid_Container_Delimiters =>
+            raise Program_Error with "invalid producer container delimiters";
+         when Invalid_Container_Span =>
+            raise Program_Error with "invalid producer container span";
+         when Invalid_Member_Key =>
+            raise Program_Error with "invalid producer member key";
+         when Invalid_Member_Separator =>
+            raise Program_Error with "invalid producer member separator";
+         when Invalid_Child_Span =>
+            raise Program_Error with "invalid producer child span";
+         when Invalid_Child_Separator =>
+            raise Program_Error with "invalid producer child separator";
+         when Invalid_Trailing_Separator =>
+            raise Program_Error with "invalid producer trailing separator";
+      end case;
+   end Next_Child;
+
+
+   --  One source unit, shared by Text's exact count/write decoder and the
+   --  object index's allocation-free decoded-byte comparisons. Unpaired
+   --  surrogates retain the same surrogatepass bytes as before.
+   procedure Decode_Unit
+     (Data : String; Last : Positive; Position : in out Natural;
+      Unit : out Decoded_Unit)
+   is
+      C : Character;
+      Code, Low : Natural;
+      procedure Emit (Value : Natural)
+        with Pre => Value <= 255 and then Unit.Length < 4,
+          Post => Unit.Length = Unit.Length'Old + 1
+      is
+      begin
+         Unit.Length := Unit.Length + 1;
+         Unit.Bytes (Unit.Length) := Character'Val (Value);
+      end Emit;
+      procedure Unicode (Value : Natural)
+        with Pre => Value <= 16#10FFFF# and then Unit.Length = 0,
+          Post => Unit.Length in 1 .. 4
+      is
+      begin
+         if Value < 128 then Emit (Value);
+         elsif Value < 2048 then Emit (192 + Value / 64); Emit (128 + Value mod 64);
+         elsif Value < 65536 then
+            Emit (224 + Value / 4096); Emit (128 + Value / 64 mod 64); Emit (128 + Value mod 64);
+         else
+            Emit (240 + Value / 262144); Emit (128 + Value / 4096 mod 64);
+            Emit (128 + Value / 64 mod 64); Emit (128 + Value mod 64);
+         end if;
+      end Unicode;
+   begin
+      Unit := (others => <>);
+      C := Byte_At (Data, Position);
+      if C = '\' then
+         Position := Position + 1;
+         C := Byte_At (Data, Position);
+         case C is
+            when '"' | '\' | '/' => Emit (Character'Pos (C));
+            when 'b' => Emit (8);
+            when 'f' => Emit (12);
+            when 'n' => Emit (10);
+            when 'r' => Emit (13);
+            when 't' => Emit (9);
+            when 'u' =>
+               if Last - 1 - Position < 5 then return; end if;
+               Code := 0;
+               for I in 1 .. 4 loop
+                  if Hex (Byte_At (Data, Position + I)) < 0 then return; end if;
+                  Code := Code * 16 + Natural (Hex (Byte_At (Data, Position + I)));
+               end loop;
+               Position := Position + 4;
+               if Code in 16#D800# .. 16#DBFF# and then
+                 Last - 1 - Position >= 6 and then Byte_At (Data, Position + 1) = '\'
+                 and then Byte_At (Data, Position + 2) = 'u'
+               then
+                  Low := 0;
+                  for I in 3 .. 6 loop
+                     if Hex (Byte_At (Data, Position + I)) < 0 then return; end if;
+                     Low := Low * 16 + Natural (Hex (Byte_At (Data, Position + I)));
+                  end loop;
+                  if Low in 16#DC00# .. 16#DFFF# then
+                     Code := 65536 + (Code - 16#D800#) * 1024 + Low - 16#DC00#;
+                     Position := Position + 6;
+                  end if;
+               end if;
+               Unicode (Code);
+            when others => return;
+         end case;
+      else
+         Emit (Character'Pos (C));
+      end if;
+      Position := Position + 1;
+      Unit.Valid := True;
+   end Decode_Unit;
+
+   function Compare_Keys (Data : String; Left, Right : Node) return Integer
+     with Post => Compare_Keys'Result in -1 .. 1
+   is
+      L_Position : Natural := Left.First;
+      R_Position : Natural := Right.First;
+      L_Unit, R_Unit : Decoded_Unit;
+      L_Used, R_Used : Natural range 0 .. 4 := 0;
+      L_Byte, R_Byte : Character;
+      L_Present, R_Present : Boolean;
+      procedure Next_Byte
+        (Last : Positive; Position : in out Natural;
+         Unit : in out Decoded_Unit; Used : in out Natural;
+         Value : out Character; Present : out Boolean)
+      with
+        Pre => Last <= Data'Length and then Position <= Last and then
+          Used <= Unit.Length,
+        Post => Position in Position'Old .. Last and then
+          Used <= Unit.Length
+      is
+      begin
+         Value := Character'Val (0);
+         Present := False;
+         if Used = Unit.Length then
+            if Position >= Last - 1 then return; end if;
+            Decode_Unit (Data, Last, Position, Unit);
+            if not Unit.Valid then
+               raise Program_Error with "invalid producer decoded member key";
+            end if;
+            Used := 0;
+         end if;
+         Used := Used + 1;
+         Value := Unit.Bytes (Used);
+         Present := True;
+      end Next_Byte;
+   begin
+      if Left.Form /= String_Value or else Left.First = 0 or else
+        Left.First >= Left.Last or else Left.Last > Data'Length or else
+        Right.Form /= String_Value or else Right.First = 0 or else
+        Right.First >= Right.Last or else Right.Last > Data'Length
+      then
+         raise Program_Error with "invalid producer member key span";
+      end if;
+      loop
+         pragma Loop_Invariant (L_Position <= Left.Last and then R_Position <= Right.Last);
+         pragma Loop_Invariant (L_Used <= L_Unit.Length and then R_Used <= R_Unit.Length);
+         pragma Loop_Variant
+           (Decreases => Long_Long_Integer (Left.Last - L_Position) +
+              Long_Long_Integer (L_Unit.Length - L_Used));
+         Next_Byte (Left.Last, L_Position, L_Unit, L_Used, L_Byte, L_Present);
+         Next_Byte (Right.Last, R_Position, R_Unit, R_Used, R_Byte, R_Present);
+         if not L_Present then return (if R_Present then -1 else 0);
+         elsif not R_Present then return 1;
+         elsif L_Byte < R_Byte then return -1;
+         elsif L_Byte > R_Byte then return 1;
+         end if;
+      end loop;
+   end Compare_Keys;
+
+   function Members (Data : String; Parent : Node) return Member_Index is
+      Position : Natural := Parent.First;
+      Key, Item : Node;
+      Status : Child_Status;
+      Total : Natural := 0;
+
+      --  A bounded array and ordinary in-place heapsort avoid both a hidden
+      --  map-capacity limit and container callbacks outside this proof scope.
+      --  The first sort groups equal decoded names, breaking ties by source
+      --  position. The second restores first-occurrence order after compaction.
+      procedure Sort
+        (Entries : in out Member_Array; Length : Natural; Source_Order : Boolean)
+      with
+        Pre => Entries'First = 1 and then Length <= Entries'Length
+      is
+         function Before (Left, Right : Member_Entry) return Boolean is
+         begin
+            if Source_Order then return Left.Key.First < Right.Key.First; end if;
+            declare
+               Order : constant Integer := Compare_Keys (Data, Left.Key, Right.Key);
+            begin
+               return Order < 0 or else
+                 (Order = 0 and then Left.Key.First < Right.Key.First);
+            end;
+         end Before;
+         procedure Sift (Root, Last : Positive)
+           with Pre => Root <= Last and then Last <= Entries'Length
+         is
+            Position : Positive := Root;
+            Child : Positive;
+            Temporary : Member_Entry;
+         begin
+            while Position <= Last / 2 loop
+               pragma Loop_Invariant (Position <= Last);
+               pragma Loop_Variant (Increases => Position);
+               Child := Position * 2;
+               if Child < Last and then Before (Entries (Child), Entries (Child + 1)) then
+                  Child := Child + 1;
+               end if;
+               exit when not Before (Entries (Position), Entries (Child));
+               Temporary := Entries (Position);
+               Entries (Position) := Entries (Child);
+               Entries (Child) := Temporary;
+               Position := Child;
+            end loop;
+         end Sift;
+         Temporary : Member_Entry;
+      begin
+         if Length < 2 then return; end if;
+         for Root in reverse 1 .. Length / 2 loop
+            Sift (Root, Length);
+         end loop;
+         for Last in reverse 2 .. Length loop
+            Temporary := Entries (1);
+            Entries (1) := Entries (Last);
+            Entries (Last) := Temporary;
+            Sift (1, Last - 1);
+         end loop;
+      end Sort;
+   begin
+      if Parent.Form /= Object_Value or else Parent.First = 0 or else
+        Parent.First >= Parent.Last or else Parent.Last > Data'Length
+      then
+         return Empty : Member_Index (0) do
+            null;
+         end return;
+      end if;
+      loop
+         pragma Loop_Invariant (Position in Parent.First .. Parent.Last - 1);
+         pragma Loop_Invariant (Total <= Position - Parent.First);
+         pragma Loop_Variant (Increases => Position);
+         Try_Next_Child (Data, Parent, Position, Key, Item, Status);
+         if Status /= Child_Ready then
+            return Empty : Member_Index (0) do
+               null;
+            end return;
+         end if;
+         exit when Item.Form = Missing;
+         Total := Total + 1;
+      end loop;
+      return Result : Member_Index (Total) do
+         Position := Parent.First;
+         for I in 1 .. Total loop
+            pragma Loop_Invariant (Position in Parent.First .. Parent.Last - 1);
+            Next_Child (Data, Parent, Position, Key, Item);
+            if Item.Form = Missing then
+               raise Program_Error with "producer member count mismatch";
+            end if;
+            Result.Entries (I) := (Key, Item);
+         end loop;
+         Next_Child (Data, Parent, Position, Key, Item);
+         if Item.Form /= Missing then
+            raise Program_Error with "producer member count mismatch";
+         end if;
+         Sort (Result.Entries, Total, False);
+         declare
+            Unique : Natural := 0;
+         begin
+            for I in 1 .. Total loop
+               pragma Loop_Invariant (Unique < I);
+               if Unique > 0 and then
+                 Compare_Keys (Data, Result.Entries (Unique).Key, Result.Entries (I).Key) = 0
+               then
+                  Result.Entries (Unique).Item := Result.Entries (I).Item;
+               else
+                  Unique := Unique + 1;
+                  Result.Entries (Unique) := Result.Entries (I);
+               end if;
+            end loop;
+            Sort (Result.Entries, Unique, True);
+            Result.Length := Unique;
+         end;
+      end return;
+   end Members;
 
 
    function First_Key (Data : String; Parent, Key : Node) return Boolean is
@@ -317,80 +701,118 @@ package body Worldline.Producer_Values with SPARK_Mode is
    end Count;
 
    function Text (Data : String; Item : Node) return String is
-      Output : String (1 .. (if Item.Form = String_Value and then Item.First > 0 and then
-        Item.Last >= Item.First and then Item.Last <= Data'Length then Item.Last - Item.First + 1 else 0)) :=
-        [others => Character'Val (0)];
-      Used : Natural := 0;
-      Position, Code, Low : Natural;
-      C : Character;
-      procedure Emit (Value : Natural) is
+      --  Count and emit with one decoder. The result is built in place rather
+      --  than reserving a source-sized local buffer on the primary stack.
+      procedure Scan
+        (Render : Boolean; Output : out String; Size : out Natural;
+         Valid : out Boolean)
+      with
+        Pre => (Render or else Output'Length = 0) and then
+          Item.First > 0 and then Item.First < Item.Last and then Item.Last <= Data'Length,
+        Relaxed_Initialization => Output,
+        Post => (if Valid then Output'Initialized and then
+          (if Render then Size = Output'Length))
+      is
+         Used : Natural := 0;
+         Position : Natural;
+         Unit : Decoded_Unit;
+         function Ready return Boolean is
+           (not Render or else
+              (Used <= Output'Length and then
+                 (Used = 0 or else
+                    Output (Output'First .. Output'First + (Used - 1))'Initialized)))
+           with Ghost;
+         procedure Emit (Value : Natural)
+           with Pre => Value <= 255 and then Ready,
+             Post => Ready and then Used > Used'Old and then
+               Used - Used'Old = 1
+         is
+         begin
+            if Used = Natural'Last then
+               raise Constraint_Error with "decoded text exceeds String extent";
+            end if;
+            if Render then
+               if Used = Output'Length then
+                  raise Program_Error with "decoded text extent mismatch";
+               end if;
+               Output (Output'First + Used) := Character'Val (Value);
+            end if;
+            Used := Used + 1;
+         end Emit;
       begin
-         Used := Used + 1;
-         Output (Used) := Character'Val (Value);
-      end Emit;
-      procedure Unicode (Value : Natural) is
-      begin
-         if Value < 128 then Emit (Value);
-         elsif Value < 2048 then Emit (192 + Value / 64); Emit (128 + Value mod 64);
-         elsif Value < 65536 then
-            Emit (224 + Value / 4096); Emit (128 + Value / 64 mod 64); Emit (128 + Value mod 64);
-         else
-            Emit (240 + Value / 262144); Emit (128 + Value / 4096 mod 64);
-            Emit (128 + Value / 64 mod 64); Emit (128 + Value mod 64);
+         Size := 0;
+         Valid := False;
+         Position := Item.First;
+         while Position < Item.Last - 1 loop
+            pragma Loop_Invariant (Position >= Item.First and then Used <= Position - Item.First);
+            pragma Loop_Invariant (Position <= Item.Last);
+            pragma Loop_Invariant (Ready);
+            pragma Loop_Variant (Increases => Position);
+            Decode_Unit (Data, Item.Last, Position, Unit);
+            if not Unit.Valid then return; end if;
+            for K in 1 .. Unit.Length loop
+               pragma Loop_Invariant (Ready);
+               Emit (Character'Pos (Unit.Bytes (K)));
+            end loop;
+         end loop;
+         if Render and then Used /= Output'Length then
+            raise Program_Error with "decoded text extent mismatch";
          end if;
-      end Unicode;
+         Size := Used;
+         Valid := True;
+         pragma Assert (Output'Initialized);
+      end Scan;
+      Empty : String (1 .. 0);
+      Size : Natural;
+      Valid : Boolean;
    begin
-      if Item.Form /= String_Value or else Item.First = 0 or else Item.Last > Data'Length or else
-        Item.Last - Item.First < 1 then return ""; end if;
-      Position := Item.First;
-      while Position < Item.Last - 1 loop
-         pragma Loop_Invariant (Position >= Item.First and then Used <= Position - Item.First);
-         pragma Loop_Variant (Increases => Position);
-         C := Byte_At (Data, Position);
-         if C = '\' then
-            Position := Position + 1;
-            C := Byte_At (Data, Position);
-            case C is
-               when '"' | '\' | '/' => Emit (Character'Pos (C));
-               when 'b' => Emit (8);
-               when 'f' => Emit (12);
-               when 'n' => Emit (10);
-               when 'r' => Emit (13);
-               when 't' => Emit (9);
-               when 'u' =>
-                  if Item.Last - 1 - Position < 5 then return ""; end if;
-                  Code := 0;
-                  for I in 1 .. 4 loop
-                     if Hex (Byte_At (Data, Position + I)) < 0 then return ""; end if;
-                     Code := Code * 16 + Natural (Hex (Byte_At (Data, Position + I)));
-                  end loop;
-                  Position := Position + 4;
-                  if Code in 16#D800# .. 16#DBFF# and then
-                    Item.Last - 1 - Position >= 6 and then Byte_At (Data,Position + 1) = '\'
-                    and then Byte_At (Data,Position + 2) = 'u'
-                  then
-                     Low := 0;
-                     for I in 3 .. 6 loop
-                        if Hex (Byte_At (Data,Position + I)) < 0 then return ""; end if;
-                        Low := Low * 16 + Natural (Hex (Byte_At (Data,Position + I)));
-                     end loop;
-                     if Low in 16#DC00# .. 16#DFFF# then
-                        Code := 65536 + (Code - 16#D800#) * 1024 + Low - 16#DC00#;
-                        Position := Position + 6;
-                     end if;
-                  end if;
-                  Unicode (Code);
-               when others => return "";
-            end case;
-         else Emit (Character'Pos (C));
-         end if;
-         Position := Position + 1;
-      end loop;
-      return Output (1 .. Used);
+      if Item.Form /= String_Value or else Item.First = 0 or else
+        Item.Last > Data'Length or else Item.Last <= Item.First
+      then
+         return "";
+      end if;
+      Scan (False, Empty, Size, Valid);
+      if not Valid then return ""; end if;
+      return Result : String (1 .. Size) do
+         declare
+            Written : Natural;
+            Complete : Boolean;
+         begin
+            Scan (True, Result, Written, Complete);
+            if not Complete or else Written /= Size then
+               raise Program_Error with "decoded text extent mismatch";
+            end if;
+         end;
+      end return;
    end Text;
 
    function Is_Text (Data : String; Item : Node; Expected : String) return Boolean is
-     (Item.Form = String_Value and then Text (Data, Item) = Expected);
+      Position : Natural := Item.First;
+      Unit : Decoded_Unit;
+      Seen : Natural := 0;
+      Matched : Boolean := True;
+   begin
+      if Item.Form /= String_Value then return False; end if;
+      if Item.First = 0 or else Item.First >= Item.Last or else Item.Last > Data'Length then
+         return Expected'Length = 0;
+      end if;
+      while Position < Item.Last - 1 loop
+         pragma Loop_Invariant (Position in Item.First .. Item.Last);
+         pragma Loop_Invariant (Seen <= Position - Item.First);
+         pragma Loop_Variant (Increases => Position);
+         Decode_Unit (Data, Item.Last, Position, Unit);
+         if not Unit.Valid then return Expected'Length = 0; end if;
+         for K in 1 .. Unit.Length loop
+            if Seen >= Expected'Length or else
+              Expected (Expected'First + Seen) /= Unit.Bytes (K)
+            then
+               Matched := False;
+            end if;
+            Seen := Seen + 1;
+         end loop;
+      end loop;
+      return Matched and then Seen = Expected'Length;
+   end Is_Text;
    function Is_True (Data : String; Item : Node) return Boolean is
      (Item.Form = Boolean_Value and then Raw (Data, Item) = "true");
    function Is_False (Data : String; Item : Node) return Boolean is
@@ -434,7 +856,6 @@ package body Worldline.Producer_Values with SPARK_Mode is
    function Number_Image (Data : String; Item : Node) return String is
       Token : constant String := Raw (Data,Item);
       package P renames Evaluation_Pending;
-      use type P.Count;
    begin
       if Item.Form = Integer_Value then return (if Token = "-0" then "0" else Token); end if;
       if Item.Form /= Number_Value then return ""; end if;

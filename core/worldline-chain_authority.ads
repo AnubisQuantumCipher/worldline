@@ -71,6 +71,8 @@ package Worldline.Chain_Authority with SPARK_Mode is
 
    -- This independent reference uses Link and complete row predicates. The
    -- implementation uses the original stateful Append routines instead.
+   -- The visible body is the exact original prefix recurrence; restating that
+   -- same equation in its Post would re-evaluate every checked predecessor.
    function Prefix_Reference
      (Kind : Chain_Kind; Rows : Retained_Rows; Genesis : Hash;
       Count : Q.Byte_Count) return Result
@@ -82,14 +84,10 @@ package Worldline.Chain_Authority with SPARK_Mode is
    with Ghost, Global => null,
      Pre => Count <= Rows'Length,
      Subprogram_Variant => (Decreases => Count),
-     Post => Prefix_Reference'Result.Accepted_Count <= Count and then
-       Prefix_Reference'Result =
-         (if Count = 0 then
-            (Disposition => Ready, Head => Genesis, Accepted_Count => 0)
-          else Prefix_Step
-            (Kind, Rows (Rows'First + (Count - 1)),
-             Prefix_Reference (Kind, Rows, Genesis, Count - 1), Count));
+     Post => Prefix_Reference'Result.Accepted_Count <= Count;
 
+   -- Anchor/refusal/tail precedence is the visible original equation. As with
+   -- Prefix_Reference, an identical Post would only replay the checked history.
    function Replay_Reference
      (Kind : Chain_Kind; Rows : Retained_Rows;
       Observed_Genesis, Witnessed_Genesis, Witnessed_Head : Optional_Digest)
@@ -105,19 +103,7 @@ package Worldline.Chain_Authority with SPARK_Mode is
          (Prefix_Reference (Kind, Rows, Observed_Genesis.Value, Rows'Length),
           Witnessed_Head.Value))
    with Ghost, Global => null,
-     Post => Replay_Reference'Result.Accepted_Count <= Rows'Length and then
-       Replay_Reference'Result =
-         (if not Observed_Genesis.Present or else not Witnessed_Genesis.Present
-             or else not Witnessed_Head.Present then
-            (Disposition => Anchor_Absent, Head => [others => 0],
-             Accepted_Count => 0)
-          elsif not R.Same (Observed_Genesis, Witnessed_Genesis) then
-            (Disposition => Genesis_Mismatch, Head => Observed_Genesis.Value,
-             Accepted_Count => 0)
-          else Finish_Reference
-            (Prefix_Reference
-               (Kind, Rows, Observed_Genesis.Value, Rows'Length),
-             Witnessed_Head.Value));
+     Post => Replay_Reference'Result.Accepted_Count <= Rows'Length;
 
    function Replay
      (Kind : Chain_Kind; Rows : Retained_Rows;

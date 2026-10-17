@@ -33,9 +33,13 @@ package body Worldline.Evaluation_Policy with SPARK_Mode is
    end Unique_Source;
    function Required_Count (Requirement : String) return Natural is
       N : Natural := 0;
+      Bound : constant Natural := V.Count (Required_Source (Requirement));
    begin
       if V.Kind (Policy (Requirement)) /= V.Object_Value then return 0; end if;
-      for I in 1 .. V.Count (Required_Source (Requirement)) loop
+      for I in 1 .. Bound loop
+         pragma Loop_Invariant (N < I);
+         pragma Loop_Invariant (N <= Bound);
+         pragma Loop_Invariant (Bound < Natural'Last);
          if Unique_Source (Requirement, I - 1) then N := N + 1; end if;
       end loop;
       if Has_Protected (Requirement) and then
@@ -46,12 +50,17 @@ package body Worldline.Evaluation_Policy with SPARK_Mode is
    function Required (Requirement : String; Ordinal : Natural) return String is
       Rank : Natural;
       N : Natural := 0;
+      Bound : constant Natural := V.Count (Required_Source (Requirement));
    begin
-      for I in 1 .. V.Count (Required_Source (Requirement)) loop
+      for I in 1 .. Bound loop
+         pragma Loop_Invariant (N < I);
+         pragma Loop_Invariant (Bound < Natural'Last);
          if Unique_Source (Requirement, I - 1) then
             N := N + 1;
             Rank := 0;
-            for J in 1 .. V.Count (Required_Source (Requirement)) loop
+            for J in 1 .. Bound loop
+               pragma Loop_Invariant (Rank < J);
+               pragma Loop_Invariant (Bound < Natural'Last);
                if Unique_Source (Requirement, J - 1) and then
                  Source_Name (Requirement, J - 1) < Source_Name (Requirement, I - 1)
                then Rank := Rank + 1; end if;
@@ -67,7 +76,9 @@ package body Worldline.Evaluation_Policy with SPARK_Mode is
    function Empty_Declared (Requirement : String) return Boolean is
       Source : constant String := V.Field (Policy (Requirement), "sourceSha256");
    begin
-      return V.Kind (Source) = V.String_Value and then V.Text (Source)'Length > 0;
+      return V.Kind (Source) = V.String_Value and then V.Text (Source)'Length > 0
+        and then V.Kind (Required_Source (Requirement)) = V.Array_Value
+        and then Required_Count (Requirement) = 0;
    end Empty_Declared;
    function Valid_Check (C : String) return Boolean is
      (V.Kind (C) = V.Object_Value and then
@@ -97,8 +108,12 @@ package body Worldline.Evaluation_Policy with SPARK_Mode is
    end Declared_Has;
    function Declaration_Count (Requirement : String) return Natural is
       N : Natural := 0;
+      Bound : constant Natural := V.Count (Checks (Requirement));
    begin
-      for I in 1 .. V.Count (Checks (Requirement)) loop
+      for I in 1 .. Bound loop
+         pragma Loop_Invariant (N < I);
+         pragma Loop_Invariant (N <= Bound);
+         pragma Loop_Invariant (Bound < Natural'Last);
          if Valid_Check (V.Element (Checks (Requirement), I - 1)) and then
            Unique_Check (Requirement, I - 1)
          then N := N + 1; end if;
@@ -111,8 +126,11 @@ package body Worldline.Evaluation_Policy with SPARK_Mode is
    function Declaration_Name (Requirement : String; Ordinal : Natural)
       return String is
       N : Natural := 0;
+      Bound : constant Natural := V.Count (Checks (Requirement));
    begin
-      for I in 1 .. V.Count (Checks (Requirement)) loop
+      for I in 1 .. Bound loop
+         pragma Loop_Invariant (N < I);
+         pragma Loop_Invariant (Bound < Natural'Last);
          if Valid_Check (V.Element (Checks (Requirement), I - 1)) and then
            Unique_Check (Requirement, I - 1)
          then

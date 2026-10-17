@@ -1,0 +1,21 @@
+test_default_journals_reopen_and_read_finalization_without_rerunning_agent (test_finalization_producer.DefaultProducerRecoveryTests.test_default_journals_reopen_and_read_finalization_without_rerunning_agent) ... ok
+test_failed_primary_is_retained_as_completed_failure_not_materialization_error (test_finalization_producer.DefaultProducerRecoveryTests.test_failed_primary_is_retained_as_completed_failure_not_materialization_error) ... ERROR
+test_published_unlinked_world_cannot_acknowledge_before_readonly_recovery (test_finalization_producer.DefaultProducerRecoveryTests.test_published_unlinked_world_cannot_acknowledge_before_readonly_recovery) ... ok
+test_overlay_is_materialized_hashed_and_made_readonly (test_finalize.FinalizerTests.test_overlay_is_materialized_hashed_and_made_readonly) ... ok
+test_every_saved_verdict_read_is_listed_with_its_count_and_reason (test_authority_static_audit.NoPythonAdmissibility.test_every_saved_verdict_read_is_listed_with_its_count_and_reason) ... ok
+test_every_verdict_comparison_is_listed_with_its_count_and_reason (test_authority_static_audit.NoPythonAdmissibility.test_every_verdict_comparison_is_listed_with_its_count_and_reason) ... ok
+test_the_audit_sees_the_spellings_it_claims_to (test_authority_static_audit.NoPythonAdmissibility.test_the_audit_sees_the_spellings_it_claims_to) ... ok
+
+======================================================================
+ERROR: test_failed_primary_is_retained_as_completed_failure_not_materialization_error (test_finalization_producer.DefaultProducerRecoveryTests.test_failed_primary_is_retained_as_completed_failure_not_materialization_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-completion-20261016/tests/test_finalization_producer.py", line 184, in test_failed_primary_is_retained_as_completed_failure_not_materialization_error
+    _capture, sealed = self.store.evaluation_finalization.retained(world.instance_id)
+    ^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2, got 3)
+
+----------------------------------------------------------------------
+Ran 7 tests in 482.467s
+
+FAILED (errors=1)

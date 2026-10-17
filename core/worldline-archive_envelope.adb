@@ -92,6 +92,14 @@ package body Worldline.Archive_Envelope with SPARK_Mode is
       return (1, 0);
    end Array_Element;
 
+   function Span_Byte (Data : Bytes; Item : Span; Offset : Count) return Q.Byte
+     with Pre => C.P.Valid (Data, Item) and then Item.Length > 0
+            and then Offset < Item.Length
+   is
+   begin
+      pragma Assert (Offset <= Data'Last - Item.First);
+      return Data (Item.First + Offset);
+   end Span_Byte;
    function Text_Is (Data : Bytes; Item : View; Text : String) return Boolean is
    begin
       if Item.Form /= Text_Value or else not Bytes_Valid (Data, Item.Payload) then
@@ -102,14 +110,13 @@ package body Worldline.Archive_Envelope with SPARK_Mode is
       begin
          return Raw'Length = Text'Length and then
            (for all I in Text'Range =>
-              Raw (Raw'First + Count (I - Text'First)) = Character'Pos (Text (I)));
+              Span_Byte (Raw, (Raw'First, Raw'Length), Count (I - Text'First)) = Character'Pos (Text (I)));
       end;
    end Text_Is;
-
    function Literal (Data : Bytes; Item : Span; Text : String) return Boolean is
      (C.P.Valid (Data, Item) and then Item.Length = Text'Length and then
        (for all I in Text'Range =>
-          Data (Item.First + Count (I - Text'First)) = Character'Pos (Text (I))));
+          Span_Byte (Data, Item, Count (I - Text'First)) = Character'Pos (Text (I))));
 
    function String_Payload (Data : Bytes; Item : Span) return Span
      with Post => String_Payload'Result.Length = 0 or else

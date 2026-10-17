@@ -1,0 +1,16 @@
+[
+  {
+    "mutation": "replace native transaction execution result with True",
+    "tests_run": 1,
+    "failures": 1,
+    "errors": 0,
+    "output": "test_missing_finalization_cannot_be_promoted_by_saved_pass_metadata (test_authority_static_audit.NativeDecisionBehavior.test_missing_finalization_cannot_be_promoted_by_saved_pass_metadata) ... FAIL\n\n======================================================================\nFAIL: test_missing_finalization_cannot_be_promoted_by_saved_pass_metadata (test_authority_static_audit.NativeDecisionBehavior.test_missing_finalization_cannot_be_promoted_by_saved_pass_metadata)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/sicarii/Work/worldline-phase1-completion-20261016/tests/test_authority_static_audit.py\", line 149, in test_missing_finalization_cannot_be_promoted_by_saved_pass_metadata\n    self.assertIs(result[\"complete\"], False)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not False\n\n----------------------------------------------------------------------\nRan 1 test in 0.009s\n\nFAILED (failures=1)\n"
+  },
+  {
+    "mutation": "move real contract-pin guard after manifest publication",
+    "tests_run": 1,
+    "failures": 1,
+    "errors": 0,
+    "output": "test_changed_real_contract_refuses_before_any_manifest_is_published (__main__.LatePinGate.test_changed_real_contract_refuses_before_any_manifest_is_published) ... FAIL\n\n======================================================================\nFAIL: test_changed_real_contract_refuses_before_any_manifest_is_published (__main__.LatePinGate.test_changed_real_contract_refuses_before_any_manifest_is_published)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/sicarii/Work/worldline-phase1-completion-20261016/tests/test_proof_manifest_shapes.py\", line 690, in test_changed_real_contract_refuses_before_any_manifest_is_published\n    failure, _, manifest = self.run_gate(\n                           ~~~~~~~~~~~~~^\n        sources=sources, extra_files=extra_files, check_contracts=True)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sicarii/Work/worldline-phase1-completion-20261016/tests/test_proof_manifest_shapes.py\", line 171, in run_gate\n    self.assertFalse(manifest_path.exists(), failure)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false : PROOF GATE FAILED: pinned contract changed: core/worldline-producer_render.adb (a deliberate change updates CONTRACT_PINS)\n\n----------------------------------------------------------------------\nRan 1 test in 28.748s\n\nFAILED (failures=1)\n"
+  }
+]

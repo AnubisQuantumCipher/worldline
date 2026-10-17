@@ -340,3 +340,254 @@ The working-tree contract pins match (`test_reviewed_working_tree_contracts_and_
 
 In-process `prepare` on a fresh store raises `EVALUATION_AUTHORITY_UNAVAILABLE` before a transaction. An empty journal changes that to `INPUT_ABSENT`. A hand-built validation context is not an admitted evaluation. The iPad is attached and unconfigured, so no archive backup was started. Independent acceptance remains NOT PERFORMED.
 
+`Logical_Equal` is no longer in `core/`. `Hash_Eq` is a ghost componentwise function whose postcondition is predefined `=`. Receipt and causal `Link` are expression functions of `Attest.SHA256.Receipt_Link_Digest` and `Causal_Link_Digest` over a 32-field `Digest_Record`; the domain bytes match the deleted constants. Focused `gnatprove -P worldline_core_sources.gpr -u worldline-chain_authority.adb --level=3 --report=fail -j0 --timeout=60` exited 0. The summary says 23 of 23 analyzed and proved, including `Link_Bytes` (3), `Same_Genesis` (30) and `Close_Stopped` (41). This is not `-U`, not `prove.sh`, and not acceptance. Independent acceptance remains NOT PERFORMED.
+
+`Addition_Step` was the remaining reservation postcondition. Split asserts discharged it: focused `--level=2 --timeout=20` then the whole `resource_reservation_transition.adb` exited 0, 52 of 52 analyzed, `Addition_Step` 41 checks. Still not `-U` and not acceptance.
+
+`Events` is now the expression itself; the duplicated post timed out and was removed. Focused `--level=2 --timeout=20` exited 0, 15 of 15 analyzed, `Events` proved with 0 checks. `Decide` and ghost `Reference` are the same expression; `Decide` proved 4 checks. The unit analyzed 10 of 12 because `UID_Values.From_Big_Integer` and `To_Big_Integer` are library `SPARK_Mode => Off`. Contract pins were updated for these source changes. Still not `-U` and not acceptance.
+
+`Occurrences` and `Generated_Occurrences` overflowed `N + 1` because the loops had no bound. `V.Count` posts `Count < Natural'Last`. Both loops now keep `N < I` and `Bound < Natural'Last`. Focused `--level=2 --timeout=20` proved each with 5 checks. Still not `-U` and not acceptance.
+
+`Required_Count` overflow and loop invariants proved. `Required`, `Declaration_Count`, and `Declaration_Name` focused `--report=fail` runs exited 0 with no unproved checks. `Roster_Matches` proved its overflow check and four invariants. Still not `-U` and not acceptance.
+
+`Operand_Text` refused a byte length that cannot be a `String` instead of converting it. Focused proof discharged the range, overflow, and index checks, 9 proved, 0 unproved. Still not `-U` and not acceptance.
+
+`Escape_JSON` posts a length of at most six bytes per remaining character. `Quote` uses that bound when `Text'Length <= (Natural'Last - 2) / 6`; a longer string returns `""` instead of raising `Constraint_Error`. Focused proof: `Escape_JSON` 19 checks, `Quote` 4 checks, 0 unproved. Still not `-U` and not acceptance.
+
+`Escape_Repr` posts at most ten output bytes per remaining character. Its byte loop is unrolled with explicit `Code` bounds. Focused proof: 62 checks, postcondition proved, 0 unproved. `Python_Repr` of a string uses that bound; array and object `Sequence` concatenations still fail their length checks. A longer repr returns `""` instead of raising `Constraint_Error`. Still not `-U` and not acceptance.
+
+`Lower_Hex` and `Same_Raw` index `First + (I - 1)` so a span at `Byte_Index'Last` does not overflow `First + I`. Focused proof: `Lower_Hex` 5 checks, `Same_Raw` 7 checks, both overflow and index checks proved. Still not `-U` and not acceptance.
+
+`Hex_Matches` uses the same `First + (I - 1)` form. Focused proof: 18 checks, 0 unproved. Still not `-U` and not acceptance.
+
+`Path_Hex_Matches` focused proof: 12 checks, 0 unproved. No source change. Still not `-U` and not acceptance.
+
+`Python_Repr` array and object joins return `""` when the inner text cannot take two brackets. That body proved 13 checks. `Checked_Join` copies under `Right'Length <= Natural'Last - Left'Length` and proved 24 checks. `Sequence` still fails the mutual `Python_Repr` variant on `Quote`, `Field`, and `Element`; those calls are not yet a decreasing measure. Still not `-U` and not acceptance.
+
+`Sequence` calls `Python_Repr` only when the field or element is strictly shorter. A name uses the string path of `Python_Repr` directly. An equal-length array or object returns `""` instead of recursing. Focused proof exited 0: four subprogram variants and the overflow checks proved, and `Sequence` terminates. Still not `-U` and not acceptance.
+
+`Python_Repr` now wraps array and object text with `Join`, so the bracket length check is the proved copy. Focused proof exited 0: the string-branch checks and both `Sequence` variants proved, 0 unproved. Still not `-U` and not acceptance.
+
+`Code` decodes a scalar only when `Width <= 4` and the span fits. The four widths are separate literals, so `mod` and `* 64` stay in range. `String_Integer` increases `Offset` by that width. Focused proof: `Code` exited 0 with no unproved checks; `String_Integer` proved 10 checks, including the new precondition and its loop variant. Still not `-U` and not acceptance.
+
+`Strip`, `Prefix`, `Is_Digits`, `Line_End`, and `Next_Line` now advance by a positive UTF-8 width and index a rebased `1 .. Text'Length` window. Focused proof exited 0 for each, with no unproved checks. `Strip` proved 24 checks, including the window length check. Still not `-U` and not acceptance.
+
+`Line_End` posts `Result >= First` and, when `First <= Text'Length`, `Result <= Text'Length`. `Next_Line` posts `Result <= Text'Length`. Both focused proofs exited 0. A zero-width `Code` call in `Counters` now returns false instead of violating the width precondition. That caller is not yet re-proved. Still not `-U` and not acceptance.
+
+`Show_Values.Fold` and `Counters.Fold` require `First <= Text'Length` and recurse only after `Next_Line` moves forward. Joins return `""` when the rendered text does not fit. A zero-width scan stops instead of looping. Focused proof: show fold 28 checks, counter fold 32 checks, both 0 unproved. Still not `-U` and not acceptance.
+
+`Image` drops a leading space through a rebased window. `Cgroup_Path` scans a `1 .. Group'Length` window, stops on a component that does not fit, and joins the prefix with `Cat`. Focused proof: `Image` exited 0; `Cgroup_Path` proved 50 checks, 0 unproved. A path that does not fit returns `""` instead of raising `Constraint_Error`. Still not `-U` and not acceptance.
+
+`UTF8` indexes a `1 .. Bytes'Length` window. `Step` posts `Advance` in `1 .. 4`. An extent that does not fit returns `(0, False, "")` instead of raising `Constraint_Error`. Focused proof: `Step` 15 checks, `UTF8` 55 checks, both 0 unproved. Still not `-U` and not acceptance.
+
+`Byte_At` reads a rebased base64 window. A short payload or a quartet past `Natural'Last / 4` returns `Natural'Last`, so the comparison fails instead of raising `Constraint_Error`. Focused proof: `Digit64` exited 0; `Byte_At` proved 23 checks, 0 unproved. Still not `-U` and not acceptance.
+
+`Fields` decreases `Count - Min (Index - 1, Count)` and does not call `Index + 1` at `Positive'Last`. Joins return `""` when the rendered object does not fit. Focused proof: `Fields` terminates with the variant proved; its copy join proved 24 checks, 0 unproved. Still not `-U` and not acceptance.
+
+`Secret_Letter` reads a rebased window and unrolls the two, three, and four-byte cases. Focused proof: 37 checks, 0 unproved. `Parse_Poll` was edited and its focused proof was interrupted before a result. Still not `-U` and not acceptance.
+
+`Probe` reads a rebased window, increases `Last`, and joins with `Cat`. That edit is pinned and not yet proved. `Parse_Poll`'s focused proof is running. Still not `-U` and not acceptance.
+
+`Relative` reads a rebased window. That edit is pinned and not yet proved, together with `Probe`. `Parse_Poll` is still in the prover. Still not `-U` and not acceptance.
+
+`Hex_Bytes` reads a rebased window. That edit is pinned and not yet proved. `Probe`, `Relative`, and `Parse_Poll` are also still unproved. Still not `-U` and not acceptance.
+
+`Text_Is` compares through a rebased window. That edit is pinned and not yet proved. Still not `-U` and not acceptance.
+
+`Relative` and `Probe` focused proofs exited 0. `Probe` recorded 23 checks, 0 unproved. `Text_Is` proved 7 checks, 0 unproved. `Hex_Bytes` proved 14 checks, 0 unproved, after a local hex guard around `Nibble`. `Parse_Poll` was cancelled before a result. Still not `-U` and not acceptance.
+
+`Span_Byte` proves `Item.First + Offset` from `Valid` and `Offset < Item.Length`: assertion, overflow, and index checks proved. `Literal` focused proof exited 0 with 6 recorded checks. `Parse_Poll` was interrupted again before a result. Still not `-U` and not acceptance.
+
+The bounded journal diagnostic in
+`records/phase1-blockers/journal-diagnostic-20261016-v1/` returned native exit 0
+after approximately 575 seconds. Its retained `.spark` file contains 11 proof
+entries, including two unresolved range checks at the manager-unit string
+concatenation. The journal slice, increment and variant checks discharged.
+The owned scope was inactive and unpopulated at completion. This supersedes
+the earlier timeout-only observation, not the full proof gate. Source changes
+after that diagnostic require fresh verification.
+
+The pin refresher found 52 stale shadowed digest literals despite the effective
+pin map matching. Its before/refresh/after reports are retained in the same
+directory; the final all-literal check passed without changing proof policy.
+
+`prove.sh` now admits only complete supported `Inline_For_Proof` syntax among
+GNATprove annotations; assumptions, justifications, exclusions and unknown
+modeling annotations still refuse. SPARK-Off exceptions use exact declared
+spec/body paths rather than a `c_api` substring. Ten isolated source-screen
+admission tests passed, and `bash -n prove.sh` passed. These controls exercise
+the gate, not GNATprove or imported-source proof. Imported dependency identity,
+the full strict proof and independent acceptance remain open.
+
+A source review also found unnecessary whole-input rebasing copies and
+worst-case rendering bounds that can erase valid representable values.
+Those findings invalidate any implication that the earlier focused helper
+proofs established unchanged behavior. Repairs and fresh runtime verification
+are in progress; no passing acceptance manifest has been generated.
+
+
+### 2026-10-17 semantic repair verification
+
+The checked aggregate build, original core/fuzz and 88 Python SHA/policy/binding
+controls passed in `semantic-repair-build-20261017-v4`. The unchanged ordinary
+policy-positive had failed in v3: `Empty_Declared` treated a nonempty required
+roster as empty. It now requires zero canonical required entries; the original
+control and an additive explicit-empty-versus-absent control passed.
+
+A valid direct 16 MiB `Producer_Values.Text` call raised `Storage_Error`.
+Its exact count/write result-in-place repair passed the same call and all byte
+checks in v5 and integrated v8. The v6 reserved-identifier and v7 misplaced
+loop-invariant compiler failures remain retained. V8 built, passed 20 native
+semantic controls, and passed the unchanged core/fuzz executables.
+
+The unchanged SHA vector exposed missing incoming-state feed-forward in an
+earlier proof-driven refactor. All eight additions are restored. Redundant
+checked self-equations and an unused proof island were removed while retaining
+transparent definitions, production compression and append/replay contracts.
+Reservation bridge terms are cached, not assumed or unchecked.
+
+All four actual `openai-codex/gpt-6.1-sol` v2 source reviews returned REQUEST
+CHANGES. Their findings drove further repairs: shared Unicode-aware Ada lexing,
+literal-whitespace-sensitive pins, progressing container traversal, decoded-key
+indexing, direct native emission, and confinement producer/consumer agreement.
+Fresh exact-source review is required; v2 is not final successor approval.
+
+Three Unicode counterexamples were accepted by the old gate and compiled with
+the installed GNAT. Their exact sources and compiler outcomes are retained in
+`semantic-review-20261017-v2/encoding-probes/`. The successor's 22 source-screen
+and normalizer controls pass. Earlier whole manifest-shape discovery ran 23
+tests with one failure against the historical stale manifest; neither that
+assertion nor the manifest was weakened or fabricated.
+
+The actual C constructor supplied 208 bytes while the old projection and native
+recognizer described 184 bytes; the consumer refused that real input.
+`filter-correspondence-before-20261017-v1` preserves the failure. Integrated v8
+matches 208 bytes and accepts the real constructor input. Its own
+`independentKernelProgramObservation` remains false: this is not independent
+protected confinement/custody acceptance.
+
+`representation-oracle-20261017-v1` compares actual native output with Python:
+519 cases passed, including decoded duplicate keys, surrogate pairs, 100,000
+zeros and 20,000 object members, in approximately 9.25 seconds aggregate native
+execution. Tested library SHA256:
+`0430e65d6ccce286e8f7cf42450bc15f5d0d9cc313ee587aa19cd57984340d11`.
+This is finite representation/cost evidence, not the full original campaigns.
+
+The earlier large Quote success remains tied to its earlier source. The huge
+singleton-array before arm raised `Storage_Error`; its after arm timed out at
+900 seconds. Timeout cause and a passing whole-array result remain unestablished.
+The smaller oracle does not replace that missing outcome.
+
+The pre-freeze complete strict-core invocation was stopped for the v2 review
+repairs: exit 241 after approximately 326 seconds, owned scope inactive and
+unpopulated. Partial reports and cancellation reason remain in
+`strict-core-proof-20261017-v1`. This is not completed F2 or a passing manifest.
+Imported-source proof, new immutable source freeze, original complete campaigns,
+O1 and authentic operator-dependent gates remain open. Independent acceptance
+is NOT PERFORMED.
+
+### Source-effective successor controls and v10 native verification
+
+The v3 actual-model authority/crypto review approves its assigned source scope
+only. Its bytes remain separately identified; no proof or acceptance credit
+follows. The other v3/v4 reviews request changes, with complete reports retained
+beside their source snapshots.
+
+Five additional predecessor source-screen witnesses compile with installed GNAT:
+aliases of annotation, assumption and SPARK-mode controls, source-selected UTF-8,
+and Ada 2012 identifier mode. The latter two also hide an executable mutation
+from predecessor pins. The v4 `Acceß` witness likewise compiles, is accepted and
+hides changed code because full uppercasing expands an identifier into `ACCESS`.
+The successor uses one shared Unicode simple-fold key. The complete Unicode 16
+common/simple relation matches all 1,114,112 tested code points with explicit
+format-character removal. Three compiler-backed allowed cases and 32 current
+source-screen/pin controls pass. These are source-screen controls, not a
+successful GNATprove campaign.
+
+`successor-behavior-controls-20261017-v1` completed 53 controls successfully,
+including the full typed-export mutation module. Its earlier 120-second
+combined invocation timed out during that module and remains retained. Raw
+transport and normalized-literal correspondence guards remain enabled.
+
+V9 compiled and passed original core/fuzz, the new malformed-member/node-quote
+and shifted-duplicate regression through the direct shared-library consumer,
+16 MiB decoding, 20 semantic checks and real constructor/filter correspondence.
+Its final oracle recorder failed because the destination directory was absent;
+the wrapper remains failed. A separate correctly recorded oracle passed all
+519 cases. The source-matched predecessor regression compiled and linked but
+failed with an unhandled `PROGRAM_ERROR` signal; exact signal cause was not
+attributed.
+
+V10 additionally removes escape-string/hex construction from count-only
+rendering. Its complete recorded wrapper exits zero, including checked build,
+original core/fuzz, direct consumer, filter, decoder, semantic checks and the
+unchanged 519-case oracle. The huge original singleton-array workload remains
+separate; no pending outcome is inferred.
+
+Fresh native diagnostic smoke accepts the supplied engine positive, refuses a
+forged saved PASS and missing record, and processes 4,097 ordered diagnostic rows
+while retaining the last failure. It does not apply the legacy 4,096-row
+completeness ABI to policy-wide diagnostics. These supplied inputs are not
+authentic protected custody. The retained thin external `SUPERVISED_PASS`
+fixture is refused by the current native contract: no observed supervision,
+bundle or independent acquisition operands. That original compatibility/
+accepted-case obligation remains open, not changed to an expected refusal.
+
+The finalization ordering review found that early per-check admission runs
+before independently retained operands are attached. A real isolated primary
+exit 7 reproducer reaches `DEAD` with `CORE_INVALID_EVALUATION`, not the required
+completed failure. Durable before-state and the separate recorder's initial
+permission failure are retained. The repair moves diagnostic classification
+after operand attachment and leaves complete native capture/seal authoritative;
+its actual after-run qualification is pending.
+
+Original build and imported-proof dependency templates have been materialized
+from exact manifest-paired sources, with all 132 source files and project bytes
+verified and no old build/proof objects copied. Three fresh-epoch campaign
+recipes differ only in owned output-path literals. Preparation is not execution.
+Full source freeze, original campaigns, O1 and authentic external/operator gates
+remain open; F7 remains NOT PERFORMED.
+
+The subsequent real after-run returned `DEGRADED`, preserved primary exit 7 and
+retained the native `COMPLETED/FAIL` seal, without a materialization or archive
+error. Its seven-control batch passed six controls but exposed a two-versus-three
+tuple-unpacking mistake in the new regression. The test now reads the actual
+`(start, sealed, events)` return; its targeted corrected execution passed in
+`finalization-regression-after-20261017-v2`. The original successful finalization,
+journal reopen and readonly-recovery controls passed in the preceding batch.
+
+The original huge-array workload now passes on the v10 library in
+`renderer-array-after-20261017-v2`: exact 214,748,369-byte output and every byte
+checked, worker exit zero, approximately 138.14 seconds under the unchanged
+900-second bound. Its 634,744 KiB maximum child RSS is not an aggregate memory
+bound. This supersedes the earlier pending result, not the retained before
+`Storage_Error` or prior after timeout. Actual-model `CountOnlySourceReview`
+approves its assigned Ada source scope and inspected this passing addendum.
+
+The v5 lexical review accepts the general simple-fold repair but finds a
+positive-domain inconsistency: alias validation reserves future-language
+keywords even when a supported older mode is active. Installed semantic checks
+accept the Ada 2012 `Parallel` and Ada 2005 `Some` inline-alias cases that the
+predecessor gate refuses. Alias validation now uses the same source-effective
+version as ordinary identifier recognition; paired allowed/forbidden controls
+are being qualified. The separate Ada95 `Interface` sample is not a positive
+compiler case: GNAT already defines that pragma and rejects its supplied arity.
+
+The v5 finalization review accepts the runtime repair at source level but asks
+for migrated authority regression coverage. The writer is now enrolled in the
+verdict audit, and behavioral native-decision/publication guards replace obsolete
+call-name wiring assertions. Their first batch passed 53 of 54 tests; the new
+publication fixture omitted auxiliary pinned files, not a production guard.
+The fixture now includes the complete pinned input roster separately from the
+actual screened source roster. Corrected controls and owned in-memory mutation
+qualification are pending; no source-wiring assertions or relaxed native gates
+were restored.
+
+`native-authority-behavior-20261017-v2` completes all 39 corrected source-screen,
+pin and native authority controls successfully. Its owned in-memory mutations
+are both rejected by the behavioral regressions: replacing the native execution
+result with `True`, and moving the real pin guard after manifest publication.
+Each mutant produces one intended assertion failure and no test error; the
+production files and library are unchanged by that qualification. The two valid
+older-mode alias compiler cases now also pass the gate. This supersedes the
+pending corrected-control status above, not either failed fixture attempt.

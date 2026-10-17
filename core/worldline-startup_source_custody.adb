@@ -40,18 +40,18 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       (for all I in Text'Range => B (X.First + E.Count (I - Text'First)) = Character'Pos (Text (I))));
    function Same_Raw (B : E.Bytes; X : E.Span; Raw : E.Bytes) return Boolean is
      (E.C.P.Valid (B, X) and then X.Length = Raw'Length and then
-      (for all I in E.Count range 1 .. X.Length => B (X.First + I - 1) = Raw (Raw'First + I - 1)));
+      (for all I in E.Count range 1 .. X.Length => B (X.First + (I - 1)) = Raw (Raw'First + (I - 1))));
    function Lower_Hex (B : E.Bytes; X : E.Span) return Boolean is
      (E.C.P.Valid (B, X) and then X.Length mod 2 = 0 and then
-      (for all I in E.Count range 1 .. X.Length => B (X.First + I - 1) in
+      (for all I in E.Count range 1 .. X.Length => B (X.First + (I - 1)) in
         Character'Pos ('0') .. Character'Pos ('9') | Character'Pos ('a') .. Character'Pos ('f')));
    function Hex_Matches (B : E.Bytes; X : E.Span; Raw : E.Bytes) return Boolean is
       Hex : constant String := "0123456789abcdef";
    begin
       return Lower_Hex (B, X) and then X.Length / 2 = Raw'Length and then
         (for all I in E.Count range 1 .. Raw'Length =>
-          B (X.First + (I - 1) * 2) = Character'Pos (Hex (Integer (Raw (Raw'First + I - 1) / 16) + 1)) and then
-          B (X.First + (I - 1) * 2 + 1) = Character'Pos (Hex (Integer (Raw (Raw'First + I - 1) mod 16) + 1)));
+          B (X.First + (I - 1) * 2) = Character'Pos (Hex (Integer (Raw (Raw'First + (I - 1)) / 16) + 1)) and then
+          B (X.First + (I - 1) * 2 + 1) = Character'Pos (Hex (Integer (Raw (Raw'First + (I - 1)) mod 16) + 1)));
    end Hex_Matches;
    function Text_Hex_Matches (D, B : E.Bytes; X, Text : E.Span) return Boolean is
      (V.Valid_Text (D, Text) and then Hex_Matches (B, X, V.Text_Value (D, Text)));

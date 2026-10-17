@@ -47,6 +47,20 @@ class NativePolicySource(unittest.TestCase):
         self.requirement['policy']['requiredChecks'] = []
         self.refused()
 
+    def test_explicit_empty_policy_and_absent_declaration_are_distinct(self):
+        self.raw['checks'] = []
+        self.requirement['policy']['requiredChecks'] = []
+        self.requirement['policy']['canonical']['checks'] = []
+        self.bind(self.raw)
+        required, empty, _ = self.native()
+        self.assertEqual(required, [])
+        self.assertTrue(empty)
+        del self.requirement['policy']['sourceObservation']
+        del self.requirement['policy']['sourceSha256']
+        required, empty, _ = self.native()
+        self.assertEqual(required, [])
+        self.assertFalse(empty)
+
     def test_expected_identity_is_not_cloned_from_observed_changed_source(self):
         observed = copy.deepcopy(self.raw)
         observed['checks'][0]['argv'] = ['/usr/bin/false']

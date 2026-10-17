@@ -10,6 +10,8 @@ with Worldline.Causal_Graph;
 with Worldline.Collapse_Wire;
 with Worldline_Collapse_Checks;
 with Worldline.Evaluation;
+with Worldline.Producer_Render;
+with Worldline.Producer_Values;
 with Worldline.Receipts;
 with Worldline.Transitions;
 with Worldline.World;
@@ -30,6 +32,45 @@ procedure Worldline_Core_Tests is
          raise Program_Error with Message;
       end if;
    end Check;
+
+   procedure Check_Producer_Edges is
+      package V renames Worldline.Producer_Values;
+      package R renames Worldline.Producer_Render;
+
+      procedure Empty_Members (Data : String) is
+         Index : constant V.Member_Index :=
+           V.Members (Data, (V.Object_Value, 1, Data'Length));
+      begin
+         Check (Index.Length = 0, "invalid object yielded members");
+      end Empty_Members;
+
+      procedure Empty_Quote (Data : String) is
+         Item : constant V.Node := (V.String_Value, 1, Data'Length);
+         Output : String (1 .. 2);
+      begin
+         Check (R.Quote_Size (Data, Item) = 2,
+                "malformed decoded quote retained a valid prefix");
+         R.Write_Quote (Data, Item, Output);
+         Check (Output (1) = '"' and then Output (2) = '"',
+                "malformed decoded quote changed empty-text convention");
+      end Empty_Quote;
+   begin
+      Empty_Members ("[0]");
+      Empty_Members ("{""a"":}");
+      Empty_Members ("{""a"":1,""b"":}");
+      Empty_Quote ("""\q""");
+      Empty_Quote ("""abc\q""");
+      declare
+         Value : constant String := "{""a"":1,""a"":2}";
+         Shifted : constant String (23 .. 22 + Value'Length) := Value;
+         Index : constant V.Member_Index := V.Members (Shifted, V.Parse (Shifted));
+      begin
+         Check (Index.Length = 1 and then
+                  V.Text (Shifted, Index.Entries (1).Key) = "a" and then
+                  V.Slice (Shifted, Index.Entries (1).Item) = "2",
+                "shifted object lost decoded-key last-value semantics");
+      end;
+   end Check_Producer_Edges;
 
    function Filled (Value : Attest.Byte) return Worldline.Hash is
      [others => Value];
@@ -92,6 +133,7 @@ procedure Worldline_Core_Tests is
    Identity_One : Worldline.Hash;
    Identity_Two : Worldline.Hash;
 begin
+   Check_Producer_Edges;
    Check
      (Attest.SHA256.Hash (Empty) = Empty_SHA256,
       "published empty SHA-256 vector failed");
