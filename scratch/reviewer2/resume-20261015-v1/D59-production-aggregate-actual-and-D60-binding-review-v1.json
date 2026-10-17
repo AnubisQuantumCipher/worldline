@@ -1,0 +1,72 @@
+{
+  "utc": "2026-10-15T04:37:49.965947+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR actual D59 build success and known-owned cleanup; D60 actual-build prerequisite met, conditional on logged D60 choice/verdict and fresh original admission",
+  "evidence_sha256": {
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/build-parent/result.json": "67aba433228ae98fddaa56749909e1aa3698d5e33c413b9b74edeb4bc96bc7be",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/build-results/result.json": "8150ea7bd85a86763eb0066cccb140de2ebc8f8b23409830f80ea50906ca26a7",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/build-scope/result.jsonl": "532398cb0a7e940a6be69d0d3fc113f89b4542a93e6f207990558727c62f1225",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/build-scope/worker-result.json": "5d9fcc2ce0b17c70b3bb5d145ad346ef3dbd3b610c8bc0f0571a97eed5a1d7fe",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/build-scope/cgroup.jsonl": "fc0f6a19db10abe9b3a876495be8fe9dff119a671638ae468c3e940dbd4716af",
+    "records/phase1-blockers/resume-20261015-v1/resource-policy-library-v1/build-scope/terminal-scope.jsonl": "2d6a30ff7fb2324e7193a6071e76aa6db2c16e16db9fdec1bfb14721dbde91f2"
+  },
+  "source": "4ff3bf48b4323c051ffa8cf04ba4787982111f6d with explicit dirty documentary delta; core23e67... and full tracked before/after maps unchanged",
+  "actual_outcome": {
+    "parent_exit": 0,
+    "scope_worker_exit": 0,
+    "scope_result_exit": 0,
+    "gprbuild_exit": 0,
+    "validation_passed": true,
+    "complete_original_aggregate": "core/worldline_core.gpr with reviewed unchanged full/checks/private-prebuilt flags and fresh subdirectories",
+    "library_sha256_actual": "c775ff7349810a1e1c1e39f3464a902bbaa68b4554445f571ec96bdce0568120",
+    "library_regular_nonsymlink": true,
+    "assertion_alis": {
+      "resource_quantities.ali": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/core/phase1-resource-policy-candidate-v1/resource_quantities.ali",
+        "sha256": "e59855e391d9b57e7724064474fe4dba8ca3464a0a189ed5e9a12881e082ddce",
+        "gnata": true
+      },
+      "worldline-resource_policy_c_api.ali": {
+        "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/core/phase1-resource-policy-candidate-v1/worldline-resource_policy_c_api.ali",
+        "sha256": "765b4863f357d1a042f0f2355ceca510f20cc8cecbd10dfbf2ac3427b9974f1a",
+        "gnata": true
+      }
+    },
+    "ALIs_actual_hash_and_regular_nonsymlink_gnata_checked": true,
+    "watched_before_after_and_current_all_match": true,
+    "methods_and_stdout_stderr_hashes_match": true
+  },
+  "resources": {
+    "admission_MemAvailable_observed": "24940336 kB",
+    "live_memory_max": "8589934592",
+    "live_swap_max": "0",
+    "live_final_peak": "1581461504",
+    "live_final_memory_events": "low/high/max/oom/oom_kill/oom_group_kill/sock_throttled all0",
+    "terminal_populated": false,
+    "terminal_UTC": "2026-10-15T04:34:08.662923+00:00",
+    "scope": "wl-phase1-856c82620ed443eda369129de0f68fc6.scope",
+    "terminal_inactive_not_found": "Terminal MemoryMax infinity is not live cap; no global sibling census implied.",
+    "rusage": "Maximum child RSS not aggregate memory."
+  },
+  "warnings": "Actual stdout/stderr retained, including SAL interface-set dependency warnings, obsolescent/no-effect/redundant clauses and producer_bytes Block may-be-referenced-before-value warning. Build zero does not establish safety or make these harmless.",
+  "D60": {
+    "exact_static_reviewed_test_methods_unchanged": true,
+    "test_results_parent_scope_absent": true,
+    "same_current_HEAD": true,
+    "new_library_and_old_private_preconditions_currently_match": true,
+    "requirements": [
+      "Record actual D60 choice/reviewer verdict after settled D59 source window; preserve resulting doc delta.",
+      "No intervening product/test/oracle change; exact new library binding and fresh process.",
+      "Use existing original shared lock, admission, caps and disk guards.",
+      "Retain native failure or incomplete outcome; no retry/deadline or test changes from this review."
+    ]
+  },
+  "non_claims": [
+    "No complete WORLDLINE proof/F1 closure/final freeze/Phase1 acceptance",
+    "No production resource-policy runtime outcome yet",
+    "Finite ALI witnesses do not certify every object assertion switch",
+    "No pending profile/cursor product integration/source-pin update",
+    "Internal review only, independent acceptance not performed"
+  ],
+  "actions": "Read-only retained actual receipts/source/artifact hashes; no builds/tests/process probes/product edits."
+}

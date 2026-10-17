@@ -1,0 +1,8 @@
+Compile
+   [Ada]          large_array_smoke.adb
+Bind
+   [gprbind]      large_array_smoke.bexch
+   [Ada]          large_array_smoke.ali
+Link
+   [link]         large_array_smoke.adb
+PASS exact singleton array extent 214748369

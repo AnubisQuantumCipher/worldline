@@ -1,0 +1,23 @@
+{
+  "classification": "UNVERIFIED before execution",
+  "source_commit": "42915a609422037da1f62a7cd78d489277016fc4",
+  "argv": [
+    "bash",
+    "scratch/coordinator/run_positive_progress_v3.sh",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v3/source",
+    "selected",
+    "live"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "GPR_PROJECT_PATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat:",
+  "acceptance_deadline": "1000s",
+  "diagnostic_ceiling": "3000s",
+  "MemoryMax": "8G",
+  "startup_qualification_only": false,
+  "original_main_will_be_invoked": true,
+  "non_claims": [
+    "Diagnostic instrumentation/import timing/ptracer grants differ; no acceptance credit",
+    "Original gate and test unchanged"
+  ]
+}

@@ -1,0 +1,26 @@
+with "sparklib.gpr";
+
+-- Diagnostic candidate closure only. It never replaces WORLDLINE's original
+-- complete proof/build projects. Dependency copies are byte-pinned snapshots.
+project Decoder_Cursor_Candidate is
+   for Languages use ("Ada");
+   for Source_Dirs use (".", "dependencies");
+   for Source_Files use
+     ("worldline-json_source_cursor.ads", "worldline-json_source_cursor.adb",
+      "decoder_cursor_controls.adb", "resource_quantities.ads",
+      "resource_quantities.adb", "worldline-archive_text.ads",
+      "worldline-archive_text.adb", "worldline.ads", "attest.ads",
+      "attest-sha256.ads", "attest-sha256.adb");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("decoder_cursor_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=3", "--report=all", "--checks-as-errors=on",
+         "--proof-warnings=on", "--memlimit=1024", "--timeout=60", "-j2");
+   end Prove;
+end Decoder_Cursor_Candidate;

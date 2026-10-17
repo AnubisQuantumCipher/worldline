@@ -1,0 +1,271 @@
+{
+  "utc": "2026-10-15T04:05:41.271163+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR precise source-supported baseline fixture/public complete-material relation conflict; no semantics-preserving repair identified in inventory. Not universalarchitecture impossibility or identified dynamicassertion cause.",
+  "analysis_sha256": "82298581fc44b62204c91150619eb92a52d3d5f9b2ce948c4b4d281f45e66d56",
+  "inventory_sha256": "384190ba670bbacf487d6f84c20d19c7cd7d296fa321bc4010f4cfe90e1174e5",
+  "verified_source_baseline_identities": [
+    {
+      "path": "canonical-exchange-tests/canonical_exchange_controls.adb",
+      "current_sha256": "c8ae9cefcdd1582f247b7c031706c06411c8ba12bf27547f89e4cc2d03bd2320",
+      "baseline_equal": true
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "current_sha256": "9e93504070a92a88c63407dea6c6f70e93d0cd2db8d8f389c5e0eac877f3bcad",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-archive_envelope.adb",
+      "current_sha256": "fcb76587b607afc474e6ec69ba3cfaa7425cae3aed9e1bd99f3e96d1071046d7",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-archive_envelope.ads",
+      "current_sha256": "aed9a84adec63db00bd72219130171b0154ca62937ed6b79fcfbc6784f78e80c",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-c_api.adb",
+      "current_sha256": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-c_api.ads",
+      "current_sha256": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "current_sha256": "09c62f1a8d59329c2cc90532f33c5c465504c0fcdd377f34323684fbec5a724f",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_exchange.ads",
+      "current_sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_exchange_wire.ads",
+      "current_sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_operation.adb",
+      "current_sha256": "c5821527426f828807ed4eff37bc0be31df0b4cb8159e8c91fa4734410fe5f9c",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_operation.ads",
+      "current_sha256": "7bedc41fca4a826cfa6ebda9e001cb67cf8ce3e8738a5786bdc9d9fa4091cc28",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_operation_wire.ads",
+      "current_sha256": "38f0b23eed88141ace33b6b5d4400f8ecfe07481e7380d91d1f17c6715f49cca",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "current_sha256": "9bc4605f6218365828bbf0e9092b5d58a611bd647b2c652d0fb815a080a522b1",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.ads",
+      "current_sha256": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion_wire.ads",
+      "current_sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-custody_v2_prepared.ads",
+      "current_sha256": "7c1afaef842f75b93c54ddb5cc51f72fe7fac3728fa2aa927e82d2cebde7ff44",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-native_execution_capture.adb",
+      "current_sha256": "3a2fa3ec528fcc0020bb17287bb629b2d148c1519639664599b21c67e5e8f06b",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-native_execution_capture.ads",
+      "current_sha256": "31d2f133d10cba0fda6f2c4a41754534ab665cc6fbfe1df820fae0ae05a77293",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-native_execution_views.adb",
+      "current_sha256": "4120177012a03eb0888f0fa1e33f435afe8c60d1b76958954aaeec3198b01eaf",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-native_execution_views.ads",
+      "current_sha256": "efa1b99092781a1d4c1718ba49fbe17bceca8c073964adc62b6e7a30db34fef0",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_archive.adb",
+      "current_sha256": "fae3b9fc0c32a76b8b36906d74b79c9ade27db401100220c58e7e8e5847110cd",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_archive.ads",
+      "current_sha256": "0ce7e425ee69401e6d9b448370ed7cb6a5c924f85a74bb643a49f8753150341c",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "current_sha256": "d7bd4abeba8290cdbcdddfc2b34326bedd044cb32daf613fed5e7986e0ad0fb8",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "current_sha256": "9d310f44ce762827736b9fa9a3806f88e5741c9d18e2e0bd864787c988754812",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_authority_wire.adb",
+      "current_sha256": "88d5109daa858b359702f3125d6ba284b44e4973bc1d01a800ce7bfaf81d66d4",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_authority_wire.ads",
+      "current_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "current_sha256": "9d77a964a219639d3d80a2393c8e636e6bc3bbae18d35397673ab16b14022053",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "current_sha256": "5aa4ab6019c530b68acb5084cc60c4ef7c7279f52797a35fd4505d620458d13a",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_result_view.adb",
+      "current_sha256": "7423de5fa9c9f5a3229e4c05aedd4cfb8f1edc1988607275ea0c8a06db47eb07",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-operation_result_view.ads",
+      "current_sha256": "6f6d5d9c40ae9cd50dd0654e8e6e632880cd896f8a3a18a26632c34cd39ac652",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-resource_actor_execution.adb",
+      "current_sha256": "a8752cfb3456cfe107446a14a3104ec23c712e4d81d303d17d811a21ac6b9c6e",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-resource_actor_execution.ads",
+      "current_sha256": "b6be7d9dbd37896930d0667c2c296044f53b7114abf20f03e708e18be5e78f88",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-resource_actor_execution_wire.ads",
+      "current_sha256": "1620caa88cd05fe723862e622cc984161be38beef7d236cb4cd69f5f641688cd",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-resource_child_execution.adb",
+      "current_sha256": "31cea96556291633eb7d4536b5d7dfa2b22b5c7019c17341c50ea7e956d180ec",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-resource_child_execution.ads",
+      "current_sha256": "2785d511fcc45adcb23903b55816aa6364a1171ad34c89840ff84250711ef427",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-retained_evidence_replay.adb",
+      "current_sha256": "8dc0fadde47430b5a2333b65fdb5ef84978d667457ff4f27871d5dbb0a6e3abe",
+      "baseline_equal": true
+    },
+    {
+      "path": "core/worldline-retained_evidence_replay.ads",
+      "current_sha256": "9ac158a82f11f2dc5c20c10eb621a57189a44a928e049d3a2d9db65f15795c44",
+      "baseline_equal": true
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "current_sha256": "8bc27d0d0b392b3afdc19a579774162ffb71c5d83a48873b9de3a47871790952",
+      "baseline_equal": true
+    },
+    {
+      "path": "prepared-wire-controls/operation_effect_fixtures.adb",
+      "current_sha256": "2da9389433cb7aa1dcc9af55f17848a066a5a1165dc443403fcd5f346978854c",
+      "baseline_equal": true
+    },
+    {
+      "path": "prepared-wire-controls/operation_effect_fixtures.ads",
+      "current_sha256": "c51af1e9aaa192096e3dd1c747f3b9d3333cf253de31c0d01bb81cf6c67557f3",
+      "baseline_equal": true
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "current_sha256": "9d1c4c8c567c7a52d6dcd9582e0b36c2199d43ee2afd10623715e83931183935",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/canonical_exchange_kernel.py",
+      "current_sha256": "e0148f27abfa652d8594a87660fc996e1e402101593f348824cae6a08dd41c6f",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/canonical_full_broker.py",
+      "current_sha256": "d2c22befca06fe696681f74fe7e5d935108fbba467ddcca624be73ab5568c3c4",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/canonical_operation_chains.py",
+      "current_sha256": "e6b58f9af8d6f37673abf5dba014774a435fbbe4b35f31d10202661f618a509f",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/canonical_owner_completion_kernel.py",
+      "current_sha256": "0c3998337f998f1961f3573a3e0743dce750b5777d47bb8bb205d3a74faffa06",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/operation_authority_kernel.py",
+      "current_sha256": "fe5612fff70491260022f03a43cb8ed812ff60c0ca7846fc51e0c2a628b869f6",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/operation_owner_kernel.py",
+      "current_sha256": "f9142feb43e3d6fcf1a480d345008a9735d5413f2372e2ae11eb4d89d4d4e213",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/operation_result_relation.py",
+      "current_sha256": "fd4825d297edb533836bde8e0434c03e461057654b0e14285cedaff75b208e59",
+      "baseline_equal": true
+    },
+    {
+      "path": "runtime/worldline/protected_operations.py",
+      "current_sha256": "65b29a992162605f9a0b7f91bca6edbef171b5c72de13a536117f1a7909e299a",
+      "baseline_equal": true
+    }
+  ],
+  "supported_chain": [
+    "Canonicalexchange and ownerpositive fixtures supply Effect_Material(1,0), never replace it before selected settle/replay/Resolve_Effect expectedpositives; corresponding publicdecisions require Operation_Authority.Chain_Effect.",
+    "Chain_Effect unconditionally requires Operation_Result_Relations.Matches; Capture_Source_Reference requires validmaterial; emptyarchive fails header/OperationArchivevalid. Matchingdigests cannot supply missingfullmaterial.",
+    "Operationauthority historicalsettle/replay and Resolve_Effect require samecomplete relation; reserve/noeffect routes separately permit absentmaterial and do not justify effectfallback.",
+    "Existing Operation_Authority positivefixtures load genuine fullmaterial, while former bare-root construction is explicitlynegative. Blanket structuralChain_Effect weakening would conflict with that originalnegative.",
+    "Inspectedcritical fixtures/specs/bodies baselinehashes match inventory; this is not introduced by D42/D46/D49 changes."
+  ],
+  "limitations": [
+    "Qualifiedcallinventory source/alias inspection is not compilerreachabilitycertificate or fullruntimeclosure.",
+    "Savednativeassertionhelper line does not identify first failing specific call; no newrun performed.",
+    "Do not weaken publicReference while retaining Decide=Reference spelling, addemptyfallback, synthesize material fromroots, create model-onlyselector or moveauthority to CAPI-onlywrapper. Those alter requiredexistingsemantics/proofboundary, not this repair.",
+    "A separate structuralhelper could be semantics-preserving refactor only if all existingpubliccompletechecks remain; it cannot make these empty-material positives pass.",
+    "Keep exactoriginal fixtures/acceptedcases open. No changedtarget, universalinfeasibility, protectedstartupcausality or independentacceptance inferred."
+  ],
+  "non_claims": [
+    "No patch/compile/proof/test/job/productedit byreviewer."
+  ]
+}

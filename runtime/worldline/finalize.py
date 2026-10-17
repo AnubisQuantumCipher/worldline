@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import base64
-import binascii
 import hashlib
 import time
 
@@ -16,7 +14,7 @@ import tempfile
 from typing import Any, Mapping, Sequence
 
 from .canonical import atomic_write_json
-from .core import Core, EvaluationFacts, EvidencePresence
+from .core import Core, EvidencePresence
 from .delta import Delta
 from .environment import EnvironmentCapture, OwnedProcess, capture_dependencies, evidence_manifest
 from .project import protected_matches
@@ -28,7 +26,6 @@ from .linux.namespaces import BubblewrapSandbox, OverlayRoot, SandboxSpec
 from .manifest import CapturedManifest, Manifest
 from .model import World, WorldState
 from .paths import WorldlinePaths, secure_directory
-from .report import MAX_REPORT_BYTES
 from .store import StateStore
 from .trusted import trusted_inline
 
@@ -73,125 +70,6 @@ def stopped_supervision(supervision: Mapping[str, Any]) -> bool:
     return bool(supervision.get("stoppedByManager")) or supervision.get("result") == "stopped"
 
 
-def _private_role_observed(observation: Any, role: str) -> bool:
-    if not isinstance(observation, Mapping) or type(role) is not str:
-        return False
-    expected = {"examiner": 0, "worker": 1, "candidate": 2}.get(role)
-    if expected is None:
-        return False
-    status, namespaces = observation.get("status"), observation.get("namespaces")
-    if not isinstance(status, Mapping) or not isinstance(namespaces, Mapping):
-        return False
-    if (observation.get("role") != role
-            or type(observation.get("uid")) is not int or observation["uid"] != expected
-            or type(observation.get("gid")) is not int or observation["gid"] != expected
-            or status.get("NoNewPrivs") != "1" or status.get("Groups") != ""
-            or observation.get("reportMounted") is not (role == "examiner")
-            or observation.get("brokerMounted") is not (role == "examiner")
-            or observation.get("workerBrokerMounted") is not (role == "worker")):
-        return False
-    for key in ("CapEff", "CapPrm", "CapBnd", "CapAmb"):
-        value = status.get(key)
-        if not isinstance(value, str) or re.fullmatch(r"0+", value) is None:
-            return False
-    for key in ("Uid", "Gid"):
-        value = status.get(key)
-        if not isinstance(value, str) or value.split() != [str(expected)] * 4:
-            return False
-    for key in ("pid", "mnt", "user"):
-        value = namespaces.get(key)
-        if not isinstance(value, str) or re.fullmatch(key + r":\[[0-9]+\]", value) is None:
-            return False
-    return True
-
-
-def _private_report_verified(result: Mapping[str, Any], *, execution: str, integrity: str) -> bool:
-    """Verify report provenance for either a completed passing or failing examination.
-
-    Labels alone confer no authority. The producer must establish these facts before building
-    the result; persisted evidence is bound and rechecked again at promotion.
-    """
-    if (result.get("profile") != "private-evaluator-v1" or result.get("origin") != "supervisor"
-            or execution != "COMPLETED" or integrity != "VERIFIED"
-            or type(result.get("exitCode")) is not int or result["exitCode"] < 0):
-        return False
-    channel, supervision = result.get("resultChannel"), result.get("supervision")
-    boundary, report = result.get("evaluatorBoundary"), result.get("privateReport")
-    snapshot, executed = result.get("candidateSnapshot"), result.get("executedVerifierSet")
-    if any(not isinstance(value, Mapping) for value in
-           (channel, supervision, boundary, report, snapshot, executed)):
-        return False
-    if (channel.get("accepted") is not True
-            or channel.get("recordProducer") != "daemon-outside-sandbox"
-            or supervision.get("kind") != "SUPERVISED" or supervision.get("started") is not True
-            or supervision.get("stoppedByManager") is not False
-            or supervision.get("result") != ("success" if result["exitCode"] == 0 else "failure")
-            or type(supervision.get("launcherExit")) is not int
-            or supervision["launcherExit"] != result["exitCode"]
-            or supervision.get("exitCode") not in (None, "exited")
-            or (supervision.get("exitStatus") is not None
-                and (type(supervision["exitStatus"]) is not int
-                     or supervision["exitStatus"] != result["exitCode"]))
-            or boundary.get("profileId") != result["profile"]
-            or ("error" in boundary and boundary["error"] is not None)
-            or type(boundary.get("examinerReturnCode")) is not int
-            or boundary["examinerReturnCode"] != result["exitCode"]
-            or type(boundary.get("bootstrapExitCode")) is not int
-            or boundary["bootstrapExitCode"] != result["exitCode"]
-            or not isinstance(boundary.get("managerBootstrapProperties"), Mapping)
-            or boundary["managerBootstrapProperties"].get("NoNewPrivileges") != "no"
-            or boundary.get("rolesCompleted") is not True or boundary.get("reportMountExclusive") is not True
-            or report.get("collection") != "private-directory"):
-        return False
-    for report_key, expected in (
-            ("runId", boundary.get("runId")), ("checkId", result.get("id")),
-            ("candidateIdentity", snapshot.get("rootSetHash")),
-            ("verifierIdentity", executed.get("identity"))):
-        if (not isinstance(expected, str) or not expected or "\x00" in expected
-                or report.get(report_key) != expected):
-            return False
-    digest = report.get("sha256")
-    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
-        return False
-    if type(report.get("sizeBytes")) is not int or not 0 < report["sizeBytes"] <= MAX_REPORT_BYTES:
-        return False
-    payload_b64 = report.get("payloadB64")
-    if (not isinstance(payload_b64, str)
-            or len(payload_b64) > ((MAX_REPORT_BYTES + 2) // 3) * 4):
-        return False
-    try:
-        payload = base64.b64decode(payload_b64, validate=True)
-    except (binascii.Error, ValueError):
-        return False
-    if len(payload) != report["sizeBytes"] or hashlib.sha256(payload).hexdigest() != digest:
-        return False
-    examiner, workers = boundary.get("examiner"), boundary.get("workers")
-    if not _private_role_observed(examiner, "examiner") or not isinstance(workers, list):
-        return False
-    worker_roles = []
-    candidate_roles = []
-    for worker in workers:
-        if not isinstance(worker, Mapping) or type(worker.get("returncode")) is not int:
-            return False
-        observation = worker.get("observation")
-        role = worker.get("principal", "worker")
-        if not _private_role_observed(observation, role) or role not in ("worker", "candidate"):
-            return False
-        if (observation["namespaces"]["user"] != examiner["namespaces"]["user"]
-                or any(observation["namespaces"][key] == examiner["namespaces"][key]
-                       for key in ("pid", "mnt"))
-                or observation.get("uidMap") != examiner.get("uidMap")
-                or observation.get("gidMap") != examiner.get("gidMap")):
-            return False
-        (worker_roles if role == "worker" else candidate_roles).append(observation)
-    for candidate in candidate_roles:
-        for worker in worker_roles:
-            # Earlier role namespaces may have exited and the kernel can reuse
-            # their namespace inode numbers. Identity separation is the stable
-            # cross-run fact; live namespace separation is checked by bootstrap.
-            if candidate["uid"] == worker["uid"] or candidate["gid"] == worker["gid"]:
-                return False
-    return True
 
 
 @dataclass(frozen=True)
@@ -238,78 +116,29 @@ def runner_agent_record(record: Any) -> tuple[Any, bool]:
     return record, False
 
 
-def check_declarations(requirement: Mapping[str, Any] | None) -> dict[str, CheckDeclaration]:
-    """Per-check declarations from a requirement record (`requirements()`/`current_requirements()`).
-
-    A missing or malformed requirement yields no declarations, and a check with no declaration
-    is never admitted: the absence is carried to the kernel as Declaration_Matches = False.
-    """
-    if not isinstance(requirement, Mapping):
-        return {}
-    policy = requirement.get("policy")
-    canonical = policy.get("canonical") if isinstance(policy, Mapping) else None
-    if not isinstance(canonical, Mapping):
-        return {}
-    bundles = {
-        str(entry.get("checkId"))
-        for entry in (requirement.get("verifiers") or ())
-        if isinstance(entry, Mapping) and entry.get("checkId") is not None
-    }
-    declared: dict[str, CheckDeclaration] = {}
-    for item in canonical.get("checks") or ():
-        if isinstance(item, Mapping) and isinstance(item.get("id"), str) and item["id"]:
-            # The canonical policy always states the profile (validation.canonical_checks); a
-            # check without one has no declaration rather than a defaulted one (1.9.0).
-            profile = item.get("profile")
-            if not isinstance(profile, str) or not isinstance(item.get("format"), str):
-                continue
-            declared[item["id"]] = CheckDeclaration(item["format"], profile, item["id"] in bundles)
-    if canonical.get("protected"):
-        declared["protected-paths"] = ENGINE_DECLARATIONS["protected-paths"]
-    return declared
+def check_declarations(requirement: Mapping[str, Any] | None, *,
+                       core: Core | None = None) -> dict[str, CheckDeclaration]:
+    """Render declarations natively derived from the complete current policy."""
+    from .evaluation_policy import project
+    return project(requirement, core=core)[2]
 
 
-def required_roster(requirement: Mapping[str, Any] | None) -> tuple[list[str], bool]:
-    """The promotion roster a requirement record imposes, and whether an empty one was declared.
-
-    Required policy checks plus the engine's protected-paths check when the policy protects any
-    path. An empty roster counts as declared only when a policy file was actually read
-    (`sourceSha256` present); a project with no policy has declared nothing, and nothing is not
-    a pass.
-    """
-    policy = requirement.get("policy") if isinstance(requirement, Mapping) else None
-    if not isinstance(policy, Mapping):
-        return [], False
-    required = sorted({str(item) for item in (policy.get("requiredChecks") or ())})
-    canonical = policy.get("canonical")
-    if isinstance(canonical, Mapping) and canonical.get("protected") and "protected-paths" not in required:
-        required.append("protected-paths")
-    return required, isinstance(policy.get("sourceSha256"), str) and bool(policy.get("sourceSha256"))
+def required_roster(requirement: Mapping[str, Any] | None, *,
+                    core: Core | None = None) -> tuple[list[str], bool]:
+    """Render the native full policy roster; missing is distinct from empty."""
+    from .evaluation_policy import project
+    required, empty, _declarations = project(requirement, core=core)
+    return required, empty
 
 
-def _declaration_matches(result: Mapping[str, Any], declared: CheckDeclaration | None) -> bool:
-    """The record is the kind of result the declaration names, with no default filling a gap."""
-    if declared is None or declared.format is None or result.get("format") != declared.format:
-        return False
-    if declared.origin is not None:
-        return result.get("origin") == declared.origin and "profile" not in result
-    return isinstance(result.get("profile"), str) and result["profile"] == declared.profile
 
 
-def evaluation_presence(result: Mapping[str, Any], declared: CheckDeclaration | None) -> EvidencePresence:
-    """Typed evidence facts for one record. Each is a question about a specific field, so an
-    empty or partial record cannot pass by being non-empty."""
-    executed = result.get("executedVerifierSet")
-    identity = executed.get("identity") if isinstance(executed, Mapping) else None
-    identifier = result.get("id")
-    return EvidencePresence(
-        record_identified=isinstance(identifier, str) and bool(identifier),
-        verdict_recorded=isinstance(result.get("status"), str),
-        binding_established=execution_binding(result) != "UNESTABLISHED",
-        declaration_matches=_declaration_matches(result, declared),
-        bundle_identified=declared is not None and (
-            not declared.bundle_declared or (isinstance(identity, str) and bool(identity))),
-    )
+def evaluation_presence(result: Mapping[str, Any], declared: CheckDeclaration | None,
+                        *, core: Core | None = None) -> EvidencePresence:
+    """Render typed presence derived by the native raw producer."""
+    from .evaluation_wire import record
+    raw = record(result, declared, core=core).native()
+    return EvidencePresence(*(bool(value) for value in raw.presence))
 
 
 def refusal_reason(evaluation: Mapping[str, Any]) -> str:
@@ -329,6 +158,37 @@ def refusal_reason(evaluation: Mapping[str, Any]) -> str:
     return "not admitted"
 
 
+def _roster_evaluations(
+    required: Sequence[str],
+    results_by_id: Mapping[str, Any],
+    declarations: Mapping[str, CheckDeclaration],
+    *,
+    core: Core,
+) -> tuple[list[bool], list[dict[str, str]], dict[str, dict[str, Any]]]:
+    """Render fresh native per-check decisions, without defining completeness.
+
+    Both legacy roster admission and full-domain execution diagnostics consume
+    these classifications. Diagnostics must not inherit the legacy ABI's count
+    bound or reconstruct a Python authorization rule.
+    """
+    admitted: list[bool] = []
+    refused: list[dict[str, str]] = []
+    evaluations: dict[str, dict[str, Any]] = {}
+    for check_id in required:
+        result = results_by_id.get(check_id)
+        if not isinstance(result, Mapping):
+            admitted.append(False)
+            refused.append({"id": check_id, "reason": "no execution record"})
+            continue
+        evaluation = evaluation_record(result, declared=declarations.get(check_id), core=core)
+        evaluations[check_id] = evaluation
+        ok = evaluation["admissibleForPromotion"] is True
+        admitted.append(ok)
+        if not ok:
+            refused.append({"id": check_id, "reason": refusal_reason(evaluation)})
+    return admitted, refused, evaluations
+
+
 def roster_decision(
     required: Sequence[str],
     results_by_id: Mapping[str, Any],
@@ -345,21 +205,8 @@ def roster_decision(
     kernel's.
     """
     core = core or Core.shared()
-    admitted: list[bool] = []
-    refused: list[dict[str, str]] = []
-    evaluations: dict[str, dict[str, Any]] = {}
-    for check_id in required:
-        result = results_by_id.get(check_id)
-        if not isinstance(result, Mapping):
-            admitted.append(False)
-            refused.append({"id": check_id, "reason": "no execution record"})
-            continue
-        evaluation = evaluation_record(result, declared=declarations.get(check_id), core=core)
-        evaluations[check_id] = evaluation
-        ok = evaluation["admissibleForPromotion"] is True
-        admitted.append(ok)
-        if not ok:
-            refused.append({"id": check_id, "reason": refusal_reason(evaluation)})
+    admitted, refused, evaluations = _roster_evaluations(
+        required, results_by_id, declarations, core=core)
     complete = core.evaluation_roster_complete(admitted, empty_declared=empty_declared)
     return {"complete": complete, "required": list(required), "emptyDeclared": empty_declared,
             "refused": refused, "evaluations": evaluations}
@@ -367,80 +214,17 @@ def roster_decision(
 
 def evaluation_record(result: Mapping[str, Any], *, declared: CheckDeclaration | None,
                       core: Core | None = None) -> dict[str, Any]:
-    """Three facts that were being carried as one, and could therefore contradict each other.
+    """Classify/admit the complete raw wire in Ada; saved projections are ignored.
 
-    `executionBinding` answered "was an intact bundle staged?" while being read as "did the
-    authorised examiner run?". A preserved counterexample makes the gap concrete: a candidate
-    that owned the harness produced `status: PASS` from fabricated output, the examiner never
-    executed — and the binding still said BOUND, because the bundle had indeed been staged and
-    its descriptors had indeed not moved. Both statements were true. Together they were a lie.
-
-    bundleIntegrity     were the intended evaluator artifacts staged and protected under the
-                        recorded identity?
-    executionStatus     did the trusted evaluation reach the examiner and complete, or fail at
-                        an identifiable stage?
-    evaluationOutcome   did a completed evaluation accept or reject the candidate?
-
-    Only `executionStatus == COMPLETED` may contribute to promotion admissibility. An intact
-    bundle whose evaluation never reached it is NOT an ordinary pass and is not a failed check
-    either: it is an evaluation that did not happen.
+    D26 report integrity and external confinement remain distinct. Unknown
+    producer observations remain unknown and cannot become promotion evidence.
     """
-    executed = result.get("executedVerifierSet")
-    status = result.get("status")
-    channel_value = result.get("resultChannel")
-    channel = channel_value if isinstance(channel_value, Mapping) else {}
-    exit_code = result.get("exitCode")
-    supervision_value = result.get("supervision")
-    supervision = supervision_value if isinstance(supervision_value, Mapping) else {}
-    channel_kind = (
-        "ABSENT" if channel_value is None else
-        "MALFORMED" if not isinstance(channel_value, Mapping) else
-        "EMPTY" if not channel else
-        "ACCEPTED" if channel.get("accepted") is True else
-        "REJECTED" if channel.get("accepted") is False else "OTHER"
-    )
-    stage = channel.get("stage")
-    supervisor_kind = supervision.get("kind")
-    facts = EvaluationFacts(
-        source=result.get("origin") if result.get("origin") in ("engine", "agent") else "external",
-        status=status if status in ("PASS", "FAIL", "UNASSESSED") else
-               ("ABSENT" if status is None else "OTHER"),
-        channel=channel_kind,
-        stage=stage if stage in ("SANDBOX_NEVER_STARTED", "STOPPED_BY_MANAGER",
-                                 "HARNESS_SIGNALLED") else
-              ("ABSENT" if stage is None else "OTHER"),
-        exit_present=exit_code is not None,
-        # bool is an int subclass; True is not an exit status.
-        exit_integer=type(exit_code) is int,
-        supervisor=supervisor_kind if supervisor_kind in ("SUPERVISED", "STOPPED") else
-                   ("ABSENT" if supervisor_kind is None else "OTHER"),
-        supervisor_stopped=stopped_supervision(supervision),
-        # An empty or malformed bundle record is present and unverifiable, not absent.
-        bundle_present=executed is not None,
-        bundle_is_mapping=isinstance(executed, Mapping),
-        bundle_stable=isinstance(executed, Mapping) and executed.get("stable") is True,
-        bundle_changed=isinstance(executed, Mapping) and bool(executed.get("changedDuringExecution")),
-        unsatisfied_imports=isinstance(executed, Mapping) and bool(executed.get("unsatisfiedImports")),
-    )
-    # Python only maps observations to finite categories. The SPARK core determines execution,
-    # outcome and bundle integrity; malformed and unknown categories remain non-promotable.
+    from .evaluation_wire import Authority, record
     core = core or Core.shared()
-    classification = core.evaluation_classify(facts)
-    execution, outcome, integrity = (
-        classification.execution, classification.outcome, classification.bundle)
-
-    # Legacy reports come from the writable candidate overlay. Private reports additionally
-    # need positive, invocation-bound observations of the separate examiner domain.
-    report_format = result.get("format")
-    report_based = report_format in ("junit", "gnatprove", "worldline-benchmark-v1")
-    report_integrity = ("VERIFIED" if _private_report_verified(result, execution=execution, integrity=integrity)
-                        else "UNTRUSTED") if report_based else "NOT_APPLICABLE"
-    # Evidence presence is a set of typed facts about named fields, checked against the policy's
-    # declaration for this check. The roster -- every required check, and what an empty one
-    # means -- is decided separately by the kernel's Roster_Complete (see roster_decision).
-    presence = evaluation_presence(result, declared)
-    admissible = core.evaluation_admissible(
-        classification, report_integrity=report_integrity, presence=presence)
+    owned = record(result, declared, core=core)
+    execution, outcome, integrity, report_integrity, admissible = Authority(core).evaluate(owned)
+    presence = EvidencePresence(*(bool(value) for value in owned.native().presence))
+    report_based = result.get("format") in ("junit", "gnatprove", "worldline-benchmark-v1")
     return {
         "bundleIntegrity": integrity,
         "executionStatus": execution,
@@ -653,10 +437,17 @@ class Finalizer:
         required_checks: Sequence[str],
         agent_manifest: dict[str, Any],
         candidate_snapshot: CandidateSnapshot | None = None,
+        _finalization_writer=None,
     ) -> World:
         world = self.store.world(world_value)
         if world.state is not WorldState.MUTABLE:
             raise WorldlineError("INVALID_TRANSITION", f"finalization requires MUTABLE world, got {world.state.value}")
+        from .finalization_writer import EngineFinalizationWriter
+        if (type(_finalization_writer) is not EngineFinalizationWriter
+                or _finalization_writer.start is None
+                or _finalization_writer.start.subject != world.instance_id.encode('utf-8', 'surrogatepass')
+                or validation is None):
+            raise WorldlineError('FINALIZATION_START_MISSING', 'the actual producer must reserve its full intent before execution')
         private_snapshot = candidate_snapshot is not None
         if candidate_snapshot is None:
             # Legacy checks historically contribute generated outputs to the payload. Preserve
@@ -671,6 +462,8 @@ class Finalizer:
         try:
             if candidate_snapshot is None:
                 candidate_snapshot = self._capture_candidate(world, overlays)
+            if _finalization_writer.input is None:
+                _finalization_writer.record_input(candidate_snapshot)
             registered = self.store.roots()
             self._verify_candidate_snapshot(candidate_snapshot, world, registered)
             binding = candidate_snapshot.binding()
@@ -730,6 +523,10 @@ class Finalizer:
                 # whether the candidate changed them; neither is the candidate's to rewrite. The
                 # synthetic check is part of the evidence manifest like any other check.
                 touched = sorted({op["pathDisplay"] for op in delta.value["operations"] if protected_matches(tuple(protected), op["pathDisplay"])})
+                from .evaluation_terminal import bytes_value
+                from .evaluation_policy import protected_status
+                expected_policy = bytes_value(_finalization_writer.start.policy)
+                native_protected_status = protected_status(self.core, expected_policy, delta.value)
                 check_results.append(
                     {
                         "id": "protected-paths",
@@ -740,40 +537,21 @@ class Finalizer:
                         # this verdict itself from facts it owns. See evaluation_record.
                         "origin": "engine",
                         "covers": list(protected),
-                        "status": "FAIL" if touched else "PASS",
+                        "status": native_protected_status,
                         "touched": touched,
                         "reason": ("the candidate changed protected paths: " + ", ".join(touched)) if touched else "no protected path changed",
+                        "nativeProtectedInputs": {
+                            "expectedRequirement": expected_policy,
+                            "delta": delta.value,
+                        },
                     }
                 )
                 required_checks.append("protected-paths")
-            # These belong to the RECORD, so they are attached before the evidence manifest is
-            # built and hashed -- not afterwards.
-            #
-            # `evidence_manifest` shallow-copies each result, so anything attached after it was
-            # built lived only on the runner's own list. Finalization read the originals and
-            # correctly degraded the world, but the COMMIT-time gate reads
-            # `subject.evidence["checks"]`, i.e. the copies, where `executionBinding` and
-            # `evaluation` were simply absent. Both of its guards therefore compared against
-            # nothing: `executionBinding == "UNESTABLISHED"` could never be true, and a missing
-            # `executionStatus` reads as None, which is permitted. The second gate that feeds
-            # the kernel's completeness input was passing by not asking -- the exact failure its
-            # own docstring warns about.
-            #
-            # Each record is classified against the policy's declaration for its check, from the
-            # requirement this evaluation was bound to. Without a requirement nothing is declared,
-            # and a check with no declaration is never admitted.
-            requirement = validation.get("requirement") if validation is not None else None
-            declarations = check_declarations(requirement)
-            # WORLDLINE's own results have fixed shapes that no policy writes: the agent's exit is
-            # always on this roster, and protected-paths whenever this finalization protects
-            # anything.
-            declarations["agent"] = ENGINE_DECLARATIONS["agent"]
-            if protected:
-                declarations["protected-paths"] = ENGINE_DECLARATIONS["protected-paths"]
-            for item in check_results:
-                item["executionBinding"] = execution_binding(item)
-                item["evaluation"] = evaluation_record(
-                    item, declared=declarations.get(str(item.get("id"))), core=self.core)
+            # The writer attaches independently retained invocation/acquisition
+            # operands before classifying returned rows. Its complete native
+            # capture and seal decide the outcome, including completed FAIL.
+            # A bare-return admission gate here would lose those operands and
+            # turn an ordinary primary failure into a materialization error.
             dependencies = capture_dependencies(dependency_roots, self.core)
             dependency_counts = [item["count"] for item in dependencies]
             dependency_count = (
@@ -798,8 +576,18 @@ class Finalizer:
                     candidate_verifiers=resolve_verifiers(project, validation["roots"], sources),
                     adapter=validation["adapter"],
                     evaluated_at=utc_now(),
+                    examined_content_root=_finalization_writer.input.root.decode('utf-8', 'surrogatepass'),
                     core=self.core,
                 )
+            # This recapture is an actual observation after all check returns.
+            # Earlier header/input/result bytes remain immutable; the final
+            # completion is retained only after native whole-roster admission.
+            observed_manifests = self._capture_candidate_manifests(payload, registered)
+            post_snapshot = CandidateSnapshot(world.instance_id, payload, observed_manifests,
+                Manifest.root_set_hash(observed_manifests.values(), self.core))
+            _finalization_writer.finish_capture(
+                context=context, results=check_results, post_snapshot=post_snapshot)
+            check_results = _finalization_writer.rows
             evidence = evidence_manifest(
                 check_results,
                 self.core,
@@ -875,17 +663,11 @@ class Finalizer:
             world.delta_hash = delta.delta_hash
             world.delta = {**delta.value["summary"], "files": delta.value["operations"]}
             world.establish_identity(self.core)
-            results_by_id = {item.get("id"): item for item in check_results}
-            # The kernel decides the roster: each required record is recomputed from its raw
-            # fields (never the saved classification), admitted by Evaluation.Admissible, and the
-            # list judged by Roster_Complete. The runner always puts the agent's own exit on it;
-            # an empty roster counts only when the requirement's policy declared one.
-            roster = roster_decision(list(required_checks), results_by_id, declarations,
-                                     empty_declared=required_roster(requirement)[1], core=self.core)
-            world.risk = "HIGH" if not roster["complete"] else "MEDIUM"
-            world.transition(WorldState.VALID if roster["complete"] else WorldState.DEGRADED, self.core)
+            _finalization_writer.seal(world, manifests_directory / 'evidence.json',
+                                      manifests_directory / 'environment.json')
             self.store.save_world(world)
             self._make_readonly(payload)
+            _finalization_writer.journal.acknowledge(self.store, world.instance_id)
             return world
         except BaseException as exc:
             if world.state is WorldState.FINALIZING:
@@ -926,7 +708,10 @@ class Finalizer:
 
     @staticmethod
     def _make_readonly(payload: Path) -> None:
-        for current, directories, files in os.walk(payload, topdown=False, followlinks=False):
+        def walk_error(error):
+            raise error
+        for current, directories, files in os.walk(payload, topdown=False, followlinks=False,
+                                                  onerror=walk_error):
             current_path = Path(current)
             for name in files:
                 path = current_path / name
@@ -939,3 +724,26 @@ class Finalizer:
                     continue
                 os.chmod(path, stat.S_IMODE(path.stat().st_mode) & ~0o222)
         os.chmod(payload, stat.S_IMODE(payload.stat().st_mode) & ~0o222)
+
+    @staticmethod
+    def _verify_readonly(payload: Path) -> None:
+        """Observe the original materialization permission obligation in full.
+
+        This is not a protected custody or namespace immutability certificate.
+        """
+        def check(path):
+            info = path.lstat()
+            if stat.S_ISLNK(info.st_mode):
+                return
+            if stat.S_IMODE(info.st_mode) & 0o222:
+                raise WorldlineError('FINALIZATION_PAYLOAD_WRITABLE',
+                                     'the retained payload is not read-only', {'path': str(path)})
+        def walk_error(error):
+            raise error
+        root = payload.lstat()
+        if not stat.S_ISDIR(root.st_mode):
+            raise WorldlineError('FINALIZATION_PAYLOAD_INVALID', 'the payload root is not a directory')
+        check(payload)
+        for current, directories, files in os.walk(payload, followlinks=False, onerror=walk_error):
+            for name in (*directories, *files):
+                check(Path(current) / name)

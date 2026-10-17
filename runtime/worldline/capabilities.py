@@ -37,9 +37,16 @@ class CapabilityRegistry:
         *,
         reprobe_seconds: float = _REPROBE_SECONDS,
         clock: Callable[[], float] = time.monotonic,
+        startup_lease=None,
     ) -> None:
         self.paths = paths
-        self.paths.ensure()
+        self.startup_lease = startup_lease
+        if startup_lease is None:
+            self.paths.ensure()
+        else:
+            from .protected_startup import StartupLease, require
+            require(type(startup_lease) is StartupLease, 'STARTUP_EXACT_LEASE_REQUIRED')
+            startup_lease.validate_capability_layout(paths)
         self._cached: dict[str, Any] | None = None
         self._probed_at: dict[str, float] = {}
         self._reprobe_seconds = reprobe_seconds

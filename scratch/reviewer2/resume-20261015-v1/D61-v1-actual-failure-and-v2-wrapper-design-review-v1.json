@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-15T04:48:56.415572+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONFIRM v1 failed candidate; CONCUR bounded wrapper-repair design preparation only, exact v2 patch/method review still required",
+  "evidence_sha256": {
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/parent/result.json": "48289ba9aa5ae9c6cd470044359fb142e4cc0120d9bf00cc3d28ceb5eb6f4e7b",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/results/result.json": "2a3ce0597688a608d45045a214d07c57e60f23b03027750dca4067b84615ffec",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/results/build.stderr": "e1ec472cd17a7f2c0d6c3f217081ec0672c6c84df5c8aad8fcab5bf2e4401ab0",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/results/proof.stderr": "3a1aeacb6e89370bf569559ade6adcf97fe884db08b4179f68dbb6139560f5d5",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/scope/cgroup.jsonl": "dbc35a7de1de9c2a7f784bf79ac631db10b19f566102a2c2fb17aa2ca6ccd84f",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/scope/terminal-scope.jsonl": "836d340a27b0fd6e982354f310bca06f42689c18a5da05186fb9cf648a203600"
+  },
+  "actual": {
+    "heavy_parent_exit": 1,
+    "build_exit": 4,
+    "proof_exit": 1,
+    "runtime_exits": {
+      "string_parser_controls": null,
+      "wide_parser_controls": null
+    },
+    "complete_report": null,
+    "mechanically_complete": false,
+    "candidate_private_tracked_maps_unchanged": true,
+    "failure": "Installed compiler rejects Global on formal callbacks at spec9/13; GNATprove additionally reports body Parse Start default nonconformance vs spec58. No completed semantic proof.",
+    "partial_ALI": "String main ALI exists with gnata; wide main ALI absent; not a successful build or runtime.",
+    "live_memory_max": "8589934592",
+    "live_swap_max": "0",
+    "live_peak": "267853824",
+    "observed_memory_events": "all recorded counters0",
+    "terminal_populated": false,
+    "terminal_UTC": "2026-10-15T04:47:15.697208+00:00",
+    "terminal_state": "inactive/not-found; terminal infinity is not live cap"
+  },
+  "repair_constraints": [
+    "New immutable v2; retain every failed v1 byte.",
+    "Rename only formal callback identifiers and named actual associations; keep actual String/wide callback implementations identical.",
+    "Ordinary generic package wrapper bodies directly delegate to exact actual callbacks, without new fallback, sanitization, validity guard or data transformation.",
+    "Wrappers retain original Global null and exact progress/EOF Post requirements. Every concrete instance wrapper/body/actual relationship must be enrolled and proved; no Assume/imported trusted contract/body exclusion.",
+    "Parse body default Start:=0 matches existing spec; no new start precondition or alignment/domain restriction.",
+    "No numeric/render dependency removal, assertion dropping, proof-scope narrowing or production application."
+  ],
+  "primary_source": {
+    "title": "SPARK Reference Manual28.0w, Generic Units",
+    "url": "https://docs.adacore.com/spark2014-docs/html/lrm/generic-units.html",
+    "scope": "Read current official text. Instance-level SPARK-rule enforcement may expose violations; generic legality alone does not certify concrete instances. Supports required per-instance checking, not predicted tool acceptance."
+  },
+  "non_claims": [
+    "No universal mechanism infeasibility",
+    "No full candidate grammar/value equivalence/proof",
+    "No source guard or Phase1 acceptance",
+    "No job/rerun performed by reviewer"
+  ],
+  "actions": "Read-only actual terminal/source/map/hash review and official source read; no compiler/prover/import or edits."
+}

@@ -1,0 +1,218 @@
+{
+  "classification": "MEASURED tool-file identity readback only",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "freeze_sha256": "98d79357743b18aeea143e46d8597a7a30fbd51bea8a4168d0a5965bf16f5812",
+  "command": {
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final_tool_identities_v5.py",
+      "--out",
+      "records/phase1-blockers/final-tool-identities-after-v5-retained.json"
+    ],
+    "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+    "environment": {
+      "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+      "GNAT_environment_source": "/home/sicarii/opt/gnat/env.sh",
+      "GNAT_environment_sha256": "155536a81f8d2be134c6e5cacc0c0bf9b57c94ee33659d2b19ea23c2d6ded388"
+    }
+  },
+  "script_sha256": "22a13817a2619f810db4450cb32115956603ccc1f01de5e63968c862d8429693",
+  "started_utc": "2026-10-15T01:10:12.512793+00:00",
+  "ended_utc": "2026-10-15T01:10:12.782659+00:00",
+  "exit_code": 0,
+  "tools": [
+    {
+      "name": "gnat",
+      "scope": "PATH selection only",
+      "spelling": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnat",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnat",
+      "sha256": "4f9e401fcee0f1eff05bca6df940fe6ca67e1d8e0a42bf168de6e1d790bea00f",
+      "bytes": 3498288,
+      "mode": "0o100755",
+      "mtime_ns": 1782493639668358300
+    },
+    {
+      "name": "gnatprove",
+      "scope": "PATH selection only",
+      "spelling": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9",
+      "bytes": 66111984,
+      "mode": "0o100755",
+      "mtime_ns": 1782490486134781100
+    },
+    {
+      "name": "gprbuild",
+      "scope": "PATH selection only",
+      "spelling": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb",
+      "bytes": 17019248,
+      "mode": "0o100755",
+      "mtime_ns": 1776260103263293300
+    },
+    {
+      "name": "gcc",
+      "scope": "PATH selection only",
+      "spelling": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "sha256": "ef4d2c23a77857bed0b8f86b7878451da2be9023988d5f5358d37f04fa3ec0fe",
+      "bytes": 2300216,
+      "mode": "0o100755",
+      "mtime_ns": 1782493642739447800
+    },
+    {
+      "name": "cc",
+      "scope": "PATH selection only",
+      "spelling": "/usr/bin/cc",
+      "exists": true,
+      "resolved": "/usr/bin/gcc",
+      "sha256": "741ced8152a820a28ab88603dd1ceb2343245728ac784839e4b5390f2411890e",
+      "bytes": 2365000,
+      "mode": "0o100755",
+      "mtime_ns": 1777811145000000000
+    },
+    {
+      "name": "python3",
+      "scope": "PATH selection only",
+      "spelling": "/usr/bin/python3",
+      "exists": true,
+      "resolved": "/usr/bin/python3.14",
+      "sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+      "bytes": 67720,
+      "mode": "0o100755",
+      "mtime_ns": 1786542069000000000
+    },
+    {
+      "name": "bwrap",
+      "scope": "PATH selection only",
+      "spelling": "/usr/bin/bwrap",
+      "exists": true,
+      "resolved": "/usr/bin/bwrap",
+      "sha256": "3016d82c88481eeb15c1145ea82a591b11890faa6e957635b75bc148a1701e45",
+      "bytes": 133648,
+      "mode": "0o100755",
+      "mtime_ns": 1790110992000000000
+    },
+    {
+      "name": "systemd-run",
+      "scope": "PATH selection only",
+      "spelling": "/usr/bin/systemd-run",
+      "exists": true,
+      "resolved": "/usr/bin/systemd-run",
+      "sha256": "b540a415eab4452328905f9443652f69b0ec357917218c21c0327c5e147bc35f",
+      "bytes": 138184,
+      "mode": "0o100755",
+      "mtime_ns": 1788886195000000000
+    },
+    {
+      "name": "systemctl",
+      "scope": "PATH selection only",
+      "spelling": "/usr/bin/systemctl",
+      "exists": true,
+      "resolved": "/usr/bin/systemctl",
+      "sha256": "8b81286ca0cc47b7b67f6512ed1e362adac03fe4980651166cbb833f3055abcc",
+      "bytes": 406456,
+      "mode": "0o100755",
+      "mtime_ns": 1788886195000000000
+    },
+    {
+      "name": "flock",
+      "scope": "PATH selection only",
+      "spelling": "/usr/bin/flock",
+      "exists": true,
+      "resolved": "/usr/bin/flock",
+      "sha256": "c82e1ed523ce89dbffd2cde8665a89bc1adc6c5b50ce34db96d2d453d537e8f8",
+      "bytes": 67864,
+      "mode": "0o100755",
+      "mtime_ns": 1788429129000000000
+    },
+    {
+      "name": "timeout",
+      "scope": "PATH selection only",
+      "spelling": "/usr/bin/timeout",
+      "exists": true,
+      "resolved": "/usr/bin/timeout",
+      "sha256": "7539e28e3fc02160564cc93739e03d0d3e001a6fae58671371403a46b643439b",
+      "bytes": 68448,
+      "mode": "0o100755",
+      "mtime_ns": 1784153228000000000
+    },
+    {
+      "name": "alt-ergo",
+      "scope": "Bundled-path inventory only",
+      "spelling": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo",
+      "sha256": "09f93d6ed6f6d70ff916185ff36bbc8a41d486ce6100f2ad0d7e3d03feb7671e",
+      "bytes": 24688792,
+      "mode": "0o100755",
+      "mtime_ns": 1779784593063422200
+    },
+    {
+      "name": "cvc5",
+      "scope": "Bundled-path inventory only",
+      "spelling": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/cvc5",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/cvc5",
+      "sha256": "010d7adf505f4bd27822fbb31a6e8999c6af2a5b8339d7c0fefccd4b38978814",
+      "bytes": 26751080,
+      "mode": "0o100755",
+      "mtime_ns": 1782488396827504900
+    },
+    {
+      "name": "z3",
+      "scope": "Bundled-path inventory only",
+      "spelling": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/z3",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/z3",
+      "sha256": "d718168cd9b69b5e73ad7124f6e5083c047c28f1b3165ddd04e3b89191319a78",
+      "bytes": 31059760,
+      "mode": "0o100755",
+      "mtime_ns": 1782488397605532600
+    },
+    {
+      "name": "why3",
+      "scope": "Bundled-path inventory only",
+      "spelling": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3",
+      "sha256": "c3b3004479b0415bb5b8966a664cf06372238de3a0ace480a80fd610edb58e6d",
+      "bytes": 27799200,
+      "mode": "0o100755",
+      "mtime_ns": 1779781492256284200
+    },
+    {
+      "name": "why3server",
+      "scope": "Bundled-path inventory only",
+      "spelling": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3server",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3server",
+      "sha256": "c778280b8b4303e99344d0ff969b589a2e0e4df9a78aab27464a7177c830ae6e",
+      "bytes": 136480,
+      "mode": "0o100755",
+      "mtime_ns": 1779781492258284300
+    },
+    {
+      "name": "gnat2why",
+      "scope": "Bundled-path inventory only",
+      "spelling": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gnat2why",
+      "exists": true,
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/gnat2why",
+      "sha256": "375d0100954a66c78bace00d2229c9b96a30b6cf28845e00c4db220ba1efddb5",
+      "bytes": 106334584,
+      "mode": "0o100755",
+      "mtime_ns": 1782490461410923000
+    }
+  ],
+  "non_claims": [
+    "Existence/PATH is not evidence of actual invocation or completed proof.",
+    "Missing names do not pass tool coverage.",
+    "Compare hashes after final runs; identity alone never proves correctness or acceptance."
+  ]
+}

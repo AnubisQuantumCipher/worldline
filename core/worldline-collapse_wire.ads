@@ -3,7 +3,7 @@ with Worldline.Collapse;
 with Worldline.Identities;
 with Worldline.Transitions;
 
---  The collapse request as it crosses the C boundary (ABI generation 5), and
+--  The collapse request as it crosses the C boundary (ABI generation 6), and
 --  its decoding into Worldline.Collapse's typed request. Decoding is proved:
 --  only the null check and the pointer dereference stay outside SPARK (in
 --  Worldline.C_API). A request that is not Well_Formed is answered 255, and
@@ -53,6 +53,7 @@ package Worldline.Collapse_Wire with SPARK_Mode is
       Staged_Content_Root          : Raw_Optional_Hash;
       Tested_Root                  : Raw_Optional_Hash;
       Current_Requirement          : Raw_Optional_Hash;
+      Resulting_Requirement        : Raw_Optional_Hash;
       Evaluated_Requirement        : Raw_Optional_Hash;
       Declared_Verifiers           : Raw_Optional_Hash;
       Executed_Verifiers           : Raw_Optional_Hash;
@@ -109,6 +110,7 @@ package Worldline.Collapse_Wire with SPARK_Mode is
       and then Hash_Well_Formed (R.Staged_Content_Root)
       and then Hash_Well_Formed (R.Tested_Root)
       and then Hash_Well_Formed (R.Current_Requirement)
+      and then Hash_Well_Formed (R.Resulting_Requirement)
       and then Hash_Well_Formed (R.Evaluated_Requirement)
       and then Hash_Well_Formed (R.Declared_Verifiers)
       and then Hash_Well_Formed (R.Executed_Verifiers)
@@ -128,7 +130,8 @@ package Worldline.Collapse_Wire with SPARK_Mode is
                   R.Expected_Checkpoint.Present = 0
                   and then R.Witnessed_Checkpoint.Present = 0)
       and then (if R.Evaluation_Mode = 1 then
-                  R.Evaluated_Requirement.Present = 0
+                  R.Resulting_Requirement.Present = 0
+                  and then R.Evaluated_Requirement.Present = 0
                   and then R.Executed_Verifiers.Present = 0
                   and then R.Roster_Complete = 0))
      with Global => null;
@@ -231,6 +234,7 @@ package Worldline.Collapse_Wire with SPARK_Mode is
        Staged_Content_Root    => Content_Root (R.Staged_Content_Root),
        Tested_Root            => Content_Root (R.Tested_Root),
        Current_Requirement    => Requirement (R.Current_Requirement),
+       Resulting_Requirement  => Requirement (R.Resulting_Requirement),
        Evaluated_Requirement  => Requirement (R.Evaluated_Requirement),
        Declared_Verifiers     => Verifiers (R.Declared_Verifiers),
        Executed_Verifiers     => Verifiers (R.Executed_Verifiers),

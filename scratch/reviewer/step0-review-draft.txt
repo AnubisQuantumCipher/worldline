@@ -1,0 +1,15 @@
+Claim class: UNVERIFIED product; TESTED read-only source review.
+Reviewer role: actual GPT-6.1 internal reviewer. Independent acceptance: NOT PERFORMED.
+Reviewed acceptance sha256 c885dc5ad835e0c25d5b9199ed4598af33e4b51460f4b2ae6e38e511a6eff2be.
+Reviewed launcher sha256 85e96967e4a39abd1c316c9bf09b981abe32346435088dae1b5d35ef97c383d7.
+verdict: REQUEST CHANGES
+Required additions:
+- Explicit original Step2 conjunction: no new cumulative bound, nonlimited independent full values, implicit compiler-created Old snapshots automatically retire including exceptional postchecks, no application Controlled/SPARK-Off/custom-pool boundary.
+- Admission result must not collide with workload exit code 75.
+- Lock held until own scope quiescent; preserve timeout outcome and clean only own remaining scope descendants.
+- Outside-scope monitoring and terminal scope/cgroup evidence survive worker OOM.
+- Before payload validate actual memory.max and memory.swap.max.
+- Original failure reproduction uses observed original swap setting; launcher supports it without silently changing cap.
+D0: APPROVE precise ownership/isolation exception in principle.
+D1: REQUEST CHANGES; self-test not authorized until launcher revised.
+No heavy commands launched. No product files modified.

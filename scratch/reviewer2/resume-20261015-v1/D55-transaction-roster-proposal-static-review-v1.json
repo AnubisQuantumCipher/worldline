@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-15T04:00:52.768425+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "DO NOT APPLY as submitted: native policy-roster reuse introduces a previously absent fixed roster admission ceiling on this path. No domain equivalence or acceptedcase preservation established.",
+  "sha256": {
+    "records/phase1-blockers/resume-20261015-v1/transaction-roster-proposal-v1/proposal.patch": "881b76d86f765dde167c9ba6261c972e34637ed723425736c2b4dd1dc33cd84a",
+    "records/phase1-blockers/resume-20261015-v1/transaction-roster-proposal-v1/transaction.py.proposed": "27ff732e98017f1c5424b31be27431b0298ef64ee5170f7ad00badbb980ee8b4",
+    "records/phase1-blockers/resume-20261015-v1/transaction-roster-proposal-v1/metadata.json": "0a1cca1bbbabd23483a98d89c1a4990f60026ae7d697f837e737d2795b407245",
+    "records/phase1-blockers/resume-20261015-v1/transaction-roster-proposal-v1/decision-proposal.md": "40eee15d680252b7a3a83cebe3b94aa13761bb6127ba0e2fb3ae7663011869b1",
+    "runtime/worldline/finalize.py": "a1929a14dea8095c3740997e21ef310b1a293c05017ac584940c3518a2bd0862",
+    "runtime/worldline/core.py": "ee77fa7a39178b844972b3a3d704fb0732b93b73aead8c2b80137db66454786c",
+    "runtime/worldline/transaction_relation.py": "1ad714688dca51a30755d19bfc0b478ad15cdf589d53e63b80d6bf3bbd60e1ea",
+    "core/worldline-evaluation.ads": "374dd36340edde851d3e897c282800b7a626d07d441bbf798add4c546672e590",
+    "core/worldline-evaluation.adb": "a675b451c118250c8a03c964d670d71792ab5ba3fd8ec7e9bb5799c3d817bf89",
+    "core/worldline-c_api.adb": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a"
+  },
+  "source_correspondence": [
+    "Current final complete comes from transaction_relation.execution exactly as proposal states; policy local aggregate is diagnostic but also controls refused membership and actual identity absence before that finalcall.",
+    "roster_decision recomputes perrow evaluation_record from rawrecords and declarations in originalrequiredorder, creates refused reasons, then calls core.evaluation_roster_complete. Existingagent already uses this helper for its own roster; that does not establish policyrosters bounded identically.",
+    "Native old Evaluation.Roster_Complete expresses emptydeclared/alladmitted relation; wrapper materializes Admissions with fixed Roster_Index. Complete transactionrelation uses separate fullarchive path; no equal roster ceiling identified in inspected policyproject/transaction consumer."
+  ],
+  "blockers": [
+    {
+      "path": "runtime/worldline/core.py:68,585",
+      "fact": "ROSTER_MAX=4096; evaluation_roster_complete raises ROSTER_TOO_LARGE for larger flags.",
+      "impact": "Proposal newly routes policyrequiredroster through this bound before finalnativeexecution. Existing local loop has no such fixed bound. Do not add4096precondition/fixtureexclusion to justify repair."
+    },
+    {
+      "path": "core/worldline-evaluation.ads:188; core/worldline-c_api.adb:1001",
+      "fact": "Native Admissions index is bounded and wrapper rejects above its Last; bypassing Python check alone does not restore original domain.",
+      "impact": "Any total-domain existingnativeprimitive replacement or actual domainbound justification needs separate evidence/design review, not flagrouting."
+    },
+    {
+      "path": "runtime/worldline/transaction.py _execution_identity",
+      "fact": "New native aggregate call creates additional ABI/guard/resource/exception observation before existing finalnative relation.",
+      "impact": "Even bounded successful Boolean equivalence does not prove fault/late-observation behavior unchanged. Preserve final relation lateevidence reobservation and accepted Mapping behavior."
+    }
+  ],
+  "audit_interpretation": [
+    "Original local admissibleForPromotion read is freshly recomputed evaluation_record output, not demonstrated persisteduntrustedclassification read. Removing its spelling alone is not a semantic repair.",
+    "Do not relabel other staticpin/exactwrapper/comparison failures green or weaken original audits."
+  ],
+  "future_validation_constraints": [
+    "First resolve domain/faultsemantics blocker in a reviewed revisedproposal and D55decision; wait activeD53terminal.",
+    "Then complete unchanged evaluationauthority and static-audit modules plus relevant originaltransaction/revalidation/finalization/return/Mapping-fault controls using exact sourcebound checks kernel; preserve all failures.",
+    "No new mockBoolean/syntheticproductionproducer or selectedtestsubset can establish nativeauthority closure.",
+    "Fullconfigured originalproof/body/caller/runtime/negativecontrols remain required after integratedsourcefreeze."
+  ],
+  "non_claims": [
+    "No execution/productedit/job or independentacceptance by reviewer.",
+    "No proof that every existing accepted largerroster reaches finalacceptance; newbound equivalence remains unestablished, so cannot approve guarantee preservation."
+  ]
+}

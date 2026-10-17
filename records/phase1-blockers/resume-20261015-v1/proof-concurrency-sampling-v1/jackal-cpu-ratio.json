@@ -1,0 +1,36 @@
+{
+  "request": {
+    "tool": "jackal_exact",
+    "expression": "(3616301425-3488769109)*1000/(55711693470072-55644895842557)"
+  },
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=(3616301425-3488769109)*1000/(55711693470072-55644895842557) exact=25506463200/13359525503 approx=1.9092342160110625\",\"fields\":{\"approx\":\"1.9092342160110625\",\"exact\":\"25506463200/13359525503\",\"parsed\":\"(3616301425-3488769109)*1000/(55711693470072-55644895842557)\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+      }
+    ],
+    "structuredContent": {
+      "assurance": "exact rational arithmetic (not yet checker-covered)",
+      "engine_output": "status=exact parsed=(3616301425-3488769109)*1000/(55711693470072-55644895842557) exact=25506463200/13359525503 approx=1.9092342160110625",
+      "fields": {
+        "approx": "1.9092342160110625",
+        "exact": "25506463200/13359525503",
+        "parsed": "(3616301425-3488769109)*1000/(55711693470072-55644895842557)",
+        "status": "exact"
+      },
+      "formal": false,
+      "identities": {
+        "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+      },
+      "lane": "rat",
+      "non_claims": [
+        "NOT formal-bounded: this lane carries no Lean-checked certificate",
+        "The epistemic class above is the STRONGEST claim this result supports",
+        "exact rational arithmetic (not yet checker-covered)"
+      ],
+      "status": "exact"
+    }
+  },
+  "measurement_boundary": "Read-only two-sample scope CPU usage divided by observed monotonic interval; not proof-obligation progress, no speedup or projected memory guarantee, no acquisition timeout classification, no concurrency/deadline policy change selected."
+}

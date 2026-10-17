@@ -1,0 +1,1451 @@
+{
+  "purpose": "Read-only source assessment, not proof, runtime execution, acceptance or formal GPT-6.1 review",
+  "claim_class": "MEASURED source identities; UNVERIFIED source-derived semantic assessment",
+  "utc": "2026-10-15T03:59:51.592762+00:00",
+  "worktree": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "head_before": "915f5389b383e2377e92ec3a134d11df9d05951a",
+  "head_after": "915f5389b383e2377e92ec3a134d11df9d05951a",
+  "baseline": "a1bda52b53a9a220b2333fe09a135e2d94127dbc",
+  "commands": {
+    "tracked_scope": [
+      "git",
+      "ls-files",
+      "-z"
+    ],
+    "baseline_reads": [
+      "git",
+      "show",
+      "a1bda52b53a9a220b2333fe09a135e2d94127dbc:<each identities.path>"
+    ],
+    "critical_diff": [
+      "git",
+      "diff",
+      "a1bda52b53a9a220b2333fe09a135e2d94127dbc",
+      "--",
+      "core/worldline-operation_authority.ads",
+      "core/worldline-operation_authority.adb",
+      "core/worldline-operation_result_relations.ads",
+      "core/worldline-operation_result_relations.adb",
+      "core/worldline-canonical_exchange.ads",
+      "core/worldline-canonical_exchange.adb",
+      "core/worldline-canonical_owner_completion.ads",
+      "core/worldline-canonical_owner_completion.adb",
+      "canonical-exchange-tests/canonical_exchange_controls.adb",
+      "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "prepared-wire-controls/operation_authority_controls.adb",
+      "prepared-wire-controls/prepared_operation_heads_controls.adb"
+    ],
+    "hash_method": "hashlib.sha256 on current file bytes and exact git-show stdout, no product imports or executions"
+  },
+  "baseline_critical_diff": {
+    "exit": 0,
+    "stdout": "baseline-critical.diff",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "baseline-critical.stderr",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "identities": [
+    {
+      "path": "canonical-exchange-tests/canonical_exchange_controls.adb",
+      "sha256": "c8ae9cefcdd1582f247b7c031706c06411c8ba12bf27547f89e4cc2d03bd2320",
+      "bytes": 9906,
+      "baseline_sha256": "c8ae9cefcdd1582f247b7c031706c06411c8ba12bf27547f89e4cc2d03bd2320",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "sha256": "9e93504070a92a88c63407dea6c6f70e93d0cd2db8d8f389c5e0eac877f3bcad",
+      "bytes": 10211,
+      "baseline_sha256": "9e93504070a92a88c63407dea6c6f70e93d0cd2db8d8f389c5e0eac877f3bcad",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-archive_envelope.adb",
+      "sha256": "fcb76587b607afc474e6ec69ba3cfaa7425cae3aed9e1bd99f3e96d1071046d7",
+      "bytes": 15503,
+      "baseline_sha256": "fcb76587b607afc474e6ec69ba3cfaa7425cae3aed9e1bd99f3e96d1071046d7",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-archive_envelope.ads",
+      "sha256": "aed9a84adec63db00bd72219130171b0154ca62937ed6b79fcfbc6784f78e80c",
+      "bytes": 4910,
+      "baseline_sha256": "aed9a84adec63db00bd72219130171b0154ca62937ed6b79fcfbc6784f78e80c",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-c_api.adb",
+      "sha256": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+      "bytes": 519440,
+      "baseline_sha256": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-c_api.ads",
+      "sha256": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+      "bytes": 63269,
+      "baseline_sha256": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "sha256": "09c62f1a8d59329c2cc90532f33c5c465504c0fcdd377f34323684fbec5a724f",
+      "bytes": 4404,
+      "baseline_sha256": "09c62f1a8d59329c2cc90532f33c5c465504c0fcdd377f34323684fbec5a724f",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_exchange.ads",
+      "sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600",
+      "bytes": 10891,
+      "baseline_sha256": "a83c7dfc92c8314fb371fad3b4a56c47fae2c96a330b9233c4211cc75351e600",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_exchange_wire.ads",
+      "sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0",
+      "bytes": 3363,
+      "baseline_sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_operation.adb",
+      "sha256": "c5821527426f828807ed4eff37bc0be31df0b4cb8159e8c91fa4734410fe5f9c",
+      "bytes": 2750,
+      "baseline_sha256": "c5821527426f828807ed4eff37bc0be31df0b4cb8159e8c91fa4734410fe5f9c",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_operation.ads",
+      "sha256": "7bedc41fca4a826cfa6ebda9e001cb67cf8ce3e8738a5786bdc9d9fa4091cc28",
+      "bytes": 2052,
+      "baseline_sha256": "7bedc41fca4a826cfa6ebda9e001cb67cf8ce3e8738a5786bdc9d9fa4091cc28",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_operation_wire.ads",
+      "sha256": "38f0b23eed88141ace33b6b5d4400f8ecfe07481e7380d91d1f17c6715f49cca",
+      "bytes": 1103,
+      "baseline_sha256": "38f0b23eed88141ace33b6b5d4400f8ecfe07481e7380d91d1f17c6715f49cca",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "sha256": "9bc4605f6218365828bbf0e9092b5d58a611bd647b2c652d0fb815a080a522b1",
+      "bytes": 3073,
+      "baseline_sha256": "9bc4605f6218365828bbf0e9092b5d58a611bd647b2c652d0fb815a080a522b1",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.ads",
+      "sha256": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79",
+      "bytes": 4291,
+      "baseline_sha256": "f3300f5408493b100157dd286d80dd818cf2abd2479f26bad5b26e903a635b79",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion_wire.ads",
+      "sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745",
+      "bytes": 1078,
+      "baseline_sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-custody_v2_prepared.ads",
+      "sha256": "7c1afaef842f75b93c54ddb5cc51f72fe7fac3728fa2aa927e82d2cebde7ff44",
+      "bytes": 3234,
+      "baseline_sha256": "7c1afaef842f75b93c54ddb5cc51f72fe7fac3728fa2aa927e82d2cebde7ff44",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-native_execution_capture.adb",
+      "sha256": "3a2fa3ec528fcc0020bb17287bb629b2d148c1519639664599b21c67e5e8f06b",
+      "bytes": 18690,
+      "baseline_sha256": "3a2fa3ec528fcc0020bb17287bb629b2d148c1519639664599b21c67e5e8f06b",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-native_execution_capture.ads",
+      "sha256": "31d2f133d10cba0fda6f2c4a41754534ab665cc6fbfe1df820fae0ae05a77293",
+      "bytes": 12585,
+      "baseline_sha256": "31d2f133d10cba0fda6f2c4a41754534ab665cc6fbfe1df820fae0ae05a77293",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-native_execution_views.adb",
+      "sha256": "4120177012a03eb0888f0fa1e33f435afe8c60d1b76958954aaeec3198b01eaf",
+      "bytes": 34182,
+      "baseline_sha256": "4120177012a03eb0888f0fa1e33f435afe8c60d1b76958954aaeec3198b01eaf",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-native_execution_views.ads",
+      "sha256": "efa1b99092781a1d4c1718ba49fbe17bceca8c073964adc62b6e7a30db34fef0",
+      "bytes": 12171,
+      "baseline_sha256": "efa1b99092781a1d4c1718ba49fbe17bceca8c073964adc62b6e7a30db34fef0",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_archive.adb",
+      "sha256": "fae3b9fc0c32a76b8b36906d74b79c9ade27db401100220c58e7e8e5847110cd",
+      "bytes": 36248,
+      "baseline_sha256": "fae3b9fc0c32a76b8b36906d74b79c9ade27db401100220c58e7e8e5847110cd",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_archive.ads",
+      "sha256": "0ce7e425ee69401e6d9b448370ed7cb6a5c924f85a74bb643a49f8753150341c",
+      "bytes": 1201,
+      "baseline_sha256": "0ce7e425ee69401e6d9b448370ed7cb6a5c924f85a74bb643a49f8753150341c",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "sha256": "d7bd4abeba8290cdbcdddfc2b34326bedd044cb32daf613fed5e7986e0ad0fb8",
+      "bytes": 12249,
+      "baseline_sha256": "d7bd4abeba8290cdbcdddfc2b34326bedd044cb32daf613fed5e7986e0ad0fb8",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "sha256": "9d310f44ce762827736b9fa9a3806f88e5741c9d18e2e0bd864787c988754812",
+      "bytes": 15120,
+      "baseline_sha256": "9d310f44ce762827736b9fa9a3806f88e5741c9d18e2e0bd864787c988754812",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_authority_wire.adb",
+      "sha256": "88d5109daa858b359702f3125d6ba284b44e4973bc1d01a800ce7bfaf81d66d4",
+      "bytes": 2315,
+      "baseline_sha256": "88d5109daa858b359702f3125d6ba284b44e4973bc1d01a800ce7bfaf81d66d4",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_authority_wire.ads",
+      "sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab",
+      "bytes": 7272,
+      "baseline_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "sha256": "9d77a964a219639d3d80a2393c8e636e6bc3bbae18d35397673ab16b14022053",
+      "bytes": 48258,
+      "baseline_sha256": "9d77a964a219639d3d80a2393c8e636e6bc3bbae18d35397673ab16b14022053",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "sha256": "5aa4ab6019c530b68acb5084cc60c4ef7c7279f52797a35fd4505d620458d13a",
+      "bytes": 3305,
+      "baseline_sha256": "5aa4ab6019c530b68acb5084cc60c4ef7c7279f52797a35fd4505d620458d13a",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_result_view.adb",
+      "sha256": "7423de5fa9c9f5a3229e4c05aedd4cfb8f1edc1988607275ea0c8a06db47eb07",
+      "bytes": 2796,
+      "baseline_sha256": "7423de5fa9c9f5a3229e4c05aedd4cfb8f1edc1988607275ea0c8a06db47eb07",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-operation_result_view.ads",
+      "sha256": "6f6d5d9c40ae9cd50dd0654e8e6e632880cd896f8a3a18a26632c34cd39ac652",
+      "bytes": 716,
+      "baseline_sha256": "6f6d5d9c40ae9cd50dd0654e8e6e632880cd896f8a3a18a26632c34cd39ac652",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-resource_actor_execution.adb",
+      "sha256": "a8752cfb3456cfe107446a14a3104ec23c712e4d81d303d17d811a21ac6b9c6e",
+      "bytes": 5476,
+      "baseline_sha256": "a8752cfb3456cfe107446a14a3104ec23c712e4d81d303d17d811a21ac6b9c6e",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-resource_actor_execution.ads",
+      "sha256": "b6be7d9dbd37896930d0667c2c296044f53b7114abf20f03e708e18be5e78f88",
+      "bytes": 7248,
+      "baseline_sha256": "b6be7d9dbd37896930d0667c2c296044f53b7114abf20f03e708e18be5e78f88",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-resource_actor_execution_wire.ads",
+      "sha256": "1620caa88cd05fe723862e622cc984161be38beef7d236cb4cd69f5f641688cd",
+      "bytes": 3065,
+      "baseline_sha256": "1620caa88cd05fe723862e622cc984161be38beef7d236cb4cd69f5f641688cd",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-resource_child_execution.adb",
+      "sha256": "31cea96556291633eb7d4536b5d7dfa2b22b5c7019c17341c50ea7e956d180ec",
+      "bytes": 13382,
+      "baseline_sha256": "31cea96556291633eb7d4536b5d7dfa2b22b5c7019c17341c50ea7e956d180ec",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-resource_child_execution.ads",
+      "sha256": "2785d511fcc45adcb23903b55816aa6364a1171ad34c89840ff84250711ef427",
+      "bytes": 22970,
+      "baseline_sha256": "2785d511fcc45adcb23903b55816aa6364a1171ad34c89840ff84250711ef427",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-retained_evidence_replay.adb",
+      "sha256": "8dc0fadde47430b5a2333b65fdb5ef84978d667457ff4f27871d5dbb0a6e3abe",
+      "bytes": 294169,
+      "baseline_sha256": "8dc0fadde47430b5a2333b65fdb5ef84978d667457ff4f27871d5dbb0a6e3abe",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "core/worldline-retained_evidence_replay.ads",
+      "sha256": "9ac158a82f11f2dc5c20c10eb621a57189a44a928e049d3a2d9db65f15795c44",
+      "bytes": 8237,
+      "baseline_sha256": "9ac158a82f11f2dc5c20c10eb621a57189a44a928e049d3a2d9db65f15795c44",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "sha256": "8bc27d0d0b392b3afdc19a579774162ffb71c5d83a48873b9de3a47871790952",
+      "bytes": 6173,
+      "baseline_sha256": "8bc27d0d0b392b3afdc19a579774162ffb71c5d83a48873b9de3a47871790952",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "prepared-wire-controls/operation_effect_fixtures.adb",
+      "sha256": "2da9389433cb7aa1dcc9af55f17848a066a5a1165dc443403fcd5f346978854c",
+      "bytes": 5932,
+      "baseline_sha256": "2da9389433cb7aa1dcc9af55f17848a066a5a1165dc443403fcd5f346978854c",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "prepared-wire-controls/operation_effect_fixtures.ads",
+      "sha256": "c51af1e9aaa192096e3dd1c747f3b9d3333cf253de31c0d01bb81cf6c67557f3",
+      "bytes": 820,
+      "baseline_sha256": "c51af1e9aaa192096e3dd1c747f3b9d3333cf253de31c0d01bb81cf6c67557f3",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "sha256": "9d1c4c8c567c7a52d6dcd9582e0b36c2199d43ee2afd10623715e83931183935",
+      "bytes": 5536,
+      "baseline_sha256": "9d1c4c8c567c7a52d6dcd9582e0b36c2199d43ee2afd10623715e83931183935",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/canonical_exchange_kernel.py",
+      "sha256": "e0148f27abfa652d8594a87660fc996e1e402101593f348824cae6a08dd41c6f",
+      "bytes": 5291,
+      "baseline_sha256": "e0148f27abfa652d8594a87660fc996e1e402101593f348824cae6a08dd41c6f",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/canonical_full_broker.py",
+      "sha256": "d2c22befca06fe696681f74fe7e5d935108fbba467ddcca624be73ab5568c3c4",
+      "bytes": 17684,
+      "baseline_sha256": "d2c22befca06fe696681f74fe7e5d935108fbba467ddcca624be73ab5568c3c4",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/canonical_operation_chains.py",
+      "sha256": "e6b58f9af8d6f37673abf5dba014774a435fbbe4b35f31d10202661f618a509f",
+      "bytes": 19371,
+      "baseline_sha256": "e6b58f9af8d6f37673abf5dba014774a435fbbe4b35f31d10202661f618a509f",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/canonical_owner_completion_kernel.py",
+      "sha256": "0c3998337f998f1961f3573a3e0743dce750b5777d47bb8bb205d3a74faffa06",
+      "bytes": 3461,
+      "baseline_sha256": "0c3998337f998f1961f3573a3e0743dce750b5777d47bb8bb205d3a74faffa06",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/operation_authority_kernel.py",
+      "sha256": "fe5612fff70491260022f03a43cb8ed812ff60c0ca7846fc51e0c2a628b869f6",
+      "bytes": 11219,
+      "baseline_sha256": "fe5612fff70491260022f03a43cb8ed812ff60c0ca7846fc51e0c2a628b869f6",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/operation_owner_kernel.py",
+      "sha256": "f9142feb43e3d6fcf1a480d345008a9735d5413f2372e2ae11eb4d89d4d4e213",
+      "bytes": 5597,
+      "baseline_sha256": "f9142feb43e3d6fcf1a480d345008a9735d5413f2372e2ae11eb4d89d4d4e213",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/operation_result_relation.py",
+      "sha256": "fd4825d297edb533836bde8e0434c03e461057654b0e14285cedaff75b208e59",
+      "bytes": 2154,
+      "baseline_sha256": "fd4825d297edb533836bde8e0434c03e461057654b0e14285cedaff75b208e59",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    },
+    {
+      "path": "runtime/worldline/protected_operations.py",
+      "sha256": "65b29a992162605f9a0b7f91bca6edbef171b5c72de13a536117f1a7909e299a",
+      "bytes": 93998,
+      "baseline_sha256": "65b29a992162605f9a0b7f91bca6edbef171b5c72de13a536117f1a7909e299a",
+      "baseline_equal": true,
+      "baseline_read_exit": 0,
+      "baseline_read_stderr": null
+    }
+  ],
+  "qualified_calls": [
+    {
+      "path": "canonical-exchange-tests/canonical_exchange_controls.adb",
+      "line": 84,
+      "spelling": "X.Decide",
+      "resolved_package": "worldline.canonical_exchange",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "(X.Decide(Data,G,H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,P,Mode,"
+    },
+    {
+      "path": "canonical-exchange-tests/canonical_exchange_controls.adb",
+      "line": 130,
+      "spelling": "X.Decide",
+      "resolved_package": "worldline.canonical_exchange",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(X.Decide(Data,G,Owner_H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,"
+    },
+    {
+      "path": "canonical-exchange-tests/canonical_exchange_controls.adb",
+      "line": 134,
+      "spelling": "X.Decide",
+      "resolved_package": "worldline.canonical_exchange",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(X.Decide(Data,G,Owner_H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,"
+    },
+    {
+      "path": "canonical-exchange-tests/canonical_exchange_controls.adb",
+      "line": 137,
+      "spelling": "X.Decide",
+      "resolved_package": "worldline.canonical_exchange",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(X.Decide(Data,G,Owner_H,B,Zero,E,State,Rows,Native,Bound,I,Owner,Collapse,M,"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 91,
+      "spelling": "Y.Decide",
+      "resolved_package": "worldline.canonical_owner_completion",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "(Y.Decide(Data,Historical_G,Historical_H,B,Zero,Historical_E,State,Rows,"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 131,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Large,A.Authorize_Execution,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 167,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Execution_Ready);"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 168,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Large,A.Authorize_Execution,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 170,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 173,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 175,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Execution_Ready);"
+    },
+    {
+      "path": "canonical-owner-completion-tests/canonical_owner_completion_controls.adb",
+      "line": 177,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Authorize_Execution,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "core/worldline-c_api.adb",
+      "line": 7136,
+      "spelling": "Native.Operation_Decide",
+      "resolved_package": "worldline.native_execution_capture",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Result : constant V.Result := Native.Operation_Decide (Input_Pointers.To_Pointer (Input), Authority_Data_View, Authority_Grants_View, Authority_Uses_View, Authority_Receipts_View, Authority_Events_View);"
+    },
+    {
+      "path": "core/worldline-c_api.adb",
+      "line": 7413,
+      "spelling": "X.Decide",
+      "resolved_package": "worldline.canonical_exchange",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Answer : constant X.Decision := X.Decide(Data,G,H,W.W.Decode(O.Authority.Bound),"
+    },
+    {
+      "path": "core/worldline-c_api.adb",
+      "line": 7581,
+      "spelling": "Y.Decide",
+      "resolved_package": "worldline.canonical_owner_completion",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Answer : constant Y.Decision := Y.Decide(Data,G,H,"
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "line": 36,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "A.Decide(Data,G,H,B,Now,A.Settle_Use,E,Effect_Receipts,Effect_Events)"
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "line": 39,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "A.Decide(Data,G,H,B,Now,A.Replay_Use,E,Effect_Receipts,Effect_Events)=A.Settled_Replay"
+    },
+    {
+      "path": "core/worldline-canonical_operation.adb",
+      "line": 10,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "if A.Decide(Data,G,H,B,Now,A.Reserve_Use,E,Empty,Empty)/=A.Reserved_Replay then return Authority_Refused; end if;"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "line": 10,
+      "spelling": "X.Decide",
+      "resolved_package": "worldline.canonical_exchange",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Selected : constant X.Decision:=X.Decide(Data,HG,HH,HB,HNow,HE,"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "line": 35,
+      "spelling": "A.Chain_Effect",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "and then A.Chain_Effect(Data,B,E,Receipts,Events) then"
+    },
+    {
+      "path": "core/worldline-custody_v2_prepared.ads",
+      "line": 33,
+      "spelling": "O.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "O.Decide (Data, Grants, Before_Uses, Bound, Reserve_Now, O.Reserve_Use,"
+    },
+    {
+      "path": "core/worldline-custody_v2_prepared.ads",
+      "line": 35,
+      "spelling": "O.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "O.Decide (Data, Grants, Intent_Uses, Bound, Intent_Now, O.Reserve_Use,"
+    },
+    {
+      "path": "core/worldline-native_execution_capture.adb",
+      "line": 166,
+      "spelling": "V.Operation_Decide",
+      "resolved_package": "worldline.native_execution_views",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "return V.Operation_Decide (Authority, Authority_Data, Authority_Grants, Authority_Uses, Authority_Receipts, Authority_Events);"
+    },
+    {
+      "path": "core/worldline-native_execution_capture.ads",
+      "line": 111,
+      "spelling": "V.Operation_Decide",
+      "resolved_package": "worldline.native_execution_views",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Post => Operation_Decide'Result = V.Operation_Decide (Authority_View.all, Authority_Data_View.all, Authority_Grants_View.all, Authority_Uses_View.all, Authority_Receipts_View.all, Authority_Events_View.all);"
+    },
+    {
+      "path": "core/worldline-native_execution_views.adb",
+      "line": 178,
+      "spelling": "T.A.Reference",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "return (True, T.A.Decision'Pos (T.A.Reference (Authority_Data,"
+    },
+    {
+      "path": "core/worldline-native_execution_views.adb",
+      "line": 218,
+      "spelling": "T.A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "return (True, T.A.Decision'Pos (T.A.Decide (Authority_Data,"
+    },
+    {
+      "path": "core/worldline-operation_result_view.adb",
+      "line": 27,
+      "spelling": "M.Assess",
+      "resolved_package": "worldline.operation_result_relations",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "(M.Assess (Data, T.Decode (Raw.Bound), T.Decode (Data, Raw.Facts), R, E)));"
+    },
+    {
+      "path": "core/worldline-operation_result_view.adb",
+      "line": 51,
+      "spelling": "M.Assess",
+      "resolved_package": "worldline.operation_result_relations",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "(M.Assess (Data, T.Decode (Raw.Bound), T.Decode (Data, Raw.Facts), R, E)));"
+    },
+    {
+      "path": "core/worldline-resource_actor_execution.adb",
+      "line": 16,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "if A.Decide (Authority_Data, Grants, Uses, Original, Now,"
+    },
+    {
+      "path": "core/worldline-resource_actor_execution.adb",
+      "line": 55,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "if A.Decide (Authority_Data, Grants, Uses, Original, Now,"
+    },
+    {
+      "path": "core/worldline-resource_child_execution.adb",
+      "line": 13,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "if A.Decide (Authority_Data, Grants, Uses, Original, Now, A.Authorize_Execution, Evidence, Receipts, Events) /= A.Execution_Ready"
+    },
+    {
+      "path": "core/worldline-resource_child_execution.adb",
+      "line": 47,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "if A.Decide (Authority_Data, Grants, Uses, Original, Now, A.Authorize_Execution, Evidence, Receipts, Events) /= A.Execution_Ready"
+    },
+    {
+      "path": "core/worldline-resource_child_execution.ads",
+      "line": 182,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "and then A.Decide (Authority_Data, Grants, Uses, Original, Now, A.Authorize_Execution, Evidence, Receipts, Events) = A.Execution_Ready"
+    },
+    {
+      "path": "core/worldline-retained_evidence_replay.adb",
+      "line": 534,
+      "spelling": "V.Operation_Decide",
+      "resolved_package": "worldline.native_execution_views",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Native : constant V.Result := V.Operation_Decide (Authority, Arena, Copy_grants, Copy_uses, Copy_receipts, Copy_events);"
+    },
+    {
+      "path": "core/worldline-retained_evidence_replay.adb",
+      "line": 2656,
+      "spelling": "CEX.Decide",
+      "resolved_package": "worldline.canonical_exchange",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "return (True, CEX.Decision'Pos (CEX.Decide (Arena, Owned (Copy_grants), Owned (Copy_uses),"
+    },
+    {
+      "path": "core/worldline-retained_evidence_replay.adb",
+      "line": 2694,
+      "spelling": "H.Decide",
+      "resolved_package": "worldline.canonical_owner_completion",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "return (True, H.Decision'Pos (H.Decide (Arena, Owned (Copy_grants), Owned (Copy_uses),"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 40,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Reserved_New);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 42,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Reserved_Replay);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 44,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 47,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Release_Use,E,R_Empty,R_Empty)=A.Released_New);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 50,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 52,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 54,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Reserved_New);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 57,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 87,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Observe_Effect,E,Receipts,Events)=A.Effect_Accepted);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 89,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Limit,A.Settle_Use,E,Receipts,Events)=A.Settled_New);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 91,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Limit,A.Settle_Use,E,Receipts,Events)=A.Settled_Replay);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 93,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Limit,A.Settle_Use,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 102,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Observe_Effect,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/operation_authority_controls.adb",
+      "line": 106,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Resolve_Recovery,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 38,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Reserved_New);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 40,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Reserved_Replay);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 42,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 45,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Release_Use,E,R_Empty,R_Empty)=A.Released_New);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 68,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 70,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 72,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Reserved_New);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 75,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,Empty,B,Zero,A.Reserve_Use,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 82,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Observe_Effect,E,Receipts,Events)=A.Effect_Accepted);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 84,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Limit,A.Settle_Use,E,Receipts,Events)=A.Settled_New);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 86,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Limit,A.Settle_Use,E,Receipts,Events)=A.Settled_Replay);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 88,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Limit,A.Settle_Use,E,Receipts,Events)=A.Refused);"
+    },
+    {
+      "path": "prepared-wire-controls/prepared_operation_heads_controls.adb",
+      "line": 92,
+      "spelling": "A.Decide",
+      "resolved_package": "worldline.operation_authority",
+      "kind": "qualified source occurrence, including contract expressions",
+      "text": "Check(A.Decide(Data,G,H,B,Zero,A.Resolve_Recovery,E,R_Empty,R_Empty)=A.Refused);"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 76,
+      "spelling": "Operation_Result_Relations.Matches",
+      "resolved_package": "worldline.operation_result_relations",
+      "kind": "manual implicit Worldline child scope resolution",
+      "text": "and then Operation_Result_Relations.Matches (Data, B, E, Receipts, Events)"
+    }
+  ],
+  "internal_source_contract_occurrences": [
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 73,
+      "text": "function Chain_Effect (Data : Q.Byte_Array; B : Binding; E : Evidence;"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 76,
+      "text": "and then Operation_Result_Relations.Matches"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 91,
+      "text": "function Reservation_Decision"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 125,
+      "text": "end Reservation_Decision;"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 126,
+      "text": "function Reference (Data : Q.Byte_Array; G : Grants; H : Uses; B : Binding;"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 137,
+      "text": "if Mode=Reserve_Use then return Reservation_Decision (Data,G,H,B,Now); end if;"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 160,
+      "text": "Chain_Effect(Data,B,E,Receipts,Events)))"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 164,
+      "text": "return (if Followup_Reference(Data,G,H,B,E.Owner_Resolution,Now,E,"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 185,
+      "text": "return (if State=Reserved and then Chain_Effect(Data,B,E,Receipts,Events)"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 188,
+      "text": "return (if State in Effect_Observed | Settled and then Chain_Effect(Data,B,E,Receipts,Events)"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 203,
+      "text": "elsif Mode=Resolve_Effect and then Chain_Effect(Data,B,E,Receipts,Events)"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 206,
+      "text": "return (if State=Settled and then Chain_Effect(Data,B,E,Receipts,Events) then Settled_Replay"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 211,
+      "text": "end Reference;"
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "line": 216,
+      "text": "return Reference(Data,G,H,B,Now,Mode,E,Receipts,Events);"
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "line": 155,
+      "text": "function Reservation_Decision"
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "line": 158,
+      "text": "Post => Reservation_Decision'Result = Reservation_Reference (Data, G, H, B, Now);"
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "line": 175,
+      "text": "function Chain_Effect (Data : Q.Byte_Array; B : Binding; E : Evidence;"
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "line": 181,
+      "text": "function Followup_Reference (Data : Q.Byte_Array; G : Grants; H : Uses;"
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "line": 197,
+      "text": "and then Chain_Effect(Data,Original,E,Receipts,Events)"
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "line": 220,
+      "text": "function Reference (Data : Q.Byte_Array; G : Grants; H : Uses; B : Binding;"
+    },
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "line": 228,
+      "text": "Post => Decide'Result = Reference(Data,G,H,B,Now,Mode,E,Receipts,Events);"
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "line": 2,
+      "text": "function Reference(Data : A.Q.Byte_Array; G : A.Grants; H : A.Uses;"
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "line": 55,
+      "text": "end Reference;"
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "line": 63,
+      "text": "begin return Reference(Data,G,H,B,Now,E,State,Rows,Observed,Bound,Requester,Peer,"
+    },
+    {
+      "path": "core/worldline-canonical_exchange.ads",
+      "line": 151,
+      "text": "function Reference(Data : A.Q.Byte_Array; G : A.Grants; H : A.Uses;"
+    },
+    {
+      "path": "core/worldline-canonical_exchange.ads",
+      "line": 165,
+      "text": "Post=>Decide'Result=Reference(Data,G,H,B,Now,E,State,Rows,Observed,Bound,"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "line": 2,
+      "text": "function Reference(Data : A.Q.Byte_Array; HG : A.Grants; HH : A.Uses;"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "line": 35,
+      "text": "and then A.Chain_Effect(Data,B,E,Receipts,Events) then"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "line": 44,
+      "text": "end Reference;"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "line": 53,
+      "text": "begin return Reference(Data,HG,HH,HB,HNow,HE,HS,HR,HN,HBound,HRequester,HPeer,HCollapse,HM,HWR,HWE,HER,HEE,G,H,B,E,Receipts,Events); end Decide;"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.ads",
+      "line": 53,
+      "text": "function Reference(Data : A.Q.Byte_Array; HG : A.Grants; HH : A.Uses;"
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.ads",
+      "line": 69,
+      "text": "Post=>Decide'Result=Reference(Data,HG,HH,HB,HNow,HE,HS,HR,HN,HBound,HRequester,HPeer,HCollapse,HM,HWR,HWE,HER,HEE,G,H,B,E,Receipts,Events);"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 360,
+      "text": "function Capture_Source_Reference"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 436,
+      "text": "end Capture_Source_Reference;"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 439,
+      "text": "(Capture_Source_Reference (Data, Material)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 441,
+      "text": "function Capture_Matches"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 555,
+      "text": "function Result_Matches"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 627,
+      "text": "return Capture_Source_Reference (Data, Source)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 763,
+      "text": "function Payloads_Match"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 775,
+      "text": "or else not Capture_Matches (Data, Material, Bound)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 780,
+      "text": "if not Result_Matches (Data, Material, Bound) then return Transaction_Result_Refused; end if;"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 781,
+      "text": "if not Payloads_Match (Data, Material, Bound, Facts, Receipts, Events)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 798,
+      "text": "function Matches"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 801,
+      "text": "(Capture_Matches (Data, Facts.Effect_Material, Bound)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 802,
+      "text": "and then Result_Matches (Data, Facts.Effect_Material, Bound)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "line": 803,
+      "text": "and then Payloads_Match (Data, Facts.Effect_Material, Bound, Facts, Receipts, Events));"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 14,
+      "text": "function Capture_Source_Reference"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 40,
+      "text": "function Capture_Matches"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 43,
+      "text": "Post => Capture_Matches'Result = Capture_Reference (Data, Material, Bound);"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 44,
+      "text": "function Result_Matches"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 47,
+      "text": "Post => Result_Matches'Result = Result_Reference (Data, Material, Bound);"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 48,
+      "text": "function Payloads_Match"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 52,
+      "text": "Post => Payloads_Match'Result ="
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 54,
+      "text": "function Matches"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 58,
+      "text": "Post => Matches'Result ="
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 59,
+      "text": "(Capture_Matches (Data, Facts.Effect_Material, Bound)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 60,
+      "text": "and then Result_Matches (Data, Facts.Effect_Material, Bound)"
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "line": 61,
+      "text": "and then Payloads_Match"
+    }
+  ],
+  "contracts": [
+    {
+      "path": "core/worldline-operation_authority.ads",
+      "lines": [
+        170,
+        171,
+        172,
+        173,
+        175,
+        176,
+        197,
+        220,
+        224,
+        228
+      ],
+      "meaning": "Complete effect material for effect-claiming commands; full historical Chain_Effect; Decide exactly Reference."
+    },
+    {
+      "path": "core/worldline-operation_authority.adb",
+      "lines": [
+        73,
+        76,
+        160,
+        185,
+        188,
+        203,
+        206
+      ],
+      "meaning": "Chain_Effect unconditionally requires complete Matches. Reference requires it for effect observation, historical settle/replay, effect resolution and effect-state execution."
+    },
+    {
+      "path": "core/worldline-operation_result_relations.ads",
+      "lines": [
+        11,
+        12,
+        13,
+        37,
+        38,
+        39,
+        54,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "meaning": "Complete executable reference models and Matches conjunction; full raw capture, result and payload correspondence, not root-only."
+    },
+    {
+      "path": "core/worldline-operation_result_relations.adb",
+      "lines": [
+        360,
+        376,
+        437,
+        441,
+        798
+      ],
+      "meaning": "Capture source rejects invalid/absent archive; Capture_Matches delegates to complete reference; Matches full conjunction."
+    },
+    {
+      "path": "core/worldline-canonical_exchange.ads",
+      "lines": [
+        24,
+        25,
+        26,
+        27,
+        151,
+        158,
+        165
+      ],
+      "meaning": "Value semantics confer no custody. Independent producer authenticity remains mandatory; Decide equals full Reference."
+    },
+    {
+      "path": "core/worldline-canonical_exchange.adb",
+      "lines": [
+        31,
+        36,
+        39
+      ],
+      "meaning": "Historical effect settlement/replay routes to existing Operation_Authority.Decide."
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.adb",
+      "lines": [
+        10,
+        35
+      ],
+      "meaning": "Original historical owner selection followed by current complete Chain_Effect before effect completion."
+    },
+    {
+      "path": "core/worldline-native_execution_capture.ads",
+      "lines": [
+        103,
+        111
+      ],
+      "meaning": "Capture return exactly Native_Execution_Views.Operation_Decide on captured borrowed inputs."
+    },
+    {
+      "path": "core/worldline-native_execution_views.ads",
+      "lines": [
+        141,
+        149,
+        157
+      ],
+      "meaning": "Native operation transport decision exactly Operation_Expected; implementation references same authority model."
+    },
+    {
+      "path": "core/worldline-canonical_owner_completion.ads",
+      "lines": [
+        2,
+        3,
+        4,
+        53,
+        61,
+        69
+      ],
+      "meaning": "Separate authentic original histories/resource custody requirement; Decide exactly complete Reference."
+    }
+  ],
+  "scope_limits": [
+    "Tracked Ada .ads/.adb files only; filenames containing cosmogony excluded without semantic inspection. Python production routes enumerated explicitly.",
+    "Caller resolution is textual package-alias/source inspection, not compiler-generated whole-program reachability. Source include hierarchy and per-line aliases are retained in inspected files.",
+    "Earlier broad rg over the worktree returned exit 2 on generated fixture permission-denied directories. It is not used as complete caller coverage. The subsequent inventory uses git ls-files only.",
+    "No runtime failing positive assertion site was captured here. Generic historical Check helper failures do not establish which source assertion was reached first.",
+    "No new full proof, compile or runtime result; no product patch selected."
+  ],
+  "verdict": "No safe split satisfying unchanged fixtures AND unchanged existing complete public value semantics AND unchanged production full-material obligations identified. Extracting a pure helper without changing public semantics cannot repair these positives; routing them through a weaker public model changes the original guarantee/boundary.",
+  "alternatives": [
+    {
+      "option": "Factor a structural helper under unchanged Chain_Effect/Reference/Decide",
+      "preserves_original_public_semantics": true,
+      "fixes_unchanged_empty_material_positives": false,
+      "selected": false
+    },
+    {
+      "option": "Make existing public Decide/Reference structural and enforce Matches only in new native wrapper",
+      "preserves_original_public_semantics": false,
+      "production_requires_migrating_all_routes": true,
+      "selected": false
+    },
+    {
+      "option": "Branch on empty material/test identity or supply invented material",
+      "preserves_original_public_semantics": false,
+      "forbidden": "empty-material fallback / fixture special case / fabricated authority",
+      "selected": false
+    },
+    {
+      "option": "Alter positive fixtures to supply authentic complete material",
+      "selected": false,
+      "forbidden_in_current_assignment": "Original fixtures and accepted cases fixed; no authorization inferred from another fixture using material."
+    }
+  ],
+  "reviewer_verdict": "NOT PERFORMED by this preparer",
+  "authoring_note": "Ordinary preparation inventory amended before handoff to correct spec line anchors and add inherited package-spec identities. Prior ordinary draft SHA256 41d0813d983641bf641bd1e9c07cfe42e13a653a57bd70d815ffd72ebb6ac9ed. No run output altered."
+}

@@ -1,0 +1,45 @@
+{
+  "utc": "2026-10-14T22:56:25.649115+00:00",
+  "classification": "MEASURED D32 original full runtime preflight",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": [
+    "python3",
+    "-B",
+    "scratch/old-analysis/full_runtime_supervisor_v3.py",
+    "--out",
+    "scratch/old-analysis/full-runtime-v5",
+    "--suite",
+    "full",
+    "--scope-timeout",
+    "120m",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze-record",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json"
+  ],
+  "disk": {
+    "total": 686860591104,
+    "used": 581802553344,
+    "free": 98061938688
+  },
+  "owned_outputs": [
+    "scratch/old-analysis/full-runtime-v5"
+  ],
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "lib",
+    "obj",
+    "scratch/old-analysis/runtime-qualification-v5",
+    "scratch/acquisition/original-binary-controls-v5",
+    "scratch/acquisition2/original-additional-v5"
+  ],
+  "prerequisite_review": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer2/freeze5-runtime-qualification-actual-review-v1.json",
+  "prerequisite_review_sha256": "fa4ef58ac4ea896e11d8a2f42af2c4f7861d85d9aef8bbcf14c249ffc934806d",
+  "memory_admission": "Direct existing runtime supervisor owns shared flock/post-lock admission;8G/swap0 unchanged, no nested wrapper.",
+  "limits": "Original full discovery followed by separate original private-host discovery. Original parser,zero unexpected skip,audit,source andcleanup;120m outer unchanged. D35 conditional private-only never before actual same-source full terminal."
+}

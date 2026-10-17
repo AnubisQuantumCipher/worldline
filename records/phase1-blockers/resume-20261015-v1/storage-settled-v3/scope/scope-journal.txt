@@ -1,0 +1,14 @@
+Oct 15 01:42:01 83 systemd[1022]: Started [systemd-run] /usr/bin/python3 /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scripts/phase1_heavy.py --phase worker --timeout 15m --swap-max 0 --out /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/storage-settled-v3/scope -- bash -c "source /home/sicarii/opt/gnat/env.sh; exec python3 -B \"\$1\"" phase1-storage-settled /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/storage-settled-v3/backup_batch.py.
+Oct 15 01:42:02 83 sudo[3218210]:  sicarii : PWD=/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z ; USER=root ; COMMAND=/usr/local/libexec/project-vault-active-users --scan /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1
+Oct 15 01:42:02 83 sudo[3218210]: pam_unix(sudo:session): session opened for user root(uid=0) by sicarii(uid=1000)
+Oct 15 01:42:02 83 sudo[3218210]: pam_unix(sudo:session): session closed for user root
+Oct 15 01:42:22 83 sudo[3219691]:  sicarii : PWD=/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z ; USER=root ; COMMAND=/usr/local/libexec/project-vault-active-users --scan /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2
+Oct 15 01:42:22 83 sudo[3219691]: pam_unix(sudo:session): session opened for user root(uid=0) by sicarii(uid=1000)
+Oct 15 01:42:22 83 sudo[3219691]: pam_unix(sudo:session): session closed for user root
+Oct 15 01:42:42 83 sudo[3220948]:  sicarii : PWD=/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z ; USER=root ; COMMAND=/usr/local/libexec/project-vault-active-users --scan /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1
+Oct 15 01:42:42 83 sudo[3220948]: pam_unix(sudo:session): session opened for user root(uid=0) by sicarii(uid=1000)
+Oct 15 01:42:42 83 sudo[3220948]: pam_unix(sudo:session): session closed for user root
+Oct 15 01:43:07 83 sudo[3223114]:  sicarii : PWD=/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z ; USER=root ; COMMAND=/usr/local/libexec/project-vault-active-users --scan /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2
+Oct 15 01:43:07 83 sudo[3223114]: pam_unix(sudo:session): session opened for user root(uid=0) by sicarii(uid=1000)
+Oct 15 01:43:07 83 sudo[3223114]: pam_unix(sudo:session): session closed for user root
+Oct 15 01:43:31 83 systemd[1022]: wl-phase1-00c48570912541b6be4165bd7355ceac.scope: Consumed 36.642s CPU time over 1min 30.116s wall clock time, 640.2M memory peak.

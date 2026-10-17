@@ -1,0 +1,336 @@
+{
+  "classification": "TESTED finite actual sandbox qualification",
+  "controls": [
+    {
+      "utc": "2026-10-14T22:47:05.633403+00:00",
+      "mode": "normal",
+      "argv": [
+        "/usr/bin/bwrap",
+        "--die-with-parent",
+        "--new-session",
+        "--unshare-pid",
+        "--ro-bind",
+        "/",
+        "/",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/normal",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/normal",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/normal/temp",
+        "/tmp",
+        "--chdir",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+        "--fixture",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/normal",
+        "normal"
+      ],
+      "classification": "TESTED finite sandbox control",
+      "started_child": {
+        "pid": 1481138,
+        "starttime": "3177037",
+        "state": "R",
+        "ppid": 1481136,
+        "pgid": 1481138,
+        "session": 1481138,
+        "refusals": [],
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b7ef3c18b26e4366952fabbb650a1779.scope\n",
+        "pid_namespace": "pid:[4026531836]",
+        "mount_namespace": "mnt:[4026531832]"
+      },
+      "wait_exit_code": 0,
+      "ready": {
+        "utc": "2026-10-14T22:47:05.660360+00:00",
+        "mode": "normal",
+        "pid": 2,
+        "euid": 1000,
+        "pid_namespace": "pid:[4026532837]",
+        "mount_namespace": "mnt:[4026532836]",
+        "root_readonly": true,
+        "frame_readonly": true,
+        "own_output_readonly": false
+      },
+      "after": [],
+      "terminal_identity_observations": [
+        {
+          "pid": 1481138,
+          "starttime": "3177037",
+          "state": "ABSENT"
+        }
+      ],
+      "tracked_descendants_absent": true,
+      "child_reaped": true,
+      "readiness_observed": true,
+      "passed": true
+    },
+    {
+      "utc": "2026-10-14T22:47:05.684958+00:00",
+      "mode": "timeout",
+      "argv": [
+        "/usr/bin/bwrap",
+        "--die-with-parent",
+        "--new-session",
+        "--unshare-pid",
+        "--ro-bind",
+        "/",
+        "/",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/timeout",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/timeout",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/timeout/temp",
+        "/tmp",
+        "--chdir",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+        "--fixture",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/timeout",
+        "timeout"
+      ],
+      "classification": "TESTED finite sandbox control",
+      "started_child": {
+        "pid": 1481142,
+        "starttime": "3177042",
+        "state": "R",
+        "ppid": 1481136,
+        "pgid": 1481142,
+        "session": 1481142,
+        "refusals": [],
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b7ef3c18b26e4366952fabbb650a1779.scope\n",
+        "pid_namespace": "pid:[4026531836]",
+        "mount_namespace": "mnt:[4026531832]"
+      },
+      "expected_timeout_observed": true,
+      "wait_exit_code": -9,
+      "ready": {
+        "utc": "2026-10-14T22:47:05.711111+00:00",
+        "mode": "timeout",
+        "pid": 2,
+        "euid": 1000,
+        "pid_namespace": "pid:[4026532841]",
+        "mount_namespace": "mnt:[4026532837]",
+        "root_readonly": true,
+        "frame_readonly": true,
+        "own_output_readonly": false
+      },
+      "after": [],
+      "terminal_identity_observations": [
+        {
+          "pid": 1481142,
+          "starttime": "3177042",
+          "state": "ABSENT"
+        },
+        {
+          "pid": 1481144,
+          "starttime": "3177042",
+          "state": "ABSENT"
+        },
+        {
+          "pid": 1481142,
+          "starttime": "3177042",
+          "state": "ABSENT"
+        },
+        {
+          "pid": 1481143,
+          "starttime": "3177042",
+          "state": "ABSENT"
+        },
+        {
+          "pid": 1481144,
+          "starttime": "3177042",
+          "state": "ABSENT"
+        }
+      ],
+      "tracked_descendants_absent": true,
+      "child_reaped": true,
+      "readiness_observed": true,
+      "passed": true
+    },
+    {
+      "utc": "2026-10-14T22:47:06.789235+00:00",
+      "mode": "detached",
+      "argv": [
+        "/usr/bin/bwrap",
+        "--die-with-parent",
+        "--new-session",
+        "--unshare-pid",
+        "--ro-bind",
+        "/",
+        "/",
+        "--dev",
+        "/dev",
+        "--proc",
+        "/proc",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/detached",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/detached",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/detached/temp",
+        "/tmp",
+        "--chdir",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+        "--fixture",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/detached",
+        "detached"
+      ],
+      "classification": "TESTED finite sandbox control",
+      "started_child": {
+        "pid": 1481294,
+        "starttime": "3177152",
+        "state": "R",
+        "ppid": 1481136,
+        "pgid": 1481294,
+        "session": 1481294,
+        "refusals": [],
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b7ef3c18b26e4366952fabbb650a1779.scope\n",
+        "pid_namespace": "pid:[4026531836]",
+        "mount_namespace": "mnt:[4026531832]"
+      },
+      "expected_timeout_observed": true,
+      "wait_exit_code": -9,
+      "ready": {
+        "utc": "2026-10-14T22:47:06.817787+00:00",
+        "mode": "detached",
+        "pid": 2,
+        "euid": 1000,
+        "pid_namespace": "pid:[4026532837]",
+        "mount_namespace": "mnt:[4026532836]",
+        "root_readonly": true,
+        "frame_readonly": true,
+        "own_output_readonly": false
+      },
+      "after": [],
+      "terminal_identity_observations": [
+        {
+          "pid": 1481294,
+          "starttime": "3177152",
+          "state": "ABSENT"
+        },
+        {
+          "pid": 1481295,
+          "starttime": "3177152",
+          "state": "ABSENT"
+        },
+        {
+          "pid": 1481296,
+          "starttime": "3177152",
+          "state": "ABSENT"
+        },
+        {
+          "pid": 1481297,
+          "starttime": "3177155",
+          "state": "ABSENT"
+        }
+      ],
+      "tracked_descendants_absent": true,
+      "child_reaped": true,
+      "readiness_observed": true,
+      "passed": true
+    }
+  ],
+  "namespace": {
+    "utc": "2026-10-14T22:47:07.958438+00:00",
+    "classification": "TESTED disposable namespace premise only",
+    "exit_code": 0,
+    "facts": {
+      "namespace-premises-before.json": {
+        "utc": "2026-10-14T22:47:07.868181+00:00",
+        "uid": 1000,
+        "euid": 1000,
+        "uid_map": "      1000          0          1\n",
+        "namespaces": {
+          "user": "user:[4026532849]",
+          "mnt": "mnt:[4026532847]",
+          "pid": "pid:[4026532848]"
+        },
+        "first_st_dev": 64768,
+        "second_st_dev": 95,
+        "logical_dev_shm_st_dev": 95
+      },
+      "namespace-user-probe.json": {
+        "utc": "2026-10-14T22:47:07.890917+00:00",
+        "euid": 0,
+        "uid": 0,
+        "uid_map": "         0       1000          1\n",
+        "namespaces": {
+          "user": "user:[4026532837]",
+          "mnt": "mnt:[4026532847]",
+          "pid": "pid:[4026532848]"
+        }
+      },
+      "namespace-original-exec.json": {
+        "utc": "2026-10-14T22:47:07.901105+00:00",
+        "argv": [
+          "/usr/bin/env",
+          "WORLDLINE_TEMP_PHYSICAL_NAMESPACE=1",
+          "WORLDLINE_PHYSICAL_SECOND_TMP=/dev/shm",
+          "/usr/bin/unshare",
+          "--user",
+          "--map-root-user",
+          "/usr/bin/python3",
+          "-B",
+          "-c",
+          "import os; assert os.geteuid()==0; print(\"NAMESPACE_PREMISE_ONLY\")"
+        ],
+        "fixture_unchanged": true,
+        "protected_authority": "NOT PERFORMED"
+      },
+      "namespace-payload-result.json": {
+        "utc": "2026-10-14T22:47:07.917845+00:00",
+        "argv": [
+          "/usr/bin/env",
+          "WORLDLINE_TEMP_PHYSICAL_NAMESPACE=1",
+          "WORLDLINE_PHYSICAL_SECOND_TMP=/dev/shm",
+          "/usr/bin/unshare",
+          "--user",
+          "--map-root-user",
+          "/usr/bin/python3",
+          "-B",
+          "-c",
+          "import os; assert os.geteuid()==0; print(\"NAMESPACE_PREMISE_ONLY\")"
+        ],
+        "exit_code": 0,
+        "additional_deadline_expired": false,
+        "original_payload_timeout_seconds": 180
+      }
+    },
+    "stdout": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/namespace/stdout",
+      "sha256": "cf036e9e23d75969a7ff387d0680c76a525fe8c1e21022e877666bbf5fe2f441",
+      "bytes": 23,
+      "mode": 420,
+      "device": 64768,
+      "inode": 2097558
+    },
+    "stderr": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition/original-binary-sandbox-v5/namespace/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "mode": 420,
+      "device": 64768,
+      "inode": 2097559
+    },
+    "passed": true,
+    "non_claim": "No original syscall fixture or protected authority executed"
+  },
+  "passed": true,
+  "non_claims": [
+    "No original binary/native/actor/protected payload executed.",
+    "Observed finite cleanup does not prove arbitrary descendant semantics."
+  ]
+}

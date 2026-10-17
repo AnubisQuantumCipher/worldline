@@ -1,0 +1,125 @@
+{
+  "basis": "direct root Popen intent with exact typed manager ExecStart executable and argv equality",
+  "direct_intents": [
+    {
+      "argv": [
+        "/usr/bin/systemd-run",
+        "--user",
+        "--unit=worldline-73b797d9-a0f5-4845-a26a-160fbfa18a4f.service",
+        "--description=worldline-lab real supervision test",
+        "--collect",
+        "--pipe",
+        "--quiet",
+        "--service-type=exec",
+        "--property=KillMode=control-group",
+        "--property=SendSIGKILL=yes",
+        "--property=TimeoutStopSec=10s",
+        "--property=NoNewPrivileges=yes",
+        "--property=PrivateTmp=no",
+        "--property=UMask=0022",
+        "--",
+        "/usr/bin/sleep",
+        "30"
+      ],
+      "cwd": null,
+      "event": "subprocess.Popen",
+      "executable": "/usr/bin/systemd-run",
+      "intent": {
+        "exec_argv": [
+          "/usr/bin/sleep",
+          "30"
+        ],
+        "launch_form": "explicit separator",
+        "parser_scope": "exact supported original option grammar; unknown form unobserved",
+        "systemd_run_argv": [
+          "/usr/bin/systemd-run",
+          "--user",
+          "--unit=worldline-73b797d9-a0f5-4845-a26a-160fbfa18a4f.service",
+          "--description=worldline-lab real supervision test",
+          "--collect",
+          "--pipe",
+          "--quiet",
+          "--service-type=exec",
+          "--property=KillMode=control-group",
+          "--property=SendSIGKILL=yes",
+          "--property=TimeoutStopSec=10s",
+          "--property=NoNewPrivileges=yes",
+          "--property=PrivateTmp=no",
+          "--property=UMask=0022",
+          "--",
+          "/usr/bin/sleep",
+          "30"
+        ],
+        "unit": "worldline-73b797d9-a0f5-4845-a26a-160fbfa18a4f.service"
+      },
+      "monotonic_ns": 10678404652393,
+      "pid": 510273,
+      "receipt_path": "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/old-analysis/runtime-qualification-v6/attempt-0050fa054a654678855dfd5049ba0067/worker/qualification-audit/audit/popen.jsonl",
+      "scope": "top-level test process only; not child daemon instrumentation"
+    }
+  ],
+  "initially_absent": true,
+  "root": {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "--property=ControlGroup",
+      "--",
+      "-.slice"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "ControlGroup=/user.slice/user-1000.slice/user@1000.service\n"
+  },
+  "typed_manager": {
+    "ExecStart": {
+      "argv": [
+        "busctl",
+        "--user",
+        "--json=short",
+        "get-property",
+        "org.freedesktop.systemd1",
+        "/org/freedesktop/systemd1/unit/worldline_2d73b797d9_2da0f5_2d4845_2da26a_2d160fbfa18a4f_2eservice",
+        "org.freedesktop.systemd1.Service",
+        "ExecStart"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"type\":\"a(sasbttttuii)\",\"data\":[[\"/usr/bin/sleep\",[\"/usr/bin/sleep\",\"30\"],false,1792165422663881,10678408438,0,0,510277,0,0]]}\n"
+    },
+    "WorkingDirectory": {
+      "argv": [
+        "busctl",
+        "--user",
+        "--json=short",
+        "get-property",
+        "org.freedesktop.systemd1",
+        "/org/freedesktop/systemd1/unit/worldline_2d73b797d9_2da0f5_2d4845_2da26a_2d160fbfa18a4f_2eservice",
+        "org.freedesktop.systemd1.Service",
+        "WorkingDirectory"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"type\":\"s\",\"data\":\"!/home/sicarii\"}\n"
+    },
+    "lookup": {
+      "argv": [
+        "busctl",
+        "--user",
+        "--json=short",
+        "call",
+        "org.freedesktop.systemd1",
+        "/org/freedesktop/systemd1",
+        "org.freedesktop.systemd1.Manager",
+        "GetUnit",
+        "s",
+        "worldline-73b797d9-a0f5-4845-a26a-160fbfa18a4f.service"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"type\":\"o\",\"data\":[\"/org/freedesktop/systemd1/unit/worldline_2d73b797d9_2da0f5_2d4845_2da26a_2d160fbfa18a4f_2eservice\"]}\n"
+    }
+  },
+  "unit": "worldline-73b797d9-a0f5-4845-a26a-160fbfa18a4f.service"
+}

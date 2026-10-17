@@ -1,0 +1,169 @@
+{
+  "arms": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+        "--engine",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+        "--json",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408/verdict.json"
+      ],
+      "audit_mode": "plain",
+      "engine": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+      "exit_code": 1,
+      "name": "candidate",
+      "original_argv": [
+        "/usr/bin/python3",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+        "--engine",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+        "--json",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408/verdict.json"
+      ],
+      "output_sha256": "e4e23a4cedce97f414335caa0475ab4be822f4d4b36bfb5daf0e616bdd78511d",
+      "retention_adaptation": "Original temporary verdict is retained, never substituted or prepopulated",
+      "timeout": 900,
+      "verdict": {
+        "allHold": false,
+        "observedVulnerability": {
+          "fabricatedOutputAccepted": false,
+          "harnessOwnershipMarkers": [],
+          "trustedExaminerRan": true
+        },
+        "properties": [
+          {
+            "detail": "fabricated=False owned=[] ranAtAll=True status=PASS reason='None'",
+            "holds": true,
+            "name": "1 trusted runner executed"
+          },
+          {
+            "detail": "nonce=True forged=False",
+            "holds": true,
+            "name": "2 trusted verifier executed"
+          },
+          {
+            "detail": "helper line=['HELPER=TRUSTED-HELPER-8b1d4e60']",
+            "holds": true,
+            "name": "3 trusted declared dependencies used"
+          },
+          {
+            "detail": "line=['CANDIDATE_READABLE=True']",
+            "holds": true,
+            "name": "4 candidate accessible as the examined thing"
+          },
+          {
+            "detail": "markers=[] fabricated=False ranAtAll=True",
+            "holds": true,
+            "name": "5 candidate modules did not fabricate the record"
+          },
+          {
+            "detail": "integrity=VERIFIED execution=EVALUATOR_INCOMPLETE outcome=NONE admissible=False (legacy binding=BOUND)",
+            "holds": false,
+            "name": "6 the record separates integrity, execution and outcome"
+          }
+        ],
+        "ranAtAll": true,
+        "recordedStdout": "TRUSTED-EXAMINER-3f9a2c7e\nHELPER=TRUSTED-HELPER-8b1d4e60\nCANDIDATE_READABLE=True\n",
+        "schemaVersion": 1
+      },
+      "verdict_directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408",
+      "verdict_present": true,
+      "verdict_sha256": "1f9bc3436b3ab2b1c4c7f53aadff33141573c2c9feaff3fe7223b035904f3a38"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+        "--engine",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+        "--json",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-1vy_hkeb/verdict.json"
+      ],
+      "audit_mode": "plain",
+      "engine": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+      "exit_code": 1,
+      "name": "counterexample",
+      "original_argv": [
+        "/usr/bin/python3",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+        "--engine",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+        "--json",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-1vy_hkeb/verdict.json"
+      ],
+      "output_sha256": "a2a9d407fd7a706f91476fecb05484e124588dd65dc843f1b10313c9f670b6c7",
+      "retention_adaptation": "Original temporary verdict is retained, never substituted or prepopulated",
+      "timeout": 900,
+      "verdict": {
+        "allHold": false,
+        "observedVulnerability": {
+          "fabricatedOutputAccepted": true,
+          "harnessOwnershipMarkers": [
+            "HARNESS-OWNED-base64",
+            "HARNESS-OWNED-subprocess"
+          ],
+          "trustedExaminerRan": false
+        },
+        "properties": [
+          {
+            "detail": "fabricated=True owned=['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'] ranAtAll=True status=PASS reason='None'",
+            "holds": false,
+            "name": "1 trusted runner executed"
+          },
+          {
+            "detail": "nonce=False forged=False",
+            "holds": false,
+            "name": "2 trusted verifier executed"
+          },
+          {
+            "detail": "helper line=[]",
+            "holds": false,
+            "name": "3 trusted declared dependencies used"
+          },
+          {
+            "detail": "line=[]",
+            "holds": false,
+            "name": "4 candidate accessible as the examined thing"
+          },
+          {
+            "detail": "markers=['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'] fabricated=True ranAtAll=True",
+            "holds": false,
+            "name": "5 candidate modules did not fabricate the record"
+          },
+          {
+            "detail": "integrity=n/a execution=n/a outcome=n/a admissible=None (legacy binding=BOUND)",
+            "holds": false,
+            "name": "6 the record separates integrity, execution and outcome"
+          }
+        ],
+        "ranAtAll": true,
+        "recordedStdout": "FABRICATED-PASS\n",
+        "schemaVersion": 1
+      },
+      "verdict_directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-1vy_hkeb",
+      "verdict_present": true,
+      "verdict_sha256": "19c4a6cf7dbd1cd839cdcccb8eb0e7f9dea3742fb7b67dce406fd61e68fb7c8d"
+    }
+  ],
+  "audit_ok": true,
+  "candidate_holds": false,
+  "complete_roster": true,
+  "control_detected": [
+    true,
+    "fabricated output True, harness ownership ['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'], trusted examiner ran False"
+  ],
+  "exception": null,
+  "historical_collector_equivalence": "UNVERIFIED",
+  "independent_acceptance": "NOT PERFORMED",
+  "local_carrier_adaptation": true,
+  "ok": false,
+  "original_arm_roster": [
+    "candidate",
+    "counterexample"
+  ],
+  "original_main_exit": 1,
+  "predicate_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/evaluation_domain_gate.py",
+  "predicate_source_sha256": "734a7381e8e08a6ff71432f4c16251fc4ab4d57f032e924dc61119abfafeae5e",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac"
+}

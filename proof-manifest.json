@@ -27,7 +27,11 @@
       "Worldline.Evaluation.Roster_Complete",
       "Worldline.Evaluation.Transition_Allowed",
       "Worldline.Transitions.Advance",
-      "Worldline.Transitions.Transaction_Allowed"
+      "Worldline.Transitions.Transaction_Allowed",
+      "Worldline.Receipts.Append",
+      "Worldline.Receipts.Link",
+      "Worldline.Causal_Graph.Append",
+      "Worldline.Causal_Graph.Link"
     ],
     "subprograms": {
       "Attest": {
@@ -541,7 +545,7 @@
   },
   "library": {
     "path": "lib/libworldline_core.so",
-    "sha256": "c623e1a3989e464eb0acdce08a5334f8629ddc553bc64b40f4a81066779e3ae9"
+    "sha256": "7ed7ec7a175a90affa782a37969b8bf9738ef4049252235a224141ebf2a17721"
   },
   "options": [
     "-U",

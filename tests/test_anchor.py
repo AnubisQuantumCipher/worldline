@@ -30,7 +30,9 @@ class AnchorLedgerTests(unittest.TestCase):
             paths = _paths(root)
             export = root / "external"
             ledger = AnchorLedger(paths, export)
-            self.assertEqual(ledger.verify()["state"], "EMPTY")
+            empty = ledger.verify()
+            self.assertEqual(empty["state"], "KEY_UNPINNED")
+            self.assertEqual(empty["entries"], 0)
             first = ledger.append(action="collapse", receipt_id="WL:aaa", canonical=b'{"receipt":1}')
             second = ledger.append(action="return", receipt_id="WL:bbb", canonical=b'{"receipt":2}')
             self.assertEqual(first["seq"], 0)
@@ -46,7 +48,7 @@ class AnchorLedgerTests(unittest.TestCase):
             self.assertEqual(lines[1].split("\t")[7], hashlib.sha256(lines[0].encode()).hexdigest())
 
             report = ledger.verify(receipts_known=2)
-            self.assertEqual(report["state"], "OK")
+            self.assertEqual(report["state"], "KEY_UNPINNED")
             self.assertEqual(report["entries"], 2)
             self.assertEqual(report["unanchoredReceipts"], 0)
             self.assertEqual(report["external"]["state"], "MATCH")
@@ -72,7 +74,7 @@ class AnchorLedgerTests(unittest.TestCase):
             # Roll the local ledger back by one entry: the export still has both.
             ledger.ledger_path.write_text(lines[0] + "\n", encoding="utf-8")
             rolled = ledger.verify()
-            self.assertEqual(rolled["state"], "OK")
+            self.assertEqual(rolled["state"], "ROLLED_BACK")
             self.assertEqual(rolled["external"]["state"], "ROLLED_BACK")
             ledger.ledger_path.write_text(original, encoding="utf-8")
 

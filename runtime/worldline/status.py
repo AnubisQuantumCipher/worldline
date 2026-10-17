@@ -5,6 +5,7 @@ from typing import Any, Callable
 
 from . import SCHEMA_VERSION, __version__
 from .canonical import atomic_write_json
+from .engine_codes import CODE_SET_SHA256
 from .model import utc_now
 from .paths import WorldlinePaths
 from .store import StateStore
@@ -69,6 +70,7 @@ class StatusPublisher:
                 "state": daemon_state,
                 "pid": os.getpid(),
                 "version": __version__,
+                "codeSetSha256": CODE_SET_SHA256,
                 "socket": str(self.paths.socket),
                 "publishedAt": utc_now(),
             },

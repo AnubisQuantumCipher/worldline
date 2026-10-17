@@ -1,0 +1,202 @@
+Compile
+   [Ada]          worldline-producer_render.adb
+Warning: In library project "Worldline_Core"
+         Unit "Worldline.canonical_Operation" is not in the interface set
+         but it is needed by the spec of "Worldline.canonical_Exchange"
+         Unit "Worldline.archive_Base64" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.archive_Text" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.canonical_Operation_Wire" is not in the interface set
+         but it is needed by "Worldline.canonical_Exchange_Wire"
+         Unit "Worldline.scoped_Archive" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Evidence_Replay"
+         Unit "Attest.custody_Sha256" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Load_Input" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Raw_Next" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+         Unit "Worldline.custody_V2_Typed_Step" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Raw_Next"
+         Unit "Worldline.custody_V2_Archive_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.custody_V2_Empty_Seed" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.retained_Custody_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Empty_Seed"
+         Unit "Worldline.root_Custody_Archive_Join" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Custody_Chain"
+         Unit "Worldline.root_Custody_Row_Schema" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.root_Custody_Model" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Row_Schema"
+         Unit "Worldline.custody_V2_Fold_Rows" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Request_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Request_Abandon"
+         Unit "Worldline.root_Custody_Replay" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Abandon"
+         Unit "Worldline.root_Custody_Phase_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Replay"
+         Unit "Worldline.root_Custody_Context" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Phase_Values"
+         Unit "Worldline.custody_V2_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+Build Libraries
+   [gprlib]       worldline_core.lexch
+   [bind SAL]     worldline_core
+   [Ada]          b__worldline_core.adb
+   [link library] libworldline_core.so
+Bind
+   [gprbind]      worldline_core_tests.bexch
+   [gprbind]      worldline_core_fuzz.bexch
+   [Ada]          worldline_core_fuzz.ali
+   [Ada]          worldline_core_tests.ali
+Warning: In library project "Worldline_Core"
+         Unit "Worldline.canonical_Operation" is not in the interface set
+         but it is needed by the spec of "Worldline.canonical_Exchange"
+         Unit "Worldline.archive_Base64" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.archive_Text" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.canonical_Operation_Wire" is not in the interface set
+         but it is needed by "Worldline.canonical_Exchange_Wire"
+         Unit "Worldline.scoped_Archive" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Evidence_Replay"
+         Unit "Attest.custody_Sha256" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Load_Input" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Raw_Next" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+         Unit "Worldline.custody_V2_Typed_Step" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Raw_Next"
+         Unit "Worldline.custody_V2_Archive_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.custody_V2_Empty_Seed" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.retained_Custody_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Empty_Seed"
+         Unit "Worldline.root_Custody_Archive_Join" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Custody_Chain"
+         Unit "Worldline.root_Custody_Row_Schema" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.root_Custody_Model" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Row_Schema"
+         Unit "Worldline.custody_V2_Fold_Rows" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Request_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Request_Abandon"
+         Unit "Worldline.root_Custody_Replay" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Abandon"
+         Unit "Worldline.root_Custody_Phase_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Replay"
+         Unit "Worldline.root_Custody_Context" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Phase_Values"
+         Unit "Worldline.custody_V2_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+Link
+   [link]         worldline_core_tests.adb
+   [link]         worldline_core_fuzz.adb
+worldline_core_tests: PASS
+worldline_core_fuzz: PASS ( 41 authorized of 20000)
+Bind
+   [gprbind]      worldline_core_tests.bexch
+   [Ada]          worldline_core_tests.ali
+Link
+   [link]         worldline_core_tests.adb
+worldline_core_tests: PASS
+{"artifact": "/home/sicarii/.cache/workflow-tmp/worldline-semantic-smoke-amnk12j0/native-artifacts-before/libworldline_examiner_guard.so", "artifact_sha256": "3ace2ef313e57372a9167af408ab1264566363428951ac1a6d0d9449bf38c98a", "producer_argv": ["/usr/bin/python3", "-I", "-S", "-c", "import json; import _worldline_examiner_guard as guard; print(json.dumps(guard.status()[\"syscallPolicy\"], sort_keys=True))"], "producer_exit_code": 0, "library_sha256": "0e3f39f1571db4c962a92cf3e2f45583f884327db314b9ada347303a77d4ac00", "actual_bytes": 208, "expected_bytes": 208, "expected_matches_actual": true, "independent_kernel_program_observation": false, "phase1_acceptance": "NOT PERFORMED"}
+Bind
+   [gprbind]      filter_correspondence.bexch
+   [Ada]          filter_correspondence.ali
+Link
+   [link]         filter_correspondence.adb
+native program recognized: TRUE
+Bind
+   [gprbind]      decoded_text_smoke.bexch
+   [Ada]          decoded_text_smoke.ali
+Link
+   [link]         decoded_text_smoke.adb
+PASS decoded text extent 16777216
+Warning: In library project "Worldline_Core"
+         Unit "Worldline.canonical_Operation" is not in the interface set
+         but it is needed by the spec of "Worldline.canonical_Exchange"
+         Unit "Worldline.archive_Base64" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.archive_Text" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.canonical_Operation_Wire" is not in the interface set
+         but it is needed by "Worldline.canonical_Exchange_Wire"
+         Unit "Worldline.scoped_Archive" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Evidence_Replay"
+         Unit "Attest.custody_Sha256" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Load_Input" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Raw_Next" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+         Unit "Worldline.custody_V2_Typed_Step" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Raw_Next"
+         Unit "Worldline.custody_V2_Archive_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.custody_V2_Empty_Seed" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.retained_Custody_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Empty_Seed"
+         Unit "Worldline.root_Custody_Archive_Join" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Custody_Chain"
+         Unit "Worldline.root_Custody_Row_Schema" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.root_Custody_Model" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Row_Schema"
+         Unit "Worldline.custody_V2_Fold_Rows" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Request_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Request_Abandon"
+         Unit "Worldline.root_Custody_Replay" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Abandon"
+         Unit "Worldline.root_Custody_Phase_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Replay"
+         Unit "Worldline.root_Custody_Context" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Phase_Values"
+         Unit "Worldline.custody_V2_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+Bind
+   [gprbind]      semantic_smoke.bexch
+   [Ada]          semantic_smoke.ali
+Link
+   [link]         semantic_smoke.adb
+PASS valid-crlf
+PASS valid-crlf supervised
+PASS empty-leading-line
+PASS empty-leading-line supervised
+PASS other-manager
+PASS suffix-spoof
+PASS unit-not-text
+PASS boolean-reader
+PASS shifted archive at index upper bound
+PASS shifted archive mismatch
+PASS policy accepted baseline
+PASS policy traversal refusal
+PASS JSON quote vector
+PASS JSON quote vector
+PASS JSON quote vector
+PASS JSON quote vector
+PASS JSON quote vector
+PASS nested Python repr vector
+PASS nested Python repr vector
+PASS nested Python repr vector
+Bind
+   [gprbind]      representation_oracle.bexch
+   [Ada]          representation_oracle.ali
+Link
+   [link]         representation_oracle.adb
+{"exit_code": 0, "elapsed_seconds": 9.273755023998092, "cases": 519, "output_lines": 519, "failures": []}

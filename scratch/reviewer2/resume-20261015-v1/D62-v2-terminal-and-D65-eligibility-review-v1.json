@@ -1,0 +1,1841 @@
+{
+  "utc": "2026-10-15T05:36:45.518952+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "D62 FAILED-OPEN interrupted complete candidate proof; CONCUR D65 finite both-mains eligibility after logged choice/verdict and fresh admission",
+  "evidence_sha256": {
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/parent/result.json": "6a6df7f5208382cd71f0dc733a39278169671eb818dcda475b86656b9e7db542",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/results/build.result.json": "e20e60cd267ecd79ce3ea00202eaafe21ad21a6d0c08113a785bbcd4b38ff0a5",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/results/launch.json": "77df08f3b688590464d0e3e36f30b4fe1882032e77731b1c7b7fb26775a57263",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/results/events.jsonl": "71082020ed3edd11729c8b9161585edaa7032ba2c4d355a1232721cfc8193bb3",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/results/proof.stdout": "69a3389efb77199c9dd6f5aaf376dbcced2e7ef1d4edbca98643c88cb7d3578d",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/results/proof.stderr": "148d13fcb3c03d943e1d8d6b15489daef1be75619297ccee2db497529bb8d698",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/worker-result.json": "3b3fe69eef4af498c301595fe4fe9ae71a8bbcaa5737ef7eaa0a1dbc64bdbf8b",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/result.jsonl": "90f3b32b8866a418963f86dc44b022337fca534be766c558427b8c2cccd9a0db",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/cgroup.jsonl": "606ef71f178162e80d3d5dc33ad388b8b9369a5d2a251627a25a7c485411dfb8",
+    "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/terminal-scope.jsonl": "99d293b0a7d899f3fcf82689d55e1ad36beeececb0135403f5aa141fc106bcc7"
+  },
+  "actual_D62": {
+    "build_exit": 0,
+    "scope_worker_exit": 124,
+    "scope_exit": 124,
+    "parent_heavy_exit": 124,
+    "native_proof_exit": null,
+    "aggregate_proof_counts": null,
+    "driver_result_present": false,
+    "proof_result_present": false,
+    "complete_report_present": false,
+    "runtime_attempted": false,
+    "runtime_result": null,
+    "configured_scope": "Full -U/all/level3/checkserrors/proofwarnings/solver60/mem1024/j2/currentD56/fullprivateprebuilt; no selected body reduction",
+    "candidate_private_tracked_maps_unchanged": true,
+    "current_candidate_private_tools_hashes_match": true,
+    "live_memory_max": "8589934592",
+    "live_swap_max": "0",
+    "live_peak": "2769018880",
+    "recorded_memory_events": "all counters0",
+    "terminal_populated": false,
+    "terminal_UTC": "2026-10-15T05:35:25.335217+00:00",
+    "parent_ended_UTC": "2026-10-15T05:35:25.998321+00:00",
+    "cleanup": "knownowned inactive/notfound; terminal infinity not livecap; no global sibling census or OOM inference"
+  },
+  "partial_unit_evidence": {
+    "exact_decimal.spark": {
+      "sha256": "38eeb976c71d6f7cb8b26541ba2f65af67a5c515dfd98a01dd94b602bec4a7a5",
+      "non_info_rows": [
+        {
+          "file": "exact_decimal.ads",
+          "line": 52,
+          "col": 19,
+          "severity": "medium",
+          "rule": "VC_POSTCONDITION",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "postcondition might fail, cannot prove Parse'Result.Mantissa_After <= Parse'Result.After"
+          }
+        },
+        {
+          "file": "exact_decimal.adb",
+          "line": 190,
+          "col": 13,
+          "severity": "medium",
+          "rule": "VC_LOOP_INVARIANT_PRESERV",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "loop invariant might not be preserved by an arbitrary iteration"
+          }
+        },
+        {
+          "file": "exact_decimal.ads",
+          "line": 80,
+          "col": 10,
+          "severity": "medium",
+          "rule": "VC_POSTCONDITION",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "postcondition might fail, cannot prove Power'Result = Power_Model (To_Big_Integer (Base), Exponent)"
+          }
+        }
+      ],
+      "pragma_assume": [],
+      "skip_proof": [],
+      "skip_flow_proof": [],
+      "stop_reason": "STOP_REASON_NONE",
+      "entities": {
+        " 1": {
+          "name": "Exact_Decimal.Digit",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 21
+            }
+          ]
+        },
+        " 10": {
+          "name": "Exact_Decimal.Power_Model",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 70
+            }
+          ]
+        },
+        " 11": {
+          "name": "Exact_Decimal",
+          "sloc": [
+            {
+              "column": 9,
+              "file": "exact_decimal.ads",
+              "line": 6
+            }
+          ]
+        },
+        " 12": {
+          "name": "Exact_Decimal.Count_Conversions",
+          "sloc": [
+            {
+              "column": 12,
+              "file": "exact_decimal.adb",
+              "line": 2
+            }
+          ]
+        },
+        " 13": {
+          "name": "Exact_Decimal.Count_Conversions.To_Big_Integer",
+          "sloc": [
+            {
+              "column": 16,
+              "file": "a-nbnbin.ads",
+              "line": 82
+            },
+            {
+              "column": 4,
+              "file": "exact_decimal.adb",
+              "line": 2
+            }
+          ]
+        },
+        " 14": {
+          "name": "Exact_Decimal.Count_Conversions.From_Big_Integer",
+          "sloc": [
+            {
+              "column": 16,
+              "file": "a-nbnbin.ads",
+              "line": 85
+            },
+            {
+              "column": 4,
+              "file": "exact_decimal.adb",
+              "line": 2
+            }
+          ]
+        },
+        " 15": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"+\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 135
+            }
+          ]
+        },
+        " 16": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"/\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 144
+            }
+          ]
+        },
+        " 17": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\">\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 45
+            }
+          ]
+        },
+        " 18": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\">=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 47
+            }
+          ]
+        },
+        " 19": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.To_Big_Integer",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 49
+            }
+          ]
+        },
+        " 2": {
+          "name": "Exact_Decimal.Byte_At",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.adb",
+              "line": 5
+            }
+          ]
+        },
+        " 20": {
+          "name": "Evaluation_Pending.Valid",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_pending.ads",
+              "line": 48
+            }
+          ]
+        },
+        " 21": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"*\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 141
+            }
+          ]
+        },
+        " 22": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 39
+            }
+          ]
+        },
+        " 23": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"-\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 129
+            }
+          ]
+        },
+        " 24": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"**\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 153
+            }
+          ]
+        },
+        " 25": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"mod\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 147
+            }
+          ]
+        },
+        " 3": {
+          "name": "Exact_Decimal.Parse",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 46
+            }
+          ]
+        },
+        " 4": {
+          "name": "Exact_Decimal.Digit_Fold",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 25
+            }
+          ]
+        },
+        " 5": {
+          "name": "Exact_Decimal.Digit_Count",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 39
+            }
+          ]
+        },
+        " 6": {
+          "name": "Exact_Decimal.Fraction_Digits",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 30
+            }
+          ]
+        },
+        " 7": {
+          "name": "Exact_Decimal.Power",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 77
+            }
+          ]
+        },
+        " 8": {
+          "name": "Exact_Decimal.Parse.Accumulate",
+          "sloc": [
+            {
+              "column": 17,
+              "file": "exact_decimal.adb",
+              "line": 88
+            }
+          ]
+        },
+        " 9": {
+          "name": "Exact_Decimal.Exponent_Value",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "exact_decimal.ads",
+              "line": 35
+            }
+          ]
+        }
+      }
+    },
+    "worldline.spark": {
+      "sha256": "eb97ffc69d6a3ecd3fcf04268342c21cb6bdabf626a43adcd2f789380c74dd11",
+      "non_info_rows": [],
+      "pragma_assume": [],
+      "skip_proof": [],
+      "skip_flow_proof": [],
+      "stop_reason": "STOP_REASON_NONE",
+      "entities": {
+        " 1": {
+          "name": "Worldline.Hash_Eq",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline.ads",
+              "line": 13
+            }
+          ]
+        },
+        " 2": {
+          "name": "Worldline",
+          "sloc": [
+            {
+              "column": 9,
+              "file": "worldline.ads",
+              "line": 3
+            }
+          ]
+        }
+      }
+    },
+    "resource_quantities.spark": {
+      "sha256": "c0a5504f28ca4613c474a608765deeead1b9ad106d71d659112012cf69807764",
+      "non_info_rows": [],
+      "pragma_assume": [],
+      "skip_proof": [],
+      "skip_flow_proof": [],
+      "stop_reason": "STOP_REASON_NONE",
+      "entities": {
+        " 1": {
+          "name": "Resource_Quantities.Span_Valid",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 25
+            }
+          ]
+        },
+        " 10": {
+          "name": "Resource_Quantities.Prefix_Value",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 80
+            }
+          ]
+        },
+        " 11": {
+          "name": "Resource_Quantities.Prefix_Reference",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 47
+            }
+          ]
+        },
+        " 12": {
+          "name": "Resource_Quantities.Prefix_Value_Checked",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.adb",
+              "line": 290
+            }
+          ]
+        },
+        " 13": {
+          "name": "Resource_Quantities.Higher_Column_Order",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 66
+            }
+          ]
+        },
+        " 14": {
+          "name": "Resource_Quantities.Is_Zero",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 106
+            }
+          ]
+        },
+        " 15": {
+          "name": "Resource_Quantities.Digit",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 30
+            }
+          ]
+        },
+        " 16": {
+          "name": "Resource_Quantities.Column_Bounds",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 41
+            }
+          ]
+        },
+        " 17": {
+          "name": "Resource_Quantities.Power_Reference",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 40
+            }
+          ]
+        },
+        " 18": {
+          "name": "Resource_Quantities.Radix_Power_Recurrence",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 142
+            }
+          ]
+        },
+        " 19": {
+          "name": "Resource_Quantities.Compare",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 115
+            }
+          ]
+        },
+        " 2": {
+          "name": "Resource_Quantities.Prefix_Monotone",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 370
+            }
+          ]
+        },
+        " 20": {
+          "name": "Resource_Quantities.Prefix_Padding",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 389
+            }
+          ]
+        },
+        " 21": {
+          "name": "Resource_Quantities.Borrow_Column_Facts",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 409
+            }
+          ]
+        },
+        " 22": {
+          "name": "Resource_Quantities.Value",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 100
+            }
+          ]
+        },
+        " 23": {
+          "name": "Resource_Quantities.Prefix_Bounds",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 341
+            }
+          ]
+        },
+        " 24": {
+          "name": "Resource_Quantities.Radix_Power_Checked",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.adb",
+              "line": 170
+            }
+          ]
+        },
+        " 25": {
+          "name": "Resource_Quantities.Prefix_Value_Recurrence",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "resource_quantities.adb",
+              "line": 253
+            }
+          ]
+        },
+        " 26": {
+          "name": "Resource_Quantities",
+          "sloc": [
+            {
+              "column": 9,
+              "file": "resource_quantities.ads",
+              "line": 4
+            }
+          ]
+        },
+        " 27": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"*\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 141
+            }
+          ]
+        },
+        " 28": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"+\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 135
+            }
+          ]
+        },
+        " 29": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 39
+            }
+          ]
+        },
+        " 3": {
+          "name": "Resource_Quantities.Magnitude",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 93
+            }
+          ]
+        },
+        " 30": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\">=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 47
+            }
+          ]
+        },
+        " 31": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.From_String",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 118
+            }
+          ]
+        },
+        " 32": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.To_Big_Integer",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 49
+            }
+          ]
+        },
+        " 33": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"-\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 129
+            }
+          ]
+        },
+        " 34": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"-\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 138
+            }
+          ]
+        },
+        " 35": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"<\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 41
+            }
+          ]
+        },
+        " 36": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\">\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 45
+            }
+          ]
+        },
+        " 37": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"<=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 43
+            }
+          ]
+        },
+        " 4": {
+          "name": "Resource_Quantities.Capacity_Fits",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 129
+            }
+          ]
+        },
+        " 5": {
+          "name": "Resource_Quantities.Is_Negative",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 110
+            }
+          ]
+        },
+        " 6": {
+          "name": "Resource_Quantities.Radix_Power",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 70
+            }
+          ]
+        },
+        " 7": {
+          "name": "Resource_Quantities.Radix_Power_Worker",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.adb",
+              "line": 97
+            }
+          ]
+        },
+        " 8": {
+          "name": "Resource_Quantities.Prefix_Value_Worker",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.adb",
+              "line": 195
+            }
+          ]
+        },
+        " 9": {
+          "name": "Resource_Quantities.Scale_Column",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.adb",
+              "line": 15
+            }
+          ]
+        }
+      }
+    },
+    "worldline-producer_render.spark": {
+      "sha256": "18af02661ff748d77a81599e6350e9e516575b1a3079107a0154b192fa4ec36d",
+      "non_info_rows": [
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 34,
+          "col": 23,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Piece & Escape_JSON (Text, I + 1)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 31,
+          "col": 54,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"\\u00\" & Hex_Image (Character'Pos (C), 2)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 38,
+          "col": 11,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for '\"' & Escape_JSON (Text, 0)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 38,
+          "col": 35,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for '\"' & Escape_JSON (Text, 0) & '\"'"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 63,
+          "col": 23,
+          "severity": "medium",
+          "rule": "VC_OVERFLOW_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "overflow check might fail, cannot prove upper bound for Code * 64"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 78,
+          "col": 23,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Piece & Escape_Repr (Text, I + Width, Mark)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 73,
+          "col": 40,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"\\x\" & Hex_Image (Code, 2)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 74,
+          "col": 46,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"\\u\" & Hex_Image (Code, 4)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 75,
+          "col": 26,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"\\U\" & Hex_Image (Code, 8)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 76,
+          "col": 57,
+          "severity": "medium",
+          "rule": "VC_OVERFLOW_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "overflow check might fail, cannot prove upper bound for Text'First + I + Width"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 109,
+          "col": 25,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Mark & Escape_Repr (Text, 0, Mark)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 109,
+          "col": 55,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Mark & Escape_Repr (Text, 0, Mark) & Mark"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 116,
+          "col": 43,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"[\" & Sequence (Value, 0, False)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 116,
+          "col": 72,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"[\" & Sequence (Value, 0, False) & \"]\""
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 117,
+          "col": 44,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"{\" & Sequence (Value, 0, True)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 117,
+          "col": 72,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for \"{\" & Sequence (Value, 0, True) & \"}\""
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 119,
+          "col": 33,
+          "severity": "warning",
+          "rule": "VC_DEAD_CODE",
+          "unproved_status": {
+            "status": "unknown"
+          },
+          "message": {
+            "text": "unreachable code"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 83,
+          "col": 62,
+          "severity": "medium",
+          "rule": "VC_OVERFLOW_CHECK",
+          "unproved_status": {
+            "memory": true,
+            "status": "limit",
+            "steps": false,
+            "time": false
+          },
+          "message": {
+            "text": "overflow check might fail, cannot prove upper bound for V.Count (Value) + 1"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 94,
+          "col": 20,
+          "severity": "medium",
+          "rule": "VC_SUBPROGRAM_VARIANT",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "subprogram variant might fail"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 94,
+          "col": 49,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \""
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 95,
+          "col": 15,
+          "severity": "medium",
+          "rule": "VC_SUBPROGRAM_VARIANT",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "subprogram variant might fail"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 94,
+          "col": 56,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \" & Python_Repr (V.Field (Value, Name))"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 95,
+          "col": 51,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \" & Python_Repr (V.Field (Value, Name)) & (if I + 1 < V.Count (Value) then \", \" else \"\")"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 96,
+          "col": 62,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Quote (Name)) & \": \" & Python_Repr (V.Field (Value, Name)) & (if I + 1 < V.Count (Value) then \", \" else \"\") & Sequence (Value, I + 1, True)"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 99,
+          "col": 14,
+          "severity": "medium",
+          "rule": "VC_SUBPROGRAM_VARIANT",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "subprogram variant might fail"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 99,
+          "col": 49,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Element (Value, I)) & (if I + 1 < V.Count (Value) then \", \" else \"\")"
+          }
+        },
+        {
+          "file": "worldline-producer_render.adb",
+          "line": 100,
+          "col": 56,
+          "severity": "low",
+          "rule": "VC_RANGE_CHECK",
+          "unproved_status": {
+            "memory": false,
+            "status": "limit",
+            "steps": false,
+            "time": true
+          },
+          "message": {
+            "text": "range check might fail, cannot prove upper bound for Python_Repr (V.Element (Value, I)) & (if I + 1 < V.Count (Value) then \", \" else \"\") & Sequence (Value, I + 1, False)"
+          }
+        }
+      ],
+      "pragma_assume": [],
+      "skip_proof": [],
+      "skip_flow_proof": [],
+      "stop_reason": "STOP_REASON_NONE",
+      "entities": {
+        " 1": {
+          "name": "Worldline.Producer_Render.Sequence",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.adb",
+              "line": 84
+            }
+          ]
+        },
+        " 10": {
+          "name": "Worldline.Producer_Values.Kind",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_values.ads",
+              "line": 73
+            }
+          ]
+        },
+        " 11": {
+          "name": "Worldline.Producer_Values.Text",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_values.ads",
+              "line": 72
+            }
+          ]
+        },
+        " 2": {
+          "name": "Worldline.Producer_Render.Hex_Image",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.adb",
+              "line": 7
+            }
+          ]
+        },
+        " 3": {
+          "name": "Worldline.Producer_Render.Escape_JSON",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.adb",
+              "line": 17
+            }
+          ]
+        },
+        " 4": {
+          "name": "Worldline.Producer_Render.Python_Repr",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.adb",
+              "line": 81
+            }
+          ]
+        },
+        " 5": {
+          "name": "Worldline.Producer_Render.Quote",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.ads",
+              "line": 2
+            }
+          ]
+        },
+        " 6": {
+          "name": "Worldline.Producer_Render.Delimiter",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.adb",
+              "line": 39
+            }
+          ]
+        },
+        " 7": {
+          "name": "Worldline.Producer_Render.Python_String",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.ads",
+              "line": 3
+            }
+          ]
+        },
+        " 8": {
+          "name": "Worldline.Producer_Render.Escape_Repr",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "worldline-producer_render.adb",
+              "line": 49
+            }
+          ]
+        },
+        " 9": {
+          "name": "Worldline.Producer_Render",
+          "sloc": [
+            {
+              "column": 19,
+              "file": "worldline-producer_render.ads",
+              "line": 1
+            }
+          ]
+        }
+      }
+    },
+    "evaluation_epoch.spark": {
+      "sha256": "f74d3aa88892ef63ce5ce35fc47ce0cdf752fc1987e10e317671e4b8a1996902",
+      "non_info_rows": [],
+      "pragma_assume": [],
+      "skip_proof": [],
+      "skip_flow_proof": [],
+      "stop_reason": "STOP_REASON_NONE",
+      "entities": {
+        " 1": {
+          "name": "Evaluation_Epoch.Column_Division",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 437
+            }
+          ]
+        },
+        " 10": {
+          "name": "Evaluation_Epoch.Column_Bounds",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 36
+            }
+          ]
+        },
+        " 11": {
+          "name": "Evaluation_Epoch.Unsigned_Value",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 413
+            }
+          ]
+        },
+        " 12": {
+          "name": "Evaluation_Epoch.Prefix_Step",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 67
+            }
+          ]
+        },
+        " 13": {
+          "name": "Evaluation_Epoch.Increment_Modulus",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 486
+            }
+          ]
+        },
+        " 14": {
+          "name": "Evaluation_Epoch.Prefix_Tail",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_epoch.adb",
+              "line": 162
+            }
+          ]
+        },
+        " 15": {
+          "name": "Evaluation_Epoch.Power_Factor",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_epoch.adb",
+              "line": 141
+            }
+          ]
+        },
+        " 16": {
+          "name": "Evaluation_Epoch.Scale_Column",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_epoch.adb",
+              "line": 14
+            }
+          ]
+        },
+        " 17": {
+          "name": "Evaluation_Epoch.Is_Successor",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_epoch.ads",
+              "line": 16
+            }
+          ]
+        },
+        " 18": {
+          "name": "Evaluation_Epoch.Distinct_Columns",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 221
+            }
+          ]
+        },
+        " 19": {
+          "name": "Evaluation_Epoch.Nonnegative_Valid",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_epoch.adb",
+              "line": 2
+            }
+          ]
+        },
+        " 2": {
+          "name": "Evaluation_Epoch.Prefix_Modulus",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 361
+            }
+          ]
+        },
+        " 20": {
+          "name": "Evaluation_Epoch.Equal_Prefix_Reference",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 557
+            }
+          ]
+        },
+        " 21": {
+          "name": "Evaluation_Epoch.Matching_Column",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 453
+            }
+          ]
+        },
+        " 22": {
+          "name": "Evaluation_Epoch.Positive_Multiple",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 196
+            }
+          ]
+        },
+        " 23": {
+          "name": "Evaluation_Epoch.Carry_Input",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_epoch.adb",
+              "line": 428
+            }
+          ]
+        },
+        " 24": {
+          "name": "Evaluation_Epoch.Quotient_Above_Contradiction",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 305
+            }
+          ]
+        },
+        " 25": {
+          "name": "Evaluation_Epoch",
+          "sloc": [
+            {
+              "column": 9,
+              "file": "evaluation_epoch.ads",
+              "line": 4
+            }
+          ]
+        },
+        " 26": {
+          "name": "Resource_Quantities.Prefix_Value",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 80
+            }
+          ]
+        },
+        " 27": {
+          "name": "Resource_Quantities.Radix_Power",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 70
+            }
+          ]
+        },
+        " 28": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"*\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 141
+            }
+          ]
+        },
+        " 29": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"+\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 135
+            }
+          ]
+        },
+        " 3": {
+          "name": "Evaluation_Epoch.Mismatching_Column",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 500
+            }
+          ]
+        },
+        " 30": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 39
+            }
+          ]
+        },
+        " 31": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.From_String",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 118
+            }
+          ]
+        },
+        " 32": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.To_Big_Integer",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 49
+            }
+          ]
+        },
+        " 33": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"-\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 138
+            }
+          ]
+        },
+        " 34": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"<\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 41
+            }
+          ]
+        },
+        " 35": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\">\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 45
+            }
+          ]
+        },
+        " 36": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\">=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 47
+            }
+          ]
+        },
+        " 37": {
+          "name": "Resource_Quantities.Digit",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 30
+            }
+          ]
+        },
+        " 38": {
+          "name": "Resource_Quantities.Power_Reference",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 40
+            }
+          ]
+        },
+        " 39": {
+          "name": "Resource_Quantities.Prefix_Reference",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 47
+            }
+          ]
+        },
+        " 4": {
+          "name": "Evaluation_Epoch.Prefix_Bounds",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 99
+            }
+          ]
+        },
+        " 40": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"mod\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 147
+            }
+          ]
+        },
+        " 41": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"/\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 144
+            }
+          ]
+        },
+        " 42": {
+          "name": "Ada.Numerics.Big_Numbers.Big_Integers.\"<=\"",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "a-nbnbin.ads",
+              "line": 43
+            }
+          ]
+        },
+        " 43": {
+          "name": "Resource_Quantities.Compare",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 115
+            }
+          ]
+        },
+        " 44": {
+          "name": "Resource_Quantities.Magnitude",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 93
+            }
+          ]
+        },
+        " 45": {
+          "name": "Resource_Quantities.Value",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 100
+            }
+          ]
+        },
+        " 46": {
+          "name": "Resource_Quantities.Span_Valid",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 25
+            }
+          ]
+        },
+        " 47": {
+          "name": "Resource_Quantities.Is_Zero",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 106
+            }
+          ]
+        },
+        " 48": {
+          "name": "Resource_Quantities.Is_Negative",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "resource_quantities.ads",
+              "line": 110
+            }
+          ]
+        },
+        " 5": {
+          "name": "Evaluation_Epoch.Prefix_Padding",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 119
+            }
+          ]
+        },
+        " 6": {
+          "name": "Evaluation_Epoch.Magnitude_Modulus",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 387
+            }
+          ]
+        },
+        " 7": {
+          "name": "Evaluation_Epoch.Quotient_Below_Contradiction",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 279
+            }
+          ]
+        },
+        " 8": {
+          "name": "Evaluation_Epoch.Remainder_From_Witness",
+          "sloc": [
+            {
+              "column": 14,
+              "file": "evaluation_epoch.adb",
+              "line": 331
+            }
+          ]
+        },
+        " 9": {
+          "name": "Evaluation_Epoch.Same_Value",
+          "sloc": [
+            {
+              "column": 13,
+              "file": "evaluation_epoch.ads",
+              "line": 7
+            }
+          ]
+        }
+      }
+    }
+  },
+  "partial_semantics": "ExactDecimal retained Parse/loop/Power medium unproved limits; ProducerRender range/overflow/termination unproved plus warnings are actual nonpositive unit checks, not mere failed solver attempts. No complete aggregate summary. Present units pragma_assume/skip arrays empty, but modular assumptions graphs remain and wholeclosure assumptions unknown. Generic/String/wide instances/readers/controls and missing unit result coverage UNVERIFIED; absent .spark is not proof skipped or verified.",
+  "D65_eligibility": {
+    "current_test_sha256": "42566a7c79e4ddca5eb112e8f72df89028497633b1d402a854f7597f3ec8714b",
+    "current_parent_sha256": "bf043815e3b1784e6c94846f425269a4f702ebc6e2f2106836e3b465ebee291e",
+    "matches_corrected_static_review": true,
+    "same_EPOCH_HEAD": true,
+    "successful_fresh_build_constructed_both_mains": "Actual original build0/stdout binds both complete compile/bind/link destinations; raw phase event agrees build result.",
+    "neither_main_started": "No main-named event or stdout/stderr/result artifacts; original checked driver records starts before subprocess.",
+    "later_artifact_hashes": {
+      "bin-current-D56/string_parser_controls": "0baad7dc1f23b1f4cfe8bdecae0b2b75d3ddffefd9701ca34c254fe454be7a4f",
+      "obj-current-D56/string_parser_controls.ali": "fb6da3b1942ab32e08918f069e2da9db02f26dc1b8df3d26bfca0c26cbed4842",
+      "bin-current-D56/wide_parser_controls": "1c09a5acdf34316b62016913253a87b47b581e5b32c6a6bb7e3a60e2c5cbba2e",
+      "obj-current-D56/wide_parser_controls.ali": "6f18742b9e90ae034ac49591f668ccfbeee5f2323c99afe6d0d46e224102f1c0"
+    },
+    "assertion_main_ALIs_gnata_regular_nonsymlink": true,
+    "artifact_boundary": "These are later postproof retained-artifact observations, not missing historical build-end hash measurements.",
+    "conditions": [
+      "Root logs D62actual/D65choice and exact method verdict after settled sourcepostwindow.",
+      "Fresh original10m8G0/sharedlock/postlockadmission/storageguards, exact same source/control/private bytes and new output.",
+      "Execute both original mains once only, preserve either failure; no proof restart/continuation/acceptance promotion."
+    ]
+  },
+  "non_claims": [
+    "No zero unproved or full candidate proof",
+    "No wrapper/actualinstance semantic proof from compile0",
+    "No SLOW/HANG/A2 diagnosis",
+    "No full WORLDLINE/Old/independent acceptance",
+    "No jobs/import/product edits by reviewer"
+  ]
+}

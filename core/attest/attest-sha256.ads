@@ -40,6 +40,36 @@ package Attest.SHA256 with SPARK_Mode is
    function Hash (Input : Byte_Array) return Digest
      with Pre => Unsigned_64 (Input'Length) <= Max_Message_Bytes;
 
+
+   type Digest_Record is record
+      B00, B01, B02, B03, B04, B05, B06, B07,
+      B08, B09, B10, B11, B12, B13, B14, B15,
+      B16, B17, B18, B19, B20, B21, B22, B23,
+      B24, B25, B26, B27, B28, B29, B30, B31 : Byte;
+   end record;
+   function To_Digest_Bytes (Value : Digest) return Digest_Record is
+     (B00 => Value (0), B01 => Value (1), B02 => Value (2), B03 => Value (3),
+      B04 => Value (4), B05 => Value (5), B06 => Value (6), B07 => Value (7),
+      B08 => Value (8), B09 => Value (9), B10 => Value (10), B11 => Value (11),
+      B12 => Value (12), B13 => Value (13), B14 => Value (14), B15 => Value (15),
+      B16 => Value (16), B17 => Value (17), B18 => Value (18), B19 => Value (19),
+      B20 => Value (20), B21 => Value (21), B22 => Value (22), B23 => Value (23),
+      B24 => Value (24), B25 => Value (25), B26 => Value (26), B27 => Value (27),
+      B28 => Value (28), B29 => Value (29), B30 => Value (30), B31 => Value (31));
+   function From_Digest_Bytes (Value : Digest_Record) return Digest is
+     (0 => Value.B00, 1 => Value.B01, 2 => Value.B02, 3 => Value.B03,
+      4 => Value.B04, 5 => Value.B05, 6 => Value.B06, 7 => Value.B07,
+      8 => Value.B08, 9 => Value.B09, 10 => Value.B10, 11 => Value.B11,
+      12 => Value.B12, 13 => Value.B13, 14 => Value.B14, 15 => Value.B15,
+      16 => Value.B16, 17 => Value.B17, 18 => Value.B18, 19 => Value.B19,
+      20 => Value.B20, 21 => Value.B21, 22 => Value.B22, 23 => Value.B23,
+      24 => Value.B24, 25 => Value.B25, 26 => Value.B26, 27 => Value.B27,
+      28 => Value.B28, 29 => Value.B29, 30 => Value.B30, 31 => Value.B31);
+   function Receipt_Link_Digest (Previous, Root : Digest_Record) return Digest
+     with Global => null;
+   function Causal_Link_Digest (Previous, Root : Digest_Record) return Digest
+     with Global => null;
+
 private
 
    subtype State_Index  is Natural range 0 .. 7;

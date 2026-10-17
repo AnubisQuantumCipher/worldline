@@ -1,0 +1,73 @@
+{
+  "all_original_steps_pass": true,
+  "audit_qualification": {
+    "original_parser_parity": true,
+    "real_top_level_popen_observed": true,
+    "scope": "paired unchanged real manager supervision module only; no universal instrumentation transparency",
+    "typed_manager_execstart_qualification": "pending outer watcher verification"
+  },
+  "independent_acceptance": "NOT PERFORMED",
+  "native_call_observation": "UNVERIFIED",
+  "source_commit": "58262a0b89cdc0a10ed668b4bd1405b8814af34b",
+  "steps": [
+    {
+      "audit": {
+        "audit_failures": [],
+        "child_instrumentation": "none",
+        "exception": null,
+        "mode": "plain",
+        "pid": 509699,
+        "qualification": "bounded instrumentation observation only; universal transparency UNVERIFIED",
+        "unittest_argv": [
+          "-v",
+          "test_supervision_real"
+        ],
+        "unittest_exit": 0
+      },
+      "exit_code": 0,
+      "name": "qualification-plain",
+      "ok": true,
+      "original_parser": {
+        "errors": 0,
+        "expectedFailures": 0,
+        "failures": 0,
+        "ok": true,
+        "ran": 5,
+        "skipped": 0,
+        "unexpectedSuccesses": 0,
+        "verdictLine": "OK"
+      },
+      "output_sha256": "d0289f3c787cb245dac68ca99473008e02905dc887536bcb558cf105e349519d"
+    },
+    {
+      "audit": {
+        "audit_failures": [],
+        "child_instrumentation": "none",
+        "exception": null,
+        "mode": "audit",
+        "pid": 510273,
+        "qualification": "bounded instrumentation observation only; universal transparency UNVERIFIED",
+        "unittest_argv": [
+          "-v",
+          "test_supervision_real"
+        ],
+        "unittest_exit": 0
+      },
+      "exit_code": 0,
+      "name": "qualification-audit",
+      "ok": true,
+      "original_parser": {
+        "errors": 0,
+        "expectedFailures": 0,
+        "failures": 0,
+        "ok": true,
+        "ran": 5,
+        "skipped": 0,
+        "unexpectedSuccesses": 0,
+        "verdictLine": "OK"
+      },
+      "output_sha256": "7cffa249907c2b00bea46cc97de47643a1fb09feb1c4970f6ff4e7c541befa1d"
+    }
+  ],
+  "suite": "qualification"
+}

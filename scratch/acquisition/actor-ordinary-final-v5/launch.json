@@ -1,0 +1,27 @@
+{
+  "actor_memory_max": "observed worker cap",
+  "actor_memory_swap_max": "observed SC_PAGE_SIZE",
+  "actor_timeout_seconds": 600,
+  "aggregate_cap_equivalence": "NOT CLAIMED",
+  "argv": [
+    "scratch/acquisition/actor_world_harness_v3.py",
+    "--out",
+    "scratch/acquisition/actor-ordinary-final-v5",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--library",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+    "--timeout",
+    "600",
+    "--scope-timeout",
+    "20m",
+    "--run"
+  ],
+  "expected_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "lock": "/home/sicarii/.worldline-heavy.lock",
+  "ordinary_subset_only": true,
+  "scope_timeout": "20m",
+  "script_sha256": "3506f51a7bd6cc55354ad7c5eaa521dac3a567a2f6f145b46c8477afb23e0f1d",
+  "worker_memory_max": "8G",
+  "worker_memory_swap_max": "0"
+}

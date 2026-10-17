@@ -52,12 +52,13 @@ COLLAPSE_DECISIONS: dict[int, str] = {
     18: "WATCH_INCOMPLETE",
     19: "CHECKPOINT_MISMATCH",
     20: "EVIDENCE_SUBJECT_MISMATCH",
+    21: "REQUIREMENT_CHANGED",
     255: "INVALID_REQUEST",
 }
 
 # The ABI generation this runtime was written against (wl_abi_version). Record layouts and the
 # meaning of every exported code belong to it; a library reporting another is refused at load.
-ABI_VERSION = 5
+ABI_VERSION = 6
 
 # Which evidence speaks for the bytes that would become live (Worldline.Collapse.Evaluation_Mode).
 EVALUATION_MODES = {"CANDIDATE_EVALUATION": 0, "CHECKPOINT_RETURN": 1}
@@ -100,7 +101,7 @@ class COptionalCounter(ctypes.Structure):
     _fields_ = [("present", ctypes.c_uint8), ("value_le", ctypes.c_uint8 * 8)]
 
 
-# Layout 5 (1.9.0), in the order of Worldline.Collapse_Wire.Raw_Request.
+# Layout 6 (resulting requirement), in the order of Worldline.Collapse_Wire.Raw_Request.
 COLLAPSE_HASH_FIELDS = (
     "expected_parent",
     "candidate_parent",
@@ -117,6 +118,7 @@ COLLAPSE_HASH_FIELDS = (
     "staged_content_root",
     "tested_root",
     "current_requirement",
+    "resulting_requirement",
     "evaluated_requirement",
     "declared_verifiers",
     "executed_verifiers",
@@ -241,6 +243,7 @@ class CollapseInput:
     staged_content_root: bytes | None
     tested_root: bytes | None
     current_requirement: bytes | None
+    resulting_requirement: bytes | None
     evaluated_requirement: bytes | None
     declared_verifiers: bytes | None
     executed_verifiers: bytes | None
@@ -255,17 +258,38 @@ class CollapseInput:
     generation_after: int | None
 
 
-def _library_candidates() -> Iterable[Path]:
+def _package_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def runtime_installed() -> bool:
+    """Whether this runtime runs from an installed tree rather than a source checkout (1.9.2).
+
+    Both installers put the library BESIDE runtime/ (install.sh: ~/.local/lib/worldline,
+    PKGBUILD: /usr/lib/worldline); a source checkout keeps it under lib/. Judged from the file
+    layout, which the same account can change (ASSUMED, SECURITY.md): an installed runtime
+    refuses a library chosen by WORLDLINE_CORE_LIB and ignores every test-only seam."""
+    return (_package_root() / "libworldline_core.so").exists()
+
+
+def _library_sources() -> Iterable[tuple[Path, str]]:
+    """Each candidate library with how it was selected: "environment" (WORLDLINE_CORE_LIB, a
+    test build's seam), "package" (beside or under this runtime's own tree) or "home"."""
     configured = os.environ.get("WORLDLINE_CORE_LIB")
     if configured:
-        yield Path(configured).expanduser()
+        yield Path(configured).expanduser(), "environment"
     # Resolve relative to this module so an alternate HOME cannot hide the proved library:
     # runtime/worldline/core.py sits under the source tree (lib/ sibling of runtime/) and under
     # the installed tree (library beside runtime/).
-    package_root = Path(__file__).resolve().parents[2]
-    yield package_root / "lib/libworldline_core.so"
-    yield package_root / "libworldline_core.so"
-    yield Path.home() / ".local/lib/worldline/libworldline_core.so"
+    package_root = _package_root()
+    yield package_root / "lib/libworldline_core.so", "package"
+    yield package_root / "libworldline_core.so", "package"
+    yield Path.home() / ".local/lib/worldline/libworldline_core.so", "home"
+
+
+def _library_candidates() -> Iterable[Path]:
+    for path, _source in _library_sources():
+        yield path
 
 
 def hash_bytes_from_id(value: str) -> bytes:
@@ -292,8 +316,12 @@ class Core:
 
     def __init__(self, library: Path | None = None) -> None:
         selected = library
+        # How the library was chosen (1.9.2, OB-084): an environment-selected library is a test
+        # build's and never yields PROVED; an installed runtime refuses to promote with one.
+        self.library_source = "explicit"
         if selected is None:
-            selected = next((path for path in _library_candidates() if path.is_file()), None)
+            selected, self.library_source = next(
+                ((path, source) for path, source in _library_sources() if path.is_file()), (None, "none"))
         if selected is None:
             raise CoreUnavailable(
                 "libworldline_core.so was not found",
@@ -604,3 +632,33 @@ class Core:
         )
         code = int(self._lib.wl_collapse_decide(ctypes.byref(request)))
         return COLLAPSE_DECISIONS.get(code, f"UNKNOWN_{code}")
+
+    def _raw_collapse_request(self, value: CollapseInput):
+        if not isinstance(value, CollapseInput):
+            raise WorldlineError("INVALID_EVALUATION", "collapse input must be a CollapseInput")
+        try:
+            state = STATE_CODES[value.candidate_state]
+            phase = COLLAPSE_PHASES[value.phase]
+            mode = EVALUATION_MODES[value.mode]
+            conflicts = MEASUREMENTS[value.conflicts]
+            foreign = MEASUREMENTS[value.foreign_writes]
+        except KeyError as exc:
+            raise WorldlineError("INVALID_EVALUATION", f"unknown collapse category: {exc.args[0]}") from exc
+        request = CCollapseRequest(
+            state, phase, mode, conflicts, foreign,
+            self._flag(value.roster_complete, "roster completeness"),
+            self._flag(value.staged_roster_complete, "staged roster completeness"),
+            *[self._optional_hash(getattr(value, name), name) for name in COLLAPSE_HASH_FIELDS],
+            self._optional_counter(value.generation_before, "generation_before"),
+            self._optional_counter(value.generation_after, "generation_after"),
+        )
+        return request
+
+    def collapse_raw_dependencies(self, value: CollapseInput):
+        from .evaluation_wire import Authority
+        return Authority(self).dependencies(self._raw_collapse_request(value))
+
+    def collapse_decide_with_evaluation(self, value: CollapseInput, *, primary, staged, agent) -> str:
+        request = self._raw_collapse_request(value)
+        from .evaluation_wire import Authority
+        return Authority(self).decide(request, primary, staged, agent)

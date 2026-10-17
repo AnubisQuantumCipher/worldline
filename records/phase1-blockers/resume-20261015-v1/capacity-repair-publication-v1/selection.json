@@ -1,0 +1,611 @@
+{
+  "utc": "2026-10-15T04:20:24.182445+00:00",
+  "base_commit": "915f5389b383e2377e92ec3a134d11df9d05951a",
+  "scope": "One core call-only proof repair, immutable failed and successful isolated candidate evidence; no complete WORLDLINE/final freeze acceptance",
+  "rows": [
+    {
+      "path": "core/resource_quantities.adb",
+      "bytes": 25130,
+      "sha256": "23e67ed2f9fbb65741e5ddfab10fbde101a719feeb649a2bf1c9ae8052421a1a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/capacity-repair-publication-v1/decoder-cursor-v1-gnatprove.out",
+      "bytes": 13559,
+      "sha256": "5784110817e2580bce55702c3170c43d7f029323861a54fbcaceb69076de5d22"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/capacity-repair-publication-v1/decoder-cursor-v2-gnatprove.out",
+      "bytes": 13683,
+      "sha256": "ef8ac2f8f02d0800139d2877414f1597bbad01732c3e30134b32d873c7f70ec4"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/capacity-repair-publication-v1/prepare.py",
+      "bytes": 3536,
+      "sha256": "79899e0894f5b3edfe4bae0c4096d8227c08e5d35b1af88ea885df9d1b39ad08"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-live-readback-v1.json",
+      "bytes": 1202,
+      "sha256": "8a933db608f70cd73f02646d32d56f101cd64fa7418e074acef373702a9e3f91"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/disk.jsonl",
+      "bytes": 10508,
+      "sha256": "56f33ea993f7d152a3040b023f37df74b6bbab082ec539d572605938ad965645"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/launch.json",
+      "bytes": 3472,
+      "sha256": "97ddac2cc142ba20911830a144b465627b471e0f06112e97525051919c2b60b9"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/result.json",
+      "bytes": 3939,
+      "sha256": "76d26b36d09c85bda0c5af93e11ba39f16b1df33abde6bc8a61f4070e74ad2ad"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/source-after.json",
+      "bytes": 235629,
+      "sha256": "e32f4261d3a142ee7f31d24b13c14e9411a285de715637247295dcc6f8269df1"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/source-before.json",
+      "bytes": 235629,
+      "sha256": "e32f4261d3a142ee7f31d24b13c14e9411a285de715637247295dcc6f8269df1"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/source.diff",
+      "bytes": 6685,
+      "sha256": "42b33640202e177ad3acb6653a5308e6c4edac3bdc59d418fd12cb6f0ab7c40e"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v1/storage-preflight.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/disk.jsonl",
+      "bytes": 6958,
+      "sha256": "ae6584d06618a3254601f6269c59db5082949bea1b4eaddfe87bc90dbff14b85"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/launch.json",
+      "bytes": 3472,
+      "sha256": "f10ec336950ea10c1abfc5912a94602d960053ec83d619ae9df64500d03a5d88"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/result.json",
+      "bytes": 3939,
+      "sha256": "6e7479b7336dcd0c604f57f65ea1ba1914c0eb694b77b0f589938bb7ebaad0f1"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/source-after.json",
+      "bytes": 235629,
+      "sha256": "23a3b53d0b424e86df31307d7ce554787c0efb871262071f3de6a563c5e4d481"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/source-before.json",
+      "bytes": 235629,
+      "sha256": "23a3b53d0b424e86df31307d7ce554787c0efb871262071f3de6a563c5e4d481"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/source.diff",
+      "bytes": 20106,
+      "sha256": "e5b86a1659f8a98e5457aec7722acf34b6147c4e929c1b5cad54072ae0a68586"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-parent-v2/storage-preflight.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/admission.jsonl",
+      "bytes": 169,
+      "sha256": "a54df95dde66c01757ea8e5506130d3f76ae6a44de9045fe8de02960cb5b30c8"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/admitted.json",
+      "bytes": 18,
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/cgroup.jsonl",
+      "bytes": 146062,
+      "sha256": "e8d2d900462c1a0d412254335859b0e82ca9559f71df3fb62cb19a28212a009c"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/launch.jsonl",
+      "bytes": 546,
+      "sha256": "3056a08e2cda66f1bbbb70690d5182be0b9c48bddb9f471f55a43569a8f40eba"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/launcher.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/result.jsonl",
+      "bytes": 60,
+      "sha256": "91af8809e81944eb6b2bdea6212e3c59e68742ebbe3bc8580be9d18a91722fb7"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/rusage.json",
+      "bytes": 160,
+      "sha256": "62c056e7e795e5d933be30365f814057545cf498299cbb1636ed7ea09fa89cc5"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/scope-journal.txt",
+      "bytes": 734,
+      "sha256": "2b7fff11d69be1f3e73805ffd80e00cb812d9d8a83ac75bac2f5579becd26589"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/scope.jsonl",
+      "bytes": 104,
+      "sha256": "256b89745e1c1ff9ff965c8808e3418ce5dcf90778a4f107809c7449c8614b78"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/stdout",
+      "bytes": 299,
+      "sha256": "3c2a4d9be292d7e4ce2d741b9668d1835408313b980e897c0f188d5eab0c7a27"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/supervisor.jsonl",
+      "bytes": 204331,
+      "sha256": "0a7bca07b780429e23723d0840aaf0570834f90433930e857fb619a67fc98d7d"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/terminal-scope.jsonl",
+      "bytes": 276,
+      "sha256": "d37b28bb48451ce340df1c9778adaf9eff2328c1110a54c8e865b0956c44ea0d"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/tracked.diff",
+      "bytes": 6685,
+      "sha256": "42b33640202e177ad3acb6653a5308e6c4edac3bdc59d418fd12cb6f0ab7c40e"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/worker-result.json",
+      "bytes": 59,
+      "sha256": "fd8a31d683994ecdddf02211342d548adc38182de2acc02c9399241b706e6c0a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/admission.jsonl",
+      "bytes": 169,
+      "sha256": "a1fda11660894877f026455afed48432c659b569b8b49af63c66d89f3c387daa"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/admitted.json",
+      "bytes": 18,
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/cgroup.jsonl",
+      "bytes": 94862,
+      "sha256": "59e7ec32c635b412f35698769b3ca52a9146dae7704adb21b789faec0edda0af"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/launch.jsonl",
+      "bytes": 546,
+      "sha256": "8bd18b585a0d7be2ce0a4bd91286c610ab2b124dd31d0d019765f50de5834093"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/launcher.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/result.jsonl",
+      "bytes": 60,
+      "sha256": "dbb425bccedc8028440cb0aa6b8c011d0c1ef2c2be835177a6cfb13cdb240346"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/rusage.json",
+      "bytes": 161,
+      "sha256": "aa9873b118b288f34b790221f3718dff1d39e2d1ccb084c71b755117210a1b89"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/scope-journal.txt",
+      "bytes": 734,
+      "sha256": "c8c7d23851d95fda8313bb3e0777547e62cd90200b22654667a89db0392a9faa"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/scope.jsonl",
+      "bytes": 104,
+      "sha256": "3d62d03a0df0a73b7abba7d13ed31ce7e5e438abcd930b66300d9131c5d3ea17"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/stdout",
+      "bytes": 299,
+      "sha256": "2635702cc9020c0d462230616146981308c029cd1fb853039a8ad1073e077bda"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/supervisor.jsonl",
+      "bytes": 132701,
+      "sha256": "9b9e1e588b87904149dc842a687b1811e35ff056b09a5e42b804d18f04e2b773"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/terminal-scope.jsonl",
+      "bytes": 276,
+      "sha256": "1bc4b17889ad9701009ffcb2b90f42b214de77404750c1b3e9ac1f16918be35a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/tracked.diff",
+      "bytes": 20106,
+      "sha256": "e5b86a1659f8a98e5457aec7722acf34b6147c4e929c1b5cad54072ae0a68586"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/worker-result.json",
+      "bytes": 59,
+      "sha256": "8700f5a3fc55a6cddee1f5dff94f70b3110c40738c185d1028370a5d28b7e151"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/README.md",
+      "bytes": 12542,
+      "sha256": "725387f2b4f34e7595bce933426259be2f8372026d8c16107997b00797826980"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/decoder_cursor_candidate.gpr",
+      "bytes": 1136,
+      "sha256": "2c14c313d4039130514b078a83f011107dd1bfd568ea236b9474860fbe1caa34"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/decoder_cursor_controls.adb",
+      "bytes": 11857,
+      "sha256": "0e497575e2f65d334cf25452fd0e93820c02a0fa4f129ee6777004ece97b4c36"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/attest-sha256.adb",
+      "bytes": 6962,
+      "sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/attest-sha256.ads",
+      "bytes": 2193,
+      "sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/attest.ads",
+      "bytes": 981,
+      "sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/resource_quantities.adb",
+      "bytes": 25038,
+      "sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/resource_quantities.ads",
+      "bytes": 6139,
+      "sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/worldline-archive_text.adb",
+      "bytes": 970,
+      "sha256": "36d956de8a59e8c14132208170f4d9b2c1bd8b9e0ab62c9d86235f5bede21e3d"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/worldline-archive_text.ads",
+      "bytes": 6240,
+      "sha256": "876cb60cc9a9af9ad0ea584315b0433d980321fb40e3d292c7f88c520c4cf934"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/worldline.ads",
+      "bytes": 609,
+      "sha256": "7199d262b11690c1a22fab45263575b0f401a985482b673317a1f73a60f21f55"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/jackal-arithmetic.json",
+      "bytes": 8166,
+      "sha256": "49093db9bffc67fcbdf0e760b7731a7664776231d092d5624c82b8fcfc7318f1"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/preparation-receipt.json",
+      "bytes": 10194,
+      "sha256": "ae98d9b6951f97634b255fb149aa931fc8dc411974071c477e4d6b8338efd4ac"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/prepare_receipt.py",
+      "bytes": 3965,
+      "sha256": "27ba802e99a42c6354ef6428e8782e30aabe15a4af93136ef90c7a7a350f4cb6"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/build.stderr",
+      "bytes": 424,
+      "sha256": "7141ac27e00e57ddbbe0d9189517e830329f1ef7612eb94db7a02f5d4a202a1b"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/build.stdout",
+      "bytes": 587,
+      "sha256": "84194b7be856f32be4df3e54d3216546d74307e2a146926a8d374bf5d7df4d5a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/proof.stderr",
+      "bytes": 61922,
+      "sha256": "88f5daa10b92781c4bd9a656e1e36670041e4c3196cbbe517cde07dcdff1a66d"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/proof.stdout",
+      "bytes": 324,
+      "sha256": "6c5ba3356dbdbc56e85f4ecf04a7cb32f26295d3c589b54a8653d8d67d7dd4ec"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/result.json",
+      "bytes": 144148,
+      "sha256": "04ff1b02839fc40c4765d73dad546b0d83c565fb3f20f492d1a2d6afb99f4b8a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/runtime.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/runtime.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/root-copy.json",
+      "bytes": 7321,
+      "sha256": "58655aee801305f7c7425a500efb7a2a9332a363d402d131dd3657b0cd6084ff"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/run.py",
+      "bytes": 5056,
+      "sha256": "51f0a4d2add1ea888d09b02810654ba27ab6845074c8a60c0d2834634f04be9f"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/worldline-json_source_cursor.adb",
+      "bytes": 3206,
+      "sha256": "0b28f52652493c0e6d00274e4019068f999e048d9ed4ff475c19d22b1b8ef264"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/worldline-json_source_cursor.ads",
+      "bytes": 10216,
+      "sha256": "05d0670b28d9cd3888e62624321f44a5b16db01c79a715e0e930a9233bf59ed0"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/README.md",
+      "bytes": 12542,
+      "sha256": "725387f2b4f34e7595bce933426259be2f8372026d8c16107997b00797826980"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/decoder_cursor_candidate.gpr",
+      "bytes": 1136,
+      "sha256": "2c14c313d4039130514b078a83f011107dd1bfd568ea236b9474860fbe1caa34"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/decoder_cursor_controls.adb",
+      "bytes": 11857,
+      "sha256": "0e497575e2f65d334cf25452fd0e93820c02a0fa4f129ee6777004ece97b4c36"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/attest-sha256.adb",
+      "bytes": 6962,
+      "sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/attest-sha256.ads",
+      "bytes": 2193,
+      "sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/attest.ads",
+      "bytes": 981,
+      "sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/resource_quantities.adb",
+      "bytes": 25130,
+      "sha256": "23e67ed2f9fbb65741e5ddfab10fbde101a719feeb649a2bf1c9ae8052421a1a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/resource_quantities.ads",
+      "bytes": 6139,
+      "sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/worldline-archive_text.adb",
+      "bytes": 970,
+      "sha256": "36d956de8a59e8c14132208170f4d9b2c1bd8b9e0ab62c9d86235f5bede21e3d"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/worldline-archive_text.ads",
+      "bytes": 6240,
+      "sha256": "876cb60cc9a9af9ad0ea584315b0433d980321fb40e3d292c7f88c520c4cf934"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/dependencies/worldline.ads",
+      "bytes": 609,
+      "sha256": "7199d262b11690c1a22fab45263575b0f401a985482b673317a1f73a60f21f55"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/jackal-arithmetic.json",
+      "bytes": 8166,
+      "sha256": "49093db9bffc67fcbdf0e760b7731a7664776231d092d5624c82b8fcfc7318f1"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/preparation-receipt.json",
+      "bytes": 10194,
+      "sha256": "ae98d9b6951f97634b255fb149aa931fc8dc411974071c477e4d6b8338efd4ac"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/prepare_receipt.py",
+      "bytes": 3965,
+      "sha256": "27ba802e99a42c6354ef6428e8782e30aabe15a4af93136ef90c7a7a350f4cb6"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/results/build.stderr",
+      "bytes": 424,
+      "sha256": "7141ac27e00e57ddbbe0d9189517e830329f1ef7612eb94db7a02f5d4a202a1b"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/results/build.stdout",
+      "bytes": 587,
+      "sha256": "84194b7be856f32be4df3e54d3216546d74307e2a146926a8d374bf5d7df4d5a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/results/proof.stderr",
+      "bytes": 61676,
+      "sha256": "c3e7877bd619a487436aa76b6cce70e2198276966934b2ad925ba6ffabcd596b"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/results/proof.stdout",
+      "bytes": 365,
+      "sha256": "dd799c0e47f33cc97017c8f8e7722bea5e252770fd25dd25b1344b07d43e8a32"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/results/result.json",
+      "bytes": 144334,
+      "sha256": "c9594d18e8f350bd69db4d18bfca28f9d9635751e7de3782cef9bf93f73aefbc"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/results/runtime.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/results/runtime.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/root-copy.json",
+      "bytes": 7321,
+      "sha256": "58655aee801305f7c7425a500efb7a2a9332a363d402d131dd3657b0cd6084ff"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/run.py",
+      "bytes": 5056,
+      "sha256": "51f0a4d2add1ea888d09b02810654ba27ab6845074c8a60c0d2834634f04be9f"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/v2-formation.json",
+      "bytes": 4036,
+      "sha256": "f805fc4955252abeb4eca763982aef8a7490da4994176c7b4fa2dde3f53dcc56"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/worldline-json_source_cursor.adb",
+      "bytes": 3206,
+      "sha256": "0b28f52652493c0e6d00274e4019068f999e048d9ed4ff475c19d22b1b8ef264"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/worldline-json_source_cursor.ads",
+      "bytes": 10216,
+      "sha256": "05d0670b28d9cd3888e62624321f44a5b16db01c79a715e0e930a9233bf59ed0"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/run_decoder_cursor.py",
+      "bytes": 4176,
+      "sha256": "83ddb3872131d07fc0379cf54c64292f045311c1bd619c84fc99727a2b290b5a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/run_decoder_cursor_v2.py",
+      "bytes": 4176,
+      "sha256": "94b332bb69772d312d4ed2062e36b1b9350862fabaca86f61d71c300b3ed2d9b"
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/capacity-fits-column-lemma-v1/core.patch",
+      "bytes": 450,
+      "sha256": "10639424170b05f2a15636e93648946a47f7101b54ed78bf37f03de45c68c72c"
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/capacity-fits-column-lemma-v1/pending.patch",
+      "bytes": 486,
+      "sha256": "b3045343e3d7529fef2be74d5e6c50bbb553d103e06798ac1e4c5a6c3717983a"
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/capacity-fits-column-lemma-v1/proposal.json",
+      "bytes": 21705,
+      "sha256": "04cfc58905b314505bd52ba0846956a448f310595c5ebf13ec577e18a9f32802"
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/capacity-fits-column-lemma-v1/proposal.md",
+      "bytes": 3099,
+      "sha256": "5425766de5de5ddf7b80a733d92ee2070e745aaa5258441b04026e3a3936ae9d"
+    },
+    {
+      "path": "scratch/reviewer2/resume-20261015-v1/D53-decoder-cursor-actual-review-v1.json",
+      "bytes": 2880,
+      "sha256": "285c2bed6f915e60098826cafac4e942e4887f7e35fe17f394a014f76eeeacfa"
+    },
+    {
+      "path": "scratch/reviewer2/resume-20261015-v1/D53-decoder-cursor-prelaunch-review-v1.json",
+      "bytes": 5168,
+      "sha256": "81cd8e75741000ac84e3c32277e418f47760a557a84cefb5f9b00bea720baca4"
+    },
+    {
+      "path": "scratch/reviewer2/resume-20261015-v1/D56-column-lemma-candidate-prelaunch-review-v1.json",
+      "bytes": 3441,
+      "sha256": "7d0ce4510b4e73bd502ab0849bddb496d212f0720532feaa01fdab1cd96adec5"
+    },
+    {
+      "path": "scratch/reviewer2/resume-20261015-v1/D56-decoder-v2-actual-and-core-application-review-v1.json",
+      "bytes": 3668,
+      "sha256": "a0c57071721ce0dd5f68756b6d66b53353306d8596d1c818eb542b0dd22e5c68"
+    }
+  ],
+  "plain_report_copies": [
+    {
+      "source": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/obj/gnatprove/gnatprove.out",
+      "copy": "records/phase1-blockers/resume-20261015-v1/capacity-repair-publication-v1/decoder-cursor-v1-gnatprove.out",
+      "sha256": "5784110817e2580bce55702c3170c43d7f029323861a54fbcaceb69076de5d22"
+    },
+    {
+      "source": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2/obj/gnatprove/gnatprove.out",
+      "copy": "records/phase1-blockers/resume-20261015-v1/capacity-repair-publication-v1/decoder-cursor-v2-gnatprove.out",
+      "sha256": "ef8ac2f8f02d0800139d2877414f1597bbad01732c3e30134b32d873c7f70ec4"
+    }
+  ],
+  "finite_scan_flags": [],
+  "excluded": [
+    "generated obj/bin/library/binder files",
+    "SPARK library vendor sources",
+    "full host storage catalogue",
+    "unrelated product source and tests"
+  ],
+  "limitations": [
+    "Finite secret patterns are not general secret detection",
+    "Only core call is applied; candidate cursor and pending patch remain unapplied",
+    "Current full documentary log remains a separate dirty epoch"
+  ]
+}

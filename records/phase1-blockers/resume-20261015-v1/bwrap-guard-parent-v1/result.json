@@ -1,0 +1,50 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scripts/phase1_heavy.py",
+    "--timeout",
+    "2m",
+    "--out",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/bwrap-guard-scope-v1",
+    "--",
+    "/usr/bin/python3",
+    "-B",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/bwrap-guard-diagnostic-v1/run_bwrap_guard_diagnostic.py",
+    "--expected-head",
+    "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+    "--decisions-sha256",
+    "3bd055e0212bb7085e4dcb5d5a93420d82d2571d1f9e9307902361c3b380d680",
+    "--out",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/bwrap-guard-observation-v1"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "started_utc": "2026-10-15T03:08:23.497155+00:00",
+  "commit": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+  "source_diff_sha256": "5f4938cdda5c7506cc46e9a0656986ba12382fcf997bc4e2d0c27ed621e23511",
+  "python_version": "3.14.7 (main, Aug 12 2026, 13:41:09) [GCC 16.1.1 20260430]",
+  "python_path": "/usr/bin/python3",
+  "python_sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+  "driver_sha256": "d15f69411c9e8e9049cbec6ae61c12d2be9d6bfd2a3da3c655842aad7d78d85e",
+  "environment": {
+    "PATH": "/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "LD_LIBRARY_PATH": null,
+    "WORLDLINE_CORE_LIBRARY": null
+  },
+  "explicit_environment": {
+    "worker_policy": "Exact retained private-carrier explicit overrides; ambient historical values unknown",
+    "worker_TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/bwrap-guard-scope-v1/tmp",
+    "worker_XDG_CACHE_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/bwrap-guard-scope-v1/cache",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "scope": "One current-carrier bwrap guard metadata observation only; no private tests, historical reconstruction or acceptance",
+  "ended_utc": "2026-10-15T03:08:28.535355+00:00",
+  "exit_code": 0,
+  "tracked_sources_unchanged": true,
+  "source_before_sha256": "0bbdc603cca68c84eb6a32f897248ab69d3d6b506a11d5cbf37db55414323eb0",
+  "source_after_sha256": "0bbdc603cca68c84eb6a32f897248ab69d3d6b506a11d5cbf37db55414323eb0",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

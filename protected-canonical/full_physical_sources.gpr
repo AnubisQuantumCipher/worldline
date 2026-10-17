@@ -1,0 +1,12 @@
+project Full_Physical_Sources is
+   for Languages use ("C");
+   for Source_Dirs use (".", "vendor-transaction-035545");
+   for Source_Files use ("full_physical_actuator.c", "worldline_actuator.c");
+   for Object_Dir use "../obj/full-physical";
+   package Compiler is
+      for Default_Switches ("C") use
+        ("-std=c11", "-D_GNU_SOURCE=", "-fPIC", "-fvisibility=hidden", "-O2", "-g", "-Wall", "-Wextra", "-Werror",
+         "-I" & Full_Physical_Sources'Project_Dir & "../core",
+         "-include", Full_Physical_Sources'Project_Dir & "../core/worldline_actuation_v1.h");
+   end Compiler;
+end Full_Physical_Sources;

@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-15T02:44:24.371652+00:00",
+  "source": "runtime/worldline/finalization_journal.py",
+  "before_sha256": "df75ed0beb5d5672369df4a79a4e69bb00b0906b1983937bef67a0bd4bf9bd2b",
+  "proposed_sha256": "933f151938c138bedf1469d05b7847af08cd036556ec6bf1b7f546da9c34fb03",
+  "patch": "records/phase1-blockers/resume-20261015-v1/journal-count-sorted-positions.patch",
+  "patch_sha256": "d0dbb3781163907fe6cdb2d1d76ac715b33a9882020853dcc02869c722ff7483",
+  "classification": "UNVERIFIED until implementation and original controls; source-supported allocation reduction, no measured timeout-cause or speed claim",
+  "choice": "Retain numeric sort and validation precedence; decline proposed set/hash variant because it adds a new adversarial hash-cost behavior."
+}

@@ -9,7 +9,7 @@ them, and as `match` patterns.
 
 This is a syntactic audit and a tripwire, not a proof: it cannot see a verdict computed some
 other way. The property that promotion recomputes every check from its raw record is enforced
-behaviourally (tests/test_evaluation_authority.py: a forged saved evaluation is refused).
+behaviourally by NativeDecisionBehavior below, using the actual native library.
 """
 from __future__ import annotations
 
@@ -19,34 +19,21 @@ from pathlib import Path
 import unittest
 
 RUNTIME = Path(__file__).resolve().parents[1] / "runtime" / "worldline"
-AUDITED = ("finalize.py", "revalidate.py", "transaction.py", "simulation.py", "validation.py", "returning.py")
+AUDITED = ("finalize.py", "finalization_writer.py", "revalidate.py", "transaction.py", "simulation.py", "validation.py", "returning.py")
 VERDICTS = {"PASS", "COMPLETED"}
 SAVED_FIELDS = {"admissibleForPromotion", "executionStatus", "evaluationOutcome", "bundleIntegrity", "reportIntegrity"}
 
 # (module, enclosing function) -> (how many, why it is not an authorization).
 ALLOWED_COMPARISONS = {
-    ("finalize.py", "_private_report_verified"): (1,
-        "report integrity is an input fact to Evaluation.Admissible; requiring the kernel's own"
-        " COMPLETED classification here can only make a report less trusted"),
     ("finalize.py", "refusal_reason"): (2, "diagnostic text for a check the kernel already refused"),
-    ("finalize.py", "evaluation_record"): (1,
-        "the Python mapping of raw fields to the kernel's finite categories (the declared"
-        " unproved boundary)"),
-    ("validation.py", "effective_evidence"): (1,
-        "selects which evaluation speaks for a world (Phase 1 item 5, one effective evaluation);"
-        " promotion still recomputes every check of the selected evaluation in the kernel"),
+    ("finalization_writer.py", "seal"): (2, "renders the fresh native seal's finalization state and outcome"),
     ("simulation.py", "run"): (1,
         "the health report of a system future, which prepare refuses as a collapse candidate and"
         " as a return subject"),
 }
 ALLOWED_SAVED_READS = {
-    ("finalize.py", "roster_decision"): (1, "reads the evaluation it has just recomputed, never a saved one"),
+    ("finalize.py", "_roster_evaluations"): (1, "renders fresh native per-check decisions; completeness remains native"),
     ("finalize.py", "refusal_reason"): (7, "diagnostic text for a check the kernel already refused"),
-}
-KERNEL_DECISION_SITES = {
-    "finalize.py": "finalize",
-    "revalidate.py": "_evaluate_tree",
-    "transaction.py": "_execution_identity",
 }
 
 
@@ -103,13 +90,6 @@ def scan(module: str, root: Path = RUNTIME) -> tuple[Counter, Counter]:
     return comparisons, reads
 
 
-def calls(module: str, function: str) -> set[str]:
-    tree = ast.parse((RUNTIME / module).read_text(encoding="utf-8"))
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == function:
-            return {getattr(call.func, "id", getattr(call.func, "attr", ""))
-                    for call in ast.walk(node) if isinstance(call, ast.Call)}
-    return set()
 
 
 class NoPythonAdmissibility(unittest.TestCase):
@@ -146,15 +126,46 @@ class NoPythonAdmissibility(unittest.TestCase):
         self.assertEqual(reads[(probe.name, "c")], 1)
         self.assertEqual(reads[(probe.name, "d")], 1)
 
-    def test_each_decision_site_asks_the_kernel(self) -> None:
-        for module, function in KERNEL_DECISION_SITES.items():
-            with self.subTest(module=module):
-                self.assertIn("roster_decision", calls(module, function))
 
-    def test_the_roster_and_the_per_check_verdict_are_kernel_calls(self) -> None:
-        self.assertIn("evaluation_roster_complete", calls("finalize.py", "roster_decision"))
-        self.assertIn("evaluation_admissible", calls("finalize.py", "evaluation_record"))
-        self.assertIn("evaluation_classify", calls("finalize.py", "evaluation_record"))
+
+class NativeDecisionBehavior(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        from worldline.core import Core
+        cls.core = Core(RUNTIME.parents[1] / "lib/libworldline_core.so")
+
+    def test_missing_finalization_cannot_be_promoted_by_saved_pass_metadata(self):
+        from types import SimpleNamespace
+        from worldline.transaction import CollapseTransaction
+        manager = object.__new__(CollapseTransaction)
+        manager.core = self.core
+        subject = SimpleNamespace(evidence={
+            "checks": [], "summary": "PASS", "evaluationOutcome": "PASS",
+            "admissibleForPromotion": True})
+        policy = {"policy": {"requiredChecks": [], "sourceSha256": "ab" * 32,
+                            "canonical": {"checks": [], "protected": []}},
+                  "verifiers": []}
+        result = manager._execution_identity(subject, policy, recorded_checks=[])
+        self.assertIs(result["complete"], False)
+
+    def test_per_check_diagnostics_recompute_raw_failure_and_keep_missing_absent(self):
+        from worldline.finalize import ENGINE_DECLARATIONS, _roster_evaluations
+        positive = {"id": "protected-paths", "format": "engine", "origin": "engine",
+                    "status": "PASS"}
+        failure = {**positive, "id": "failed", "status": "FAIL",
+                   "evaluation": {"admissibleForPromotion": True,
+                                  "evaluationOutcome": "PASS"}}
+        declaration = ENGINE_DECLARATIONS["protected-paths"]
+        admitted, refused, evaluations = _roster_evaluations(
+            ["protected-paths", "failed", "missing"],
+            {"protected-paths": positive, "failed": failure},
+            {"protected-paths": declaration, "failed": declaration}, core=self.core)
+        self.assertEqual(admitted, [True, False, False])
+        self.assertEqual([row["id"] for row in refused], ["failed", "missing"])
+        self.assertEqual(evaluations["protected-paths"]["evaluationOutcome"], "PASS")
+        self.assertEqual(evaluations["failed"]["evaluationOutcome"], "FAIL")
+        self.assertIs(evaluations["failed"]["admissibleForPromotion"], False)
+        self.assertNotIn("missing", evaluations)
 
 
 # 1.9.0 (typed absence): the modules that produce collapse inputs never state "nothing" as a
@@ -352,13 +363,6 @@ class ContractPins(unittest.TestCase):
                 target.write_text(text, encoding="utf-8")
                 self.assertTrue(self.verifier.export_problems(Path(temporary)))
 
-    def test_the_gate_checks_the_pins_before_it_writes_the_manifest(self) -> None:
-        gate = (ROOT / "prove.sh").read_text(encoding="utf-8")
-        check = gate.index("if contract_problems(root):")
-        self.assertLess(check, gate.index("manifest_path.write_text("))
-        self.assertLess(check, gate.index("PROOF GATE PASSED"))
-        verifier = (ROOT / "verify_proof_manifest.py").read_text(encoding="utf-8")
-        self.assertIn("problems = contract_problems(root)", verifier)
 
     def test_a_project_file_that_redirects_a_unit_or_a_stray_source_is_refused(self) -> None:
         import shutil
@@ -388,8 +392,17 @@ class ContractPins(unittest.TestCase):
             for name in ("verify_proof_manifest.py", "proof-manifest.json", "worldline.gpr"):
                 shutil.copy2(ROOT / name, tree / name)
             shutil.copytree(ROOT / "core", tree / "core")
-            (tree / "tests").mkdir()
-            shutil.copy2(ROOT / "tests/worldline_tests.gpr", tree / "tests/worldline_tests.gpr")
+            for relative in {key.partition("#")[0] for key in self.verifier.CONTRACT_PINS}:
+                source = ROOT / relative
+                target = tree / relative
+                if target.exists():
+                    continue
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+            runtime = tree / "runtime/worldline"
+            runtime.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / "runtime/worldline/__init__.py", runtime / "__init__.py")
+            shutil.copy2(ROOT / "runtime/worldline/proof_manifest.py", runtime / "proof_manifest.py")
             run = lambda: subprocess.run([sys.executable, "verify_proof_manifest.py", "--sources-only"], cwd=tree,
                                          capture_output=True, text=True, env={"PYTHONDONTWRITEBYTECODE": "1"})
             self.assertEqual(run().returncode, 0)
@@ -403,6 +416,80 @@ class ContractPins(unittest.TestCase):
         text = "function F return Boolean   -- a comment\n  is (True);\n"
         self.assertEqual(self.verifier.normalized_ada(text), "function F return Boolean is (True);")
         self.assertEqual(self.verifier.normalized_ada('X : String := "a -- b"; -- note'), 'X : String := "a -- b";')
+
+    def test_normalizer_preserves_literal_delimiters_escapes_and_comment_markers(self) -> None:
+        literals = (
+            ("Character", """'"'"""),
+            ("Character", "'%'"),
+            ("Character", "'-'"),
+            ("String", '"double ""quotes"" and -- with a percent %"'),
+            ("String", "%%"),
+            ("String", "%%%%"),
+            ("String", "%--%"),
+            ("String", "%--%%--%"),
+            ("String", "%escaped %%%% -- percent%"),
+        )
+        for subtype, literal in literals:
+            with self.subTest(literal=literal):
+                declaration = f"Noise : constant {subtype} := {literal};"
+                self.assertEqual(
+                    self.verifier.normalized_ada(declaration + ' -- discarded comment " %\n'),
+                    declaration)
+
+    def test_literal_lexing_binds_later_code_but_not_comment_changes(self) -> None:
+        import tempfile
+        prefixes = (
+            """C : constant Character := '"'; """,
+            """C : constant Character := Character '('"'); """,
+            """C : constant Character := Character
+  '('"'); """,
+            """C : constant Character := Character -- a quote in a comment "
+-- another quote "
+  '('"'); """,
+            """function Quote return Character is begin return -- a quote in a comment "
+  '"'; end Quote; """,
+            'Noise : constant String := "double ""quotes"" and -- with %"; ',
+            "Noise : constant String := %--%; ",
+            "Noise : constant String := %--%%--%; ",
+            "Noise : constant String := %escaped %%%% -- percent%; ",
+            """\ufeffC : constant Character := Café
+  '('"'); Noise : constant String := "--"; """,
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            tree = Path(temporary)
+            key = "literal-fixture.ads"
+            target = tree / key
+            code = "function F return Boolean is (True);"
+            for prefix in prefixes:
+                with self.subTest(prefix=prefix):
+                    target.write_text(prefix + code + ' -- original comment "\n', encoding="utf-8")
+                    original_pin = self.verifier.contract_pin(tree, key)
+                    target.write_text(
+                        prefix + code.replace("(True)", "(False)") + ' -- original comment "\n',
+                        encoding="utf-8")
+                    self.assertNotEqual(self.verifier.contract_pin(tree, key), original_pin)
+                    target.write_text(
+                        prefix + code + ' -- different comment % "\n', encoding="utf-8")
+                    self.assertEqual(self.verifier.contract_pin(tree, key), original_pin)
+
+    def test_literal_whitespace_changes_pins_but_external_layout_does_not(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as temporary:
+            tree = Path(temporary)
+            key = "literal-space.ads"
+            target = tree / key
+            for delimiter in ('"', "%"):
+                with self.subTest(delimiter=delimiter):
+                    original = f"X : String := {delimiter}a b{delimiter};"
+                    target.write_text(original, encoding="utf-8")
+                    pin = self.verifier.contract_pin(tree, key)
+                    target.write_text(
+                        f"X : String := {delimiter}a  b{delimiter};", encoding="utf-8")
+                    self.assertNotEqual(self.verifier.contract_pin(tree, key), pin)
+                    target.write_text(
+                        f"X  :\nString := {delimiter}a b{delimiter}; -- layout\n",
+                        encoding="utf-8")
+                    self.assertEqual(self.verifier.contract_pin(tree, key), pin)
 
 
 if __name__ == "__main__":

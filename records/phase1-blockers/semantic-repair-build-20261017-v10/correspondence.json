@@ -1,0 +1,19 @@
+{
+  "artifact": "/home/sicarii/.cache/workflow-tmp/worldline-semantic-smoke-amnk12j0/native-artifacts-before/libworldline_examiner_guard.so",
+  "artifact_sha256": "3ace2ef313e57372a9167af408ab1264566363428951ac1a6d0d9449bf38c98a",
+  "producer_argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-S",
+    "-c",
+    "import json; import _worldline_examiner_guard as guard; print(json.dumps(guard.status()[\"syscallPolicy\"], sort_keys=True))"
+  ],
+  "producer_exit_code": 0,
+  "library_sha256": "0e3f39f1571db4c962a92cf3e2f45583f884327db314b9ada347303a77d4ac00",
+  "actual_bytes": 208,
+  "expected_bytes": 208,
+  "expected_matches_actual": true,
+  "independent_kernel_program_observation": false,
+  "phase1_acceptance": "NOT PERFORMED",
+  "consumer_exit_code": 0
+}

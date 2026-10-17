@@ -1,0 +1,15 @@
+{
+  "classification": "TESTED exact text inclusion from retained task-service readback",
+  "command": "retained readback text inclusion comparison",
+  "source_commit": "d3c88bbbaa0f4b1f7910de9706a6cdee9ab39ded",
+  "checks": {
+    "01a13631-d4f0-7562-ac33-f97bf29cf10d": true,
+    "01a1368e-2a32-7340-a356-d5404ae52230": true,
+    "01a13741-b41c-73f1-9502-3e2fefb68b8f": true,
+    "goal": true
+  },
+  "passed": true,
+  "readback_sha256": "d453070423e9300a4417508326d86f8152f2f9ba93ca192820a484b10e2026d1",
+  "document_sha256": "64e442dc7bb2e781dc93c4b1120f809d33ce161a1b438eb7e76e307eeafd3890",
+  "non_claim": "Does not establish initial save or earlier compaction compliance"
+}

@@ -111,6 +111,20 @@ runtime.
   A project with no policy has declared nothing, so its collapse is refused
   (EXECUTION_EVIDENCE_INCOMPLETE). A policy file whose `checks` is `[]` is an explicit
   declaration.
+
+  The complete native execution relation receives full finalization evidence,
+  not a serialized subject carrier. It preserves the original observations:
+  selecting the agent from the subject at helper entry, then reacquiring the
+  subject's evidence after all current-policy/row/agent preparation and ABI
+  lookup, immediately before archiving. Accepted Mapping protocols may replace
+  evidence between those points; an early cached reference cannot stand in for
+  the later source. Missing subjects or evidence attributes remain prerequisite
+  errors, distinct from an existing subject with explicitly absent evidence.
+  Current-policy roster reobservation, ordered rows, native admission, independent
+  expected/actual verifier identities and all subject/content/root/cursor/agent
+  context joins remain required. No missing agent or finalized world is created.
+  This isolated source repair has no new build, proof, runtime, timeout or Phase 1
+  acceptance evidence.
 - **D3: checkpoint return is an explicit kernel case.** `Collapse_Request` layout 4 adds
   `Evaluation_Mode` and a checkpoint witness. In Checkpoint_Return mode, `Decide` does not
   consult the candidate-evaluation fields. It requires `Checkpoint_Witnessed` and
@@ -204,3 +218,23 @@ reason. The main remaining decisions:
 This release does not complete Phase 1. Typed absence, the rest of the collapse rule, resource
 and capability accounting, recovery and the receipt chain are separate items. The running
 installation is a separate state from this source.
+
+## Fresh complete successor: record-return frontend representation
+
+The demonstrated C18 Global-generation failure is the inlined composite
+conditional return in `Worldline.Scoped_Capture_History_Projection.Original_Source`.
+In the fresh complete successor, that helper and the audited same-pattern SPARK
+body record helpers use statement-form `if`/`elsif` branch returns. The original
+short-circuit conditions and guarded reads stay in their original order, and
+only the selected branch runs. Existing `Pre`, `Global` and other contract
+aspects stay exact; no validity restriction, fallback decision or proof exemption
+is added. Public specification/ghost equations and scalar/string/Big_Integer
+returns are not migrated or rewritten.
+
+The separately qualified caller-V2 and native-boundary observer are composed as
+source inputs, not transferred proof or runtime evidence. The observer records
+boundaries without choosing lifecycle, resource, recovery or receipt outcomes.
+The original ordered suites still run separately in full; explicitly enrolled
+additional probes do not change their discovery, order or original deadlines.
+Source preparation is not Phase One acceptance or authentic production custody.
+

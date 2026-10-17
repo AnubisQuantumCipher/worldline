@@ -1,0 +1,12 @@
+with "../core/worldline_core_sources.gpr";
+project Retained_Chain_Controls is
+   for Languages use ("Ada");
+   for Source_Dirs use (".");
+   for Object_Dir use "../obj/retained-chain-controls";
+   for Exec_Dir use "../obj/retained-chain-controls";
+   for Main use ("retained_chain_controls.adb", "provider_length_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatVa", "-gnatwa", "-g", "-O0");
+   end Compiler;
+end Retained_Chain_Controls;

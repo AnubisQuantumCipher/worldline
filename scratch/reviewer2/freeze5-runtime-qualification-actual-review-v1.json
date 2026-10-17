@@ -1,0 +1,1070 @@
+{
+  "utc": "2026-10-14T22:55:54.473857+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "TESTED finite paired real manager qualification; MEASURED identity review; internal not independent acceptance",
+  "tested_source": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "Concur: existing original full runtime v3 and domain v2 carrier prerequisites met on same ef7 source under existing reviewed commands/admission/caps. No full runtime/domain result inferred.",
+  "top": {
+    "attempt": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867",
+    "exit_code": 0,
+    "independent_acceptance": "NOT PERFORMED"
+  },
+  "top_launch": {
+    "argv": [
+      "scratch/old-analysis/full_runtime_supervisor_v3.py",
+      "--out",
+      "scratch/old-analysis/runtime-qualification-v5",
+      "--suite",
+      "qualification",
+      "--scope-timeout",
+      "15m",
+      "--expected-commit",
+      "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "--freeze-record",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+      "--frame",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+      "--build-manifest",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json"
+    ],
+    "audit_sha256": "8b9085a2ea3295fb16a68296cfa9c1cad20dbb1c268bb6f60616cfac27c42d3d",
+    "build_manifest": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "driver_sha256": "3105162b3f9eac3a61460e9a1cb23966a84296fa9e4af9ddc69c1155e97b39e1",
+    "frame": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "freeze_record": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "identity_helper_sha256": "76273e84d9ab37b6aaaa1d858709b32af90193f435045e90d6a0a80487b64f2e",
+    "lock": "/home/sicarii/.worldline-heavy.lock",
+    "prepared_only_until_authorized": true,
+    "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac"
+  },
+  "hash_checks": {
+    "qualification-plain output": true,
+    "qualification-plain parser": true,
+    "qualification-audit output": true,
+    "qualification-audit parser": true,
+    "parser_parity": true,
+    "exact_forms": true,
+    "typed_match_0": true,
+    "typed_match_1": true,
+    "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service terminal": true,
+    "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service attribution": true,
+    "worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service terminal": true,
+    "worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service attribution": true,
+    "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service terminal": true,
+    "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service attribution": true,
+    "worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service terminal": true,
+    "worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service attribution": true,
+    "worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service terminal": true,
+    "worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service attribution": true,
+    "before_after_equal": true,
+    "artifact_hashes": true,
+    "all_frozen_source": true,
+    "library": true,
+    "freeze": true,
+    "build": true,
+    "driver": true,
+    "audit": true,
+    "watcher": true,
+    "scope_caps": true
+  },
+  "steps": [
+    {
+      "launch": {
+        "argv": [
+          "bwrap",
+          "--die-with-parent",
+          "--ro-bind",
+          "/",
+          "/",
+          "--dev",
+          "/dev",
+          "--proc",
+          "/proc",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "--chdir",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+          "/usr/bin/python3",
+          "-B",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime_audit_entry.py",
+          "--audit",
+          "plain",
+          "--out",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/qualification-plain/audit",
+          "--",
+          "-v",
+          "test_supervision_real"
+        ],
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "scope": "unchanged original unittest cases"
+      },
+      "result": {
+        "audit": {
+          "audit_failures": [],
+          "child_instrumentation": "none",
+          "exception": null,
+          "mode": "plain",
+          "pid": 1499946,
+          "qualification": "bounded instrumentation observation only; universal transparency UNVERIFIED",
+          "unittest_argv": [
+            "-v",
+            "test_supervision_real"
+          ],
+          "unittest_exit": 0
+        },
+        "exit_code": 0,
+        "name": "qualification-plain",
+        "ok": true,
+        "original_parser": {
+          "errors": 0,
+          "expectedFailures": 0,
+          "failures": 0,
+          "ok": true,
+          "ran": 5,
+          "skipped": 0,
+          "unexpectedSuccesses": 0,
+          "verdictLine": "OK"
+        },
+        "output_sha256": "0398877935d2bfb2c1f394a47c41c5f34ac0728ee13bd4f1d1506ce26c121ebe"
+      }
+    },
+    {
+      "launch": {
+        "argv": [
+          "bwrap",
+          "--die-with-parent",
+          "--ro-bind",
+          "/",
+          "/",
+          "--dev",
+          "/dev",
+          "--proc",
+          "/proc",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "--chdir",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+          "/usr/bin/python3",
+          "-B",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime_audit_entry.py",
+          "--audit",
+          "audit",
+          "--out",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/qualification-audit/audit",
+          "--",
+          "-v",
+          "test_supervision_real"
+        ],
+        "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "scope": "unchanged original unittest cases"
+      },
+      "result": {
+        "audit": {
+          "audit_failures": [],
+          "child_instrumentation": "none",
+          "exception": null,
+          "mode": "audit",
+          "pid": 1500702,
+          "qualification": "bounded instrumentation observation only; universal transparency UNVERIFIED",
+          "unittest_argv": [
+            "-v",
+            "test_supervision_real"
+          ],
+          "unittest_exit": 0
+        },
+        "exit_code": 0,
+        "name": "qualification-audit",
+        "ok": true,
+        "original_parser": {
+          "errors": 0,
+          "expectedFailures": 0,
+          "failures": 0,
+          "ok": true,
+          "ran": 5,
+          "skipped": 0,
+          "unexpectedSuccesses": 0,
+          "verdictLine": "OK"
+        },
+        "output_sha256": "9767f032795fa010f4ac61ee8262d4dea2f1943b156152f11cc3895ee089551f"
+      }
+    }
+  ],
+  "typed_manager_qualification": {
+    "all_required_launch_forms_matched": true,
+    "observed_exact_typed_matches": [
+      {
+        "receipt": {
+          "argv": [
+            "/usr/bin/systemd-run",
+            "--user",
+            "--unit=worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service",
+            "--description=worldline-lab real supervision test",
+            "--collect",
+            "--pipe",
+            "--quiet",
+            "--service-type=exec",
+            "--property=KillMode=control-group",
+            "--property=SendSIGKILL=yes",
+            "--property=TimeoutStopSec=10s",
+            "--property=NoNewPrivileges=yes",
+            "--property=PrivateTmp=no",
+            "--property=UMask=0022",
+            "--",
+            "/usr/bin/sleep",
+            "30"
+          ],
+          "cwd": null,
+          "event": "subprocess.Popen",
+          "executable": "/usr/bin/systemd-run",
+          "intent": {
+            "exec_argv": [
+              "/usr/bin/sleep",
+              "30"
+            ],
+            "launch_form": "explicit separator",
+            "parser_scope": "exact supported original option grammar; unknown form unobserved",
+            "systemd_run_argv": [
+              "/usr/bin/systemd-run",
+              "--user",
+              "--unit=worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service",
+              "--description=worldline-lab real supervision test",
+              "--collect",
+              "--pipe",
+              "--quiet",
+              "--service-type=exec",
+              "--property=KillMode=control-group",
+              "--property=SendSIGKILL=yes",
+              "--property=TimeoutStopSec=10s",
+              "--property=NoNewPrivileges=yes",
+              "--property=PrivateTmp=no",
+              "--property=UMask=0022",
+              "--",
+              "/usr/bin/sleep",
+              "30"
+            ],
+            "unit": "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service"
+          },
+          "monotonic_ns": 32193457454228,
+          "pid": 1500702,
+          "receipt_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/qualification-audit/audit/popen.jsonl",
+          "scope": "top-level test process only; not child daemon instrumentation"
+        },
+        "typed_manager": {
+          "ExecStart": {
+            "argv": [
+              "busctl",
+              "--user",
+              "--json=short",
+              "get-property",
+              "org.freedesktop.systemd1",
+              "/org/freedesktop/systemd1/unit/worldline_2d00bc0477_2daed3_2d4982_2d8288_2da7c399651f0c_2eservice",
+              "org.freedesktop.systemd1.Service",
+              "ExecStart"
+            ],
+            "exit_code": 0,
+            "stderr": "",
+            "stdout": "{\"type\":\"a(sasbttttuii)\",\"data\":[[\"/usr/bin/sleep\",[\"/usr/bin/sleep\",\"30\"],false,1792018448723019,32193461100,0,0,1500706,0,0]]}\n"
+          },
+          "WorkingDirectory": {
+            "argv": [
+              "busctl",
+              "--user",
+              "--json=short",
+              "get-property",
+              "org.freedesktop.systemd1",
+              "/org/freedesktop/systemd1/unit/worldline_2d00bc0477_2daed3_2d4982_2d8288_2da7c399651f0c_2eservice",
+              "org.freedesktop.systemd1.Service",
+              "WorkingDirectory"
+            ],
+            "exit_code": 0,
+            "stderr": "",
+            "stdout": "{\"type\":\"s\",\"data\":\"!/home/sicarii\"}\n"
+          },
+          "lookup": {
+            "argv": [
+              "busctl",
+              "--user",
+              "--json=short",
+              "call",
+              "org.freedesktop.systemd1",
+              "/org/freedesktop/systemd1",
+              "org.freedesktop.systemd1.Manager",
+              "GetUnit",
+              "s",
+              "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service"
+            ],
+            "exit_code": 0,
+            "stderr": "",
+            "stdout": "{\"type\":\"o\",\"data\":[\"/org/freedesktop/systemd1/unit/worldline_2d00bc0477_2daed3_2d4982_2d8288_2da7c399651f0c_2eservice\"]}\n"
+          }
+        },
+        "unit": "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service"
+      },
+      {
+        "receipt": {
+          "argv": [
+            "/usr/bin/systemd-run",
+            "--user",
+            "--unit=worldline-7b883df8-b677-4c52-9869-cba240fc0016.service",
+            "--collect",
+            "--quiet",
+            "/usr/bin/sleep",
+            "30"
+          ],
+          "cwd": null,
+          "event": "subprocess.Popen",
+          "executable": "/usr/bin/systemd-run",
+          "intent": {
+            "exec_argv": [
+              "/usr/bin/sleep",
+              "30"
+            ],
+            "launch_form": "first positional executable",
+            "parser_scope": "exact supported original option grammar; unknown form unobserved",
+            "systemd_run_argv": [
+              "/usr/bin/systemd-run",
+              "--user",
+              "--unit=worldline-7b883df8-b677-4c52-9869-cba240fc0016.service",
+              "--collect",
+              "--quiet",
+              "/usr/bin/sleep",
+              "30"
+            ],
+            "unit": "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service"
+          },
+          "monotonic_ns": 32193989482844,
+          "pid": 1500702,
+          "receipt_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/qualification-audit/audit/popen.jsonl",
+          "scope": "top-level test process only; not child daemon instrumentation"
+        },
+        "typed_manager": {
+          "ExecStart": {
+            "argv": [
+              "busctl",
+              "--user",
+              "--json=short",
+              "get-property",
+              "org.freedesktop.systemd1",
+              "/org/freedesktop/systemd1/unit/worldline_2d7b883df8_2db677_2d4c52_2d9869_2dcba240fc0016_2eservice",
+              "org.freedesktop.systemd1.Service",
+              "ExecStart"
+            ],
+            "exit_code": 0,
+            "stderr": "",
+            "stdout": "{\"type\":\"a(sasbttttuii)\",\"data\":[[\"/usr/bin/sleep\",[\"/usr/bin/sleep\",\"30\"],false,1792018449254983,32193993064,0,0,1500746,0,0]]}\n"
+          },
+          "WorkingDirectory": {
+            "argv": [
+              "busctl",
+              "--user",
+              "--json=short",
+              "get-property",
+              "org.freedesktop.systemd1",
+              "/org/freedesktop/systemd1/unit/worldline_2d7b883df8_2db677_2d4c52_2d9869_2dcba240fc0016_2eservice",
+              "org.freedesktop.systemd1.Service",
+              "WorkingDirectory"
+            ],
+            "exit_code": 0,
+            "stderr": "",
+            "stdout": "{\"type\":\"s\",\"data\":\"!/home/sicarii\"}\n"
+          },
+          "lookup": {
+            "argv": [
+              "busctl",
+              "--user",
+              "--json=short",
+              "call",
+              "org.freedesktop.systemd1",
+              "/org/freedesktop/systemd1",
+              "org.freedesktop.systemd1.Manager",
+              "GetUnit",
+              "s",
+              "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service"
+            ],
+            "exit_code": 0,
+            "stderr": "",
+            "stdout": "{\"type\":\"o\",\"data\":[\"/org/freedesktop/systemd1/unit/worldline_2d7b883df8_2db677_2d4c52_2d9869_2dcba240fc0016_2eservice\"]}\n"
+          }
+        },
+        "unit": "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service"
+      }
+    ],
+    "required_launch_forms": [
+      "explicit separator",
+      "first positional executable"
+    ],
+    "scope": "actual unchanged supervision control; no universal callback transparency"
+  },
+  "watcher": {
+    "aggregate_sibling_cap_equivalence": "NOT CLAIMED",
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scripts/phase1_heavy.py",
+      "--phase",
+      "locked",
+      "--out",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/scope",
+      "--timeout",
+      "15m",
+      "--swap-max",
+      "0",
+      "--",
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/full_runtime_supervisor_v3.py",
+      "--phase",
+      "worker",
+      "--out",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker",
+      "--expected-commit",
+      "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "--suite",
+      "qualification",
+      "--scope-timeout",
+      "15m",
+      "--freeze-record",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+      "--frame",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+      "--build-manifest",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json"
+    ],
+    "audit_sha256": "8b9085a2ea3295fb16a68296cfa9c1cad20dbb1c268bb6f60616cfac27c42d3d",
+    "original_enforcement_none_preserved": true,
+    "outside_worker_scope": true,
+    "pid": 1499923,
+    "reference_sha256": "17a166b36993f030e66306631b234c452886923799b1b972e45652898f7f735f",
+    "shared_lock": "/home/sicarii/.worldline-heavy.lock"
+  },
+  "locked_result": {
+    "all_owned_units_quiescent": true,
+    "all_possible_siblings_known": "UNVERIFIED",
+    "audit_failures": [],
+    "exit_code": 0,
+    "failure": null,
+    "independent_acceptance": "NOT PERFORMED",
+    "owned_units": [
+      "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service",
+      "worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service",
+      "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service",
+      "worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service",
+      "worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service"
+    ],
+    "typed_manager_qualification": {
+      "all_required_launch_forms_matched": true,
+      "observed_exact_typed_matches": [
+        {
+          "receipt": {
+            "argv": [
+              "/usr/bin/systemd-run",
+              "--user",
+              "--unit=worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service",
+              "--description=worldline-lab real supervision test",
+              "--collect",
+              "--pipe",
+              "--quiet",
+              "--service-type=exec",
+              "--property=KillMode=control-group",
+              "--property=SendSIGKILL=yes",
+              "--property=TimeoutStopSec=10s",
+              "--property=NoNewPrivileges=yes",
+              "--property=PrivateTmp=no",
+              "--property=UMask=0022",
+              "--",
+              "/usr/bin/sleep",
+              "30"
+            ],
+            "cwd": null,
+            "event": "subprocess.Popen",
+            "executable": "/usr/bin/systemd-run",
+            "intent": {
+              "exec_argv": [
+                "/usr/bin/sleep",
+                "30"
+              ],
+              "launch_form": "explicit separator",
+              "parser_scope": "exact supported original option grammar; unknown form unobserved",
+              "systemd_run_argv": [
+                "/usr/bin/systemd-run",
+                "--user",
+                "--unit=worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service",
+                "--description=worldline-lab real supervision test",
+                "--collect",
+                "--pipe",
+                "--quiet",
+                "--service-type=exec",
+                "--property=KillMode=control-group",
+                "--property=SendSIGKILL=yes",
+                "--property=TimeoutStopSec=10s",
+                "--property=NoNewPrivileges=yes",
+                "--property=PrivateTmp=no",
+                "--property=UMask=0022",
+                "--",
+                "/usr/bin/sleep",
+                "30"
+              ],
+              "unit": "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service"
+            },
+            "monotonic_ns": 32193457454228,
+            "pid": 1500702,
+            "receipt_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/qualification-audit/audit/popen.jsonl",
+            "scope": "top-level test process only; not child daemon instrumentation"
+          },
+          "typed_manager": {
+            "ExecStart": {
+              "argv": [
+                "busctl",
+                "--user",
+                "--json=short",
+                "get-property",
+                "org.freedesktop.systemd1",
+                "/org/freedesktop/systemd1/unit/worldline_2d00bc0477_2daed3_2d4982_2d8288_2da7c399651f0c_2eservice",
+                "org.freedesktop.systemd1.Service",
+                "ExecStart"
+              ],
+              "exit_code": 0,
+              "stderr": "",
+              "stdout": "{\"type\":\"a(sasbttttuii)\",\"data\":[[\"/usr/bin/sleep\",[\"/usr/bin/sleep\",\"30\"],false,1792018448723019,32193461100,0,0,1500706,0,0]]}\n"
+            },
+            "WorkingDirectory": {
+              "argv": [
+                "busctl",
+                "--user",
+                "--json=short",
+                "get-property",
+                "org.freedesktop.systemd1",
+                "/org/freedesktop/systemd1/unit/worldline_2d00bc0477_2daed3_2d4982_2d8288_2da7c399651f0c_2eservice",
+                "org.freedesktop.systemd1.Service",
+                "WorkingDirectory"
+              ],
+              "exit_code": 0,
+              "stderr": "",
+              "stdout": "{\"type\":\"s\",\"data\":\"!/home/sicarii\"}\n"
+            },
+            "lookup": {
+              "argv": [
+                "busctl",
+                "--user",
+                "--json=short",
+                "call",
+                "org.freedesktop.systemd1",
+                "/org/freedesktop/systemd1",
+                "org.freedesktop.systemd1.Manager",
+                "GetUnit",
+                "s",
+                "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service"
+              ],
+              "exit_code": 0,
+              "stderr": "",
+              "stdout": "{\"type\":\"o\",\"data\":[\"/org/freedesktop/systemd1/unit/worldline_2d00bc0477_2daed3_2d4982_2d8288_2da7c399651f0c_2eservice\"]}\n"
+            }
+          },
+          "unit": "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service"
+        },
+        {
+          "receipt": {
+            "argv": [
+              "/usr/bin/systemd-run",
+              "--user",
+              "--unit=worldline-7b883df8-b677-4c52-9869-cba240fc0016.service",
+              "--collect",
+              "--quiet",
+              "/usr/bin/sleep",
+              "30"
+            ],
+            "cwd": null,
+            "event": "subprocess.Popen",
+            "executable": "/usr/bin/systemd-run",
+            "intent": {
+              "exec_argv": [
+                "/usr/bin/sleep",
+                "30"
+              ],
+              "launch_form": "first positional executable",
+              "parser_scope": "exact supported original option grammar; unknown form unobserved",
+              "systemd_run_argv": [
+                "/usr/bin/systemd-run",
+                "--user",
+                "--unit=worldline-7b883df8-b677-4c52-9869-cba240fc0016.service",
+                "--collect",
+                "--quiet",
+                "/usr/bin/sleep",
+                "30"
+              ],
+              "unit": "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service"
+            },
+            "monotonic_ns": 32193989482844,
+            "pid": 1500702,
+            "receipt_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/qualification-audit/audit/popen.jsonl",
+            "scope": "top-level test process only; not child daemon instrumentation"
+          },
+          "typed_manager": {
+            "ExecStart": {
+              "argv": [
+                "busctl",
+                "--user",
+                "--json=short",
+                "get-property",
+                "org.freedesktop.systemd1",
+                "/org/freedesktop/systemd1/unit/worldline_2d7b883df8_2db677_2d4c52_2d9869_2dcba240fc0016_2eservice",
+                "org.freedesktop.systemd1.Service",
+                "ExecStart"
+              ],
+              "exit_code": 0,
+              "stderr": "",
+              "stdout": "{\"type\":\"a(sasbttttuii)\",\"data\":[[\"/usr/bin/sleep\",[\"/usr/bin/sleep\",\"30\"],false,1792018449254983,32193993064,0,0,1500746,0,0]]}\n"
+            },
+            "WorkingDirectory": {
+              "argv": [
+                "busctl",
+                "--user",
+                "--json=short",
+                "get-property",
+                "org.freedesktop.systemd1",
+                "/org/freedesktop/systemd1/unit/worldline_2d7b883df8_2db677_2d4c52_2d9869_2dcba240fc0016_2eservice",
+                "org.freedesktop.systemd1.Service",
+                "WorkingDirectory"
+              ],
+              "exit_code": 0,
+              "stderr": "",
+              "stdout": "{\"type\":\"s\",\"data\":\"!/home/sicarii\"}\n"
+            },
+            "lookup": {
+              "argv": [
+                "busctl",
+                "--user",
+                "--json=short",
+                "call",
+                "org.freedesktop.systemd1",
+                "/org/freedesktop/systemd1",
+                "org.freedesktop.systemd1.Manager",
+                "GetUnit",
+                "s",
+                "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service"
+              ],
+              "exit_code": 0,
+              "stderr": "",
+              "stdout": "{\"type\":\"o\",\"data\":[\"/org/freedesktop/systemd1/unit/worldline_2d7b883df8_2db677_2d4c52_2d9869_2dcba240fc0016_2eservice\"]}\n"
+            }
+          },
+          "unit": "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service"
+        }
+      ],
+      "required_launch_forms": [
+        "explicit separator",
+        "first positional executable"
+      ],
+      "scope": "actual unchanged supervision control; no universal callback transparency"
+    },
+    "unattributed_cleanup": "UNVERIFIED; read only observations, never stopped",
+    "unattributed_new_units": [
+      "worldline-4be53f11-152f-43b7-b4bd-4831951b4fc8.service",
+      "worldline-c55f3262-930e-4805-b2b6-0ef685a243d8.service"
+    ],
+    "unresolved_potential_siblings": [],
+    "worker_exit_code": 0
+  },
+  "owned_terminal_observations": {
+    "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service": {
+      "groups": [],
+      "manager": {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "--property=Id",
+          "--property=LoadState",
+          "--property=ActiveState",
+          "--property=SubState",
+          "--property=MainPID",
+          "--property=InvocationID",
+          "--property=ControlGroup",
+          "--property=MemoryMax",
+          "--property=MemorySwapMax",
+          "--property=MemoryPeak",
+          "--property=MemorySwapPeak",
+          "--property=Result",
+          "--property=Restart",
+          "--property=KillMode",
+          "--",
+          "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "Id=worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+      },
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "Id": "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service",
+        "InvocationID": "",
+        "KillMode": "control-group",
+        "LoadState": "not-found",
+        "MainPID": "0",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "MemorySwapPeak": "[not set]",
+        "Restart": "no",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+      "quiescent": true,
+      "unit": "worldline-00bc0477-aed3-4982-8288-a7c399651f0c.service",
+      "utc": "2026-10-14T22:54:20.769630+00:00"
+    },
+    "worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service": {
+      "groups": [],
+      "manager": {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "--property=Id",
+          "--property=LoadState",
+          "--property=ActiveState",
+          "--property=SubState",
+          "--property=MainPID",
+          "--property=InvocationID",
+          "--property=ControlGroup",
+          "--property=MemoryMax",
+          "--property=MemorySwapMax",
+          "--property=MemoryPeak",
+          "--property=MemorySwapPeak",
+          "--property=Result",
+          "--property=Restart",
+          "--property=KillMode",
+          "--",
+          "worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "Id=worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+      },
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "Id": "worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service",
+        "InvocationID": "",
+        "KillMode": "control-group",
+        "LoadState": "not-found",
+        "MainPID": "0",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "MemorySwapPeak": "[not set]",
+        "Restart": "no",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+      "quiescent": true,
+      "unit": "worldline-6b220c8f-ca87-41aa-b2a5-4bb43ecceb41.service",
+      "utc": "2026-10-14T22:54:20.773648+00:00"
+    },
+    "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service": {
+      "groups": [],
+      "manager": {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "--property=Id",
+          "--property=LoadState",
+          "--property=ActiveState",
+          "--property=SubState",
+          "--property=MainPID",
+          "--property=InvocationID",
+          "--property=ControlGroup",
+          "--property=MemoryMax",
+          "--property=MemorySwapMax",
+          "--property=MemoryPeak",
+          "--property=MemorySwapPeak",
+          "--property=Result",
+          "--property=Restart",
+          "--property=KillMode",
+          "--",
+          "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "Id=worldline-7b883df8-b677-4c52-9869-cba240fc0016.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+      },
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "Id": "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service",
+        "InvocationID": "",
+        "KillMode": "control-group",
+        "LoadState": "not-found",
+        "MainPID": "0",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "MemorySwapPeak": "[not set]",
+        "Restart": "no",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+      "quiescent": true,
+      "unit": "worldline-7b883df8-b677-4c52-9869-cba240fc0016.service",
+      "utc": "2026-10-14T22:54:20.777565+00:00"
+    },
+    "worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service": {
+      "groups": [],
+      "manager": {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "--property=Id",
+          "--property=LoadState",
+          "--property=ActiveState",
+          "--property=SubState",
+          "--property=MainPID",
+          "--property=InvocationID",
+          "--property=ControlGroup",
+          "--property=MemoryMax",
+          "--property=MemorySwapMax",
+          "--property=MemoryPeak",
+          "--property=MemorySwapPeak",
+          "--property=Result",
+          "--property=Restart",
+          "--property=KillMode",
+          "--",
+          "worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "Id=worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+      },
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "Id": "worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service",
+        "InvocationID": "",
+        "KillMode": "control-group",
+        "LoadState": "not-found",
+        "MainPID": "0",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "MemorySwapPeak": "[not set]",
+        "Restart": "no",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+      "quiescent": true,
+      "unit": "worldline-a6bab526-2a1e-4783-ba81-08cb79132861.service",
+      "utc": "2026-10-14T22:54:20.781495+00:00"
+    },
+    "worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service": {
+      "groups": [],
+      "manager": {
+        "argv": [
+          "systemctl",
+          "--user",
+          "show",
+          "--property=Id",
+          "--property=LoadState",
+          "--property=ActiveState",
+          "--property=SubState",
+          "--property=MainPID",
+          "--property=InvocationID",
+          "--property=ControlGroup",
+          "--property=MemoryMax",
+          "--property=MemorySwapMax",
+          "--property=MemoryPeak",
+          "--property=MemorySwapPeak",
+          "--property=Result",
+          "--property=Restart",
+          "--property=KillMode",
+          "--",
+          "worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "Id=worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+      },
+      "properties": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "Id": "worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service",
+        "InvocationID": "",
+        "KillMode": "control-group",
+        "LoadState": "not-found",
+        "MainPID": "0",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "MemorySwapPeak": "[not set]",
+        "Restart": "no",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+      "quiescent": true,
+      "unit": "worldline-e69d1270-2aa2-47ee-9ba3-b75c883e3406.service",
+      "utc": "2026-10-14T22:54:20.785237+00:00"
+    }
+  },
+  "readonly_terminal_observations": {
+    "observations": {
+      "worldline-4be53f11-152f-43b7-b4bd-4831951b4fc8.service": {
+        "groups": [],
+        "manager": {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "--property=Id",
+            "--property=LoadState",
+            "--property=ActiveState",
+            "--property=SubState",
+            "--property=MainPID",
+            "--property=InvocationID",
+            "--property=ControlGroup",
+            "--property=MemoryMax",
+            "--property=MemorySwapMax",
+            "--property=MemoryPeak",
+            "--property=MemorySwapPeak",
+            "--property=Result",
+            "--property=Restart",
+            "--property=KillMode",
+            "--",
+            "worldline-4be53f11-152f-43b7-b4bd-4831951b4fc8.service"
+          ],
+          "exit_code": 0,
+          "stderr": "",
+          "stdout": "Id=worldline-4be53f11-152f-43b7-b4bd-4831951b4fc8.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+        },
+        "properties": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "Id": "worldline-4be53f11-152f-43b7-b4bd-4831951b4fc8.service",
+          "InvocationID": "",
+          "KillMode": "control-group",
+          "LoadState": "not-found",
+          "MainPID": "0",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "MemorySwapPeak": "[not set]",
+          "Restart": "no",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+        "quiescent": true,
+        "unit": "worldline-4be53f11-152f-43b7-b4bd-4831951b4fc8.service"
+      },
+      "worldline-c55f3262-930e-4805-b2b6-0ef685a243d8.service": {
+        "groups": [],
+        "manager": {
+          "argv": [
+            "systemctl",
+            "--user",
+            "show",
+            "--property=Id",
+            "--property=LoadState",
+            "--property=ActiveState",
+            "--property=SubState",
+            "--property=MainPID",
+            "--property=InvocationID",
+            "--property=ControlGroup",
+            "--property=MemoryMax",
+            "--property=MemorySwapMax",
+            "--property=MemoryPeak",
+            "--property=MemorySwapPeak",
+            "--property=Result",
+            "--property=Restart",
+            "--property=KillMode",
+            "--",
+            "worldline-c55f3262-930e-4805-b2b6-0ef685a243d8.service"
+          ],
+          "exit_code": 0,
+          "stderr": "",
+          "stdout": "Id=worldline-c55f3262-930e-4805-b2b6-0ef685a243d8.service\nLoadState=not-found\nActiveState=inactive\nSubState=dead\nInvocationID=\nRestart=no\nMainPID=0\nResult=success\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nMemoryMax=infinity\nMemorySwapMax=infinity\nKillMode=control-group\n"
+        },
+        "properties": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "Id": "worldline-c55f3262-930e-4805-b2b6-0ef685a243d8.service",
+          "InvocationID": "",
+          "KillMode": "control-group",
+          "LoadState": "not-found",
+          "MainPID": "0",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "MemorySwapPeak": "[not set]",
+          "Restart": "no",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "quiescence_basis": "manager NOT-FOUND and exact UUID cgroup ABSENT in readable user-manager subtree; not a populated-zero measurement",
+        "quiescent": true,
+        "unit": "worldline-c55f3262-930e-4805-b2b6-0ef685a243d8.service"
+      }
+    },
+    "ownership_and_cleanup": "UNVERIFIED; never stopped",
+    "unresolved": []
+  },
+  "scope": {
+    "admission": [
+      {
+        "admitted": true
+      }
+    ],
+    "worker_result": {
+      "exit_code": 0,
+      "utc": "2026-10-14T22:54:20.408768+00:00"
+    },
+    "terminal": [
+      {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-14T22:54:20.467859+00:00"
+      }
+    ],
+    "last_live_cgroup": {
+      "event": "after",
+      "exit_code": 0,
+      "memory.current": "189722624",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+      "memory.max": "8589934592",
+      "memory.peak": "224284672",
+      "memory.swap.max": "0",
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-54aa8e4816a642039ef01dd710876067.scope",
+      "utc": "2026-10-14T22:54:20.408375+00:00"
+    }
+  },
+  "receipt_hashes": {
+    "scratch/old-analysis/runtime-qualification-v5/result.json": "d99ca9d459cb1b116133043ae2a4c8740c2d00a5dbd61d0974ec489a6145dce9",
+    "scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/locked-result.json": "7d83897a92e0e9055648f3d158f3c2be1c2aabeed65ec61fc4ebdb814eadd16c",
+    "scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/worker-result.json": "c9b76ee754cfbb099a0cf69e20fe3ef7ffa0bd37a6257ec4aed7cca533aa9a84",
+    "scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/typed-manager-qualification.json": "b9a27b626b5a083f6b1ced313b67416fd6d9df02abe97e99d2743c322221fa7f"
+  },
+  "limits": [
+    "Parity is bounded to unchanged actual test_supervision_real plain/audit module with zero skips and exact typed launch forms; universal instrumentation transparency/nativecall observation remains UNVERIFIED.",
+    "Original enforcement-none negative controls preserved; owned sibling service limits differ by original design and aggregate sibling cap equivalence NOT CLAIMED.",
+    "Unattributed observations are read-only/ownershipUNVERIFIED; all_possible_siblings_known UNVERIFIED. Do not relabel as universal host cleanup.",
+    "Actual owned services manager NOT-FOUND plus exact UUID cgroup ABSENT, not populated-zero measurement; worker terminalscope populatedfalse.",
+    "Original full/private/domain commands, rosters/bounds and D35 conditional-private requirements retained. No repeat of completed qualifying pair. Prior proof/binary failures and D7/independent acceptance remain open."
+  ]
+}

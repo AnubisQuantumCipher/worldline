@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "scratch/old-analysis/full_runtime_supervisor_v3.py",
+    "--out",
+    "scratch/old-analysis/runtime-qualification-v6",
+    "--suite",
+    "qualification",
+    "--scope-timeout",
+    "15m",
+    "--expected-commit",
+    "58262a0b89cdc0a10ed668b4bd1405b8814af34b",
+    "--freeze-record",
+    "records/phase1-blockers/freeze-v6/source.json",
+    "--frame",
+    "scratch/coordinator/final-frame-v6/source",
+    "--build-manifest",
+    "scratch/old-analysis/build-receipt-v6/artifacts.json"
+  ],
+  "audit_sha256": "8b9085a2ea3295fb16a68296cfa9c1cad20dbb1c268bb6f60616cfac27c42d3d",
+  "build_manifest": "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/old-analysis/build-receipt-v6/artifacts.json",
+  "driver_sha256": "8c2c222015627f3dbb0a0a2529dc0c6570f7ef3d9e8efdc6511729b739651255",
+  "frame": "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/coordinator/final-frame-v6/source",
+  "freeze_record": "/home/sicarii/Work/worldline-phase1-completion-20261016/records/phase1-blockers/freeze-v6/source.json",
+  "identity_helper_sha256": "76273e84d9ab37b6aaaa1d858709b32af90193f435045e90d6a0a80487b64f2e",
+  "lock": "/home/sicarii/.worldline-heavy.lock",
+  "prepared_only_until_authorized": true,
+  "source_commit": "58262a0b89cdc0a10ed668b4bd1405b8814af34b"
+}

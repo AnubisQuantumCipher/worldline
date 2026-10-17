@@ -4,15 +4,37 @@ import difflib
 import fnmatch
 import json
 import os
+import time
 from pathlib import Path
 from typing import Any
 
 from . import SCHEMA_VERSION
 from .errors import NotFound, WorldlineError
+from .linux.git import GitAdapter
 from .manifest import Manifest, path_b64, path_from_b64
 from .model import WorldState, World
 from .project import ProjectConfig
 from .store import StateStore
+
+
+def claims_of(event: dict[str, Any], default_actor: str) -> dict[str, Any]:
+    """The actor, tool and reason an event records, with who made those claims (1.9.2):
+    `agent:<adapter>` for anything an agent's stdout supplied (a file-delta carries its source
+    event's origin), `worldline` for WORLDLINE's own records, and `not recorded (before 1.9.2)`
+    for events chained before origins were recorded, which cannot be authenticated now."""
+    origin = event.get("origin")
+    if origin == "agent":
+        label = f"agent:{event.get('adapter') or 'unknown'}"
+    elif origin == "worldline":
+        label = "worldline"
+    else:
+        label = "not recorded (before 1.9.2)"
+    return {
+        "origin": label,
+        "actor": event.get("actor", default_actor),
+        "tool": event.get("tool"),
+        "reason": event.get("reason") or "not supplied by adapter",
+    }
 
 
 class CausalIndexer:
@@ -22,13 +44,52 @@ class CausalIndexer:
     def index(self, world: World, project: ProjectConfig) -> int:
         base = Path(world.base_payload_path)
         candidate = Path(world.payload_path)
-        base_manifests = {
-            root["root_key"]: Manifest.load(base / "manifests" / f"{root['root_key']}.json", self.store.core)
-            for root in self.store.roots()
-        }
+        registered = self.store.roots()
+        base_manifests = {}
+        actual_base_manifests = {}
+        for root in registered:
+            key = root["root_key"]
+            manifest_path = base / "manifests" / f"{key}.json"
+            if manifest_path.is_file():
+                manifest = Manifest.load(manifest_path, self.store.core)
+                self._verify_base(manifest, base / key, key)
+            else:
+                # Finalization also accepts checkpoints without saved manifests.
+                # Acquire the same complete manifest from the actual base, using
+                # its original repository capture recipe. Do not mutate a shared
+                # checkpoint or silently omit its causal index.
+                source = base / key
+                repository = GitAdapter(self.store.core).capture(source) if root["kind"] == "repo" else None
+                manifest = Manifest.capture(source, logical_root=bytes(root["path"]),
+                    root_key=key, kind=root["kind"], core=self.store.core,
+                    repository=repository)
+                actual_base_manifests[key] = manifest
+            base_manifests[key] = manifest
+        observed_base_root = Manifest.root_set_hash(base_manifests.values(), self.store.core)
+        if observed_base_root != world.base_root:
+            raise WorldlineError("BASE_ROOT_MISMATCH",
+                "causal indexing base checkpoint differs from its claimed base",
+                {"claimed": world.base_root, "actual": observed_base_root})
+        # Preserve the saved-manifest identity refusal above before acquiring
+        # additional facts. Content verification alone omits metadata and repo
+        # facts; compare a complete capture of each actual base as well.
+        for root in registered:
+            key = root["root_key"]
+            if key in actual_base_manifests:
+                continue
+            source = base / key
+            repository = GitAdapter(self.store.core).capture(source) if root["kind"] == "repo" else None
+            actual_base_manifests[key] = Manifest.capture(source, logical_root=bytes(root["path"]),
+                root_key=key, kind=root["kind"], core=self.store.core,
+                repository=repository)
+        actual_base_root = Manifest.root_set_hash(actual_base_manifests.values(), self.store.core)
+        if actual_base_root != world.base_root:
+            raise WorldlineError("BASE_ROOT_MISMATCH",
+                "causal indexing actual base checkpoint differs from its claimed base",
+                {"claimed": world.base_root, "actual": actual_base_root})
         candidate_manifests = {
             root["root_key"]: Manifest.load(candidate / "manifests" / f"{root['root_key']}.json", self.store.core)
-            for root in self.store.roots()
+            for root in registered
         }
         prior_events = self.store.causal_events_for_world(world.instance_id)
         ranges: list[dict[str, Any]] = []
@@ -59,8 +120,12 @@ class CausalIndexer:
                 "pathDisplay": display,
                 "operation": operation["op"],
                 "evidence": evidence,
+                # Who made the claims this record carries (actor, tool, reason): the source
+                # event's origin, so an agent's statement stays labelled as the agent's (1.9.2).
+                **({"origin": source_value["origin"]} if source_value.get("origin") else {}),
+                **({"adapter": source_value["adapter"]} if source_value.get("adapter") else {}),
             }
-            link = self.store.append_causal_event(event)
+            link = self.store.append_causal_event(event, worldline_authored=True)
             line_ranges = self._ranges(
                 operation,
                 base_manifests[root_key],
@@ -85,6 +150,27 @@ class CausalIndexer:
         if ranges:
             self.store.add_line_ranges(ranges)
         return indexed
+
+    def _verify_base(self, manifest, source: Path, root_key: str) -> None:
+        # Match Finalizer's checkpoint verification and original transient-read
+        # retry policy before any causal event is appended. Saved manifest bytes
+        # alone do not establish that the actual base content is still present.
+        last: WorldlineError | None = None
+        for attempt in range(3):
+            try:
+                Manifest.verify_content(manifest, source, self.store.core)
+                return
+            except WorldlineError as exc:
+                last = exc
+                if not exc.code.startswith("CORE_"):
+                    break
+                time.sleep(0.5 * (attempt + 1))
+        assert last is not None
+        raise WorldlineError(
+            "BASE_CHECKPOINT_UNVERIFIED",
+            f"the checkpoint this world was forked from could not be verified for root {root_key}: {last.message}",
+            {"rootKey": root_key, "base": str(source), "cause": last.as_dict()},
+        )
 
     @staticmethod
     def _source_event(
@@ -188,7 +274,7 @@ class CausalIndexer:
                 raise NotFound("causal event", f"{path_value}:{line}")
             return self._checkpoint_attribution(path_value, line, prime, bystanders)
         row = chosen_row
-        event = json.loads(Path(row["canonical_path"]).read_text(encoding="utf-8"))
+        event = json.loads(self.store.read_canonical("events", row["canonical_path"]).decode("utf-8"))
         world = self.store.world(row["world_instance"])
         ancestors: list[dict[str, Any]] = []
         current = world
@@ -206,13 +292,21 @@ class CausalIndexer:
                 break
             current = self.store.world(current.parent_instance)
         receipt = None if world.content_id is None else self.store.receipt_for_candidate(world.content_id)
+        claims = claims_of(event, world.actor)
         return {
             "path": path_value,
             "line": line,
             "world": world.alias,
-            "actor": event.get("actor", world.actor),
             "mission": world.cause,
-            "reason": event.get("reason") or "not supplied by adapter",
+            # What an agent said about the change, kept apart from WORLDLINE's facts and labelled
+            # with who said it (1.9.2, OB-091).
+            "claims": claims,
+            # Preserve the original public why fields as aliases of the same
+            # explicitly labelled claims; these do not authenticate an agent.
+            "claimOrigin": claims["origin"],
+            "actor": claims["actor"],
+            "tool": claims["tool"],
+            "reason": claims["reason"],
             "granularity": row["granularity"],
             "evidence": event.get("evidence", []),
             "ancestors": ancestors,
@@ -246,13 +340,18 @@ class CausalIndexer:
             seen.add(current.instance_id)
             ancestors.append({"alias": "PRIME" if current.alias.startswith("prime-") else current.alias, "instanceId": current.instance_id, "contentId": current.content_id})
             current = self.store.world(current.parent_instance) if current.parent_instance else None
+        claims = {"origin": "worldline", "actor": "worldline", "tool": None,
+                  "reason": "no world in PRIME's lineage changed this line; it dates from a checkpoint (registration or return)"}
         return {
             "path": path_value,
             "line": line,
             "world": "PRIME",
-            "actor": "worldline",
             "mission": None,
-            "reason": "no world in PRIME's lineage changed this line; it dates from a checkpoint (registration or return)",
+            "claims": claims,
+            "claimOrigin": claims["origin"],
+            "actor": claims["actor"],
+            "tool": claims["tool"],
+            "reason": claims["reason"],
             "granularity": "checkpoint",
             "evidence": [],
             "ancestors": ancestors,

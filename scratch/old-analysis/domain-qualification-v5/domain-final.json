@@ -1,0 +1,1063 @@
+{
+  "audit_helper_sha256": "8b9085a2ea3295fb16a68296cfa9c1cad20dbb1c268bb6f60616cfac27c42d3d",
+  "entry_sha256": "fa124d361ad2bbdcf931fa5c67485438b61cdefc4cecd83aa28612389ceafdad",
+  "exception": {
+    "message": "Original gate or owned cleanup did not complete successfully",
+    "type": "RuntimeError"
+  },
+  "historical_collector_equivalence": "UNVERIFIED",
+  "independent_acceptance": "NOT PERFORMED",
+  "locked_result": {
+    "all_owned_units_quiescent": true,
+    "all_possible_siblings_known": "UNVERIFIED",
+    "audit_failures": [],
+    "exit_code": 1,
+    "failure": null,
+    "independent_acceptance": "NOT PERFORMED",
+    "owned_units": [],
+    "typed_manager_qualification": null,
+    "unattributed_cleanup": "UNVERIFIED; read only observations, never stopped",
+    "unattributed_new_units": [],
+    "unresolved_potential_siblings": [],
+    "worker_exit_code": 1
+  },
+  "mode": "qualify",
+  "native_entry": "UNVERIFIED",
+  "original_carrier_sha256": "3105162b3f9eac3a61460e9a1cb23966a84296fa9e4af9ddc69c1155e97b39e1",
+  "outer_exit": 1,
+  "output_hashes": {
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/heavy.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/heavy.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/locked-result.json": "9a12f3288723d8ec1c300803a79ec90554d12418bdcba4a8ec6b2556014a13d7",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/manager-initial.json": "2a96a7dbb856a92af6f17bd798bfe957b1ef0488489b34baa61a7c5d478a0e38",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/manager-rosters.jsonl": "a22fec1ab160cbb60a972698be5e0a12c31d2439a83e6f902f0fb02ee4f1d9bc",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/readonly-terminal-observations.json": "aa4afca1cf1b8ba29b79dfc719c297ca4b8ac65c461ac231a59203c6adea9315",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/admission.jsonl": "5804ba4f4dfd7a19cfef846edaa57d7e3684809a364cb32c490175a56f5b480f",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/admitted.json": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/cgroup.jsonl": "f392371076c131286816fd66546f04b50a73e136426d36f0e8bc589a09187319",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/launcher.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/launcher.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/rusage.json": "0fd90a9154fc604e42c6340130e974c8f587bb9e77460cda89c7feb2282dd4d4",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/scope-journal.txt": "2b3bf4d8cb9cecda9e4ce338b6ba1c10c007a281512bd2609f98d8f252a5adf8",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/scope.jsonl": "3c6be9f036c7208871fa33a2fdd556d5442bd37122477dea0eb87dd80b40cab8",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/supervisor.jsonl": "f9948cd80b2cebca3eb02497c5a4208a571f6465e98554551997452b57c6a5a7",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/terminal-scope.jsonl": "eb2284121ff101a75dacf3c1f701e614756f14f7809ced8cdf5d8ecf96c3c151",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/scope/worker-result.json": "3a16324442921ba7482e0971237f28d8928585f5f89566e2da4c6ff5984ac416",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/watcher.json": "2a53de358943546e30b0714f3f20cf25ebe36b86df5181dedf69d47e1e9a4534",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample-archive.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample-runtime.tar": "b29733742153c52ef16cf9e089a7609090b5274978ce722d8f40933aced8c11a",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample-source.json": "2290304c53d6b91a2629cac8b2b7ff22a9070a7e38e960a8025d8a4dd23ebec9",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/__init__.py": "95bf1834267682824b4cf341a7ea3d2e4ca6618eb83970ce2aa3b387425c9167",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/admission.py": "102459346ff6d9a95de3a417c3e1c82b6339f31605814260951611a1d232d76e",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/agents/__init__.py": "56d96886cf8a99bd6484615aff595ac28495284f18a867fbc348c5dec332a99c",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/agents/base.py": "474901c662205db043c5753b02f67126d96b1a01754684521708ef0620fdfb3a",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/agents/claude.py": "1bc5757e94f4c22ee99f942f4bacda6da618911ab5fbcca782e9d42eac40f316",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/agents/codex.py": "3e647e10d4a31c59fd7a994d8e87ecf943623b6d7032f792f574907e1a3d483a",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/agents/generic.py": "22ce9848c30938d45ad4b0a020f9bbc70dd3ad6cbc4fe94fd5eeed38e27446c9",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/agents/omp.py": "366338d00cef9c2bcbef41aebc39cfd32f256d57344c200d50eb6bf9fdea9bdc",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/agents/pi.py": "0b623932b51af84663d76bd45230f3e4088c9ff616629dcf18dbfa54e8d042da",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/anchor.py": "4a958f2072524a342766307fee902f0914ee88a38b3433a5c598be7dd9ba80ee",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/app.py": "05bcb4bd1f14c58b4d11a9ba697b21643d1fb9fa0b52fa594f32f8cc3ae142fc",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/canonical.py": "9964b2266aa9b6adf8c03f6c7cf0f01586d530f63b014f4dcc1a7bc0975d4af3",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/capabilities.py": "a0f479c2ead05cc10cf04dada7f7864f7907b01695ff5187d0658d33752f16a9",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/causal.py": "8263df46e41080a08fc4b679b0b1738a6a800a87018f7600fd453303ae8a07d3",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/checkpoint.py": "a88b07c8424e3e129e657d8f2a6cc27a041f42ab72b9c80680e73213189d7980",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/checks.py": "d3a89a65fc147903376094f9e5250a0219a37a655a17482783d39130d6b41a99",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/cli_main.py": "0b68fda6a9c7c9d77404dc94ba8edb5415d40ee7f51f93146bdd8080050b4e7a",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/client.py": "19779dceada59d040aecec0c64527dac672d321d489a9ec3dc25b9c19077078f",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/config.py": "29c53a93aa57f009d438f8b18e02ad669154fc6c00f8043e96cf5f3d4fc135bb",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/controller.py": "a2ea5f2c2d20767baeff7adb4535a69fe06eef82d316d94cafdd2008c60bbf65",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/core.py": "27b75aabd9bf0e884c4e3649003f1f5c752f53f7a12729efb19c403e34a1d9dd",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/daemon.py": "1a64024b5d880484ce98113b595833102db8232ca0f0cee780321b7f39895f61",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/daemon_main.py": "00b6acf0e4047643f1524d4179d2bda584c856e48d20c54866e9588966bb3667",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/delta.py": "192efbe8b8b761a4e76c7361a2c06dcac801641d524f18efda5de74452ce4059",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/environment.py": "5a9ea64b0482c7d2d9cc1fad6c3b59db3642e2757ae95647ea90478720b1a6bf",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/errors.py": "b9291851049bb03e1adf72413aa9b6d1c410c245d76e703f02d28879fafd6097",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/executed.py": "11724b536ec9bfb22bcdaea0a1274d3ff1e4e75b83259226816cdf76e6cb4185",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/finalize.py": "dc2856565582bc9d726b4cfbbdc23e86827491f6808b09989a300b2459212b03",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/fork.py": "b64b86f4e64999a0eff189aad70331c6cbcce13540b5ad071c24f0e5085a3c80",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/ghosts.py": "af031cfeb7c06e3ad9151eb45cc776783b1c05e4b080ce640bdfbfce4f21de7f",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/install_config.py": "69b24b2a1ea04baed0d6c590fee0078aee6c8e542572930c0d22af4127e95261",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/__init__.py": "36944b96f2ae76dc3f73178841eb4a1693f875aa7050fa13c593f85355027bb6",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/atomic.py": "868c6c3db77f12e074dced0a2fb7f4655098c6dff3c70ce54fbbb93b63e292b8",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/btrfs.py": "cc25fc1f948b270165801ded686026abb688c62153912bec0ec7bf2d1bd524df",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/cgroups.py": "94f3e3e2bf6438d15b52a5e2c51d9c62ec2c8c91b478d5d36af431ff10ad5c30",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/criu.py": "fce20d417123189254b3c4e023ba5bd20aff619dccbf3eb49b5194efaaa1b498",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/docker.py": "221bb301290b500d9fea190c4d49ce6e3bdc17552e8338dd974a327954ce2568",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/git.py": "f88ea9ca352bd2576aadbc95a3e70379d736beda2460ae49df84b7c77bea1a0c",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/hyprland.py": "fe9e98a04311353b0ea2b1ca969f31712a30b46d92421505f34c571c3c76ba10",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/inotify.py": "ed8a936e7ffd1d8c6ac7f6d702ea847535e8814f4aacfbf3f3fa0fa381c079e0",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/namespaces.py": "8a05e318d87bfcbf297d40e6052c1c16f2d71b90ff5eb18249d1eb03d448ef4e",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/netguard.py": "e49dbb8dbd6f75fc5db461dfa7f0925e6e1789c1367c21579875503aa66d1d0d",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/overlay.py": "d451e121206c7ec8e709b5abc8f6f16243be6f70f78df353993f9a9acc3eab3a",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/linux/systemd.py": "f55dced710b454fe4bfdbb562ad10cec2e1c3e6aa57e7d0b897da9a6d651bd14",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/manifest.py": "648ba4fe0a7b0ccede937648f90f552f26c4f4ef25e959b1ce725e7ad4131019",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/model.py": "51384676f63545ce8ee44c74268db30a0407338a65c05dfcc7a8b71c57c18f4c",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/paths.py": "0a71ba6fb6b194018f2742b63a651bd1224045d70b79c6739f1a21eb28020f12",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/payload.py": "b18d2ae475bd097688f5b4127d88384a2112e21f375bd02705161cc81afdb92d",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/prime.py": "0b99af65c4d1bb4bc7846e3c89f9183378f8d8c8b28d52f1c820c4b8b1e01ee7",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/project.py": "573c2e381386da0b9ba1a4c9526052b8e98b271d484c448930a44c4d36f92e73",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/proof.py": "4bab3d3032179a23b1771eb293ce28102e9aed7746cd3720476c124918d27616",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/prune.py": "47c1a68dc54449db42432f5a90cedda7eb6d80dd8784a8a087e93a8bb84722af",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/receipt.py": "aa8f31e428e02e8742286dd967ea684fdad639f01b32b49bfb5001daedd9b913",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/reconcile.py": "7bae0c615c17dd4a39d30abdb6b49e2dd8dfca72b3db9761380fed304b2fb959",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/returning.py": "120238cf2a6dd928f2d3eadac170965417e480afd5fd5823191a9a8d6732860f",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/revalidate.py": "073038eb887f4cceb560df880f1a3eda1df4b6637d31161154c79268c801e0b7",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/roots.py": "94918047b10dfe25ab85e4cc35ff98b2202b25d1b1f07efbf5a9f16fce6262a4",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/runner.py": "94931bcd7072c8afaba0638b3bc95a94e4a2299ad3ff32fc352bd7d95577b67a",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/scoring.py": "e991c6b451939077f6b44c9cb9be5eba2d33a741de7fa2acf8aa9fe97ccd2e72",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/services.py": "9c6189980e551bdfb9064a911d804c6583c4fc42ec0f016988579fd4206b9a61",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/simulation.py": "9b66dfbfb68ff576b9b3482bd21c3e14b68fddf52cd328e8f871662ad3da6830",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/status.py": "ab2c76227675d32ec96306ee89f1f403f864116912309a437560dea1767d9232",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/store.py": "402dc8fbe1dbb448a8fd28cb09263899ccfc71117348c9d6f5f2abb919a3518a",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/transaction.py": "99905ffc7f8330078aea48150f41209ad419e454434af762161164f9b57a85ff",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime/worldline/validation.py": "c9d9a6358f08cb427bede287eb513c46bf505d0c58c3cdcd9ac3c64ce1434d13",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/environment.json": "1094d29d0d71f695805fcfb0fc5bff35f2beb29768d11a32b1a52f930cb0f0f1",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/exception.txt": "39da735ca8dc4ab260d20251c5a9e549ad127bef965c8d0f6d7b06bcbe78939b",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/frame-before.json": "416e4510b4c56aadd3516f6db4f4936fb30885baaedb1aff43a2945840370f39",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate.output": "01c02b77f81140a5d1c16009dd2f954b3bc21f4546ef68b3a178bafe1f930db2",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/candidate/launch.json": "c3c353b6bbd093f0196c9c7c35bfb262b41927d4d6d746a809a2758b904d9fed",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/candidate/result.json": "780ccb2dc9327c39b2ed62321390240f5a969a2314933f73edccda7aae20100e",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/candidate/stdout-stderr": "e4e23a4cedce97f414335caa0475ab4be822f4d4b36bfb5daf0e616bdd78511d",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/candidate/verdict.json": "1f9bc3436b3ab2b1c4c7f53aadff33141573c2c9feaff3fe7223b035904f3a38",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/counterexample/launch.json": "4b5445df28d30f8e066eceeaa1af688737b923296d0135f4b9e1ab940130efa7",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/counterexample/result.json": "87045694847c7b0c6700f365033bbb90014c7b80665b3bc7d85442a1d2d06efa",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/counterexample/stdout-stderr": "a2a9d407fd7a706f91476fecb05484e124588dd65dc843f1b10313c9f670b6c7",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/counterexample/verdict.json": "19c4a6cf7dbd1cd839cdcccb8eb0e7f9dea3742fb7b67dce406fd61e68fb7c8d",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/payload-result.json": "69716f9e88dbed96ca0d0ebfed0ae69ba8b45db8373e281595692dfe8cc37cfe",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-payload-input.json": "12bb95683f3a9e8f4b7d0a823481802145d4edd9c5811269be7a5463c2623aed",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/worker-result.json": "4956bfbd44b8b5623777fd6e50c7540d1650d21ae8441da5efb3189b8c80647c",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempts.jsonl": "cacf4b766cbe844dbe61a2af3abbbc4f261a3c74ab2081889b85ee1087e429dc",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/launch.json": "61fb01efffe057233e963fde81aa1c944aa8566909b745171286ec9d21e6dd0d",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/result.json": "dee7ef48706aeb7fbdf50282a4e93b9563717022c1048be950287e8b1b383317"
+  },
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "status": "FAILED-OPEN domain carrier or gate",
+  "supervisor_sha256": "544c835d32196a385830ba29c81b57f48c53585a7ae34a40a46a4ce51bce473a",
+  "worker": {
+    "counterexample_source": {
+      "archive_sha256": "b29733742153c52ef16cf9e089a7609090b5274978ce722d8f40933aced8c11a",
+      "commit": "1bd5c0890e1c2686b3e33389831c76fe1f5cc25b",
+      "files": [
+        {
+          "actual_blob": "aff747ee47b20a2de824e072c25498d827e9cd12",
+          "expected_blob": "aff747ee47b20a2de824e072c25498d827e9cd12",
+          "git_mode": "100644",
+          "path": "runtime/worldline/__init__.py",
+          "sha256": "95bf1834267682824b4cf341a7ea3d2e4ca6618eb83970ce2aa3b387425c9167"
+        },
+        {
+          "actual_blob": "b4b701e341a1cb5eafa903f0a3401058c57076cf",
+          "expected_blob": "b4b701e341a1cb5eafa903f0a3401058c57076cf",
+          "git_mode": "100644",
+          "path": "runtime/worldline/admission.py",
+          "sha256": "102459346ff6d9a95de3a417c3e1c82b6339f31605814260951611a1d232d76e"
+        },
+        {
+          "actual_blob": "32ed42bb304f810a65a5adedc456e05e1d426f79",
+          "expected_blob": "32ed42bb304f810a65a5adedc456e05e1d426f79",
+          "git_mode": "100644",
+          "path": "runtime/worldline/agents/__init__.py",
+          "sha256": "56d96886cf8a99bd6484615aff595ac28495284f18a867fbc348c5dec332a99c"
+        },
+        {
+          "actual_blob": "0cdafaa64335b9c8ae3aec11450e3809bc174e50",
+          "expected_blob": "0cdafaa64335b9c8ae3aec11450e3809bc174e50",
+          "git_mode": "100644",
+          "path": "runtime/worldline/agents/base.py",
+          "sha256": "474901c662205db043c5753b02f67126d96b1a01754684521708ef0620fdfb3a"
+        },
+        {
+          "actual_blob": "5b3c7042151ff57e9075cc7fe98f16670c5b636d",
+          "expected_blob": "5b3c7042151ff57e9075cc7fe98f16670c5b636d",
+          "git_mode": "100644",
+          "path": "runtime/worldline/agents/claude.py",
+          "sha256": "1bc5757e94f4c22ee99f942f4bacda6da618911ab5fbcca782e9d42eac40f316"
+        },
+        {
+          "actual_blob": "8f678c2b33ac6afa8bbc0817c7a495c1bd0384fb",
+          "expected_blob": "8f678c2b33ac6afa8bbc0817c7a495c1bd0384fb",
+          "git_mode": "100644",
+          "path": "runtime/worldline/agents/codex.py",
+          "sha256": "3e647e10d4a31c59fd7a994d8e87ecf943623b6d7032f792f574907e1a3d483a"
+        },
+        {
+          "actual_blob": "349aafd58121600e543c3ffd450ae9b1d37d4470",
+          "expected_blob": "349aafd58121600e543c3ffd450ae9b1d37d4470",
+          "git_mode": "100644",
+          "path": "runtime/worldline/agents/generic.py",
+          "sha256": "22ce9848c30938d45ad4b0a020f9bbc70dd3ad6cbc4fe94fd5eeed38e27446c9"
+        },
+        {
+          "actual_blob": "bdb067b2651680bc169a56f61f3f238fe7f70e7d",
+          "expected_blob": "bdb067b2651680bc169a56f61f3f238fe7f70e7d",
+          "git_mode": "100644",
+          "path": "runtime/worldline/agents/omp.py",
+          "sha256": "366338d00cef9c2bcbef41aebc39cfd32f256d57344c200d50eb6bf9fdea9bdc"
+        },
+        {
+          "actual_blob": "161a7ba6b6583d0775da2caa034808a7f1860dca",
+          "expected_blob": "161a7ba6b6583d0775da2caa034808a7f1860dca",
+          "git_mode": "100644",
+          "path": "runtime/worldline/agents/pi.py",
+          "sha256": "0b623932b51af84663d76bd45230f3e4088c9ff616629dcf18dbfa54e8d042da"
+        },
+        {
+          "actual_blob": "39fa34840102d3f33b8be16eed55afc5db918716",
+          "expected_blob": "39fa34840102d3f33b8be16eed55afc5db918716",
+          "git_mode": "100644",
+          "path": "runtime/worldline/anchor.py",
+          "sha256": "4a958f2072524a342766307fee902f0914ee88a38b3433a5c598be7dd9ba80ee"
+        },
+        {
+          "actual_blob": "2f1c4cdaaf9d3823dbee54efc5ee47c45be8c2ca",
+          "expected_blob": "2f1c4cdaaf9d3823dbee54efc5ee47c45be8c2ca",
+          "git_mode": "100644",
+          "path": "runtime/worldline/app.py",
+          "sha256": "05bcb4bd1f14c58b4d11a9ba697b21643d1fb9fa0b52fa594f32f8cc3ae142fc"
+        },
+        {
+          "actual_blob": "5b186647cc43b48cfbebc5f6dc365dbf7aeebf8e",
+          "expected_blob": "5b186647cc43b48cfbebc5f6dc365dbf7aeebf8e",
+          "git_mode": "100644",
+          "path": "runtime/worldline/canonical.py",
+          "sha256": "9964b2266aa9b6adf8c03f6c7cf0f01586d530f63b014f4dcc1a7bc0975d4af3"
+        },
+        {
+          "actual_blob": "71e741db94e5d8f73110dccac8ab9908979d0253",
+          "expected_blob": "71e741db94e5d8f73110dccac8ab9908979d0253",
+          "git_mode": "100644",
+          "path": "runtime/worldline/capabilities.py",
+          "sha256": "a0f479c2ead05cc10cf04dada7f7864f7907b01695ff5187d0658d33752f16a9"
+        },
+        {
+          "actual_blob": "c008ff38674a7021bbfef4875ba4eff4349f9fbb",
+          "expected_blob": "c008ff38674a7021bbfef4875ba4eff4349f9fbb",
+          "git_mode": "100644",
+          "path": "runtime/worldline/causal.py",
+          "sha256": "8263df46e41080a08fc4b679b0b1738a6a800a87018f7600fd453303ae8a07d3"
+        },
+        {
+          "actual_blob": "f4de21824c3d86b450fa22fe897cde83e6591aa7",
+          "expected_blob": "f4de21824c3d86b450fa22fe897cde83e6591aa7",
+          "git_mode": "100644",
+          "path": "runtime/worldline/checkpoint.py",
+          "sha256": "a88b07c8424e3e129e657d8f2a6cc27a041f42ab72b9c80680e73213189d7980"
+        },
+        {
+          "actual_blob": "a554e4f6b8d1d8054a41b5d1d40cd193b6ce0860",
+          "expected_blob": "a554e4f6b8d1d8054a41b5d1d40cd193b6ce0860",
+          "git_mode": "100644",
+          "path": "runtime/worldline/checks.py",
+          "sha256": "d3a89a65fc147903376094f9e5250a0219a37a655a17482783d39130d6b41a99"
+        },
+        {
+          "actual_blob": "19b62e3a9a26cfaac35972dad02f3a1dac038bfe",
+          "expected_blob": "19b62e3a9a26cfaac35972dad02f3a1dac038bfe",
+          "git_mode": "100644",
+          "path": "runtime/worldline/cli_main.py",
+          "sha256": "0b68fda6a9c7c9d77404dc94ba8edb5415d40ee7f51f93146bdd8080050b4e7a"
+        },
+        {
+          "actual_blob": "a9ef969181dce75f22377da323453286b4e65423",
+          "expected_blob": "a9ef969181dce75f22377da323453286b4e65423",
+          "git_mode": "100644",
+          "path": "runtime/worldline/client.py",
+          "sha256": "19779dceada59d040aecec0c64527dac672d321d489a9ec3dc25b9c19077078f"
+        },
+        {
+          "actual_blob": "f7ef18149b5c94e5105f3fc0d9ff7cb324aee31a",
+          "expected_blob": "f7ef18149b5c94e5105f3fc0d9ff7cb324aee31a",
+          "git_mode": "100644",
+          "path": "runtime/worldline/config.py",
+          "sha256": "29c53a93aa57f009d438f8b18e02ad669154fc6c00f8043e96cf5f3d4fc135bb"
+        },
+        {
+          "actual_blob": "239f4f66f9663f7323daeb7994d46a615b95b9de",
+          "expected_blob": "239f4f66f9663f7323daeb7994d46a615b95b9de",
+          "git_mode": "100644",
+          "path": "runtime/worldline/controller.py",
+          "sha256": "a2ea5f2c2d20767baeff7adb4535a69fe06eef82d316d94cafdd2008c60bbf65"
+        },
+        {
+          "actual_blob": "0489a615ff4e83a5697736989a5026c91ad4ddea",
+          "expected_blob": "0489a615ff4e83a5697736989a5026c91ad4ddea",
+          "git_mode": "100644",
+          "path": "runtime/worldline/core.py",
+          "sha256": "27b75aabd9bf0e884c4e3649003f1f5c752f53f7a12729efb19c403e34a1d9dd"
+        },
+        {
+          "actual_blob": "0142a74b143aeea2873acfcf7f5635cb58942502",
+          "expected_blob": "0142a74b143aeea2873acfcf7f5635cb58942502",
+          "git_mode": "100644",
+          "path": "runtime/worldline/daemon.py",
+          "sha256": "1a64024b5d880484ce98113b595833102db8232ca0f0cee780321b7f39895f61"
+        },
+        {
+          "actual_blob": "a5b6b8f64dd554147affebb49b4eb1b10a329232",
+          "expected_blob": "a5b6b8f64dd554147affebb49b4eb1b10a329232",
+          "git_mode": "100644",
+          "path": "runtime/worldline/daemon_main.py",
+          "sha256": "00b6acf0e4047643f1524d4179d2bda584c856e48d20c54866e9588966bb3667"
+        },
+        {
+          "actual_blob": "c849006b09d1978350bb21a82b491a7b9df7b0f7",
+          "expected_blob": "c849006b09d1978350bb21a82b491a7b9df7b0f7",
+          "git_mode": "100644",
+          "path": "runtime/worldline/delta.py",
+          "sha256": "192efbe8b8b761a4e76c7361a2c06dcac801641d524f18efda5de74452ce4059"
+        },
+        {
+          "actual_blob": "e08597aa363d72f30ba247e14daf90b45628639e",
+          "expected_blob": "e08597aa363d72f30ba247e14daf90b45628639e",
+          "git_mode": "100644",
+          "path": "runtime/worldline/environment.py",
+          "sha256": "5a9ea64b0482c7d2d9cc1fad6c3b59db3642e2757ae95647ea90478720b1a6bf"
+        },
+        {
+          "actual_blob": "59c79370d3792145bf643684f7019cabba943453",
+          "expected_blob": "59c79370d3792145bf643684f7019cabba943453",
+          "git_mode": "100644",
+          "path": "runtime/worldline/errors.py",
+          "sha256": "b9291851049bb03e1adf72413aa9b6d1c410c245d76e703f02d28879fafd6097"
+        },
+        {
+          "actual_blob": "fe196d7d38156fc73277a4db436045616f73513b",
+          "expected_blob": "fe196d7d38156fc73277a4db436045616f73513b",
+          "git_mode": "100644",
+          "path": "runtime/worldline/executed.py",
+          "sha256": "11724b536ec9bfb22bcdaea0a1274d3ff1e4e75b83259226816cdf76e6cb4185"
+        },
+        {
+          "actual_blob": "48fe5fc354d1074d3b4664ca2d4bd4804a5b3b37",
+          "expected_blob": "48fe5fc354d1074d3b4664ca2d4bd4804a5b3b37",
+          "git_mode": "100644",
+          "path": "runtime/worldline/finalize.py",
+          "sha256": "dc2856565582bc9d726b4cfbbdc23e86827491f6808b09989a300b2459212b03"
+        },
+        {
+          "actual_blob": "a92a6b5f15e72f2790e2b0133bb448b39dc5f1c2",
+          "expected_blob": "a92a6b5f15e72f2790e2b0133bb448b39dc5f1c2",
+          "git_mode": "100644",
+          "path": "runtime/worldline/fork.py",
+          "sha256": "b64b86f4e64999a0eff189aad70331c6cbcce13540b5ad071c24f0e5085a3c80"
+        },
+        {
+          "actual_blob": "4338edaa2edfef6e9ab6d004e73f0a95004ab486",
+          "expected_blob": "4338edaa2edfef6e9ab6d004e73f0a95004ab486",
+          "git_mode": "100644",
+          "path": "runtime/worldline/ghosts.py",
+          "sha256": "af031cfeb7c06e3ad9151eb45cc776783b1c05e4b080ce640bdfbfce4f21de7f"
+        },
+        {
+          "actual_blob": "8c77a383202b733128f47593ed5017388948a53e",
+          "expected_blob": "8c77a383202b733128f47593ed5017388948a53e",
+          "git_mode": "100644",
+          "path": "runtime/worldline/install_config.py",
+          "sha256": "69b24b2a1ea04baed0d6c590fee0078aee6c8e542572930c0d22af4127e95261"
+        },
+        {
+          "actual_blob": "977d7364b0417ace64c27342377778c201311ff9",
+          "expected_blob": "977d7364b0417ace64c27342377778c201311ff9",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/__init__.py",
+          "sha256": "36944b96f2ae76dc3f73178841eb4a1693f875aa7050fa13c593f85355027bb6"
+        },
+        {
+          "actual_blob": "335986c32beefee576157e91fa2f7f2ada857963",
+          "expected_blob": "335986c32beefee576157e91fa2f7f2ada857963",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/atomic.py",
+          "sha256": "868c6c3db77f12e074dced0a2fb7f4655098c6dff3c70ce54fbbb93b63e292b8"
+        },
+        {
+          "actual_blob": "21d39ee9f95f86680b8662a406356e13aa0df551",
+          "expected_blob": "21d39ee9f95f86680b8662a406356e13aa0df551",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/btrfs.py",
+          "sha256": "cc25fc1f948b270165801ded686026abb688c62153912bec0ec7bf2d1bd524df"
+        },
+        {
+          "actual_blob": "239f796421e19537d2d3f96751ddf7981b7ce73b",
+          "expected_blob": "239f796421e19537d2d3f96751ddf7981b7ce73b",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/cgroups.py",
+          "sha256": "94f3e3e2bf6438d15b52a5e2c51d9c62ec2c8c91b478d5d36af431ff10ad5c30"
+        },
+        {
+          "actual_blob": "2cdf4b2d75fa5bc02bacd0a8642a2f7ab328f8d8",
+          "expected_blob": "2cdf4b2d75fa5bc02bacd0a8642a2f7ab328f8d8",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/criu.py",
+          "sha256": "fce20d417123189254b3c4e023ba5bd20aff619dccbf3eb49b5194efaaa1b498"
+        },
+        {
+          "actual_blob": "28e530b16b15bf0508b10a9b3ae6121220a0cd23",
+          "expected_blob": "28e530b16b15bf0508b10a9b3ae6121220a0cd23",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/docker.py",
+          "sha256": "221bb301290b500d9fea190c4d49ce6e3bdc17552e8338dd974a327954ce2568"
+        },
+        {
+          "actual_blob": "bfd02813b6b41127f594f045d1b0b0d7dcbed7cc",
+          "expected_blob": "bfd02813b6b41127f594f045d1b0b0d7dcbed7cc",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/git.py",
+          "sha256": "f88ea9ca352bd2576aadbc95a3e70379d736beda2460ae49df84b7c77bea1a0c"
+        },
+        {
+          "actual_blob": "d0394229f0a44e12ec963f96cf0efe070e52d7d4",
+          "expected_blob": "d0394229f0a44e12ec963f96cf0efe070e52d7d4",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/hyprland.py",
+          "sha256": "fe9e98a04311353b0ea2b1ca969f31712a30b46d92421505f34c571c3c76ba10"
+        },
+        {
+          "actual_blob": "6bca2fe46a7d733eb128ac87bf541f21ef1d2776",
+          "expected_blob": "6bca2fe46a7d733eb128ac87bf541f21ef1d2776",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/inotify.py",
+          "sha256": "ed8a936e7ffd1d8c6ac7f6d702ea847535e8814f4aacfbf3f3fa0fa381c079e0"
+        },
+        {
+          "actual_blob": "52d26e0a1520f13cc947fb81cde6c9481956981d",
+          "expected_blob": "52d26e0a1520f13cc947fb81cde6c9481956981d",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/namespaces.py",
+          "sha256": "8a05e318d87bfcbf297d40e6052c1c16f2d71b90ff5eb18249d1eb03d448ef4e"
+        },
+        {
+          "actual_blob": "8a426dedf15b42cc2ca2b7e290ea65dedd6f7f57",
+          "expected_blob": "8a426dedf15b42cc2ca2b7e290ea65dedd6f7f57",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/netguard.py",
+          "sha256": "e49dbb8dbd6f75fc5db461dfa7f0925e6e1789c1367c21579875503aa66d1d0d"
+        },
+        {
+          "actual_blob": "7b67767afbe110e269e56eab45e5cafc30eb82a7",
+          "expected_blob": "7b67767afbe110e269e56eab45e5cafc30eb82a7",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/overlay.py",
+          "sha256": "d451e121206c7ec8e709b5abc8f6f16243be6f70f78df353993f9a9acc3eab3a"
+        },
+        {
+          "actual_blob": "8c9602154a2a7adba9ec044d146ad0425005d499",
+          "expected_blob": "8c9602154a2a7adba9ec044d146ad0425005d499",
+          "git_mode": "100644",
+          "path": "runtime/worldline/linux/systemd.py",
+          "sha256": "f55dced710b454fe4bfdbb562ad10cec2e1c3e6aa57e7d0b897da9a6d651bd14"
+        },
+        {
+          "actual_blob": "abcbbc17c21e5a735e5cbdd94ca5599e976ae2d0",
+          "expected_blob": "abcbbc17c21e5a735e5cbdd94ca5599e976ae2d0",
+          "git_mode": "100644",
+          "path": "runtime/worldline/manifest.py",
+          "sha256": "648ba4fe0a7b0ccede937648f90f552f26c4f4ef25e959b1ce725e7ad4131019"
+        },
+        {
+          "actual_blob": "5d0888b8ecb75ae96c60b614837aa6daf2d06e21",
+          "expected_blob": "5d0888b8ecb75ae96c60b614837aa6daf2d06e21",
+          "git_mode": "100644",
+          "path": "runtime/worldline/model.py",
+          "sha256": "51384676f63545ce8ee44c74268db30a0407338a65c05dfcc7a8b71c57c18f4c"
+        },
+        {
+          "actual_blob": "e99299958c77031b4e6203ebc858a31d2f669521",
+          "expected_blob": "e99299958c77031b4e6203ebc858a31d2f669521",
+          "git_mode": "100644",
+          "path": "runtime/worldline/paths.py",
+          "sha256": "0a71ba6fb6b194018f2742b63a651bd1224045d70b79c6739f1a21eb28020f12"
+        },
+        {
+          "actual_blob": "7a82b550acd88d1deb9746bd7a7202e6ab216523",
+          "expected_blob": "7a82b550acd88d1deb9746bd7a7202e6ab216523",
+          "git_mode": "100644",
+          "path": "runtime/worldline/payload.py",
+          "sha256": "b18d2ae475bd097688f5b4127d88384a2112e21f375bd02705161cc81afdb92d"
+        },
+        {
+          "actual_blob": "c1029738628652d4ea556f4af3ec2e3f3191f1a5",
+          "expected_blob": "c1029738628652d4ea556f4af3ec2e3f3191f1a5",
+          "git_mode": "100644",
+          "path": "runtime/worldline/prime.py",
+          "sha256": "0b99af65c4d1bb4bc7846e3c89f9183378f8d8c8b28d52f1c820c4b8b1e01ee7"
+        },
+        {
+          "actual_blob": "11cacb1c89ab0ab2fdd67f067af016812c4e9c18",
+          "expected_blob": "11cacb1c89ab0ab2fdd67f067af016812c4e9c18",
+          "git_mode": "100644",
+          "path": "runtime/worldline/project.py",
+          "sha256": "573c2e381386da0b9ba1a4c9526052b8e98b271d484c448930a44c4d36f92e73"
+        },
+        {
+          "actual_blob": "3fc36ff6dd8d1d0784057e712734b661f5137bf2",
+          "expected_blob": "3fc36ff6dd8d1d0784057e712734b661f5137bf2",
+          "git_mode": "100644",
+          "path": "runtime/worldline/proof.py",
+          "sha256": "4bab3d3032179a23b1771eb293ce28102e9aed7746cd3720476c124918d27616"
+        },
+        {
+          "actual_blob": "c94becf676cbb9eb57a3830f6098365fe6423d4e",
+          "expected_blob": "c94becf676cbb9eb57a3830f6098365fe6423d4e",
+          "git_mode": "100644",
+          "path": "runtime/worldline/prune.py",
+          "sha256": "47c1a68dc54449db42432f5a90cedda7eb6d80dd8784a8a087e93a8bb84722af"
+        },
+        {
+          "actual_blob": "1094a25cbd0a97b26240a71beabca967f24875b2",
+          "expected_blob": "1094a25cbd0a97b26240a71beabca967f24875b2",
+          "git_mode": "100644",
+          "path": "runtime/worldline/receipt.py",
+          "sha256": "aa8f31e428e02e8742286dd967ea684fdad639f01b32b49bfb5001daedd9b913"
+        },
+        {
+          "actual_blob": "e0189d1e6be7381ef6b5766fb8f138a2145543f9",
+          "expected_blob": "e0189d1e6be7381ef6b5766fb8f138a2145543f9",
+          "git_mode": "100644",
+          "path": "runtime/worldline/reconcile.py",
+          "sha256": "7bae0c615c17dd4a39d30abdb6b49e2dd8dfca72b3db9761380fed304b2fb959"
+        },
+        {
+          "actual_blob": "f0214ce5fed8a4d2cce52f71cdb8ea286d2f04f8",
+          "expected_blob": "f0214ce5fed8a4d2cce52f71cdb8ea286d2f04f8",
+          "git_mode": "100644",
+          "path": "runtime/worldline/returning.py",
+          "sha256": "120238cf2a6dd928f2d3eadac170965417e480afd5fd5823191a9a8d6732860f"
+        },
+        {
+          "actual_blob": "0fba06c5ff7388baf7a2694109b2b77c77852b46",
+          "expected_blob": "0fba06c5ff7388baf7a2694109b2b77c77852b46",
+          "git_mode": "100644",
+          "path": "runtime/worldline/revalidate.py",
+          "sha256": "073038eb887f4cceb560df880f1a3eda1df4b6637d31161154c79268c801e0b7"
+        },
+        {
+          "actual_blob": "ea4375c4892e88e8db3db0426b80635da7d187e4",
+          "expected_blob": "ea4375c4892e88e8db3db0426b80635da7d187e4",
+          "git_mode": "100644",
+          "path": "runtime/worldline/roots.py",
+          "sha256": "94918047b10dfe25ab85e4cc35ff98b2202b25d1b1f07efbf5a9f16fce6262a4"
+        },
+        {
+          "actual_blob": "6c6bafb7ba4e388ac38a774cbf548a508d769755",
+          "expected_blob": "6c6bafb7ba4e388ac38a774cbf548a508d769755",
+          "git_mode": "100644",
+          "path": "runtime/worldline/runner.py",
+          "sha256": "94931bcd7072c8afaba0638b3bc95a94e4a2299ad3ff32fc352bd7d95577b67a"
+        },
+        {
+          "actual_blob": "e94cdc463e560e3898bbf915698fd6f421bf43e0",
+          "expected_blob": "e94cdc463e560e3898bbf915698fd6f421bf43e0",
+          "git_mode": "100644",
+          "path": "runtime/worldline/scoring.py",
+          "sha256": "e991c6b451939077f6b44c9cb9be5eba2d33a741de7fa2acf8aa9fe97ccd2e72"
+        },
+        {
+          "actual_blob": "0b9246fc9d99edeb5fdfc9de66f6f226905fa0fa",
+          "expected_blob": "0b9246fc9d99edeb5fdfc9de66f6f226905fa0fa",
+          "git_mode": "100644",
+          "path": "runtime/worldline/services.py",
+          "sha256": "9c6189980e551bdfb9064a911d804c6583c4fc42ec0f016988579fd4206b9a61"
+        },
+        {
+          "actual_blob": "df022bbcdd1b1412c4be00ea2b5c39b6bb2d22af",
+          "expected_blob": "df022bbcdd1b1412c4be00ea2b5c39b6bb2d22af",
+          "git_mode": "100644",
+          "path": "runtime/worldline/simulation.py",
+          "sha256": "9b66dfbfb68ff576b9b3482bd21c3e14b68fddf52cd328e8f871662ad3da6830"
+        },
+        {
+          "actual_blob": "1bd66e21fe1edc0a18ac759b6adef927245ec2e9",
+          "expected_blob": "1bd66e21fe1edc0a18ac759b6adef927245ec2e9",
+          "git_mode": "100644",
+          "path": "runtime/worldline/status.py",
+          "sha256": "ab2c76227675d32ec96306ee89f1f403f864116912309a437560dea1767d9232"
+        },
+        {
+          "actual_blob": "07bbb90e5e588248c2ed6bf8526a2e08b66d581e",
+          "expected_blob": "07bbb90e5e588248c2ed6bf8526a2e08b66d581e",
+          "git_mode": "100644",
+          "path": "runtime/worldline/store.py",
+          "sha256": "402dc8fbe1dbb448a8fd28cb09263899ccfc71117348c9d6f5f2abb919a3518a"
+        },
+        {
+          "actual_blob": "b78bacab6e2d2b1ea8adb015eb3698529b64f86a",
+          "expected_blob": "b78bacab6e2d2b1ea8adb015eb3698529b64f86a",
+          "git_mode": "100644",
+          "path": "runtime/worldline/transaction.py",
+          "sha256": "99905ffc7f8330078aea48150f41209ad419e454434af762161164f9b57a85ff"
+        },
+        {
+          "actual_blob": "78b654579ce53f6ab49752f485807e3efad02d0e",
+          "expected_blob": "78b654579ce53f6ab49752f485807e3efad02d0e",
+          "git_mode": "100644",
+          "path": "runtime/worldline/validation.py",
+          "sha256": "c9d9a6358f08cb427bede287eb513c46bf505d0c58c3cdcd9ac3c64ce1434d13"
+        }
+      ],
+      "materialization": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample",
+      "no_runtime_source_modification": true,
+      "runtime_tree": "1c628de542bfc843f5f5e1aaa0580a0c4b12c40e",
+      "tag": "counterexample/verifier-bytes-without-evaluation-domain"
+    },
+    "exception": {
+      "message": "Original complete two-arm gate failed; preserve actual result without running another qualification arm",
+      "type": "RuntimeError"
+    },
+    "exit_code": 1,
+    "historical_collector_equivalence": "UNVERIFIED; D7 gap not closed by this local carrier",
+    "identity_before": {
+      "all_original_tracked_hashes_match": true,
+      "artifact_hashes": {
+        "bin/worldline_core_fuzz": "01676a46c9abd59fc91ed49db26fed18904aa7f83af03340c48d602239ced98a",
+        "bin/worldline_core_tests": "1e6b89ae9f53f57d30ba3e21c2f558e998b28e949091d4caf456e67ca964a515",
+        "lib/attest-custody_sha256.ali": "fc656f29b7a054072f31b112bd223943ec679471555d072ce6f3e727a7bb729c",
+        "lib/attest-sha256.ali": "4fef8c759f24db69c022684a5ae0cde52eb8af810ffd91ddfc8223dbaa014ea2",
+        "lib/attest.ali": "d51be4f56bff46c09f4dfc003616bf5f6df9fedd57a7cac226f4ff09ee2246a9",
+        "lib/canonical_artifacts.ali": "77e9b002a6c9a97561384ed5fd299ef67a805e1d1ccfc9be683aadbae12e6ec6",
+        "lib/cosmogony-capabilities.ali": "327c703dcd9639bd847aa4c1cfbe756ffaea8c5ef4b8f588bfbe38a8eb82cc19",
+        "lib/cosmogony-genesis.ali": "29fd5befe2b0672111316a9e1d8c93314cf73f0768f96b12f6ea0feaa77844e8",
+        "lib/cosmogony-governed_capabilities.ali": "c6cd4dd6ac61c57549d2001619ffc21ba8f7b3cf267d64ad07c4418466b5e3a9",
+        "lib/cosmogony-revocable_capabilities.ali": "a5b367ab23101406da5142057ac29fa28eb77597e77992a5a36872c84984bdb8",
+        "lib/cosmogony-universes.ali": "134635f1998613404a27d589a46d65a35ea02ee8e8c4426fe8727f9feb687491",
+        "lib/cosmogony.ali": "019cc42af8fa4069d69ae9ae9b35d81e1472f2c5d191cb4e3d56d48ed6b95451",
+        "lib/decimal_binary64.ali": "19fa22b27c787a5ee6fdcb90c226731db871925ab00bb6c39cd43d3d58b0a4d5",
+        "lib/evaluation_completion.ali": "9e1b1a1f4109c0a35ac11fed5b42949113d0fb8727a42c0e34d3c3b980785fb4",
+        "lib/evaluation_completion_c.ali": "5be976893b991420577b09500db272025d2f255a3ddca3a1d4e91d98eaf21238",
+        "lib/evaluation_completion_roster.ali": "93f30e4122c6ee4f53713df67ff0203fb894e411e220fc918accf68ebf57e9e7",
+        "lib/evaluation_epoch.ali": "859d5a8b990d1ed7704ceea371e9b73193737a6ee843c905b40a4f61a2850e14",
+        "lib/evaluation_finalization-values.ali": "8d56fd5e73e03ae5848f54541326a0eb1740bcce943728f3a312a59b78922068",
+        "lib/evaluation_finalization.ali": "6983b2014515dddeaca1abb831c90c3cad3c4ba4ddbebdabcd989c05a02fb37f",
+        "lib/evaluation_finalization_c.ali": "90a9e14fee3b7a47bb97fb10cdd4be077a38f3a8d7092af11053df1b2af06c1c",
+        "lib/evaluation_history.ali": "c6cee81978db5cda072638a8f93dbeb434696a27146f37bf3ea6294f0257f7d4",
+        "lib/evaluation_pending.ali": "4303afc417c400cf0ef2b775d0a93534f5fc8fa958587bb9ef8f17f1d2c64b3d",
+        "lib/evaluation_pending_c.ali": "31aa72b168d59ebf72cb4a543a86347265c2f5ed65282339365f03fa732e9f14",
+        "lib/evaluation_pending_v2.ali": "9fdf0c4d05be40d5326e6ef4350c9f07fe127f3f51cae364ac59d455ee216a3a",
+        "lib/evaluation_pending_v2_c.ali": "db2089a6a5134c11536917290f84591fd1c01b2b55ea3ccd1bd7d737dac55084",
+        "lib/evaluation_raw_roster.ali": "f55b82eeb5a324bf5d6c37af95a279d9460e022d799013e39f5200ae67df2c37",
+        "lib/exact_decimal.ali": "a2f45d3dbec58e545ed98b566ac7c6c51b9c2c7edbf643941d0395e47a4776e2",
+        "lib/libworldline_core.so": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+        "lib/native_diagnostic_trace.ali": "0f64b7718999cb175a3f0ff4e1a9e8fbfe789fdc46fe1a48d3ec8de9d3ecfb77",
+        "lib/pending-standalone/evaluation_epoch.ali": "6e500499167fe359c0892718e8c2a0a63c35bc48f684f487a773e6f2e3e7d333",
+        "lib/pending-standalone/evaluation_pending.ali": "7da3029aa8badf4f16571463fa825b6786911d5cd756d4c55d2741222e3eee2a",
+        "lib/pending-standalone/evaluation_pending_c.ali": "2c11bf03c3ab5f33b14a233a9ec26137bb9f5d6c6f0008c6b5ff7974529c730e",
+        "lib/pending-standalone/evaluation_pending_v2.ali": "99edae4d5583f749c0a1a8f3e703c8856cbd3e2725442b1839fc6780aced179a",
+        "lib/pending-standalone/evaluation_pending_v2_c.ali": "7b6c20de1dc4bbbcdf32807d4187014c142a456ee8b1bfd6ced0449eb2306551",
+        "lib/pending-standalone/libevaluation_pending.so": "3750d15fe34d4dec4245dfa611b54f35b918de28e74f789c9220a4902937c02d",
+        "lib/pending-standalone/resource_quantities.ali": "fba0deed730bc8d6e5033fa2d7b971b650e239fc8ecf64cb051e5428e228c1ed",
+        "lib/pending-standalone/spark-big_integers.ali": "6c62f2848a72aa071dbc7f66cf2cf3bba74113102a6a3faca9a28e200f66e7b5",
+        "lib/pending-standalone/spark.ali": "d459d0d22f09c7e9bf44c992aa4d0e5eef444f254ca023eb11c062c947fe3efb",
+        "lib/resource_actor_admission.ali": "954a2ce56c2a078086cc79641dd9fb817a105f1d789135934bdc59e3943d5a3b",
+        "lib/resource_actor_admission_wire.ali": "b40b58382edc5c8f26a0761ab68b8104760fffce8643bbd17e02dc63b141ce6c",
+        "lib/resource_admission.ali": "0205418c7591432d251d197ff657e8a985ff160828655b2ad14827eb5952df34",
+        "lib/resource_ledger.ali": "22092aa082bc30675809c2adba18ff5a0e5a3cc6e38b21f35bc2a1d0cf0462b3",
+        "lib/resource_observation_classification.ali": "ef9ea16bc9cbf181bcf64024686034259f1478132c2449ca1bced51f25844fb6",
+        "lib/resource_observation_classification_wire.ali": "5e960d19debf3f19ff844785400389a77eee9836f41d332bdf971faa2a494a93",
+        "lib/resource_quantities.ali": "56a0c4e2a4ddfd470f7ee93208b006335bce2624093811be4dd52c03edccd6f5",
+        "lib/resource_reservation_lifecycle.ali": "c1b5d670aa495781ee6d1c880ab3515e3e22ee9a8c4c30b1e409a0b41ba1c610",
+        "lib/resource_reservation_transition.ali": "4035b3fd285ee5c7bbab6d639df442fd3a724a4582be24dfc2f271754e3ce803",
+        "lib/resource_run_ledger.ali": "2eec4d25a3c39a69e55c1694df55d8191ba953ab0c9bcf5f4ca4c9494e258546",
+        "lib/resource_run_ledger_c_api.ali": "5e5c7c1d4451e568014b77bcb71131335f5c2245e4b283b8e5f048dcd1754091",
+        "lib/resource_run_ledger_wire.ali": "f2064ba27303006a288fd598367c905c7f689f253094ec42a003ae883fe80b95",
+        "lib/resource_scoped_run_ledger.ali": "992d2041027210ee148cc0ef18f18ee285268852effc0bddbd279fe3417317c1",
+        "lib/resource_scoped_run_ledger_wire.ali": "9a33539b9589827a7c47edaf73952f0942e2f3f3cc8225752196dd1d52cc787b",
+        "lib/worldline-actor_archive_replay.ali": "275d2dfe57fe16ab522cfb78be674dda52d7da570f05a80745ae3ccbd0ac0071",
+        "lib/worldline-actuation.ali": "39f39a77e977218ee33aa9e7a56e476c6e211f91c520561e637e1846b99d760e",
+        "lib/worldline-actuation_full_wire.ali": "e2cd7d1c7b72e7e4dac027addd8adddd03d3e35b92c19f7df320359527c7786e",
+        "lib/worldline-ancestry.ali": "d00a889e3614f54e8d8f7a742b83312428e6dcd88dcba1c96ad94464b963a4ff",
+        "lib/worldline-archive_base64.ali": "82b37f9ed3560d7e2d96e2b8614903077da4ea732fd3c1c9c4799a4838c796ed",
+        "lib/worldline-archive_envelope.ali": "c65896e91eda421a2d0651da74b5f63e5108a75f8bfb0f02852ba961b5b42934",
+        "lib/worldline-archive_text.ali": "dd880fd5095decac95f7733818ab4a44d720071458b16ae8d09987b3e457379d",
+        "lib/worldline-c_api.ali": "241211dd7099b1241be9aa90a79c3d442f20c7f351e5e8df9024b9f818533f4e",
+        "lib/worldline-canonical_exchange.ali": "42de86797df8c889091b9cce13da29afaa4783d96aa5af6c60de71aa02183fd3",
+        "lib/worldline-canonical_exchange_wire.ali": "92ec296e6f9807a939a0cc672186b46d870256e731bac4101c58515263557b8c",
+        "lib/worldline-canonical_operation.ali": "34cdd6307b3a15ab88dbbd0a86a315f95a4470556fe6005176df9577b28b38a6",
+        "lib/worldline-canonical_operation_wire.ali": "e712848545aa11c6483c50d0b20c67b9a42081a8afe3e84668ecd2c10e9d1625",
+        "lib/worldline-canonical_owner_completion.ali": "79f0c9936e4e2a58c220dbd5a14aab2bf4e71ab4c6b87a571444a0aa2f407f28",
+        "lib/worldline-canonical_owner_completion_wire.ali": "9aaa8d59aeeaae12e2fdb9275fc020294ea0ca4b3c0f74fabb47610bb3b219cc",
+        "lib/worldline-causal_graph.ali": "b1dd4d00f7a5221a13250e843f59f6b8d17e0599be42a47d92dd4d1b7373f13b",
+        "lib/worldline-chain_authority.ali": "183a762da85c56fd0d287eaaa5e4ffc3e9e2597d6114535a7a4281f5aa9b5860",
+        "lib/worldline-chain_authority_c_api.ali": "06ccc28a1c56cc9ba0b8f916ffc9cf6aa8ec370252c50dbaa976e41f115c4f30",
+        "lib/worldline-chain_authority_wire.ali": "43016a6a6b3e65512b973ca006941fbcf81cc8c6a33a0348dfac276e995bfcc2",
+        "lib/worldline-collapse.ali": "2c69d6cc499dafbd5f87a770227423b7296fe99c9f94e958d79189ca37a18730",
+        "lib/worldline-collapse_wire.ali": "36e11265c6a19db8fb355f2714805b552c2d734fc887bf28b35b7718f79c2339",
+        "lib/worldline-confinement_filter.ali": "92fdcaad39aa114bb241d8a7053d6117e0292c15fae55651bc064c5afb94274a",
+        "lib/worldline-custody_v2_archive_chain.ali": "30189b34d31e5156a5ffcb670b89bff35200ef747fbadb893cdf65f0abc771b6",
+        "lib/worldline-custody_v2_empty_seed.ali": "9435988879eaa97c28d69c927ac601ee03bf1b5bfa45dc7f1e8b944e162e8c30",
+        "lib/worldline-custody_v2_fold_rows.ali": "b87a910f2df07daa40c9d9fb83d5541b6cf9b9c044f31222d83769798e31bf22",
+        "lib/worldline-custody_v2_k4_resource_ack.ali": "b4b6b59cba354ba8c0b31e071ebbd938418e40183b1cb29617e4526aef7180f4",
+        "lib/worldline-custody_v2_load_input.ali": "5d5a0b2ce2bf6a1f50491cf2ff8a59ff9b245097f18594a50a6b3b15498b1783",
+        "lib/worldline-custody_v2_owner_canonical.ali": "0ef2aad978eba6b475abcfce6c6f607206c9e857f09829d1d0b2d05db6d67c59",
+        "lib/worldline-custody_v2_raw_next.ali": "926607e9d7c5bdb955a8d6e3fc469524fcacd4e6771e16835313039f931a67ad",
+        "lib/worldline-custody_v2_typed_step.ali": "3cb814b508cd1050d0f4daf007471142af8d208e5059e742caf40ba19a754d68",
+        "lib/worldline-custody_v2_values.ali": "dc03821e8e6f34352126ae63bf394460dae2120ae1d5510ebad56f9c1265c985",
+        "lib/worldline-evaluation.ali": "1fb69976640ddadba5a7aaee18e2996942956652aefafa721a88a05be2cee259",
+        "lib/worldline-evaluation_agent_native.ali": "283cadb0d8c034dd7e92523bfa6568202627759841d8d1d70e2a5d66d090c75a",
+        "lib/worldline-evaluation_authority.ali": "e997fbd28ac93060492d4675a229eee0cf8a909672f39975ddbb84662dd1723b",
+        "lib/worldline-evaluation_history_c_api.ali": "c6881e084c778e3d0985a327e801dcd433d28da544a036d80c3a76ee2fc2fc81",
+        "lib/worldline-evaluation_policy.ali": "9cf2a95f26e9da8f0f1c7fcddc02fa0d08b953506c9f60492e26c662017847e3",
+        "lib/worldline-evaluation_producer.ali": "4b4b3adfea1c902347a3423d3be2602a37fdc280c473a33a1df4c80717bb74fc",
+        "lib/worldline-evaluation_report_facts.ali": "646e5b83c989bbafce23adf96c70d42289f1165491a74e0b3fc3c249eb5b32da",
+        "lib/worldline-evaluation_report_wire.ali": "c8b79a97b4044f86683573fc9cca3dc0bd7f42b0a981f498e9d1f8a76915ed39",
+        "lib/worldline-evaluation_role_native.ali": "b884831f50cbf48eb3bd7a5a8d21e8b97227c44422ca8ecec8ef3ee7ab6953d9",
+        "lib/worldline-evaluation_v2.ali": "8a07f8fde4971427a66633d27366b8b712087a36b851a6f2a391baf5f83987ef",
+        "lib/worldline-evaluation_wire.ali": "2bacc4d43a6976a17b179e75af05a0b2b0d277f2fd400dbab6b548c1e022ad4b",
+        "lib/worldline-excluded_source_owner.ali": "4110bb234d1de7965997c0bc628dd49988ab00ffb027ee4dce07576317c2a97a",
+        "lib/worldline-identities.ali": "674ecb56690e7f59dd6d9fa8d59bb4b2db92f36fb54027d6392c29c75b71a0dd",
+        "lib/worldline-journal_witness.ali": "d334aa7f3be78a1e358c05dee9f30fb60f974b01417bfb1ba479cc38fb81ffd8",
+        "lib/worldline-lifetime_values.ali": "66cb58b4ce4ad66d646daf8de92b2df869cbae3f4ec20156c954ae5e009977c8",
+        "lib/worldline-manager_resource_lifecycle.ali": "1198c6119a3fd13e1c00362923e6f5c663b05f265e4e1b56050f34578c6aaf28",
+        "lib/worldline-native_execution_capture.ali": "28992f97ae4c7b8be4cab2e6266b6dedcded28374f5c7e31bacfb18b6c023fc8",
+        "lib/worldline-native_execution_views.ali": "208af02dca42f88525f2fd9f781dfb2c8c9db224732f364537b96185343f7f6a",
+        "lib/worldline-native_lifetime_observation.ali": "3a9c7f58282bf48dd7239e8139f5247c2598c36fa78bc0b518ca400049566dd9",
+        "lib/worldline-operation_archive.ali": "2dcfb9be512bf21a8d79993a2aabc40028da79094ab18ec76de7b61fd21affb1",
+        "lib/worldline-operation_authority.ali": "f43b515f9839b9c6c759a962f97bd8823a831602b8f4a6d06837023f36be1e25",
+        "lib/worldline-operation_authority_wire.ali": "b728a3e770f16755245650dce35936ac4622364d1fecb5607c9872883019072d",
+        "lib/worldline-operation_result_relations.ali": "037b4a58e54ad2e7d1e224c964c7a76d1d5d7dfead5cff7d0c7c2679ba843a19",
+        "lib/worldline-operation_result_view.ali": "f7b9e7b105636383d71b0d8491fc8ee445f7fdd4a393cb9b2de32db3c0271f37",
+        "lib/worldline-ordinary_receipt_policy.ali": "0d4b526f3a5c2118e3d5d7166ae9eefcc50630f8246664875707360219cb19a0",
+        "lib/worldline-ordinary_reservation_lifecycle.ali": "9cd10df3646b457e73bf307cf21883ee41788819a93202eec2e6ef49edeaba31",
+        "lib/worldline-owner_conjunction.ali": "6f9238e86bf7cccea298165890ae58ece5560b5bb889ef3a9d2f30c7b0f52dc4",
+        "lib/worldline-owner_conjunction_wire.ali": "da6923a381c4f6d182d899cd019deb1b38ead8eaae629644f6fbf54f2271e252",
+        "lib/worldline-owner_retry_audit.ali": "a752228a1399a1c5cf8c387617cee8c1081f89eb5ca528847050417d8ecc81a4",
+        "lib/worldline-owner_retry_audit_wire.ali": "f1a3ee9c7fef3677624091a09c07a127a9fc63bac506994b567c1c290987de3f",
+        "lib/worldline-owner_subject_projection.ali": "387c2c5fd4c7ec5669a698790ea53f9db813ea8841810529d98e5fb59ad6bbdf",
+        "lib/worldline-owner_transitions.ali": "e7c7395b0dd40fb90d2949855dc1b7e27b352e630d03a7ac528e5a54680e43a1",
+        "lib/worldline-owner_transitions_wire.ali": "b116ffd667b9411ad440bdd810154d43fe3f6602be680c67f52ff491d6ca1712",
+        "lib/worldline-policy_source.ali": "e96737ea28e628819ee01eec23981e2836d74a1fca0e952909d4d8b46759f989",
+        "lib/worldline-policy_syntax.ali": "ee04b86bee91f93dda335ce2ac3b70a87b427526528f9099e8370e48e6878d48",
+        "lib/worldline-producer_bytes.ali": "6a24d7897c3653eb7ef5c4226242145aae2ffaa2338a0f1a0108502bb1637512",
+        "lib/worldline-producer_render.ali": "4013308311b765b634a9322dcb0c92c626831add427c04d18c253067eb8117da",
+        "lib/worldline-producer_unicode.ali": "4485907fc18c9a6034189e325e58089cdc64e6d5b58de85717a172a7dc16ba54",
+        "lib/worldline-producer_values.ali": "135c7b24e1886d8213f7f71c35e3c38d7fc928a8d3563e9e7b2c90edb1559ee0",
+        "lib/worldline-protected_paths.ali": "aa51c7df2590665271d3a4538bf3071eea18b838153f31f3367cc728a717cb1a",
+        "lib/worldline-raw_json.ali": "67dfe7fd80ea9049d8cdf4eece0b7143f5873b292f1078343b08ed9a9aba1da4",
+        "lib/worldline-receipts.ali": "ca84c15c22d72c3c58218bdd6c7707d9ee8b10c22309eff65987c9de6a116f6b",
+        "lib/worldline-recovery.ali": "97548fae9c9bff8967acf840c32bcada7f345d435134eaaaeb2259f889d852f8",
+        "lib/worldline-recovery_archive.ali": "6906424bd28b370481a4a33b015c511def06e7ddbdf7c9e8ee724a013341340c",
+        "lib/worldline-recovery_authorization.ali": "723123823e73b29e727e5a978c55c7dee21ffb81ee6f32f115cf2b76e53e65bf",
+        "lib/worldline-recovery_authorization_c_api.ali": "97334b3a4e40b64b99c7d974986699574f7b3b03be0e4a6119cfa2ec5d37a61c",
+        "lib/worldline-recovery_authorization_v3.ali": "5ea969671e60b6664931fc10eae6a5fea4cf792aac1b4ecf206c18af49e114d5",
+        "lib/worldline-recovery_authorization_v3_c_api.ali": "fe0058e073db7b30aaee10dfe45bcd4c4f6f64c8d207c339409734194c4f6981",
+        "lib/worldline-recovery_authorization_v3_wire.ali": "4809d301c541407fa7ddc63d112baafe6b1af1480e94a9c47f0caefc3ba08e89",
+        "lib/worldline-recovery_authorization_wire.ali": "182d6b6b16c48ec10ace55d86f87c957e6b8488e1d4d324e655dcedbeaf323e9",
+        "lib/worldline-recovery_c_api.ali": "54f072d3d1b17128aed057f338f4acc4d1cc31c9f795f259c6f09f586b34c729",
+        "lib/worldline-recovery_material_replay.ali": "8dba140548b4e1d266545487c8674b22b52158645d60c21f70ae03e8c9e781c0",
+        "lib/worldline-recovery_owner_replay.ali": "3914269ca96aeddfd99420599bbb65230209dda8c445ae6be133a1fddb5ed432",
+        "lib/worldline-recovery_packet.ali": "31b4864bbc40686612d91189b7063256580e5fec28b34081c8230005b530deb2",
+        "lib/worldline-recovery_protocol.ali": "96654046990ca7f18dfc0781cad2ea8924fec71863f8582739a30e6ee9c78f03",
+        "lib/worldline-recovery_protocol_abi.ali": "8d1e9a6e44259dfa8cfd3e0a4b3fbf3e1ae98ca7430bbb9aa95e874a9f4cb385",
+        "lib/worldline-recovery_protocol_c_api.ali": "e06a2a6dce7023024ff69031cc9efa95aafe148ec600df0d4ed8f3c8b0a446ca",
+        "lib/worldline-recovery_protocol_wire.ali": "2ca17214fddf8fed420d0f65b761645a0b00beab69820dd533e0a88c2f141946",
+        "lib/worldline-recovery_syntax.ali": "e1a0e2ce0f98e84beef39aad3685c4c1d8b09890d04f28be07966fbd07cd39c2",
+        "lib/worldline-report_custody_native.ali": "28ebcc147e9a03e42a63cb7b6e64ffd012d90d14ec92da73744564fdd50e05c3",
+        "lib/worldline-report_parser.ali": "d7505b98ef22670883a79497cc670d1664cf2399fbc9684866894b07da9459c4",
+        "lib/worldline-reservation_lifecycle_c_api.ali": "62bff3a3b0ca2ee7f59a1024cc6ac5c429590492403dedf4265a95365726e633",
+        "lib/worldline-resource_actor_execution.ali": "2bf49148ae1058862e3ba962176283c4efae61d82f2307283669441ed61a39de",
+        "lib/worldline-resource_actor_execution_wire.ali": "dbf234dcabc654ea1a73374bed79696e23e1eae1952b9abb187bf7bee3f85705",
+        "lib/worldline-resource_child_execution.ali": "e4920026391390aa3495bee93a0fa0011a7271ed8a26c5277dd139377fbcd8a5",
+        "lib/worldline-resource_child_execution_wire.ali": "f838ded9b10597319ff7c02f135e76a388957da664ac8d6f7faae4a151b6fdd4",
+        "lib/worldline-resource_ledger_c_api.ali": "2d97c01c290e98af5714f4a8ca2e23e27c95273509c9eb346c77a4d0ed8b048a",
+        "lib/worldline-resource_policy_c_api.ali": "3df96844977ae9345aca64c8f8f66ea0a94deae9f272a083808473f0f12da7c4",
+        "lib/worldline-resource_wire.ali": "b7bf90e19ec865f72c138df70db77ff6b6e85414a4f7f6e499d886fa81fd305b",
+        "lib/worldline-resources.ali": "62d86132a3ca14804adac83f5ef29034e23b1587e4b8dd096ee784085b7db878",
+        "lib/worldline-resources_c_api.ali": "87549064b8055095598079dfdf17288bdc890b8f4f847e86ccbf1ac9ff3a1ab3",
+        "lib/worldline-retained_custody_chain.ali": "a95b78dc7003804ef6fd10056059bc5d3a504d0ad0cca50528d780cef3103902",
+        "lib/worldline-retained_evidence_replay.ali": "0e2f823f4c7832ab7c927e31dc934a7085caf4a6ba10535d423c9bb8ead0edfd",
+        "lib/worldline-retained_raw_decode.ali": "93da151e96a865a0f2ea115dfdfeb9cabbce5b6ef07be78e81c125dc2f652419",
+        "lib/worldline-retained_source_layout.ali": "dfa9cafce6ef53e391acaf29d0471a1014ba64d65476f2455bf27a08f159c03e",
+        "lib/worldline-root_custody_abandon.ali": "6bd3909cba2807c87f53aac4f1dcb960acc84e80cce1181864eafe65ebe77e7f",
+        "lib/worldline-root_custody_archive_join.ali": "a2ff47a9ec9611ae5ebfde1315c1352a24a6427208b3bc2393a8a08cd7f80641",
+        "lib/worldline-root_custody_context.ali": "3dc2a75ec9eb348edb776f1760c7f966e400b3ce8305c6f2438dcbdcc54ed236",
+        "lib/worldline-root_custody_model.ali": "43b6fcc60812a1abde6b2190ceec1b17301ca2d30cc3fc6448d5a6fba88f1577",
+        "lib/worldline-root_custody_phase_values.ali": "d611a9a9851f33f54a6beabf5d5843e44cae4a6606b7fe57d9be9a779922528e",
+        "lib/worldline-root_custody_replay.ali": "a7fc01f6032e1d4541f924831b24af795d0884dffd7691b29998055f77d681df",
+        "lib/worldline-root_custody_request_abandon.ali": "ff1b8a351bab166ec8a89c8c1d7bf70b130114591faac7d077dd5b93f2455d4d",
+        "lib/worldline-root_custody_row_schema.ali": "ec88a0e882fa069c88aa52e62861f78eda4bbe32a11cd864707f6e6322e84a94",
+        "lib/worldline-runner_acquisition_bytes.ali": "5375e0b2b4638e72f01c6eee858341048255f36e2189418bfdb8abc93dd9f576",
+        "lib/worldline-runner_lifecycle.ali": "5cb35019c5118002cd1ce8eb4d3284e51917f3b191da3242b91f8aa62657f426",
+        "lib/worldline-runner_lifecycle_bytes.ali": "342a4ed154a4acf5f7bffeccfa7570caf4f1a7a1f89f8dee2a9b88f04f12eb56",
+        "lib/worldline-runner_outcome.ali": "1b20bafc966c96be594ddac5310818c27a0ff16991fc8855dec5986734fd858f",
+        "lib/worldline-runner_outcome_bytes.ali": "90f5711280bfb972d23f9720e62df651db8e4257609285edb6920bac9a4ac94c",
+        "lib/worldline-scoped_archive.ali": "b79ea142bebdf05454ca8eaa30a73f0d23b7b13dcd75144b0f929873f3e80a2a",
+        "lib/worldline-source_audit_native.ali": "78fe8c3c53c50415493dfb2909a68b9aebaf0c772ee7f11b6c128047bbd6b1e8",
+        "lib/worldline-source_syntax.ali": "8c1c292706d6e90280cb550ca090a6b925b7b963badb62c1566db92278eb3150",
+        "lib/worldline-source_syntax_provider.ali": "ea6b33db33ac6a462db51b5815158ff7e58c6784e01c2f07c81d02ce6c4d5fa6",
+        "lib/worldline-source_syntax_reference.ali": "4ad15d8d62fe72293e7056ec854631581c443823c681e898da84509744a6bea1",
+        "lib/worldline-startup_admission.ali": "e77ef48a952d888e7170e4307356be646ffe3d919248af7ea60dcee28615bc52",
+        "lib/worldline-startup_admission_owned.ali": "2e76a17933852846e0c02b8282f1662d378e7ea31103a25c913aa13d7e5ee5c8",
+        "lib/worldline-startup_installation.ali": "d0838bbf87486d739d2b7bbc069c3c0c500c1fdd71b4445155a91d5a93db77b5",
+        "lib/worldline-startup_issuer_source.ali": "5b87ca2494552631cdfd1d8f78b18bdb1a0b37eaf6cfdde4864877c9c0f9dcd5",
+        "lib/worldline-startup_source_custody.ali": "5e2eae7a2afe3ef4353d5029b59a30f6998a3c796afd264fc87ecf6aa75dc19b",
+        "lib/worldline-transaction_archive_json.ali": "e6ae6c743827fddb226878584eaa7aa48064d1394fc06847b98ddf4ac6d4ef6d",
+        "lib/worldline-transaction_relations.ali": "9eb33e5b2dec1e22dafb0bd1eaa0801fa8a72deb45038da0b78939b92e720ceb",
+        "lib/worldline-transitions.ali": "470438646f820c7b4da05ac2d481837af486edf441cfd44bfdc9b7fe439d2f1f",
+        "lib/worldline-world.ali": "5f34628eb9f480b3534930c2854b7e05ad79a9ee8bb1fb93474ad222fe67b577",
+        "lib/worldline.ali": "8a0a952f5771bc72f0ea8e5774806bd477b0a02d227e9f42c2c6d143cafec49c",
+        "scratch/coordinator/final-frame-v5/native-artifacts/build.json": "32d96ab5b839d9c638f0b16466002f0452ef5dca82ed6fdaa3c93b963ba4b24d",
+        "scratch/coordinator/final-frame-v5/native-artifacts/libworldline_examiner_guard.so": "ed3fc1a4c672b9a5bc425faada0d0ec139057d65b82f521f11c1ec8a40858b69"
+      },
+      "build_manifest": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+      "build_sha256": "70173efe0c7278e505df1d8b4611c4249c71a26e7f78aa6f7b145ce158c240f4",
+      "commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "exact_tracked_roster_matches": true,
+      "frame": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+      "freeze_record": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+      "freeze_sha256": "98d79357743b18aeea143e46d8597a7a30fbd51bea8a4168d0a5965bf16f5812",
+      "full_build_receipt": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/full-root.json",
+      "full_build_receipt_sha256": "dceefa84da0b32db972e696af9e2be57acaeeb2afe6e63a404f7fb1bdc80b2d3",
+      "identity_helper_sha256": "76273e84d9ab37b6aaaa1d858709b32af90193f435045e90d6a0a80487b64f2e",
+      "library": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/libworldline_core.so",
+      "library_sha256": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+      "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac"
+    },
+    "independent_acceptance": "NOT PERFORMED",
+    "original_contract": {
+      "assurance_caller_timeout": 1800,
+      "commit": "1bd5c0890e1c2686b3e33389831c76fe1f5cc25b",
+      "decisive_timeout": 900,
+      "required_steps": [
+        "checkout-identity",
+        "clean-build-tree",
+        "build",
+        "ada-tests",
+        "ada-fuzz",
+        "python-tests",
+        "private-host-tests",
+        "evaluation-domain",
+        "proof-gate",
+        "proof-manifest"
+      ],
+      "runtime_tree": "1c628de542bfc843f5f5e1aaa0580a0c4b12c40e",
+      "sources": {
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/assurance.py": "b15169fb858c591dce5f06d6c5301a6578a45d67ffea448b423e03b25c7e8cc9",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/assurance_contract.py": "848cebc468e0b9f7c2845465cf7272c15502e4b3cc77b5448232bd0ec8d32c47",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/evaluation_domain_gate.py": "734a7381e8e08a6ff71432f4c16251fc4ab4d57f032e924dc61119abfafeae5e"
+      },
+      "tag": "counterexample/verifier-bytes-without-evaluation-domain"
+    },
+    "original_gate_step": "evaluation-domain",
+    "runtime_qualification": {
+      "attempt": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867",
+      "joined_files": {
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/locked-result.json": "7d83897a92e0e9055648f3d158f3c2be1c2aabeed65ec61fc4ebdb814eadd16c",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/typed-manager-qualification.json": "b9a27b626b5a083f6b1ced313b67416fd6d9df02abe97e99d2743c322221fa7f",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/attempt-b38b23cab98b4736b25db74ffaeb3867/worker/worker-result.json": "c9b76ee754cfbb099a0cf69e20fe3ef7ffa0bd37a6257ec4aed7cca533aa9a84",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/launch.json": "746ea2d0a23c966dd5992613974024a3adb2d140ae5f0ea2b0577441d3a5138a"
+      },
+      "receipt": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/result.json",
+      "scope": "paired unchanged real supervision only; not a universal audit or collector equivalence claim",
+      "sha256": "d99ca9d459cb1b116133043ae2a4c8740c2d00a5dbd61d0974ec489a6145dce9"
+    },
+    "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "status": "FAILED-OPEN domain prerequisite, instrument or original gate",
+    "steps": [
+      {
+        "argv": [
+          "bwrap",
+          "--die-with-parent",
+          "--ro-bind",
+          "/",
+          "/",
+          "--dev",
+          "/dev",
+          "--proc",
+          "/proc",
+          "--bind",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+          "--chdir",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+          "/usr/bin/python3",
+          "-B",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/evaluation_domain_supervisor_v2.py",
+          "--phase",
+          "payload",
+          "--out",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate",
+          "--expected-commit",
+          "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+          "--payload-record",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-payload-input.json"
+        ],
+        "exit_code": 1,
+        "name": "plain",
+        "ok": false,
+        "original_assurance_defect_marker": true,
+        "payload": {
+          "arms": [
+            {
+              "argv": [
+                "/usr/bin/python3",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+                "--engine",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+                "--json",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408/verdict.json"
+              ],
+              "audit_mode": "plain",
+              "engine": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+              "exit_code": 1,
+              "name": "candidate",
+              "original_argv": [
+                "/usr/bin/python3",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+                "--engine",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+                "--json",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408/verdict.json"
+              ],
+              "output_sha256": "e4e23a4cedce97f414335caa0475ab4be822f4d4b36bfb5daf0e616bdd78511d",
+              "retention_adaptation": "Original temporary verdict is retained, never substituted or prepopulated",
+              "timeout": 900,
+              "verdict": {
+                "allHold": false,
+                "observedVulnerability": {
+                  "fabricatedOutputAccepted": false,
+                  "harnessOwnershipMarkers": [],
+                  "trustedExaminerRan": true
+                },
+                "properties": [
+                  {
+                    "detail": "fabricated=False owned=[] ranAtAll=True status=PASS reason='None'",
+                    "holds": true,
+                    "name": "1 trusted runner executed"
+                  },
+                  {
+                    "detail": "nonce=True forged=False",
+                    "holds": true,
+                    "name": "2 trusted verifier executed"
+                  },
+                  {
+                    "detail": "helper line=['HELPER=TRUSTED-HELPER-8b1d4e60']",
+                    "holds": true,
+                    "name": "3 trusted declared dependencies used"
+                  },
+                  {
+                    "detail": "line=['CANDIDATE_READABLE=True']",
+                    "holds": true,
+                    "name": "4 candidate accessible as the examined thing"
+                  },
+                  {
+                    "detail": "markers=[] fabricated=False ranAtAll=True",
+                    "holds": true,
+                    "name": "5 candidate modules did not fabricate the record"
+                  },
+                  {
+                    "detail": "integrity=VERIFIED execution=EVALUATOR_INCOMPLETE outcome=NONE admissible=False (legacy binding=BOUND)",
+                    "holds": false,
+                    "name": "6 the record separates integrity, execution and outcome"
+                  }
+                ],
+                "ranAtAll": true,
+                "recordedStdout": "TRUSTED-EXAMINER-3f9a2c7e\nHELPER=TRUSTED-HELPER-8b1d4e60\nCANDIDATE_READABLE=True\n",
+                "schemaVersion": 1
+              },
+              "verdict_directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408",
+              "verdict_present": true,
+              "verdict_sha256": "1f9bc3436b3ab2b1c4c7f53aadff33141573c2c9feaff3fe7223b035904f3a38"
+            },
+            {
+              "argv": [
+                "/usr/bin/python3",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+                "--engine",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+                "--json",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-1vy_hkeb/verdict.json"
+              ],
+              "audit_mode": "plain",
+              "engine": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+              "exit_code": 1,
+              "name": "counterexample",
+              "original_argv": [
+                "/usr/bin/python3",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+                "--engine",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample/runtime",
+                "--json",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-1vy_hkeb/verdict.json"
+              ],
+              "output_sha256": "a2a9d407fd7a706f91476fecb05484e124588dd65dc843f1b10313c9f670b6c7",
+              "retention_adaptation": "Original temporary verdict is retained, never substituted or prepopulated",
+              "timeout": 900,
+              "verdict": {
+                "allHold": false,
+                "observedVulnerability": {
+                  "fabricatedOutputAccepted": true,
+                  "harnessOwnershipMarkers": [
+                    "HARNESS-OWNED-base64",
+                    "HARNESS-OWNED-subprocess"
+                  ],
+                  "trustedExaminerRan": false
+                },
+                "properties": [
+                  {
+                    "detail": "fabricated=True owned=['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'] ranAtAll=True status=PASS reason='None'",
+                    "holds": false,
+                    "name": "1 trusted runner executed"
+                  },
+                  {
+                    "detail": "nonce=False forged=False",
+                    "holds": false,
+                    "name": "2 trusted verifier executed"
+                  },
+                  {
+                    "detail": "helper line=[]",
+                    "holds": false,
+                    "name": "3 trusted declared dependencies used"
+                  },
+                  {
+                    "detail": "line=[]",
+                    "holds": false,
+                    "name": "4 candidate accessible as the examined thing"
+                  },
+                  {
+                    "detail": "markers=['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'] fabricated=True ranAtAll=True",
+                    "holds": false,
+                    "name": "5 candidate modules did not fabricate the record"
+                  },
+                  {
+                    "detail": "integrity=n/a execution=n/a outcome=n/a admissible=None (legacy binding=BOUND)",
+                    "holds": false,
+                    "name": "6 the record separates integrity, execution and outcome"
+                  }
+                ],
+                "ranAtAll": true,
+                "recordedStdout": "FABRICATED-PASS\n",
+                "schemaVersion": 1
+              },
+              "verdict_directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-1vy_hkeb",
+              "verdict_present": true,
+              "verdict_sha256": "19c4a6cf7dbd1cd839cdcccb8eb0e7f9dea3742fb7b67dce406fd61e68fb7c8d"
+            }
+          ],
+          "audit_ok": true,
+          "candidate_holds": false,
+          "complete_roster": true,
+          "control_detected": [
+            true,
+            "fabricated output True, harness ownership ['HARNESS-OWNED-base64', 'HARNESS-OWNED-subprocess'], trusted examiner ran False"
+          ],
+          "exception": null,
+          "historical_collector_equivalence": "UNVERIFIED",
+          "independent_acceptance": "NOT PERFORMED",
+          "local_carrier_adaptation": true,
+          "ok": false,
+          "original_arm_roster": [
+            "candidate",
+            "counterexample"
+          ],
+          "original_main_exit": 1,
+          "predicate_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/evaluation_domain_gate.py",
+          "predicate_source_sha256": "734a7381e8e08a6ff71432f4c16251fc4ab4d57f032e924dc61119abfafeae5e",
+          "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac"
+        },
+        "timeout": 1800
+      }
+    ]
+  }
+}

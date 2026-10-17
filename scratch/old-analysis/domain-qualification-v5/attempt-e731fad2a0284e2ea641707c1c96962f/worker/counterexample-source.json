@@ -1,0 +1,465 @@
+{
+  "archive_sha256": "b29733742153c52ef16cf9e089a7609090b5274978ce722d8f40933aced8c11a",
+  "commit": "1bd5c0890e1c2686b3e33389831c76fe1f5cc25b",
+  "files": [
+    {
+      "actual_blob": "aff747ee47b20a2de824e072c25498d827e9cd12",
+      "expected_blob": "aff747ee47b20a2de824e072c25498d827e9cd12",
+      "git_mode": "100644",
+      "path": "runtime/worldline/__init__.py",
+      "sha256": "95bf1834267682824b4cf341a7ea3d2e4ca6618eb83970ce2aa3b387425c9167"
+    },
+    {
+      "actual_blob": "b4b701e341a1cb5eafa903f0a3401058c57076cf",
+      "expected_blob": "b4b701e341a1cb5eafa903f0a3401058c57076cf",
+      "git_mode": "100644",
+      "path": "runtime/worldline/admission.py",
+      "sha256": "102459346ff6d9a95de3a417c3e1c82b6339f31605814260951611a1d232d76e"
+    },
+    {
+      "actual_blob": "32ed42bb304f810a65a5adedc456e05e1d426f79",
+      "expected_blob": "32ed42bb304f810a65a5adedc456e05e1d426f79",
+      "git_mode": "100644",
+      "path": "runtime/worldline/agents/__init__.py",
+      "sha256": "56d96886cf8a99bd6484615aff595ac28495284f18a867fbc348c5dec332a99c"
+    },
+    {
+      "actual_blob": "0cdafaa64335b9c8ae3aec11450e3809bc174e50",
+      "expected_blob": "0cdafaa64335b9c8ae3aec11450e3809bc174e50",
+      "git_mode": "100644",
+      "path": "runtime/worldline/agents/base.py",
+      "sha256": "474901c662205db043c5753b02f67126d96b1a01754684521708ef0620fdfb3a"
+    },
+    {
+      "actual_blob": "5b3c7042151ff57e9075cc7fe98f16670c5b636d",
+      "expected_blob": "5b3c7042151ff57e9075cc7fe98f16670c5b636d",
+      "git_mode": "100644",
+      "path": "runtime/worldline/agents/claude.py",
+      "sha256": "1bc5757e94f4c22ee99f942f4bacda6da618911ab5fbcca782e9d42eac40f316"
+    },
+    {
+      "actual_blob": "8f678c2b33ac6afa8bbc0817c7a495c1bd0384fb",
+      "expected_blob": "8f678c2b33ac6afa8bbc0817c7a495c1bd0384fb",
+      "git_mode": "100644",
+      "path": "runtime/worldline/agents/codex.py",
+      "sha256": "3e647e10d4a31c59fd7a994d8e87ecf943623b6d7032f792f574907e1a3d483a"
+    },
+    {
+      "actual_blob": "349aafd58121600e543c3ffd450ae9b1d37d4470",
+      "expected_blob": "349aafd58121600e543c3ffd450ae9b1d37d4470",
+      "git_mode": "100644",
+      "path": "runtime/worldline/agents/generic.py",
+      "sha256": "22ce9848c30938d45ad4b0a020f9bbc70dd3ad6cbc4fe94fd5eeed38e27446c9"
+    },
+    {
+      "actual_blob": "bdb067b2651680bc169a56f61f3f238fe7f70e7d",
+      "expected_blob": "bdb067b2651680bc169a56f61f3f238fe7f70e7d",
+      "git_mode": "100644",
+      "path": "runtime/worldline/agents/omp.py",
+      "sha256": "366338d00cef9c2bcbef41aebc39cfd32f256d57344c200d50eb6bf9fdea9bdc"
+    },
+    {
+      "actual_blob": "161a7ba6b6583d0775da2caa034808a7f1860dca",
+      "expected_blob": "161a7ba6b6583d0775da2caa034808a7f1860dca",
+      "git_mode": "100644",
+      "path": "runtime/worldline/agents/pi.py",
+      "sha256": "0b623932b51af84663d76bd45230f3e4088c9ff616629dcf18dbfa54e8d042da"
+    },
+    {
+      "actual_blob": "39fa34840102d3f33b8be16eed55afc5db918716",
+      "expected_blob": "39fa34840102d3f33b8be16eed55afc5db918716",
+      "git_mode": "100644",
+      "path": "runtime/worldline/anchor.py",
+      "sha256": "4a958f2072524a342766307fee902f0914ee88a38b3433a5c598be7dd9ba80ee"
+    },
+    {
+      "actual_blob": "2f1c4cdaaf9d3823dbee54efc5ee47c45be8c2ca",
+      "expected_blob": "2f1c4cdaaf9d3823dbee54efc5ee47c45be8c2ca",
+      "git_mode": "100644",
+      "path": "runtime/worldline/app.py",
+      "sha256": "05bcb4bd1f14c58b4d11a9ba697b21643d1fb9fa0b52fa594f32f8cc3ae142fc"
+    },
+    {
+      "actual_blob": "5b186647cc43b48cfbebc5f6dc365dbf7aeebf8e",
+      "expected_blob": "5b186647cc43b48cfbebc5f6dc365dbf7aeebf8e",
+      "git_mode": "100644",
+      "path": "runtime/worldline/canonical.py",
+      "sha256": "9964b2266aa9b6adf8c03f6c7cf0f01586d530f63b014f4dcc1a7bc0975d4af3"
+    },
+    {
+      "actual_blob": "71e741db94e5d8f73110dccac8ab9908979d0253",
+      "expected_blob": "71e741db94e5d8f73110dccac8ab9908979d0253",
+      "git_mode": "100644",
+      "path": "runtime/worldline/capabilities.py",
+      "sha256": "a0f479c2ead05cc10cf04dada7f7864f7907b01695ff5187d0658d33752f16a9"
+    },
+    {
+      "actual_blob": "c008ff38674a7021bbfef4875ba4eff4349f9fbb",
+      "expected_blob": "c008ff38674a7021bbfef4875ba4eff4349f9fbb",
+      "git_mode": "100644",
+      "path": "runtime/worldline/causal.py",
+      "sha256": "8263df46e41080a08fc4b679b0b1738a6a800a87018f7600fd453303ae8a07d3"
+    },
+    {
+      "actual_blob": "f4de21824c3d86b450fa22fe897cde83e6591aa7",
+      "expected_blob": "f4de21824c3d86b450fa22fe897cde83e6591aa7",
+      "git_mode": "100644",
+      "path": "runtime/worldline/checkpoint.py",
+      "sha256": "a88b07c8424e3e129e657d8f2a6cc27a041f42ab72b9c80680e73213189d7980"
+    },
+    {
+      "actual_blob": "a554e4f6b8d1d8054a41b5d1d40cd193b6ce0860",
+      "expected_blob": "a554e4f6b8d1d8054a41b5d1d40cd193b6ce0860",
+      "git_mode": "100644",
+      "path": "runtime/worldline/checks.py",
+      "sha256": "d3a89a65fc147903376094f9e5250a0219a37a655a17482783d39130d6b41a99"
+    },
+    {
+      "actual_blob": "19b62e3a9a26cfaac35972dad02f3a1dac038bfe",
+      "expected_blob": "19b62e3a9a26cfaac35972dad02f3a1dac038bfe",
+      "git_mode": "100644",
+      "path": "runtime/worldline/cli_main.py",
+      "sha256": "0b68fda6a9c7c9d77404dc94ba8edb5415d40ee7f51f93146bdd8080050b4e7a"
+    },
+    {
+      "actual_blob": "a9ef969181dce75f22377da323453286b4e65423",
+      "expected_blob": "a9ef969181dce75f22377da323453286b4e65423",
+      "git_mode": "100644",
+      "path": "runtime/worldline/client.py",
+      "sha256": "19779dceada59d040aecec0c64527dac672d321d489a9ec3dc25b9c19077078f"
+    },
+    {
+      "actual_blob": "f7ef18149b5c94e5105f3fc0d9ff7cb324aee31a",
+      "expected_blob": "f7ef18149b5c94e5105f3fc0d9ff7cb324aee31a",
+      "git_mode": "100644",
+      "path": "runtime/worldline/config.py",
+      "sha256": "29c53a93aa57f009d438f8b18e02ad669154fc6c00f8043e96cf5f3d4fc135bb"
+    },
+    {
+      "actual_blob": "239f4f66f9663f7323daeb7994d46a615b95b9de",
+      "expected_blob": "239f4f66f9663f7323daeb7994d46a615b95b9de",
+      "git_mode": "100644",
+      "path": "runtime/worldline/controller.py",
+      "sha256": "a2ea5f2c2d20767baeff7adb4535a69fe06eef82d316d94cafdd2008c60bbf65"
+    },
+    {
+      "actual_blob": "0489a615ff4e83a5697736989a5026c91ad4ddea",
+      "expected_blob": "0489a615ff4e83a5697736989a5026c91ad4ddea",
+      "git_mode": "100644",
+      "path": "runtime/worldline/core.py",
+      "sha256": "27b75aabd9bf0e884c4e3649003f1f5c752f53f7a12729efb19c403e34a1d9dd"
+    },
+    {
+      "actual_blob": "0142a74b143aeea2873acfcf7f5635cb58942502",
+      "expected_blob": "0142a74b143aeea2873acfcf7f5635cb58942502",
+      "git_mode": "100644",
+      "path": "runtime/worldline/daemon.py",
+      "sha256": "1a64024b5d880484ce98113b595833102db8232ca0f0cee780321b7f39895f61"
+    },
+    {
+      "actual_blob": "a5b6b8f64dd554147affebb49b4eb1b10a329232",
+      "expected_blob": "a5b6b8f64dd554147affebb49b4eb1b10a329232",
+      "git_mode": "100644",
+      "path": "runtime/worldline/daemon_main.py",
+      "sha256": "00b6acf0e4047643f1524d4179d2bda584c856e48d20c54866e9588966bb3667"
+    },
+    {
+      "actual_blob": "c849006b09d1978350bb21a82b491a7b9df7b0f7",
+      "expected_blob": "c849006b09d1978350bb21a82b491a7b9df7b0f7",
+      "git_mode": "100644",
+      "path": "runtime/worldline/delta.py",
+      "sha256": "192efbe8b8b761a4e76c7361a2c06dcac801641d524f18efda5de74452ce4059"
+    },
+    {
+      "actual_blob": "e08597aa363d72f30ba247e14daf90b45628639e",
+      "expected_blob": "e08597aa363d72f30ba247e14daf90b45628639e",
+      "git_mode": "100644",
+      "path": "runtime/worldline/environment.py",
+      "sha256": "5a9ea64b0482c7d2d9cc1fad6c3b59db3642e2757ae95647ea90478720b1a6bf"
+    },
+    {
+      "actual_blob": "59c79370d3792145bf643684f7019cabba943453",
+      "expected_blob": "59c79370d3792145bf643684f7019cabba943453",
+      "git_mode": "100644",
+      "path": "runtime/worldline/errors.py",
+      "sha256": "b9291851049bb03e1adf72413aa9b6d1c410c245d76e703f02d28879fafd6097"
+    },
+    {
+      "actual_blob": "fe196d7d38156fc73277a4db436045616f73513b",
+      "expected_blob": "fe196d7d38156fc73277a4db436045616f73513b",
+      "git_mode": "100644",
+      "path": "runtime/worldline/executed.py",
+      "sha256": "11724b536ec9bfb22bcdaea0a1274d3ff1e4e75b83259226816cdf76e6cb4185"
+    },
+    {
+      "actual_blob": "48fe5fc354d1074d3b4664ca2d4bd4804a5b3b37",
+      "expected_blob": "48fe5fc354d1074d3b4664ca2d4bd4804a5b3b37",
+      "git_mode": "100644",
+      "path": "runtime/worldline/finalize.py",
+      "sha256": "dc2856565582bc9d726b4cfbbdc23e86827491f6808b09989a300b2459212b03"
+    },
+    {
+      "actual_blob": "a92a6b5f15e72f2790e2b0133bb448b39dc5f1c2",
+      "expected_blob": "a92a6b5f15e72f2790e2b0133bb448b39dc5f1c2",
+      "git_mode": "100644",
+      "path": "runtime/worldline/fork.py",
+      "sha256": "b64b86f4e64999a0eff189aad70331c6cbcce13540b5ad071c24f0e5085a3c80"
+    },
+    {
+      "actual_blob": "4338edaa2edfef6e9ab6d004e73f0a95004ab486",
+      "expected_blob": "4338edaa2edfef6e9ab6d004e73f0a95004ab486",
+      "git_mode": "100644",
+      "path": "runtime/worldline/ghosts.py",
+      "sha256": "af031cfeb7c06e3ad9151eb45cc776783b1c05e4b080ce640bdfbfce4f21de7f"
+    },
+    {
+      "actual_blob": "8c77a383202b733128f47593ed5017388948a53e",
+      "expected_blob": "8c77a383202b733128f47593ed5017388948a53e",
+      "git_mode": "100644",
+      "path": "runtime/worldline/install_config.py",
+      "sha256": "69b24b2a1ea04baed0d6c590fee0078aee6c8e542572930c0d22af4127e95261"
+    },
+    {
+      "actual_blob": "977d7364b0417ace64c27342377778c201311ff9",
+      "expected_blob": "977d7364b0417ace64c27342377778c201311ff9",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/__init__.py",
+      "sha256": "36944b96f2ae76dc3f73178841eb4a1693f875aa7050fa13c593f85355027bb6"
+    },
+    {
+      "actual_blob": "335986c32beefee576157e91fa2f7f2ada857963",
+      "expected_blob": "335986c32beefee576157e91fa2f7f2ada857963",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/atomic.py",
+      "sha256": "868c6c3db77f12e074dced0a2fb7f4655098c6dff3c70ce54fbbb93b63e292b8"
+    },
+    {
+      "actual_blob": "21d39ee9f95f86680b8662a406356e13aa0df551",
+      "expected_blob": "21d39ee9f95f86680b8662a406356e13aa0df551",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/btrfs.py",
+      "sha256": "cc25fc1f948b270165801ded686026abb688c62153912bec0ec7bf2d1bd524df"
+    },
+    {
+      "actual_blob": "239f796421e19537d2d3f96751ddf7981b7ce73b",
+      "expected_blob": "239f796421e19537d2d3f96751ddf7981b7ce73b",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/cgroups.py",
+      "sha256": "94f3e3e2bf6438d15b52a5e2c51d9c62ec2c8c91b478d5d36af431ff10ad5c30"
+    },
+    {
+      "actual_blob": "2cdf4b2d75fa5bc02bacd0a8642a2f7ab328f8d8",
+      "expected_blob": "2cdf4b2d75fa5bc02bacd0a8642a2f7ab328f8d8",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/criu.py",
+      "sha256": "fce20d417123189254b3c4e023ba5bd20aff619dccbf3eb49b5194efaaa1b498"
+    },
+    {
+      "actual_blob": "28e530b16b15bf0508b10a9b3ae6121220a0cd23",
+      "expected_blob": "28e530b16b15bf0508b10a9b3ae6121220a0cd23",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/docker.py",
+      "sha256": "221bb301290b500d9fea190c4d49ce6e3bdc17552e8338dd974a327954ce2568"
+    },
+    {
+      "actual_blob": "bfd02813b6b41127f594f045d1b0b0d7dcbed7cc",
+      "expected_blob": "bfd02813b6b41127f594f045d1b0b0d7dcbed7cc",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/git.py",
+      "sha256": "f88ea9ca352bd2576aadbc95a3e70379d736beda2460ae49df84b7c77bea1a0c"
+    },
+    {
+      "actual_blob": "d0394229f0a44e12ec963f96cf0efe070e52d7d4",
+      "expected_blob": "d0394229f0a44e12ec963f96cf0efe070e52d7d4",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/hyprland.py",
+      "sha256": "fe9e98a04311353b0ea2b1ca969f31712a30b46d92421505f34c571c3c76ba10"
+    },
+    {
+      "actual_blob": "6bca2fe46a7d733eb128ac87bf541f21ef1d2776",
+      "expected_blob": "6bca2fe46a7d733eb128ac87bf541f21ef1d2776",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/inotify.py",
+      "sha256": "ed8a936e7ffd1d8c6ac7f6d702ea847535e8814f4aacfbf3f3fa0fa381c079e0"
+    },
+    {
+      "actual_blob": "52d26e0a1520f13cc947fb81cde6c9481956981d",
+      "expected_blob": "52d26e0a1520f13cc947fb81cde6c9481956981d",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/namespaces.py",
+      "sha256": "8a05e318d87bfcbf297d40e6052c1c16f2d71b90ff5eb18249d1eb03d448ef4e"
+    },
+    {
+      "actual_blob": "8a426dedf15b42cc2ca2b7e290ea65dedd6f7f57",
+      "expected_blob": "8a426dedf15b42cc2ca2b7e290ea65dedd6f7f57",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/netguard.py",
+      "sha256": "e49dbb8dbd6f75fc5db461dfa7f0925e6e1789c1367c21579875503aa66d1d0d"
+    },
+    {
+      "actual_blob": "7b67767afbe110e269e56eab45e5cafc30eb82a7",
+      "expected_blob": "7b67767afbe110e269e56eab45e5cafc30eb82a7",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/overlay.py",
+      "sha256": "d451e121206c7ec8e709b5abc8f6f16243be6f70f78df353993f9a9acc3eab3a"
+    },
+    {
+      "actual_blob": "8c9602154a2a7adba9ec044d146ad0425005d499",
+      "expected_blob": "8c9602154a2a7adba9ec044d146ad0425005d499",
+      "git_mode": "100644",
+      "path": "runtime/worldline/linux/systemd.py",
+      "sha256": "f55dced710b454fe4bfdbb562ad10cec2e1c3e6aa57e7d0b897da9a6d651bd14"
+    },
+    {
+      "actual_blob": "abcbbc17c21e5a735e5cbdd94ca5599e976ae2d0",
+      "expected_blob": "abcbbc17c21e5a735e5cbdd94ca5599e976ae2d0",
+      "git_mode": "100644",
+      "path": "runtime/worldline/manifest.py",
+      "sha256": "648ba4fe0a7b0ccede937648f90f552f26c4f4ef25e959b1ce725e7ad4131019"
+    },
+    {
+      "actual_blob": "5d0888b8ecb75ae96c60b614837aa6daf2d06e21",
+      "expected_blob": "5d0888b8ecb75ae96c60b614837aa6daf2d06e21",
+      "git_mode": "100644",
+      "path": "runtime/worldline/model.py",
+      "sha256": "51384676f63545ce8ee44c74268db30a0407338a65c05dfcc7a8b71c57c18f4c"
+    },
+    {
+      "actual_blob": "e99299958c77031b4e6203ebc858a31d2f669521",
+      "expected_blob": "e99299958c77031b4e6203ebc858a31d2f669521",
+      "git_mode": "100644",
+      "path": "runtime/worldline/paths.py",
+      "sha256": "0a71ba6fb6b194018f2742b63a651bd1224045d70b79c6739f1a21eb28020f12"
+    },
+    {
+      "actual_blob": "7a82b550acd88d1deb9746bd7a7202e6ab216523",
+      "expected_blob": "7a82b550acd88d1deb9746bd7a7202e6ab216523",
+      "git_mode": "100644",
+      "path": "runtime/worldline/payload.py",
+      "sha256": "b18d2ae475bd097688f5b4127d88384a2112e21f375bd02705161cc81afdb92d"
+    },
+    {
+      "actual_blob": "c1029738628652d4ea556f4af3ec2e3f3191f1a5",
+      "expected_blob": "c1029738628652d4ea556f4af3ec2e3f3191f1a5",
+      "git_mode": "100644",
+      "path": "runtime/worldline/prime.py",
+      "sha256": "0b99af65c4d1bb4bc7846e3c89f9183378f8d8c8b28d52f1c820c4b8b1e01ee7"
+    },
+    {
+      "actual_blob": "11cacb1c89ab0ab2fdd67f067af016812c4e9c18",
+      "expected_blob": "11cacb1c89ab0ab2fdd67f067af016812c4e9c18",
+      "git_mode": "100644",
+      "path": "runtime/worldline/project.py",
+      "sha256": "573c2e381386da0b9ba1a4c9526052b8e98b271d484c448930a44c4d36f92e73"
+    },
+    {
+      "actual_blob": "3fc36ff6dd8d1d0784057e712734b661f5137bf2",
+      "expected_blob": "3fc36ff6dd8d1d0784057e712734b661f5137bf2",
+      "git_mode": "100644",
+      "path": "runtime/worldline/proof.py",
+      "sha256": "4bab3d3032179a23b1771eb293ce28102e9aed7746cd3720476c124918d27616"
+    },
+    {
+      "actual_blob": "c94becf676cbb9eb57a3830f6098365fe6423d4e",
+      "expected_blob": "c94becf676cbb9eb57a3830f6098365fe6423d4e",
+      "git_mode": "100644",
+      "path": "runtime/worldline/prune.py",
+      "sha256": "47c1a68dc54449db42432f5a90cedda7eb6d80dd8784a8a087e93a8bb84722af"
+    },
+    {
+      "actual_blob": "1094a25cbd0a97b26240a71beabca967f24875b2",
+      "expected_blob": "1094a25cbd0a97b26240a71beabca967f24875b2",
+      "git_mode": "100644",
+      "path": "runtime/worldline/receipt.py",
+      "sha256": "aa8f31e428e02e8742286dd967ea684fdad639f01b32b49bfb5001daedd9b913"
+    },
+    {
+      "actual_blob": "e0189d1e6be7381ef6b5766fb8f138a2145543f9",
+      "expected_blob": "e0189d1e6be7381ef6b5766fb8f138a2145543f9",
+      "git_mode": "100644",
+      "path": "runtime/worldline/reconcile.py",
+      "sha256": "7bae0c615c17dd4a39d30abdb6b49e2dd8dfca72b3db9761380fed304b2fb959"
+    },
+    {
+      "actual_blob": "f0214ce5fed8a4d2cce52f71cdb8ea286d2f04f8",
+      "expected_blob": "f0214ce5fed8a4d2cce52f71cdb8ea286d2f04f8",
+      "git_mode": "100644",
+      "path": "runtime/worldline/returning.py",
+      "sha256": "120238cf2a6dd928f2d3eadac170965417e480afd5fd5823191a9a8d6732860f"
+    },
+    {
+      "actual_blob": "0fba06c5ff7388baf7a2694109b2b77c77852b46",
+      "expected_blob": "0fba06c5ff7388baf7a2694109b2b77c77852b46",
+      "git_mode": "100644",
+      "path": "runtime/worldline/revalidate.py",
+      "sha256": "073038eb887f4cceb560df880f1a3eda1df4b6637d31161154c79268c801e0b7"
+    },
+    {
+      "actual_blob": "ea4375c4892e88e8db3db0426b80635da7d187e4",
+      "expected_blob": "ea4375c4892e88e8db3db0426b80635da7d187e4",
+      "git_mode": "100644",
+      "path": "runtime/worldline/roots.py",
+      "sha256": "94918047b10dfe25ab85e4cc35ff98b2202b25d1b1f07efbf5a9f16fce6262a4"
+    },
+    {
+      "actual_blob": "6c6bafb7ba4e388ac38a774cbf548a508d769755",
+      "expected_blob": "6c6bafb7ba4e388ac38a774cbf548a508d769755",
+      "git_mode": "100644",
+      "path": "runtime/worldline/runner.py",
+      "sha256": "94931bcd7072c8afaba0638b3bc95a94e4a2299ad3ff32fc352bd7d95577b67a"
+    },
+    {
+      "actual_blob": "e94cdc463e560e3898bbf915698fd6f421bf43e0",
+      "expected_blob": "e94cdc463e560e3898bbf915698fd6f421bf43e0",
+      "git_mode": "100644",
+      "path": "runtime/worldline/scoring.py",
+      "sha256": "e991c6b451939077f6b44c9cb9be5eba2d33a741de7fa2acf8aa9fe97ccd2e72"
+    },
+    {
+      "actual_blob": "0b9246fc9d99edeb5fdfc9de66f6f226905fa0fa",
+      "expected_blob": "0b9246fc9d99edeb5fdfc9de66f6f226905fa0fa",
+      "git_mode": "100644",
+      "path": "runtime/worldline/services.py",
+      "sha256": "9c6189980e551bdfb9064a911d804c6583c4fc42ec0f016988579fd4206b9a61"
+    },
+    {
+      "actual_blob": "df022bbcdd1b1412c4be00ea2b5c39b6bb2d22af",
+      "expected_blob": "df022bbcdd1b1412c4be00ea2b5c39b6bb2d22af",
+      "git_mode": "100644",
+      "path": "runtime/worldline/simulation.py",
+      "sha256": "9b66dfbfb68ff576b9b3482bd21c3e14b68fddf52cd328e8f871662ad3da6830"
+    },
+    {
+      "actual_blob": "1bd66e21fe1edc0a18ac759b6adef927245ec2e9",
+      "expected_blob": "1bd66e21fe1edc0a18ac759b6adef927245ec2e9",
+      "git_mode": "100644",
+      "path": "runtime/worldline/status.py",
+      "sha256": "ab2c76227675d32ec96306ee89f1f403f864116912309a437560dea1767d9232"
+    },
+    {
+      "actual_blob": "07bbb90e5e588248c2ed6bf8526a2e08b66d581e",
+      "expected_blob": "07bbb90e5e588248c2ed6bf8526a2e08b66d581e",
+      "git_mode": "100644",
+      "path": "runtime/worldline/store.py",
+      "sha256": "402dc8fbe1dbb448a8fd28cb09263899ccfc71117348c9d6f5f2abb919a3518a"
+    },
+    {
+      "actual_blob": "b78bacab6e2d2b1ea8adb015eb3698529b64f86a",
+      "expected_blob": "b78bacab6e2d2b1ea8adb015eb3698529b64f86a",
+      "git_mode": "100644",
+      "path": "runtime/worldline/transaction.py",
+      "sha256": "99905ffc7f8330078aea48150f41209ad419e454434af762161164f9b57a85ff"
+    },
+    {
+      "actual_blob": "78b654579ce53f6ab49752f485807e3efad02d0e",
+      "expected_blob": "78b654579ce53f6ab49752f485807e3efad02d0e",
+      "git_mode": "100644",
+      "path": "runtime/worldline/validation.py",
+      "sha256": "c9d9a6358f08cb427bede287eb513c46bf505d0c58c3cdcd9ac3c64ce1434d13"
+    }
+  ],
+  "materialization": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/counterexample",
+  "no_runtime_source_modification": true,
+  "runtime_tree": "1c628de542bfc843f5f5e1aaa0580a0c4b12c40e",
+  "tag": "counterexample/verifier-bytes-without-evaluation-domain"
+}

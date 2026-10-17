@@ -1,0 +1,9 @@
+# D59 proposed original production aggregate build
+
+Following the independently reviewed core-only Capacity_Fits call and source checkpoint 4ff3bf48b4323c051ffa8cf04ba4787982111f6d, select a full unchanged original core/worldline_core.gpr aggregate build with --subdirs=phase1-resource-policy-candidate-v1, checks/full/private-prebuilt settings and fresh outputs. The read-only metadata recipe pins exact hierarchy and complete source project closure; it is not a build result. Root build.py keeps root/old outputs/private dependencies read-only, binds only fresh planned output directories and owned result/tmp/cache writable, verifies the original standalone private source/project/object/ALI/archive receipt and all before/after watched bytes, and requires the new library plus assertion-enabled quantity/policy ALIs. No library or source file outside fresh outputs is replaced.
+
+run_build.py retains the original 45m full-build deadline and existing shared-flock, post-lock MemAvailable admission, own systemd8G/swap0, live disk guards and complete command/source/UTC/tool/environment records. Record the actual newly committed source, retaining dirty documentary differences honestly. No current full proof or final frozen-source acceptance claim follows.
+
+Only after build success and known cleanup, prepare a separate bounded execution of the complete unchanged original tests/test_resource_policy.py with WORLDLINE_CORE_LIB explicitly bound to that exact suffixed library in a fresh Python process. This proposal does not select or launch that next job or set its deadline. Preserve all original positive/negative/oracle cases and failures.
+
+Pending actual GPT-6.1 exact method/source containment review and docs/decisions.md entry/verdict before root launch. Reversal retains every new artifact/failure and old pinned bytes; no old artifact deletion/replacement, global tool/config change, other worktree/ref modification or Cosmogony source edit.

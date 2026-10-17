@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-14T22:47:05.490601+00:00",
+  "classification": "MEASURED D32 original binary sandbox qualification preflight",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/phase1_heavy.py",
+    "--out",
+    "scratch/acquisition/original-binary-sandbox-scope-v5",
+    "--timeout",
+    "5m",
+    "--swap-max",
+    "0",
+    "--",
+    "python3",
+    "-B",
+    "scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+    "--out",
+    "scratch/acquisition/original-binary-sandbox-v5",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source"
+  ],
+  "disk": {
+    "total": 686860591104,
+    "used": 581793398784,
+    "free": 98071093248
+  },
+  "owned_outputs": [
+    "scratch/acquisition/original-binary-sandbox-scope-v5",
+    "scratch/acquisition/original-binary-sandbox-v5"
+  ],
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "lib",
+    "obj",
+    "scratch/acquisition/original-binary-artifacts-v5",
+    "scratch/old-analysis/full-proof-result-v5"
+  ],
+  "memory_admission": "Existing launcher shared flock, post-lock admission and8G/swap0 unchanged.",
+  "limits": "Existing5m qualifier; no payload fixtures or deadlines changed."
+}

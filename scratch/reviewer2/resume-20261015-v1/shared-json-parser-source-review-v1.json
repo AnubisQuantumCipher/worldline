@@ -1,0 +1,49 @@
+{
+  "utc": "2026-10-15T04:14:53.929581+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "Source-only direction supports preparation of an exact bounded complete-frame build/proof/control proposal. NOT productapplication or launch concurrence; no complete semantic equivalence established. No definite branchlanguage mismatch identified in inspected extraction.",
+  "sha256": {
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/string-reader-and-instance.inc": "26f626983650162b61736a9c3de4cd50a610404d5fd469d64471f62fa7aa6715",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-producer_values.adb": "808bdc95228f5b274e029340234155f2d7528eacc2384e9468d92771ed949471",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/string-scan-and-parse.inc": "74b2de5860572d98e1a1b141dd2d674683ca8bb9ed0a14dc0642d858bec30226",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/preparation-receipt.json": "4a78d4fd3fe9233bfbeb71d6a85e4ecab7dc97d7452a38a6d60b9f8e8dc449df",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-json_syntax_types.ads": "7dfce59747772d0a53d0e9ea56809dd1b9b053a61766af9ee363a5ca80c7f16b",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-raw_json_syntax.adb": "8a1921821865e1b323033a3d205346b4e4022eef09c0192f157c0d285e938014",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/prepare_receipt.py": "5f3296116d339dc1b3833c818ef9993a631c0da3dc270f9c670ac0cd21ee8fd5",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/README.md": "21e68e09c0e4d3a666436d16559c3309e11d2cf2074ddaa53ec6e648cd3198e8",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/producer-values-parser-extraction.patch": "0844c5a933bcfb7a8b26238542166fae18e09eb2a2948c4cc7bdd2ea0302d4d1",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-generic_json_syntax.adb": "760b020c6a608c206673a70d676036f2fe34c78059a7e9065cc7e8f467d37e7f",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-producer_values.ads": "8526523b7196c84f5c0d30b88a254bc4c4dc23e28fdd6051d97f1d5bdec2aa30",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-generic_json_syntax.ads": "0db5cd23c11ad8c1f4152edf6b0d209937c918f2d248f4fa68d90b21162fc0ab",
+    "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-raw_json_syntax.ads": "4fe4c07e550592277a687a3732d619145ab511205170697860df93cf6b303761"
+  },
+  "unchanged_public_spec_and_postParse_consumers_verified": true,
+  "unchanged_ByteAt_UTF8Width_prefix_verified": true,
+  "correspondence_observations": [
+    "One Generic_JSON_Syntax body contains grammar; String and raw adapters instantiate it rather than duplicating executablegrammar.",
+    "Original StringByteAt/UTF8Width retained; Stringreader noBOMstrip/reencoding. ASCIIclassification/NULsentinel and directScanStringReaderstatus preserve invalid-vs-nonASCII distinction.",
+    "Literal/nonfinite orderedtokens, numberminus/zero/fraction/exponent required digits, array/object/stringkey/colon/delimiter branches mirror retainedoldsyntax. No duplicatekey rejection or finiteconstant restriction inserted intoordinaryParse.",
+    "Escapedunicode localprobe leavespublicPosition at u on failure as original; no new surrogatepair requirement for escapegrammar. Rawdecoder supplies originalsurrogatepass/BOMprecedence with source-relativewidths.",
+    "WideNode halfopen Count offsets stay separatefromoldNaturalNode. Original_Node narrowing is conditional on actualStringLength bound and missingnodeguard, not arbitrarywideinvalidfallback.",
+    "Generic Parse explicitlyrequires fullconsumption plus EndOfSource; rawinvalidspan or malformedencodingtail mustnot be silentlyaccepted merelybecause a structural Within contract holds."
+  ],
+  "substantive_open_obligations": [
+    "Formal Read_Unit contracts establish progress/bounds, not actualsourcecharacter/encoding meaning. An incorrectly classified/skippingreader can satisfy those structuralcontracts. Required semanticreader correspondence and invalid-byte mutationcontrols remain.",
+    "Space/Scan/Parse postconditions likewise describe bounds/progress rather than accepted JSONlanguage, exact kind/coordinates or failureposition. Zero unproved structuralchecks would not byitself establish originalgrammar equivalence.",
+    "Finite String differentialcontrols must use retainedoriginalparser/referencebytes and exactoriginalkind/coordinates, including malformedescape/literal failures, incompleteexponent, nondefaultStringbounds, BOMString rejection, allnonfinite spellings and decodedduplicate-key selectors/equality. Do not usecandidate structuralreference as soleoracle.",
+    "Raw finitecomparison must decode through actualoriginaldecoder on representablefixtures, then compare originalStringgrammar with widegrammar by decodedcontent and appropriate coordinates. Coverallencodings/malformedtails/secondBOM/unpairedsurrogates and completeconsumption mutation. Full declaredtotaldomain requires proof rather than enormousfixtureexecution.",
+    "Generic contracts/discriminants/actualreader instantiation support and all oldString narrowings/recursivevariants remain uncompiled/unproved on installedtools. No unsupportedpragma/Assume/Off workaround or truncation/cap authorized.",
+    "Wide selectors/decodedkey/text/numeric/rendering/materializer consumers notimplemented; originalpostParseString consumers byteequal doesnot make them capable of consumingwideNodes. Raw_JSON integration remains open."
+  ],
+  "next_proposal_requirements": [
+    "Rootmustprovide exactimmutablefullsourceframe/overlay/completeoriginalproject+dependencyclosure, helpers/readers/instances enrollment and actualcontrolcode/oracles before launchreview. No reducedproject/stubs advertisedfullproof.",
+    "Register addedunits and exact changedsource under separate revieweddecision; preserve original sourceguard/contractpin checks and reportmismatches rather than massrepin or inferoldpasses.",
+    "Use same originalprooflevel/caps/concurrency/sharedflock/disk/provenanceguards; separatecompile/proof/runtime outcomes, keep completebody/caller/dependencyreport including failures/skips.",
+    "Current D56cursor proof stillpending; no inheriteddependencyprovedclaim or simultaneoussourceedit. Chooseactualcandidate dependencygeneration explicitly afterterminal.",
+    "Original fullruntime/ABI/fault/duplicate/nonfinite/JSONorder/recovery/private/protected/actor gates remain required afteractualintegration; preparation not acceptance."
+  ],
+  "non_claims": [
+    "No candidateimport/build/proof/test/patch/sourceedit/job byreviewer.",
+    "No A2/Old/fullPhase1/independentacceptance."
+  ]
+}

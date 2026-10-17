@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-15T02:55:47.724983+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR exact D43 scalar discriminator launch under recorded carrier, subject to fresh output and existing admission/disk guard. This is diagnostic support discrimination only.",
+  "sha256": {
+    "records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1/lifetime.ads": "6ce48fdc112860c17c6a0e13a52216e2909e2ce6b1f7a8d5b5f2b64fd98c6e06",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1/lifetime.adb": "31c50993408848b6f3bd9dd5a297f2607b2a898307073759ff7c3bb7ec6085fe",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1/main.adb": "0fcfa8f84ac7410ad3bdd2d0ab27ba3929b33d5f6447346fda3d42a52b607bef",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1/probe.gpr": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-scalar-v1/run.py": "9922e76c99a33ab7e2fe6b1c3b6a2f8e854d2bf63b67aa7b42e020e503f27b6c",
+    "records/phase1-blockers/resume-20261015-v1/run_finalizable_scalar.py": "2b7bb514f21eab429f9069ee9f065e3a1c5836ce9fc7c5898993273e84c50033",
+    "docs/decisions.md": "c67f24c978a8447847afb17f353213e8755390e50cc3798bec3f72648d8fddf4"
+  },
+  "observed": [
+    "Nonlimited root record explicitly selects Relaxed_Finalization=>False; no Controlled/Off/custom pool or application heap.",
+    "Adjust/Finalize are analyzed null bodies with Global=>null and data preservation postconditions; Increment uses whole-object Object'Old.Data postcondition.",
+    "Main assigns then mutates original and asserts independent scalar copy with assertions enabled.",
+    "Project uses curated -gnatX, Ada2022, assertions and warnings; proof explicitly U/all/level3/reportall/checksaserrors/proofwarnings/memlimit1024/timeout60/j1.",
+    "Driver retains compiler/prover version outputs and resolved file paths/hashes plus exact build/proof/runtime argv and stdout/stderr hashes. Proof runs even after build refusal, so retain both actual dispositions; runtime only after successful build.",
+    "Parent captures tracked-source before/after and dirty diff, environment and Python identity; own heavy wrapper10m/sharedflock/postlockadmission/8Gswap0 and storage preflight/periodic earlystop retained.",
+    "Existing source snapshot explicitly hashes probe sources before/after. Fresh results directory refuses overwrite."
+  ],
+  "conditions": [
+    "Record actual source and tool identities/output even for syntax/SPARK rejection. Do not infer support from compiler exit alone or launcher0 without proof report inspection.",
+    "Null hooks have no observable lifecycle effect; scalar copy and wholeOld syntax success cannot establish automatic owning retirement, negative controls, exceptional postcheck cleanup or heap behavior.",
+    "No heap/Old owning followup or product conversion automatically authorized: submit concrete separately reviewed probe after actual scalar result.",
+    "Do not relax strict finalization, hide unsupported constructs, suppress warnings/checks or install a different toolchain to relabel this discriminator.",
+    "Exact reviewed D43 verdict should be recorded before launch; parent remains sole launcher."
+  ],
+  "non_claims": [
+    "No executed code/build/proof/test by reviewer.",
+    "Installed Finalizable support remains UNVERIFIED until actual results.",
+    "No O1/F2/fullPhase1 or independent acceptance claim."
+  ]
+}

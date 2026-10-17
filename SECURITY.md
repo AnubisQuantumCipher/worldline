@@ -401,11 +401,19 @@ trust you place in WORLDLINE.
    store as everything else. Since 1.1.0 the transaction lifecycle (PREPARED → AUTHORIZED →
    COMMITTED, DENIED sticky) is consulted from the proved unit on every state change, and the
    kernel's parent comparison receives the store's parent identity rather than the candidate's
-   own claim on both sides. `invariantPreservation: PROVED` in a receipt means the on-disk proof
-   manifest matched the library at receipt time; the library is selected by
-   `WORLDLINE_CORE_LIB`/package path and the manifest is unauthenticated, so a same-uid attacker
-   can make it report `PROVED` for a substituted library. Read it as "the proved hash kernel is
-   in use per its unsigned manifest," not "the running system is proved correct."
+   own claim on both sides. In 1.9.2, `invariantPreservation: PROVED` requires the shared
+   manifest checks, pinned sources and contracts, the mapped library's identity and hash, a
+   recorded proof run, and re-derived summary digest, counts and coverage. Receipts expose the
+   named checks under `worldline-proof-status-v2`. Matching manifest evidence without an accepted
+   recorded run is `MANIFEST_ONLY`; an environment-selected library is `TEST_LIBRARY`; failed
+   or unevaluable checks are `UNVERIFIED`. Installed promotion refuses an unevaluable proof
+   status or environment-selected library. An evaluable failed check currently remains
+   reportable as `UNVERIFIED`.
+
+   The manifest, sources and proof-run record remain unauthenticated. The target of independent
+   authenticated provenance and decision-time binding is therefore still OPEN (OB-039 and the
+   remaining OB-084 work). The original end-to-end guarantees also remain obligations; neither
+   these interim status classes nor the stated proof boundaries reduce the target or complete it.
 
 4. **Private evaluation separates processes; it does not make the verdict independent of the
    candidate.** The candidate principal protects the examiner and worker processes and their

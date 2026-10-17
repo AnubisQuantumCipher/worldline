@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-14T22:46:02.034695+00:00",
+  "classification": "MEASURED D32 original binary artifact collection preflight",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/phase1_heavy.py",
+    "--out",
+    "scratch/acquisition/original-binary-artifacts-scope-v5",
+    "--timeout",
+    "10m",
+    "--swap-max",
+    "0",
+    "--",
+    "python3",
+    "-B",
+    "scratch/acquisition/original_binary_controls_v5.py",
+    "--collect",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--aux-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/original-aux-builds-final-v6/result.json",
+    "--full-build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "--out",
+    "scratch/acquisition/original-binary-artifacts-v5"
+  ],
+  "disk": {
+    "total": 686860591104,
+    "used": 581790498816,
+    "free": 98073993216
+  },
+  "owned_outputs": [
+    "scratch/acquisition/original-binary-artifacts-scope-v5",
+    "scratch/acquisition/original-binary-artifacts-v5"
+  ],
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "records/phase1-blockers/final-build-steps-v5",
+    "records/phase1-blockers/original-aux-builds-final-v6",
+    "lib",
+    "obj",
+    "scratch/old-analysis/private-sparklib-proof",
+    "scratch/old-analysis/full-proof-result-v5"
+  ],
+  "archive_status": "Retained evidence protected; no active input offloaded.",
+  "memory_admission": "Existing launcher holds shared flock; post-lock MemAvailable admission and8G/swap0 unchanged."
+}

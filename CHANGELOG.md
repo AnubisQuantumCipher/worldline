@@ -1,5 +1,375 @@
 # Changelog
 
+## Unreleased — Phase 1 authority kernel checkpoint
+
+- Proof-gate source screening now permits only supported `Inline_For_Proof` annotations while continuing to reject assumptions, justifications, exclusions and unknown GNATprove modeling tags. Only the exact declared C-boundary paths may leave SPARK. The command and recorded options use explicit strict proof settings and bounded solver resources. Isolated admission controls pass; this is not a full-proof or acceptance result.
+- Native rendering/decoding uses exact count/write results, advancing array cursors, decoded-key member indexing with first-key order/last-value semantics, and direct quoted/span emission. A valid 16 MiB decoder stack failure is repaired. The source-bound representation oracle passed 519 cases, including 100,000-element arrays and 20,000-member objects; complete formal/runtime acceptance remains open.
+- Restore SHA-256 chaining-state feed-forward caught by the unchanged published vector control. Remove redundant checked self-equations only where complete transparent definitions remain; preserve independent replay/append obligations. Cache repeated reservation-model terms instead of disabling checked proof steps.
+- Match the native constructor's actual 208-byte seccomp input, including its `CLONE_NEWUSER`/`ENOSPC` branch. The old 184-byte expected projection refused the real producer. Observed bytes still come from the constructor, never the expected projection; authentic protected custody remains separate.
+- Share Ada lexical boundaries between source screening and contract pins. BOM-selected UTF-8 identifiers and Unicode separators no longer hide live annotations; literal whitespace remains bound by pins. Derive all affected literal digests with the existing helper, never by hand.
+- Honor sequential pragma aliases and source-selected Ada encoding/language profiles in the shared source gate and pin lexer. Use Unicode simple folding rather than expanding identifiers into reserved words; the complete Unicode 16 simple-fold relation is validated separately. Unsupported lexical configuration refuses explicitly; it is not silently treated as the default profile.
+- Count JSON/Python escape extents without constructing escaped strings or hexadecimal digits in count-only passes. The checked native build and unchanged 519-case representation oracle pass; full-domain proof and the original large-array qualification remain separate.
+- Finalization classifies returned checks only after the writer attaches independently retained invocation/acquisition operands. The complete native capture and seal remain authoritative. A real primary exit 7 now retains `COMPLETED/FAIL` and produces `DEGRADED`, rather than raising an early promotion-admission error and marking the world `DEAD`; the new real integration regression passes.
+- Acquisition closure (`Worldline.Runner_Acquisition_Bytes.Controls_Ended`): a cgroup file read that returned by raising is now an ENDED acquisition when, and only when, it carries the producer's complete failed-read record (`readReturned` false, `bytes` null, the full `exception-observation` object with schema 1, kind, named type, message, non-empty graph and root 0). Observed Source20 first original error: `memory.events` vanished with the unit's cgroup between `systemctl show` and `read_bytes` (ENOENT), the honest retained record was refused by the closure gate although the agent-native producer already reads that shape as absence, and finalization raised `FINALIZATION_ACQUISITION_NOT_QUIESCENT` for a finished workload. Successful reads, process acquisitions, the exact eight-field roster and every previously refused malformed or contradictory shape are unchanged; a failed read with bytes, a success with an exception, or a partial exception object still refuses.
+- Acquisition closure, process records (`Controls_Ended`): a control acquisition that claims an observed wait must carry the integer return of `process.wait()`; a null `processWaitReturncode` is absence, not an observed exit, and refuses closure as the existing accepted case `test_raw_helper_no_wait_or_eof_cannot_be_erased_by_empty_owner_summary` required. That case failed on Source20 with an untouched library (A/B evidence retained).
+- Timer activation (`Worldline.Runner_Lifecycle_Bytes.Positive_Float_Bits`): the binary64 all-ones exponent is digits `7`,`f`,`f`; the fraction is digits 3 to 15 only. The earlier text folded the lowest exponent bit into the fraction and admitted exponent `7fe`, so `+inf` was refused as NaN and the largest positive finite values were misclassified. Classification is now exactly Python `> 0`, as the existing accepted cases in `test_runner_lifecycle_bytes_v35` and `test_runner_lifecycle_native_v35` required; both failed on Source20 with an untouched library (A/B evidence retained). The `float.hex()` path already accepted `inf`.
+- Strict proof repairs (GNATprove FSF 16.1.0, `--mode=all --level=3 --checks-as-errors=on --proof-warnings=on`), none of which weakens a contract, adds `pragma Assume` or a justification:
+  `Worldline.Resources.Radix_Power`/`Prefix_Value` and `Resource_Ledger.Total_Reference`/`Prefix_Total` drop their redundant `Inline_For_Proof` annotations (public expression functions are already definitions for the prover; beside a conditional or compound Post the annotation is a hard GNATprove error that aborted analysis of every dependent unit, so the Source20 full proof could never run to completion); every Post is unchanged.
+  `Archive_Envelope` gains the postconditions `Array_Element` ⊂ sequence (or empty), `Array_Length > 0 ⇒ Length ≥ 2` and `Decode.Children.Length ≤ Encoded.Length`, with the matching header-loop invariant, so structural recursion variants (`Runner_Lifecycle_Bytes.Equal`) prove.
+  `Runner_Lifecycle_Bytes`: digit array initialized by aggregate, loop invariants for the hex exponent and object-match counters, a dead initializer removed, the vacuous variant on the same-buffer `Equal` removed.
+  `Runner_Acquisition_Bytes.Successful_Cgroup_Read` slides the materialized leaf to a 1-based window before the canonical check; `Recovery_Packet.Projection_Matches` requires the packet's own values span to lie inside its arena (fail-closed) before byte comparison.
+  `CONTRACT_PINS` refreshed by `refresh_contract_pins.py` for exactly these files (derivation report retained).
+- Custody observers (`Custody_V2_Owner_Canonical`, `Custody_V2_K4_Resource_Ack`): `Prepared_History` no longer carries access discriminants (outside SPARK). Every operation receives its arena explicitly; the observer records the arena's extent and whole-bytes SHA-256 at establishment, refuses an arena of a different extent, and `Source_Matches` compares the digest, so the original exact-full-bytes relation remains a real check. Callers (`Custody_V2_Operation_Journal`, `Journal_Witness`) pass the arena they established on.
+- Archive base64 under run-time checks (`Worldline.Archive_Base64`): `Decoded_Byte` re-validated the whole span (`Canonical`) in its precondition on every byte and `Decode` calls it per byte in its body and postcondition, so a checked build decoded an n-byte leaf in O(n²) (the relation kernel spent every sampled stack in `Canonical`). Preconditions are now local-first and weaker: `Decoded_Byte` requires `Byte_Readable` (the two sextets it reads are in-span alphabet digits) or else the original condition; `Decoded_Length` its local span condition or else `Canonical`. The original preconditions remain sufficient cases, results are unchanged on the original domain, and the unit proves with no unproved check.
+- Agent context binding (`evaluation_context.agent_context_pair`, sealed finalization branch): the tuple of sealed bytes was passed to `value_bytes`, which accepts JSON-like values only, so every call refused with `CAPTURE_VALUE_UNSUPPORTED` (masked on Source20 by the acquisition-closure refusal). Both sides now use the lossless finalization encoding, and the retained and live agent records are compared in canonical JSON form (the retained one is read back from sorted-key canonical evidence). `test_finalization_agent_binding` passes 74/74; every refusal control still refuses.
+- Test fixture `test_finalization_kernel.collapse_values` supplies the resulting requirement that candidate evaluation requires (as the sibling `bound_request` fixture does); its positive control could never pass before.
+- Preserve the decoder input domain while making carry/phase transitions explicit for proof; retain original carry invariants and add count-only zero-carry induction.
+- Bring standalone pending-component C ABI array strides into agreement with the existing core static layout declarations and compile-time stride checks.
+- This integrated engineering candidate combines the retained privilege-source donor and compiler/proof repairs. Full matching-source proof and runtime acceptance remain open.
+
+
+**Original scope property omission correspondence (source-only).**
+
+The original Main collector records only manager properties actually returned.
+The fixture consumer now permits omitted `MainPID`/`ControlPID` without inserting
+synthetic zeroes; every supplied PID must still be exactly the string `0`.
+Loaded/not-found, inactive/failed and dead/failed observations remain terminal
+only with original successful Result semantics and exact absent or readable
+empty cgroup custody. Full original child/scope/outer waits, known-child absence,
+owner/actor completion, source/private/generated inventories and collector/release
+joins remain mandatory. Unknown or failed relevant producers are not eligible.
+
+Controls start only after a genuine complete Main baseline, retain full original
+scope operands and pins, exercise the omission boundary and independently refuse
+malformed/nonzero PIDs, loading/active/substate/result failures and partial,
+unreadable/nonempty or substituted cgroups. They are guard operands, not invented
+manager observations or producer receipts. The earlier actual two successful
+actions and third failed return4 do not become a completed fixture baseline.
+All native bodies, ABI/proof pins, original helper/client behavior and fourteen
+target fstat controls are unchanged; no execution or acceptance is claimed.
+
+**Fixed actual target fstat receipt correspondence (source-only).**
+
+Both acquisition and completion now require the target capture's genuine
+`fstat` call, receipt FD and argument FD to name the actual received target
+descriptor, and its complete source to equal the qualified at-call owner
+capture. Identity, result/errno, actual post-drop peer, endpoint, OFD and close
+checks remain mandatory. Independent controls mutate only each target fstat
+field while retaining the genuine completed input and unchanged identity.
+No producer facts or ABI contracts are invented; the original socket capture
+already records these complete fields. Unchanged bounded custody/helper
+review is retained by exact source pins, not transferred as full qualification.
+Original full strict proof, framed runtime and authentic operator/Main inputs
+remain required; no execution or acceptance is claimed here.
+
+**Fixed source-owner remaining primitive and generated-output joins (source-only).**
+
+The native receipt decision now rejects matching negative received FD/SCM
+rights values and joins each actual recvmsg carrier FD to the held root channel,
+without restricting the generic signed-32 or original unsigned identity domains.
+Root-channel fstat must be a successful source-bound operation; real pidfd-open
+and duplicate receipts retain their at-call source and failures. Every target
+and output-writer close, including its EBADF readback, rejoins the qualified
+at-call source. Final archive/directory close receipts remain separate outer
+custody, not falsely attributed to inner native completion.
+
+The Main-input consumer reconstructs the full original generated-output
+snapshots with the exact root keyset, missing-root nulls, file/directory/symlink
+shapes, modes, lengths and hashes, and joins each generated file to the original
+collector's complete retained artifacts and candidate lineage. Real-input-derived
+controls reject a substituted genuine release pin, omitted/partial roots or files
+and mismatched metadata/retained pins. They never construct a positive fixture
+or require unrelated batch successes.
+
+Original ROOT0700, the endpoint, public request invocation, all source checks,
+full original rosters and strict proof remain unchanged. The technical
+first-construction proposal keeps numeric principals/topology authorization
+unselected; original complete private mutable DATA/proc/credential exclusion
+and actual Main wrapper/complete-retention enrollment remain prerequisites.
+All old donors/reviews stay retained. No target execution, self-qualification,
+installation, actor spend or Phase acceptance is claimed.
+
+**Fixed source-owner custody correction (source-only, not qualified).**
+
+The affected successor now binds the selected scoped producer's complete raw
+DATA and v3 executable to the original installation/source inventory, and joins
+the native mapped image's raw device/inode/offset with its actual named and held
+source object. Sealed projection full readbacks, independently parsed owner and
+actor birth records, carrier creator versus post-drop message credentials,
+real pidfd duplication/OFD, pre-reap WNOWAIT facts, post-reap descriptor state,
+inotify loss/overflow/errors and complete read/pread/fsync/EOF receipts are
+native decision inputs. Root dumpability exclusion is an actual measured
+`prctl` operation, not a claimed clean-exec consequence.
+
+Owner exceptions and failed final checks retain partial streams and actual
+owned-child stop/wait/unknown custody while closing acquired resources. Only
+after genuine post-native source checks and cleanup is the inner completion
+record written; final archive/directory closes remain on the original owner's
+stderr. The consumer requires corresponding real owner/actor/campaign results
+and the original Main outer/scope/collector/release family, not an inner native
+success or an all-batch Boolean. Relevant failed or unknown producers remain
+ineligible even when a negative collector legitimately releases its window.
+
+All private helper bodies are enrolled for the original full strict proof;
+no historical proof-manifest credit transfers. Full original private DATA
+layout/exclusion, functional/RTE/termination/producer/lifetime/alias proof,
+authentic operator identity/topology and actual Main wrapper/retention
+enrollment remain explicit prerequisites. No tests, import, native execution,
+installation, actor spend or Phase acceptance is performed by this donor.
+
+**Fixed excluded-requester source owner (source-only, execution unclaimed).**
+
+The original `original_client --request` now delegates fixed source acquisition
+and final private readback to its real root helper, then clean-execs a separately
+observed actor with only an explicitly selected sealed client closure. The actor
+runs its own original helper hooks, interpreter/module/executed-code checks and
+final check; it creates and connects the original target socket only after its
+real supplementary groups and all real/effective/saved IDs are irreversibly
+dropped. A held original endpoint-parent descriptor bypasses root-private
+ancestors, not the selected parent's execute or original socket connect rights.
+
+The new owned-buffer native SPARK decision joins full source bytes/readbacks,
+actual invocation, PID/pidfd/start/namespaces, genuine per-message credentials,
+target descriptor/OFD/close custody and complete terminal output. Private owner
+DATA and the root interpreter heap do not cross the clean exec. Unknown waits,
+partial messages, native refusals and either final-check failure remain retained
+and fail closed. Native image content is measured through real map-file reads.
+
+Caller cutover distinguishes Python HELPER/ENTRY from the native EXECUTABLE
+role without aliases, and restores genuine selected scoped-producer startup
+checks. General original uint32 identity parsing, including zero, is unchanged;
+identity zero cannot satisfy this separate irreversible-exclusion fixture.
+Requester/group/topology/operator selections remain explicit prerequisites.
+No installation, actor execution, test, build, strict proof, independent review
+or Phase acceptance is claimed by this source donor.
+
+**Projected traversal source correction (execution unclaimed).**
+
+The private transaction projection retains the complete Original and Reduced
+object guards, every field validation, exact raw spans, key-kind distinctions,
+omissions, policy insertion, and final cardinality comparison. After those
+unchanged guards it traverses original children monotonically and selects
+already validated Reduced fields without repeating whole-object validation and
+preceding-entry ordinal scans. No public contract, checked flag, accepted domain,
+resource limit, original control, or timeout is changed.
+
+This is the exact independently reviewed isolated source donor, integrated into
+a fresh complete successor. No measured hotspot, speedup, timeout cure, compiler
+success, full strict proof, runtime pass, or Phase 1 acceptance is claimed.
+
+**Producer-bytes strict-proof source repair (execution unclaimed).**
+
+An isolated successor replaces the private unchecked rendering path with one
+shared bounded count/decode recognizer. Its byte alphabet, rejection rules,
+noncanonical phase-zero padding acceptance, invalid-output zeroing, arbitrary
+String bounds, and empty-input behavior remain unchanged. The public package
+specification is byte-exact. Decode validates while writing its initialized
+prefix; allocation-returning Base64 retains count-then-decode, without a new
+source-wide precondition, payload pass, allocation, or payload-size cap.
+
+The SHA-256 block and hexadecimal result carry explicit initialized-prefix
+invariants rather than blanket initialization. Absorbed bytes and live fill
+are related to the actual input position; full-block updates, final partial
+updates, and lowercase rendering retain their original chunking and values.
+This is source-only work against the actual C22 Producer_Bytes diagnostics:
+no build, proof, test, runtime, formatter, independent review, or acceptance
+result is claimed. Frozen F64/F65 and prior attempt evidence are unchanged.
+
+**Isolated remaining native freshness request-field work repair.**
+
+The F64-based body-only donor replaces Freshness's nine complete-request field
+lookups with one complete archive validation and one monotone original-child
+walk for the same eight query names. Every other field is still fully validated.
+Object text/byte key distinctions, record key layers, first matching fields,
+missing/invalid spans and all existing context/projection/JSON/hash/verifier
+checks remain; no borrowed span escapes the original call. There is no tree
+limit, global/cross-call cache, input copy, trusted flag or contract/assertion
+change. Existing specifications, C_API/observer and original controls are intact.
+
+Actual N64 checked build returned0 and all32 transport smokes passed, but the
+unchanged whole47/180 run completed22 and timed out after the archive-accepted
+Decide boundary. Main's observed archive interval was20.830275651 seconds; no
+internal Decide attribution or post-donor benefit is claimed. This donor only
+reduces demonstrated repeated request work. Independent exact-source review,
+original normalized body-pin refresh, full matching-source proof and unchanged
+whole runtime/actor/fixture acceptance remain required. Frozen F64/C22/N64 and
+every original domain, contract, assertion, proof scope/floor and limit remain.
+
+**Complete F64 source successor: public proof-inlining legality.**
+
+The complete successor preserves frozen F63 and composes Main's exact resource
+specification donor. Only the two invalid public `Inline_For_Proof` annotations
+on `Radix_Power` and `Prefix_Value` are removed, with local explanatory comments.
+Both complete conjunctive public Posts, expression definitions, parameters,
+types, Ghost/Global, variants, ABI and callers remain unchanged. The worker body
+and all four eligible single-equality worker/checked-bridge proof-inlining
+annotations remain byte-exact; ordinary public expression visibility remains.
+The original normalizer changes one effective specification pin, updating all
+six existing literal instances without adding/removing any policy rows.
+
+Actual C21/F62 reached Phase 3 flow/proof after the old record-expression Global
+frontiers, then reported the public Prefix_Value proof-inlining legality error.
+Main's original outer timeout returned124; handshake, scope and prover waits
+remain UNKNOWN, not invented successes or failures. Ended owned custody was
+collected/released; no full proof or runtime success is claimed. F64 retains both
+exact F63 native parser bodies and every original domain, contract, assertion,
+variant, control, proof floor/name/prefix and original timeout. Complete
+matching-source full strict proof, original whole native/ordered runtime and
+additions, authentic actor/fixture and independent final acceptance remain
+required. The separately pinned distinct pending-component spec is unchanged.
+
+**Complete F63 source successor: complete native archive parser-cost donor.**
+
+The fresh complete successor preserves frozen F62 and composes the exact two
+independently reviewed `Archive_Envelope` and `Operation_Archive` bodies. Full
+array-prefix validation and monotone child walks replace repeated whole-array
+ordinal rescans; complete decode, recursive validity, public field preconditions,
+duplicate decoded-key comparisons and original ordering remain. Specifications,
+contracts, assertions, variants, complete input domains, callers and original
+controls are unchanged. Only the two existing normalized body-pin literals are
+updated; there is no cache, key-hash substitute, new allocation or authority bit.
+
+The actual pre-donor N61-v2 accepted-archive interval was 20.977169360 seconds.
+No post-donor timing, native return, stall cause or performance cure is observed
+or claimed. Original Ticket_Raw, Original_Source and Mount_Slot repairs, JSON
+order/additional commands and all proof names/prefix/floor remain unchanged.
+Complete matching-source strict proof and original ordered runtime, whole
+raw47/core32 suites at original180, additions, authentic actor, fixtures and
+independent final acceptance are still required; this source is unbuilt,
+unproved and unaccepted. Current C21/F62 and every frozen frame are untouched.
+
+**Complete F62 source successor: mount-slot record-case frontend repair.**
+
+The fresh complete successor preserves frozen F61 and changes only the three
+record-valued `Slot` case expressions in `Worldline.Evaluation_Role_Native` to
+equivalent case statements returning the identical mount-slot aggregates. The
+actual C19 full-strict Global-generation failure identified these inlined
+composite conversions; that failed target was not rerun to confirm it.
+Original index/name/offset guards, constructor evaluation order, defaults,
+mount permissions, specification, contracts and callers remain unchanged.
+The original normalizer derives the corresponding body pin; no proof names,
+check floor, assertion policy or runtime controls are removed or weakened.
+
+The qualified caller-V2, passive native observer and separately mandatory
+JSON-order additions remain unchanged. Their inherited source qualifications
+are ancestry, not current F62 qualification or proof/runtime acceptance.
+Original complete matching-source strict proof, ordered runtime, additions,
+authentic actor, fixtures and independent final acceptance remain required.
+
+**Complete F61 source successor: conditional-record frontend repair.**
+
+The fresh complete successor changes `Original_Source` in
+`Worldline.Scoped_Capture_History_Projection` from a conditional record return
+to statement-form branch returns, addressing the actual C18 GNAT Global-generation
+`N_IF_EXPRESSION` frontier without reproducing that failed run. The same
+representation-only repair covers the audited admitted SPARK body helpers that
+return guarded spans, views, nodes, optional records and startup/mount decisions.
+Each original condition, short-circuit guard, selected branch value and contract
+aspect remains; no unselected branch is evaluated. Specification/ghost equations,
+scalar/string/Big_Integer expressions, record-valued case expressions and original
+controls are unchanged.
+
+This source also carries the genuinely reviewed caller-V2 and observation-only
+native-boundary donor. Their source verdicts do not establish a native stall
+cause, speedup, successful proof or runtime acceptance. Frozen F60/C18/N59/M3
+remain unchanged, and the complete original matching-source proof/runtime,
+additive controls, authentic actor and independent final acceptance remain open.
+
+The memory-capacity admission decision now calls `Worldline.Resources` through a
+separate C ABI. Quantities use arbitrary-length little-endian representations;
+zero requests still obey the floor, and kernel unavailability cannot grant
+admission. The typed reserve operation states exact accepted updates and complete
+state preservation on refusal. The isolated shared library builds, and ordinary
+Ada and real-library binding/admission fixtures pass. These are source/build
+milestones, not a completed Phase 1 or release assurance result.
+
+The capacity result in `wouldAdmitNow` now uses the same kernel call as admission.
+A missing or failing kernel leaves that result unknown and exposes a separate
+`resourceDecisionError`; reporting does not write reservations.
+
+The remaining numerical resource gates now call `Resource_Admission`: concurrency,
+pressure, each filesystem's byte/inode floors in the original order, and capacity.
+The kernel accepts full signed magnitudes and distinguishes absent optional values.
+Admission writes a reservation only after a canonical Ready result. Reporting uses
+the same complete numerical policy and keeps liveness filtering read-only.
+
+Recovery marker selection now calls `Worldline.Recovery` with complete identities
+and explicit presence. SPARK selects finish, abort or ambiguous; Python dispatches
+the existing action. Present empty identities remain distinct from absent markers,
+and a missing kernel cannot select an action through a Python fallback.
+
+Reservation withholding now has a separate `Resource_Ledger` kernel and owned
+C/Python transport. The kernel preserves reservation order, distinguishes absent
+usage from present zero, retains signed arbitrary-length quantities and computes
+both each withheld amount and the ordered total. Its complete result contract also
+requires canonical descriptors, slot confinement and zero padding/frame. Only a
+complete usable kernel result can feed admission accounting; kernel unavailability
+leaves admission/reporting unknown and preserves the reservation file.
+
+The recovery C wrapper now constructs marker return values and caller objects
+with explicit presence and length constraints. The public nonlimited Ada type,
+its defaults, assignment/equality support and full marker relation are preserved.
+The original type-level storage warning and complete storage/native guarantees
+remain open.
+
+The resource quantities, ordered admission policy and reserve operation now
+carry additional closed mathematical reference contracts, induction lemmas
+and column/prefix conservation facts. Every original contract, runtime check,
+input domain and proof floor remains required alongside those new obligations.
+Checked Ghost work, recursion, native behavior and storage also require closure.
+
+Admission and read-only reporting now obtain signed headroom from
+`Resource_Ledger.Compute_Headroom` through an owned C/Python transport.
+Its complete result contract requires the exact ordered subtraction,
+canonical output and empty/zero refusal when either intermediate or
+final storage is insufficient. Python has no headroom arithmetic fallback.
+The numeric policy uses a fully specified comparison helper to keep
+controlled big-integer values alive through checked relation evaluation.
+
+An unreadable reservation ledger now leaves reported withheld memory, headroom
+and admission unknown. Reporting skips numeric projections of unknown records
+and preserves the ledger instead of treating the error as an empty accounting set.
+
+The transaction execution transport now sends full finalization evidence rather
+than the caller's subject carrier. Original agent selection and later evidence
+reobservation are retained, including accepted Mapping mutations during row
+preparation and missing-subject/attribute errors. Current-policy/native roster
+rules, independent identities and all original history/context/collapse joins
+remain required. Original fixtures are unchanged; no World, successful agent or
+fallback evidence is synthesized. This isolated source repair does not establish
+a runtime pass, the N59 native timeout cause or Phase 1 acceptance.
+
+Full original and new module proof, ledger projection, reserve/release/consume
+lifecycle integration, marker custody and the complete recovery state machine
+remain OPEN. Pointer/representation and source-profile correspondence, resource
+epochs, checked Ghost execution cost and the optional-marker storage warning also
+require engineering closure. These source checkpoints do not complete Phase 1,
+the touched-module D1 gate, protected effects or release/production assurance.
+The retained proof manifest does not attest to the expanded core. Every original
+guarantee, accepted case, proof floor and scope remains required.
+
+## 1.9.2 — unreleased candidate · verification and outcome handling
+
+Implementation and review are in progress. The original guarantee targets remain fixed;
+documenting a limitation or changing a status label does not close its engineering obligation.
+This candidate has no completed release assurance or pinned plugin commit yet.
+
+- Verification commands return a distinct failure status for incomplete, inconsistent or
+  failed verdicts. An unreadable log record also prevents overall verification success.
+- Runtime proof reporting and the build gate share pinned source, contract, coverage and
+  summary checks. The installer and package recipe retain the evidence needed to evaluate the
+  running library. The release gate requires the pinned proof floor independently of the
+  floor stated by an assurance report.
+- The engine publishes its generated error-code inventory and digest in version/status
+  responses. The paired plugin candidate uses the same inventory and reads the actual proof
+  verification schema. Immutable release pairing is still pending.
+- The inherited anchor, causal provenance, commit outcome and post-commit retry changes are
+  still under integration review. In particular, ghost scheduling must retain every committed
+  generation's work durably; recording a superseded generation does not discharge that target.
+- Authenticated proof provenance, decision-time binding, the touched-module obligation gate,
+  and the required installation and recovery evidence remain release obligations. Local unit
+  checks and a fresh kernel proof do not complete those gates.
+
 ## 1.9.1 — 2026-09-30 · installer shell restart, truthful docs
 
 **No change to the authority path, the kernel or the store.** This release fixes one installer
@@ -2032,3 +2402,4 @@ threat-model document. No Ada / proved-kernel source changed, so `proof-manifest
   is tamper-evident only against the sandboxed agent (which cannot reach the store), not against
   a same-uid process outside the sandbox. `invariantPreservation: PROVED` reflects the proved
   hash kernel, not an authenticated attestation of the running library.
+

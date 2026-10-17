@@ -1,0 +1,31 @@
+Inspecting source content: /home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2
+no parent snapshot found, will read all files
+
+Files:         323 new,     0 changed,     0 unmodified
+Dirs:           68 new,     0 changed,     0 unmodified
+Added to the repository: 17.439 MiB (2.622 MiB stored)
+
+processed 323 files, 37.860 MiB in 0:07
+snapshot 9ec11cba saved
+Restoring the entire candidate and comparing content and metadata
+restoring snapshot 9ec11cba of [/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2] at 2026-10-15 01:42:22.111571855 -0400 EDT by sicarii@83 to /home/sicarii/.local/state/project-vault/cold-jobs/1f51a8a7d78bbf063b1e4cf3e2e13f56668e4eb538aac4541d78b894f17ebdf5/tree
+Summary: Restored 391 files/dirs (37.860 MiB) in 0:00
+verifying files in /home/sicarii/.local/state/project-vault/cold-jobs/1f51a8a7d78bbf063b1e4cf3e2e13f56668e4eb538aac4541d78b894f17ebdf5/tree
+finished verifying 323 files in /home/sicarii/.local/state/project-vault/cold-jobs/1f51a8a7d78bbf063b1e4cf3e2e13f56668e4eb538aac4541d78b894f17ebdf5/tree (took 4ms)
+{
+  "id": "0ba92ead0e51431484236e9d0c9aac19",
+  "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2",
+  "snapshot": "9ec11cba64e13c34e29273aabc216b85f787c23727ebe571644a342f02c8987f",
+  "tag": "cold-0ba92ead0e51431484236e9d0c9aac19",
+  "time": "2026-10-15T05:42:40.758936+00:00",
+  "state": "backed-up-local",
+  "bytes": 39699389,
+  "verification": "full candidate restore, SHA256 and metadata comparison",
+  "content_manifest_sha256": "be6c9759963a2a8e550a2867127a4bd77bf6a4ebdf00c207d92b26d43f799bd0",
+  "single_device_archive_when_offloaded": true,
+  "provenance": {
+    "state": "unrecorded",
+    "boundary": "No original rebuild recipe or toolchain claim has been established."
+  },
+  "local_free_before": 96876756992
+}

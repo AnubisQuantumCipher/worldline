@@ -7,6 +7,7 @@ import tempfile
 import unittest
 
 from worldline.core import Core, hash_id
+from worldline.errors import WorldlineError
 from worldline.model import World
 from worldline.paths import WorldlinePaths
 from worldline.store import StateStore
@@ -76,10 +77,44 @@ class StateStoreTests(unittest.TestCase):
                 "kind": "mission",
                 "actor": "fixture",
                 "reason": None,
-            }
+            },
+            worldline_authored=True,
         )
         self.assertTrue(result["chainHash"].startswith("sha256:"))
         self.assertEqual(self.store.verify_chains(), {"causalEvents": 1, "receipts": 0})
+
+
+    def test_unattributed_mission_event_is_refused_without_chain_append(self) -> None:
+        zero = hash_id(bytes(32))
+        world = World.create(
+            alias="beta",
+            parent_instance=None,
+            parent_content=zero,
+            cause="fixture mission",
+            actor="fixture",
+            payload_path=self.paths.worlds / "beta/payload",
+            base_payload_path=self.paths.generations / "base",
+            base_root=zero,
+            root_set_hash=zero,
+            mission_hash=zero,
+        )
+        self.store.insert_world(world)
+        before_rows = self.store.causal_events_for_world(world.instance_id)
+        before_chains = self.store.verify_chains()
+        self.assertEqual(before_rows, [])
+        with self.assertRaises(WorldlineError) as caught:
+            self.store.append_causal_event(
+                {
+                    "schemaVersion": 1,
+                    "worldInstance": world.instance_id,
+                    "kind": "mission",
+                    "actor": "fixture",
+                    "reason": None,
+                }
+            )
+        self.assertEqual(caught.exception.code, "RESERVED_EVENT_CLAIM")
+        self.assertEqual(self.store.causal_events_for_world(world.instance_id), before_rows)
+        self.assertEqual(self.store.verify_chains(), before_chains)
 
 
 if __name__ == "__main__":

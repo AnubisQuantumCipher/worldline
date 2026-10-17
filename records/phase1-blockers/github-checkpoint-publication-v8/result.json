@@ -1,0 +1,48 @@
+{
+  "started_utc": "2026-10-15T04:24:03.344494+00:00",
+  "commit": "4ff3bf48b4323c051ffa8cf04ba4787982111f6d",
+  "class": "MEASURED own-branch capacity proof-repair checkpoint publication",
+  "review": {
+    "path": "scratch/reviewer2/resume-20261015-v1/D58-capacity-repair-staged-publication-review-v1.json",
+    "sha256": "8c5c7790421034787f36fb3ea08a083970342e2aaf986b82f9303854947effd1"
+  },
+  "boundary": "Isolated 860-check candidate proof only; production execution and complete Phase1 remain open",
+  "before": {
+    "argv": [
+      "git",
+      "ls-remote",
+      "--heads",
+      "origin",
+      "refs/heads/astra/phase1-blockers-20261013T165716Z"
+    ],
+    "exit_code": 0,
+    "stdout_sha256": "dd2ef511bd677835a0bbfa8f29eca5f2e0089d2720a098974457e0ec344a0ac9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "push": {
+    "argv": [
+      "git",
+      "push",
+      "--porcelain",
+      "origin",
+      "4ff3bf48b4323c051ffa8cf04ba4787982111f6d:refs/heads/astra/phase1-blockers-20261013T165716Z"
+    ],
+    "exit_code": 0,
+    "stdout_sha256": "c378ec5365d17d2d6159db37ad0f412bc69812dbdb7bae418f1c27a6c3475c54",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "after": {
+    "argv": [
+      "git",
+      "ls-remote",
+      "--heads",
+      "origin",
+      "refs/heads/astra/phase1-blockers-20261013T165716Z"
+    ],
+    "exit_code": 0,
+    "stdout_sha256": "6095a32b39c311f6d1adc71a69575b6685de199b99228d8e1ec571544aeff4ca",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "remote_equals_local": true,
+  "ended_utc": "2026-10-15T04:24:05.486282+00:00"
+}

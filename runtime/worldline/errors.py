@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import errno
+import os
+import sqlite3
 from typing import Any
 
 
@@ -35,3 +38,24 @@ class NotFound(WorldlineError):
 class ConflictError(WorldlineError):
     def __init__(self, message: str, **details: Any) -> None:
         super().__init__("CONFLICT", message, details)
+
+
+def storage_error(exc: BaseException) -> WorldlineError:
+    """Name a storage failure. ENOSPC/EDQUOT (and SQLite's "disk is full") become DISK_FULL;
+    any other OSError or SQLite error becomes STORAGE_ERROR with the errno name and path."""
+    if isinstance(exc, sqlite3.Error):
+        text = str(exc)
+        code = "DISK_FULL" if "full" in text.lower() else "STORAGE_ERROR"
+        return WorldlineError(code, f"store: {text}", {"backend": "sqlite"})
+    assert isinstance(exc, OSError)
+    name = errno.errorcode.get(exc.errno or 0, f"errno {exc.errno}")
+    code = "DISK_FULL" if exc.errno in (errno.ENOSPC, errno.EDQUOT) else "STORAGE_ERROR"
+    details: dict[str, Any] = {"errno": name}
+    path = exc.filename
+    if path is not None:
+        path_text = os.fsdecode(path) if isinstance(path, (bytes, bytearray)) else str(path)
+        details["path"] = path_text
+    message = f"{name}: {exc.strerror or 'storage operation failed'}"
+    if "path" in details:
+        message += f": {details['path']}"
+    return WorldlineError(code, message, details)

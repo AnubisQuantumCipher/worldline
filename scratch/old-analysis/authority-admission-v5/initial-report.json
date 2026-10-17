@@ -1,0 +1,65 @@
+{
+  "end_monotonic_ns": 39849954915155,
+  "ledger_after": {
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/runtime/admission-ledger.json",
+    "present": false
+  },
+  "ledger_before": {
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-admission-v5/runtime/admission-ledger.json",
+    "present": false
+  },
+  "name": "initial-report",
+  "returned": {
+    "enforced": true,
+    "enforcedPolicy": {
+      "cpuQuotaPercent": null,
+      "cpuWeight": null,
+      "diskGrowthMaxBytes": null,
+      "enforcement": "cgroup2",
+      "maxConcurrentWorkloads": null,
+      "memoryHighBytes": null,
+      "memoryMaxBytes": null,
+      "memorySwapMaxBytes": null,
+      "tasksMax": null,
+      "timeoutSeconds": null
+    },
+    "floors": {
+      "maxMemoryPressureHundredths": 5000,
+      "minFreeDiskBytes": 2147483648,
+      "minFreeInodes": 10000,
+      "minFreeMemoryBytes": 2147483648
+    },
+    "headroomBytes": 23685070848,
+    "ledgerError": null,
+    "outstandingReservations": [],
+    "resourceDecisionError": null,
+    "state": {
+      "disk": {
+        "share": {
+          "freeBytes": 97517989888,
+          "freeInodes": 33086771,
+          "totalBytes": 686860591104
+        },
+        "state": {
+          "freeBytes": 97517989888,
+          "freeInodes": 33086771,
+          "totalBytes": 686860591104
+        }
+      },
+      "memAvailableBytes": 25832554496,
+      "memTotalBytes": 33586016256,
+      "pressureHundredths": {
+        "cpuAvg10": 24,
+        "ioAvg10": 22,
+        "memoryAvg10": 0
+      },
+      "reason": null,
+      "state": "OBSERVED",
+      "swapFreeBytes": 32003571712
+    },
+    "unmetered": true,
+    "withheldBytes": 0,
+    "wouldAdmitNow": true
+  },
+  "start_monotonic_ns": 39849933567400
+}

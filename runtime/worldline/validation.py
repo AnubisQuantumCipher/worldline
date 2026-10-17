@@ -332,7 +332,7 @@ def requirement_hash(value: Mapping[str, Any], core: Core | None = None) -> str:
     any change to a check's id, argv, cwd, required flag, result format, covered paths or the
     protected list changes it. The raw policy digest is carried for diagnosis only."""
     hashed = {k: v for k, v in value.items() if k != "requirementHash"}
-    hashed["policy"] = {k: v for k, v in dict(value.get("policy") or {}).items() if k not in ("sourceSha256", "warnings")}
+    hashed["policy"] = {k: v for k, v in dict(value.get("policy") or {}).items() if k not in ("sourceSha256", "warnings", "sourceObservation")}
     return _digest(hashed, core)
 
 
@@ -499,6 +499,29 @@ def content_differences(candidate: Mapping[str, Any], staged: Mapping[str, Any])
     return out
 
 
+def requirements_for_tree(store: Any, config: Any, payload: Path,
+                          roots: Sequence[Mapping[str, Any]], core: Core | None = None) -> dict[str, Any]:
+    """Requirement the exact staged tree would install, independently of live PRIME.
+
+    Use every registered root and the existing policy/verifier-domain producer;
+    no current/evaluated hash is substituted on absence or decoding failure.
+    """
+    primary = next((r for r in roots if r["primary_root"]), None)
+    if primary is None:
+        raise WorldlineError("NO_PRIMARY_ROOT", "no primary root is registered")
+    sources = {r["root_key"]: Path(payload) / r["root_key"] for r in roots}
+    for root_key, source in sources.items():
+        if not source.is_dir():
+            raise WorldlineError("STAGED_ROOT_ABSENT", "resulting requirement lacks a registered root",
+                                 {"rootKey": root_key, "path": str(source)})
+    for root_key, source in sources.items():
+        if not source.is_dir():
+            raise WorldlineError("STAGED_ROOT_ABSENT", "resulting requirement lacks a registered root",
+                                 {"rootKey": root_key, "path": str(source)})
+    project = ProjectConfig.load(sources[primary["root_key"]], store)
+    return requirements(project, roots, sources, config, project.source_sha256, core)
+
+
 def current_requirements(store: Any, config: Any, core: Core | None = None) -> dict[str, Any]:
     """The requirement half imposed by the CURRENT PRIME: its live policy and verifier bytes."""
     roots = store.roots()
@@ -510,29 +533,78 @@ def current_requirements(store: Any, config: Any, core: Core | None = None) -> d
     return requirements(project, roots, live_sources, config, project.source_sha256, core)
 
 
-def effective_evidence(store: Any, world: Any) -> tuple[dict[str, Any] | None, str, list[dict[str, Any]]]:
-    """The evaluation that currently speaks for a world, as ONE coherent unit: the freshness
-    context, its source, and the check records FROM THE SAME EVALUATION.
+def effective_evidence(store: Any, world: Any, *, requirement_hash: str | None = None,
+                       prepared_evidence=None) -> tuple[dict[str, Any], str, list[dict[str, Any]]]:
+    """The newest retained attempt selected by the actual typed history relation.
 
-    The freshness half and the execution half must come from the same evaluation. A revalidation
-    re-runs the checks and stores their records (with the executedVerifierSet the runner wrote);
-    its context is what `effective_context` returned. Reading the context from the revalidation
-    but the execution records from the world's FINALIZATION evidence assembled one apparently
-    complete evaluation from two different runs -- run 2's freshness over run 1's execution
-    identity (campaign F5). This returns both halves of whichever evaluation speaks, together.
+    No verdict/requirement filter or finalization fallback is applied. Missing
+    producer custody is a refusal, not permission to search legacy meta rows.
     """
-    for entry in reversed(store.get_meta(f"validation:{world.instance_id}", []) or []):
-        ctx = entry.get("context") if isinstance(entry, dict) else None
-        if isinstance(ctx, dict) and entry.get("outcome") == "PASS" and entry.get("worldContentId") == world.content_id:
-            records = [r for r in (entry.get("results") or []) if isinstance(r, dict)]
-            return ctx, f"revalidation:{entry.get('validationId')}", records
-    evidence = world.evidence if isinstance(world.evidence, dict) else {}
-    ctx = evidence.get("validationContext")
-    records = [r for r in (evidence.get("checks") or []) if isinstance(r, dict)]
-    return (ctx if isinstance(ctx, dict) else None), "finalization", records
+    from .evaluation_authority import read
+    chosen = read(store, world, requirement_hash, prepared=prepared_evidence)
+    return chosen.context, chosen.source, chosen.results
 
 
-def effective_context(store: Any, world: Any) -> tuple[dict[str, Any] | None, str]:
-    """The freshness context and its source. See `effective_evidence` for the coherent records."""
-    context, source, _records = effective_evidence(store, world)
+def effective_context(store: Any, world: Any, *, requirement_hash: str | None = None) -> tuple[dict[str, Any], str]:
+    context, source, _records = effective_evidence(store, world, requirement_hash=requirement_hash)
     return context, source
+
+
+def effective_evidence_at_cursor(store: Any, world: Any, *, requirement_hash: str | None,
+                                 current_head: Any, prepared_evidence: Any,
+                                 core: Core | None = None) -> tuple[dict[str, Any], str, list[dict[str, Any]]]:
+    """Additive complete-history entry; default promotion migration remains pending.
+
+    The producer must retain a stable complete ``evaluation-history-v1:<world>``
+    snapshot, with explicit run identity, epoch and lifecycle for finalization
+    and every attempt, plus independently obtained current/prepared cursors.
+    This interim supplied-fact boundary does not establish protected high-water,
+    write-ahead history, completion truth, rollback resistance or authority.
+    Those original targets remain mandatory before default-path migration.
+    Existing effective_evidence and checkpoint-return paths are unchanged.
+    """
+    from .evaluation_history import EvaluationRecord, EvaluationQuery, select_history
+    from .errors import CoreUnavailable
+
+    snapshot = store.get_meta(f"evaluation-history-v1:{world.instance_id}", None)
+    if (type(snapshot) is not dict or type(snapshot.get("schemaVersion")) is not int
+            or snapshot["schemaVersion"] != 1 or "finalization" not in snapshot
+            or type(snapshot.get("history")) is not list):
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", "complete typed evaluation history is unavailable")
+    final = snapshot["finalization"]
+    history = snapshot["history"]
+
+    def record(entry: Any) -> EvaluationRecord:
+        if type(entry) is not dict:
+            raise CoreUnavailable("evaluation history contains a non-record row")
+        # No filtering, default PASS, inferred epoch or generated run identity.
+        return EvaluationRecord(entry.get("worldInstance"), entry.get("worldContentId"),
+            entry.get("requirementHash"), entry.get("validationId"), entry.get("evaluationEpoch"),
+            entry.get("evaluationState"), entry.get("outcome"))
+
+    try:
+        selected = select_history(tuple(record(entry) for entry in history),
+            None if final is None else record(final),
+            EvaluationQuery(world.instance_id, world.content_id, requirement_hash,
+                            current_head, prepared_evidence), core=core)
+    except CoreUnavailable as exc:
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", str(exc)) from exc
+    if selected.reason != "READY":
+        raise WorldlineError(selected.reason, "the retained evaluation history does not authorize evidence",
+            {"head": {"kind": selected.head.kind, "index": selected.head.index},
+             "completedFailure": {"kind": selected.completed_failure.kind,
+                                  "index": selected.completed_failure.index}})
+    if selected.head.kind == "FINALIZATION":
+        entry, source = final, "finalization"
+    elif selected.head.kind == "HISTORY_ENTRY":
+        entry = history[selected.head.index]
+        source = f"revalidation:{entry.get('validationId')}"
+    else:
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", "kernel READY lacks an evidence reference")
+    context, records = entry.get("context"), entry.get("results")
+    if (type(context) is not dict or type(records) is not list
+            or any(type(item) is not dict for item in records)):
+        raise WorldlineError("EVALUATION_HISTORY_UNAVAILABLE", "selected evaluation payload is incomplete")
+    # Preserve the entire selected context and record objects from the same row.
+    # Existing context/execution verification is still required by any consumer.
+    return context, source, records

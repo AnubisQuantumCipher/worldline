@@ -1,0 +1,31 @@
+{
+  "classification": "TESTED complete finite output bytes / MEASURED whole-operation RSS",
+  "command": [
+    "cmp",
+    "--",
+    "scratch/acquisition/private-producer-memory-original-v5/wire.bin",
+    "scratch/acquisition/private-producer-memory-candidate-v5/wire.bin"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "source_commit": "364fbb9c311b800e7f5b0b75be999a4682e3134f",
+  "arms": {
+    "original": {
+      "receipt": "scratch/acquisition/private-producer-memory-original-v5/measurement.json",
+      "receipt_sha256": "8f29f114929147e5d25bcf91906f130e71df3542734e4b6c705dfa1b8c33e719",
+      "ru_maxrss_kib": 235308,
+      "output_bytes": 69019968,
+      "output_sha256": "9b31638539befcc89d67aaf846c217f79939929e448509e6843dc4aadd1700a6",
+      "candidate_sha256": "09ce85131cc0d67c6464041d20af618e05082dce7c9d9df49a4af83dcab3d330"
+    },
+    "candidate": {
+      "receipt": "scratch/acquisition/private-producer-memory-candidate-v5/measurement.json",
+      "receipt_sha256": "3cf8a7d0646eaae8769303e2e6f4b81acb456e62c84f88d5a6522d307d1ed28b",
+      "ru_maxrss_kib": 167452,
+      "output_bytes": 69019968,
+      "output_sha256": "9b31638539befcc89d67aaf846c217f79939929e448509e6843dc4aadd1700a6",
+      "candidate_sha256": "09ce85131cc0d67c6464041d20af618e05082dce7c9d9df49a4af83dcab3d330"
+    }
+  }
+}

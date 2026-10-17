@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-15T05:46:29.039753+00:00",
+  "command": [
+    "python3",
+    "-B",
+    "-"
+  ],
+  "before": {
+    "docs/decisions.md": "45a50ff7bde7773d72bf8f0556638818850b10ca036c6489392fa5e78d0d1e16",
+    "docs/phase1-progress.md": "aeca83861b111f368c2280f28a2c6cd1ad284be0a2987ed830e5a721e8aa32df"
+  },
+  "after": {
+    "docs/decisions.md": "599c5f4d190672741d58e56a376192700d6efb69ef090fa34249b4187311d4a6",
+    "docs/phase1-progress.md": "685fbef4306c1b1aa08595edbe0af063b9c4711bc8839c7f159f16e738b0c2ba"
+  },
+  "backup_readback_sha256": "86ec99c1d3b63aaf8f70d6bef79074e8ac651bc15099653da99989a1ae9c1448",
+  "correction_sha256": "31d112d2cc762878792a8be48a0658b546033cfbd29269fe5cd8105a6fe41dea",
+  "boundary": "Append actual finite backup outcome and independently checked machine-sourced hash correction after original tracked-source window"
+}

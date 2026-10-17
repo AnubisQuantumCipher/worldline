@@ -1,0 +1,558 @@
+{
+  "schema": "worldline-finalizable-frontend-research-v1",
+  "formed_utc": "2026-10-15T05:06:04.765842+00:00",
+  "observed_worktree_head": "4ff3bf48b4323c051ffa8cf04ba4787982111f6d",
+  "verdict": "UNVERIFIED: no concrete new coding/annotation route established for original automatic full-value normal-and-exception Old retirement with matching proof support",
+  "formal_review_performed": false,
+  "official_frontend_ref": {
+    "repository": "https://github.com/gcc-mirror/gcc",
+    "release_ref": "releases/gcc-16.1.0",
+    "commit": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+    "installed_binary_built_from_exact_ref": "UNVERIFIED; version/config metadata do not provide this source-to-binary proof"
+  },
+  "fetches": [
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/compiler-release.receipt.json",
+        "sha256": "e2181365a1a411e2fa84ce2731a0b86291df81f31e9ac5c4b5e3f02ccb3d4167",
+        "size_bytes": 2076
+      },
+      "url": "https://api.github.com/repos/alire-project/GNAT-FSF-builds/releases/tags/gnat-16.1.0-1",
+      "status": 200,
+      "error": null,
+      "sha256": "51e301098fa026b138b95de1b8301be497eebfc2e690a4ecb9da1abfc6a8a1b9",
+      "size_bytes": 123259,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/exp_attr.adb.receipt.json",
+        "sha256": "83b203fdc7e7860ce7ac7da210a6bdb6888178c2ae8f3a29a03b740bb29cc74d",
+        "size_bytes": 1733
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_attr.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "0d89c4982b0c5ae4430dae91539301c0adde232f1cc1f8ab4b8a32dfe9621f4b",
+      "size_bytes": 375242,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/exp_ch3.adb.receipt.json",
+        "sha256": "352473f0fa80e859d4badee383d4583612ba22c576d5e1974a344a9098bd9088",
+        "size_bytes": 1731
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_ch3.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "559f0f1fae1c1f0783b4169c707c131d4e0420e988254617b57954b01d475f6e",
+      "size_bytes": 504138,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/exp_ch7.adb.receipt.json",
+        "sha256": "f7d3052c2fe93f3310056395d9470e2b07ab10396f39a7cc4028efd3651698e8",
+        "size_bytes": 1731
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_ch7.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+      "size_bytes": 349081,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/exp_spark.adb.receipt.json",
+        "sha256": "90c8916da536dc9670fd5e0d057539919f85599b9cd4c3a0bf1cf9e3b932ef9a",
+        "size_bytes": 1732
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_spark.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "509e27a893828c31e7148f29470ab1fcbacd879242a1066dd22bdc3a6cf0fbfb",
+      "size_bytes": 45004,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/exp_util.adb.receipt.json",
+        "sha256": "916c92c1ba077789aa21f686ec279664b0f5983a9465848fde515fba08f450cb",
+        "size_bytes": 1733
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_util.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "6fcf1cceaa505992e83e8f122eadc87f54b489a4208f55af14178ef04595b6a1",
+      "size_bytes": 533310,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/gcc-release-commit.receipt.json",
+        "sha256": "2ac8db5898845797c0cd53cdfe62d3ff5fef13c4eeac48d282fd4c4aff3d63d0",
+        "size_bytes": 2045
+      },
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/commits/releases/gcc-16.1.0",
+      "status": 200,
+      "error": null,
+      "sha256": "21ac6aea5f01ae5b8fb72b44e203418d19bff130e34a1679d67ef0ac27ab75b6",
+      "size_bytes": 46315,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/release-doc.receipt.json",
+        "sha256": "c29052e7d6bf108e57387c9235961c55fed021c98bf311113dd0c0da8b9bba96",
+        "size_bytes": 939
+      },
+      "url": "https://gcc.gnu.org/onlinedocs/gcc-16.1.0/gnat_rm/Generalized-Finalization.html",
+      "status": 200,
+      "error": null,
+      "sha256": "be241a0c928291e4c10c446233d25982c10dec3b91e1f86839992279e77ebec7",
+      "size_bytes": 7035,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/sem_attr.adb.receipt.json",
+        "sha256": "d1be4af46c1cf32fe13a29b1b02a08370de87a9ce96670fc9cc63adbb4f96a09",
+        "size_bytes": 1733
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/sem_attr.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "2186f019b336c853f7e3f5ae3a40fd91514ba188694c4fd592282c7ce63185d0",
+      "size_bytes": 481322,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/sem_ch13.adb.receipt.json",
+        "sha256": "d800110f6eedac9278d83fbb1e1e38d9c908b32bf22b13de2192f7dc807149cb",
+        "size_bytes": 1733
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/sem_ch13.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "570d8a1cc74520fd95a12a9921bfe0893da7857517b4a2910da2bf65c880fd96",
+      "size_bytes": 743731,
+      "complete_within_bound": true
+    },
+    {
+      "receipt": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/sem_util.adb.receipt.json",
+        "sha256": "800178eaf6c00d1ca96ccc44480e5450db681786a774404415f8c87c90f72a95",
+        "size_bytes": 1735
+      },
+      "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/sem_util.adb",
+      "status": 200,
+      "error": null,
+      "sha256": "27440cef1797aee98a033d63d84756aae9fbab5110e706c30c79ecdbb8e21bc4",
+      "size_bytes": 1074489,
+      "complete_within_bound": true
+    }
+  ],
+  "source_points": [
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_ch13.adb",
+        "sha256": "570d8a1cc74520fd95a12a9921bfe0893da7857517b4a2910da2bf65c880fd96",
+        "size_bytes": 743731
+      },
+      "line_start": 17842,
+      "line_end": 17932,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/sem_ch13.adb#L17842",
+      "class": "MEASURED source observation",
+      "observation": "Resolve_Finalizable_Argument and Resolve_Finalization_Procedure resolve strict boolean setting and same-scope in-out hook procedures."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_ch13.adb",
+        "sha256": "570d8a1cc74520fd95a12a9921bfe0893da7857517b4a2910da2bf65c880fd96",
+        "size_bytes": 743731
+      },
+      "line_start": 19189,
+      "line_end": 19281,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/sem_ch13.adb#L19189",
+      "class": "MEASURED source observation",
+      "observation": "Validate_Finalizable_Aspect marks root record controlled-active; default relaxed setting is true, strict False checks finalization-master runtime support."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_util.adb",
+        "sha256": "6fcf1cceaa505992e83e8f122eadc87f54b489a4208f55af14178ef04595b6a1",
+        "size_bytes": 533310
+      },
+      "line_start": 11859,
+      "line_end": 11893,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_util.adb#L11859",
+      "class": "MEASURED source observation",
+      "observation": "Name_Of_Controlled_Prim_Op uses named Finalizable associations when core extensions are allowed."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch7.adb",
+        "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+        "size_bytes": 349081
+      },
+      "line_start": 5484,
+      "line_end": 5587,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_ch7.adb#L5484",
+      "class": "MEASURED source observation",
+      "observation": "Make_Adjust_Call selects actual Adjust/deep-adjust primitive and constructs call."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch7.adb",
+        "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+        "size_bytes": 349081
+      },
+      "line_start": 7851,
+      "line_end": 8062,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_ch7.adb#L7851",
+      "class": "MEASURED source observation",
+      "observation": "Make_Final_Call selects actual Finalize/deep-finalize primitive."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_attr.adb",
+        "sha256": "0d89c4982b0c5ae4430dae91539301c0adde232f1cc1f8ab4b8a32dfe9621f4b",
+        "size_bytes": 375242
+      },
+      "line_start": 5724,
+      "line_end": 5892,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_attr.adb#L5724",
+      "class": "MEASURED source observation",
+      "observation": "Old expansion creates and marks internal temporaries, including ordinary untagged constant initialized from the original prefix."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_util.adb",
+        "sha256": "27440cef1797aee98a033d63d84756aae9fbab5110e706c30c79ecdbb8e21bc4",
+        "size_bytes": 1074489
+      },
+      "line_start": 32335,
+      "line_end": 32341,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/sem_util.adb#L32335",
+      "class": "MEASURED source observation",
+      "observation": "Indirect Old access type is marked so collection cleanup occurs after postcondition checks."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch7.adb",
+        "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+        "size_bytes": 349081
+      },
+      "line_start": 2105,
+      "line_end": 2157,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_ch7.adb#L2105",
+      "class": "MEASURED source observation",
+      "observation": "Strict finalizer generation includes abort/exception handling and finalization calls; this is source implementation, not a D47 path execution observation."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_attr.adb",
+        "sha256": "2186f019b336c853f7e3f5ae3a40fd91514ba188694c4fd592282c7ce63185d0",
+        "size_bytes": 481322
+      },
+      "line_start": 5762,
+      "line_end": 5795,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/sem_attr.adb#L5762",
+      "class": "MEASURED source observation",
+      "observation": "Function-prefix Old declaration/expansion is deliberately skipped in GNATprove_Mode."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch7.adb",
+        "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+        "size_bytes": 349081
+      },
+      "line_start": 1102,
+      "line_end": 1107,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_ch7.adb#L1102",
+      "class": "MEASURED source observation",
+      "observation": "GNATprove_Mode refuses creation of finalization collections to preserve original source tree."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch7.adb",
+        "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+        "size_bytes": 349081
+      },
+      "line_start": 3142,
+      "line_end": 3152,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_ch7.adb#L3142",
+      "class": "MEASURED source observation",
+      "observation": "Build_Finalizer returns immediately in GNATprove_Mode."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_spark.adb",
+        "sha256": "509e27a893828c31e7148f29470ab1fcbacd879242a1066dd22bdc3a6cf0fbfb",
+        "size_bytes": 45004
+      },
+      "line_start": 119,
+      "line_end": 202,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_spark.adb#L119",
+      "class": "MEASURED source observation",
+      "observation": "Minimal SPARK expansion dispatch handles selected constructs; no Finalizable hook registration identified in this inspected routine."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_spark.adb",
+        "sha256": "509e27a893828c31e7148f29470ab1fcbacd879242a1066dd22bdc3a6cf0fbfb",
+        "size_bytes": 45004
+      },
+      "line_start": 772,
+      "line_end": 881,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_spark.adb#L772",
+      "class": "MEASURED source observation",
+      "observation": "SPARK attribute expansion handles selected other attributes, not Old lowering here."
+    },
+    {
+      "file": {
+        "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_spark.adb",
+        "sha256": "509e27a893828c31e7148f29470ab1fcbacd879242a1066dd22bdc3a6cf0fbfb",
+        "size_bytes": 45004
+      },
+      "line_start": 919,
+      "line_end": 946,
+      "url": "https://github.com/gcc-mirror/gcc/blob/6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea/gcc/ada/exp_spark.adb#L919",
+      "class": "MEASURED source observation",
+      "observation": "SPARK object declaration expansion inserts default-initial-condition analysis call, not a Finalizable cleanup mechanism in this routine."
+    }
+  ],
+  "installed_metadata": [
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/installed-version-readback.json",
+      "sha256": "60946d55bcad3faaae2b84a0bef22bfc4cd18d0c2b9d6f50d9ca098198bd30e3",
+      "size_bytes": 1611
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/gcc-version.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/gcc-version.stderr",
+      "sha256": "2a6fceaa904d3d5ed8f1095d4202b7559afe179828c7705cf01c54db1b425a2f",
+      "size_bytes": 1273
+    }
+  ],
+  "D47_comparison": {
+    "commit": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+    "parent": {
+      "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-parent-v1/result.json",
+      "sha256": "5a1bf160cd086ed273fbf7abf29a2baf825f2f3451dea16568f0070edb18c78a",
+      "size_bytes": 3926
+    },
+    "result": {
+      "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/results/result.json",
+      "sha256": "b16e1ccf6fd129910aab0ae9f0510e6f4a9e0493e5c36021929215ee3349f470",
+      "size_bytes": 7282
+    },
+    "source_files": [
+      {
+        "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/lifetime.ads",
+        "sha256": "510527c6a171125ea141895e11bb386f49a2763b5521ec95c67c0274287656a1",
+        "size_bytes": 1179
+      },
+      {
+        "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/lifetime.adb",
+        "sha256": "2f5efa1b80fab7667473973159084127283104b738024ab93a63221585570a35",
+        "size_bytes": 726
+      },
+      {
+        "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/main.adb",
+        "sha256": "0bcf8807cebda1f3cc1534d009eef438f3a924b98115e457605fc9a7d44ed015",
+        "size_bytes": 427
+      },
+      {
+        "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/probe.gpr",
+        "sha256": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+        "size_bytes": 269
+      }
+    ],
+    "source_hashes_from_actual_run": {
+      "probe.gpr": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+      "run.py": "3124fe88f967af3879f1e9c90d55833e96b0a7be0d00c757d30fec9e8e079db6",
+      "main.adb": "0bcf8807cebda1f3cc1534d009eef438f3a924b98115e457605fc9a7d44ed015",
+      "lifetime.ads": "510527c6a171125ea141895e11bb386f49a2763b5521ec95c67c0274287656a1",
+      "lifetime.adb": "2f5efa1b80fab7667473973159084127283104b738024ab93a63221585570a35"
+    },
+    "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1",
+    "environment": {
+      "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "ADA_PROJECT_PATH": null,
+      "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+      "TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-scope-v1/tmp",
+      "XDG_CACHE_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-scope-v1/cache"
+    },
+    "started_utc": "2026-10-15T03:10:55.056410+00:00",
+    "ended_utc": "2026-10-15T03:16:37.672463+00:00",
+    "steps": [
+      {
+        "name": "gnatls-version",
+        "argv": [
+          "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnatls",
+          "--version"
+        ],
+        "started_utc": "2026-10-15T03:10:55.059166+00:00",
+        "exit_code": 0,
+        "ended_utc": "2026-10-15T03:10:55.060503+00:00",
+        "stdout_sha256": "ab3b70e7381b9f2a7ad8112030afdebfefff21d59eddacc17fe1c6dd2ab3627c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "gprbuild-version",
+        "argv": [
+          "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+          "--version"
+        ],
+        "started_utc": "2026-10-15T03:10:55.071519+00:00",
+        "exit_code": 0,
+        "ended_utc": "2026-10-15T03:10:55.076075+00:00",
+        "stdout_sha256": "b7af7e2e658742c57dd28432908a28d9a29893959c4580b877eea0c855e3c8b7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "gnatprove-version",
+        "argv": [
+          "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+          "--version"
+        ],
+        "started_utc": "2026-10-15T03:10:55.119126+00:00",
+        "exit_code": 0,
+        "ended_utc": "2026-10-15T03:10:55.149428+00:00",
+        "stdout_sha256": "7003362a89b06f3a9c9a771071d1237ccc46748c17629f304b093362ebad8abe",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "build",
+        "argv": [
+          "gprbuild",
+          "-P",
+          "probe.gpr",
+          "-j1"
+        ],
+        "started_utc": "2026-10-15T03:10:55.149648+00:00",
+        "exit_code": 0,
+        "ended_utc": "2026-10-15T03:10:55.425149+00:00",
+        "stdout_sha256": "f952a2a17748feaf384be23b9c48c33ee94a1770e3361a7ea5d60f83b0088ec0",
+        "stderr_sha256": "e7a8341e5d7191434ce984ba3e3f877eb5e3861e95da1f0d6f7043cb8411b368"
+      },
+      {
+        "name": "proof",
+        "argv": [
+          "gnatprove",
+          "-P",
+          "probe.gpr",
+          "-U",
+          "--mode=all",
+          "--level=3",
+          "--report=all",
+          "--checks-as-errors=on",
+          "--proof-warnings=on",
+          "--memlimit=1024",
+          "--timeout=60",
+          "-j1"
+        ],
+        "started_utc": "2026-10-15T03:10:55.425359+00:00",
+        "exit_code": 1,
+        "ended_utc": "2026-10-15T03:16:37.671160+00:00",
+        "stdout_sha256": "e7219cd0b76f977e9fc214e6cb3d506d2c702b6887e922e371ac8290c89f9486",
+        "stderr_sha256": "4c4e983d76528fac79ad48af3045f831e532c1cd9dc914709124d218440a54d6"
+      },
+      {
+        "name": "runtime",
+        "argv": [
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/bin/main"
+        ],
+        "started_utc": "2026-10-15T03:16:37.671648+00:00",
+        "exit_code": 0,
+        "ended_utc": "2026-10-15T03:16:37.672365+00:00",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "build_exit": 0,
+    "proof_exit": 1,
+    "runtime_exit": 0,
+    "complete_report": {
+      "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/obj/gnatprove/gnatprove.out",
+      "sha256": "236077be4d164988e3beaefb109ec1c69f0722b18a3110cbfdf3ebb3e445b1a7",
+      "size_bytes": 3053
+    },
+    "proof_stderr": {
+      "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/results/proof.stderr",
+      "sha256": "4c4e983d76528fac79ad48af3045f831e532c1cd9dc914709124d218440a54d6",
+      "size_bytes": 2916
+    },
+    "version_outputs": [
+      {
+        "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/results/gnatls-version.stdout",
+        "sha256": "ab3b70e7381b9f2a7ad8112030afdebfefff21d59eddacc17fe1c6dd2ab3627c",
+        "size_bytes": 222
+      },
+      {
+        "path": "records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/results/gnatprove-version.stdout",
+        "sha256": "7003362a89b06f3a9c9a771071d1237ccc46748c17629f304b093362ebad8abe",
+        "size_bytes": 396
+      }
+    ],
+    "observed_report_total": 23,
+    "observed_report_unproved": 6,
+    "observed_report_justified_display": ".",
+    "exact_case": "Three Capture(Text) allocating fresh function-result Old prefixes preserve content and bounds; not direct Object Old. Ordinary assignment independence remains separate."
+  },
+  "prior_translator_cross_reference": {
+    "file": {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-expr.adb",
+      "sha256": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+      "size_bytes": 1115765
+    },
+    "receipt": {
+      "path": "scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-expr.adb.json",
+      "sha256": "89bddb190d042cf5d293f1b78789a3832312f50f609e3c73d4f49e97d496834f",
+      "size_bytes": 517
+    },
+    "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-expr.adb#L24008",
+    "lines": [
+      24008,
+      24030
+    ],
+    "observation": "Allocating function with allocated parts in executable assertion emits failed resource-leak VC; no Finalizable exemption in this inspected condition. Prior FSF branch source is not proved exact source of installed gnat2why."
+  },
+  "inference": {
+    "class": "UNVERIFIED",
+    "claim": "The inspected frontend split plus retained translator condition is consistent with D47 runtime/build success and allocating-assertion proof failure; it does not prove all alternate designs impossible."
+  },
+  "remaining_gaps": [
+    "Exact source-to-binary correspondence for installed compiler and GNATprove frontends is not established by version equality.",
+    "No positive proof model integrating automatic strict Finalizable normal/exception cleanup with fresh allocating Old is identified in inspected files.",
+    "Ordinary nonlimited independent copy plus Adjust ownership and all full-value preservation obligations remain.",
+    "D47 runtime success is not physical leak-freedom or exceptional-path cleanup evidence.",
+    "No complete compiler/prover repository search was performed, and no universal infeasibility/absence claim follows."
+  ],
+  "excluded_routes": [
+    "Relaxed_Finalization True/default",
+    "ignored or nonexecuted Ghost allocation",
+    "pragma Assume or justified-check suppression",
+    "new SPARK_Mode Off/trusted proof boundary",
+    "manual owner death replacing automatic Old cleanup",
+    "new length/domain cap or changed accepted cases"
+  ],
+  "actions_performed": [
+    "Bounded individual official source/document GETs retained privately with raw response hashes and errors where present.",
+    "Read-only source inspection and installed GCC -v metadata query; existing D47 tool hashes compared."
+  ],
+  "actions_not_performed": [
+    "No compiler checkout, binary download, installation, compile/proof/runtime experiment, product edit, messages upstream or host configuration change."
+  ],
+  "publication_policy": "Authored research.md/research.json may be reviewed for publication; raw upstream bodies and existing raw-source files remain private with hash/URL references only."
+}

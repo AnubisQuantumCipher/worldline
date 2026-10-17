@@ -1,17 +1,22 @@
+with "sparklib.gpr";
 with "attest_sha256.gpr";
 
 project Worldline_Core_Sources is
 
+   for Languages use ("Ada", "C");
    for Source_Dirs use (".");
+   for Excluded_Source_Files use ("spark.ads", "spark-big_integers.ads");
    for Object_Dir use "../obj/core";
 
    type Build_Kind is ("checks", "release");
    Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");
 
    Common :=
-     ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-fPIC");
+     ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-fPIC", "-fno-var-tracking-assignments");
 
    package Compiler is
+      for Default_Switches ("C") use
+        ("-std=c11", "-O2", "-g", "-fPIC", "-pthread", "-Wall", "-Wextra", "-Werror");
       case Build is
          when "checks" =>
             for Default_Switches ("Ada") use Common & ("-gnata");

@@ -1,0 +1,60 @@
+{
+  "utc": "2026-10-15T03:18:20.961193+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "MEASURED fresh fullvalue Finalizable build/runtime success, incomplete required proof. No repeated same-mechanism attempt or restatement selected.",
+  "result_sha256": "b16e1ccf6fd129910aab0ae9f0510e6f4a9e0493e5c36021929215ee3349f470",
+  "proof_report_sha256": "236077be4d164988e3beaefb109ec1c69f0722b18a3110cbfdf3ebb3e445b1a7",
+  "build_exit": 0,
+  "proof_exit": 1,
+  "runtime_exit": 0,
+  "source_before_after_equal": true,
+  "parent_tracked_unchanged": true,
+  "summary_observed": {
+    "total": 23,
+    "unproved": 6,
+    "unproved_locations": {
+      "Adjust": 1,
+      "Check_Fresh": 3,
+      "Main": 2
+    }
+  },
+  "findings": [
+    "Adjust pointer replacement resource-leak obligation unproved; report says prover reached time limit.",
+    "Every separate Capture(Text)'Old allocation has a resource-leak finding; function content postcondition proved does not discharge reclamation.",
+    "Main separate fresh A/B end-of-scope resource obligations unproved; report says prover reached time limit.",
+    "Standard deallocator instantiated internal body is explicitly skipped SPARK_ModeOff; analyzed wrapper/finalizer cannot erase this imported/runtime closure gap.",
+    "Runtime0 confirms only finite assertion-enabled observed values, without allocator/leak observer. Findings are unproved static obligations, not measured native leaks or universal feature infeasibility."
+  ],
+  "scope_after": {
+    "event": "after",
+    "exit_code": 1,
+    "memory.current": "28864512",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "1170493440",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-de49ccaa97d9440ca9739b20952ceef7.scope",
+    "utc": "2026-10-15T03:16:38.258410+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T03:16:38.669222+00:00"
+  },
+  "open": [
+    "O1 original ordinary independentcopy, implicitOld automaticretirement normal/exceptional, no cumulativebound and required fullproof/native leakcontrols remain.",
+    "Do not weaken ownership/preconditions to silence suggested Object mention or treat runtime success as proof."
+  ],
+  "non_claims": [
+    "No new build/proof/test/productedit by reviewer; no Phase1/independentacceptance."
+  ]
+}

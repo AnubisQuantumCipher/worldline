@@ -1,0 +1,38 @@
+{
+  "utc": "2026-10-15T04:28:36.868365+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR build-only launch after root records verdict and live original admission succeeds",
+  "source_HEAD_observed": "4ff3bf48b4323c051ffa8cf04ba4787982111f6d",
+  "methods": {
+    "build.py": "621f06bb1113d93af49eb6aa204a6f7a7e83c609ddc8775ba4cdf147723717f0",
+    "run_build.py": "583ad34c752600ad112b9368c7fce8a2b1da5694ff7aa95c50bd3c719c184991",
+    "decision-proposal.md": "6aed1c683650bc0c34b713d1c20ae74a4a31a93ab6c2c10eed3447624a0ced6e"
+  },
+  "reviewed": {
+    "ROOT_parents4_correct": true,
+    "all_fresh_output_paths_absent": true,
+    "complete_original_project": "core/worldline_core.gpr; unchanged aggregate interfaces and original physical/source projects; no reduced substitute",
+    "private_reference_sha256": "9e2db83e321d936a3eca04f82f185403ed39a3893e295ac3936bce774ca311af",
+    "private_source_manifest_sha256": "8c1f7cbefcb199a286ff0b7fe748ed12b2e934df338cb185c59d899d70903da1",
+    "all_reference_source_project_artifact_hashes_currently_match": true,
+    "recipe_historical_source": "915f metadata is preparation only; launch records current HEAD and tracked before/after bytes, actual core pinned23e67...",
+    "containment": "Read-only / root; only exact fresh four object directories, suffixed library directory and owned results/tmp/cache bind writable; old root/private artifacts remain read-only. Fresh paths and symlink ancestry refused.",
+    "postconditions": "Compiler zero, new nonsymlink regular library, quantity/policy assertion ALIs with A -gnata, unchanged watched old source/project/artifact hashes and reviewed core bytes. Parent retains complete tracked-map equality.",
+    "bounds": "Original 45m build/j2/full-private-prebuilt/checks/fPIC; existing heavy shared flock/post-lock admission8G/swap0 and disk reserve/early-stop retained.",
+    "D59": "Options, choice, future separate-test requirement and reversal preserve scope."
+  },
+  "provenance_cautions": [
+    "Parent explicit_environment worker TMPDIR/cache describes heavy carrier; inner build receipt records actual overridden build-results/tmp/cache. Use inner environment for compiler provenance.",
+    "Current dirty documentary deltas are explicitly retained; this is not a clean final acceptance freeze.",
+    "Assertion ALI checks are finite quantity/policy witnesses, not whole-program assertion coverage or runtime validation."
+  ],
+  "non_claims": [
+    "No job executed by reviewer",
+    "No compile/proof/runtime success before actual terminal result",
+    "No original resource-policy test selected or deadline authorized here",
+    "No final full-source proof/F1/Phase1 acceptance",
+    "No source-pin update, pending profile or cursor product integration",
+    "No global sibling census or hard disk growth bound"
+  ],
+  "review_actions": "Read exact methods, D59, GPR metadata/project; read-only current hash and freshness checks, no compiler/import/test/job or product edit."
+}

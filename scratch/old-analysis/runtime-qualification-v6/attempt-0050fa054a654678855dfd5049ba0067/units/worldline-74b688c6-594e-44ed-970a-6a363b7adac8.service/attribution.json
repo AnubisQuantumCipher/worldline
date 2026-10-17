@@ -1,0 +1,98 @@
+{
+  "basis": "direct root Popen intent; manager unit already absent, no attribution by arbitrary new name",
+  "direct_intents": [
+    {
+      "argv": [
+        "/usr/bin/systemd-run",
+        "--user",
+        "--unit=worldline-74b688c6-594e-44ed-970a-6a363b7adac8.service",
+        "--description=worldline-lab real supervision test",
+        "--collect",
+        "--pipe",
+        "--quiet",
+        "--service-type=exec",
+        "--property=KillMode=control-group",
+        "--property=SendSIGKILL=yes",
+        "--property=TimeoutStopSec=10s",
+        "--property=NoNewPrivileges=yes",
+        "--property=PrivateTmp=no",
+        "--property=UMask=0022",
+        "--",
+        "/bin/sh",
+        "-c",
+        "exit 3"
+      ],
+      "cwd": null,
+      "event": "subprocess.Popen",
+      "executable": "/usr/bin/systemd-run",
+      "intent": {
+        "exec_argv": [
+          "/bin/sh",
+          "-c",
+          "exit 3"
+        ],
+        "launch_form": "explicit separator",
+        "parser_scope": "exact supported original option grammar; unknown form unobserved",
+        "systemd_run_argv": [
+          "/usr/bin/systemd-run",
+          "--user",
+          "--unit=worldline-74b688c6-594e-44ed-970a-6a363b7adac8.service",
+          "--description=worldline-lab real supervision test",
+          "--collect",
+          "--pipe",
+          "--quiet",
+          "--service-type=exec",
+          "--property=KillMode=control-group",
+          "--property=SendSIGKILL=yes",
+          "--property=TimeoutStopSec=10s",
+          "--property=NoNewPrivileges=yes",
+          "--property=PrivateTmp=no",
+          "--property=UMask=0022",
+          "--",
+          "/bin/sh",
+          "-c",
+          "exit 3"
+        ],
+        "unit": "worldline-74b688c6-594e-44ed-970a-6a363b7adac8.service"
+      },
+      "monotonic_ns": 10678835321082,
+      "pid": 510273,
+      "receipt_path": "/home/sicarii/Work/worldline-phase1-completion-20261016/scratch/old-analysis/runtime-qualification-v6/attempt-0050fa054a654678855dfd5049ba0067/worker/qualification-audit/audit/popen.jsonl",
+      "scope": "top-level test process only; not child daemon instrumentation"
+    }
+  ],
+  "initially_absent": true,
+  "root": {
+    "argv": [
+      "systemctl",
+      "--user",
+      "show",
+      "--property=ControlGroup",
+      "--",
+      "-.slice"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "ControlGroup=/user.slice/user-1000.slice/user@1000.service\n"
+  },
+  "typed_manager": {
+    "lookup": {
+      "argv": [
+        "busctl",
+        "--user",
+        "--json=short",
+        "call",
+        "org.freedesktop.systemd1",
+        "/org/freedesktop/systemd1",
+        "org.freedesktop.systemd1.Manager",
+        "GetUnit",
+        "s",
+        "worldline-74b688c6-594e-44ed-970a-6a363b7adac8.service"
+      ],
+      "exit_code": 1,
+      "stderr": "Call failed: Unit worldline-74b688c6-594e-44ed-970a-6a363b7adac8.service not loaded.\n",
+      "stdout": ""
+    }
+  },
+  "unit": "worldline-74b688c6-594e-44ed-970a-6a363b7adac8.service"
+}

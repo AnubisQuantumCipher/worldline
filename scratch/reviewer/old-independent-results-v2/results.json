@@ -1,0 +1,95 @@
+{
+  "utc": "2026-10-13T17:13:28.289113+00:00",
+  "commit": "a1bda52b53a9a220b2333fe09a135e2d94127dbc",
+  "scope": "scratch minimal discriminators only; no Phase 1 acceptance",
+  "results": [
+    {
+      "case": "controlled_legal",
+      "source_files": {
+        "scratch/reviewer/cases/controlled_legal/checks.adc": "7e8c33fa414c4d4fa74dac5ce5222ffc4837d308af4005251356e5807e7558c4",
+        "scratch/reviewer/cases/controlled_legal/controlled_probe.adb": "0b20fd92e1390816e76cab61eb28c92ab63655c77047e41a10596dbbea0f8036",
+        "scratch/reviewer/cases/controlled_legal/controlled_probe.ads": "d1874091cdd96b8bef2be3ca42e7d554ef8f60ef362ed978ca8a804a73377e27",
+        "scratch/reviewer/cases/controlled_legal/probe.gpr": "4eb61ad0daa6b373118d50891dff03757421b601cd1d361d92dd551316dd9429"
+      },
+      "commands": [
+        {
+          "argv": [
+            "gprbuild",
+            "-p",
+            "-P",
+            "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/controlled_legal/probe.gpr",
+            "-c",
+            "-U",
+            "-j1"
+          ],
+          "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/controlled_legal",
+          "returncode": 0,
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "gnatprove",
+            "-P",
+            "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/controlled_legal/probe.gpr",
+            "-U",
+            "--mode=all",
+            "--level=3",
+            "--report=all",
+            "--checks-as-errors=on",
+            "--proof-warnings=on",
+            "-j1",
+            "--memlimit=1024",
+            "--timeout=30"
+          ],
+          "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/controlled_legal",
+          "returncode": 1,
+          "timed_out": false
+        }
+      ]
+    },
+    {
+      "case": "fresh_old_legal",
+      "source_files": {
+        "scratch/reviewer/cases/fresh_old_legal/checks.adc": "7e8c33fa414c4d4fa74dac5ce5222ffc4837d308af4005251356e5807e7558c4",
+        "scratch/reviewer/cases/fresh_old_legal/fresh_old_probe.adb": "e403ca46f69b7260f5c961ad08e21a375cd1d8d595114926fcf2b1f70ba55928",
+        "scratch/reviewer/cases/fresh_old_legal/fresh_old_probe.ads": "4a09f14d6a2bdbb147c455a1db69d7847f9ce7045f80ed00a8b59fd025dc1890",
+        "scratch/reviewer/cases/fresh_old_legal/probe.gpr": "4eb61ad0daa6b373118d50891dff03757421b601cd1d361d92dd551316dd9429"
+      },
+      "commands": [
+        {
+          "argv": [
+            "gprbuild",
+            "-p",
+            "-P",
+            "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/fresh_old_legal/probe.gpr",
+            "-c",
+            "-U",
+            "-j1"
+          ],
+          "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/fresh_old_legal",
+          "returncode": 0,
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "gnatprove",
+            "-P",
+            "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/fresh_old_legal/probe.gpr",
+            "-U",
+            "--mode=all",
+            "--level=3",
+            "--report=all",
+            "--checks-as-errors=on",
+            "--proof-warnings=on",
+            "-j1",
+            "--memlimit=1024",
+            "--timeout=30"
+          ],
+          "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer/cases/fresh_old_legal",
+          "returncode": 1,
+          "timed_out": false
+        }
+      ]
+    }
+  ]
+}

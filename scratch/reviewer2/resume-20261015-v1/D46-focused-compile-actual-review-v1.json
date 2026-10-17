@@ -1,0 +1,72 @@
+{
+  "utc": "2026-10-15T03:29:16.825504+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR finite D46 focused changed-unit compile success, suitable narrow repair/evidence retention. No fullF1/link/proof/runtime claim.",
+  "result_sha256": "7ee40bb04c9f7f1aa7668059c4d06c6bf5fe299ccf6a94a1971377fd01ccc4e5",
+  "compiler_exit": 0,
+  "validation_passed": true,
+  "expected_artifacts_present": true,
+  "gnata": true,
+  "artifact_hashes_verified": {
+    "obj/core/phase1-d46-compile-v1/worldline-evaluation_role_native.adb.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "obj/core/phase1-d46-compile-v1/worldline-evaluation_role_native.adb.stderr": "c83a02d6f278ac0cfa2dd4f5e7d8ca97e662d738aa83c255425266366dc73368",
+    "obj/core/phase1-d46-compile-v1/worldline-evaluation_role_native.o": "6f19144399d0fc1a7ac47f18bde811b87dd95304147de7f32ae8d67ea4b1915e",
+    "obj/core/phase1-d46-compile-v1/worldline-evaluation_role_native.ali": "2c6c1701947bd44bd5aa508daf9b1a8c687288c602d4db962fa3170176e3b125"
+  },
+  "source_sha256": "d48d92343350610747b7dd94ca7cff43d403cca8297fcc271467f03dd0db0c79",
+  "selected_watched_artifacts_unchanged_verified": true,
+  "parent_exit": 0,
+  "parent_sources_equal": true,
+  "actual_command": [
+    "gprbuild",
+    "-p",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "-c",
+    "-u",
+    "worldline-evaluation_role_native.adb",
+    "--subdirs=phase1-d46-compile-v1",
+    "-j2",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True",
+    "-cargs:Ada",
+    "-fPIC"
+  ],
+  "warnings_retained": [
+    "attest_sha256 project filename mismatch",
+    "Obsolescent parenthesized array aggregate at native unit line1863"
+  ],
+  "scope_after": {
+    "event": "after",
+    "exit_code": 0,
+    "memory.current": "13418496",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "221581312",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-f73d155e46a14a0f98014848d67fd7c6.scope",
+    "utc": "2026-10-15T03:24:34.988691+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T03:24:35.979220+00:00"
+  },
+  "non_claims": [
+    "Compilechecks only edited unit; no actual runtimeID-negative/protectedcapture, ABI, fullproof or acceptance.",
+    "Tool/version records are selected identities; no complete invocation/dependency closure inferred.",
+    "No rerun/productedit by reviewer."
+  ]
+}

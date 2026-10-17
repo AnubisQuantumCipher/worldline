@@ -1,0 +1,29 @@
+{
+  "evidence_class": "MEASURED",
+  "scope": "mechanical source formation/readback only; no application, candidate imports, tests, proof, build or ABI execution",
+  "command": "python3 -B source-only AST/hash readback (retained as tool output; no candidate execution)",
+  "all_existing_non_function_policy_statements_preserved": true,
+  "existing_non_export_functions_including_normalized_ada_preserved": true,
+  "candidate_and_test_proposal_syntax_only_ast_parse": "success",
+  "raw_pin_byte_readback": {
+    "core/evaluation_finalization_c.adb": true,
+    "core/evaluation_finalization_c.ads": true,
+    "core/worldline-c_api.adb": true,
+    "core/worldline-c_api.ads": true,
+    "core/worldline-chain_authority_c_api.adb": true,
+    "core/worldline-chain_authority_c_api.ads": true,
+    "core/worldline-recovery_authorization_v3_c_api.adb": true,
+    "core/worldline-recovery_authorization_v3_c_api.ads": true,
+    "core/worldline-recovery_protocol_c_api.adb": true,
+    "core/worldline-recovery_protocol_c_api.ads": true
+  },
+  "existing_runtime_literal_source_match_count": 1,
+  "files": {
+    "form_export_guard_proposal_v2.py": "41c269e62d57698f19d04249aa5449ed7343e998dc57f5be92cb47ff21588bf9",
+    "proof_manifest-export-guard-v2.patch": "f13411b880aed9fc91a1a1813fe0aa8eb8778bce72bf6521a859139d23db0bff",
+    "proof_manifest-export-guard-candidate-v2.py": "9d9ac3fc8ad726da3818aa3db09eaa6491f34d04dbd40fae16254e6f8ad78811",
+    "test_typed_export_correspondence_proposal_v2.py": "af7b53695f7b7983fef6b5490d7ad3835e6f22d191d2c3f02865af52d278c150",
+    "export-guard-preparation-receipt-v2.json": "f41ab1c9bfc444a759a756eeb1081555e70bf81f4662848adea968690d9d44b0"
+  },
+  "no_test_success_claim": true
+}

@@ -1,0 +1,125 @@
+{
+  "utc": "2026-10-15T05:54:20.537734+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR exact finite metadata size dispositions and add-only successor preparation; root may stage only later exact reviewed successor roster, no commit/push approval here",
+  "selection_sha256": "e387efcc198f4227ebe6bc1ca6fa23651fed659d285dd336821478f6c1fe9dca",
+  "finite_audit_sha256": "838d918bfc36fabd80b66ac9644a3249c4fb0f41a008645a4c11671752d19d0e",
+  "observed_rows": 502,
+  "all_selected_actual_paths_hashes_sizes_match": true,
+  "size_disposition": [
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/parent/result.json",
+      "bytes": 1103832,
+      "sha256": "48289ba9aa5ae9c6cd470044359fb142e4cc0120d9bf00cc3d28ceb5eb6f4e7b",
+      "disposition": "CONCUR retain exact immutable metadata blob, explicit per-artifact publication disposition only; preserve original oversized flag and selector exit1",
+      "classification": {
+        "format": "JSON object",
+        "top_level_keys": [
+          "MemoryMax",
+          "MemorySwapMax",
+          "argv",
+          "candidate_after",
+          "candidate_before",
+          "candidate_unchanged",
+          "cwd",
+          "disk_early_stop",
+          "driver_result",
+          "driver_sha256",
+          "driver_terminal_present",
+          "early_stop_bytes",
+          "ended_utc",
+          "environment",
+          "errors",
+          "explicit_environment",
+          "gnat_env_sha256",
+          "heavy_exit",
+          "heavy_method_sha256",
+          "lock",
+          "mechanically_complete",
+          "minimum_reserve_bytes",
+          "observed_head",
+          "own_scope_terminal",
+          "parent_sha256",
+          "phase_event_log",
+          "private_after",
+          "private_before",
+          "private_unchanged",
+          "python_path",
+          "python_sha256",
+          "python_version",
+          "retained_carrier_files",
+          "scope",
+          "source_diff_sha256",
+          "source_epoch",
+          "started_utc",
+          "status",
+          "storage_preflight",
+          "terminal_scope",
+          "timeout",
+          "tracked_after",
+          "tracked_before",
+          "tracked_unchanged"
+        ]
+      }
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/cgroup.jsonl",
+      "bytes": 1083602,
+      "sha256": "606ef71f178162e80d3d5dc33ad388b8b9369a5d2a251627a25a7c485411dfb8",
+      "disposition": "CONCUR retain exact immutable metadata blob, explicit per-artifact publication disposition only; preserve original oversized flag and selector exit1",
+      "classification": {
+        "format": "JSON-lines objects",
+        "observed_key_union": [
+          "event",
+          "exit_code",
+          "memory.current",
+          "memory.events",
+          "memory.max",
+          "memory.peak",
+          "memory.swap.max",
+          "path",
+          "utc"
+        ]
+      }
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/supervisor.jsonl",
+      "bytes": 1521618,
+      "sha256": "d8918f5d1df4d5cad34380847fc8044839f73662847386ac6b94b76b48ff660d",
+      "disposition": "CONCUR retain exact immutable metadata blob, explicit per-artifact publication disposition only; preserve original oversized flag and selector exit1",
+      "classification": {
+        "format": "JSON-lines objects",
+        "observed_key_union": [
+          "cgroup.events",
+          "memory.current",
+          "memory.events",
+          "memory.peak",
+          "systemctl_exit",
+          "unit",
+          "utc"
+        ]
+      }
+    }
+  ],
+  "size_reason": "Own original candidate parent/result contains nested source/private identity maps, command/results/environment and no embedded vendor body detected. Cgroup/supervisor JSONL contain own unit resource/control readings only. Complete JSON/JSONL parsed; preserving complete failed-run provenance preferable to trimming. These exact sizes do not change solver/campaign/gate/resource limits or general publication threshold.",
+  "finite_checks": [
+    "Original immutable selection/audit source identity and every selected byte/path/hash/size matched actual files.",
+    "Independent additional assigned-secret/Bearer/vendorproject-container patterns found no matches; audit retained expanded token patterns, UTF8/NUL/forbiddenpaths/suffixes no other findings. Finite checks not exhaustive credential/privacy/license certification.",
+    "No generated obj/bin/libraries/rawupstream/userattachments/hostnative-local-status/preflightstdout/UNSENTdraft selected. Livepreflight selected metadata only; no text-reader proposal or its challenged exception claim included.",
+    "Candidate source copies are project-authored existing sources under repository MIT with provenance snapshots; actual fullprivate vendor source bodies excluded. Source/reference hashes do not imply external runtime proof.",
+    "Central docs accurately distinguish D53failed/D56finitepass+D58product, D59build/D60finitecontrols, D61legalityfail/D62incompletepartialunproved/D65finiteruntime, D54+D63selectedbackup/correction, D64boundedUNSENT and D66/D67pendingprep. No acceptedfreeze/newproofclosure/independentacceptance claim."
+  ],
+  "successor_conditions": [
+    "Retain original selector failure/sizeflags/audit untouched. Log machine-copied exact metadata dispositions/reviewer verdict only with truthful source epoch.",
+    "Derive add-only successor manifest with only explicitly documented docappend/audit/review metadata deltas; re-scan every changed/new byte. No product/test/pin/largeblob edits.",
+    "Exact staged index/path/hash review required after staging and before any commit/push; this receipt not final publication approval.",
+    "Normal ownbranch D37publication only after required final review/readback; no otherrefs."
+  ],
+  "unrelated_correction": "Text v1 reversed-node exception premise is withdrawn pending Ada subtype rule review; Textproposal/review absent current selection, no reliance for D66.",
+  "non_claims": [
+    "No staging/commit/push/job by reviewer",
+    "No accepted wholePhase1/fullproof/runtime/Old",
+    "No exhaustive privacy/license or selfcontainedreproduction clearance"
+  ],
+  "actions": "Read-only all-selection hash/path scan, full parse exact oversized blobs, additional finite pattern scan and documentary/evidence joins."
+}

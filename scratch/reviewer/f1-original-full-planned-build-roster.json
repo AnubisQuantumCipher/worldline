@@ -1,0 +1,531 @@
+{
+  "source": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/planned-actions.json",
+  "sha256": "e9aca1c9efc31d107bca29997e0cef5e7653d7e14d52393320cd61340186731f",
+  "scope": "Original planned build commands only; source/paths need explicit owned final-frame rebinding; none executed by reviewer",
+  "builds": [
+    {
+      "mode": "pending-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "pending-component/pending.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/pending-build-v1"
+    },
+    {
+      "mode": "build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "core/worldline_core.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/build-v1"
+    },
+    {
+      "mode": "completion-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "completion-tests/completion_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/completion-build-v1"
+    },
+    {
+      "mode": "transition-direct-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "transition-tests/tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/transition-direct-build-v1"
+    },
+    {
+      "mode": "direct-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "evaluation-history-tests/tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/direct-build-v1"
+    },
+    {
+      "mode": "legacy-direct-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "reservation-tests/tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/legacy-direct-build-v1"
+    },
+    {
+      "mode": "resource-direct-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "resource-tests/resource_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/resource-direct-build-v1"
+    },
+    {
+      "mode": "roster-d2-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "roster-d2-tests/roster_d2_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/roster-d2-build-v1"
+    },
+    {
+      "mode": "report-facts-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "report-facts-tests/report_facts_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/report-facts-build-v1"
+    },
+    {
+      "mode": "core-all-source-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-c",
+        "-U",
+        "-P",
+        "core/worldline_core_sources.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/core-all-source-build-v1"
+    },
+    {
+      "mode": "wire-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "evaluation-wire-tests/evaluation_wire_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/wire-build-v1"
+    },
+    {
+      "mode": "authority-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "evaluation-authority-tests/evaluation_authority_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/authority-build-v1"
+    },
+    {
+      "mode": "artifact-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "artifact-tests/canonical_artifact_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/artifact-build-v1"
+    },
+    {
+      "mode": "recovery-epoch-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "recovery-epoch-tests/recovery_epoch_tests.gpr",
+        "-o",
+        "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source/obj/test_recovery_epochs"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/recovery-epoch-build-v1"
+    },
+    {
+      "mode": "root-custody-context-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "root-custody-context-controls/controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/root-custody-context-build-v1"
+    },
+    {
+      "mode": "archive-leaf-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "archive-leaf-controls/controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/archive-leaf-build-v1"
+    },
+    {
+      "mode": "root-custody-replay-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "root-custody-replay-controls/controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/root-custody-replay-build-v1"
+    },
+    {
+      "mode": "root-custody-abandon-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "root-custody-abandon-controls/controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/root-custody-abandon-build-v1"
+    },
+    {
+      "mode": "chain-bounds-tests-test-bounds-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "chain-bounds-tests/tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/chain-bounds-tests-test-bounds-build-v1"
+    },
+    {
+      "mode": "decision-correspondence-tests-test-completion-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "decision-correspondence-tests/decision_correspondence_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/decision-correspondence-tests-test-completion-correspondence-build-v1"
+    },
+    {
+      "mode": "decision-correspondence-tests-test-transition-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "decision-correspondence-tests/decision_correspondence_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/decision-correspondence-tests-test-transition-correspondence-build-v1"
+    },
+    {
+      "mode": "decision-correspondence-tests-test-history-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "decision-correspondence-tests/decision_correspondence_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/decision-correspondence-tests-test-history-correspondence-build-v1"
+    },
+    {
+      "mode": "decision-correspondence-tests-test-raw-roster-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "decision-correspondence-tests/decision_correspondence_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/decision-correspondence-tests-test-raw-roster-correspondence-build-v1"
+    },
+    {
+      "mode": "decision-correspondence-tests-test-run-metadata-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "decision-correspondence-tests/decision_correspondence_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/decision-correspondence-tests-test-run-metadata-correspondence-build-v1"
+    },
+    {
+      "mode": "epoch-correspondence-core-test-epoch-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "epoch-correspondence-tests/epoch_correspondence_core_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/epoch-correspondence-core-test-epoch-correspondence-build-v1"
+    },
+    {
+      "mode": "epoch-correspondence-pending-test-epoch-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "epoch-correspondence-tests/epoch_correspondence_pending_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/epoch-correspondence-pending-test-epoch-correspondence-build-v1"
+    },
+    {
+      "mode": "explicit-recovery-marker-tests-test-explicit-recovery-markers-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "explicit-recovery-marker-tests/explicit_recovery_marker_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/explicit-recovery-marker-tests-test-explicit-recovery-markers-build-v1"
+    },
+    {
+      "mode": "finalization-value-controls-test-finalization-values-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "finalization-value-controls/finalization_value_controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/finalization-value-controls-test-finalization-values-build-v1"
+    },
+    {
+      "mode": "finalization-value-controls-test-finalization-parent-values-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "finalization-value-controls/finalization_value_controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/finalization-value-controls-test-finalization-parent-values-build-v1"
+    },
+    {
+      "mode": "finalization-value-controls-test-finalization-projection-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "finalization-value-controls/finalization_value_controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/finalization-value-controls-test-finalization-projection-build-v1"
+    },
+    {
+      "mode": "protocol-adapter-tests-test-protocol-adapter-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "protocol-adapter-tests/protocol_adapter_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/protocol-adapter-tests-test-protocol-adapter-build-v1"
+    },
+    {
+      "mode": "recovery-protocol-tests-test-protocol-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "recovery-protocol-tests/recovery_protocol_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/recovery-protocol-tests-test-protocol-build-v1"
+    },
+    {
+      "mode": "request-abandon-controls-request-abandon-controls-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "request-abandon-controls/controls.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/request-abandon-controls-request-abandon-controls-build-v1"
+    },
+    {
+      "mode": "resource-ledger-correspondence-tests-test-resource-ledger-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "resource-ledger-correspondence-tests/resource_ledger_correspondence_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/resource-ledger-correspondence-tests-test-resource-ledger-correspondence-build-v1"
+    },
+    {
+      "mode": "resources-prefix-correspondence-tests-test-resources-prefix-correspondence-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "resources-prefix-correspondence-tests/resources_prefix_correspondence_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/resources-prefix-correspondence-tests-test-resources-prefix-correspondence-build-v1"
+    },
+    {
+      "mode": "tests-resource-policy-smoke-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "tests/resource_policy_smoke.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/tests-resource-policy-smoke-build-v1"
+    },
+    {
+      "mode": "tests-worldline-core-tests-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "tests/worldline_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/tests-worldline-core-tests-build-v1"
+    },
+    {
+      "mode": "tests-worldline-core-fuzz-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "tests/worldline_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/tests-worldline-core-fuzz-build-v1"
+    },
+    {
+      "mode": "use-reservation-tests-use-reservation-tests-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "use-reservation-tests/use_reservation_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/use-reservation-tests-use-reservation-tests-build-v1"
+    },
+    {
+      "mode": "wire-initialization-tests-test-wire-initialization-build",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "wire-initialization-tests/wire_initialization_tests.gpr"
+      ],
+      "cwd": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/source",
+      "required_original_roster": "planned-actions original116",
+      "historical_receipt": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/terminal-witness-lifetime-successor-v1/execution-transfer/native-receiver/candidate/evidence/wire-initialization-tests-test-wire-initialization-build-v1"
+    }
+  ]
+}

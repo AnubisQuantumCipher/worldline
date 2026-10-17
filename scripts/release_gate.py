@@ -30,7 +30,10 @@ from pathlib import Path
 from typing import Any, Mapping
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "runtime"))
 from assurance_contract import REQUIRED_STEPS
+from plugin_compat import validate as plugin_compatibility_problems
+from worldline.proof_manifest import MINIMUM_CHECKS
 SCHEMA = 1
 
 
@@ -64,8 +67,15 @@ def evaluate(
     expected_artifacts: Mapping[str, str],
     max_skipped: int = 3,
     min_tests: int = 150,
+    plugin_compatibility: Mapping[str, Any] | None = None,
 ) -> Verdict:
     reasons: list[str] = []
+
+    # -- the plugin this engine is paired with (1.9.2, OB-195): named exactly, or no release
+    if plugin_compatibility is None:
+        reasons.append("plugin-compatibility.json is missing: the release would not name the plugin it pairs with")
+    else:
+        reasons += [f"plugin compatibility: {problem}" for problem in plugin_compatibility_problems(plugin_compatibility)]
 
     # -- identity of what is being released
     if _sha(release_sha) is None:
@@ -121,11 +131,13 @@ def evaluate(
             reasons.append("assurance run has no regenerated proof manifest (proof gate did not run)")
         else:
             for key in ("unproved", "justified", "pragmaAssume"):
-                if regenerated.get(key) != 0:
+                if type(regenerated.get(key)) is not int or regenerated.get(key) != 0:
                     reasons.append(f"proof manifest records {key}={regenerated.get(key)}")
             total, floor = regenerated.get("total"), regenerated.get("minimumChecks")
-            if not isinstance(total, int) or not isinstance(floor, int) or total < floor:
-                reasons.append(f"proof total {total} is below the floor {floor}")
+            if type(floor) is not int or floor != MINIMUM_CHECKS:
+                reasons.append(f"proof floor {floor!r} differs from the pinned floor {MINIMUM_CHECKS}")
+            if type(total) is not int or total < MINIMUM_CHECKS:
+                reasons.append(f"proof total {total!r} is below the floor {MINIMUM_CHECKS}")
             if not isinstance(committed_proof_manifest, Mapping):
                 reasons.append("committed proof manifest is missing")
             elif committed_proof_manifest.get("sourceHashes") != regenerated.get("sourceHashes"):
@@ -155,7 +167,7 @@ def evaluate(
     return Verdict(accepted=not reasons, reasons=reasons)
 
 
-def release_manifest(*, verdict: Verdict, release_sha: str, release_tree: str, tag: str, version: str, assurance: Mapping[str, Any], artifacts: Mapping[str, str], notes_sha256: str | None, signing: Mapping[str, Any]) -> dict[str, Any]:
+def release_manifest(*, verdict: Verdict, release_sha: str, release_tree: str, tag: str, version: str, assurance: Mapping[str, Any], artifacts: Mapping[str, str], notes_sha256: str | None, signing: Mapping[str, Any], plugin_compatibility: Mapping[str, Any] | None = None) -> dict[str, Any]:
     proof = (assurance.get("proof") or {}).get("regeneratedManifest") or {}
     return {
         "schemaVersion": SCHEMA,
@@ -180,6 +192,9 @@ def release_manifest(*, verdict: Verdict, release_sha: str, release_tree: str, t
         "artifacts": [{"name": name, "sha256": digest} for name, digest in sorted(artifacts.items())],
         "notesSha256": notes_sha256,
         "signing": dict(signing),
+        # The one plugin commit this engine installs, with its archive digest and the code set
+        # it was built for (1.9.2, OB-195). install.sh enforces the in-tree copy.
+        "pluginCompatibility": None if plugin_compatibility is None else dict(plugin_compatibility),
         "nonClaims": [
             "A source-only archive: the proved library is rebuilt by the installer; its hash on another machine may differ from the one recorded here.",
             "Assurance covers the listed steps on the listed host; it is not a statement about other environments.",
@@ -211,7 +226,14 @@ def main() -> int:
     parser.add_argument("--max-skipped", type=int, default=3, help="most skipped python tests an assurance run may have and still be accepted")
     parser.add_argument("--min-tests", type=int, default=150, help="fewest python tests an assurance run must have collected and run (a deliberate floor, like the proof gate's)")
     parser.add_argument("--write-manifest", help="write release-manifest.json here")
+    parser.add_argument("--plugin-compatibility", default=str(Path(__file__).resolve().parents[1] / "plugin-compatibility.json"),
+                        help="the engine's plugin compatibility record (copied into the release manifest)")
     args = parser.parse_args()
+    compatibility_path = Path(args.plugin_compatibility)
+    try:
+        plugin_compatibility = json.loads(compatibility_path.read_text(encoding="utf-8")) if compatibility_path.is_file() else None
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        plugin_compatibility = {"schema": "unreadable"}
 
     version_text = Path(args.version_file).read_text(encoding="utf-8")
     match = re.search(r'^__version__\s*=\s*"([^"]+)"', version_text, re.M)
@@ -234,10 +256,12 @@ def main() -> int:
         assurance_sha256=assurance_sha256,
         committed_proof_manifest=manifest, remote_tag_sha=None if args.remote_tag_sha == "none" else args.remote_tag_sha,
         release_exists=args.release_exists == "yes", artifacts=artifacts, expected_artifacts=expected, max_skipped=args.max_skipped, min_tests=args.min_tests,
+        plugin_compatibility=plugin_compatibility,
     )
     if args.write_manifest:
         notes_sha = _digest_file(Path(args.notes)) if args.notes and Path(args.notes).is_file() else None
-        document = release_manifest(verdict=verdict, release_sha=args.release_sha, release_tree=args.release_tree, tag=args.tag, version=version, assurance=assurance or {}, artifacts=artifacts, notes_sha256=notes_sha, signing={"method": args.signing})
+        document = release_manifest(verdict=verdict, release_sha=args.release_sha, release_tree=args.release_tree, tag=args.tag, version=version, assurance=assurance or {}, artifacts=artifacts, notes_sha256=notes_sha, signing={"method": args.signing},
+                                    plugin_compatibility=plugin_compatibility if isinstance(plugin_compatibility, dict) else None)
         Path(args.write_manifest).write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(verdict.as_dict(), indent=2))
     return 0 if verdict.accepted else 1

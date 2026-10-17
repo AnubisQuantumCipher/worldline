@@ -1,0 +1,51 @@
+{
+  "classification": "MEASURED D32 original paired domain qualification preflight",
+  "command": [
+    "python3",
+    "-B",
+    "scratch/old-analysis/evaluation_domain_supervisor_v2.py",
+    "--out",
+    "scratch/old-analysis/domain-qualification-v5",
+    "--mode",
+    "qualify",
+    "--scope-timeout",
+    "120m",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze-record",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "--runtime-qualification",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/runtime-qualification-v5/result.json"
+  ],
+  "disk": {
+    "free": 97527107584,
+    "total": 686860591104,
+    "used": 582337384448
+  },
+  "limits": "Original plain/audit paired domain cases and pinned defect, original decisive900s/caller1800s, outer120m unchanged. D31 dual-use only if full original pair passes; private test failures retained, not a domain prerequisite pass.",
+  "memory_admission": "Direct existing domain supervisor owns shared flock/post-lock admission;8G/swap0 unchanged, no nested wrapper.",
+  "owned_outputs": [
+    "scratch/old-analysis/domain-qualification-v5"
+  ],
+  "prerequisite_review": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer2/freeze5-runtime-qualification-actual-review-v1.json",
+  "prerequisite_review_sha256": "fa4ef58ac4ea896e11d8a2f42af2c4f7861d85d9aef8bbcf14c249ffc934806d",
+  "prior_private_known_owned_cleanup": true,
+  "prior_private_source_frame_readback_match": true,
+  "protected_active_paths": [
+    "records/phase1-blockers/freeze-v5",
+    "scratch/coordinator/final-frame-v5",
+    "lib",
+    "obj",
+    "scratch/old-analysis/runtime-qualification-v5",
+    "scratch/old-analysis/full-runtime-v5",
+    "scratch/old-analysis/private-host-runtime-v5",
+    "scratch/old-analysis/full-proof-result-v5",
+    "scratch/old-analysis/private-sparklib-proof"
+  ],
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "utc": "2026-10-15T00:59:06.045876+00:00"
+}

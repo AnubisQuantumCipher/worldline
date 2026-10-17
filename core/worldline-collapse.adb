@@ -40,6 +40,11 @@ package body Worldline.Collapse with SPARK_Mode is
          return Staged_Root_Mismatch;
       elsif Request.Mode = Candidate_Evaluation
         and then not Same (Request.Current_Requirement,
+                           Request.Resulting_Requirement)
+      then
+         return Requirement_Changed;
+      elsif Request.Mode = Candidate_Evaluation
+        and then not Same (Request.Current_Requirement,
                            Request.Evaluated_Requirement)
       then
          return Validation_Context_Mismatch;

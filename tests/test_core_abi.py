@@ -56,7 +56,7 @@ class CoreAbiTests(unittest.TestCase):
         )
 
     def test_every_collapse_denial_and_transition_boundary(self) -> None:
-        # ABI generation 5: every identity is typed and optional, and every measurement is
+        # ABI generation 6: every identity is typed and optional, and every measurement is
         # tri-state. One good commit-phase request, then each input moved on its own.
         def h(byte: int) -> bytes:
             return bytes([byte]) * 32
@@ -72,7 +72,7 @@ class CoreAbiTests(unittest.TestCase):
             expected_root_set=h(5), candidate_root_set=h(5),
             expected_staged_root=h(6), actual_staged_root=h(6),
             staged_content_root=h(7), tested_root=h(7),
-            current_requirement=h(8), evaluated_requirement=h(8),
+            current_requirement=h(8), resulting_requirement=h(8), evaluated_requirement=h(8),
             declared_verifiers=h(9), executed_verifiers=h(9),
             staged_evaluated_requirement=None, staged_executed_verifiers=None, staged_examined_root=None,
             expected_checkpoint=None, witnessed_checkpoint=None,
@@ -126,6 +126,7 @@ class CoreAbiTests(unittest.TestCase):
                 self.assertEqual(self.core.collapse_decide(broken), "STAGED_UNTESTED")
         # Checkpoint return: the witness decides, never a candidate roster.
         checkpoint = replace(request, mode="CHECKPOINT_RETURN", roster_complete=False,
+                             resulting_requirement=None,
                              evaluated_requirement=None, executed_verifiers=None,
                              expected_checkpoint=h(11), witnessed_checkpoint=h(11))
         self.assertEqual(self.core.collapse_decide(checkpoint), "AUTHORIZED")
@@ -185,6 +186,142 @@ class CoreAbiTests(unittest.TestCase):
                     "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
                 )
 
+
+    def test_checkpoint_resulting_slot_must_be_absent(self) -> None:
+        def h(byte: int) -> bytes:
+            return bytes([byte]) * 32
+
+        request = CollapseInput(
+            candidate_state="VALID", phase="COMMIT", mode="CANDIDATE_EVALUATION",
+            conflicts="NONE_FOUND", foreign_writes="NONE_FOUND",
+            roster_complete=True, staged_roster_complete=False,
+            expected_parent=h(1), candidate_parent=h(1),
+            expected_subject=h(2), evidence_subject=h(2),
+            expected_base=h(3), candidate_base=h(3),
+            expected_delta=h(4), candidate_delta=h(4),
+            expected_root_set=h(5), candidate_root_set=h(5),
+            expected_staged_root=h(6), actual_staged_root=h(6),
+            staged_content_root=h(7), tested_root=h(7),
+            current_requirement=h(8), resulting_requirement=h(8), evaluated_requirement=h(8),
+            declared_verifiers=h(9), executed_verifiers=h(9),
+            staged_evaluated_requirement=None, staged_executed_verifiers=None, staged_examined_root=None,
+            expected_checkpoint=None, witnessed_checkpoint=None,
+            registered_watch_set=h(10), watched_set=h(10),
+            generation_before=41, generation_after=41,
+        )
+        checkpoint = replace(request, mode="CHECKPOINT_RETURN", roster_complete=False,
+                             resulting_requirement=None, evaluated_requirement=None,
+                             executed_verifiers=None, expected_checkpoint=h(11), witnessed_checkpoint=h(11))
+        self.assertEqual(self.core.collapse_decide(checkpoint), "AUTHORIZED")
+        self.assertEqual(self.core.collapse_decide(replace(checkpoint, resulting_requirement=h(8))),
+                         "INVALID_REQUEST")
+
+    def test_resulting_requirement_is_present_and_equal_in_each_phase(self) -> None:
+        def h(byte: int) -> bytes:
+            return bytes([byte]) * 32
+
+        request = CollapseInput(
+            candidate_state="VALID", phase="COMMIT", mode="CANDIDATE_EVALUATION",
+            conflicts="NONE_FOUND", foreign_writes="NONE_FOUND",
+            roster_complete=True, staged_roster_complete=False,
+            expected_parent=h(1), candidate_parent=h(1),
+            expected_subject=h(2), evidence_subject=h(2),
+            expected_base=h(3), candidate_base=h(3),
+            expected_delta=h(4), candidate_delta=h(4),
+            expected_root_set=h(5), candidate_root_set=h(5),
+            expected_staged_root=h(6), actual_staged_root=h(6),
+            staged_content_root=h(7), tested_root=h(7),
+            current_requirement=h(8), resulting_requirement=h(8), evaluated_requirement=h(8),
+            declared_verifiers=h(9), executed_verifiers=h(9),
+            staged_evaluated_requirement=None, staged_executed_verifiers=None, staged_examined_root=None,
+            expected_checkpoint=None, witnessed_checkpoint=None,
+            registered_watch_set=h(10), watched_set=h(10),
+            generation_before=41, generation_after=41,
+        )
+        for phase in ("PREPARE", "COMMIT"):
+            positive = replace(request, phase=phase,
+                               actual_staged_root=None if phase == "PREPARE" else h(6))
+            with self.subTest(phase=phase):
+                self.assertEqual(self.core.collapse_decide(positive), "AUTHORIZED")
+                self.assertEqual(self.core.collapse_decide(replace(positive, resulting_requirement=h(99))),
+                                 "REQUIREMENT_CHANGED")
+                self.assertEqual(self.core.collapse_decide(replace(positive, resulting_requirement=None)),
+                                 "IDENTITY_ABSENT")
+                self.assertEqual(self.core.collapse_decide(replace(positive, current_requirement=None,
+                                                                   resulting_requirement=None)),
+                                 "IDENTITY_ABSENT")
+                with self.assertRaises(WorldlineError):
+                    self.core.collapse_decide(replace(positive, resulting_requirement=b"short"))
+
+    def test_staged_tree_policy_and_examiner_changes_reach_native_requirement_guard(self) -> None:
+        import copy
+        import json
+        from types import SimpleNamespace
+        from worldline.validation import requirements_for_tree
+        def h(byte: int) -> bytes:
+            return bytes([byte]) * 32
+
+        request = CollapseInput(
+            candidate_state="VALID", phase="COMMIT", mode="CANDIDATE_EVALUATION",
+            conflicts="NONE_FOUND", foreign_writes="NONE_FOUND",
+            roster_complete=True, staged_roster_complete=False,
+            expected_parent=h(1), candidate_parent=h(1),
+            expected_subject=h(2), evidence_subject=h(2),
+            expected_base=h(3), candidate_base=h(3),
+            expected_delta=h(4), candidate_delta=h(4),
+            expected_root_set=h(5), candidate_root_set=h(5),
+            expected_staged_root=h(6), actual_staged_root=h(6),
+            staged_content_root=h(7), tested_root=h(7),
+            current_requirement=h(8), resulting_requirement=h(8), evaluated_requirement=h(8),
+            declared_verifiers=h(9), executed_verifiers=h(9),
+            staged_evaluated_requirement=None, staged_executed_verifiers=None, staged_examined_root=None,
+            expected_checkpoint=None, witnessed_checkpoint=None,
+            registered_watch_set=h(10), watched_set=h(10),
+            generation_before=41, generation_after=41,
+        )
+        root = {"root_key": "primary", "primary_root": True,
+                "path": b"/original/root", "display_path": "/original/root"}
+        roots = [root]
+        store = SimpleNamespace(roots=lambda: roots)
+        payload = Path(self.temporary.name) / "staged"
+        source = payload / "primary"
+        source.mkdir(parents=True)
+        examiner = source / "evaluator" / "exam.py"
+        examiner.parent.mkdir()
+        examiner.write_text("raise SystemExit(0)\n", encoding="utf-8")
+        policy = {"schemaVersion": 1, "generated": [], "services": [],
+                  "protected": ["sentinel"], "checks": [{"id": "exam", "kind": "tests",
+                  "argv": ["/usr/bin/python3", "evaluator/exam.py"], "required": True,
+                  "format": "exit", "covers": ["candidate.txt"], "verifiers": ["evaluator/*"]}]}
+        path = source / ".worldline.json"
+        path.write_text(json.dumps(policy), encoding="utf-8")
+        original = requirements_for_tree(store, None, payload, roots, self.core)
+        identity = bytes.fromhex(original["requirementHash"].removeprefix("sha256:"))
+        positive = replace(request, current_requirement=identity, evaluated_requirement=identity,
+                           resulting_requirement=identity)
+        self.assertEqual(self.core.collapse_decide(positive), "AUTHORIZED")
+        for change in ("loosen-checks", "drop-protected", "rewrite-examiner"):
+            with self.subTest(change=change):
+                changed = copy.deepcopy(policy)
+                examiner.write_text("raise SystemExit(0)\n", encoding="utf-8")
+                if change == "loosen-checks":
+                    changed["checks"] = []
+                elif change == "drop-protected":
+                    changed["protected"] = []
+                else:
+                    examiner.write_text("# rewritten judge\nraise SystemExit(0)\n", encoding="utf-8")
+                path.write_text(json.dumps(changed), encoding="utf-8")
+                (source / "candidate.txt").write_text("actual candidate work", encoding="utf-8")
+                resulting = requirements_for_tree(store, None, payload, roots, self.core)
+                self.assertNotEqual(resulting["requirementHash"], original["requirementHash"])
+                result_id = bytes.fromhex(resulting["requirementHash"].removeprefix("sha256:"))
+                for phase in ("PREPARE", "COMMIT"):
+                    value = replace(positive, phase=phase, resulting_requirement=result_id,
+                                    actual_staged_root=None if phase == "PREPARE" else h(6))
+                    self.assertEqual(self.core.collapse_decide(value), "REQUIREMENT_CHANGED")
+        with self.assertRaises(WorldlineError) as raised:
+            requirements_for_tree(store, None, payload / "absent", roots, self.core)
+        self.assertEqual(raised.exception.code, "STAGED_ROOT_ABSENT")
 
 if __name__ == "__main__":
     unittest.main()

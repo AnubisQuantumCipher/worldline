@@ -132,17 +132,30 @@ if [[ -n "$ENGINE_DIRTY" && "${WORLDLINE_ALLOW_DIRTY:-0}" != "1" ]]; then
   exit 2
 fi
 
+# 1.9.2 (OB-195): the engine release names the ONE plugin commit it is compatible with, in
+# plugin-compatibility.json (copied into release-manifest.json by the release gate). The
+# installer installs that commit and nothing else. A different commit is refused unless
+# WORLDLINE_PLUGIN_OVERRIDE_COMMIT names exactly the commit being installed, and that override is
+# recorded in the install receipt. The moving-ref escape (WORLDLINE_PLUGIN_ALLOW_MOVING_REF) is
+# gone: a moving ref names no state anyone accepted.
+if [[ "${WORLDLINE_PLUGIN_ALLOW_MOVING_REF:-0}" == "1" ]]; then
+  fail "WORLDLINE_PLUGIN_ALLOW_MOVING_REF was removed in 1.9.2: this engine installs only the plugin commit its plugin-compatibility.json names (or one WORLDLINE_PLUGIN_OVERRIDE_COMMIT names exactly, which is recorded)"
+fi
+COMPAT="$ROOT/plugin-compatibility.json"
+[[ -f "$COMPAT" && ! -L "$COMPAT" ]] || fail "plugin-compatibility.json is missing, so this engine does not name the plugin it is compatible with; refusing to pick one"
+NAMED_PLUGIN=$(python3 "$ROOT/scripts/plugin_compat.py" --named-commit "$COMPAT") \
+  || fail "plugin-compatibility.json could not be read"
+case "$NAMED_PLUGIN" in
+  invalid:*) fail "plugin-compatibility.json is malformed ($NAMED_PLUGIN); refusing to pick a plugin" ;;
+esac
 if [[ -z "$PLUGIN_REF" ]]; then
-  if [[ "${WORLDLINE_PLUGIN_ALLOW_MOVING_REF:-0}" == "1" ]]; then
-    PLUGIN_REF=main
-    echo "install: WARNING — pinning the plugin to the moving ref 'main' by explicit request."
-  else
-    echo "install: WORLDLINE_PLUGIN_REF is not set. An engine release does not identify the plugin," >&2
-    echo "install: so this installer will not pick one for you. Set it to an exact commit:" >&2
-    echo "install:   WORLDLINE_PLUGIN_REF=\$(git -C $PLUGIN_SRC rev-parse main) ./install.sh" >&2
-    echo "install: or set WORLDLINE_PLUGIN_ALLOW_MOVING_REF=1 to accept whatever 'main' is now." >&2
+  if [[ "$NAMED_PLUGIN" == "none" ]]; then
+    echo "install: WORLDLINE_PLUGIN_REF is not set and this engine's plugin-compatibility.json names no" >&2
+    echo "install: plugin commit, so there is no plugin this engine may be installed with. A release" >&2
+    echo "install: fills it in: python3 scripts/plugin_compat.py --plugin-repo $PLUGIN_SRC --ref vX.Y.Z --write" >&2
     exit 2
   fi
+  PLUGIN_REF="$NAMED_PLUGIN"
 fi
 if [[ -d "$PLUGIN_SRC/.git" ]]; then
   git -C "$PLUGIN_SRC" rev-parse --verify --quiet "${PLUGIN_REF}^{commit}" >/dev/null \
@@ -150,6 +163,19 @@ if [[ -d "$PLUGIN_SRC/.git" ]]; then
   PLUGIN_TARGET=$(git -C "$PLUGIN_SRC" rev-parse "${PLUGIN_REF}^{commit}")
 else
   fail "$PLUGIN_SRC is not a git repository, so no plugin commit can be pinned. The engine release does not contain the plugin and this default is a sibling of the source tree; installing from an unpacked release archive needs WORLDLINE_PLUGIN_SRC=/path/to/worldline-omarchy"
+fi
+PLUGIN_OVERRIDE=""
+if [[ "$PLUGIN_TARGET" != "$NAMED_PLUGIN" ]]; then
+  if [[ -n "${WORLDLINE_PLUGIN_OVERRIDE_COMMIT:-}" && "${WORLDLINE_PLUGIN_OVERRIDE_COMMIT}" == "$PLUGIN_TARGET" ]]; then
+    PLUGIN_OVERRIDE="$PLUGIN_TARGET"
+    echo "install: WARNING — installing plugin $PLUGIN_TARGET, which this engine's compatibility record does not"
+    echo "install: name (it names $NAMED_PLUGIN), by an override naming that exact commit; the receipt records it."
+  else
+    echo "install: plugin commit $PLUGIN_TARGET is not the one this engine is compatible with." >&2
+    echo "install: plugin-compatibility.json names: $NAMED_PLUGIN" >&2
+    echo "install: to install it anyway, name it exactly: WORLDLINE_PLUGIN_OVERRIDE_COMMIT=$PLUGIN_TARGET" >&2
+    exit 2
+  fi
 fi
 echo "install: engine $ENGINE_COMMIT"
 echo "install: plugin $PLUGIN_TARGET ($PLUGIN_REF)"
@@ -166,11 +192,14 @@ python3 -m unittest discover -s tests -p 'test_*.py'
 
 if [[ "$SKIP_PROOF" == "1" ]]; then
   echo "== WORLDLINE proof gate: SKIPPED (WORLDLINE_SKIP_PROOF=1) — manifest must still verify =="
+  echo "install: receipts of this installation will say MANIFEST_ONLY, never PROVED (1.9.2)."
+  python3 verify_proof_manifest.py
 else
   echo "== WORLDLINE proof gate =="
   ./prove.sh
+  # The summary this proof wrote is re-read and must be the one the manifest records (OB-085).
+  python3 verify_proof_manifest.py --require-summary
 fi
-python3 verify_proof_manifest.py
 
 # ---- fail-closed preflight, taken immediately before the daemon is stopped -------------------
 # Deliberately after the build: the answer must describe the machine at the moment work stops,
@@ -279,12 +308,27 @@ find "$STAGE/runtime" -name __pycache__ -type d -prune -exec rm -rf {} +
 install -m 0755 lib/libworldline_core.so "$STAGE/libworldline_core.so"
 install -m 0600 proof-manifest.json "$STAGE/proof-manifest.json"
 install -m 0644 core/worldline_core.h "$STAGE/worldline_core.h"
+# 1.9.2 (OB-084): the proof sources, read-only, so the runtime recomputes the contract pins and
+# source hashes itself instead of taking the manifest's word; whether the proof ran for this
+# installation; and, when it did, the summary the manifest was written from.
+python3 "$ROOT/scripts/install_proof_sources.py" "$ROOT" "$STAGE/proof-sources"
+if [[ "$SKIP_PROOF" == "1" ]]; then
+  printf '{"proofGate":"skipped","engineCommit":"%s"}\n' "$ENGINE_COMMIT" > "$STAGE/proof-gate.json"
+else
+  install -m 0444 obj/core-library/gnatprove/gnatprove.out "$STAGE/proof-summary.out"
+  printf '{"proofGate":"ran","engineCommit":"%s"}\n' "$ENGINE_COMMIT" > "$STAGE/proof-gate.json"
+fi
+chmod 0444 "$STAGE/proof-gate.json"
+# What this engine is compatible with, beside the runtime that answers for it (OB-195).
+install -m 0644 plugin-compatibility.json "$STAGE/plugin-compatibility.json"
 
 RUNTIME_REPLACED=1
 if [[ -e "$DEST" ]]; then
   OLD="$LIB_HOME/.worldline-old-$$"
   mv "$DEST" "$OLD"
   mv "$STAGE" "$DEST"
+  # The previous install's read-only proof sources need their directories writable to go.
+  [[ -d "$OLD/proof-sources" ]] && chmod -R u+w "$OLD/proof-sources"
   rm -rf "$OLD"
 else
   mv "$STAGE" "$DEST"
@@ -353,6 +397,7 @@ if ! python3 "$ROOT/scripts/verify_install.py" \
       --engine-commit "$ENGINE_COMMIT" --plugin-commit "$PLUGIN_TARGET" \
       --previous-pid "${PREVIOUS_PID:-}" --main-pid "${MAIN_PID:-}" \
       --proof-gate "$([[ "$SKIP_PROOF" == "1" ]] && echo skipped || echo ran)" \
+      --plugin-named "$NAMED_PLUGIN" --plugin-override "$PLUGIN_OVERRIDE" \
       --source "$ROOT" --receipt "$RECEIPT"; then
   echo "install: the running installation does not match what was just built." >&2
   echo "install: roll back with: scripts/rollback.sh $BACKUP" >&2

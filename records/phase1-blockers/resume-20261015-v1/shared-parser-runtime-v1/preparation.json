@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-15T05:30:33.734058+00:00",
+  "command": [
+    "python3",
+    "-B",
+    "-"
+  ],
+  "artifacts": [
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-parser-runtime-v1/test.py",
+      "sha256": "13eafffa368ddf6faafd018f315b95e8a66f95ab3c7bd53887eb84a3890afd98",
+      "python_ast_parsed_only": true
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-parser-runtime-v1/run_test.py",
+      "sha256": "bf043815e3b1784e6c94846f425269a4f702ebc6e2f2106836e3b465ebee291e",
+      "python_ast_parsed_only": true
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-parser-runtime-v1/decision-proposal.md",
+      "sha256": "00c022cb3e7c7ae26659b4d0b412d8bb50f62d4939f8907ebbbfa805e550464c",
+      "python_ast_parsed_only": false
+    }
+  ],
+  "boundary": "Static Python parse/identity only; no import/payload/heavy/test/proof execution; D65 unselected pending D62 terminal result and actual review"
+}

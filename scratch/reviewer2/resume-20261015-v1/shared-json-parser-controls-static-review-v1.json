@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-15T04:39:00.933044+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR source-only preparation and exact driver preparation; no launch or semantic-equivalence approval",
+  "hashes": {
+    "README.md": "22eab04c3e335cd35df785f31f962746553f063fbb6366bab0689d7f540b366e",
+    "shared_json_parser_controls.gpr": "1e682c6201fd15539d70586fe19b27d6df5d533644bcc046c07076f2dcd62e06",
+    "string_parser_controls.adb": "463bc6b98a86df3feafbd9392baafa2507ccd7098efb54c7e5cce2bffa853636",
+    "wide_parser_controls.adb": "5ccf486b51c680145150ead4aa8b8111ab14014d2d6c0306ae5f2904af21c3cd",
+    "preparation-receipt.json": "a23767c48c8c8c1b5677d53fac5ae79632407bd425a9329de06962016df62a98",
+    "dependency-manifest.json": "754c9e23f7fc61fb2453fe2c440d2623ab67a99f0746cc64cea334f595d01c72"
+  },
+  "findings": [
+    "Manifest application snapshot hashes match actual files; immutable proposal/cursor identities retained. Explicit current4ff3/D56 body23e67 default; historical127aea optional only, no unchanged failed replay selected.",
+    "Both actual generic/string/raw parser instances and full actual numeric/render dependencies retained, including Evaluation_Pending/Epoch, Exact_Decimal, Decimal_Binary64, Producer_Render/Unicode, ResourceQuantities, ArchiveText, SHA. No stub or semantic input cap identified.",
+    "Literal expected values/byte arrays and coordinate properties independent of candidate reference decoder. Independence means fixture-oracle formation only, not an independently implemented parser or authority acceptance.",
+    "Original public ProducerValues spec unchanged; inspected original equality/nonfinite/duplicate/text/numeric semantics correspond to fixtures. Original last-key, numeric-kind/token distinction, lone-surrogate and NaN distinctions retained.",
+    "GPR includes both mains and full configured application body closure with checks and unchanged solver bounds. Compiler-resolved external closure/generic legality remains unverified; external source inventory not a proof-body inclusion claim."
+  ],
+  "validation_gaps": [
+    "Malformed cases mostly assert Missing only; exact original failed-position correspondence is not established by these controls. Retain explicit failure-position controls for any such claim.",
+    "Reader-validity/skip-invalid and complete-consumption mutation controls from prior review not demonstrated here; negative inputs alone are not evidence that each intended check is decisive.",
+    "Semantic assertion proof may fail because public contracts are weak; preserve full failures and actual untouched dependencies, no suppression or reduced proof roster.",
+    "Full RawJSON consumers/selectors/materialization and original full-path gates remain open. Progress/bounds contracts and finite fixtures do not establish universal language/value equivalence."
+  ],
+  "required_next": "Review exact immutable coordinator copy/driver, private prebuilt identity, full -U all-body scope, both assertion-enabled mains, separate actual build/proof/runtime outputs, unchanged bounds/resources before selecting bounded launch.",
+  "actions": "Static read-only source/hash review only, no candidate/product imports/jobs or edits."
+}

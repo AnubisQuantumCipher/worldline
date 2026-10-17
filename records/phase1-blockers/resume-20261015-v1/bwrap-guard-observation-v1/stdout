@@ -1,0 +1,96 @@
+{
+  "PATH": "/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+  "classification": "MEASURED current-carrier guard operands only",
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+  "egid": 1000,
+  "elapsed_monotonic_ns": 394553,
+  "ended_utc": "2026-10-15T03:08:23.684834+00:00",
+  "euid": 1000,
+  "file_hash_exception": null,
+  "file_sha256": "3016d82c88481eeb15c1145ea82a591b11890faa6e957635b75bc148a1701e45",
+  "gid": 1000,
+  "gid_map": {
+    "exception": null,
+    "returned": true,
+    "value": "      1000          0          1\n"
+  },
+  "guard_expression": "not path.is_absolute() or not stat.S_ISREG(info.st_mode)\n            or info.st_uid not in (0, os.getuid()) or info.st_mode & 0o7022\n            or not os.access(path, os.X_OK)",
+  "guard_expression_value": true,
+  "guard_would_refuse": true,
+  "hashed_descriptor_after": {
+    "st_ctime_ns": 1790213239591871504,
+    "st_dev": 64768,
+    "st_gid": 65534,
+    "st_ino": 3057,
+    "st_mode": 33261,
+    "st_mtime_ns": 1790110992000000000,
+    "st_nlink": 1,
+    "st_size": 133648,
+    "st_uid": 65534
+  },
+  "hashed_descriptor_before": {
+    "st_ctime_ns": 1790213239591871504,
+    "st_dev": 64768,
+    "st_gid": 65534,
+    "st_ino": 3057,
+    "st_mode": 33261,
+    "st_mtime_ns": 1790110992000000000,
+    "st_nlink": 1,
+    "st_size": 133648,
+    "st_uid": 65534
+  },
+  "historical_reconstruction": false,
+  "mount_namespace": {
+    "exception": null,
+    "returned": true,
+    "value": "mnt:[4026532839]"
+  },
+  "non_claims": [
+    "No private evaluator or unittest executed",
+    "No protected authority or acceptance result",
+    "Current observations do not recover unrecorded historical stat operands"
+  ],
+  "pid": 2668403,
+  "predicates": {
+    "absolute": true,
+    "executable_access": true,
+    "forbidden_mode_bits": 0,
+    "owner_is_root_or_real_uid": false,
+    "regular_file": true
+  },
+  "python_executable": "/usr/bin/python3",
+  "refusal_code": "PRIVATE_EVALUATOR_INVALID",
+  "requested": null,
+  "resolve": {
+    "exception": null,
+    "returned": true,
+    "value": "/usr/bin/bwrap"
+  },
+  "resolved": "/usr/bin/bwrap",
+  "selected": "/usr/bin/bwrap",
+  "selection": "shutil.which(\"bwrap\")",
+  "started_utc": "2026-10-15T03:08:23.684436+00:00",
+  "stat": {
+    "st_ctime_ns": 1790213239591871504,
+    "st_dev": 64768,
+    "st_gid": 65534,
+    "st_ino": 3057,
+    "st_mode": 33261,
+    "st_mtime_ns": 1790110992000000000,
+    "st_nlink": 1,
+    "st_size": 133648,
+    "st_uid": 65534
+  },
+  "stat_to_hash_identity_equal": true,
+  "uid": 1000,
+  "uid_map": {
+    "exception": null,
+    "returned": true,
+    "value": "      1000          0          1\n"
+  },
+  "user_namespace": {
+    "exception": null,
+    "returned": true,
+    "value": "user:[4026532840]"
+  }
+}

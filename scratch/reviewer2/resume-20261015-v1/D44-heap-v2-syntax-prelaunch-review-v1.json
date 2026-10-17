@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-15T03:04:36.638627+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR exact fresh D44v2 syntax correction and existing bounded discriminator launch. No ownership success inferred.",
+  "v1_original_sources_unchanged": true,
+  "v2_only_semantic_source_delta": "Adjust postcondition safe scalar/array-value/bounds conjunction uses eager and rather than short circuit and then. No conjunct dropped.",
+  "reason": "Read returns empty String on null, otherwise complete designated String. These conjuncts compare string/bounds and perform no dependent element indexing. Eager evaluation removes potentially unevaluated Old prefix context without weakening intended conjunction. Arbitrary storage/execution failure equivalence not asserted.",
+  "v1_result": {
+    "build_exit": 4,
+    "proof_exit": 1,
+    "runtime_exit": null
+  },
+  "sha256": {
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v2/lifetime.ads": "8ea5951850501123c99438169652c051e559d8898b9217034e57dac26367ed48",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v2/lifetime.adb": "90ef4488c664959e2144771d2609450b46adb7d539005e525f8ec9271ad55d7a",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v2/main.adb": "3516387ad1d62d4d2b1ed0d066f355ac1eac1db6679100b56732e05399258e19",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v2/probe.gpr": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+    "records/phase1-blockers/resume-20261015-v1/finalizable-heap-v2/run.py": "acfd470c580173307da7c8c9afd42ed072dede8b5620122ba880e2536dddccd6",
+    "records/phase1-blockers/resume-20261015-v1/run_finalizable_heap_v2.py": "57943ba390db89406623f8f63daf259b8f004c90cab97f99995b2a8cc0dbb7f5",
+    "docs/decisions.md": "24d73a1d6b698740abb4123716b1be006acb722ec000827a3e8cec1d7745b196"
+  },
+  "unchanged": [
+    "Make/Replace_First fullcontentbounds; strictFalse/fullowningString; actualB:=A/reuseA and wholeObjectOld unchanged.",
+    "Driver only fresh output/source paths; all original10m8G0/flock/admission/disk/prooflevel3/60/1024/j1 unchanged.",
+    "v1 syntax refusal and native runtimeNP preserved; not ownership infeasibility evidence."
+  ],
+  "non_claims": [
+    "No compilation/proof/runtime by reviewer; no support, leak or O1 result.",
+    "No ignoredOld pragma, proof boundary change, contract weakening or independent acceptance."
+  ]
+}

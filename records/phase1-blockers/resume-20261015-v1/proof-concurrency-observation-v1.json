@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-15T05:18:03.186960+00:00",
+  "os_cpu_count": 12,
+  "root_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "proof_scope": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-e7309976f98948ebb1fdc9b6f90f50d8.scope",
+  "cpu_controls": {
+    "cpu.max": {
+      "value": "max 100000"
+    },
+    "cpu.weight": {
+      "value": "100"
+    },
+    "cpuset.cpus.effective": {
+      "value": null,
+      "error": "[Errno 2] No such file or directory: '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-e7309976f98948ebb1fdc9b6f90f50d8.scope/cpuset.cpus.effective'"
+    },
+    "cpu.stat": {
+      "value": "usage_usec 2710892030\nuser_usec 2661622985\nsystem_usec 49269044\nnice_usec 0\nnr_periods 0\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0"
+    }
+  },
+  "memory_sample": {
+    "utc": "2026-10-15T05:18:03.165036+00:00",
+    "memory.max": "8589934592",
+    "memory.peak": "2769018880",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0"
+  },
+  "boundary": "Read-only raw capacity/cap metadata only; no worker-count, scheduling, proof, deadline or memory change selected, no projected speed/RSS guarantee"
+}

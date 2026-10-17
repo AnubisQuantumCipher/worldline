@@ -1,0 +1,149 @@
+{
+  "schema": "worldline-main-roadmap-audit-v1",
+  "claim_class": "MEASURED",
+  "scope": "static source and retained-evidence correspondence only; no new proof or production run",
+  "created_utc": "2026-10-15T13:19:37.059467+00:00",
+  "main_commit": "631d0d538bae67bd7b2020c60c53fae1bf7ff34a",
+  "main_tree": "12b9164543339e6ff1f8fe771b74eea0a7530c5e",
+  "development_tested_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "audit_administrative_commit": "57773126df2420e7745d81c234b8ede76ea41467",
+  "acceptance_contract_sha256": "17d20c7f9c0f81d1377cd10adce609492268e18d165a40c47e4e89bba864a6f3",
+  "phase1_accepted": false,
+  "independent_acceptance": "NOT PERFORMED",
+  "narrowed_claims": [],
+  "gate_changes": [],
+  "proof_replay_performed": false,
+  "production_rehearsal_performed": false,
+  "rows": [
+    {
+      "area": "phase0-report-isolation",
+      "existing_gates": [
+        "F3",
+        "F4"
+      ],
+      "finding": "Examiner-only report boundary already merged on main; current authentic production rehearsal remains unverified.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "evaluation-lifecycle",
+      "existing_gates": [
+        "C2"
+      ],
+      "finding": "Finite native classification already released; full raw lifecycle and production cleanup qualification remains open.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "typed-absence",
+      "existing_gates": [
+        "C2",
+        "C4"
+      ],
+      "finding": "Native optional identities and wire validation released; independently authentic supplied facts remain required.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "resource-conservation",
+      "existing_gates": [
+        "C1"
+      ],
+      "finding": "Python on main; native accounting/release/run/scoped relations and callers exist on ef7; complete qualification remains open.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "recovery",
+      "existing_gates": [
+        "C3"
+      ],
+      "finding": "Small native transaction invariant on main; full marker/replay/binding implementations exist on ef7; full proof and crash matrix remain open.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "evidence-selection-and-completeness",
+      "existing_gates": [
+        "C4"
+      ],
+      "finding": "Main same-row newest-PASS selection is Python; ef7 native newest-attempt/cursor/raw-roster layers exist; full proof and custody qualification remain open.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "capability-attenuation",
+      "existing_gates": [
+        "C3",
+        "F4"
+      ],
+      "finding": "Host probes are not attenuation; later adapters do not establish full proof or authentic execution.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "receipt-chain-and-semantic-joins",
+      "existing_gates": [
+        "C3"
+      ],
+      "finding": "Main Append contract exists, production uses Link with Python predecessor policy; later native policy exists, full semantic/production closure remains open.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    },
+    {
+      "area": "eventual-installer-activation",
+      "existing_gates": [
+        "F4"
+      ],
+      "finding": "Full user-facing activation conjunction unestablished; separately eventual scope, existing protected startup/installed-source F4 obligations unchanged.",
+      "implementation_observation_class": "MEASURED",
+      "complete_guarantee_class": "UNVERIFIED",
+      "gate_pass_claimed": false
+    }
+  ],
+  "evidence": [
+    {
+      "path": "records/phase1-blockers/roadmap-main-631d0d5-audit-20261015-v1/identity-and-requirements.json",
+      "sha256": "59c534f1419c7d31ae04731ab36ece36971eac8cefb46a9ca0b14a73c36c722a"
+    },
+    {
+      "path": "records/phase1-blockers/roadmap-main-631d0d5-audit-20261015-v1/github-app-readback.json",
+      "sha256": "1ace3e9b929d29931c6a3f665519be2815849f2297f24e8d3e88f88e16aa139c"
+    },
+    {
+      "path": "scratch/method-review/roadmap-main-631d0d5-20261015-v1/matrix.json",
+      "sha256": "3076018f4274545528d8ef882646f01aa0a4e22c0e1080932e8694fc986b4dfe"
+    },
+    {
+      "path": "scratch/final-gates/roadmap-main-631d0d5-20261015-v1/evidence-matrix.json",
+      "sha256": "c1344bc7cef1f5a2afa5138f6a4124ff32145908b7a02d49a9a5a13e6561ebb4"
+    },
+    {
+      "path": "scratch/reviewer2/roadmap-main-631d0d5-20261015-v1/phase0-main-boundary-review.json",
+      "sha256": "5009e2f2823ec6ee342c6e77485ab0e9018d533801ffaccaceac7cd91825a3e8"
+    },
+    {
+      "path": "scratch/reviewer2/roadmap-main-631d0d5-20261015-v1/scoped-resource-recovery-history-matrix-review.json",
+      "sha256": "2cd7bffd317766385d8891091c413c1f3bc93d7100828f2604bc0b62ac6b6e8c"
+    },
+    {
+      "path": "scratch/reviewer2/roadmap-main-631d0d5-20261015-v1/receipt-capability-install-matrix-review.json",
+      "sha256": "572d48cc1bbbbca3701921a844b4e3336b2636c420827555b3837f671e51b167"
+    }
+  ],
+  "commands": "Exact argv/cwd/stdout/stderr in root identity-and-requirements.json and source inventories in the two helper matrices; git show, git ls-tree and scoped git grep only for source mapping.",
+  "non_claims": [
+    "No main mutation, new source adoption, proof/assurance success manifest, installed health or independent acceptance.",
+    "Main251 historical manifest cannot qualify expanded development source.",
+    "Original acquisition, full-value Old and all binding source/proof/runtime/protected/actor obligations retained.",
+    "Full eventual installer conjunction is not established by startup inventory; no existing F4 conjunct is removed."
+  ]
+}

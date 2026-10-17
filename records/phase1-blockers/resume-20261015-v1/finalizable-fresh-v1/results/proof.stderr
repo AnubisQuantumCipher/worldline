@@ -1,0 +1,90 @@
+ info: pointer dereference check proved
+--> lifetime.adb:5:54
+
+ medium: resource or memory leak might occur
+--> lifetime.adb:11:22
+   11 |             Object.Data := new String'(Object.Data.all);
+      |             ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at lifetime.ads:21 should mention Object in a precondition
+      --> lifetime.ads:21:04
+   21 |       procedure Adjust (Object : in out Value)
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: pointer dereference check proved
+--> lifetime.adb:11:49
+
+ info: implicit aspect Always_Terminates on "Read" has been proved, subprogram will terminate
+--> lifetime.ads:3:13
+
+ info: data dependencies proved
+--> lifetime.ads:3:54
+
+ info: implicit aspect Always_Terminates on "Capture" has been proved, subprogram will terminate
+--> lifetime.ads:4:13
+
+ info: data dependencies proved
+--> lifetime.ads:5:11
+
+ info: postcondition proved
+--> lifetime.ads:6:16
+
+ info: data dependencies proved
+--> lifetime.ads:10:11
+
+ info: postcondition proved
+--> lifetime.ads:11:16
+
+ medium: resource or memory leak might occur
+--> lifetime.ads:11:22
+   11 |           Post => Read (Capture (Text)'Old) = Text
+      |                         ^~~~~~~~~~~~~
+      + possible explanation: call to allocating function inside an assertion leaks some resource or memory
+
+ medium: resource or memory leak might occur
+--> lifetime.ads:12:20
+   12 |             and Read (Capture (Text)'Old)'First = Text'First
+      |                       ^~~~~~~~~~~~~
+      + possible explanation: call to allocating function inside an assertion leaks some resource or memory
+
+ medium: resource or memory leak might occur
+--> lifetime.ads:13:20
+   13 |             and Read (Capture (Text)'Old)'Last = Text'Last;
+      |                       ^~~~~~~~~~~~~
+      + possible explanation: call to allocating function inside an assertion leaks some resource or memory
+
+ info: data dependencies proved
+--> lifetime.ads:22:11
+
+ info: postcondition proved
+--> lifetime.ads:23:16
+
+ info: data dependencies proved
+--> lifetime.ads:27:11
+
+ info: postcondition proved
+--> lifetime.ads:27:35
+ medium: resource or memory leak might occur at end of scope
+--> main.adb:4:04
+    4 |       A : Lifetime.Value := Lifetime.Capture (Text);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ medium: resource or memory leak might occur at end of scope
+--> main.adb:5:04
+    5 |       B : Lifetime.Value := Lifetime.Capture (Text);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ info: assertion proved
+--> main.adb:7:19
+
+ info: assertion proved
+--> main.adb:8:19
+
+ info: assertion proved
+--> main.adb:9:19
+
+ info: assertion proved
+--> main.adb:11:19
+gnatprove: unproved check messages considered as errors

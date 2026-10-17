@@ -1,0 +1,2182 @@
+{
+  "info": {
+    "generated-on": "2026-10-15 04:15:12",
+    "version": "26.0.0 (2026-04-15-gpr2) (aarch64-linux-gnu)"
+  },
+  "messages": {
+    "configuration": [
+    ],
+    "tree": [
+      "attest_sha256.gpr:1:09: warning: project name 'attest_sha256' expected"
+    ]
+  },
+  "projects": [
+    {
+      "attributes": [
+        {
+          "kind": "single",
+          "name": "Archive_Prefix",
+          "value": "lib"
+        },
+        {
+          "kind": "single",
+          "name": "Exec_Dir",
+          "value": "."
+        },
+        {
+          "kind": "single",
+          "name": "Externally_Built",
+          "value": "false"
+        },
+        {
+          "index": "Asm_Cpp",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "Asm"
+          ]
+        },
+        {
+          "index": "C++",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Library_Kind",
+          "value": "static"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Standalone",
+          "value": "no"
+        },
+        {
+          "kind": "single",
+          "name": "Name",
+          "value": "sparklib_common"
+        },
+        {
+          "kind": "single",
+          "name": "Object_Dir",
+          "value": "."
+        },
+        {
+          "kind": "single",
+          "name": "Project_Dir",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/"
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Runtime_Dir",
+          "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/"
+        },
+        {
+          "kind": "list",
+          "name": "Source_Files",
+          "values": [
+          ]
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Toolchain_Version",
+          "value": "GNAT 16.1"
+        }
+      ],
+      "imported-by": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr"
+      ],
+      "packages": [
+        {
+          "attributes": [
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Default_Switches",
+              "values": [
+                "-gnat2022",
+                "-gnatygo-u",
+                "-ffunction-sections",
+                "-fdata-sections",
+                "-gnatwI"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc"
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/aarch64-linux-gnu-gcc"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Body_File_Name  => \"*%b\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Config_File_Switches",
+              "values": [
+                "-gnatec="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_File_Unique",
+              "value": "False"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Spec_File_Name  => \"*%s\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Dependency_Kind",
+              "value": "ALI_File"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Dependency_Switches",
+              "values": [
+                "-MMD",
+                "-MF",
+                ""
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Include_Path_File",
+              "value": "ADA_PRJ_INCLUDE_FILE"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Include_Switches_Via_Spec",
+              "values": [
+                "cc1",
+                "-I"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Language_Kind",
+              "value": "unit_based"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "ada",
+                "-gnatA"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "c"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Body_Suffix",
+              "value": "%b"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Mapping_File_Switches",
+              "values": [
+                "-gnatem="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Spec_Suffix",
+              "value": "%s"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Multi_Unit_Object_Separator",
+              "value": "~"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Multi_Unit_Switches",
+              "values": [
+                "-gnateI"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Response_File_Format",
+              "value": "GCC_GNU"
+            }
+          ],
+          "name": "Compiler"
+        },
+        {
+          "attributes": [
+            {
+              "kind": "single",
+              "name": "Proof_Dir",
+              "value": "proof"
+            }
+          ],
+          "name": "Prove"
+        }
+      ],
+      "project": {
+        "directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/",
+        "file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_common.gpr",
+        "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_common.gpr",
+        "kind": "abstract",
+        "name": "SPARKlib_common",
+        "qualifier": "abstract",
+        "simple-name": "sparklib_common.gpr"
+      },
+      "types": [
+        {
+          "name": "SPARKlib_Installed_T",
+          "values": [
+            "True",
+            "False"
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "kind": "list",
+          "name": "Common_Default_Switches",
+          "values": [
+            "-gnat2022",
+            "-gnatygo-u",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-gnatwI"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Root",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat//../../include/spark"
+        },
+        {
+          "kind": "single",
+          "name": "SPARKlib_Installed",
+          "type": "SPARKlib_Installed_T",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "kind": "single",
+          "name": "Archive_Prefix",
+          "value": "lib"
+        },
+        {
+          "kind": "single",
+          "name": "Exec_Dir",
+          "value": "sparklib_obj"
+        },
+        {
+          "kind": "single",
+          "name": "Externally_Built",
+          "value": "True"
+        },
+        {
+          "index": "Asm_Cpp",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "Asm"
+          ]
+        },
+        {
+          "index": "C++",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "list",
+          "name": "Languages",
+          "values": [
+            "Ada"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Library_Ali_Dir",
+          "value": "sparklib_lib"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Dir",
+          "value": "sparklib_lib"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Kind",
+          "value": "static"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Name",
+          "value": "sparklib"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Standalone",
+          "value": "no"
+        },
+        {
+          "kind": "single",
+          "name": "Name",
+          "value": "sparklib"
+        },
+        {
+          "kind": "single",
+          "name": "Object_Dir",
+          "value": "sparklib_obj"
+        },
+        {
+          "kind": "single",
+          "name": "Project_Dir",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/"
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Runtime_Dir",
+          "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/"
+        },
+        {
+          "kind": "list",
+          "name": "Source_Dirs",
+          "values": [
+            "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat//../../include/spark",
+            "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat//../../include/spark/full"
+          ]
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Toolchain_Version",
+          "value": "GNAT 16.1"
+        }
+      ],
+      "imported-by": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_sparklib_link.gpr"
+      ],
+      "imports": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_common.gpr"
+      ],
+      "packages": [
+        {
+          "attributes": [
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc"
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/aarch64-linux-gnu-gcc"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Switches",
+              "values": [
+                "-gnat2022",
+                "-gnatygo-u",
+                "-ffunction-sections",
+                "-fdata-sections",
+                "-gnatwI",
+                "-O2",
+                "-gnatn"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Body_File_Name  => \"*%b\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Config_File_Switches",
+              "values": [
+                "-gnatec="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_File_Unique",
+              "value": "False"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Spec_File_Name  => \"*%s\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Dependency_Kind",
+              "value": "ALI_File"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Dependency_Switches",
+              "values": [
+                "-MMD",
+                "-MF",
+                ""
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Include_Path_File",
+              "value": "ADA_PRJ_INCLUDE_FILE"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Include_Switches_Via_Spec",
+              "values": [
+                "cc1",
+                "-I"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Language_Kind",
+              "value": "unit_based"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "ada",
+                "-gnatA"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "c"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Body_Suffix",
+              "value": "%b"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Mapping_File_Switches",
+              "values": [
+                "-gnatem="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Spec_Suffix",
+              "value": "%s"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Multi_Unit_Object_Separator",
+              "value": "~"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Multi_Unit_Switches",
+              "values": [
+                "-gnateI"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Response_File_Format",
+              "value": "GCC_GNU"
+            }
+          ],
+          "name": "Compiler"
+        },
+        {
+          "attributes": [
+            {
+              "kind": "single",
+              "name": "Proof_Dir",
+              "value": "proof"
+            }
+          ],
+          "name": "Prove"
+        }
+      ],
+      "project": {
+        "directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/",
+        "file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr",
+        "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr",
+        "kind": "library",
+        "library-ali-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_lib/",
+        "library-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_lib/",
+        "library-file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_lib/libsparklib.a",
+        "library-name": "sparklib",
+        "name": "SPARKlib",
+        "object-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_obj/",
+        "qualifier": "library",
+        "simple-name": "sparklib.gpr",
+        "source-directories": [
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full"
+        ]
+      },
+      "types": [
+        {
+          "name": "Private_Prebuilt_Kind",
+          "values": [
+            "True",
+            "False"
+          ]
+        },
+        {
+          "name": "SPARKlib_Build_Kind",
+          "values": [
+            "Production",
+            "Assertions",
+            "Debug"
+          ]
+        },
+        {
+          "name": "SPARKlib_Library_Kind",
+          "values": [
+            "static"
+          ]
+        },
+        {
+          "name": "SPARKlib_Mode_Kind",
+          "values": [
+            "light",
+            "full"
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "kind": "single",
+          "name": "GPR_Tool",
+          "value": "gprinspect"
+        },
+        {
+          "kind": "single",
+          "name": "Private_Prebuilt",
+          "type": "Private_Prebuilt_Kind",
+          "value": "True"
+        },
+        {
+          "kind": "single",
+          "name": "SPARKlib_Build",
+          "type": "SPARKlib_Build_Kind",
+          "value": "Production"
+        },
+        {
+          "kind": "single",
+          "name": "SPARKlib_Library_Type",
+          "type": "SPARKlib_Library_Kind",
+          "value": "static"
+        },
+        {
+          "kind": "single",
+          "name": "SPARKlib_Mode",
+          "type": "SPARKlib_Mode_Kind",
+          "value": "full"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "kind": "single",
+          "name": "Archive_Prefix",
+          "value": "lib"
+        },
+        {
+          "kind": "single",
+          "name": "Exec_Dir",
+          "value": "."
+        },
+        {
+          "kind": "single",
+          "name": "Externally_Built",
+          "value": "false"
+        },
+        {
+          "index": "Asm_Cpp",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "Asm"
+          ]
+        },
+        {
+          "index": "C++",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Library_Kind",
+          "value": "static"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Standalone",
+          "value": "no"
+        },
+        {
+          "kind": "single",
+          "name": "Name",
+          "value": "worldline_sparklib_link"
+        },
+        {
+          "kind": "single",
+          "name": "Object_Dir",
+          "value": "."
+        },
+        {
+          "kind": "single",
+          "name": "Project_Dir",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/"
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Runtime_Dir",
+          "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/"
+        },
+        {
+          "kind": "list",
+          "name": "Source_Files",
+          "values": [
+          ]
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Toolchain_Version",
+          "value": "GNAT 16.1"
+        }
+      ],
+      "imported-by": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core.gpr"
+      ],
+      "imports": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr"
+      ],
+      "project": {
+        "directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/",
+        "file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_sparklib_link.gpr",
+        "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_sparklib_link.gpr",
+        "kind": "abstract",
+        "name": "Worldline_Sparklib_Link",
+        "qualifier": "abstract",
+        "simple-name": "worldline_sparklib_link.gpr"
+      },
+      "variables": [
+        {
+          "kind": "single",
+          "name": "Archive",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_lib/libsparklib.a"
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "kind": "single",
+          "name": "Archive_Prefix",
+          "value": "lib"
+        },
+        {
+          "kind": "single",
+          "name": "Exec_Dir",
+          "value": "../obj/attest-sha256"
+        },
+        {
+          "kind": "single",
+          "name": "Externally_Built",
+          "value": "false"
+        },
+        {
+          "index": "Asm_Cpp",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "Asm"
+          ]
+        },
+        {
+          "index": "C++",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "list",
+          "name": "Languages",
+          "values": [
+            "Ada"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Name",
+          "value": "worldline_attest_sha256"
+        },
+        {
+          "kind": "single",
+          "name": "Object_Dir",
+          "value": "../obj/attest-sha256"
+        },
+        {
+          "kind": "single",
+          "name": "Project_Dir",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/"
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Runtime_Dir",
+          "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/"
+        },
+        {
+          "kind": "list",
+          "name": "Source_Dirs",
+          "values": [
+            "attest"
+          ]
+        },
+        {
+          "kind": "list",
+          "name": "Source_Files",
+          "values": [
+            "attest.ads",
+            "attest-sha256.ads",
+            "attest-sha256.adb",
+            "attest-custody_sha256.ads",
+            "attest-custody_sha256.adb"
+          ]
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Toolchain_Version",
+          "value": "GNAT 16.1"
+        }
+      ],
+      "imported-by": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core_sources.gpr"
+      ],
+      "packages": [
+        {
+          "attributes": [
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Default_Switches",
+              "values": [
+                "-gnat2022",
+                "-gnatwa",
+                "-gnatVa",
+                "-gnatf",
+                "-O2",
+                "-g",
+                "-fPIC",
+                "-gnata"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc"
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/aarch64-linux-gnu-gcc"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Body_File_Name  => \"*%b\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Config_File_Switches",
+              "values": [
+                "-gnatec="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_File_Unique",
+              "value": "False"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Spec_File_Name  => \"*%s\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Dependency_Kind",
+              "value": "ALI_File"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Dependency_Switches",
+              "values": [
+                "-MMD",
+                "-MF",
+                ""
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Include_Path_File",
+              "value": "ADA_PRJ_INCLUDE_FILE"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Include_Switches_Via_Spec",
+              "values": [
+                "cc1",
+                "-I"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Language_Kind",
+              "value": "unit_based"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "ada",
+                "-gnatA"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "c"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Body_Suffix",
+              "value": "%b"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Mapping_File_Switches",
+              "values": [
+                "-gnatem="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Spec_Suffix",
+              "value": "%s"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Multi_Unit_Object_Separator",
+              "value": "~"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Multi_Unit_Switches",
+              "values": [
+                "-gnateI"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Response_File_Format",
+              "value": "GCC_GNU"
+            }
+          ],
+          "name": "Compiler"
+        }
+      ],
+      "project": {
+        "directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/",
+        "file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest_sha256.gpr",
+        "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest_sha256.gpr",
+        "kind": "standard",
+        "name": "Worldline_Attest_SHA256",
+        "object-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/attest-sha256/phase1-resource-policy-candidate-v1/",
+        "qualifier": "standard",
+        "simple-name": "attest_sha256.gpr",
+        "source-directories": [
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest"
+        ]
+      },
+      "types": [
+        {
+          "name": "Build_Kind",
+          "values": [
+            "checks",
+            "release"
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "kind": "single",
+          "name": "Build",
+          "type": "Build_Kind",
+          "value": "checks"
+        },
+        {
+          "kind": "list",
+          "name": "Common",
+          "values": [
+            "-gnat2022",
+            "-gnatwa",
+            "-gnatVa",
+            "-gnatf",
+            "-O2",
+            "-g",
+            "-fPIC"
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "kind": "single",
+          "name": "Archive_Prefix",
+          "value": "lib"
+        },
+        {
+          "kind": "list",
+          "name": "Excluded_Source_Files",
+          "values": [
+            "spark.ads",
+            "spark-big_integers.ads"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Exec_Dir",
+          "value": "../obj/core"
+        },
+        {
+          "kind": "single",
+          "name": "Externally_Built",
+          "value": "false"
+        },
+        {
+          "index": "Asm_Cpp",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "Asm"
+          ]
+        },
+        {
+          "index": "C++",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "list",
+          "name": "Languages",
+          "values": [
+            "Ada",
+            "C"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Name",
+          "value": "worldline_core_sources"
+        },
+        {
+          "kind": "single",
+          "name": "Object_Dir",
+          "value": "../obj/core"
+        },
+        {
+          "kind": "single",
+          "name": "Project_Dir",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/"
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Runtime_Dir",
+          "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/"
+        },
+        {
+          "kind": "list",
+          "name": "Source_Dirs",
+          "values": [
+            "."
+          ]
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Toolchain_Version",
+          "value": "GNAT 16.1"
+        }
+      ],
+      "imported-by": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core.gpr"
+      ],
+      "imports": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr",
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest_sha256.gpr"
+      ],
+      "packages": [
+        {
+          "attributes": [
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Switches",
+              "values": [
+                "-j0"
+              ]
+            }
+          ],
+          "name": "Builder"
+        },
+        {
+          "attributes": [
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Default_Switches",
+              "values": [
+                "-gnat2022",
+                "-gnatwa",
+                "-gnatVa",
+                "-gnatf",
+                "-O2",
+                "-g",
+                "-fPIC",
+                "-fno-var-tracking-assignments",
+                "-gnata"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Default_Switches",
+              "values": [
+                "-std=c11",
+                "-O2",
+                "-g",
+                "-fPIC",
+                "-pthread",
+                "-Wall",
+                "-Wextra",
+                "-Werror"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc"
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/aarch64-linux-gnu-gcc"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Body_File_Name  => \"*%b\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Config_File_Switches",
+              "values": [
+                "-gnatec="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_File_Unique",
+              "value": "False"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Spec_File_Name  => \"*%s\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Dependency_Kind",
+              "value": "ALI_File"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Dependency_Switches",
+              "values": [
+                "-MMD",
+                "-MF",
+                ""
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Include_Path_File",
+              "value": "ADA_PRJ_INCLUDE_FILE"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Include_Switches_Via_Spec",
+              "values": [
+                "cc1",
+                "-I"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Language_Kind",
+              "value": "unit_based"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "ada",
+                "-gnatA"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "c"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Body_Suffix",
+              "value": "%b"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Mapping_File_Switches",
+              "values": [
+                "-gnatem="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Spec_Suffix",
+              "value": "%s"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Multi_Unit_Object_Separator",
+              "value": "~"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Multi_Unit_Switches",
+              "values": [
+                "-gnateI"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Response_File_Format",
+              "value": "GCC_GNU"
+            }
+          ],
+          "name": "Compiler"
+        },
+        {
+          "attributes": [
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Proof_Switches",
+              "values": [
+                "--level=3",
+                "--report=all",
+                "-j0"
+              ]
+            }
+          ],
+          "name": "Prove"
+        }
+      ],
+      "project": {
+        "directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/",
+        "file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core_sources.gpr",
+        "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core_sources.gpr",
+        "kind": "standard",
+        "name": "Worldline_Core_Sources",
+        "object-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/core/phase1-resource-policy-candidate-v1/",
+        "qualifier": "standard",
+        "simple-name": "worldline_core_sources.gpr",
+        "source-directories": [
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core"
+        ]
+      },
+      "types": [
+        {
+          "name": "Build_Kind",
+          "values": [
+            "checks",
+            "release"
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "kind": "single",
+          "name": "Build",
+          "type": "Build_Kind",
+          "value": "checks"
+        },
+        {
+          "kind": "list",
+          "name": "Common",
+          "values": [
+            "-gnat2022",
+            "-gnatwa",
+            "-gnatVa",
+            "-gnatf",
+            "-O2",
+            "-g",
+            "-fPIC",
+            "-fno-var-tracking-assignments"
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": [
+        {
+          "kind": "single",
+          "name": "Archive_Prefix",
+          "value": "lib"
+        },
+        {
+          "kind": "single",
+          "name": "Exec_Dir",
+          "value": "../obj/full-physical"
+        },
+        {
+          "kind": "single",
+          "name": "Externally_Built",
+          "value": "false"
+        },
+        {
+          "index": "Asm_Cpp",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "Asm"
+          ]
+        },
+        {
+          "index": "C++",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "list",
+          "name": "Languages",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Name",
+          "value": "full_physical_sources"
+        },
+        {
+          "kind": "single",
+          "name": "Object_Dir",
+          "value": "../obj/full-physical"
+        },
+        {
+          "kind": "single",
+          "name": "Project_Dir",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/"
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Runtime_Dir",
+          "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/"
+        },
+        {
+          "kind": "list",
+          "name": "Source_Dirs",
+          "values": [
+            ".",
+            "vendor-transaction-035545"
+          ]
+        },
+        {
+          "kind": "list",
+          "name": "Source_Files",
+          "values": [
+            "full_physical_actuator.c",
+            "worldline_actuator.c"
+          ]
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Toolchain_Version",
+          "value": "GNAT 16.1"
+        }
+      ],
+      "imported-by": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core.gpr"
+      ],
+      "packages": [
+        {
+          "attributes": [
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Default_Switches",
+              "values": [
+                "-std=c11",
+                "-D_GNU_SOURCE=",
+                "-fPIC",
+                "-fvisibility=hidden",
+                "-O2",
+                "-g",
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-I/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/../core",
+                "-include",
+                "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/../core/worldline_actuation_v1.h"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc"
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Driver",
+              "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/aarch64-linux-gnu-gcc"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Body_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Body_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Body_File_Name  => \"*%b\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Config_File_Switches",
+              "values": [
+                "-gnatec="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_File_Unique",
+              "value": "False"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Index",
+              "value": "pragma Source_File_Name_Project (%u, Spec_File_Name => \"%f\", Index => %i);"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Config_Spec_File_Name_Pattern",
+              "value": "pragma Source_File_Name_Project   (Spec_File_Name  => \"*%s\",   Casing          => %c,   Dot_Replacement => \"%d\");"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Dependency_Kind",
+              "value": "ALI_File"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Dependency_Switches",
+              "values": [
+                "-MMD",
+                "-MF",
+                ""
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Include_Path_File",
+              "value": "ADA_PRJ_INCLUDE_FILE"
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Include_Switches_Via_Spec",
+              "values": [
+                "cc1",
+                "-I"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Language_Kind",
+              "value": "unit_based"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "ada",
+                "-gnatA"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Leading_Required_Switches",
+              "values": [
+                "-c",
+                "-x",
+                "c"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Body_Suffix",
+              "value": "%b"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Mapping_File_Switches",
+              "values": [
+                "-gnatem="
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Mapping_Spec_Suffix",
+              "value": "%s"
+            },
+            {
+              "index": "Ada",
+              "kind": "single",
+              "name": "Multi_Unit_Object_Separator",
+              "value": "~"
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Multi_Unit_Switches",
+              "values": [
+                "-gnateI"
+              ]
+            },
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "list",
+              "name": "Pic_Option",
+              "values": [
+                "-fPIC"
+              ]
+            },
+            {
+              "index": "C",
+              "kind": "single",
+              "name": "Response_File_Format",
+              "value": "GCC_GNU"
+            }
+          ],
+          "name": "Compiler"
+        }
+      ],
+      "project": {
+        "directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/",
+        "file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/full_physical_sources.gpr",
+        "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/full_physical_sources.gpr",
+        "kind": "standard",
+        "name": "Full_Physical_Sources",
+        "object-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/full-physical/phase1-resource-policy-candidate-v1/",
+        "qualifier": "standard",
+        "simple-name": "full_physical_sources.gpr",
+        "source-directories": [
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical",
+          "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/vendor-transaction-035545"
+        ]
+      }
+    },
+    {
+      "aggregated": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core_sources.gpr",
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest_sha256.gpr",
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/full_physical_sources.gpr"
+      ],
+      "attributes": [
+        {
+          "kind": "single",
+          "name": "Archive_Prefix",
+          "value": "lib"
+        },
+        {
+          "kind": "single",
+          "name": "Externally_Built",
+          "value": "false"
+        },
+        {
+          "index": "Asm_Cpp",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "Asm"
+          ]
+        },
+        {
+          "index": "C++",
+          "kind": "list",
+          "name": "Inherit_Source_Path",
+          "values": [
+            "C"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Library_Ali_Dir",
+          "value": "../lib"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Auto_Init",
+          "value": "true"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Dir",
+          "value": "../lib"
+        },
+        {
+          "kind": "list",
+          "name": "Library_Interface",
+          "values": [
+            "Attest",
+            "Attest.SHA256",
+            "Worldline",
+            "Worldline.World",
+            "Worldline.Ancestry",
+            "Worldline.Transitions",
+            "Worldline.Identities",
+            "Worldline.Collapse",
+            "Worldline.Collapse_Wire",
+            "Worldline.Evaluation",
+            "Worldline.Evaluation_V2",
+            "Worldline.Evaluation_Wire",
+            "Worldline.Evaluation_Report_Facts",
+            "Worldline.Evaluation_Report_Wire",
+            "Evaluation_Raw_Roster",
+            "Worldline.Evaluation_Authority",
+            "Worldline.Resources",
+            "Worldline.Resource_Wire",
+            "Worldline.Resources_C_API",
+            "Worldline.Recovery",
+            "Worldline.Recovery_C_API",
+            "Worldline.Recovery_Authorization",
+            "Worldline.Recovery_Authorization_Wire",
+            "Worldline.Recovery_Authorization_C_API",
+            "Worldline.Recovery_Authorization_V3",
+            "Worldline.Recovery_Authorization_V3_Wire",
+            "Worldline.Recovery_Authorization_V3_C_API",
+            "Resource_Reservation_Transition",
+            "Resource_Quantities",
+            "Resource_Admission",
+            "Resource_Ledger",
+            "Evaluation_History",
+            "Evaluation_Epoch",
+            "Evaluation_Pending",
+            "Evaluation_Pending_C",
+            "Evaluation_Pending_V2",
+            "Evaluation_Pending_V2_C",
+            "Evaluation_Completion",
+            "Evaluation_Completion_C",
+            "Evaluation_Completion_Roster",
+            "Canonical_Artifacts",
+            "Evaluation_Finalization",
+            "Evaluation_Finalization_C",
+            "Worldline.Evaluation_History_C_API",
+            "Resource_Reservation_Lifecycle",
+            "Worldline.Reservation_Lifecycle_C_API",
+            "Worldline.Resource_Ledger_C_API",
+            "Worldline.Resource_Policy_C_API",
+            "Worldline.Causal_Graph",
+            "Worldline.Receipts",
+            "Worldline.C_API",
+            "Worldline.Recovery_Protocol",
+            "Worldline.Recovery_Protocol_Wire",
+            "Worldline.Recovery_Protocol_C_API",
+            "Worldline.Chain_Authority",
+            "Worldline.Chain_Authority_Wire",
+            "Worldline.Chain_Authority_C_API",
+            "Resource_Run_Ledger",
+            "Resource_Run_Ledger_Wire",
+            "Resource_Run_Ledger_C_API",
+            "Worldline.Owner_Transitions",
+            "Worldline.Owner_Transitions_Wire",
+            "Worldline.Owner_Retry_Audit",
+            "Worldline.Owner_Retry_Audit_Wire",
+            "Worldline.Owner_Conjunction",
+            "Worldline.Owner_Conjunction_Wire",
+            "Worldline.Owner_Subject_Projection",
+            "Worldline.Recovery_Protocol_ABI",
+            "Evaluation_Finalization.Values",
+            "Native_Diagnostic_Trace",
+            "Worldline.Startup_Admission",
+            "Worldline.Startup_Admission_Owned",
+            "Worldline.Startup_Installation",
+            "Worldline.Startup_Issuer_Source",
+            "Worldline.Startup_Source_Custody",
+            "Worldline.Excluded_Source_Owner",
+            "Cosmogony",
+            "Cosmogony.Genesis",
+            "Cosmogony.Capabilities",
+            "Cosmogony.Universes",
+            "Cosmogony.Governed_Capabilities",
+            "Cosmogony.Revocable_Capabilities",
+            "Resource_Actor_Admission",
+            "Resource_Actor_Admission_Wire",
+            "Resource_Observation_Classification",
+            "Resource_Observation_Classification_Wire",
+            "Resource_Scoped_Run_Ledger",
+            "Resource_Scoped_Run_Ledger_Wire",
+            "Worldline.Native_Execution_Capture",
+            "Worldline.Native_Execution_Views",
+            "Worldline.Operation_Authority",
+            "Worldline.Operation_Authority_Wire",
+            "Worldline.Resource_Actor_Execution",
+            "Worldline.Resource_Actor_Execution_Wire",
+            "Worldline.Resource_Child_Execution",
+            "Worldline.Resource_Child_Execution_Wire",
+            "Worldline.Operation_Result_Relations",
+            "Worldline.Operation_Result_View",
+            "Worldline.Ordinary_Receipt_Policy",
+            "Worldline.Transaction_Relations",
+            "Worldline.Transaction_Archive_Json",
+            "Exact_Decimal",
+            "Decimal_Binary64",
+            "Worldline.Journal_Witness",
+            "Worldline.Custody_V2_Owner_Canonical",
+            "Worldline.Custody_V2_K4_Resource_Ack",
+            "Worldline.Actor_Archive_Replay",
+            "Worldline.Archive_Envelope",
+            "Worldline.Confinement_Filter",
+            "Worldline.Evaluation_Agent_Native",
+            "Worldline.Evaluation_Policy",
+            "Worldline.Evaluation_Producer",
+            "Worldline.Evaluation_Role_Native",
+            "Worldline.Lifetime_Values",
+            "Worldline.Manager_Resource_Lifecycle",
+            "Worldline.Native_Lifetime_Observation",
+            "Worldline.Operation_Archive",
+            "Worldline.Ordinary_Reservation_Lifecycle",
+            "Worldline.Policy_Source",
+            "Worldline.Policy_Syntax",
+            "Worldline.Producer_Bytes",
+            "Worldline.Producer_Render",
+            "Worldline.Producer_Unicode",
+            "Worldline.Producer_Values",
+            "Worldline.Protected_Paths",
+            "Worldline.Raw_JSON",
+            "Worldline.Recovery_Archive",
+            "Worldline.Recovery_Material_Replay",
+            "Worldline.Recovery_Owner_Replay",
+            "Worldline.Recovery_Packet",
+            "Worldline.Recovery_Syntax",
+            "Worldline.Report_Custody_Native",
+            "Worldline.Report_Parser",
+            "Worldline.Retained_Evidence_Replay",
+            "Worldline.Retained_Raw_Decode",
+            "Worldline.Retained_Source_Layout",
+            "Worldline.Runner_Acquisition_Bytes",
+            "Worldline.Runner_Lifecycle",
+            "Worldline.Runner_Lifecycle_Bytes",
+            "Worldline.Runner_Outcome",
+            "Worldline.Runner_Outcome_Bytes",
+            "Worldline.Source_Audit_Native",
+            "Worldline.Source_Syntax",
+            "Worldline.Source_Syntax_Provider",
+            "Worldline.Source_Syntax_Reference",
+            "Worldline.Actuation",
+            "Worldline.Actuation_Full_Wire",
+            "Worldline.Canonical_Exchange",
+            "Worldline.Canonical_Exchange_Wire",
+            "Worldline.Canonical_Owner_Completion",
+            "Worldline.Canonical_Owner_Completion_Wire"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Library_Kind",
+          "value": "dynamic"
+        },
+        {
+          "kind": "single",
+          "name": "Library_Name",
+          "value": "worldline_core"
+        },
+        {
+          "kind": "list",
+          "name": "Library_Options",
+          "values": [
+            "-pthread",
+            "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_lib/libsparklib.a"
+          ]
+        },
+        {
+          "kind": "single",
+          "name": "Library_Standalone",
+          "value": "encapsulated"
+        },
+        {
+          "kind": "single",
+          "name": "Name",
+          "value": "worldline_core"
+        },
+        {
+          "kind": "single",
+          "name": "Object_Dir",
+          "value": "../obj/core-library"
+        },
+        {
+          "kind": "single",
+          "name": "Project_Dir",
+          "value": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/"
+        },
+        {
+          "kind": "list",
+          "name": "Project_Files",
+          "values": [
+            "worldline_core_sources.gpr",
+            "attest_sha256.gpr",
+            "../protected-canonical/full_physical_sources.gpr"
+          ]
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Runtime_Dir",
+          "value": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/"
+        },
+        {
+          "index": "Ada",
+          "kind": "single",
+          "name": "Toolchain_Version",
+          "value": "GNAT 16.1"
+        }
+      ],
+      "imports": [
+        "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_sparklib_link.gpr"
+      ],
+      "packages": [
+        {
+          "attributes": [
+            {
+              "index": "Ada",
+              "kind": "list",
+              "name": "Global_Compilation_Switches",
+              "values": [
+                "-fPIC"
+              ]
+            }
+          ],
+          "name": "Builder"
+        }
+      ],
+      "project": {
+        "directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/",
+        "file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core.gpr",
+        "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core.gpr",
+        "kind": "aggregate library",
+        "library-ali-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/phase1-resource-policy-candidate-v1/",
+        "library-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/phase1-resource-policy-candidate-v1/",
+        "library-file-name": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/lib/phase1-resource-policy-candidate-v1/libworldline_core.so",
+        "library-name": "worldline_core",
+        "name": "Worldline_Core",
+        "object-directory": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/core-library/phase1-resource-policy-candidate-v1/",
+        "qualifier": "aggregate library",
+        "simple-name": "worldline_core.gpr"
+      }
+    }
+  ],
+  "tree": {
+    "object-search-paths": [
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/attest-sha256/phase1-resource-policy-candidate-v1/",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/core-library/phase1-resource-policy-candidate-v1/",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/core/phase1-resource-policy-candidate-v1/",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/obj/full-physical/phase1-resource-policy-candidate-v1/",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib_obj/",
+      "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adalib/"
+    ],
+    "project-search-paths": [
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/resource-policy-library-recipe-v1/",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat/",
+      "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/aarch64-linux/share/gpr/",
+      "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/aarch64-linux/lib/gnat/",
+      "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/share/gpr/",
+      "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gnat/"
+    ],
+    "root-project": {
+      "id": "</home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline_core.gpr",
+      "name": "Worldline_Core"
+    },
+    "source-search-paths": [
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/protected-canonical/vendor-transaction-035545",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/include/spark/full",
+      "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/"
+    ],
+    "stats": {
+      "project-count": 7
+    }
+  }
+}

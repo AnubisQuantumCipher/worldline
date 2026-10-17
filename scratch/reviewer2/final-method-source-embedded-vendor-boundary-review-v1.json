@@ -1,0 +1,69 @@
+{
+  "utc": "2026-10-14T21:20:50.855347+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "scope": "Publication boundary followup only; no execution, staging, commits, source edits, network, or credential/config reads.",
+  "verdict": "Concur only with conservative filtered subset; exclude embedded vendor excerpt containers as well as both adapted project files pending reviewed redistribution provenance.",
+  "inventory_sha256": "35173c8fc299bc6a72eea0a2f9c36d24312df83a24cde2e30bdc8028f817cbac",
+  "additional_exclusions": [
+    {
+      "path": "scratch/old-analysis/evidence/private-sparklib-proof-source-v1.json",
+      "sha256": "4cbb1c782b332db9b35eecc6a88cb639b24f1b007dc756b752b5f54aa455f1b4"
+    },
+    {
+      "path": "scratch/old-analysis/prepare_proof_dependency.py",
+      "sha256": "c483e6019f0986fda6fe11ce31e243ac9dca4a0ead45a527d53229ccc6415f8c"
+    }
+  ],
+  "remaining_permitted_paths": [
+    "scratch/coordinator/freeze_v5.py",
+    "scratch/coordinator/final_build_v5.py",
+    "scratch/coordinator/original_aux_builds_v6.py",
+    "scratch/old-analysis/frozen_source_v2.py",
+    "scratch/old-analysis/full_proof_driver_v2.py",
+    "scratch/old-analysis/final_proof_gate_v2.py",
+    "scratch/acquisition/original_binary_controls_v5.py",
+    "scratch/acquisition/qualify_original_binary_sandbox_v3.py",
+    "scratch/acquisition2/original_additional_driver_v2.py",
+    "scratch/old-analysis/full_runtime_supervisor_v3.py",
+    "scratch/old-analysis/evaluation_domain_supervisor_v2.py",
+    "scratch/old-analysis/authority_ffi_controls_v2.py",
+    "scratch/old-analysis/authority_admission_driver_v4.py",
+    "scratch/acquisition/actor_world_harness_v3.py",
+    "scratch/old-analysis/final_old_inventory_v4.py",
+    "scratch/reviewer/check_final_gate_report.py",
+    "scratch/coordinator/check_owned_quiescence.py",
+    "scratch/old-analysis/full_runtime_supervisor.py",
+    "scratch/old-analysis/runtime_watcher_reference.py",
+    "scratch/old-analysis/runtime_audit_entry.py",
+    "scratch/old-analysis/evaluation_domain_entry_v1.py",
+    "scratch/old-analysis/authority_ffi_observer_v1.py",
+    "scratch/old-analysis/sparklib_build_experiment.py",
+    "scratch/old-analysis/evidence/private-sparklib-experiment-source-v1.json",
+    "scratch/reviewer/f1-original-full-planned-build-roster.json",
+    "scratch/reviewer/f3-original-full-action-roster.json",
+    "scratch/acquisition/original-payload-recipe-v2.json",
+    "scratch/acquisition/prepare_original_payload_recipe_v2.py",
+    "scratch/acquisition/historical-v1/run_checks.py",
+    "scratch/acquisition/original-additional/run_execution_evidence_boundary_controls.py",
+    "scratch/final-gates/freeze-v5-gate-launch-manifest-v1.md",
+    "scratch/final-gates/freeze-v5-gate-launch-manifest-v1.json"
+  ],
+  "findings": [
+    "Proof source manifest contains a unified project_diff hunk with vendor project context and changed Externally_Built line; it is not a whole project preimage.",
+    "prepare_proof_dependency.py embeds the exact vendor when-gnatprove/Externally_Built True needle and False replacement; it does not embed the full project. It would generate a project_diff when executed; no execution performed.",
+    "private-sparklib-experiment-source-v1.json has project identity hashes and source roster metadata, not a project_diff or project text body.",
+    "sparklib_build_experiment.py reads and verifies local project identities and artifacts but contains no matching multi-line vendor project preimage identified by the retained scan.",
+    "All inventory candidate file bytes hash-match the reviewed inventory. Read-only decoded JSON/Python string scan retained separately; no additional contiguous multi-line matches found among the selected files by that scan."
+  ],
+  "scan_receipt": "scratch/reviewer2/vendor-project-embedded-text-scan-v1.json",
+  "conditions": [
+    "Keep excluded original bytes privately/local and retain hash/location/provenance gap in publication documentation. Do not alter launch-pinned helpers or manifests while proof is live.",
+    "Later publication selection/README must reflect exclusions explicitly; no self-contained reproducibility claim and D7/external carrier references remain open.",
+    "Retain original prior review publication conditions for remaining paths."
+  ],
+  "non_claims": [
+    "No judgement that excerpt quantity is legally substantial or permitted. No inferred redistribution grant or license terms.",
+    "Heuristic text scan is not exhaustive detection of encoded or transformed copying, nor legal clearance.",
+    "Publication review does not establish acceptance, proof success, runtime success, or independent review acceptance."
+  ]
+}

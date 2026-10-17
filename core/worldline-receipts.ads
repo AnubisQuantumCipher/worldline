@@ -1,3 +1,4 @@
+with Attest.SHA256;
 package Worldline.Receipts with SPARK_Mode is
    use type Hash;
 
@@ -11,7 +12,12 @@ package Worldline.Receipts with SPARK_Mode is
    function Accepted (State : Chain) return Boolean;
    function Head (State : Chain) return Hash;
 
-   function Link (Previous, Receipt_Root : Hash) return Hash
+   --  The visible expression is the exact link equation; a matching Post would
+   --  hash the same inputs again when assertion checks are enabled.
+   function Link (Previous, Receipt_Root : Hash) return Hash is
+     (Attest.SHA256.Receipt_Link_Digest
+        (Attest.SHA256.To_Digest_Bytes (Previous),
+         Attest.SHA256.To_Digest_Bytes (Receipt_Root)))
      with Global => null;
 
    procedure Append

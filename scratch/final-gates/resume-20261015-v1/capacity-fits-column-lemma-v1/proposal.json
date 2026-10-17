@@ -1,0 +1,449 @@
+{
+  "purpose": "Unapplied call-only proof repair proposal for an actual D53 non-parser failed Capacity_Fits obligation; independently hash-bound pending-copy proposal",
+  "claim_class": "MEASURED source/diagnostic identities; UNVERIFIED proposed proof repair",
+  "prepared_utc": "2026-10-15T04:07:21.363000+00:00",
+  "observed_current_head": "915f5389b383e2377e92ec3a134d11df9d05951a",
+  "actual_D53_base_commit": "915f5389b383e2377e92ec3a134d11df9d05951a",
+  "actual_D53_step": {
+    "name": "proof",
+    "argv": [
+      "bwrap",
+      "--die-with-parent",
+      "--ro-bind",
+      "/",
+      "/",
+      "--dev",
+      "/dev",
+      "--proc",
+      "/proc",
+      "--bind",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "--bind",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/tmp",
+      "/tmp",
+      "--chdir",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1",
+      "gnatprove",
+      "-P",
+      "decoder_cursor_candidate.gpr",
+      "-U",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "--memlimit=1024",
+      "--timeout=60",
+      "-j2",
+      "-XSPARKLIB_MODE=full",
+      "-XSPARKLIB_BUILD=Production",
+      "-XSPARKLIB_LIBRARY_TYPE=static",
+      "-XSPARKLIB_INSTALLED=True",
+      "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True"
+    ],
+    "payload_argv": [
+      "gnatprove",
+      "-P",
+      "decoder_cursor_candidate.gpr",
+      "-U",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "--memlimit=1024",
+      "--timeout=60",
+      "-j2",
+      "-XSPARKLIB_MODE=full",
+      "-XSPARKLIB_BUILD=Production",
+      "-XSPARKLIB_LIBRARY_TYPE=static",
+      "-XSPARKLIB_INSTALLED=True",
+      "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True"
+    ],
+    "started_utc": "2026-10-15T03:57:10.514386+00:00",
+    "ended_utc": "2026-10-15T04:03:11.415075+00:00",
+    "exit_code": 1,
+    "stdout_sha256": "6c5ba3356dbdbc56e85f4ecf04a7cb32f26295d3c589b54a8653d8d67d7dd4ec",
+    "stderr_sha256": "88f5daa10b92781c4bd9a656e1e36670041e4c3196cbbe517cde07dcdff1a66d"
+  },
+  "actual_D53_tool_versions": {
+    "gnatls": {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnatls",
+      "sha256": "8f94099aaece72e3dfdda659b4f14fa9a83a5a71e436510097a991dfb8d5ad29",
+      "exit_code": 0,
+      "stdout": "GNATLS 16.1.0\nCopyright (C) 1992-2025, Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    },
+    "gprbuild": {
+      "path": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb",
+      "exit_code": 0,
+      "stdout": "GPRBUILD 26.0.0 (2026-04-15) (aarch64-linux-gnu)\nCopyright (C) 2004-2026, AdaCore\nThis is free software; see the source for copying conditions.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    },
+    "gnatprove": {
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9",
+      "exit_code": 0,
+      "stdout": "FSF 16.1.0\nWhy3 for gnatprove version 1.8.2+git\n/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo: Alt-Ergo version 2.6.1\n/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/cvc5: This is cvc5 version 1.3.2 [git 86cecd8 on branch HEAD]\n/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/z3: Z3 version 4.15.4 - 64 bit\n",
+      "stderr": ""
+    }
+  },
+  "actual_D53_environment": {
+    "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "GPR_PROJECT_PATH": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-experiment/lib/gnat:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+    "GPR_TOOL": null,
+    "TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/tmp",
+    "XDG_CACHE_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/cache"
+  },
+  "actual_D53_scope": "Complete cursor candidate only; no production integration, JSON grammar, full WORLDLINE or acquisition acceptance",
+  "actual_D53_outcomes": {
+    "started_utc": "2026-10-15T03:57:08.471689+00:00",
+    "ended_utc": "2026-10-15T04:03:11.422163+00:00",
+    "build_exit": 0,
+    "proof_exit": 1,
+    "runtime_exit": 0,
+    "sources_unchanged": true,
+    "dependency_unchanged": true,
+    "complete_report": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/obj/gnatprove/gnatprove.out",
+      "sha256": "5784110817e2580bce55702c3170c43d7f029323861a54fbcaceb69076de5d22"
+    }
+  },
+  "actual_failed_diagnostic": [
+    {
+      "section": "proof",
+      "ordinal_zero_based": 109,
+      "row": {
+        "check_col": 28,
+        "check_file": "resource_quantities.adb",
+        "check_line": 587,
+        "check_tree": [
+          {
+            "proof_attempts": {
+              "CVC5": {
+                "result": "Timeout",
+                "steps": 1,
+                "time": 60
+              },
+              "Z3": {
+                "result": "Timeout",
+                "steps": 1,
+                "time": 60
+              },
+              "altergo": {
+                "result": "Timeout",
+                "steps": 1,
+                "time": 60
+              }
+            },
+            "transformations": {
+              "introduce_premises": [
+                {
+                  "proof_attempts": {},
+                  "transformations": {}
+                }
+              ]
+            }
+          },
+          {
+            "proof_attempts": {
+              "CVC5": {
+                "result": "Valid",
+                "steps": 1,
+                "time": 0.01169
+              },
+              "Z3": {
+                "result": "Valid",
+                "steps": 1,
+                "time": 0.002057
+              },
+              "altergo": {
+                "result": "High failure (signaled)",
+                "steps": 1,
+                "time": 0.020623
+              }
+            },
+            "transformations": {}
+          }
+        ],
+        "col": 50,
+        "entity": 1,
+        "file": "resource_quantities.adb",
+        "how_proved": "prover",
+        "line": 587,
+        "message": {
+          "text": "assertion might fail, cannot prove Residue < Place"
+        },
+        "msg_id": 160,
+        "rule": "VC_ASSERT",
+        "severity": "medium",
+        "unproved_status": {
+          "memory": false,
+          "status": "limit",
+          "steps": false,
+          "time": true
+        }
+      }
+    }
+  ],
+  "actual_summary_rows": [
+    {
+      "line": 19,
+      "text": "Total                           859    110 (13%)                                         748 (87%)           .     1 (0%)"
+    },
+    {
+      "line": 64,
+      "text": "  Resource_Quantities.Capacity_Fits at resource_quantities.ads:129 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 54 checks out of 55 proved"
+    },
+    {
+      "line": 65,
+      "text": "  Resource_Quantities.Column_Bounds at resource_quantities.adb:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (18 checks)"
+    }
+  ],
+  "source_join": {
+    "current_core_matches_actual_D53_dependency": true,
+    "recorded_before_hash": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+    "recorded_after_hash": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+    "actual_current_hash": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d"
+  },
+  "variants": [
+    {
+      "name": "core",
+      "path": "core/resource_quantities.adb",
+      "preimage_sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+      "proposed_sha256": "23e67ed2f9fbb65741e5ddfab10fbde101a719feeb649a2bf1c9ae8052421a1a",
+      "patch_file": "core.patch",
+      "patch_sha256": "10639424170b05f2a15636e93648946a47f7101b54ed78bf37f03de45c68c72c",
+      "spec_path": "core/resource_quantities.ads",
+      "unchanged_spec_sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df",
+      "only_delta_is_exact_ghost_call": true,
+      "existing_anchor_line": 571,
+      "candidate_executed": false,
+      "proof_status": "UNVERIFIED",
+      "actual_failed_source": "D53 actual failed dependency body matches core source"
+    },
+    {
+      "name": "pending",
+      "path": "pending-component/core/resource_quantities.adb",
+      "preimage_sha256": "517ccda72f669f657bc797c62cc0a8ea4f4e37a9ebbf98f94f95159de90c5e2a",
+      "proposed_sha256": "5be86a1e66b4eeff970a2293187b32b0a5dd85ed007e746daf5dfde12e33383a",
+      "patch_file": "pending.patch",
+      "patch_sha256": "b3045343e3d7529fef2be74d5e6c50bbb553d103e06798ac1e4c5a6c3717983a",
+      "spec_path": "pending-component/core/resource_quantities.ads",
+      "unchanged_spec_sha256": "2ca47a0df25634cc22ad56b1af0ff6ba165cdc6a372c100302f657388fb52447",
+      "only_delta_is_exact_ghost_call": true,
+      "existing_anchor_line": 449,
+      "candidate_executed": false,
+      "proof_status": "UNVERIFIED",
+      "actual_failed_source": "No pending-profile failure or success claimed; separate unexecuted candidate"
+    }
+  ],
+  "retained_evidence": [
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/result.json",
+      "sha256": "04ff1b02839fc40c4765d73dad546b0d83c565fb3f20f492d1a2d6afb99f4b8a",
+      "bytes": 144148
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/results/proof.stderr",
+      "sha256": "88f5daa10b92781c4bd9a656e1e36670041e4c3196cbbe517cde07dcdff1a66d",
+      "bytes": 61922
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/obj/gnatprove/gnatprove.out",
+      "sha256": "5784110817e2580bce55702c3170c43d7f029323861a54fbcaceb69076de5d22",
+      "bytes": 13559
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/obj/gnatprove/resource_quantities.spark",
+      "sha256": "96539d3610ada5369a4f400cbd7113b199c792d110c5c075c113a2f1266adef6",
+      "bytes": 675059
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/resource_quantities.adb",
+      "sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+      "bytes": 25038
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/dependencies/resource_quantities.ads",
+      "sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df",
+      "bytes": 6139
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/decoder_cursor_candidate.gpr",
+      "sha256": "2c14c313d4039130514b078a83f011107dd1bfd568ea236b9474860fbe1caa34",
+      "bytes": 1136
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1/root-copy.json",
+      "sha256": "58655aee801305f7c7425a500efb7a2a9332a363d402d131dd3657b0cd6084ff",
+      "bytes": 7321
+    },
+    {
+      "path": "runtime/worldline/proof_manifest.py",
+      "sha256": "9d9ac3fc8ad726da3818aa3db09eaa6491f34d04dbd40fae16254e6f8ad78811",
+      "bytes": 254692
+    }
+  ],
+  "pin_observations": [
+    {
+      "line": 353,
+      "path": "core/resource_quantities.ads",
+      "literal_value": "c39661155528ed7388b63277e034ac3bbbceba239119e4d7700218e905aeac65"
+    },
+    {
+      "line": 354,
+      "path": "core/resource_quantities.adb",
+      "literal_value": "330ead0f91f31c460dd5bd7f4d367f919425608e23b0fbaaa70c1429e1667e03"
+    },
+    {
+      "line": 355,
+      "path": "pending-component/core/resource_quantities.ads",
+      "literal_value": "ff725d00a0be90fa2ca4632e9f48878f5f58199cbfacf2a82bfa554f4cdfe63a"
+    },
+    {
+      "line": 356,
+      "path": "pending-component/core/resource_quantities.adb",
+      "literal_value": "48656286ffabeb9cac8436cafa2fe3bac2bb91a231ed17178966660c93f34206"
+    },
+    {
+      "line": 1134,
+      "path": "core/resource_quantities.adb",
+      "literal_value": "330ead0f91f31c460dd5bd7f4d367f919425608e23b0fbaaa70c1429e1667e03"
+    },
+    {
+      "line": 1134,
+      "path": "core/resource_quantities.ads",
+      "literal_value": "c39661155528ed7388b63277e034ac3bbbceba239119e4d7700218e905aeac65"
+    },
+    {
+      "line": 1134,
+      "path": "pending-component/core/resource_quantities.adb",
+      "literal_value": "48656286ffabeb9cac8436cafa2fe3bac2bb91a231ed17178966660c93f34206"
+    },
+    {
+      "line": 1134,
+      "path": "pending-component/core/resource_quantities.ads",
+      "literal_value": "ff725d00a0be90fa2ca4632e9f48878f5f58199cbfacf2a82bfa554f4cdfe63a"
+    },
+    {
+      "line": 1164,
+      "path": "core/resource_quantities.adb",
+      "literal_value": "330ead0f91f31c460dd5bd7f4d367f919425608e23b0fbaaa70c1429e1667e03"
+    },
+    {
+      "line": 1164,
+      "path": "core/resource_quantities.ads",
+      "literal_value": "c39661155528ed7388b63277e034ac3bbbceba239119e4d7700218e905aeac65"
+    },
+    {
+      "line": 1164,
+      "path": "pending-component/core/resource_quantities.adb",
+      "literal_value": "48656286ffabeb9cac8436cafa2fe3bac2bb91a231ed17178966660c93f34206"
+    },
+    {
+      "line": 1164,
+      "path": "pending-component/core/resource_quantities.ads",
+      "literal_value": "ff725d00a0be90fa2ca4632e9f48878f5f58199cbfacf2a82bfa554f4cdfe63a"
+    },
+    {
+      "line": 1181,
+      "path": "core/resource_quantities.ads",
+      "literal_value": "c39661155528ed7388b63277e034ac3bbbceba239119e4d7700218e905aeac65"
+    },
+    {
+      "line": 1181,
+      "path": "core/resource_quantities.adb",
+      "literal_value": "330ead0f91f31c460dd5bd7f4d367f919425608e23b0fbaaa70c1429e1667e03"
+    },
+    {
+      "line": 1181,
+      "path": "pending-component/core/resource_quantities.ads",
+      "literal_value": "ff725d00a0be90fa2ca4632e9f48878f5f58199cbfacf2a82bfa554f4cdfe63a"
+    },
+    {
+      "line": 1181,
+      "path": "pending-component/core/resource_quantities.adb",
+      "literal_value": "48656286ffabeb9cac8436cafa2fe3bac2bb91a231ed17178966660c93f34206"
+    },
+    {
+      "line": 1184,
+      "path": "core/resource_quantities.ads",
+      "literal_value": "c39661155528ed7388b63277e034ac3bbbceba239119e4d7700218e905aeac65"
+    },
+    {
+      "line": 1190,
+      "path": "core/resource_quantities.ads",
+      "literal_value": "c39661155528ed7388b63277e034ac3bbbceba239119e4d7700218e905aeac65"
+    },
+    {
+      "line": 1190,
+      "path": "core/resource_quantities.adb",
+      "literal_value": "330ead0f91f31c460dd5bd7f4d367f919425608e23b0fbaaa70c1429e1667e03"
+    },
+    {
+      "line": 1190,
+      "path": "pending-component/core/resource_quantities.ads",
+      "literal_value": "ff725d00a0be90fa2ca4632e9f48878f5f58199cbfacf2a82bfa554f4cdfe63a"
+    },
+    {
+      "line": 1190,
+      "path": "pending-component/core/resource_quantities.adb",
+      "literal_value": "48656286ffabeb9cac8436cafa2fe3bac2bb91a231ed17178966660c93f34206"
+    }
+  ],
+  "pin_disposition": "Do not automatically refresh original source/contract pins to obtain success. The existing manifest literals already differ from these current preimages; any source/pin epoch reconciliation remains separately reviewed full-gate work. This proposal edits no pins.",
+  "precondition_correspondence": [
+    {
+      "lemma_requirement": "Low >= 0",
+      "actual_argument": "Before_Residue",
+      "source": "Existing loop invariant and the existing assertion immediately before insertion."
+    },
+    {
+      "lemma_requirement": "Unit_Value > 0",
+      "actual_argument": "Before_Place",
+      "source": "Existing saved Place and existing assertion immediately before insertion."
+    },
+    {
+      "lemma_requirement": "Low < Unit_Value",
+      "actual_argument": "Before_Residue < Before_Place",
+      "source": "Existing strict residue/place loop invariant; constants capture unchanged values before the borrow update. Previous changes; Residue and Place do not change before the proposed call."
+    },
+    {
+      "lemma_requirement": "Column <= 255",
+      "actual_argument": "Column_Value",
+      "source": "Existing Borrow_Column_Facts postcondition and existing pragma Assert(Column_Value <= 255)."
+    }
+  ],
+  "design": "Invoke the already-present Ghost Column_Bounds in the existing ghost block. Its unchanged postcondition directly records the bound for the exact saved residue/place and exact new column before the original residue/place assignments. All old assertions, invariants, production updates, returns, public contracts and domains remain byte-identical.",
+  "ghost_cost": "The new call is ghost-only but not described as runtime-free: when ghost checking executes, existing Column_Bounds computes its Scale_Column calls with factors Column and 255-Column. These are bounded by the already-established byte-column premise, not a new cap on resource magnitude or array length. Preserve the assertion-enabled original runtime and complete dependency proof to check this cost/path; no timing claim is made.",
+  "decision_proposal": {
+    "options": [
+      "Leave the concrete failed assertion open without a change.",
+      "Reuse existing proved Column_Bounds at the missing call site.",
+      "Introduce another arithmetic lemma, change solver deadline or narrow the admitted magnitude."
+    ],
+    "preferred": "Reuse the existing lemma only, subject to exact actual GPT-6.1 review and original complete-closure proof/runtime rerun.",
+    "reviewer_verdict": "PENDING; this preparer is not formal review.",
+    "reversal": "Remove only the exact added Column_Bounds call shown by each separately hash-bound patch; require return to its recorded preimage hash. Retain original D53 outputs and all subsequent failed/positive results."
+  },
+  "validation_plan": [
+    "Coordinator reviews and records the exact decision before application/run.",
+    "Keep the D53 v1 outputs immutable; use a fresh candidate copy and output directory.",
+    "Core: rerun the original complete candidate build, all-unit level-3 proof with original memlimit1024/timeout60/j2 and assertion-enabled deterministic runtime; include the original explicit dependency roster and helper bodies.",
+    "Pending: do not copy the core whole body; apply only pending.patch to its separately matching preimage after review. Use a separately explicit complete pending-dependency profile, not a transferred core proof claim.",
+    "Only root launches admitted worktree-owned heavy jobs under the existing shared lock/memory/storage controls.",
+    "Future production integration still requires original complete same-source gates; this focused repair cannot close full authority/Phase1 acceptance."
+  ],
+  "non_claims": [
+    "No source patch applied.",
+    "No compiler, proof or runtime job executed by this preparer.",
+    "No new theorem, public precondition, Assume, justified check, timeout/cap change, source exclusion or modified fixture.",
+    "Pending source has no D53 actual failed obligation result; the same local shape supports only a separate proposed call.",
+    "The numerical bound is quoted from the existing analyzed lemma; no new mathematical result is claimed."
+  ]
+}

@@ -1,0 +1,12 @@
+ error: prefix of attribute "Old" that is potentially unevaluated must statically name an entity or be eligible for conditional evaluation (RM 6.1.1 (27))
+--> lifetime.ads:28:44
+   28 |                and then Read (Object)'First = Read (Object)'First'Old
+      |                                               ^~~~~~~~~~~~~~~~~~~
+      + using pragma Unevaluated_Use_Of_Old (Allow) will make this legal
+
+ error: prefix of attribute "Old" that is potentially unevaluated must statically name an entity or be eligible for conditional evaluation (RM 6.1.1 (27))
+--> lifetime.ads:29:43
+   29 |                and then Read (Object)'Last = Read (Object)'Last'Old;
+      |                                              ^~~~~~~~~~~~~~~~~~
+      + using pragma Unevaluated_Use_Of_Old (Allow) will make this legal
+gnatprove: error during generation of Global contracts

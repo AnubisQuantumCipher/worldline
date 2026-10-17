@@ -97,7 +97,7 @@ defers that).
 
 | Path | Content | Behaviour |
 |---|---|---|
-| `~/.local/lib/worldline` | Runtime package, `libworldline_core.so`, `proof-manifest.json`, C header | Replaced atomically |
+| `~/.local/lib/worldline` | Runtime package, library, proof manifest, pinned proof sources, proof-run record, summary when proved, plugin compatibility record, C header | Replaced atomically |
 | `~/.local/bin/worldline`, `~/.local/bin/worldlined` | Launchers | Overwritten |
 | `~/.config/omarchy/plugins/khephri.worldline` | Desktop plugin, a git checkout of `../worldline-omarchy` | Fast-forwarded; a diverged checkout is refused, never overwritten |
 | `~/.config/systemd/user/worldlined.service` | User service unit | Enabled and restarted |
@@ -471,10 +471,21 @@ prepare and commit, tested and staged content roots, staged validation).
 
 ## 7.6 Proof claims
 
-`invariantPreservation: PROVED` in a receipt means the installed proof manifest still matches the
-running library. The proved kernel supplies the equality verdict and the state-machine rules;
-the runtime decides what is compared and performs the exchange. The C/Python/QML boundary and
-the OS are outside the proof, and the receipt says so under `boundary.notProved`.
+In 1.9.2, `invariantPreservation: PROVED` requires an evaluable manifest, the pinned source and
+contract checks, identity and hash checks for the mapped library, a recorded proof run, and a
+summary whose digest, counts and coverage are re-derived successfully. The receipt exposes each
+check under `verification`, using schema `worldline-proof-status-v2`.
+
+`MANIFEST_ONLY` means the manifest checks pass but no accepted proof run is recorded for this
+installation. `TEST_LIBRARY` identifies an environment-selected library. `UNVERIFIED` reports
+failed or unevaluable checks; `evaluable` distinguishes those cases. These statuses are not
+interchangeable. Earlier receipts used earlier verification rules.
+
+The project target remains authenticated proof provenance and decision-time binding to the
+authorized implementation, together with the original end-to-end guarantees. The current
+unsigned evidence does not meet that target: OB-039 and the remaining OB-084 work stay OPEN.
+The C/Python/QML and OS boundaries recorded under `boundary.notProved` are outstanding engineering
+boundaries, not a replacement completion criterion for the project.
 
 # 8. The desktop cockpit
 

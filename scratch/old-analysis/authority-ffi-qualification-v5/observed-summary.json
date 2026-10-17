@@ -1,0 +1,94 @@
+{
+  "claim": "UNVERIFIED until finite observer qualification and exact source/library joins are reviewed",
+  "completed_calls": [
+    {
+      "id": "3b120765cd3245a5a872ea664eba2e47",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_compute"
+    },
+    {
+      "id": "a95507a32b1541d5b4de3c66c834cebe",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_compute"
+    },
+    {
+      "id": "ef0ef2098a2246d294b764dcc771bf0b",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_compute"
+    },
+    {
+      "id": "8c792592f74f4d7fb57ecf4ff4ce06d9",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_compute"
+    },
+    {
+      "id": "0135649364d8463a9df049018005b1a5",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_headroom"
+    },
+    {
+      "id": "0f20df0d9e294faab9aefcc1c8821d59",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_headroom"
+    },
+    {
+      "id": "4bfbfe7a778747e9bdf1748183a43ffa",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_headroom"
+    },
+    {
+      "id": "6424e2ed4f204dbbb8485d901bca0465",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_ledger_headroom"
+    },
+    {
+      "id": "d0cf19ce7f6544bca4a469bb1263e709",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_policy_admit"
+    },
+    {
+      "id": "5b756cacd00f44f5a3da3a499a2f42fd",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_policy_admit"
+    },
+    {
+      "id": "37137b751e074734b93666cd7d5c128f",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_policy_admit"
+    },
+    {
+      "id": "ae82fdbd3b894c0794b33eee67cf63e1",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_policy_admit"
+    },
+    {
+      "id": "3925f6236dcf48c6b96c1469ca6de169",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_policy_admit"
+    },
+    {
+      "id": "3458f483ef13407a956a78c273376252",
+      "step": "finite-production-transport-parity",
+      "symbol": "wl_resource_policy_admit"
+    }
+  ],
+  "event_path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/authority-ffi-qualification-v5/observed/dispatch.jsonl",
+  "event_sha256": "23edb5677ede3efa55d1f793dd1cac15b648305f38a76c4a860a1626f2951ae7",
+  "independent_acceptance": "NOT PERFORMED",
+  "library_sha256_after": "bfbcd66f8b91c666edffef5998bfe17759193e1b5fc5b1cc5d4bc73a4cf2696e",
+  "native_instruction_entry": "UNVERIFIED",
+  "observation_errors": [],
+  "observer_sha256": "d87010fb1b2dfd98204dad893a769274388e9386b16010c249d60ab77a17fbac",
+  "restoration_errors": [],
+  "restored_original_functions": true,
+  "runtime_bindings": {
+    "worldline.resource_ledger": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_ledger.py",
+      "sha256": "97b921b7eb2f1440aedd801f3c4b78a9fd84c033d2e5ff32149773c753fc8a5f"
+    },
+    "worldline.resource_policy": {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime/worldline/resource_policy.py",
+      "sha256": "40ec0a7c6eabc9af87affb0f208ebfad097549118bd49e174fb387cdec9ddf40"
+    }
+  }
+}

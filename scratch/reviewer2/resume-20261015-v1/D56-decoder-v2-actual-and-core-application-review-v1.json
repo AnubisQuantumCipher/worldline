@@ -1,0 +1,75 @@
+{
+  "utc": "2026-10-15T04:18:18.068096+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR actual complete isolated D56v2 candidate proof/build/control result and narrowly applying exact reviewed single Ghostlemma call to core Resource_Quantities after actualoutcome/application decision is logged. No pending or cursor production integration approved.",
+  "base_commit": "915f5389b383e2377e92ec3a134d11df9d05951a",
+  "result_sha256": "c9594d18e8f350bd69db4d18bfca28f9d9635751e7de3782cef9bf93f73aefbc",
+  "report_sha256": "ef8ac2f8f02d0800139d2877414f1597bbad01732c3e30134b32d873c7f70ec4",
+  "build_proof_runtime_exits": [
+    0,
+    0,
+    0
+  ],
+  "parent_exit": 0,
+  "source_and_privatewatch_equal_verified": true,
+  "assertions_enabled_ali": true,
+  "report_observed": {
+    "total": 860,
+    "unproved": ".",
+    "justified": ".",
+    "analyzed_units": 7,
+    "resource_quantities_analyzed_subprograms_packages": "26 out of26",
+    "skipped_rows": []
+  },
+  "warnings_retained": [
+    "ControlCheck_Start/Check_Step/Check_One no effect flowwarnings",
+    "Existing no recursive call visible variant warnings",
+    "Unused helper/type/use/parameter compilerwarnings; result not warning-free"
+  ],
+  "core_application": {
+    "preimage_sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+    "proposed_sha256": "23e67ed2f9fbb65741e5ddfab10fbde101a719feeb649a2bf1c9ae8052421a1a",
+    "baseline_a1_core_matches": true,
+    "delta": "Only existingColumn_Bounds(Before_Residue,Before_Place,Column_Value) Ghostcall; publicspec/contracts/debit/credit/borrow/return unchanged.",
+    "conditions": [
+      "Append actual D56outcome and exact coreapplication choice/reviewer/reversal BEFORE productedit; previous entry was candidateonly.",
+      "Verify exactpreimage immediately before root applies; retain failedv1 and successfulv2 snapshots, no inplaceartifactmutation.",
+      "No pendingcopy/cursorintegration/newsolverbound/Assume/justifiedcheck/sourcepinupdates authorized.",
+      "CheckedGhost call adds executablecheckedcost/allocations; full productionlibrary and originalresourcepolicy runtime/fault/cost and same-sourcefullproof remain UNVERIFIED until actualoriginalvalidation."
+    ]
+  },
+  "scope_after": {
+    "event": "after",
+    "exit_code": 0,
+    "memory.current": "88211456",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "1013657600",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-cfa7d5003c044c51af88e9313e34d590.scope",
+    "utc": "2026-10-15T04:16:12.530510+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T04:16:13.485785+00:00"
+  },
+  "limits": [
+    "Completecandidateclosure includes explicitcopiedbodies/callers/controls; importedfullprebuiltSPARKlib runtime is not newlyproved by thisproject.",
+    "Ghostdenotation/cursorprimitive proof is not fullsharedJSONgrammar equivalence or productiondecoder migration.",
+    "Candidatebase915f+exactoverlay is not integratedfrozencommit or fullWORLDLINEF2pass.",
+    "No need repeat alreadygreen candidate; furtherproductioncontrols require exactreviewed source/project recipes."
+  ],
+  "non_claims": [
+    "No edit/test/proof/job byreviewer; no Phase1/independentacceptance."
+  ]
+}

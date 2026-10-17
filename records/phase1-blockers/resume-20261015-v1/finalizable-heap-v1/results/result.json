@@ -1,0 +1,118 @@
+{
+  "started_utc": "2026-10-15T03:02:53.614205+00:00",
+  "purpose": "Strict Finalizable heap owning-copy/whole-object Old discriminator; no full O1 acceptance or leak-observer claim",
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-heap-v1",
+  "source_hashes": {
+    "probe.gpr": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+    "run.py": "acfd470c580173307da7c8c9afd42ed072dede8b5620122ba880e2536dddccd6",
+    "main.adb": "3516387ad1d62d4d2b1ed0d066f355ac1eac1db6679100b56732e05399258e19",
+    "lifetime.ads": "b5f91cf045eb18139ef0d09d343ce4c0b620a303fa7522adc1ba2e67c2396454",
+    "lifetime.adb": "90ef4488c664959e2144771d2609450b46adb7d539005e525f8ec9271ad55d7a"
+  },
+  "environment": {
+    "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0l52iV8:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0uKeHpg:/home/sicarii/.codex/packages/app-server-daemon/releases/0.160.1-aarch64-unknown-linux-musl/codex-path:/home/sicarii/.codex/tmp/arg0/codex-arg0dpePa3:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "ADA_PROJECT_PATH": null,
+    "GPR_PROJECT_PATH": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/lib/gnat:/home/sicarii/opt/gnat/auxiliary/share/gpr",
+    "TMPDIR": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-heap-scope-v1/tmp",
+    "XDG_CACHE_HOME": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-heap-scope-v1/cache"
+  },
+  "steps": [
+    {
+      "name": "gnatls-version",
+      "argv": [
+        "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnatls",
+        "--version"
+      ],
+      "started_utc": "2026-10-15T03:02:53.619569+00:00",
+      "exit_code": 0,
+      "ended_utc": "2026-10-15T03:02:53.621219+00:00",
+      "stdout_sha256": "ab3b70e7381b9f2a7ad8112030afdebfefff21d59eddacc17fe1c6dd2ab3627c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gprbuild-version",
+      "argv": [
+        "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+        "--version"
+      ],
+      "started_utc": "2026-10-15T03:02:53.641091+00:00",
+      "exit_code": 0,
+      "ended_utc": "2026-10-15T03:02:53.646129+00:00",
+      "stdout_sha256": "b7af7e2e658742c57dd28432908a28d9a29893959c4580b877eea0c855e3c8b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gnatprove-version",
+      "argv": [
+        "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+        "--version"
+      ],
+      "started_utc": "2026-10-15T03:02:53.741383+00:00",
+      "exit_code": 0,
+      "ended_utc": "2026-10-15T03:02:53.807116+00:00",
+      "stdout_sha256": "7003362a89b06f3a9c9a771071d1237ccc46748c17629f304b093362ebad8abe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "build",
+      "argv": [
+        "gprbuild",
+        "-P",
+        "probe.gpr",
+        "-j1"
+      ],
+      "started_utc": "2026-10-15T03:02:53.807347+00:00",
+      "exit_code": 4,
+      "ended_utc": "2026-10-15T03:02:54.027933+00:00",
+      "stdout_sha256": "dc71f00d123e93c0cbdb1fe982a37d0911104eb51e9ebeab8d99afa6bc2bde99",
+      "stderr_sha256": "0dccec7e6c254c2b90b993f959e5f5a4058c5ab67e94c1bef5d23c13cb3fd6a2"
+    },
+    {
+      "name": "proof",
+      "argv": [
+        "gnatprove",
+        "-P",
+        "probe.gpr",
+        "-U",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "--memlimit=1024",
+        "--timeout=60",
+        "-j1"
+      ],
+      "started_utc": "2026-10-15T03:02:54.028176+00:00",
+      "exit_code": 1,
+      "ended_utc": "2026-10-15T03:02:54.341771+00:00",
+      "stdout_sha256": "88736e9637b2601576daf3521635e2e61618a034587e44ae110a4c19708f239b",
+      "stderr_sha256": "b736935635e8a1d7d1853b21fafcbb155ef4a56e038bec0851e778994d18aaf9"
+    }
+  ],
+  "gnatls": {
+    "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnatls",
+    "sha256": "8f94099aaece72e3dfdda659b4f14fa9a83a5a71e436510097a991dfb8d5ad29"
+  },
+  "gprbuild": {
+    "path": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+    "sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb"
+  },
+  "gnatprove": {
+    "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+    "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9"
+  },
+  "ended_utc": "2026-10-15T03:02:54.342028+00:00",
+  "source_hashes_after": {
+    "probe.gpr": "704ffc5d14dcdf12a5111cfc63f93b6f217af32f536714663f8258bc3a93bc63",
+    "run.py": "acfd470c580173307da7c8c9afd42ed072dede8b5620122ba880e2536dddccd6",
+    "main.adb": "3516387ad1d62d4d2b1ed0d066f355ac1eac1db6679100b56732e05399258e19",
+    "lifetime.ads": "b5f91cf045eb18139ef0d09d343ce4c0b620a303fa7522adc1ba2e67c2396454",
+    "lifetime.adb": "90ef4488c664959e2144771d2609450b46adb7d539005e525f8ec9271ad55d7a"
+  },
+  "build_exit": 4,
+  "proof_exit": 1,
+  "runtime_exit": null
+}

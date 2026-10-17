@@ -1,0 +1,23 @@
+--- a/runtime/worldline/finalization_journal.py
++++ b/runtime/worldline/finalization_journal.py
+@@ -363,7 +363,19 @@
+         # the frontier: a malformed or gapped persisted prefix must still refuse.
+         rows = self.db.execute('SELECT ordinal FROM main.observations WHERE run=?',
+                                (run,)).fetchall()
+-        return len(self._ordered_events(rows))
++        # Only validated numeric positions are needed for append allocation.
++        # Preserve the original complete canonical pass, numeric ordering and
++        # sequence-refusal precedence without rebuilding event-row tuples.
++        positions = []
++        for row in rows:
++            ordinal = magnitude(row['ordinal'])
++            if ordinal != row['ordinal']:
++                _refuse('FINALIZATION_ORDINAL_INVALID')
++            positions.append(int.from_bytes(ordinal, 'little'))
++        positions.sort()
++        if any(number != position for position, number in enumerate(positions)):
++            _refuse('FINALIZATION_OBSERVATION_SEQUENCE_INVALID')
++        return len(positions)
+ 
+     def close(self):
+         with self.lock:

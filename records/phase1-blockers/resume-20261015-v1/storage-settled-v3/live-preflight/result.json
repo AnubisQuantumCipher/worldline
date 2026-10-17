@@ -1,0 +1,279 @@
+{
+  "backup_service": {
+    "error": "",
+    "exit_status": 0,
+    "output": "ActiveState=inactive\nSubState=dead\nExecMainStatus=0"
+  },
+  "boundary": "Preflight only, no backup/removal/queue/pin/service change. Lock availability is a momentary observation, not reservation. Native put revalidates mount/device/lock/activity/source/reserve and full recovery; selected candidate backup is not all project/outer evidence coverage. Host catalog/status files private, excluded from publication.",
+  "command": [
+    "python3",
+    "-B",
+    "records/phase1-blockers/resume-20261015-v1/storage-settled-v3/live_preflight.py"
+  ],
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/.codex/skills/project-vault/scripts/storage_status.py"
+      ],
+      "exit_code": 0,
+      "name": "local-status",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "4a20a6a959f07446096f877002f93dc01adc0ccaad2c1ee14ec0ecc124939fbf"
+    },
+    {
+      "argv": [
+        "project-vault",
+        "status"
+      ],
+      "exit_code": 0,
+      "name": "native-status",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b8ebc1369773ead4b4dc69ed844608f243443cb767c9cda004777d363189b0f6"
+    }
+  ],
+  "config_sha256": "61d74711d47c90c32a2b2be6168e45863dea46cb7820a0e661b321135f21cf5e",
+  "free_bytes": 96878415872,
+  "method_hashes": {
+    "backup_batch.py": "5516311bc0c641817594e375e338f55568c6a9ea94afbb10589380b5eed75ecc",
+    "run_backup.py": "70bd528e192d5adf18ca0bcaaf76944c8ab5efec69e43ac7648812720c96389c"
+  },
+  "method_sha256": "9dd4a27858ef2a7644db916ff28d95059ac72835b91b7f1e0a3fa6769671d751",
+  "native_initial_transfer_active": false,
+  "native_status_mounted": true,
+  "operation_lock_available_observed": true,
+  "own_coordination": {
+    "owner": "WORLDLINE Phase1 coordinator astra/phase1-blockers-20261013T165716Z",
+    "reason": "foreground verified offload then bounded final proof/build/runtime campaign",
+    "release": "Only this coordinator releases this owned window after foreground work yields; preserve other windows.",
+    "release_reason": "Owning coordinator confirms final foreground publication, selected backups and original launched jobs have settled",
+    "released_utc": "2026-10-15T01:43:58.834848+00:00",
+    "resume_reason": "User explicitly resumes Phase1 engineering; protect foreground bounded repair/proof/runtime campaign",
+    "resumed_utc": "2026-10-15T02:31:26.616169+00:00",
+    "status": "reserved",
+    "utc": "2026-10-14T14:36:20.385259+00:00"
+  },
+  "own_coordination_sha256": "61befb8a463ba290460899beeb3ade20ed502ec51b264c9a1c31a61d55ee5aaa",
+  "pins_sha256": "744f09048d552874225ab734825fbe13912d3a31414912fb0fd9af18fe301ad1",
+  "selected": [
+    {
+      "active_users": [],
+      "content_manifest_sha256": "93c3db104d6b0814487cd8e6b76175a25b1c2f59d9f1b6b4c15aeaa651d06b58",
+      "inventory_file": "0.inventory.json",
+      "inventory_file_sha256": "e76dd57bbc9f1f83fc41d6612e4c8e3298b3c2323242adcc9dd493acdef08b99",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v1",
+      "pin_overlaps": []
+    },
+    {
+      "active_users": [],
+      "content_manifest_sha256": "be6c9759963a2a8e550a2867127a4bd77bf6a4ebdf00c207d92b26d43f799bd0",
+      "inventory_file": "1.inventory.json",
+      "inventory_file_sha256": "c0e56726e29f6d4427ce13da7b674966fc47aa86ee83319915cee85a42b66122",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/decoder-cursor-v2",
+      "pin_overlaps": []
+    },
+    {
+      "active_users": [],
+      "content_manifest_sha256": "dad383b4f48c34f822b1f27e8f6d244f8dfaf06c7784d90f7bc9d95fe4a08a2c",
+      "inventory_file": "2.inventory.json",
+      "inventory_file_sha256": "8fa7cf4e04519e51dc7f7596d86a9dbe44f453f523ed2fac35872ada7ad50004",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1",
+      "pin_overlaps": []
+    },
+    {
+      "active_users": [],
+      "content_manifest_sha256": "fc34ed3bbb729fc5625a412c98b3cc199d795eb772ad2d47c6c6c66c7d7b4bd0",
+      "inventory_file": "3.inventory.json",
+      "inventory_file_sha256": "49c9ce270fcffae894756f6af2981f26f849d8bf49d76bb7b090faca8931aebd",
+      "offload": false,
+      "original_retained": true,
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2",
+      "pin_overlaps": []
+    }
+  ],
+  "terminals": [
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v1/terminal-scope.jsonl",
+      "row": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T04:03:12.283158+00:00"
+      },
+      "sha256": "d37b28bb48451ce340df1c9778adaf9eff2328c1110a54c8e865b0956c44ea0d"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/decoder-cursor-scope-v2/terminal-scope.jsonl",
+      "row": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T04:16:13.485785+00:00"
+      },
+      "sha256": "1bc4b17889ad9701009ffcb2b90f42b214de77404750c1b3e9ac1f16918be35a"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v1/scope/terminal-scope.jsonl",
+      "row": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T04:47:15.697208+00:00"
+      },
+      "sha256": "836d340a27b0fd6e982354f310bca06f42689c18a5da05186fb9cf648a203600"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-json-parser-v2/scope/terminal-scope.jsonl",
+      "row": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T05:35:25.335217+00:00"
+      },
+      "sha256": "99d293b0a7d899f3fcf82689d55e1ad36beeececb0135403f5aa141fc106bcc7"
+    },
+    {
+      "path": "records/phase1-blockers/resume-20261015-v1/shared-parser-runtime-v1/scope/terminal-scope.jsonl",
+      "row": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-15T05:38:00.395504+00:00"
+      },
+      "sha256": "fa092adfc56efe955ae3befb94f8445f9f8365c04942b85408adce417893a7d4"
+    }
+  ],
+  "tool_source_after": {
+    "/home/sicarii/Projects/project-vault/anubis_backup.py": "de546e3c79d6a1ce5f803f8ae240c11a83ed12a09cdd3625687ca07530506060",
+    "/home/sicarii/Projects/project-vault/background_policy.py": "21daaec822dd1d86d6969b830e0baf81d0f76df079c12702671227710d3e8783",
+    "/home/sicarii/Projects/project-vault/bench.py": "f517b301a5958f2ac742f695850626b42e30536c10f4bcc66ad4b8d5337309b8",
+    "/home/sicarii/Projects/project-vault/cold.py": "0097afaaefba7cef448b2669787d01cff43c2a17301267c5ffc2bbf7cfc87666",
+    "/home/sicarii/Projects/project-vault/compact_catalog.py": "93f032f7a00d549ae1cfc138241b20cce3e889490745769377bfd4f817d553cf",
+    "/home/sicarii/Projects/project-vault/dashboard.py": "f3977c5aa2507d19787ea95f6aa4215023f52e8e28581295d3b2fc751f2c5b48",
+    "/home/sicarii/Projects/project-vault/drill.py": "ca1a55d71d4aa817ad1560886a6a907019f81771639a9a382a0fae08f9e25829",
+    "/home/sicarii/Projects/project-vault/health.py": "e35c0bb7953ffafaad767413fec420026d2af194db2be8317e34ed0dc4ca9f49",
+    "/home/sicarii/Projects/project-vault/lock_recovery.py": "13201a594f3b943b13fa38832d183dc22676f57967f5ee4ce0790a17ff24f8c6",
+    "/home/sicarii/Projects/project-vault/pins.py": "280b0c72383dc6e0963628db6b8a8a0d1b8c045ba3ef6a4f739358981d6f749e",
+    "/home/sicarii/Projects/project-vault/priority_reclaim.py": "615899512eb6120524f3edd55c5000b847e88e2556b36ec60d22aa90f2a3498b",
+    "/home/sicarii/Projects/project-vault/provenance.py": "bec1a7106baa41db00cb5bd947907e834259ff351638dc87355ebea6702d6d32",
+    "/home/sicarii/Projects/project-vault/queue_store.py": "825992f51e0f3960243b5a24b5f2583310f0bc3a3e2bbb2b0bf6cf32eb4fb201",
+    "/home/sicarii/Projects/project-vault/reclaim_ipad_apps.py": "4de398447aa4f919875a556f5e004ad971ae7e741c037f022937dd14b2219ac8",
+    "/home/sicarii/Projects/project-vault/recovery.py": "ec78a5fdf9e57221c3aec0c5b0f8b3b633af773d446da7542df1e906fd00a5fd",
+    "/home/sicarii/Projects/project-vault/render_whitepaper.py": "aa2f56abe0a9e4fc04dfe194588f6a5bb9c44d3419a0d01e8d8a8e344c38af3d",
+    "/home/sicarii/Projects/project-vault/requests_worker.py": "a4d031e6307efa9fe7badf059c3838c3e20479d8048ce71d2985e75dd5593bb6",
+    "/home/sicarii/Projects/project-vault/reviewed_batch.py": "4b046356a765a6e88a41d5ae9e50c7162cef61eb55c6adfd74446f23e51edf35",
+    "/home/sicarii/Projects/project-vault/scheduled.py": "9586872fb38a3f1b32a54dd94e834882e15c20d917e659542f9529c731f60aee",
+    "/home/sicarii/Projects/project-vault/scrub.py": "9532ccef42c2f23eaa0e44995beab0e64eb5e4db825ab56986aaf82404538ca7",
+    "/home/sicarii/Projects/project-vault/test_background_policy.py": "bf0aa4cc17ed5130d29ff6930f03bd9cb6c6fd1bc765b1e04da48c8181b38561",
+    "/home/sicarii/Projects/project-vault/test_cold.py": "284a606058ba73c80be5034dfc3050043bacc5fa3e4a4bf7e5a8da1a3ee3d7c7",
+    "/home/sicarii/Projects/project-vault/test_deps_retention.py": "ab61ea0138790d20f310777e8507da81df4c010994ac9dddc2a8ac7e4c5cd542",
+    "/home/sicarii/Projects/project-vault/test_maintenance.py": "96f399546deb05095b3a19a9d4c5f6a50a0a03965ac1f50857e8c9663fd30677",
+    "/home/sicarii/Projects/project-vault/test_polish.py": "aa77466fcfcb1ceafdd055fa0ce30fb9f318f198b04d002c6987774d219bcdc7",
+    "/home/sicarii/Projects/project-vault/test_queue.py": "3cae68a3ba5897ac3dc84cd9dfb05c6452f6379dda81b7f5c6fbb837a94ccf1f",
+    "/home/sicarii/Projects/project-vault/test_vault.py": "4b8810817b882cb356374e6d3becc976ca34d4dcba1f43334fd47e28edf87aee",
+    "/home/sicarii/Projects/project-vault/test_wait_lock.py": "e37837da464fd445871080991d8bb654a8274c318a38e4b327f3d60e0ed43c99",
+    "/home/sicarii/Projects/project-vault/tier_queue.py": "6ff015d2778fd01f02ff745ff0a16feaf17cfaae2365a3f5928c84ed5bd42c71",
+    "/home/sicarii/Projects/project-vault/vault.py": "a04a1abf2a01935697f4634f79b114360981e78252444467ed34f9dbf6af4a86",
+    "/home/sicarii/Projects/project-vault/verification_scratch.py": "56e1ee567c30eede2e3237809b7b70faa1f320824721a9e893712603c8ba0bf1",
+    "/home/sicarii/Projects/project-vault/verify_kit.py": "d2e4404fed863696938fc6a11d611d1a8f178d57d7acc80d7f5aa455cec738d9",
+    "/home/sicarii/Projects/project-vault/work_partial.py": "e21a70dcae3628f07c3bd8080c4bf1741f95f0f7e6156345f6e4afa00a77839c"
+  },
+  "tool_source_before": {
+    "/home/sicarii/Projects/project-vault/anubis_backup.py": "de546e3c79d6a1ce5f803f8ae240c11a83ed12a09cdd3625687ca07530506060",
+    "/home/sicarii/Projects/project-vault/background_policy.py": "21daaec822dd1d86d6969b830e0baf81d0f76df079c12702671227710d3e8783",
+    "/home/sicarii/Projects/project-vault/bench.py": "f517b301a5958f2ac742f695850626b42e30536c10f4bcc66ad4b8d5337309b8",
+    "/home/sicarii/Projects/project-vault/cold.py": "0097afaaefba7cef448b2669787d01cff43c2a17301267c5ffc2bbf7cfc87666",
+    "/home/sicarii/Projects/project-vault/compact_catalog.py": "93f032f7a00d549ae1cfc138241b20cce3e889490745769377bfd4f817d553cf",
+    "/home/sicarii/Projects/project-vault/dashboard.py": "f3977c5aa2507d19787ea95f6aa4215023f52e8e28581295d3b2fc751f2c5b48",
+    "/home/sicarii/Projects/project-vault/drill.py": "ca1a55d71d4aa817ad1560886a6a907019f81771639a9a382a0fae08f9e25829",
+    "/home/sicarii/Projects/project-vault/health.py": "e35c0bb7953ffafaad767413fec420026d2af194db2be8317e34ed0dc4ca9f49",
+    "/home/sicarii/Projects/project-vault/lock_recovery.py": "13201a594f3b943b13fa38832d183dc22676f57967f5ee4ce0790a17ff24f8c6",
+    "/home/sicarii/Projects/project-vault/pins.py": "280b0c72383dc6e0963628db6b8a8a0d1b8c045ba3ef6a4f739358981d6f749e",
+    "/home/sicarii/Projects/project-vault/priority_reclaim.py": "615899512eb6120524f3edd55c5000b847e88e2556b36ec60d22aa90f2a3498b",
+    "/home/sicarii/Projects/project-vault/provenance.py": "bec1a7106baa41db00cb5bd947907e834259ff351638dc87355ebea6702d6d32",
+    "/home/sicarii/Projects/project-vault/queue_store.py": "825992f51e0f3960243b5a24b5f2583310f0bc3a3e2bbb2b0bf6cf32eb4fb201",
+    "/home/sicarii/Projects/project-vault/reclaim_ipad_apps.py": "4de398447aa4f919875a556f5e004ad971ae7e741c037f022937dd14b2219ac8",
+    "/home/sicarii/Projects/project-vault/recovery.py": "ec78a5fdf9e57221c3aec0c5b0f8b3b633af773d446da7542df1e906fd00a5fd",
+    "/home/sicarii/Projects/project-vault/render_whitepaper.py": "aa2f56abe0a9e4fc04dfe194588f6a5bb9c44d3419a0d01e8d8a8e344c38af3d",
+    "/home/sicarii/Projects/project-vault/requests_worker.py": "a4d031e6307efa9fe7badf059c3838c3e20479d8048ce71d2985e75dd5593bb6",
+    "/home/sicarii/Projects/project-vault/reviewed_batch.py": "4b046356a765a6e88a41d5ae9e50c7162cef61eb55c6adfd74446f23e51edf35",
+    "/home/sicarii/Projects/project-vault/scheduled.py": "9586872fb38a3f1b32a54dd94e834882e15c20d917e659542f9529c731f60aee",
+    "/home/sicarii/Projects/project-vault/scrub.py": "9532ccef42c2f23eaa0e44995beab0e64eb5e4db825ab56986aaf82404538ca7",
+    "/home/sicarii/Projects/project-vault/test_background_policy.py": "bf0aa4cc17ed5130d29ff6930f03bd9cb6c6fd1bc765b1e04da48c8181b38561",
+    "/home/sicarii/Projects/project-vault/test_cold.py": "284a606058ba73c80be5034dfc3050043bacc5fa3e4a4bf7e5a8da1a3ee3d7c7",
+    "/home/sicarii/Projects/project-vault/test_deps_retention.py": "ab61ea0138790d20f310777e8507da81df4c010994ac9dddc2a8ac7e4c5cd542",
+    "/home/sicarii/Projects/project-vault/test_maintenance.py": "96f399546deb05095b3a19a9d4c5f6a50a0a03965ac1f50857e8c9663fd30677",
+    "/home/sicarii/Projects/project-vault/test_polish.py": "aa77466fcfcb1ceafdd055fa0ce30fb9f318f198b04d002c6987774d219bcdc7",
+    "/home/sicarii/Projects/project-vault/test_queue.py": "3cae68a3ba5897ac3dc84cd9dfb05c6452f6379dda81b7f5c6fbb837a94ccf1f",
+    "/home/sicarii/Projects/project-vault/test_vault.py": "4b8810817b882cb356374e6d3becc976ca34d4dcba1f43334fd47e28edf87aee",
+    "/home/sicarii/Projects/project-vault/test_wait_lock.py": "e37837da464fd445871080991d8bb654a8274c318a38e4b327f3d60e0ed43c99",
+    "/home/sicarii/Projects/project-vault/tier_queue.py": "6ff015d2778fd01f02ff745ff0a16feaf17cfaae2365a3f5928c84ed5bd42c71",
+    "/home/sicarii/Projects/project-vault/vault.py": "a04a1abf2a01935697f4634f79b114360981e78252444467ed34f9dbf6af4a86",
+    "/home/sicarii/Projects/project-vault/verification_scratch.py": "56e1ee567c30eede2e3237809b7b70faa1f320824721a9e893712603c8ba0bf1",
+    "/home/sicarii/Projects/project-vault/verify_kit.py": "d2e4404fed863696938fc6a11d611d1a8f178d57d7acc80d7f5aa455cec738d9",
+    "/home/sicarii/Projects/project-vault/work_partial.py": "e21a70dcae3628f07c3bd8080c4bf1741f95f0f7e6156345f6e4afa00a77839c"
+  },
+  "tool_source_stable": true,
+  "tools_before_archive": {
+    "project-vault": {
+      "resolved_path": "/home/sicarii/Projects/project-vault/vault.py",
+      "sha256": "a04a1abf2a01935697f4634f79b114360981e78252444467ed34f9dbf6af4a86"
+    },
+    "python3": {
+      "resolved_path": "/usr/bin/python3.14",
+      "sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947"
+    },
+    "restic": {
+      "resolved_path": "/usr/bin/restic",
+      "sha256": "7d1a450cfc9c0c97b7fddd644a1fca892ba19289af69f5a8ca07a2782d5df6a3"
+    }
+  },
+  "utc": "2026-10-15T05:40:15.000766+00:00"
+}

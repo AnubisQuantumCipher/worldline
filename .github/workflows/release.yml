@@ -43,9 +43,39 @@ jobs:
     with:
       ref: ${{ needs.resolve.outputs.sha }}
 
+  pair:
+    needs: resolve
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    env:
+      RELEASE_SHA: ${{ needs.resolve.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify the immutable engine and plugin pair
+        run: |
+          plugin_sha=$(python3 scripts/plugin_compat.py --named-commit plugin-compatibility.json)
+          [[ "$plugin_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "No immutable plugin commit is named" >&2; exit 1; }
+          git clone --no-checkout https://github.com/AnubisQuantumCipher/worldline-omarchy.git "$RUNNER_TEMP/paired-plugin"
+          git -C "$RUNNER_TEMP/paired-plugin" checkout --detach "$plugin_sha"
+          test "$(git -C "$RUNNER_TEMP/paired-plugin" rev-parse HEAD)" = "$plugin_sha"
+          python3 "$RUNNER_TEMP/paired-plugin/tools/check-release-pair.py" \
+            --engine-repo "$GITHUB_WORKSPACE" --engine-commit "$RELEASE_SHA" \
+            --plugin-repo "$RUNNER_TEMP/paired-plugin" --plugin-commit "$plugin_sha" \
+            > release-pair.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-pair-${{ needs.resolve.outputs.sha }}
+          path: release-pair.json
+          if-no-files-found: error
+
   publish:
-    needs: [resolve, assurance]
-    if: ${{ needs.resolve.result == 'success' && needs.assurance.result == 'success' && needs.assurance.outputs.result == 'PASS' }}
+    needs: [resolve, assurance, pair]
+    if: ${{ needs.resolve.result == 'success' && needs.assurance.result == 'success' && needs.assurance.outputs.result == 'PASS' && needs.pair.result == 'success' }}
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -71,6 +101,12 @@ jobs:
         with:
           name: ${{ needs.assurance.outputs.artifact }}
           path: assurance
+
+      - name: Download this run's immutable pair report
+        uses: actions/download-artifact@v4
+        with:
+          name: release-pair-${{ needs.resolve.outputs.sha }}
+          path: pair
 
       - name: Source archive from the exact release tree, with digests
         run: |
@@ -128,6 +164,12 @@ jobs:
             --signing unsigned \
             --write-manifest dist/release-manifest.json
           python3 verify_proof_manifest.py --sources-only   # sources check only; the full proof is in assurance.json
+
+      - name: Bind the external release manifest to the verified final pair
+        run: |
+          python3 scripts/verify_release_pair_report.py \
+            --report pair/release-pair.json --manifest dist/release-manifest.json \
+            --engine-commit "$RELEASE_SHA" --engine-tree "$RELEASE_TREE"
 
       - name: Release notes from the changelog and the recorded results
         run: |

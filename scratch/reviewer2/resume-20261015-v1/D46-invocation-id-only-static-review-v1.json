@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-15T03:04:06.346841+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR one-key consumer correction as narrow production repair direction under separately recorded D46; no execution or full capture result established. Correct overbroad local null-refusal statement in preparer analysis.",
+  "patch_sha256": "f035f3eebf8e4c0e0dd0d474d96eb75ce009ce828d5bcdf411f1db4e21b287a4",
+  "preimage_sha256": "cfda698ea10c94acf3288a0abf04b245846af7b5d9cb24a79099808018e6fc63",
+  "proposed_sha256": "d48d92343350610747b7dd94ca7cff43d403cca8297fcc271467f03dd0db0c79",
+  "source_correspondence": [
+    "Only native source caller located is Evaluation_Producer.Project invocation of Evaluation_Role_Native.Valid(Expected,Observed,Result_Record). Expected is independently retained start JSON.",
+    "EngineEvaluationWriter and EngineFinalizationWriter actual invocation_started schemas both retain invocationId with separate evaluationRun; neither constructs runId alias. Protected resolvers preserve/check exact retained starts rather than inventing alias.",
+    "CheckRunner creates run_id once and passes same value as writer invocation and PrivateEvaluationSpec.run_id. PrivateEvaluator role plan writes runId=spec.run_id.",
+    "Syntax phase producer separately uses start.invocationId and report binding.runId for same fresh value, supporting schema distinction. No unrelated evaluationRun substitution is justified.",
+    "Exactly one field-name read changes; no alias/fallback, None-to-missing equivalence, profile/snapshot/custody/source/lifetime/cap changes. Integrated domain rewrite remains rejected/unapplied."
+  ],
+  "type_boundary_correction": [
+    "Producer_Values.Equal rejects Missing and form mismatch; it DOES equate two Null_Value nodes through its generic raw comparison. Therefore matching null/null at this isolated expression is not rejected solely by typed equality.",
+    "For a genuine string plan runId, null or missing invocationId fails this comparison. The full Evaluation_Producer invocation join separately requires Nonempty_Text(Expected,invocationId) and other binding relations.",
+    "Do not claim standalone Evaluation_Role_Native.Valid universally rejects null invocationId from this one-key diff without complete predicate proof. Overall admission still requires original independent nonempty invocation and report/source/custody predicates; no such predicates may be removed."
+  ],
+  "validation_limits": [
+    "Inspected existing tests do not directly present fully valid actual native capture then mutate only ID. Targeted positive/negative native capture coverage remains UNVERIFIED; do not fabricate closure from schema/unit tests.",
+    "Original same-source complete build/strictproof/runtime/private/domain controls remain required. No new qualifier, synthetic protected capture or subset acceptance authorized.",
+    "No guaranteed causal effect on frozen earlier bwrap refusal/domain behavior; key correction cannot provide an isolated executor.",
+    "D46 exact options/evidence/choice/verdict/reversal must precede product application/launch; retain patch/preimage and use fresh repaired-source evidence."
+  ],
+  "non_claims": [
+    "No product edit/import/build/proof/test/launcher by reviewer.",
+    "No complete all-callers runtime proof, protected custody, C1-C4 or independent acceptance."
+  ]
+}

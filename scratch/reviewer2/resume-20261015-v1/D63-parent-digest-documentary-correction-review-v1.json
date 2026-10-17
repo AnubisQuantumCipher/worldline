@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-15T05:42:54.241434+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "CONCUR measured transcription-error correction, retain erroneous historical line and append exact identity after current tracked-source window",
+  "correct_actual_parent_sha256": "70bd528e192d5adf18ca0bcaaf76944c8ab5efec69e43ac7648812720c96389c",
+  "incorrect_logged_sha256": "70bd5290896312a3963a30a8ad4d7bd8ef86e3594a22fd2130cd4898b0b7caff",
+  "independent_joins": {
+    "current_method": "70bd528e192d5adf18ca0bcaaf76944c8ab5efec69e43ac7648812720c96389c",
+    "prior_prelaunch_review": "70bd528e192d5adf18ca0bcaaf76944c8ab5efec69e43ac7648812720c96389c",
+    "preflight": "70bd528e192d5adf18ca0bcaaf76944c8ab5efec69e43ac7648812720c96389c",
+    "actual_executed_parent_launch": "70bd528e192d5adf18ca0bcaaf76944c8ab5efec69e43ac7648812720c96389c"
+  },
+  "evidence_sha256": {
+    "records/phase1-blockers/resume-20261015-v1/storage-settled-v3/D63-parent-digest-transcription-correction-v1.json": "31d112d2cc762878792a8be48a0658b546033cfbd29269fe5cd8105a6fe41dea",
+    "scratch/reviewer2/resume-20261015-v1/D63-four-directory-live-preflight-launch-review-v1.json": "2b3475d45686f17b233c7b686fdd34dc34b791bd1ccecb4d7df6cc571873c566",
+    "records/phase1-blockers/resume-20261015-v1/storage-settled-v3/live-preflight/result.json": "a3258db96eec5ee297b2e7fbde465d4f518456e13a42fb62358e18c74a0c20c5",
+    "records/phase1-blockers/resume-20261015-v1/storage-settled-v3/parent/launch.json": "92ce42992c7e8fb814860a80a77c1704fdbf06627afc3625f06906e210e7c64a"
+  },
+  "scope": "Actual selected path/method/limits unchanged; erroneous document digest does not alter executable selection or establish a new method. Immediate immutable correction retained without overwriting history.",
+  "remaining": "Append correct actual digest with this receipt after run sourcepostwindow; preserve wrong text as historical transcription. No success/readback/backup coverage claim before terminal and full recovery joins.",
+  "actions": "Read-only actual correction/doc/method/preflight/review/launch identity comparison; no process/vault/result poll or edit."
+}

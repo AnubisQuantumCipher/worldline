@@ -1,0 +1,845 @@
+{
+  "utc": "2026-10-14T22:46:42.007583+00:00",
+  "reviewer_model": "actual GPT-6.1 task model; no separate provider attestation inspected",
+  "classification": "MEASURED retained receipt/source review; internal, not independent acceptance",
+  "tested_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "verdict": "F2 FAILED-OPEN; carrier terminal 124, no completed GNATprove aggregate or successful proof manifest.",
+  "checks": {
+    "admission.jsonl": true,
+    "admitted.json": true,
+    "cgroup.jsonl": true,
+    "launch.jsonl": true,
+    "result.jsonl": true,
+    "scope.jsonl": true,
+    "terminal-scope.jsonl": true,
+    "launch": true,
+    "driver": true,
+    "gate_driver": true,
+    "dependency_manifest": true
+  },
+  "source_checks": {
+    "all_frozen_root_hashes_match": true,
+    "all_frozen_frame_hashes_match": true,
+    "launch_source_roster_is_matching_freeze_subset": true
+  },
+  "proof_argv": [
+    "gnatprove",
+    "-P",
+    "core/worldline_core.gpr",
+    "-U",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--memlimit=1024",
+    "--timeout=60",
+    "-j2",
+    "--subdirs=phase1-full-proof-v5",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True"
+  ],
+  "carrier_launch": [
+    {
+      "MemoryMax": "8G",
+      "MemorySwapMax": "0",
+      "argv": [
+        "python3",
+        "-B",
+        "scratch/old-analysis/full_proof_driver_v2.py",
+        "--out",
+        "scratch/old-analysis/full-proof-result-v5",
+        "--subdir",
+        "phase1-full-proof-v5",
+        "--expected-commit",
+        "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+        "--freeze-record",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+        "--frame",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+        "--build-manifest",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+        "--dependency-template",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/private-sparklib-proof",
+        "--dependency-manifest",
+        "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/evidence/private-sparklib-proof-source-v1.json"
+      ],
+      "commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+      "lock": "/home/sicarii/.worldline-heavy.lock",
+      "status": "UNVERIFIED",
+      "timeout": "120m",
+      "utc": "2026-10-14T20:45:18.209797+00:00"
+    }
+  ],
+  "scope_final_result": [
+    {
+      "exit_code": 124,
+      "utc": "2026-10-14T22:45:19.847916+00:00"
+    }
+  ],
+  "worker_result": {
+    "exit_code": 124,
+    "utc": "2026-10-14T22:45:19.049610+00:00"
+  },
+  "terminal_scope": [
+    {
+      "populated": false,
+      "scope_state": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "utc": "2026-10-14T22:45:19.643144+00:00"
+    }
+  ],
+  "live_resource_samples_consistent": true,
+  "last_live_resource_sample": {
+    "event": "after",
+    "exit_code": 124,
+    "memory.current": "274243584",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "2884026368",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-b0a07608db7c4e8f919dc8908698663e.scope",
+    "utc": "2026-10-14T22:45:19.049134+00:00"
+  },
+  "gate_status": "FAILED-OPEN",
+  "proof_process_exit": null,
+  "proof_counts": null,
+  "successful_manifest_generated": false,
+  "all_gate_findings": [
+    {
+      "gate": "scope exit",
+      "message": "Heavy scope result is missing, ambiguous or nonzero; raw result preserved"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "finalization Start/Input/Seal native entry differs"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "finalization mixed collapse native entry differs"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "full-domain recovery export binding differs: wl_recovery_authorization_decide_v3"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "protected recovery protocol export binding differs: wl_recovery_protocol_decide_v1"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "complete-chain native export is not bound to the selected full-row wire decision"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-resources.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-resources.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-c_api.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-recovery_authorization_c_api.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-recovery_protocol_c_api.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-chain_authority_c_api.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/resource_run_ledger_c_api.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/native_diagnostic_trace.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-archive_base64.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_closed_v1.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_fold_engine.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_fold_engine.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_machine_evidence.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_mutation_decision.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_operation_journal.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_operation_journal.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-root_output_sequence.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-scoped_record_source.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-scoped_record_source.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-archive_envelope.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-archive_envelope.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_k4_resource_ack.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_k4_resource_ack.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_owner_canonical.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-custody_v2_owner_canonical.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-evaluation_agent_native.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-evaluation_role_native.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-journal_witness.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-native_execution_views.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-native_lifetime_observation.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-operation_result_relations.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-producer_values.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-producer_values.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-raw_json.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-recovery_material_replay.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-recovery_material_replay.ads (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-recovery_packet.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-report_parser.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-startup_installation.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-startup_source_custody.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-transaction_archive_json.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original contract/source/export pins",
+      "message": "pinned contract changed: core/worldline-excluded_source_owner.adb (a deliberate change updates CONTRACT_PINS)"
+    },
+    {
+      "gate": "original source screen",
+      "hits": {
+        "assume": [],
+        "original_gnatprove_annotation_screen": [
+          {
+            "line": 987,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 989,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 991,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 1041,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 1043,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 1045,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 1395,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 1714,
+            "match": "pragma Annotate\n        (GNATprove"
+          }
+        ],
+        "spark_off": []
+      },
+      "message": "Original prove.sh screening refuses this source",
+      "path": "core/resource_ledger.adb"
+    },
+    {
+      "gate": "original source screen",
+      "hits": {
+        "assume": [],
+        "original_gnatprove_annotation_screen": [
+          {
+            "line": 160,
+            "match": "Annotate => (GNATprove"
+          }
+        ],
+        "spark_off": []
+      },
+      "message": "Original prove.sh screening refuses this source",
+      "path": "core/resource_ledger.ads"
+    },
+    {
+      "gate": "original source screen",
+      "hits": {
+        "assume": [],
+        "original_gnatprove_annotation_screen": [
+          {
+            "line": 101,
+            "match": "Annotate => (GNATprove"
+          },
+          {
+            "line": 173,
+            "match": "Annotate => (GNATprove"
+          },
+          {
+            "line": 200,
+            "match": "Annotate => (GNATprove"
+          },
+          {
+            "line": 295,
+            "match": "Annotate => (GNATprove"
+          }
+        ],
+        "spark_off": []
+      },
+      "message": "Original prove.sh screening refuses this source",
+      "path": "core/resource_quantities.adb"
+    },
+    {
+      "gate": "original source screen",
+      "hits": {
+        "assume": [],
+        "original_gnatprove_annotation_screen": [
+          {
+            "line": 209,
+            "match": "pragma Annotate (GNATprove"
+          },
+          {
+            "line": 254,
+            "match": "pragma Annotate (GNATprove"
+          },
+          {
+            "line": 255,
+            "match": "pragma Annotate (GNATprove"
+          },
+          {
+            "line": 256,
+            "match": "pragma Annotate (GNATprove"
+          },
+          {
+            "line": 295,
+            "match": "pragma Annotate (GNATprove"
+          },
+          {
+            "line": 296,
+            "match": "pragma Annotate (GNATprove"
+          },
+          {
+            "line": 326,
+            "match": "pragma Annotate (GNATprove"
+          },
+          {
+            "line": 336,
+            "match": "pragma Annotate (GNATprove"
+          }
+        ],
+        "spark_off": []
+      },
+      "message": "Original prove.sh screening refuses this source",
+      "path": "core/worldline-chain_authority.adb"
+    },
+    {
+      "gate": "original source screen",
+      "hits": {
+        "assume": [],
+        "original_gnatprove_annotation_screen": [
+          {
+            "line": 579,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 581,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 623,
+            "match": "pragma Annotate\n        (GNATprove"
+          },
+          {
+            "line": 625,
+            "match": "pragma Annotate\n        (GNATprove"
+          }
+        ],
+        "spark_off": []
+      },
+      "message": "Original prove.sh screening refuses this source",
+      "path": "core/worldline-resources.adb"
+    },
+    {
+      "gate": "original source screen",
+      "hits": {
+        "assume": [],
+        "original_gnatprove_annotation_screen": [
+          {
+            "line": 16,
+            "match": "Annotate => (GNATprove"
+          }
+        ],
+        "spark_off": []
+      },
+      "message": "Original prove.sh screening refuses this source",
+      "path": "core/worldline.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-c-constant_strings.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-c-constant_strings.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-c-strings.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-c-strings.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-formal-doubly_linked_lists.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-formal-doubly_linked_lists.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-formal-hashed_maps.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-formal-hashed_maps.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-formal-hashed_sets.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-formal-hashed_sets.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-base.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-holder.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-infinite_sequences-higher_order.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-infinite_sequences.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-maps-higher_order.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-maps.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-multisets.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-sets-higher_order.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-sets.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-trees.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-vectors-higher_order.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-functional-vectors.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-containers-parameter_checks.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-cut_operations.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-higher_order-fold.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-lemmas-arithmetic.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-lemmas-constrained_array.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-lemmas-floating_point_arithmetic.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-lemmas-mod_arithmetic.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-lemmas-unconstrained_array.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-pointers-abstract_maps.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-pointers-abstract_sets.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-pointers-abstract_sets.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-pointers-pointers_with_aliasing.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-pointers-pointers_with_aliasing.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-pointers-pointers_with_aliasing_separate_memory.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-pointers-pointers_with_aliasing_separate_memory.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/spark-tests-array_lemmas.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-ordered_maps.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-ordered_maps.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-ordered_sets.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-ordered_sets.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_doubly_linked_lists.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_doubly_linked_lists.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_hashed_maps.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_hashed_maps.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_hashed_sets.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_hashed_sets.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_ordered_maps.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_ordered_maps.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_ordered_sets.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_ordered_sets.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_vectors.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-unbounded_vectors.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-vectors.adb"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-formal-vectors.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-base.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-holder.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-infinite_sequences.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-maps.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-multisets.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-sets.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-trees.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-functional-vectors.ads"
+    },
+    {
+      "gate": "imported source closure",
+      "message": "Existing imported SPARK_Mode Off implementation remains outside proof; no new exemption granted",
+      "path": "include/spark/full/spark-containers-hash.adb"
+    },
+    {
+      "gate": "proof completion",
+      "message": "Final proof driver result is absent; NOT COMPLETED, never zero or pass"
+    }
+  ],
+  "gate_command": [
+    "scratch/old-analysis/final_proof_gate_v2.py",
+    "--out",
+    "scratch/old-analysis/final-proof-gate-v5",
+    "--proof-run",
+    "scratch/old-analysis/full-proof-result-v5",
+    "--proof-scope",
+    "scratch/old-analysis/full-proof-scope-v5",
+    "--expected-commit",
+    "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+    "--freeze-record",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/freeze-v5/source.json",
+    "--frame",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source",
+    "--build-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/final-build-steps-v5/artifacts.json",
+    "--dependency-manifest",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/evidence/private-sparklib-proof-source-v1.json",
+    "--private-dependency",
+    "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/old-analysis/full-proof-result-v5/private-sparklib"
+  ],
+  "completed_driver_result_present": false,
+  "gate_summary_present": false,
+  "gate_receipt_sha256": "728355f5b98f230b9361d9c7edcec405d3f35933f3f1d45fcdaef059e4df1acf",
+  "limits": [
+    "Carrier timeout 120m and worker/outer 124 retained; GNATprove native return remains null. Completed driver before/after identity predicates absent; current root/frame checked separately. Launch source hash roster is a matching subset, not equal to whole freeze roster.",
+    "Live cgroup cap 8589934592/swap0 retained; last live memory peak 2884026368, high/max/oom/oom_kill/oom_group_kill zero. Inactive/not-found terminal infinity defaults do not replace actual live caps.",
+    "Terminal populated=false supports owned scope settlement only, not unrelated host process quiescence.",
+    "Missing aggregate counts unknown, never zero. No proof floor/coverage/zero-unproved/zero-justified pass. Original contract/source/export pin, source screen, and imported closure findings remain separately open.",
+    "No individual solver abort cause inferred from carrier timeout. No retry or source/bound change authorized.",
+    "Internal review never independent acceptance."
+  ]
+}

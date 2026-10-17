@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-14T20:36:10.584405+00:00",
+  "classification": "MEASURED D32 heavy-job storage preflight",
+  "source_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "disk": {
+    "total": 686860591104,
+    "used": 580514426880,
+    "free": 99350065152
+  },
+  "command": [
+    "python3",
+    "-B",
+    "scripts/phase1_heavy.py",
+    "--out",
+    "records/phase1-blockers/final-build-scope-v5",
+    "--timeout",
+    "45m",
+    "--swap-max",
+    "0",
+    "--",
+    "python3",
+    "-B",
+    "scratch/coordinator/final_build_v5.py"
+  ],
+  "protected_active_paths": [
+    "scratch/coordinator/final-frame-v5",
+    "scratch/old-analysis/private-sparklib-proof",
+    "scratch/old-analysis/private-sparklib-experiment",
+    "records/phase1-blockers/freeze-v5",
+    "records/phase1-blockers/final-build-steps-v5",
+    "records/phase1-blockers/final-build-scope-v5"
+  ],
+  "archive_status": "Forty historical exact inactive directories have retained full-recovery-verified offload receipts; no new offload in this preflight.",
+  "memory_admission": "Existing launcher checks post-flock and logs/retries unchanged; this preflight does not replace it."
+}

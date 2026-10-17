@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-15T05:30:57.730379+00:00",
+  "reviewer_model": "GPT-6.1",
+  "verdict": "NOT APPROVED as current prelaunch method; concrete no-repeat safety correction required, then exact successor review",
+  "hashes": {
+    "test.py": "13eafffa368ddf6faafd018f315b95e8a66f95ab3c7bd53887eb84a3890afd98",
+    "run_test.py": "bf043815e3b1784e6c94846f425269a4f702ebc6e2f2106836e3b465ebee291e",
+    "decision-proposal.md": "00c022cb3e7c7ae26659b4d0b412d8bb50f62d4939f8907ebbbfa805e550464c"
+  },
+  "required_corrections": [
+    {
+      "finding": "No-repeat guard only checks completed original runtime result or nonnull runtime_exits. A main started then interrupted before result emission satisfies neither and could be repeated.",
+      "fix": "Reject original phase_started events for either main and any runtime stdout/stderr/result/partial artifacts, including empty. Validate complete readable original event log and phase sequence against original scope/parent terminal evidence. Missing/unreadable history remains unknown; do not equate absent completion with never attempted."
+    },
+    {
+      "finding": "Original known-scope settlement and source maps are consumed as cached parent booleans, and cached driver_result value is not joined to its actual retained path/hash.",
+      "fix": "Join actual original parent/result, terminal-scope/result/worker receipts and any driver result hashes/values. Require actual terminal populatedfalse and retained maps equality; manually actual D62 review remains mandatory before launch, not satisfied by this static receipt."
+    }
+  ],
+  "artifact_provenance_limit": "Driver hashes current retained binary/ALI at this proposed run, while original build.result.json only records compiler argv/exit/output hashes. Original method did not capture binary hashes at build-end. Later hashes must be labeled later retained-artifact observations, not invented historical build-time measurements. Actual D62 review should bind completed original build command/stdout/fresh paths/source/ALI/binaries and record this provenance boundary; no reconstruction or recompile authorized.",
+  "preserved_good_properties": [
+    "Exact checked D62 driver imported only after fixed hash; driver top-level has no Ada/product import or payload execution.",
+    "Bundle/overlay/private source+project/artifact verification and sourceepoch/currentcandidate equality retained; regular nonsymlink binaries and assertion ALIs required.",
+    "Both unchanged literal mains, fresh10m8G0/sharedlock/admission/disk carrier, read-only root and owned results/tmp/cache writes only.",
+    "Full proof remains separate/nonpositive; no proof continuation or lower zero-unproved target. Source/module/control literals unchanged."
+  ],
+  "conditional_requirements": [
+    "D62 actual terminal complete postreadback/knowncleanup; no active source edits/reads by this review.",
+    "Original neither-main-attempted predicate actually established; if either attempted or evidence incomplete leave proposal unselected, no retry.",
+    "New recorded D65 choice/verdict after exact corrected code review; original result preserved.",
+    "Actual runtime/post/source/private/artifact/cap/cleanup review afterward before finite TESTED claim."
+  ],
+  "actions": "Read-only proposed driver/design source; no D62 current output/process inspection, import or job.",
+  "non_claims": [
+    "No D62 outcome or current artifact preverification",
+    "No proof completion/semantic equivalence/full WORLDLINE/acceptance",
+    "No launch authorization"
+  ]
+}

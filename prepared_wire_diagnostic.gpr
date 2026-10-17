@@ -1,0 +1,14 @@
+project Prepared_Wire_Diagnostic is
+   for Languages use ("Ada");
+   for Source_Dirs use ("core", "core/attest", "prepared-wire-controls");
+   for Object_Dir use "prepared-wire-obj";
+   for Exec_Dir use "prepared-wire-bin";
+   for Main use ("operation_authority_controls.adb", "prepared_operation_heads_controls.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatVa", "-gnatwa", "-gnatf", "-g", "-O0");
+   end Compiler;
+   package Builder is
+      for Switches ("Ada") use ("-j1");
+   end Builder;
+end Prepared_Wire_Diagnostic;

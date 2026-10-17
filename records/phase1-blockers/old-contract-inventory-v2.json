@@ -1,0 +1,258 @@
+{
+  "claim_class": "MEASURED",
+  "utc": "2026-10-13T17:56:28.751107+00:00",
+  "source_commit": "a1bda52b53a9a220b2333fe09a135e2d94127dbc",
+  "current_commit": "c63df369bd77b0f4747c421668db427c17d9474d",
+  "source_match_to_base": true,
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "scratch/coordinator/make-old-contract-inventory.py",
+    "records/phase1-blockers/old-contract-inventory-v2.json"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "generator_sha256": "fe9721c9ee4d06dbd537dc14dac4ec882032055c7ba7d68c2724ee743eec9865",
+  "inventory_scope": "Affected contracts enumerated in reviewed mechanism analysis; all tabulated source references resolve and source bytes equal base. Literal Old search retained separately; not a proof pass.",
+  "original_claim_status": "FAILED-OPEN",
+  "obligations": [
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:31` `Contents`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 31,
+              "text": "   function Contents (Items : access constant Line)"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Complete physical-order independent value; structural termination; no borrowing that survives source mutation; representation lifetime and actual checked allocation/retirement remain open.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:37` `Pending_Contents`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 37,
+              "text": "   function Pending_Contents return Line_Sequences.Sequence"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Complete chronological independent value, exact effects, no hidden output or owner move.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:40` `Appended`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 40,
+              "text": "   function Appended"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Exact old prefix plus complete new text; equality and indexed access must remain valid for the whole old lifetime.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:48` `Empty`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 48,
+              "text": "   function Empty return Boolean"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Empty sequence means no lines, preserving empty-string positions.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:56` `Push`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 56,
+              "text": "   procedure Push (Text : String)"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Literal enabled full-value `'Old` construction, independent copy semantics, cleanup on normal and postcheck-exception exits, checked runtime cost.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:68` `Take_All`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 68,
+              "text": "   procedure Take_All (Items : aliased out Line_Access)"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Literal full-value equality to entry sequence through destructive reversal; by-reference handoff; inaccessible implicit snapshot retirement after postchecks.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:72` `Release`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 72,
+              "text": "   procedure Release (Item : in out Line_Access)"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Existing null-or-tail-null precondition and null postcondition; explicit native node release does not retire old model snapshots.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:79` `Stack_Contents`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 79,
+              "text": "   function Stack_Contents (Items : access constant Line)"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Complete chronological snapshot, independent from mutable link graph; same value-lifetime/cost issue.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.ads:101` `Split_Contents`",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.ads",
+          "sha256": "b15b846b57d0f4a8d9b07ea6384fe17cb44042eb36832b05394a6ce2ae04ef34",
+          "locations": [
+            {
+              "line": 101,
+              "text": "   function Split_Contents"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Complete prefix/suffix conservation across native reversal, all text and positions; model snapshot lifetime plus repeated checked evaluation cost.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/native_diagnostic_trace.adb:21,41,43,83,105` named ghost snapshots",
+      "source_references": [
+        {
+          "path": "core/native_diagnostic_trace.adb",
+          "sha256": "96941023d72030a1ac83c8c0b6fd6683d578de9d0b51daec83c968898fe77ef6",
+          "locations": [
+            {
+              "line": 21,
+              "text": "      Original : constant Line_Sequences.Sequence := Pending_Contents"
+            },
+            {
+              "line": 41,
+              "text": "            Remaining : constant Line_Sequences.Sequence :="
+            },
+            {
+              "line": 43,
+              "text": "            Returned : constant Line_Sequences.Sequence := Contents (Items)"
+            },
+            {
+              "line": 83,
+              "text": "               Now : constant Line_Sequences.Sequence := Contents (Items)"
+            },
+            {
+              "line": 105,
+              "text": "         Final : constant Line_Sequences.Sequence := Contents (Items)"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Safe independent normal and exceptional lifetimes, actual allocation/copy/retirement cost, retained full-content conservation invariants.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/worldline-c_api.adb:207` `Flush_Native_Diagnostic_Trace`",
+      "source_references": [
+        {
+          "path": "core/worldline-c_api.adb",
+          "sha256": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+          "locations": [
+            {
+              "line": 207,
+              "text": "   procedure Flush_Native_Diagnostic_Trace is"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Native normal/exception cleanup owns transferred nodes, not implicit `'Old` objects; generated postcheck failures cannot be repaired by introducing a hidden caller lifetime protocol.",
+      "production_proof_status": "UNVERIFIED"
+    },
+    {
+      "contract_label": "`core/evaluation_completion_c.adb:43` and `core/worldline-c_api.adb:191` producers",
+      "source_references": [
+        {
+          "path": "core/evaluation_completion_c.adb",
+          "sha256": "68680839857d685e8783541b464095b99acea040987945a309851dcab9627685",
+          "locations": [
+            {
+              "line": 43,
+              "text": "            Native_Diagnostic_Trace.Push (Prefix & Site);"
+            }
+          ]
+        },
+        {
+          "path": "core/worldline-c_api.adb",
+          "sha256": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+          "locations": [
+            {
+              "line": 191,
+              "text": "      Native_Diagnostic_Trace.Push"
+            }
+          ]
+        }
+      ],
+      "required_obligation": "Full original diagnostic content and primary-result preservation; no dropping captured output to avoid the model cost.",
+      "production_proof_status": "UNVERIFIED"
+    }
+  ],
+  "literal_old_occurrences": "scratch/old-analysis/evidence/all-old-contract-occurrences.txt",
+  "donor_inventory": "scratch/old-analysis/evidence/donor-review.json",
+  "tool_versions": "scratch/old-analysis/evidence/probe-run-20261013T174100Z/results.json",
+  "normal_and_exceptional_requirement": "Automatic last-live-copy retirement on normal scope exit and exceptional postchecks, including inaccessible compiler-created Old constants; explicit native Release is distinct.",
+  "non_claims": [
+    "No universal impossibility theorem",
+    "No production retirement proof",
+    "No narrowed production claim"
+  ]
+}

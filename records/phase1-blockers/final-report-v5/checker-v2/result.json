@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "scratch/reviewer/check_final_gate_report.py",
+    "records/phase1-blockers/final-report-v5/acceptance-report.json"
+  ],
+  "boundary": "Native report checker exit only; no semantic/product/independent acceptance.",
+  "checker_sha256": "cff76b1bfcae236f87ab24d51c313b3b0afaa8e686fe68febfcfe25ca7e32db0",
+  "cwd": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z",
+  "ended_utc": "2026-10-15T01:25:41.345016+00:00",
+  "environment": {
+    "interpreter_option": "-B; no complete ambient environment capture claimed"
+  },
+  "exit_code": 1,
+  "report_sha256": "b9ce39a4067069de03bbd39429432934aafdaaaafb6d0873538a6b9a2b107d9b",
+  "started_utc": "2026-10-15T01:25:41.268601+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "df181db0e99a9a025068c98dff3009fbab4482d9915e6ecef827f5ca26943fa9"
+}

@@ -1,0 +1,87 @@
+{
+  "utc": "2026-10-15T03:10:36.739588+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "MEASURED complete current-carrier metadata observation, sole recorded approval refusal is owner predicate. Diagnostic0 is not executable approval or private-test acceptance.",
+  "result_sha256": "88b3c3b406f5759602683c4aa10ba080f74a602d42b93f4f50bcfd52d82bd230",
+  "metadata_complete": true,
+  "query_exit": 0,
+  "guard_would_refuse": true,
+  "failed_predicates": [
+    "owner_is_root_or_real_uid"
+  ],
+  "operands": {
+    "uid": 1000,
+    "euid": 1000,
+    "gid": 1000,
+    "egid": 1000,
+    "resolved": "/usr/bin/bwrap",
+    "stat": {
+      "st_ctime_ns": 1790213239591871504,
+      "st_dev": 64768,
+      "st_gid": 65534,
+      "st_ino": 3057,
+      "st_mode": 33261,
+      "st_mtime_ns": 1790110992000000000,
+      "st_nlink": 1,
+      "st_size": 133648,
+      "st_uid": 65534
+    },
+    "predicates": {
+      "absolute": true,
+      "executable_access": true,
+      "forbidden_mode_bits": 0,
+      "owner_is_root_or_real_uid": false,
+      "regular_file": true
+    },
+    "uid_map": {
+      "exception": null,
+      "returned": true,
+      "value": "      1000          0          1\n"
+    },
+    "gid_map": {
+      "exception": null,
+      "returned": true,
+      "value": "      1000          0          1\n"
+    },
+    "stat_to_hash_identity_equal": true,
+    "file_sha256": "3016d82c88481eeb15c1145ea82a591b11890faa6e957635b75bc148a1701e45"
+  },
+  "scope_after": {
+    "event": "after",
+    "exit_code": 0,
+    "memory.current": "10665984",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "40464384",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-0c286d1427b344ef994d64347fe5a89e.scope",
+    "utc": "2026-10-15T03:08:24.609925+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T03:08:25.579908+00:00"
+  },
+  "limits": [
+    "Current carrier shows mapped bwrapowner65534 versus realUID1000 and allowedroot0, while regular/access/forbiddenbits checks pass. This explains this observed current guard refusal.",
+    "No unrecorded historicalstat reconstructed; originalprivatefailure cause atthat historicalinstant remains unverified.",
+    "Guard/currentfrozen selectedbytes equal; no product privateexecutor/test/approvalguard mutated or rerun.",
+    "Any executablecopy/carrier identity repair requires separate source/custody/rolemount/policy review; ordinary owner-permittedcopy cannot replace authenticF4rootowned requirements."
+  ],
+  "non_claims": [
+    "No fullprivate/protectedexecution or independent acceptance.",
+    "No foreignprocessreads/signals or query execution by reviewer."
+  ],
+  "parent_exit": 0,
+  "parent_source_maps_equal": true,
+  "parent_result_sha256": "7eb69175b12d630bed555d750256fe3f1c1c9734aa7e55319074b91d8a46f497"
+}

@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-14T23:48:58.667946+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "classification": "MEASURED semantic equality/readback only; not independent acceptance",
+  "verdict": "CONCUR retained final proof refusal as faithful nonpositive mapping of current strict gate, suitable input to later outcome/report commit naming tested ef7.",
+  "refusal_sha256": "8053585d1d132daa0c2eb11ea1034d1bdbb9c61af12181c77c182db635ff62f3",
+  "authoring_terminal_sha256": "fd968ef984e348e5bb97ea16e928347d21373c91789a1f63b442d222a72bce8a",
+  "semantic_equality_and_identity_checks": {
+    "source_commit": true,
+    "proof_argv": true,
+    "scope_final_result": true,
+    "scope_terminal": true,
+    "proof_process_exit": true,
+    "original_requirements": true,
+    "imported_annotation_scope": true,
+    "toolchain": true,
+    "toolchain_record_sha256": true,
+    "original_gate_source_hashes": true,
+    "identity_records": true,
+    "scope_receipt_hashes": true,
+    "observed_memory_events": true,
+    "aggregate_proof_counts": true,
+    "actual_gate_findings": true,
+    "recorded_build_artifact_hashes": true,
+    "recorded_identity_records": true,
+    "terminal_gate_reference": true,
+    "semantic_review_reference": true,
+    "generator_source": true,
+    "authoring_terminal": true,
+    "frozen_source_tree": true,
+    "retained_identity_inputs": true
+  },
+  "status": "FAILED-OPEN",
+  "native_proof_exit": null,
+  "aggregate_counts": null,
+  "scope_exit": [
+    {
+      "exit_code": 124,
+      "utc": "2026-10-14T22:45:19.847916+00:00"
+    }
+  ],
+  "findings_preserved": "All original strict gate findings copied byte-value-equivalently, including source/contract/export pins, source-screen/imported closure and incomplete proof result.",
+  "limits": [
+    "Authoring exit0 is only successful refusal-document creation, never proof success.",
+    "No completed aggregate summary/shared manifest verifier success or native GNATprove exit produced; null fields remain unknown, not zero.",
+    "Retained terminal scope inactive defaults do not replace live8G/swap0/event observations.",
+    "Original strict gate source/rosters/requirements unchanged; no new proof run/helper/test or weakened acceptance.",
+    "Prior semantic review reference expressly names input review, not approval of this later artifact. This new receipt reviews the authored refusal itself.",
+    "Later documentary report commit does not alter tested-source identity or require documentary-only proof repetition.",
+    "No live runtime reads/polls, source edits, jobs or signals performed."
+  ]
+}

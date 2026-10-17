@@ -1,0 +1,201 @@
+{
+  "classification": "TESTED_REAL_ISOLATED_AGENT",
+  "phase1_acceptance": "NOT PERFORMED",
+  "source_sha256": {
+    "runtime/worldline/finalize.py": "f3d9f48c87a5df6347d289afafb24cb5e322ed17c3e9cc3ee2fd886b49c02a02",
+    "runtime/worldline/finalization_writer.py": "b92c4649daa30fa1f9740bd6dc62b72dcf84ee1073d7a639fdc37eb0d3a8fdd5"
+  },
+  "library_sha256": "b9d524a40b13ab1f21b6a956489ee62988e5564e9f0b94a89019b6dffa797d5b",
+  "archive_scope": "durable state/config/world records only; inaccessible overlay views excluded, never chmodded",
+  "returned_state": null,
+  "exception": {
+    "type": "WorldlineError",
+    "message": "CORE_INVALID_EVALUATION: the kernel refused the evaluation roster",
+    "code": "CORE_INVALID_EVALUATION"
+  },
+  "stored_state": "DEAD",
+  "evidence": {
+    "checks": [
+      {
+        "argv": [
+          "/usr/bin/python3",
+          "-c",
+          "import sys; print('actual-primary-failure'); sys.exit(7)"
+        ],
+        "covers": [],
+        "evaluation": {
+          "admissibleForPromotion": false,
+          "bundleIntegrity": "NOT_COVERED",
+          "evaluationOutcome": "FAIL",
+          "evidencePresence": {
+            "bindingEstablished": true,
+            "bundleIdentified": true,
+            "declarationMatches": true,
+            "recordIdentified": true,
+            "verdictRecorded": true
+          },
+          "executionStatus": "COMPLETED",
+          "nonClaims": [
+            "SPARK classifies the finite observations and decides this check's promotion admissibility. It does not prove that Python supplied authentic observations or that the complete policy roster is present.",
+            "executionStatus COMPLETED means the service manager observed the examiner's exit and the runner produced a definite verdict. It does not authenticate bytes that the examiner or candidate wrote inside the sandbox, nor establish that the examiner's judgment is independent of candidate code run in-process.",
+            "The supervisor-observed exit status supports only the exit-format verdict; it does not imply anything about report files or candidate code run in-process.",
+            "bundleIntegrity establishes that the declared artifacts were staged and did not move. It does not establish that they were read.",
+            "EVALUATOR_INCOMPLETE is raised from a conservative, module-level import analysis of the staged verifiers, for a FAIL only: a PASS resolved its imports, and the analysis cannot tell a missing helper from the candidate's module under test. Its absence does not establish that the evaluator was complete: a dynamic or guarded import can still fail at run time, and such a run is reported as an ordinary FAIL.",
+            "evidencePresence records typed facts about named fields compared with the policy's declaration for this check; it does not authenticate the values those fields hold.",
+            "This classification is total: every unrecognised, contradictory or malformed combination falls to UNCLASSIFIED with outcome NONE, never to a completed evaluation. UNASSESSED -- a world that ended before its checks ran -- is NOT_ATTEMPTED, not a completed failure.",
+            "origin: engine is honoured only for a result that also has no exit code, no resultChannel and no staged bundle -- the shape only the engine's own in-process checks have. A forged result carrying the string but reaching finalization through the check runner is UNCLASSIFIED."
+          ],
+          "reportIntegrity": "NOT_APPLICABLE"
+        },
+        "executionBinding": "NOT_COVERED",
+        "exitCode": 7,
+        "format": "exit",
+        "id": "agent",
+        "kind": "build",
+        "network": {
+          "policy": "shared"
+        },
+        "origin": "agent",
+        "rawEventHash": "sha256:2396030999a6cd9a0be3f1a0fa455fc8fd59106c9778d74ec7da114bcd758396",
+        "required": true,
+        "resources": {
+          "accounted": false,
+          "ceilingEvidence": "no ceiling event was recorded",
+          "ceilingFired": false,
+          "effective": {
+            "cgroupReadable": true,
+            "controlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/worldline-950614ff-56ab-4981-bc1a-adf0df7653a8.service",
+            "kernel": {
+              "cpu.max": "max 100000",
+              "memory.high": "max",
+              "memory.max": "max",
+              "memory.swap.max": "max",
+              "pids.max": "48015"
+            },
+            "state": "OBSERVED",
+            "systemd": {
+              "CPUAccounting": null,
+              "CPUQuotaPerSecUSec": "infinity",
+              "CPUWeight": "[not set]",
+              "MemoryAccounting": "yes",
+              "MemoryHigh": "infinity",
+              "MemoryMax": "infinity",
+              "MemorySwapMax": "infinity",
+              "TasksAccounting": "yes",
+              "TasksMax": "48015"
+            }
+          },
+          "observed": {
+            "activeState": "failed",
+            "cpuTimeNanoseconds": 13276000,
+            "currentMemoryBytes": null,
+            "hitMemoryCeiling": null,
+            "memoryEvents": null,
+            "oomKilled": null,
+            "peakMemoryBytes": 5066752,
+            "peakSwapBytes": 0,
+            "result": "exit-code",
+            "state": "OBSERVED",
+            "tasksCurrent": null,
+            "workloadIdentity": {
+              "controlGroup": null,
+              "invocationId": "71a7434268be45ffaa1cc24b0c2cf008",
+              "unit": "worldline-950614ff-56ab-4981-bc1a-adf0df7653a8.service"
+            }
+          },
+          "requested": {
+            "cpuQuotaPercent": null,
+            "cpuWeight": null,
+            "diskGrowthMaxBytes": null,
+            "enforcement": "cgroup2",
+            "maxConcurrentWorkloads": null,
+            "memoryHighBytes": null,
+            "memoryMaxBytes": null,
+            "memorySwapMaxBytes": null,
+            "tasksMax": null,
+            "timeoutSeconds": null
+          }
+        },
+        "status": "FAIL",
+        "stderrHash": "sha256:d3364c9ee3ebd791849f952405b991be92e8f3e72d055af95d7ecd60513566e3",
+        "supervision": {
+          "events": [
+            {
+              "exitCode": null,
+              "exitStatus": null,
+              "jobResult": null,
+              "jobType": "start",
+              "managerPid": "1289",
+              "message": "Starting WORLDLINE recovery-fixture / actual-failed-primary...",
+              "messageId": "7d4958e842da4a758f6c1cdc7b36dcc5",
+              "realtimeUs": 1792207981021705
+            },
+            {
+              "exitCode": null,
+              "exitStatus": null,
+              "jobResult": "done",
+              "jobType": "start",
+              "managerPid": "1289",
+              "message": "Started WORLDLINE recovery-fixture / actual-failed-primary.",
+              "messageId": "39f53479d3a045ac8e11786248231fbf",
+              "realtimeUs": 1792207981032920
+            },
+            {
+              "exitCode": "exited",
+              "exitStatus": "7",
+              "jobResult": null,
+              "jobType": null,
+              "managerPid": "1289",
+              "message": "worldline-950614ff-56ab-4981-bc1a-adf0df7653a8.service: Main process exited, code=exited, status=7/NOTRUNNING",
+              "messageId": "98e322203f7a4ed290d09fe03c09fe15",
+              "realtimeUs": 1792207981042205
+            },
+            {
+              "exitCode": null,
+              "exitStatus": null,
+              "jobResult": null,
+              "jobType": null,
+              "managerPid": "1289",
+              "message": "worldline-950614ff-56ab-4981-bc1a-adf0df7653a8.service: Failed with result 'exit-code'.",
+              "messageId": "d9b373ed55a64feb8242e02dbe79a49c",
+              "realtimeUs": 1792207981042306
+            }
+          ],
+          "exitCode": "exited",
+          "exitStatus": 7,
+          "kind": "SUPERVISED",
+          "launcherExit": 7,
+          "launcherStderr": "",
+          "result": "failure",
+          "source": "journal",
+          "started": true,
+          "stoppedByManager": false,
+          "supervisionEvidence": "started-entry",
+          "unit": "worldline-950614ff-56ab-4981-bc1a-adf0df7653a8.service",
+          "windowMilliseconds": 10000
+        }
+      }
+    ],
+    "materializationError": {
+      "message": "CORE_INVALID_EVALUATION: the kernel refused the evaluation roster",
+      "type": "WorldlineError"
+    },
+    "summary": "FAIL",
+    "supervision": {
+      "code": "CORE_INVALID_EVALUATION",
+      "details": {
+        "refused": [
+          "agent"
+        ]
+      },
+      "message": "the kernel refused the evaluation roster"
+    }
+  },
+  "primary_exit_codes": [
+    7
+  ],
+  "native_seal_read_error": {
+    "type": "AttributeError",
+    "message": "'NoneType' object has no attribute 'value'"
+  }
+}

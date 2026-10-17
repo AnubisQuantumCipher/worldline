@@ -1,0 +1,708 @@
+{
+  "schema": "worldline-shared-parser-static-preflight-v1",
+  "formed_utc": "2026-10-15T04:44:01.584823+00:00",
+  "observed_head": "4ff3bf48b4323c051ffa8cf04ba4787982111f6d",
+  "status": "SOURCE-ONLY PREPARATION; NOT FORMAL REVIEW OR ACCEPTANCE",
+  "filesystem_facts_class": "MEASURED",
+  "semantic_findings_class": "UNVERIFIED",
+  "source_execution_performed": false,
+  "compiler_resolved_closure": "UNVERIFIED",
+  "build_result": null,
+  "proof_result": null,
+  "runtime_result": null,
+  "inspected_project": {
+    "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/shared_json_parser_controls.gpr",
+    "sha256": "1e682c6201fd15539d70586fe19b27d6df5d533644bcc046c07076f2dcd62e06",
+    "size_bytes": 2296
+  },
+  "input_metadata": [
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/README.md",
+      "sha256": "22eab04c3e335cd35df785f31f962746553f063fbb6366bab0689d7f540b366e",
+      "size_bytes": 10137
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/dependency-manifest.json",
+      "sha256": "754c9e23f7fc61fb2453fe2c440d2623ab67a99f0746cc64cea334f595d01c72",
+      "size_bytes": 19965
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/external-source-identities.json",
+      "sha256": "e218cabd8828283051709011a7aa5b6efa1298a1eddb5fdf3b0bea55709facf6",
+      "size_bytes": 426216
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/preparation-receipt.json",
+      "sha256": "a23767c48c8c8c1b5677d53fac5ae79632407bd425a9329de06962016df62a98",
+      "size_bytes": 7531
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/README.md",
+      "sha256": "21e68e09c0e4d3a666436d16559c3309e11d2cf2074ddaa53ec6e648cd3198e8",
+      "size_bytes": 14391
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/preparation-receipt.json",
+      "sha256": "4a78d4fd3fe9233bfbeb71d6a85e4ecab7dc97d7452a38a6d60b9f8e8dc449df",
+      "size_bytes": 5540
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/producer-values-parser-extraction.patch",
+      "sha256": "0844c5a933bcfb7a8b26238542166fae18e09eb2a2948c4cc7bdd2ea0302d4d1",
+      "size_bytes": 12596
+    }
+  ],
+  "application_sources": [
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-json_syntax_types.ads",
+      "sha256": "7dfce59747772d0a53d0e9ea56809dd1b9b053a61766af9ee363a5ca80c7f16b",
+      "size_bytes": 1484,
+      "unit": "worldline.json_syntax_types",
+      "category": "immutable_unapplied_shared_parser",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-json_syntax_types.ads",
+      "manifest_sha256": "7dfce59747772d0a53d0e9ea56809dd1b9b053a61766af9ee363a5ca80c7f16b",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Resource_Quantities"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-generic_json_syntax.ads",
+      "sha256": "0db5cd23c11ad8c1f4152edf6b0d209937c918f2d248f4fa68d90b21162fc0ab",
+      "size_bytes": 2900,
+      "unit": "worldline.generic_json_syntax",
+      "category": "immutable_unapplied_shared_parser",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-generic_json_syntax.ads",
+      "manifest_sha256": "0db5cd23c11ad8c1f4152edf6b0d209937c918f2d248f4fa68d90b21162fc0ab",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Worldline.JSON_Syntax_Types"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-generic_json_syntax.adb",
+      "sha256": "760b020c6a608c206673a70d676036f2fe34c78059a7e9065cc7e8f467d37e7f",
+      "size_bytes": 12653,
+      "unit": "worldline.generic_json_syntax",
+      "category": "immutable_unapplied_shared_parser",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-generic_json_syntax.adb",
+      "manifest_sha256": "760b020c6a608c206673a70d676036f2fe34c78059a7e9065cc7e8f467d37e7f",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_values.ads",
+      "sha256": "8526523b7196c84f5c0d30b88a254bc4c4dc23e28fdd6051d97f1d5bdec2aa30",
+      "size_bytes": 4859,
+      "unit": "worldline.producer_values",
+      "category": "immutable_unapplied_shared_parser",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-producer_values.ads",
+      "manifest_sha256": "8526523b7196c84f5c0d30b88a254bc4c4dc23e28fdd6051d97f1d5bdec2aa30",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_values.adb",
+      "sha256": "808bdc95228f5b274e029340234155f2d7528eacc2384e9468d92771ed949471",
+      "size_bytes": 23447,
+      "unit": "worldline.producer_values",
+      "category": "immutable_unapplied_shared_parser",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-producer_values.adb",
+      "manifest_sha256": "808bdc95228f5b274e029340234155f2d7528eacc2384e9468d92771ed949471",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Worldline.JSON_Syntax_Types",
+        "Worldline.Generic_JSON_Syntax",
+        "Evaluation_Pending",
+        "Exact_Decimal",
+        "Decimal_Binary64",
+        "Worldline.Producer_Render"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-raw_json_syntax.ads",
+      "sha256": "4fe4c07e550592277a687a3732d619145ab511205170697860df93cf6b303761",
+      "size_bytes": 1773,
+      "unit": "worldline.raw_json_syntax",
+      "category": "immutable_unapplied_shared_parser",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-raw_json_syntax.ads",
+      "manifest_sha256": "4fe4c07e550592277a687a3732d619145ab511205170697860df93cf6b303761",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Resource_Quantities",
+        "Worldline.JSON_Source_Cursor",
+        "Worldline.JSON_Syntax_Types",
+        "Worldline.Generic_JSON_Syntax"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-raw_json_syntax.adb",
+      "sha256": "8a1921821865e1b323033a3d205346b4e4022eef09c0192f157c0d285e938014",
+      "size_bytes": 1315,
+      "unit": "worldline.raw_json_syntax",
+      "category": "immutable_unapplied_shared_parser",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/worldline-raw_json_syntax.adb",
+      "manifest_sha256": "8a1921821865e1b323033a3d205346b4e4022eef09c0192f157c0d285e938014",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-json_source_cursor.ads",
+      "sha256": "05d0670b28d9cd3888e62624321f44a5b16db01c79a715e0e930a9233bf59ed0",
+      "size_bytes": 10216,
+      "unit": "worldline.json_source_cursor",
+      "category": "immutable_cursor_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/cursor-dependency/worldline-json_source_cursor.ads",
+      "manifest_sha256": "05d0670b28d9cd3888e62624321f44a5b16db01c79a715e0e930a9233bf59ed0",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Interfaces",
+        "Resource_Quantities",
+        "Worldline.Archive_Text"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-json_source_cursor.adb",
+      "sha256": "0b28f52652493c0e6d00274e4019068f999e048d9ed4ff475c19d22b1b8ef264",
+      "size_bytes": 3206,
+      "unit": "worldline.json_source_cursor",
+      "category": "immutable_cursor_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/shared-json-parser-candidate-v1/cursor-dependency/worldline-json_source_cursor.adb",
+      "manifest_sha256": "0b28f52652493c0e6d00274e4019068f999e048d9ed4ff475c19d22b1b8ef264",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline.ads",
+      "sha256": "7199d262b11690c1a22fab45263575b0f401a985482b673317a1f73a60f21f55",
+      "size_bytes": 609,
+      "unit": "worldline",
+      "category": "current_core_dependency_matches_original",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline.ads",
+      "manifest_sha256": "7199d262b11690c1a22fab45263575b0f401a985482b673317a1f73a60f21f55",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Attest.SHA256"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/attest.ads",
+      "sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+      "size_bytes": 981,
+      "unit": "attest",
+      "category": "current_core_dependency_matches_original",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest/attest.ads",
+      "manifest_sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Interfaces"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/attest-sha256.ads",
+      "sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685",
+      "size_bytes": 2193,
+      "unit": "attest.sha256",
+      "category": "current_core_dependency_matches_original",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest/attest-sha256.ads",
+      "manifest_sha256": "1bf21e9965f47cced643ff49454134ffd5cb283542aabfdff6778e29beee5685",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Interfaces"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/attest-sha256.adb",
+      "sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863",
+      "size_bytes": 6962,
+      "unit": "attest.sha256",
+      "category": "current_core_dependency_matches_original",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/attest/attest-sha256.adb",
+      "manifest_sha256": "40fc9f7901ed90e6bddc8820feb225b9a5cb2aaf6c4d170187751fa6a80c8863",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/resource_quantities.ads",
+      "sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df",
+      "size_bytes": 6139,
+      "unit": "resource_quantities",
+      "category": "current_core_dependency_matches_original",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/resource_quantities.ads",
+      "manifest_sha256": "c7c04541860fb4d7f7362250720009aab42036b9bc6ca48f24a588584a1bc5df",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Interfaces",
+        "SPARK.Big_Integers"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-archive_text.ads",
+      "sha256": "876cb60cc9a9af9ad0ea584315b0433d980321fb40e3d292c7f88c520c4cf934",
+      "size_bytes": 6240,
+      "unit": "worldline.archive_text",
+      "category": "current_core_dependency_matches_original",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline-archive_text.ads",
+      "manifest_sha256": "876cb60cc9a9af9ad0ea584315b0433d980321fb40e3d292c7f88c520c4cf934",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Interfaces",
+        "Resource_Quantities"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-archive_text.adb",
+      "sha256": "36d956de8a59e8c14132208170f4d9b2c1bd8b9e0ab62c9d86235f5bede21e3d",
+      "size_bytes": 970,
+      "unit": "worldline.archive_text",
+      "category": "current_core_dependency_matches_original",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline-archive_text.adb",
+      "manifest_sha256": "36d956de8a59e8c14132208170f4d9b2c1bd8b9e0ab62c9d86235f5bede21e3d",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/resource-current-D56/resource_quantities.adb",
+      "sha256": "23e67ed2f9fbb65741e5ddfab10fbde101a719feeb649a2bf1c9ae8052421a1a",
+      "size_bytes": 25130,
+      "unit": "resource_quantities",
+      "category": "default_current_core_D56_body",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/resource_quantities.adb",
+      "manifest_sha256": "23e67ed2f9fbb65741e5ddfab10fbde101a719feeb649a2bf1c9ae8052421a1a",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/resource-historical-original/resource_quantities.adb",
+      "sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+      "size_bytes": 25038,
+      "unit": "resource_quantities",
+      "category": "optional_historical_comparison_only_not_proposed_for_execution",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/acquisition2/resume-20261015-v1/decoder-cursor-candidate-v1/dependencies/resource_quantities.adb",
+      "manifest_sha256": "127aea76bb983d83506beb20954ab83264f7b8185b2a2e74ecca8684ce47635d",
+      "matches_manifest": true,
+      "selected_in_default": false,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_pending.ads",
+      "sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "size_bytes": 7636,
+      "unit": "evaluation_pending",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/evaluation_pending.ads",
+      "manifest_sha256": "8750cacbebb849baba47f8319e179cab78dfefac7bee10760f96fa2e0dcf861e",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Interfaces",
+        "Resource_Quantities",
+        "Evaluation_Epoch"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_pending.adb",
+      "sha256": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af",
+      "size_bytes": 2252,
+      "unit": "evaluation_pending",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/evaluation_pending.adb",
+      "manifest_sha256": "41a222925d9b780112ac90eb7a6b7ec3146e9e826b3b983bb3be0f59b04fc6af",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_epoch.ads",
+      "sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+      "size_bytes": 1136,
+      "unit": "evaluation_epoch",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/evaluation_epoch.ads",
+      "manifest_sha256": "7dca9f1ee1501e606f028577f9a6a145a4db1d2db768bcbe4faf7027f5b0fa64",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Resource_Quantities",
+        "SPARK.Big_Integers"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_epoch.adb",
+      "sha256": "9648be3f75017ecd289a44230b0cea494660e46c2c80e5ef73a52395807010c0",
+      "size_bytes": 27702,
+      "unit": "evaluation_epoch",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/evaluation_epoch.adb",
+      "manifest_sha256": "9648be3f75017ecd289a44230b0cea494660e46c2c80e5ef73a52395807010c0",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/exact_decimal.ads",
+      "sha256": "64ccd4a8f06e1f9e7bf0afd257a9e8d34229982b99edde1b0f2391731badd071",
+      "size_bytes": 4662,
+      "unit": "exact_decimal",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/exact_decimal.ads",
+      "manifest_sha256": "64ccd4a8f06e1f9e7bf0afd257a9e8d34229982b99edde1b0f2391731badd071",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Evaluation_Pending",
+        "SPARK.Big_Integers"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/exact_decimal.adb",
+      "sha256": "e72bd24ef9b9c1f14c846a32e6410685824adf90f7ab5ecaac9c792cbd74ce06",
+      "size_bytes": 8538,
+      "unit": "exact_decimal",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/exact_decimal.adb",
+      "manifest_sha256": "e72bd24ef9b9c1f14c846a32e6410685824adf90f7ab5ecaac9c792cbd74ce06",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/decimal_binary64.ads",
+      "sha256": "378ff5a6a50330c0dc751ac686208a509b51f480b760db2e3d3d4b465108db13",
+      "size_bytes": 6981,
+      "unit": "decimal_binary64",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/decimal_binary64.ads",
+      "manifest_sha256": "378ff5a6a50330c0dc751ac686208a509b51f480b760db2e3d3d4b465108db13",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Evaluation_Pending",
+        "Interfaces",
+        "SPARK.Big_Integers",
+        "Exact_Decimal"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/decimal_binary64.adb",
+      "sha256": "a6a624d1354af06af85b6cbf6e1734056dadbb40c308f551ee3d7d52ab516d1a",
+      "size_bytes": 20156,
+      "unit": "decimal_binary64",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/decimal_binary64.adb",
+      "manifest_sha256": "a6a624d1354af06af85b6cbf6e1734056dadbb40c308f551ee3d7d52ab516d1a",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_render.ads",
+      "sha256": "b6b2d40f706dd07cbab83315ee3cb12e819d9a9c6bfbb55a5a2a17737f4c9f6a",
+      "size_bytes": 231,
+      "unit": "worldline.producer_render",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline-producer_render.ads",
+      "manifest_sha256": "b6b2d40f706dd07cbab83315ee3cb12e819d9a9c6bfbb55a5a2a17737f4c9f6a",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_render.adb",
+      "sha256": "120b0486342da80dd0134878b0d12b2f4c91d55c0c99f568c2dd03c25a220712",
+      "size_bytes": 5484,
+      "unit": "worldline.producer_render",
+      "category": "unchanged_core_dependency",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline-producer_render.adb",
+      "manifest_sha256": "120b0486342da80dd0134878b0d12b2f4c91d55c0c99f568c2dd03c25a220712",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [
+        "Worldline.Producer_Values",
+        "Worldline.Producer_Unicode"
+      ],
+      "matches_origin_now": true
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_unicode.ads",
+      "sha256": "cf2ea395c66e8670aa4751df068ec66738a62aa08ba95458f8d1477ce3e47d31",
+      "size_bytes": 16510,
+      "unit": "worldline.producer_unicode",
+      "category": "unchanged_core_dependency_bodyless_expression_unit",
+      "original_source": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/core/worldline-producer_unicode.ads",
+      "manifest_sha256": "cf2ea395c66e8670aa4751df068ec66738a62aa08ba95458f8d1477ce3e47d31",
+      "matches_manifest": true,
+      "selected_in_default": true,
+      "explicit_contexts": [],
+      "matches_origin_now": true
+    }
+  ],
+  "mains": [
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/string_parser_controls.adb",
+      "sha256": "463bc6b98a86df3feafbd9392baafa2507ccd7098efb54c7e5cce2bffa853636",
+      "size_bytes": 13506
+    },
+    {
+      "path": "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/wide_parser_controls.adb",
+      "sha256": "5ccf486b51c680145150ead4aa8b8111ab14014d2d6c0306ae5f2904af21c3cd",
+      "size_bytes": 11481
+    }
+  ],
+  "source_files_default_physical_candidates": {
+    "string_parser_controls.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/string_parser_controls.adb"
+    ],
+    "wide_parser_controls.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/wide_parser_controls.adb"
+    ],
+    "worldline.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline.ads"
+    ],
+    "attest.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/attest.ads"
+    ],
+    "attest-sha256.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/attest-sha256.ads"
+    ],
+    "attest-sha256.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/attest-sha256.adb"
+    ],
+    "resource_quantities.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/resource_quantities.ads"
+    ],
+    "resource_quantities.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/resource-current-D56/resource_quantities.adb"
+    ],
+    "worldline-archive_text.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-archive_text.ads"
+    ],
+    "worldline-archive_text.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-archive_text.adb"
+    ],
+    "worldline-json_source_cursor.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-json_source_cursor.ads"
+    ],
+    "worldline-json_source_cursor.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-json_source_cursor.adb"
+    ],
+    "worldline-json_syntax_types.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-json_syntax_types.ads"
+    ],
+    "worldline-generic_json_syntax.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-generic_json_syntax.ads"
+    ],
+    "worldline-generic_json_syntax.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-generic_json_syntax.adb"
+    ],
+    "worldline-raw_json_syntax.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-raw_json_syntax.ads"
+    ],
+    "worldline-raw_json_syntax.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-raw_json_syntax.adb"
+    ],
+    "worldline-producer_values.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_values.ads"
+    ],
+    "worldline-producer_values.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_values.adb"
+    ],
+    "evaluation_pending.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_pending.ads"
+    ],
+    "evaluation_pending.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_pending.adb"
+    ],
+    "evaluation_epoch.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_epoch.ads"
+    ],
+    "evaluation_epoch.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/evaluation_epoch.adb"
+    ],
+    "exact_decimal.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/exact_decimal.ads"
+    ],
+    "exact_decimal.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/exact_decimal.adb"
+    ],
+    "decimal_binary64.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/decimal_binary64.ads"
+    ],
+    "decimal_binary64.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/decimal_binary64.adb"
+    ],
+    "worldline-producer_render.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_render.ads"
+    ],
+    "worldline-producer_render.adb": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_render.adb"
+    ],
+    "worldline-producer_unicode.ads": [
+      "scratch/acquisition2/resume-20261015-v1/shared-json-parser-controls-v1/src/worldline-producer_unicode.ads"
+    ]
+  },
+  "default_scenario": "current_D56",
+  "historical_scenario_selected": false,
+  "identity_comparisons": {
+    "public_spec_unchanged": true,
+    "original_byte_reader_UTF8_width_byte_identical": true,
+    "suffix_from_First_Key_byte_identical": true,
+    "current_D56_resource_body_matches": true
+  },
+  "explicit_external_context_frontier": [
+    "interfaces",
+    "spark.big_integers"
+  ],
+  "included_application_units": [
+    "attest",
+    "attest.sha256",
+    "decimal_binary64",
+    "evaluation_epoch",
+    "evaluation_pending",
+    "exact_decimal",
+    "resource_quantities",
+    "worldline",
+    "worldline.archive_text",
+    "worldline.generic_json_syntax",
+    "worldline.json_source_cursor",
+    "worldline.json_syntax_types",
+    "worldline.producer_render",
+    "worldline.producer_unicode",
+    "worldline.producer_values",
+    "worldline.raw_json_syntax"
+  ],
+  "proof_configuration": [
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--memlimit=1024",
+    "--timeout=60",
+    "-j2"
+  ],
+  "compiler_configuration": [
+    "-gnat2022",
+    "-gnatwa",
+    "-gnatVa",
+    "-gnatf",
+    "-O2",
+    "-g",
+    "-gnata"
+  ],
+  "mandatory_launch_scenarios": [
+    "-XWORLDLINE_PARSER_RESOURCE_BODY=current_D56",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True"
+  ],
+  "proof_roster_requirement": "Whole candidate project via -U --mode=all; neither original complete WORLDLINE proof nor full-value authority closure is replaced.",
+  "issues": [
+    {
+      "id": "PREFLIGHT-LEGALITY",
+      "class": "UNVERIFIED",
+      "finding": "No definite Ada legality/interface defect identified by this finite static inspection. Compiler generic/formal-contract legality, actual instantiation conformance, discriminant checks, compiler-selected closure and all proof obligations remain unverified.",
+      "locations": [
+        "worldline-generic_json_syntax.ads:4",
+        "worldline-raw_json_syntax.ads:32",
+        "worldline-producer_values.adb:84",
+        "worldline-producer_values.adb:100"
+      ]
+    },
+    {
+      "id": "PREFLIGHT-SEMANTICS",
+      "class": "UNVERIFIED",
+      "finding": "Generic Read_Unit promises progress/bounds and the end offset implication; it does not relate returned characters to source bytes. Parse promises only Within. Those contracts and a zero-unproved structural run would not alone establish accepted-language equivalence, full-value preservation, or selectors semantics. Actual readers, matched-token/escape/grammar correspondence and original consumers still need evidence.",
+      "locations": [
+        "worldline-generic_json_syntax.ads:10",
+        "worldline-generic_json_syntax.ads:59",
+        "worldline-json_syntax_types.ads:30"
+      ]
+    },
+    {
+      "id": "PREFLIGHT-WIDE-INCOMPLETE",
+      "class": "UNVERIFIED",
+      "finding": "Wide adapter supplies syntax kind and byte spans only. No wide selectors, decoded text/key equality, exact numeric/Truth conversions, render outputs, Raw_JSON authority relations, Evaluation_Role_Native or Recovery_Material_Replay migration is supplied by this candidate. The production full-value obligation is still open.",
+      "locations": [
+        "worldline-raw_json_syntax.ads:6",
+        "README.md:62"
+      ]
+    },
+    {
+      "id": "PREFLIGHT-QUALIFICATION",
+      "class": "UNVERIFIED",
+      "finding": "Finite assertions use real retained numeric/render/text bodies and are not yet run/proved. The existing public Parse contract has no result semantics; fixture proof is not established and may require truthful implementation/contract proof work. No assertion deletion, dependency exclusion, assumption, restored historical resource failure, or cap is authorized by this inspection.",
+      "locations": [
+        "worldline-producer_values.ads:11",
+        "string_parser_controls.adb:35",
+        "wide_parser_controls.adb:59"
+      ]
+    },
+    {
+      "id": "PREFLIGHT-EXTERNAL-BOUNDARY",
+      "class": "UNVERIFIED",
+      "finding": "The private full SPARK project is externally built under gnatprove. Existing external runtime/private archive identities do not establish a newly resolved or proved C/GMP/link/runtime closure. Keep this boundary explicit; do not promote candidate proof to complete WORLDLINE proof.",
+      "locations": [
+        "scratch/old-analysis/private-sparklib-experiment/lib/gnat/sparklib.gpr:31"
+      ]
+    }
+  ],
+  "not_supplied_production_units": [
+    "Worldline.Raw_JSON",
+    "Worldline.Evaluation_Role_Native",
+    "Worldline.Recovery_Material_Replay"
+  ],
+  "new_length_or_domain_cap_identified": false,
+  "full_String_semantic_equivalence_established": false,
+  "non_claims": [
+    "No compiler, binder, linker, prover, tests, imports, or candidate generation source executed.",
+    "No tracked source/project/test or existing candidate modified.",
+    "No proof of enormous-payload execution or total-domain semantic equivalence.",
+    "No Phase 1 gate promoted."
+  ]
+}

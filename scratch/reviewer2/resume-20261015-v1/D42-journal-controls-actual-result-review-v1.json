@@ -1,0 +1,73 @@
+{
+  "utc": "2026-10-15T02:54:48.565932+00:00",
+  "reviewer_model": "actual GPT-6.1",
+  "verdict": "CONCUR D42 exact repair and focused result ready for narrow commit; no broader acceptance promotion.",
+  "source_before_after_equal": true,
+  "journal_sha256": "933f151938c138bedf1469d05b7847af08cd036556ec6bf1b7f546da9c34fb03",
+  "test_sha256": "6cf5537a5c6ad2085074f10b13fa866a6d1d35632805883c7a9eda016c3557ef",
+  "parent_exit": 0,
+  "worker": {
+    "exit_code": 0,
+    "utc": "2026-10-15T02:47:41.245338+00:00"
+  },
+  "carrier": {
+    "exit_code": 0,
+    "utc": "2026-10-15T02:47:42.395933+00:00"
+  },
+  "terminal": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-10-15T02:47:42.244795+00:00"
+  },
+  "cgroup_after": {
+    "event": "after",
+    "exit_code": 0,
+    "memory.current": "11366400",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "166891520",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-9a41edb2527f4b44844ffe983d8f819a.scope",
+    "utc": "2026-10-15T02:47:41.245060+00:00"
+  },
+  "admission": {
+    "MemAvailable": "MemAvailable:   25140260 kB",
+    "admitted": true,
+    "threshold": "14GiB (conservative interpretation of 14GB)",
+    "utc": "2026-10-15T02:47:31.189403+00:00"
+  },
+  "summary_observed": "Ran 34 tests in 9.352s; OK",
+  "command_scope": "Complete unchanged unittest discovery module test_finalization_journal_sequence.py, original runtime PYTHONPATH, -B, explicit10m carrier/shared lock.",
+  "receipts_sha256": {
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-parent-v1/result.json": "fa916560a3d662a559f13951ddc398f789a7d41cd2c3a1668c7ea2110d494800",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-parent-v1/source-before.json": "fd35723cdd76b5e89beda32990a153e96d22b34e6cceebae7987fb9a74349c2e",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-parent-v1/source-after.json": "fd35723cdd76b5e89beda32990a153e96d22b34e6cceebae7987fb9a74349c2e",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-parent-v1/source.diff": "e1f213f7a0c6c700d78b24e3107cc8b67ed15c1d775e14b2a6d832827cf81a57",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-parent-v1/disk.jsonl": "1a9371b771c3b23fff87ab2323472272c9f8825b9150c1596f036f98f36b4c4d",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1/stderr": "5fb428b10c50e06c5a75d32b023cf302b52af00b733e3fb3735af925f0e5ef2b",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1/launch.jsonl": "972cf2e83801e03d8f4e09a0a81005d1c0afb1ddfbcd6110197f0c32737a0661",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1/cgroup.jsonl": "41219548e068f9cd10df6cd3fc39f368f30a46f8161e33a4cf52ed62219e536d",
+    "records/phase1-blockers/resume-20261015-v1/journal-controls-scope-v1/terminal-scope.jsonl": "a97d79516723fe5c3c49c54972642621ec72e4b028bef082b25011dabfda15b5"
+  },
+  "limits": [
+    "Live scope memory.max8589934592/swap0; recorded events all zero; peak166891520. Terminal not-found infinity values reflect removed scope, not live cap.",
+    "Parent stdout/stderr empty are launcher streams; actual unittest summary is scope stderr.",
+    "Disk samples retain original10000000000 reserve/20000000000 earlystop and measured free values.",
+    "RUSAGE_CHILDREN maximum child RSS is not aggregate cgroup memory."
+  ],
+  "non_claims": [
+    "Focused storage/codec regression only; no native admission/custody, proof, acquisition fullcampaign or A2 closure.",
+    "No cause/performance magnitude/SLOW/HANG claim, no second ONE diagnostic.",
+    "No test run, product edit, staging or commit by reviewer."
+  ]
+}

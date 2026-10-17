@@ -1,0 +1,517 @@
+{
+  "kind": "Explicit correction of preparer source-reading error; no repair applied",
+  "prepared_utc": "2026-10-15T03:31:59.945761+00:00",
+  "classification": "MEASURED source/AST and retained-result observations; causal synthesis ASSUMED from source, not new runtime instrumentation",
+  "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+  "frozen_execution_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+  "correction": "The original decisive fixture profile is omitted and therefore legacy. None arguments are cwd and result. Previous claims that its profile was None were incorrect.",
+  "current_mapping": {
+    "source_line": 155,
+    "call": "CheckSpec('exam', 'tests', ('/usr/bin/python3', f'{logical}/exam/run.py'), None, True, 'exit', None, (), ())",
+    "fields": [
+      {
+        "field": "id",
+        "annotation": "str",
+        "constructor_argument": "'exam'",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "'exam'"
+      },
+      {
+        "field": "kind",
+        "annotation": "str",
+        "constructor_argument": "'tests'",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "'tests'"
+      },
+      {
+        "field": "argv",
+        "annotation": "tuple[str, ...]",
+        "constructor_argument": "('/usr/bin/python3', f'{logical}/exam/run.py')",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "('/usr/bin/python3', f'{logical}/exam/run.py')"
+      },
+      {
+        "field": "cwd",
+        "annotation": "str | None",
+        "constructor_argument": "None",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "None"
+      },
+      {
+        "field": "required",
+        "annotation": "bool",
+        "constructor_argument": "True",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "True"
+      },
+      {
+        "field": "format",
+        "annotation": "str",
+        "constructor_argument": "'exit'",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "'exit'"
+      },
+      {
+        "field": "result",
+        "annotation": "str | None",
+        "constructor_argument": "None",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "None"
+      },
+      {
+        "field": "covers",
+        "annotation": "tuple[str, ...]",
+        "constructor_argument": "()",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "()"
+      },
+      {
+        "field": "verifiers",
+        "annotation": "tuple[str, ...]",
+        "constructor_argument": "()",
+        "omitted": false,
+        "default": "()",
+        "effective_expression": "()"
+      },
+      {
+        "field": "profile",
+        "annotation": "str",
+        "constructor_argument": null,
+        "omitted": true,
+        "default": "'legacy'",
+        "effective_expression": "'legacy'"
+      }
+    ]
+  },
+  "frozen_mapping": {
+    "source_line": 155,
+    "call": "CheckSpec('exam', 'tests', ('/usr/bin/python3', f'{logical}/exam/run.py'), None, True, 'exit', None, (), ())",
+    "fields": [
+      {
+        "field": "id",
+        "annotation": "str",
+        "constructor_argument": "'exam'",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "'exam'"
+      },
+      {
+        "field": "kind",
+        "annotation": "str",
+        "constructor_argument": "'tests'",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "'tests'"
+      },
+      {
+        "field": "argv",
+        "annotation": "tuple[str, ...]",
+        "constructor_argument": "('/usr/bin/python3', f'{logical}/exam/run.py')",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "('/usr/bin/python3', f'{logical}/exam/run.py')"
+      },
+      {
+        "field": "cwd",
+        "annotation": "str | None",
+        "constructor_argument": "None",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "None"
+      },
+      {
+        "field": "required",
+        "annotation": "bool",
+        "constructor_argument": "True",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "True"
+      },
+      {
+        "field": "format",
+        "annotation": "str",
+        "constructor_argument": "'exit'",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "'exit'"
+      },
+      {
+        "field": "result",
+        "annotation": "str | None",
+        "constructor_argument": "None",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "None"
+      },
+      {
+        "field": "covers",
+        "annotation": "tuple[str, ...]",
+        "constructor_argument": "()",
+        "omitted": false,
+        "default": null,
+        "effective_expression": "()"
+      },
+      {
+        "field": "verifiers",
+        "annotation": "tuple[str, ...]",
+        "constructor_argument": "()",
+        "omitted": false,
+        "default": "()",
+        "effective_expression": "()"
+      },
+      {
+        "field": "profile",
+        "annotation": "str",
+        "constructor_argument": null,
+        "omitted": true,
+        "default": "'legacy'",
+        "effective_expression": "'legacy'"
+      }
+    ]
+  },
+  "source_identities": [
+    {
+      "path": "runtime/worldline/project.py",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "54cd7e46fbecb9fc9287986a4a5c81e3b665addebe4932f0e4f797a56fdd4161",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "54cd7e46fbecb9fc9287986a4a5c81e3b665addebe4932f0e4f797a56fdd4161",
+      "bytes_equal": true
+    },
+    {
+      "path": "scripts/decisive_evaluation_test.py",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "559e72a5ccce331da79a9e67c8698c8599b31688f5b253abffde0c600932daa1",
+      "bytes_equal": true
+    },
+    {
+      "path": "runtime/worldline/finalize.py",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "a1929a14dea8095c3740997e21ef310b1a293c05017ac584940c3518a2bd0862",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "a1929a14dea8095c3740997e21ef310b1a293c05017ac584940c3518a2bd0862",
+      "bytes_equal": true
+    },
+    {
+      "path": "runtime/worldline/checks.py",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "f6ccaa08879b17f3383cea0d17aebf73583d39fa761676f8f74db6f2affcad1f",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "f6ccaa08879b17f3383cea0d17aebf73583d39fa761676f8f74db6f2affcad1f",
+      "bytes_equal": true
+    },
+    {
+      "path": "runtime/worldline/evaluation_producer.py",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "c2ea2c7add1724c1297f1dfca6a909dc57676532c83e90209c46189345a74c26",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "c2ea2c7add1724c1297f1dfca6a909dc57676532c83e90209c46189345a74c26",
+      "bytes_equal": true
+    },
+    {
+      "path": "core/worldline-evaluation_producer.adb",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "f1565f1284740da147405671a223339704cc5b86795de6c1cafd39aacbaaaccb",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "f1565f1284740da147405671a223339704cc5b86795de6c1cafd39aacbaaaccb",
+      "bytes_equal": true
+    },
+    {
+      "path": "core/worldline-evaluation_policy.adb",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "4a934d2a7077dc004b757e584a4cd98f3e8c99b9fe417293831e5e3d529d1c8a",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "4a934d2a7077dc004b757e584a4cd98f3e8c99b9fe417293831e5e3d529d1c8a",
+      "bytes_equal": true
+    },
+    {
+      "path": "core/worldline-evaluation_v2.adb",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "b58dfbdcf47a9271cd2ebc5d87f71cb638bd8b2094950529b31dc8ab64b18f3f",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "b58dfbdcf47a9271cd2ebc5d87f71cb638bd8b2094950529b31dc8ab64b18f3f",
+      "bytes_equal": true
+    },
+    {
+      "path": "core/worldline-evaluation_v2.ads",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "f527206d00c47fe71e31ee79c599e8ffaa8614fbb1c66743c847cfcb46710cf6",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "f527206d00c47fe71e31ee79c599e8ffaa8614fbb1c66743c847cfcb46710cf6",
+      "bytes_equal": true
+    },
+    {
+      "path": "core/worldline-evaluation_wire.adb",
+      "frozen_commit": "ef7b7e38a2940bfabbe0bbd601c6c00df69fc7ac",
+      "frozen_sha256": "224be0d2c2e90f5fd70c002b49594d3b4fcd141cc86e0097190d120819e68ce9",
+      "current_HEAD": "9522e894a7ea995103c26ee0ce20ed18a7caaa37",
+      "current_sha256": "224be0d2c2e90f5fd70c002b49594d3b4fcd141cc86e0097190d120819e68ce9",
+      "bytes_equal": true
+    }
+  ],
+  "direct_CheckSpec_call_scan": {
+    "scope": "Literal CheckSpec names/attributes in rg-selected non-Cosmogony Python files under tests/scripts/runtime/worldline; no module imports or executions; dynamic aliases/reflection not a universal call graph",
+    "files_scanned": 14,
+    "direct_calls": 18,
+    "explicit_null_calls": [],
+    "calls": [
+      {
+        "path": "scripts/decisive_evaluation_test.py",
+        "line": 155,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_project.py",
+        "line": 63,
+        "profile_expression": "'legacy'",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_project.py",
+        "line": 65,
+        "profile_expression": "'private-evaluator-v1'",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_project.py",
+        "line": 51,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_project.py",
+        "line": 179,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_verifier_resolution.py",
+        "line": 168,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_private_check_runner.py",
+        "line": 81,
+        "profile_expression": "'private-evaluator-v1'",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_result_channel.py",
+        "line": 71,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_result_channel.py",
+        "line": 138,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_result_channel.py",
+        "line": 178,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_executed_identity.py",
+        "line": 64,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_executed_identity.py",
+        "line": 216,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "runtime/worldline/project.py",
+        "line": 189,
+        "profile_expression": "profile",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_private_benchmark.py",
+        "line": 105,
+        "profile_expression": "'private-evaluator-v1'",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_report_parsers.py",
+        "line": 15,
+        "profile_expression": "profile",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_candidate_snapshot.py",
+        "line": 25,
+        "profile_expression": "profile",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_candidate_report_reader.py",
+        "line": 25,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      },
+      {
+        "path": "tests/test_candidate_report_reader.py",
+        "line": 39,
+        "profile_expression": "OMITTED default legacy",
+        "explicit_null": false
+      }
+    ]
+  },
+  "prior_preserved_erroneous_material": [
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/findings.md",
+      "sha256_preserved": "8874825af01dcb8b5e752ff44d2aa6f6128b30df2a7111e1153f61378b9b0047",
+      "bytes": 7238,
+      "affected_lines": [
+        {
+          "line": 17,
+          "text": "**ASSUMED source-level cause:** `scripts/decisive_evaluation_test.py:153-169` constructs an exit check with profile `None`, stages the trusted examiner/helper, and passes no private candidate snapshot. `runtime/worldline/checks.py:226-232` routes only `private-evaluator-v1` through separate-role execution. The ordinary branch explicitly disclaims judgment independence from candidate code (`:414-432`). `evaluation_producer.py:426-474` does not invent private role acquisitions. The original record path in `core/worldline-evaluation_producer.adb:608-632` sets isolation only for private profile plus boundary (`:134`); `evaluation_v2.adb:79-80` correctly classifies shared-process execution as incomplete."
+        }
+      ],
+      "disposition": "Preserved unchanged; erroneous original-profile=None premise withdrawn. Any dependent proposed null-acceptance or None-only route is not justified by the original fixture and must not be applied."
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/findings.json",
+      "sha256_preserved": "681b044e4cfccb4059f65dd368b1703b77e917db073c28dcfccc401e5696cf14",
+      "bytes": 10377,
+      "affected_lines": [
+        {
+          "line": 42,
+          "text": "        \"scripts/decisive_evaluation_test.py:153-169 original exit CheckSpec has profile=None, staged trusted verifier+helper and no candidate_snapshot argument\","
+        }
+      ],
+      "disposition": "Preserved unchanged; erroneous original-profile=None premise withdrawn. Any dependent proposed null-acceptance or None-only route is not justified by the original fixture and must not be applied."
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/domain-exit-proposal-v1/README.md",
+      "sha256_preserved": "3a47ead1abaf2b5b1d1d252a12202c7eea679c755ebfbaf15892bf1fe994b6d8",
+      "bytes": 7764,
+      "affected_lines": [
+        {
+          "line": 9,
+          "text": "1. The existing trusted Python `exit` check with an explicitly absent policy profile (`None`) and an identified staged verifier is selected for the existing `PrivateEvaluator`. Its `CheckSpec`, profile, original argv, source bundle and declared format remain unchanged. Other existing routes remain. Selection supplies no isolation fact: the native projector still uses `Evaluation_Role_Native.Valid` over actual role acquisitions."
+        }
+      ],
+      "disposition": "Preserved unchanged; erroneous original-profile=None premise withdrawn. Any dependent proposed null-acceptance or None-only route is not justified by the original fixture and must not be applied."
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/domain-exit-proposal-v1/proposal.patch",
+      "sha256_preserved": "780ed79b7135f19cc3f4c32a25e073efa3def4b0a153b4b22fc7419db15f2f91",
+      "bytes": 27276,
+      "affected_lines": [
+        {
+          "line": 19,
+          "text": "+    return (check.format == \"exit\" and check.profile is None and bool(entries)"
+        },
+        {
+          "line": 305,
+          "text": "+            else F (Result, \"profile\").Form in V.String_Value | V.Null_Value and then"
+        },
+        {
+          "line": 322,
+          "text": "+        F (Result, \"profile\").Form = V.Null_Value;"
+        },
+        {
+          "line": 427,
+          "text": "+            else F (Result, \"profile\").Form in V.String_Value | V.Null_Value and then"
+        }
+      ],
+      "disposition": "Preserved unchanged; erroneous original-profile=None premise withdrawn. Any dependent proposed null-acceptance or None-only route is not justified by the original fixture and must not be applied."
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/domain-exit-proposal-v1/proposed/runtime/worldline/checks.py",
+      "sha256_preserved": "a59e8c3d1af7f0ea2d99c57471e55cf37003550b9f63bc9acce1dadaa1654391",
+      "bytes": 57620,
+      "affected_lines": [
+        {
+          "line": 31,
+          "text": "    return (check.format == \"exit\" and check.profile is None and bool(entries)"
+        }
+      ],
+      "disposition": "Preserved unchanged; erroneous original-profile=None premise withdrawn. Any dependent proposed null-acceptance or None-only route is not justified by the original fixture and must not be applied."
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/domain-exit-proposal-v1/proposed/core/worldline-evaluation_producer.adb",
+      "sha256_preserved": "7009af2cb86ed453d1ad3c5c78b4984578ea3262c23f47c94d634dde561a4126",
+      "bytes": 43088,
+      "affected_lines": [
+        {
+          "line": 208,
+          "text": "            else F (Result, \"profile\").Form in V.String_Value | V.Null_Value and then"
+        },
+        {
+          "line": 325,
+          "text": "        F (Result, \"profile\").Form = V.Null_Value;"
+        },
+        {
+          "line": 613,
+          "text": "            else F (Result, \"profile\").Form in V.String_Value | V.Null_Value and then"
+        }
+      ],
+      "disposition": "Preserved unchanged; erroneous original-profile=None premise withdrawn. Any dependent proposed null-acceptance or None-only route is not justified by the original fixture and must not be applied."
+    },
+    {
+      "path": "scratch/final-gates/resume-20261015-v1/native-exit-custody-design-v1/design.md",
+      "sha256_preserved": "036c226ef41e33423a68b62aa808f6c1980ec7f035a2ac9a43f2764f02b459c6",
+      "bytes": 5091,
+      "affected_lines": [
+        {
+          "line": 3,
+          "text": "No patch is applied. This does not approve the earlier integrated proposal or change any accepted case. Exact source hashes are in metadata.json. The original direct positive must continue to accept profile=None and candidate_snapshot=None; full-promotion binding must remain independently checked."
+        },
+        {
+          "line": 19,
+          "text": "The remaining engineering requirement is to establish an invocation-local acquisition owner for the accepted direct API, with an independently captured input identity whose exact relationship to full registered promotion snapshots is specified and checked. Do not invent root kinds/registry entries, drop the original None accepted case, relabel shared execution, or substitute backend self-consistency for a supplied full-promotion snapshot. A complete safe minimal design for that owner is not established by this inspection. This is an open design obligation, not a claim of toolchain impossibility or a proposed narrowed acceptance claim."
+        }
+      ],
+      "disposition": "Preserved unchanged; erroneous original-profile=None premise withdrawn. Any dependent proposed null-acceptance or None-only route is not justified by the original fixture and must not be applied."
+    }
+  ],
+  "retained_actual_candidate": {
+    "path": "scratch/old-analysis/domain-qualification-v5/attempt-e731fad2a0284e2ea641707c1c96962f/worker/plain-gate/candidate/result.json",
+    "sha256": "780ccb2dc9327c39b2ed62321390240f5a969a2314933f73edccda7aae20100e",
+    "argv": [
+      "/usr/bin/python3",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/scripts/decisive_evaluation_test.py",
+      "--engine",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/coordinator/final-frame-v5/source/runtime",
+      "--json",
+      "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/evaldomain-syfyf408/verdict.json"
+    ],
+    "exit_code": 1,
+    "timeout": 900,
+    "property6": {
+      "detail": "integrity=VERIFIED execution=EVALUATOR_INCOMPLETE outcome=NONE admissible=False (legacy binding=BOUND)",
+      "holds": false,
+      "name": "6 the record separates integrity, execution and outcome"
+    }
+  },
+  "actual_GPT61_review": {
+    "path": "scratch/reviewer2/freeze5-domain-terminal-actual-review-v1.json",
+    "sha256": "0a063f1dc2bbdda52e9fd412858e16b03810bc9e1e1686b564bda01ec4fa817b"
+  },
+  "no_null_patch_generated": true,
+  "carrier_alternatives": "UNAPPROVED; unchanged by correction",
+  "product_or_tests_modified": false,
+  "tests_build_proof_executed": false,
+  "formal_correction_review": "PENDING coordinator actual GPT-6.1 review",
+  "remaining_gate": "Original domain property6 FAILED-OPEN; legacy/shared-execution isolation and observed confinement obligation remains."
+}
