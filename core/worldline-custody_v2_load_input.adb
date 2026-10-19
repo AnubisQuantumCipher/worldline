@@ -24,6 +24,9 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
             not E.C.P.Valid (Data, Item.Encoded) then return 0; end if;
          return Data (Item.Encoded.First + Offset);
       end if;
+      -- An unrepresentable quartet lies beyond every Count-sized source view.
+      -- Keep the level-zero convention: an out-of-view byte is zero.
+      if Offset / 3 > E.Count'Last / 4 then return 0; end if;
       declare
          Prior : constant E.Byte_View := (Item.Encoded, Item.Level - 1);
          Base : constant E.Count := Offset / 3 * 4;
@@ -73,6 +76,19 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       E.C.P.Valid (Data, Encoded) and then Encoded.First >= Data'First and then
       Encoded.First - Data'First < Used and then
       Encoded.Length <= Used - (Encoded.First - Data'First));
+   function Empty_SQL_Cell (Kind : S.SQL_Class) return S.SQL_Cell
+     with Global => null, Post => Empty_SQL_Cell'Result.Kind = Kind
+   is
+   begin
+      case Kind is
+         when S.SQL_Null => return (Kind => S.SQL_Null);
+         when S.SQL_Integer =>
+            return (Kind => S.SQL_Integer, Integer_Value => (False, 1, 0));
+         when S.SQL_Text => return (Kind => S.SQL_Text, Bytes => (1, 0));
+         when S.SQL_Blob => return (Kind => S.SQL_Blob, Bytes => (1, 0));
+         when S.SQL_Real => return (Kind => S.SQL_Real, Bytes => (1, 0));
+      end case;
+   end Empty_SQL_Cell;
    procedure Append_SQL_Cell
      (Data : in out E.Bytes; Encoded : E.Span; Used : in out E.Count;
       Cell : out S.SQL_Cell; Status : out Decode_Status) is
@@ -82,12 +98,20 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Raw : E.Byte_View;
       Hex : Boolean := False;
       Sign : Boolean := False;
-      Kind : S.SQL_Class := S.SQL_Null;
+      -- Null returns before this variable is assigned or consumed.
+      Kind : S.SQL_Class range S.SQL_Integer .. S.SQL_Real;
       Length : E.Count;
    begin
-      Cell := (Kind => S.SQL_Null); Status := Malformed;
+      -- A caller may supply a constrained cell. Initialize its actual variant
+      -- and refuse a different decoded class before writing any arena bytes.
+      Cell := Empty_SQL_Cell
+        (if Cell'Constrained then Cell.Kind else S.SQL_Null);
+      Status := Malformed;
       if not In_Prefix (Data, Encoded, Used) or else not SQL_Valid (Data, Encoded) then return; end if;
-      if V.Is_Null (Data, Encoded) then Status := Parsed; return; end if;
+      if V.Is_Null (Data, Encoded) then
+         if Cell.Kind = S.SQL_Null then Status := Parsed; end if;
+         return;
+      end if;
       if V.Valid_Text (Data, Encoded) then
          Raw := Payload (Data, Encoded, "value"); Kind := S.SQL_Text;
       elsif V.Valid_Bytes (Data, Encoded) then
@@ -97,14 +121,15 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          Hex := True; Sign := V.Negative (Data, Encoded);
       else Raw := Payload (Data, Encoded, "bits"); Kind := S.SQL_Real; Hex := True;
       end if;
+      if Cell'Constrained and then Cell.Kind /= Kind then return; end if;
       Length := View_Length (Data, Raw) / (if Hex then 2 else 1);
       if Length > Data'Length - Used then Status := Storage_Extent; return; end if;
       if Length > 0 then Span := (Data'First + Used, Length); end if;
       for I in E.Count range 1 .. Length loop
          if Hex then
-            Data (Span.First + I - 1) := Nibble (View_Byte (Data, Raw, (I - 1) * 2)) * 16 +
+            Data (Span.First + (I - 1)) := Nibble (View_Byte (Data, Raw, (I - 1) * 2)) * 16 +
               Nibble (View_Byte (Data, Raw, (I - 1) * 2 + 1));
-         else Data (Span.First + I - 1) := View_Byte (Data, Raw, I - 1);
+         else Data (Span.First + (I - 1)) := View_Byte (Data, Raw, I - 1);
          end if;
       end loop;
       Used := Used + Length;
@@ -114,7 +139,6 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          when S.SQL_Text => Cell := (Kind => S.SQL_Text, Bytes => (Span.First, Span.Length));
          when S.SQL_Blob => Cell := (Kind => S.SQL_Blob, Bytes => (Span.First, Span.Length));
          when S.SQL_Real => Cell := (Kind => S.SQL_Real, Bytes => (Span.First, Span.Length));
-         when S.SQL_Null => Cell := (Kind => S.SQL_Null);
       end case;
       Status := Parsed;
    end Append_SQL_Cell;
@@ -340,9 +364,17 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       begin
          if V.Valid_Bytes (Data, Capture) then Add (SQL_Length (Data, Capture)); end if;
       end;
-      Table ("events", 13, Result.Events); Table ("heads", 5, Result.Heads);
-      Table ("roots", 16, Result.Roots); Table ("subjects", 9, Result.Subjects);
-      Table ("alternatives", 7, Result.Alternatives); Table ("blobs", 3, Result.Blobs);
+      declare
+         -- Add updates Result while Table writes this separate count.
+         Rows : E.Count;
+      begin
+         Table ("events", 13, Rows); Result.Events := Rows;
+         Table ("heads", 5, Rows); Result.Heads := Rows;
+         Table ("roots", 16, Rows); Result.Roots := Rows;
+         Table ("subjects", 9, Rows); Result.Subjects := Rows;
+         Table ("alternatives", 7, Rows); Result.Alternatives := Rows;
+         Table ("blobs", 3, Rows); Result.Blobs := Rows;
+      end;
       declare
          Messages : constant E.Span := T.Field (Data, T.Field (Data, Input, "owner_roster"), "custody_head_messages");
       begin
@@ -418,27 +450,32 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Good : Boolean := True;
       function Nibble (B : Q.Byte) return Q.Byte is
         (if B in 48 .. 57 then B - 48 else B - 97 + 10);
-      procedure Cell (Encoded : E.Span; Result : out S.SQL_Cell) is
+      -- These helpers borrow only distinct components, never the whole owner.
+      procedure Cell
+        (Arena : in out E.Bytes; Encoded : E.Span; Result : out S.SQL_Cell) is
          Status : Decode_Status;
       begin
-         Append_SQL_Cell (Value.Arena, Encoded, Used, Result, Status);
+         Append_SQL_Cell (Arena, Encoded, Used, Result, Status);
          if Status /= Parsed then Good := False; end if;
       end Cell;
-      procedure Global_Field (Name : String; Span : out E.Span) is
+      procedure Global_Field
+        (Arena : in out E.Bytes; Input : E.Span; Name : String;
+         Span : out E.Span) is
          Result : S.SQL_Cell;
       begin
-         Cell (T.Field (Value.Arena, Value.Input, Name), Result);
+         Cell (Arena, T.Field (Arena, Input, Name), Result);
          if Result.Kind not in S.SQL_Text | S.SQL_Blob then Good := False; Span := (1, 0);
          else Span := (Result.Bytes.First, Result.Bytes.Length); end if;
       end Global_Field;
-      procedure Table (Name : String; Rows : in out SQL_Rows; Encoded : in out Span_Array;
-                       Count : E.Count) is
-         Seq : constant E.Span := T.Field (Value.Arena, Value.Input, Name);
+      procedure Table
+        (Arena : in out E.Bytes; Input : E.Span; Name : String;
+         Rows : in out SQL_Rows; Encoded : in out Span_Array; Count : E.Count) is
+         Seq : constant E.Span := T.Field (Arena, Input, Name);
       begin
          for I in E.Count range 1 .. Count loop
-            Encoded (I) := V.Element (Value.Arena, Seq, I - Rows'First (1));
+            Encoded (I) := V.Element (Arena, Seq, I - Rows'First (1));
             for J in Rows'Range (2) loop
-               Cell (V.Element (Value.Arena, Encoded (I), E.Count (J - Rows'First (2))), Rows (I, J));
+               Cell (Arena, V.Element (Arena, Encoded (I), E.Count (J - Rows'First (2))), Rows (I, J));
             end loop;
          end loop;
       end Table;
@@ -482,14 +519,15 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          end loop;
          return Result;
       end Digest;
-      procedure Intern (Name : String; Result : out S.SQL_Cell) is
+      procedure Intern
+        (Arena : in out E.Bytes; Name : String; Result : out S.SQL_Cell) is
          Span : E.Span := (1, 0);
       begin
-         if Name'Length > Value.Arena_Count - Used then Good := False;
+         if Name'Length > Arena'Length - Used then Good := False;
          elsif Name'Length > 0 then
             Span := (Used + 1, Name'Length);
             for I in Name'Range loop
-               Value.Arena (Span.First + E.Count (I - Name'First)) := Q.Byte (Character'Pos (Name (I)));
+               Arena (Span.First + E.Count (I - Name'First)) := Q.Byte (Character'Pos (Name (I)));
             end loop;
             Used := Used + Name'Length;
          end if;
@@ -504,9 +542,10 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
    begin
       Decoded_Used := 0; Value.Decoded_Event_Count := 0; Value.Arena_Used := 0;
       Value.Status := Malformed;
+      Value.Arena := [others => 0];
       for I in Value.Arena'Range loop
-         if I <= Data'Length then Value.Arena (I) := Data (Data'First + I - 1);
-         else Value.Arena (I) := 0;
+         if I <= Data'Length then
+            Value.Arena (I) := Data (Data'First + (I - 1));
          end if;
       end loop;
       Value.Input := (1, 0); Value.Key := (1, 0); Value.Genesis_File := (1, 0);
@@ -556,7 +595,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          Image : S.SQL_Cell;
       begin
          if V.Valid_Bytes (Value.Arena, Capture) then
-            Cell (Capture, Image);
+            Cell (Value.Arena, Capture, Image);
             if Image.Kind = S.SQL_Blob then
                Value.Startup_Capture_Payload := (Image.Bytes.First, Image.Bytes.Length);
                if V.S.A.Valid (Value.Arena, Value.Startup_Capture_Payload) then
@@ -565,15 +604,17 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
             end if;
          end if;
       end;
-      Global_Field ("key", Value.Key); Global_Field ("genesis_file", Value.Genesis_File);
-      Global_Field ("genesis_row", Value.Genesis_Row); Global_Field ("genesis_message", Value.Genesis_Message);
-      Global_Field ("genesis_mac", Value.Genesis_Mac);
-      Table ("events", Value.Event_SQL, Value.Event_Encoded, Size.Events);
-      Table ("heads", Value.Head_SQL, Value.Head_Encoded, Size.Heads);
-      Table ("roots", Value.Root_SQL, Value.Root_Encoded, Size.Roots);
-      Table ("subjects", Value.Subject_SQL, Value.Subject_Encoded, Size.Subjects);
-      Table ("alternatives", Value.Alternative_SQL, Value.Alternative_Encoded, Size.Alternatives);
-      Table ("blobs", Value.Blob_SQL, Value.Blob_Encoded, Size.Blobs);
+      Global_Field (Value.Arena, Value.Input, "key", Value.Key);
+      Global_Field (Value.Arena, Value.Input, "genesis_file", Value.Genesis_File);
+      Global_Field (Value.Arena, Value.Input, "genesis_row", Value.Genesis_Row);
+      Global_Field (Value.Arena, Value.Input, "genesis_message", Value.Genesis_Message);
+      Global_Field (Value.Arena, Value.Input, "genesis_mac", Value.Genesis_Mac);
+      Table (Value.Arena, Value.Input, "events", Value.Event_SQL, Value.Event_Encoded, Size.Events);
+      Table (Value.Arena, Value.Input, "heads", Value.Head_SQL, Value.Head_Encoded, Size.Heads);
+      Table (Value.Arena, Value.Input, "roots", Value.Root_SQL, Value.Root_Encoded, Size.Roots);
+      Table (Value.Arena, Value.Input, "subjects", Value.Subject_SQL, Value.Subject_Encoded, Size.Subjects);
+      Table (Value.Arena, Value.Input, "alternatives", Value.Alternative_SQL, Value.Alternative_Encoded, Size.Alternatives);
+      Table (Value.Arena, Value.Input, "blobs", Value.Blob_SQL, Value.Blob_Encoded, Size.Blobs);
       for I in E.Count range 1 .. Size.Events loop
          Value.Events (I) :=
            (Event_Id => Raw_Span (Value.Event_SQL (I, 2), S.SQL_Text),
@@ -598,7 +639,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
               Event_Id => Optional (Value.Head_SQL (I, 3)), Origin => Optional (Value.Head_SQL (I, 4)),
               Mac => Raw_Span (Value.Head_SQL (I, 5), S.SQL_Text), Message => (1, 0));
             declare Head_Message : S.SQL_Cell; begin
-               Cell (V.Element (Value.Arena, Messages, I - 1), Head_Message);
+               Cell (Value.Arena, V.Element (Value.Arena, Messages, I - 1), Head_Message);
                Value.Heads (I).Message := Raw_Span (Head_Message, S.SQL_Blob);
             end;
          end loop;
@@ -652,12 +693,12 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          end;
       end loop;
       for I in E.Count range 1 .. Size.Events loop Event_Extras (I); end loop;
-      for P in M.Root_Phase loop Intern (Root_Name (P), Value.Symbols.Root (P)); end loop;
-      for P in M.Request_Phase loop Intern (Request_Name (P), Value.Symbols.Request (P)); end loop;
-      for P in M.Descriptor_Phase loop Intern (Descriptor_Name (P), Value.Symbols.Descriptor (P)); end loop;
-      for P in M.Abort_Class loop Intern (Abort_Name (P), Value.Symbols.Abort_Name (P)); end loop;
-      for P in M.Transfer_Mode loop Intern (Mode_Name (P), Value.Symbols.Mode (P)); end loop;
-      Intern ("", Value.Symbols.Empty_Text);
+      for P in M.Root_Phase loop Intern (Value.Arena, Root_Name (P), Value.Symbols.Root (P)); end loop;
+      for P in M.Request_Phase loop Intern (Value.Arena, Request_Name (P), Value.Symbols.Request (P)); end loop;
+      for P in M.Descriptor_Phase loop Intern (Value.Arena, Descriptor_Name (P), Value.Symbols.Descriptor (P)); end loop;
+      for P in M.Abort_Class loop Intern (Value.Arena, Abort_Name (P), Value.Symbols.Abort_Name (P)); end loop;
+      for P in M.Transfer_Mode loop Intern (Value.Arena, Mode_Name (P), Value.Symbols.Mode (P)); end loop;
+      Intern (Value.Arena, "", Value.Symbols.Empty_Text);
       Value.Symbols.Zero := (Kind => S.SQL_Integer, Integer_Value => (False, 1, 0));
       Value.Symbols.Zero_Magnitude := (Kind => S.SQL_Blob, Bytes => (1, 0));
       if Used < Value.Arena_Count then
@@ -672,6 +713,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Used : E.Count;
    begin
       Decode_Into (Data, Envelope, Value, Used, False);
+      pragma Unused (Used);
    end Decode;
    procedure Decode_Grown (Data : E.Bytes; Envelope : E.Span; Value : out Parsed_Input; Used : out E.Count) is
    begin

@@ -1,0 +1,88 @@
+ info: implicit aspect Always_Terminates on "View_Byte" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.adb:16:13
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.adb:17:26
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:24:30
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:25:42
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:25:42
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:28:68
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:29:44
+
+ medium: overflow check might fail, cannot prove upper bound for Offset / 3 * 4
+--> worldline-custody_v2_load_input.adb:29:48
+   29 |             Base : constant E.Count := Offset / 3 * 4;
+      |                                        ~~~~~~~~~~~^~~
+      + reason for check: result of multiplication must fit in a 64-bits machine integer
+      + possible fix: add precondition (Offset / 3 * 4 <= 9223372036854775807) to subprogram at line 16
+   16 |       function View_Byte (Data : E.Bytes; Item : E.Byte_View; Offset : E.Count)
+      |                ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:29:48
+
+ info: subprogram variant proved
+--> worldline-custody_v2_load_input.adb:30:43
+
+ info: subprogram variant proved
+--> worldline-custody_v2_load_input.adb:31:43
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:31:72
+
+ info: subprogram variant proved
+--> worldline-custody_v2_load_input.adb:32:43
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:32:72
+
+ info: subprogram variant proved
+--> worldline-custody_v2_load_input.adb:33:43
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:33:72
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:36:25
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:37:28
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:37:32
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:37:32
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:37:37
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:38:28
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:38:40
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:38:45
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:39:33
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:39:44
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:39:44
+gnatprove: unproved check messages considered as errors

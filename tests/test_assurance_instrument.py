@@ -169,6 +169,12 @@ class OneRoster(unittest.TestCase):
                      "raw-decoder-length-controls"):
             self.assertIn(name, assurance_contract.REQUIRED_STEPS)
 
+    def test_the_roster_requires_custody_decoder_controls(self) -> None:
+        for name in ("custody-decoder-build", "custody-decoder-fixtures",
+                     "custody-decoder-empty", "custody-decoder-empty-maximum",
+                     "custody-decoder-populated", "custody-decoder-populated-maximum"):
+            self.assertIn(name, assurance_contract.REQUIRED_STEPS)
+
     def test_the_roster_has_no_duplicates(self) -> None:
         self.assertEqual(len(set(assurance_contract.REQUIRED_STEPS)), len(assurance_contract.REQUIRED_STEPS))
 

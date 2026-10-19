@@ -1,0 +1,31 @@
+{
+  "origin": "Synthetic values serialized by original custody_load_kernel.envelope/root_worker_codec.archive; no authentication or authority claim",
+  "items": [
+    {
+      "path": "tests/custody_load_empty.json",
+      "sha256": "f7d453516309167aa0789178582da08b041cf807ff54fb32a5351f617c46bb49",
+      "bytes": 19325,
+      "row_counts": {
+        "events": 0,
+        "heads": 0,
+        "roots": 0,
+        "subjects": 0,
+        "alternatives": 0,
+        "blobs": 0
+      }
+    },
+    {
+      "path": "tests/custody_load_populated.json",
+      "sha256": "d65434d004b1dc1da1afcb4558f9fab1b24e82e506075629510d3320aeab9919",
+      "bytes": 74820,
+      "row_counts": {
+        "events": 1,
+        "heads": 1,
+        "roots": 1,
+        "subjects": 1,
+        "alternatives": 1,
+        "blobs": 1
+      }
+    }
+  ]
+}

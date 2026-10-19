@@ -1,17 +1,10 @@
 {
-  "utc": "2026-10-19T20:33:14.058247+00:00",
+  "utc": "2026-10-19T21:12:19.179021+00:00",
   "owner": "Codex direct Phase One; OMP owns only its separate workflow checkout",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "13954dcc4f2446b8d9b013081a21b173e22455b3",
-  "published_readback": "13954dcc4f2446b8d9b013081a21b173e22455b3",
-  "active_jobs": [
-    {
-      "scope": "custody-load alias/init repair whole-unit strict numeric proof",
-      "exec_session_id": 12561,
-      "receipt": "custody-load-proof-v1",
-      "deadline_seconds": 600
-    }
-  ],
+  "head": "c51dc97450a46d86173f2bc61b3dd8a7c87913d7",
+  "published_readback": "c51dc97450a46d86173f2bc61b3dd8a7c87913d7",
+  "active_jobs": [],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
     "Next_Line strict level3 proof: 35 total reported, zero unproved/justified/Assume",
@@ -24,9 +17,10 @@
     "D127 selected proofs: Operation_Archive.Field eight checks, Children one, Element one, Count one, Semantic_Same eight. Explicit spec checks repair the zero-check region coverage gap. Whole Phase One proof still open.",
     "D128 scanner endpoint repair, field bounds and six cycle-call proofs; named root/native/maps proofs; checked build/original Ada/fuzz/scanners and 37 Python tests pass. See capture-verification-summary.json.",
     "D129 published 13954dc: full Lifetime_Values unit strict proof; four ledger array exact-contract proofs; SQLite Leading_Zeros and six variant proofs; endpoint/grammar/malformed runtime and existing resource/context/finalization/SQL controls passed. See lifetime-verification-summary.json.",
-    "D130 raw decoder final strict proof and checked runtime passed; see raw-layout-verification-summary.json. Publication pending."
+    "D130 published c51dc97, remote readback verified: whole raw decoder strict proof, original Ada/fuzz,188 exact length controls,45 native tests,46 assurance/release tests. See raw-layout-verification-summary.json.",
+    "D131 candidate: strict custody flow47/47, four helper numeric proofs,6 direct endpoint/constrained-output controls, Ada/fuzz,43 custody and47 assurance tests passed. Full numeric unit remains open. Publication pending."
   ],
-  "next": "Publish D130 by explicit candidate-source-hashes list, excluding custody-load source/pins. Custody-load-flow-v1 cleared all alias/init findings and left only discarded Used warning; explicit Unused annotation applied and whole numeric proof live12561. Original actor replay fixture exporter timed out; preserve all cases with bounded/resumable execution. Do not resume OMP.",
+  "next": "Publish exact D131 files from custody-load-candidate-source-hashes.json. Next proof driver prepared at custody-load-next-proofs-v1/driver.py; run only one heavy lane,300s. Existing array syntax cleanup candidate is NOT applied; remaining numeric/global gates open. OMP stopped.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",

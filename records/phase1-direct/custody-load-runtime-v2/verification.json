@@ -1,0 +1,18 @@
+{
+  "status": "TESTED",
+  "source_sha256": {
+    "core/worldline-custody_v2_load_input.adb": "9d648a742415c92128b1827dbf3ca9e811d8c3db07a43e5e8409681c0cba6433",
+    "runtime/worldline/proof_manifest.py": "cd9809447221cf88675f01b7db883e7f535fdfaf51ca5a0d4680b2ad735a46f9",
+    "scripts/assurance.py": "3819292365ae13c6938c4e1bcfeee379dacaa98864a0cac98de74d7f5f47569a",
+    "scripts/assurance_contract.py": "6ea4d53ee82c6cb47b90285fc4e64de7f9b200e78af28acb0b042506d0a765b1",
+    "tests/test_assurance_instrument.py": "17d64a12ebe1a709a6c14026fc1ff7f0b5a2f16372af338959b0bdea39a7bea0",
+    "tests/custody_load_contracts.gpr": "04345fa0d8a7f0e26fe4639898133cd6227c41806fc827432fbfe75fbb119279",
+    "tests/custody_load_decode_tests.adb": "a3591d04db812f5f6ae40ed1b6caf81e13103f61905d003bef7be0348d49047a",
+    "tests/custody_load_empty.json": "f7d453516309167aa0789178582da08b041cf807ff54fb32a5351f617c46bb49",
+    "tests/custody_load_populated.json": "d65434d004b1dc1da1afcb4558f9fab1b24e82e506075629510d3320aeab9919",
+    "tests/generate_custody_load_fixtures.py": "32becdb7797d1cb9ded301f02157a3a8bfaf2e53f3a3efa0afb73c6635cef121"
+  },
+  "direct_control_pass_markers": 6,
+  "custody_regression_tests": 43,
+  "numeric_scope": "Only four named selected helper proofs; full numeric unit unproved"
+}

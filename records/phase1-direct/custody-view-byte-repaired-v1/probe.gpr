@@ -1,0 +1,11 @@
+with "../../../core/worldline_core_sources.gpr";
+project Probe is
+   for Source_Dirs use (".");
+   for Source_Files use ("probe.adb");
+   for Object_Dir use "obj";
+   for Exec_Dir use ".";
+   for Main use ("probe.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnat2022", "-gnata", "-gnatVa", "-O2", "-g");
+   end Compiler;
+end Probe;

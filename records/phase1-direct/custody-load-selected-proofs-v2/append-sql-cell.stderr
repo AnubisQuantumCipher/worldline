@@ -1,0 +1,137 @@
+ info: initialization of "Raw" proved
+--> worldline-custody_v2_load_input.adb:98:07
+
+ info: initialization of "Kind" proved
+--> worldline-custody_v2_load_input.adb:101:07
+
+ info: initialization of "Length" proved
+--> worldline-custody_v2_load_input.adb:102:07
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:106:12
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:109:25
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:109:69
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:110:21
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:114:24
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:115:26
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:116:28
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:117:26
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:118:27
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:119:26
+
+ info: precondition proved
+--> worldline-custody_v2_load_input.adb:120:32
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:120:43
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:121:28
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:124:30
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:124:41
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:124:41
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:125:23
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:125:31
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:126:46
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:126:46
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:127:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:127:42
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:129:30
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:129:30
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:129:63
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:129:82
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:130:34
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:130:53
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:130:57
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:131:32
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:131:32
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:131:57
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:134:20
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:137:18
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:138:34
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:139:34
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:140:34
+
+ warning: unreachable code
+--> worldline-custody_v2_load_input.adb:141:29
+  141 |             when S.SQL_Null => null;
+      |                                ^~~~
+
+ info: aspect Always_Terminates on "Append_SQL_Cell" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.ads:99:14
+
+ info: initialization of "Cell" proved
+--> worldline-custody_v2_load_input.ads:101:07
+
+ info: initialization of "Status" proved
+--> worldline-custody_v2_load_input.ads:101:30
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.ads:102:11
+gnatprove: error during flow analysis and proof

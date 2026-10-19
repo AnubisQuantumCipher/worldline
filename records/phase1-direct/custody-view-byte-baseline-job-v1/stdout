@@ -1,0 +1,11 @@
+Setup
+   [mkdir]        object directory for project Probe
+Compile
+   [Ada]          probe.adb
+Bind
+   [gprbind]      probe.bexch
+   [Ada]          probe.ali
+Link
+   [archive]      libprobe.a
+   [index]        libprobe.a
+   [link]         probe.adb

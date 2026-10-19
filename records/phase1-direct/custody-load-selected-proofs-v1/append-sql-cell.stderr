@@ -1,0 +1,167 @@
+ info: initialization of "Raw" proved
+--> worldline-custody_v2_load_input.adb:82:07
+
+ info: initialization of "Kind" proved
+--> worldline-custody_v2_load_input.adb:85:07
+
+ info: initialization of "Length" proved
+--> worldline-custody_v2_load_input.adb:86:07
+
+ medium: discriminant check might fail
+--> worldline-custody_v2_load_input.adb:88:12
+   88 |          Cell := (Kind => S.SQL_Null); Status := Malformed;
+      |          ~~~~~^~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at worldline-custody_v2_load_input.ads:99 should mention Cell'Constrained or Cell.Kind in a precondition
+      --> worldline-custody_v2_load_input.ads:99:04
+   99 |       procedure Append_SQL_Cell
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:89:25
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:89:69
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:90:21
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:91:24
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:92:26
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:93:28
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:94:26
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:95:27
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:96:26
+
+ info: precondition proved
+--> worldline-custody_v2_load_input.adb:97:32
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:97:43
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:98:28
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:100:30
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:100:41
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:100:41
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:101:23
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:101:31
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:102:46
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:102:46
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:103:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:103:42
+
+ medium: overflow check might fail, cannot prove upper bound for Span.First + I
+--> worldline-custody_v2_load_input.adb:105:30
+  105 |                Data (Span.First + I - 1) := Nibble (View_Byte (Data, Raw, (I - 1) * 2)) * 16 +
+      |                      ~~~~~~~~~~~^~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + provers reached time limit before completing the proof
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:105:34
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:105:61
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:105:80
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:106:34
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:106:53
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:106:57
+
+ medium: overflow check might fail, cannot prove upper bound for Span.First + I
+--> worldline-custody_v2_load_input.adb:107:32
+  107 |             else Data (Span.First + I - 1) := View_Byte (Data, Raw, I - 1);
+      |                        ~~~~~~~~~~~^~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + provers reached time limit before completing the proof
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:107:36
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:107:55
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:110:20
+
+ medium: discriminant check might fail
+--> worldline-custody_v2_load_input.adb:113:18
+  113 |                Cell := (Kind => S.SQL_Integer, Integer_Value => (Sign, Span.First, Span.Length));
+      |                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ medium: discriminant check might fail
+--> worldline-custody_v2_load_input.adb:114:34
+  114 |             when S.SQL_Text => Cell := (Kind => S.SQL_Text, Bytes => (Span.First, Span.Length));
+      |                                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ medium: discriminant check might fail
+--> worldline-custody_v2_load_input.adb:115:34
+  115 |             when S.SQL_Blob => Cell := (Kind => S.SQL_Blob, Bytes => (Span.First, Span.Length));
+      |                                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ medium: discriminant check might fail
+--> worldline-custody_v2_load_input.adb:116:34
+  116 |             when S.SQL_Real => Cell := (Kind => S.SQL_Real, Bytes => (Span.First, Span.Length));
+      |                                ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time limit before completing the proof
+
+ warning: unreachable code
+--> worldline-custody_v2_load_input.adb:117:29
+  117 |             when S.SQL_Null => Cell := (Kind => S.SQL_Null);
+      |                                ^~~~
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:117:34
+
+ info: aspect Always_Terminates on "Append_SQL_Cell" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.ads:99:14
+
+ info: initialization of "Cell" proved
+--> worldline-custody_v2_load_input.ads:101:07
+
+ info: initialization of "Status" proved
+--> worldline-custody_v2_load_input.ads:101:30
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.ads:102:11
+gnatprove: unproved check messages considered as errors

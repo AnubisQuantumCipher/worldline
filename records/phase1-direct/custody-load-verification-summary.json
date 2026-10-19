@@ -1,0 +1,71 @@
+{
+  "utc": "2026-10-19T21:12:19.179021+00:00",
+  "checkpoint": "D131 non-final; original Phase One acceptance NOT PERFORMED",
+  "source_sha256": {
+    "core/worldline-custody_v2_load_input.adb": "9d648a742415c92128b1827dbf3ca9e811d8c3db07a43e5e8409681c0cba6433",
+    "runtime/worldline/proof_manifest.py": "cd9809447221cf88675f01b7db883e7f535fdfaf51ca5a0d4680b2ad735a46f9",
+    "scripts/assurance.py": "3819292365ae13c6938c4e1bcfeee379dacaa98864a0cac98de74d7f5f47569a",
+    "scripts/assurance_contract.py": "6ea4d53ee82c6cb47b90285fc4e64de7f9b200e78af28acb0b042506d0a765b1",
+    "tests/test_assurance_instrument.py": "17d64a12ebe1a709a6c14026fc1ff7f0b5a2f16372af338959b0bdea39a7bea0",
+    "tests/custody_load_contracts.gpr": "04345fa0d8a7f0e26fe4639898133cd6227c41806fc827432fbfe75fbb119279",
+    "tests/custody_load_decode_tests.adb": "a3591d04db812f5f6ae40ed1b6caf81e13103f61905d003bef7be0348d49047a",
+    "tests/custody_load_empty.json": "f7d453516309167aa0789178582da08b041cf807ff54fb32a5351f617c46bb49",
+    "tests/custody_load_populated.json": "d65434d004b1dc1da1afcb4558f9fab1b24e82e506075629510d3320aeab9919",
+    "tests/generate_custody_load_fixtures.py": "32becdb7797d1cb9ded301f02157a3a8bfaf2e53f3a3efa0afb73c6635cef121"
+  },
+  "changes": [
+    "Remove custody owner/output aliases with narrow helper arguments and local counts",
+    "Fully initialize output arena and group endpoint offsets",
+    "Guard unrepresentable base64 quartet before multiplication; no new public precondition",
+    "Initialize constrained SQL-cell variants and refuse incompatible classes before arena writes; preserve unconstrained behavior and null inputs",
+    "Enroll original-producer direct decoder fixtures and maximum-index controls in shared assurance roster"
+  ],
+  "flow": {
+    "status": "FLOW_PROVED",
+    "scope": "47/47 subprograms/packages in custody_v2_load_input; zero flow errors, warnings, Assume",
+    "evidence": "custody-load-runtime-v2/flow-verification.json"
+  },
+  "numeric_proofs": {
+    "status": "PROVED_SELECTED",
+    "evidence": "custody-load-selected-proofs-v3/result.json",
+    "scope": [
+      "View_Byte26 checks",
+      "View_Length8 checks",
+      "Empty_SQL_Cell1 check",
+      "Append_SQL_Cell36 checks"
+    ],
+    "limitation": "Whole unit numeric proof remains incomplete. Earlier600s whole-unit attempt timed out; no fresh final report. Selected proofs do not establish caller or whole-system correctness."
+  },
+  "runtime": {
+    "status": "TESTED",
+    "evidence": "custody-load-runtime-v2",
+    "scope": [
+      "Exact-source quartet-overflow reproducer now passes, plus independent base64 reference bytes",
+      "Producer fixtures reproduce byte-for-byte",
+      "Six direct controls: empty/populated at original, rebased7, maximum-ending input indices; each checks table counts, prefix preservation, grown buffers and capacity refusal; populated controls check constrained output variants and mismatch no-write refusal",
+      "Original Ada tests and fuzz",
+      "43 original custody regression tests, no skips"
+    ]
+  },
+  "assurance": {
+    "status": "TESTED_INSTRUMENT",
+    "evidence": "custody-load-assurance-tests-v1/result.json",
+    "scope": "47 assurance/release tests pass; new required steps enrolled. Full assurance campaign and hosted CI not run."
+  },
+  "negative_history": [
+    "custody-load-flow-v1 (all alias/init findings cleared, one unused output warning then corrected)",
+    "custody-load-proof-v1 (600s timeout, no fresh numeric summary)",
+    "custody-load-selected-proofs-v1 (quartet/endpoint overflow and constrained-output findings)",
+    "custody-view-byte-baseline-job-v1 (observed Constraint_Error in exact source helper)",
+    "custody-load-selected-proofs-v2 (numeric checks passed, unreachable null branch warning then corrected)"
+  ],
+  "compiler_warnings": "Existing array-aggregate syntax warnings remain in custody body and project-name warnings in dependencies. No warning categories disabled. Prepared syntax candidate is NOT applied or accepted.",
+  "open": [
+    "Whole-source strict proof with original floors and no unproved/justified/Assume",
+    "Full original same-source runtime and replay scope; actor exporter timeout remains unresolved without dropping cases",
+    "Successor full-domain Bignum limit and UTF8 obligations",
+    "Whole-value implicit Old retirement",
+    "Authentic protected/actor witnesses and independent F7 acceptance"
+  ],
+  "next": "Selected proofs for Counts, Append_Event_Extras and public decode wrappers, then repair actual remaining obligations. Do not resume OMP."
+}

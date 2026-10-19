@@ -274,6 +274,16 @@ def run(out: Path, expect_sha: str | None) -> int:
     ok = runner.step("raw-decoder-length-controls", [sys.executable,
                      "tests/raw_decode_length_controls.py", "--out",
                      str(runner.out / "raw-decoder-length-controls.json")]) and ok
+    ok = runner.step("custody-decoder-build", ["gprbuild", "-q", "-p", "-j2",
+                     "-P", "tests/custody_load_contracts.gpr"]) and ok
+    ok = runner.step("custody-decoder-fixtures", [sys.executable,
+                     "tests/generate_custody_load_fixtures.py"]) and ok
+    for label, rows in (("empty", "0"), ("populated", "1")):
+        command = ["./bin/custody-load-contracts/custody_load_decode_tests",
+                   f"tests/custody_load_{label}.json", rows]
+        ok = runner.step(f"custody-decoder-{label}", command) and ok
+        ok = runner.step(f"custody-decoder-{label}-maximum",
+                         command + ["maximum"]) and ok
     private_env = {**env, "WORLDLINE_PRIVATE_EVALUATOR_TEST": "1"}
     # Verbose output names any remaining host-capability skips in the retained log.
     # The private integration cases must run here too, so the release gate's skipped
