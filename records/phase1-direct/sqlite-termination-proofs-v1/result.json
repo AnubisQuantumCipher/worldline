@@ -1,0 +1,60 @@
+[
+  {
+    "name": "leading-zeros",
+    "argv": [
+      "gnatprove",
+      "-P",
+      "core/worldline_core_sources.gpr",
+      "-u",
+      "worldline-sqlite_parameter_source.adb",
+      "--no-inlining",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "--warnings=error",
+      "--memlimit=1024",
+      "--timeout=5",
+      "-j2",
+      "--subdirs=direct-proof-custody-next-line",
+      "-XWORLDLINE_BUILD=checks",
+      "-XSPARKLIB_MODE=full",
+      "-XSPARKLIB_BUILD=Production",
+      "-XSPARKLIB_LIBRARY_TYPE=static",
+      "-XSPARKLIB_INSTALLED=True",
+      "--limit-subp=worldline-sqlite_parameter_source.adb:190"
+    ],
+    "exit_code": 0,
+    "fresh_summary": true
+  },
+  {
+    "name": "variants",
+    "argv": [
+      "gnatprove",
+      "-P",
+      "core/worldline_core_sources.gpr",
+      "-u",
+      "worldline-sqlite_parameter_source.adb",
+      "--no-inlining",
+      "--mode=all",
+      "--level=3",
+      "--report=all",
+      "--checks-as-errors=on",
+      "--proof-warnings=on",
+      "--warnings=error",
+      "--memlimit=1024",
+      "--timeout=5",
+      "-j2",
+      "--subdirs=direct-proof-custody-next-line",
+      "-XWORLDLINE_BUILD=checks",
+      "-XSPARKLIB_MODE=full",
+      "-XSPARKLIB_BUILD=Production",
+      "-XSPARKLIB_LIBRARY_TYPE=static",
+      "-XSPARKLIB_INSTALLED=True",
+      "--limit-lines=/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/sqlite-termination-proofs-v1/variant-lines.txt"
+    ],
+    "exit_code": 0,
+    "fresh_summary": true
+  }
+]

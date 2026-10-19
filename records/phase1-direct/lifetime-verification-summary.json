@@ -1,0 +1,59 @@
+{
+  "utc": "2026-10-19T18:34:33.398307+00:00",
+  "checkpoint": "D129 non-final; Phase One acceptance NOT PERFORMED",
+  "source_sha256": {
+    "core/worldline-lifetime_values.ads": "98fd552ea79f0479bfc98dc88b98337d696bec53d12f29f405cc3bcab3735dbb",
+    "core/worldline-lifetime_values.adb": "75219a6959c444cacf628c6823c6b8ed3697368885727f850c7dbf5df67beadf",
+    "core/resource_scoped_run_ledger_wire.adb": "ea028b23adbeccc848c482f6a47535528c7609b624b1ad415ab26424a2e01e64",
+    "core/worldline-sqlite_parameter_source.adb": "a9775fc08e26d3acc8a8d971093379165fca4a3e7aa03a446ee24156446e4b2e",
+    "core/worldline-transaction_archive_json.adb": "cc59dd951718a12bab1bc25ab555a7ccb1650eba7c7fcf05d063bb2957c7a3da",
+    "runtime/worldline/proof_manifest.py": "82e0f525edfd3311fe9dfb2b6760fc03410e08459fcdb06d30d96a53eec0f258",
+    "tests/lifetime_value_tests.adb": "66ebce69516ab6535e67d67dd791961a79c6df4cfb43ed27fb9f25d27e5f3354",
+    "tests/resource_ledger_transport_tests.adb": "995fb82502555bfc1d5aaa50a7addbd485e0a0c50fd2f945e6a8810082255e0c",
+    "tests/worldline_tests.gpr": "3dc2ae100b65ca81469cd61f5b12f897894c2c54ddfd5f2aeb6c2edcc376d4aa"
+  },
+  "proved": [
+    {
+      "scope": "Whole Lifetime_Values unit, all18 reported subprograms/packages; strict level3, no-inlining; zero errors/warnings/Assume in unit report; no justified/unproved report checks",
+      "evidence": "lifetime-proof-v2/unit-report.txt",
+      "limitations": "Runtime safety and written contracts, not complete functional correctness or resource-exhaustion proof; shared aggregate summary contains other cached units and is not a fresh unit total."
+    },
+    {
+      "scope": "Decode_History, Decode_Bucket, Decode_Projection, Decode_Facts exact original postconditions including lower bounds, lengths and every decoded element",
+      "evidence": "ledger-array-proofs-v1/result.json"
+    },
+    {
+      "scope": "Leading_Zeros whole function and six new SQLite loop variant locations",
+      "evidence": "sqlite-termination-proofs-v1/result.json",
+      "limitations": "Not whole SQLite renderer numeric safety/parity proof."
+    }
+  ],
+  "tested": [
+    {
+      "scope": "Full aggregate checked build, endpoint/grammar/malformed-node lifetime controls, rebased empty ledger arrays, original Ada core tests and fuzz",
+      "evidence": "lifetime-runtime-v3/stdout"
+    },
+    {
+      "scope": "18 context/finalization/SQL-capture tests completed; resource-history setup failed due omitted WORLDLINE_CORE_LIB",
+      "evidence": "lifetime-runtime-v3/stderr"
+    },
+    {
+      "scope": "Resource-history rerun with correct library environment:10 tests passed",
+      "evidence": "lifetime-history-runtime-v4/stderr"
+    }
+  ],
+  "flow": {
+    "evidence": "lifetime-ledger-sqlite-flow-v2/diagnostics.json",
+    "status": "FAILED due newly reached recovery_material_replay warnings; prior lifetime, scoped-ledger, SQLite and archive-cursor diagnostics cleared; not full project proof."
+  },
+  "negative_history": [
+    "lifetime-baseline-v1",
+    "lifetime-empty-baseline-v1",
+    "lifetime-empty-baseline-v2",
+    "lifetime-empty-runtime-v1",
+    "lifetime-exception-trace-v1",
+    "lifetime-proof-v1",
+    "lifetime-runtime-v3"
+  ],
+  "next": "Inspect recovery_material_replay unused parameters/outputs for semantic purpose before repair. Then original full strict proof/runtime, successor full-domain Bignum limit, UTF8, implicit Old, protected/actor and independent F7 acceptance remain required."
+}

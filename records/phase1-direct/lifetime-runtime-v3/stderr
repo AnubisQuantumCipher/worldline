@@ -1,0 +1,17 @@
+worldline-transaction_archive_json.adb:11:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-transaction_archive_json.adb:11:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+E..................
+======================================================================
+ERROR: setUpClass (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_resource_scoped_history_v1.py", line 70, in setUpClass
+    cls.kernel=S.ScopedRunLedgerKernel(SimpleNamespace(_lib=C.CDLL(os.environ['WORLDLINE_CORE_LIB'])))
+                                                                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 709, in __getitem__
+KeyError: 'WORLDLINE_CORE_LIB'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.685s
+
+FAILED (errors=1)

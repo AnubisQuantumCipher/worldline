@@ -292,6 +292,8 @@ package body Worldline.Transaction_Archive_JSON with SPARK_Mode is
    begin
       if Size = 0 then return ""; end if;
       Emit (Data, Encoded, Layer, Mode, Result, Cursor);
+      --  The fixed-size result is returned; the final write cursor is local.
+      pragma Unused (Cursor);
       return Result;
    end Render;
 end Worldline.Transaction_Archive_JSON;

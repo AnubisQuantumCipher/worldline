@@ -1,0 +1,6 @@
+{
+  "findings": [
+    " warning: \"Cursor\" is set by \"Emit\" but not used after the call\n--> worldline-transaction_archive_json.adb:294:49\n  294 |          Emit (Data, Encoded, Layer, Mode, Result, Cursor);\n      |                                                    ^~~~~~"
+  ],
+  "scope": "all-source flow, not numeric proof"
+}

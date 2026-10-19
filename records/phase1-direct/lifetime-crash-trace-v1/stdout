@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+0x0000fffff65fa848 in ?? () from /usr/lib/libc.so.6
+#0  0x0000fffff65fa848 in ?? () from /usr/lib/libc.so.6
+#1  0x0000fffff65a7af8 in raise () from /usr/lib/libc.so.6
+#2  0x0000fffff6592630 in abort () from /usr/lib/libc.so.6
+#3  0x0000fffff6754bd8 in _Unwind_SetGR () from /usr/lib/libgcc_s.so.1
+#4  0x0000fffff6b38144 in setup_to_install (uw_context=0xffffffffe360, uw_exception=0xaaaaaaac34c0, uw_landing_pad=187649984443964, uw_filter=<optimized out>) at raise-gcc.c:1325
+#5  personality_body (uw_phases=10, uw_exception=<optimized out>, uw_context=<optimized out>) at raise-gcc.c:1479
+#6  __gnat_personality_v0 (version_arg=<optimized out>, phases_arg=10, uw_exception_class=<optimized out>, uw_exception=<optimized out>, uw_context=<optimized out>) at raise-gcc.c:1519
+#7  0x0000fffff7e487b8 in _Unwind_ForcedUnwind_Phase2 (exc=exc@entry=0xaaaaaaac34c0, context=context@entry=0xffffffffe360, frames_p=frames_p@entry=0xffffffffdf98) at ../../../src/libgcc/unwind.inc:183
+#8  0x0000fffff7e48ccc in _Unwind_ForcedUnwind (exc=0xaaaaaaac34c0, stop=0xfffff7e3f400 <__gnat_cleanupunwind_handler>, stop_argument=0x0) at ../../../src/libgcc/unwind.inc:218
+#9  0x0000fffff7e1485c in ada.exceptions.exception_propagation.propagate_gcc_exception (gcc_exception=0xaaaaaaac34c0) at /home/runner/work/GNAT-FSF-builds/GNAT-FSF-builds/sbx/aarch64-linux/gcc/build/gcc/ada/rts/a-exexpr.adb:625
+#10 0x0000fffff7e14878 in ada.exceptions.exception_propagation.propagate_exception (excep=...) at /home/runner/work/GNAT-FSF-builds/GNAT-FSF-builds/sbx/aarch64-linux/gcc/build/gcc/ada/rts/a-exexpr.adb:642
+#11 0x0000fffff7e155ec in ada.exceptions.complete_and_propagate_occurrence (x=x@entry=0xaaaaaaac3500) at a-except.adb:1148

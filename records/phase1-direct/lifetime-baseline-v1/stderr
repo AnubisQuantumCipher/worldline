@@ -1,0 +1,11 @@
+worldline-sqlite_parameter_source.adb:16:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-sqlite_parameter_source.adb:16:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-sqlite_parameter_source.adb:117:06: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-sqlite_parameter_source.adb:125:06: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-sqlite_parameter_source.adb:133:06: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+resource_scoped_run_ledger_wire.adb:6:74: warning: "Result" may be referenced before it has a value [enabled by default]
+resource_scoped_run_ledger_wire.adb:17:74: warning: "Result" may be referenced before it has a value [enabled by default]
+resource_scoped_run_ledger_wire.adb:28:74: warning: "Result" may be referenced before it has a value [enabled by default]
+resource_scoped_run_ledger_wire.adb:39:74: warning: "Result" may be referenced before it has a value [enabled by default]
+
+raised CONSTRAINT_ERROR : worldline-lifetime_values.adb:4 overflow check failed

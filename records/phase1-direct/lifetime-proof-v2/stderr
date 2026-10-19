@@ -1,0 +1,554 @@
+ info: implicit aspect Always_Terminates on "Byte_At" has been proved, subprogram will terminate
+--> worldline-lifetime_values.adb:3:13
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:4:39
+
+ info: index check proved
+--> worldline-lifetime_values.adb:4:39
+
+ info: range check proved
+--> worldline-lifetime_values.adb:5:36
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-lifetime_values.adb:9:39
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:9:72
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:9:93
+
+ info: implicit aspect Always_Terminates on "Read" has been proved, subprogram will terminate
+--> worldline-lifetime_values.adb:12:13
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:14:52
+
+ info: postcondition proved
+--> worldline-lifetime_values.adb:15:16
+
+ info: range check proved
+--> worldline-lifetime_values.adb:18:33
+
+ info: initialization of "Tag" proved
+--> worldline-lifetime_values.adb:21:07
+
+ info: initialization of "Extent" proved
+--> worldline-lifetime_values.adb:22:07
+
+ info: initialization of "Form" proved
+--> worldline-lifetime_values.adb:23:07
+
+ info: range check proved
+--> worldline-lifetime_values.adb:25:62
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:26:14
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:38:16
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:39:17
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:39:36
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:41:24
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:42:30
+
+ info: range check proved
+--> worldline-lifetime_values.adb:42:30
+
+ info: range check proved
+--> worldline-lifetime_values.adb:44:33
+
+ info: loop invariant initialization proved
+--> worldline-lifetime_values.adb:45:36
+
+ info: loop invariant preservation proved
+--> worldline-lifetime_values.adb:45:36
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:45:52
+
+ info: subprogram variant proved
+--> worldline-lifetime_values.adb:47:46
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:47:65
+
+ info: range check proved
+--> worldline-lifetime_values.adb:53:48
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:58:14
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:58:36
+
+ info: range check proved
+--> worldline-lifetime_values.adb:58:47
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:58:69
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:58:91
+
+ info: range check proved
+--> worldline-lifetime_values.adb:58:102
+
+ info: range check proved
+--> worldline-lifetime_values.adb:58:110
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:59:14
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:59:36
+
+ info: range check proved
+--> worldline-lifetime_values.adb:59:47
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:59:71
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:59:93
+
+ info: range check proved
+--> worldline-lifetime_values.adb:59:104
+
+ info: range check proved
+--> worldline-lifetime_values.adb:59:112
+
+ info: division check proved
+--> worldline-lifetime_values.adb:61:20
+
+ info: range check proved
+--> worldline-lifetime_values.adb:62:33
+
+ info: division check proved
+--> worldline-lifetime_values.adb:62:41
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-lifetime_values.adb:62:49
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:63:16
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:63:35
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:63:39
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:63:43
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:66:35
+
+ info: range check proved
+--> worldline-lifetime_values.adb:66:46
+
+ info: initialization of "Cursor" proved
+--> worldline-lifetime_values.adb:78:07
+
+ info: initialization of "Child" proved
+--> worldline-lifetime_values.adb:79:07
+
+ info: range check proved
+--> worldline-lifetime_values.adb:83:35
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:83:63
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:85:30
+
+ info: loop invariant initialization proved
+--> worldline-lifetime_values.adb:87:33
+
+ info: loop invariant preservation proved
+--> worldline-lifetime_values.adb:87:33
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:87:56
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:89:38
+
+ info: implicit aspect Always_Terminates on "Payload_Bounds" has been proved, subprogram will terminate
+--> worldline-lifetime_values.adb:95:13
+
+ info: range check proved
+--> worldline-lifetime_values.adb:96:30
+
+ info: range check proved
+--> worldline-lifetime_values.adb:97:47
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:98:26
+
+ info: implicit aspect Always_Terminates on "Integer_Payload" has been proved, subprogram will terminate
+--> worldline-lifetime_values.adb:99:13
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:101:26
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:106:27
+
+ info: range check proved
+--> worldline-lifetime_values.adb:108:14
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:108:31
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:108:45
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:108:64
+
+ info: range check proved
+--> worldline-lifetime_values.adb:111:07
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:112:44
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:112:57
+
+ info: length check proved
+--> worldline-lifetime_values.adb:113:09
+
+ info: range check proved
+--> worldline-lifetime_values.adb:116:56
+
+ info: postcondition proved
+--> worldline-lifetime_values.adb:117:19
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:117:35
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:120:23
+
+ info: index check proved
+--> worldline-lifetime_values.adb:121:18
+
+ info: range check proved
+--> worldline-lifetime_values.adb:121:42
+
+ info: range check proved
+--> worldline-lifetime_values.adb:126:27
+
+ info: division check proved
+--> worldline-lifetime_values.adb:126:35
+
+ info: loop invariant initialization proved
+--> worldline-lifetime_values.adb:127:33
+
+ info: loop invariant preservation proved
+--> worldline-lifetime_values.adb:127:33
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:127:43
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:129:35
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:129:58
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:129:62
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:129:66
+
+ info: initialization of "Code" proved
+--> worldline-lifetime_values.adb:130:13
+
+ info: range check proved
+--> worldline-lifetime_values.adb:133:30
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:134:32
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:135:36
+
+ info: division check proved
+--> worldline-lifetime_values.adb:135:53
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:135:60
+
+ info: division check proved
+--> worldline-lifetime_values.adb:135:77
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:136:37
+
+ info: division check proved
+--> worldline-lifetime_values.adb:136:54
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:136:63
+
+ info: division check proved
+--> worldline-lifetime_values.adb:136:81
+
+ info: division check proved
+--> worldline-lifetime_values.adb:136:87
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:136:96
+
+ info: division check proved
+--> worldline-lifetime_values.adb:136:113
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:137:18
+
+ info: division check proved
+--> worldline-lifetime_values.adb:137:35
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:137:46
+
+ info: division check proved
+--> worldline-lifetime_values.adb:137:64
+
+ info: division check proved
+--> worldline-lifetime_values.adb:137:72
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:137:81
+
+ info: division check proved
+--> worldline-lifetime_values.adb:137:99
+
+ info: division check proved
+--> worldline-lifetime_values.adb:137:105
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:137:114
+
+ info: division check proved
+--> worldline-lifetime_values.adb:137:131
+
+ info: range check proved
+--> worldline-lifetime_values.adb:141:14
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:144:45
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:147:27
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:147:52
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:155:17
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:155:37
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:156:29
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:156:48
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:158:28
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:158:38
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-lifetime_values.adb:158:42
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:159:13
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:159:35
+
+ info: range check proved
+--> worldline-lifetime_values.adb:159:35
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:159:43
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:159:65
+
+ info: range check proved
+--> worldline-lifetime_values.adb:159:65
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:160:24
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:160:46
+
+ info: range check proved
+--> worldline-lifetime_values.adb:160:46
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:160:53
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:160:75
+
+ info: range check proved
+--> worldline-lifetime_values.adb:160:75
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-lifetime_values.adb:170:32
+
+ info: subprogram variant proved
+--> worldline-lifetime_values.adb:176:30
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:188:27
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-lifetime_values.adb:188:44
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:189:13
+
+ info: range check proved
+--> worldline-lifetime_values.adb:189:28
+
+ info: division check proved
+--> worldline-lifetime_values.adb:189:53
+
+ info: range check proved
+--> worldline-lifetime_values.adb:189:53
+
+ info: division check proved
+--> worldline-lifetime_values.adb:190:33
+
+ info: precondition proved
+--> worldline-lifetime_values.adb:195:44
+
+ info: overflow check proved
+--> worldline-lifetime_values.adb:195:70
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-lifetime_values.adb:200:35
+
+ info: subprogram variant proved
+--> worldline-lifetime_values.adb:202:52
+
+ info: implicit aspect Always_Terminates on "Parse" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:11:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:12:11
+
+ info: postcondition proved
+--> worldline-lifetime_values.ads:13:16
+
+ info: range check proved
+--> worldline-lifetime_values.ads:16:32
+
+ info: implicit aspect Always_Terminates on "Element" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:17:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:18:11
+
+ info: postcondition proved
+--> worldline-lifetime_values.ads:19:16
+
+ info: range check proved
+--> worldline-lifetime_values.ads:22:47
+
+ info: implicit aspect Always_Terminates on "Text" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:23:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:23:66
+
+ info: implicit aspect Always_Terminates on "Bytes" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:24:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:24:67
+
+ info: implicit aspect Always_Terminates on "Equal" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:25:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:26:11
+
+ info: overflow check proved
+--> worldline-lifetime_values.ads:27:56
+
+ info: implicit aspect Always_Terminates on "Compare" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:28:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:28:70
+
+ info: implicit aspect Always_Terminates on "Matches" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:29:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:29:83
+
+ info: implicit aspect Always_Terminates on "Nonnegative" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:30:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:30:74
+
+ info: implicit aspect Always_Terminates on "Positive_Integer" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:31:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:31:79
+
+ info: implicit aspect Always_Terminates on "Mod_256" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:32:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:32:70
+
+ info: implicit aspect Always_Terminates on "Word" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:33:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:33:85
+
+ info: range check proved
+--> worldline-lifetime_values.ads:34:65
+
+ info: range check proved
+--> worldline-lifetime_values.ads:34:99
+
+ info: overflow check proved
+--> worldline-lifetime_values.ads:34:107
+
+ info: implicit aspect Always_Terminates on "Complete" has been proved, subprogram will terminate
+--> worldline-lifetime_values.ads:35:13
+
+ info: data dependencies proved
+--> worldline-lifetime_values.ads:36:11
+
+ info: overflow check proved
+--> worldline-lifetime_values.ads:37:65

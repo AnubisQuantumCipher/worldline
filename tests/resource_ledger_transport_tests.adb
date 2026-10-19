@@ -1,6 +1,7 @@
 with Ada.Text_IO;
 with Resource_Quantities;
 with Resource_Ledger;
+with Resource_Scoped_Run_Ledger_Wire;
 with Worldline.Resource_Ledger_C_API;
 
 -- Ordinary owned storage: these cases exercise actual typed refusal handlers.
@@ -10,7 +11,26 @@ procedure Resource_Ledger_Transport_Tests is
    package T renames Worldline.Resource_Ledger_C_API;
    use type T.U8;
    use type Q.Quantity;
+   use type Q.Byte_Count;
    use type L.Result_Status;
+
+   procedure Check_Empty_Decoders is
+      package W renames Resource_Scoped_Run_Ledger_Wire;
+      Data : constant Q.Byte_Array (1 .. 0) := [others => 0];
+      H : W.Raw_History_Array (7 .. 6);
+      B : W.Raw_Bucket_Array (7 .. 6);
+      P : W.Raw_Projection_Array (7 .. 6);
+      F : W.Raw_Facts_Array (7 .. 6);
+      DH : constant W.S.History_Array := W.Decode_History (Data, H);
+      DB : constant W.S.Bucket_Array := W.Decode_Bucket (Data, B);
+      DP : constant W.S.Projection_Array := W.Decode_Projection (Data, P);
+      DF : constant W.S.Facts_Array := W.Decode_Facts (Data, F);
+   begin
+      pragma Assert (DH'First = 7 and then DH'Length = 0);
+      pragma Assert (DB'First = 7 and then DB'Length = 0);
+      pragma Assert (DP'First = 7 and then DP'Length = 0);
+      pragma Assert (DF'First = 7 and then DF'Length = 0);
+   end Check_Empty_Decoders;
 
    procedure Check_Compute (Bad_First : Boolean) is
       First : constant Q.Byte_Index := (if Bad_First then 2 else 1);
@@ -53,6 +73,7 @@ procedure Resource_Ledger_Transport_Tests is
       pragma Assert (Data (First) = 7);
    end Check_Headroom;
 begin
+   Check_Empty_Decoders;
    Check_Compute (True);
    Check_Compute (False);
    Check_Headroom (True);

@@ -1,0 +1,12 @@
+Breakpoint 1 (__gnat_raise_exception) pending.
+Breakpoint 2 (__gnat_rcheck_CE_Overflow_Check) pending.
+Breakpoint 3 at 0x28c0
+Breakpoint 4 (__gnat_rcheck_CE_Index_Check) pending.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+
+Breakpoint 2.2, <__gnat_rcheck_CE_Overflow_Check> (file=0xfffff7eaef40, line=99) at a-except.adb:1457
+#0  <__gnat_rcheck_CE_Overflow_Check> (file=0xfffff7eaef40, line=99) at a-except.adb:1457
+#1  0x0000fffff784fd04 in worldline.lifetime_values.bytes (data=..., item=...) at /home/sicarii/Work/worldline-phase1-direct-20261019/core/worldline-lifetime_values.adb:99
+#2  0x0000aaaaaaaa3128 in lifetime_value_tests.check_grammar () at /home/sicarii/Work/worldline-phase1-direct-20261019/tests/lifetime_value_tests.adb:26
+#3  lifetime_value_tests () at /home/sicarii/Work/worldline-phase1-direct-20261019/tests/lifetime_value_tests.adb:43

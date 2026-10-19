@@ -1,41 +1,12 @@
 package body Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
-   use type S.K.Facts;
    function Decode_History (Data : Q.Byte_Array; Raw : Raw_History_Array) return S.History_Array is
-      Result : S.History_Array (Raw'Range);
-   begin
-      for I in Raw'Range loop
-         pragma Loop_Invariant (for all J in Raw'Range => (if J < I then Result (J) = Decode (Data, Raw (J))));
-         Result (I) := Decode (Data, Raw (I));
-      end loop;
-      return Result;
-   end Decode_History;
+     ([for I in Raw'Range => Decode (Data, Raw (I))]);
    function Decode_Bucket (Data : Q.Byte_Array; Raw : Raw_Bucket_Array) return S.Bucket_Array is
-      Result : S.Bucket_Array (Raw'Range);
-   begin
-      for I in Raw'Range loop
-         pragma Loop_Invariant (for all J in Raw'Range => (if J < I then Result (J) = Decode (Data, Raw (J))));
-         Result (I) := Decode (Data, Raw (I));
-      end loop;
-      return Result;
-   end Decode_Bucket;
+     ([for I in Raw'Range => Decode (Data, Raw (I))]);
    function Decode_Projection (Data : Q.Byte_Array; Raw : Raw_Projection_Array) return S.Projection_Array is
-      Result : S.Projection_Array (Raw'Range);
-   begin
-      for I in Raw'Range loop
-         pragma Loop_Invariant (for all J in Raw'Range => (if J < I then Result (J) = Decode (Data, Raw (J))));
-         Result (I) := Decode (Data, Raw (I));
-      end loop;
-      return Result;
-   end Decode_Projection;
+     ([for I in Raw'Range => Decode (Data, Raw (I))]);
    function Decode_Facts (Data : Q.Byte_Array; Raw : Raw_Facts_Array) return S.Facts_Array is
-      Result : S.Facts_Array (Raw'Range);
-   begin
-      for I in Raw'Range loop
-         pragma Loop_Invariant (for all J in Raw'Range => (if J < I then Result (J) = O.Decode (Data, Raw (J))));
-         Result (I) := O.Decode (Data, Raw (I));
-      end loop;
-      return Result;
-   end Decode_Facts;
+     ([for I in Raw'Range => O.Decode (Data, Raw (I))]);
    function Decide (Data : Q.Byte_Array; Raw : Raw_Packet;
       History, Proposed_History : Raw_History_Array;
       Rows, Proposed_Rows : W.Raw_Row_Array;

@@ -1,9 +1,9 @@
 {
-  "utc": "2026-10-19T18:06:00.962792+00:00",
+  "utc": "2026-10-19T18:34:33.398307+00:00",
   "owner": "Codex direct Phase One; OMP owns only its separate workflow checkout",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "3fa2b97bd1a479f1123488426b10eb650786f5cd",
-  "published_readback": "3fa2b97bd1a479f1123488426b10eb650786f5cd",
+  "head": "cb3ca29e77a1a3f62e7cc02ca2f7405f2ad1a71b",
+  "published_readback": "cb3ca29e77a1a3f62e7cc02ca2f7405f2ad1a71b",
   "active_jobs": [],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
@@ -15,9 +15,10 @@
     "D125 custody/policy flow repairs; request-abandon and policy transport strict proof; Digest_Image eight checks proved.",
     "D126 guards and primary-exception containment in thirteen C_API exports; reviewed exact-source pin update; checked build/original Ada/fuzz/typed controls and 66 selected Python tests pass.",
     "D127 selected proofs: Operation_Archive.Field eight checks, Children one, Element one, Count one, Semantic_Same eight. Explicit spec checks repair the zero-check region coverage gap. Whole Phase One proof still open.",
-    "D128 scanner endpoint repair, field bounds and six cycle-call proofs; named root/native/maps proofs; checked build/original Ada/fuzz/scanners and 37 Python tests pass. See capture-verification-summary.json."
+    "D128 scanner endpoint repair, field bounds and six cycle-call proofs; named root/native/maps proofs; checked build/original Ada/fuzz/scanners and 37 Python tests pass. See capture-verification-summary.json.",
+    "D129 candidate: full Lifetime_Values unit strict proof; four ledger array exact-contract proofs; SQLite Leading_Zeros and six variant proofs; endpoint/grammar/malformed runtime and existing resource/context/finalization/SQL controls passed. See lifetime-verification-summary.json."
   ],
-  "next": "Publish D128 checkpoint, then repair current aggregate-flow frontier: lifetime_values recursion/initialization, resource_scoped_run_ledger_wire initialization, sqlite_parameter_source loops/discarded value. Keep full strict proof, original runtime, full-domain big integer failure, Old retirement and protected/actor/F7 gates open. OMP remains stopped.",
+  "next": "Inspect recovery_material_replay unused parameters/outputs for semantic purpose before repair. Then original full strict proof/runtime, successor full-domain Bignum limit, UTF8, implicit Old, protected/actor and independent F7 acceptance remain required.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -64,10 +65,16 @@
     "capture-runtime-v3/result.json",
     "capture-root-proof-v3/gnatprove.out",
     "capture-completion-proofs-v2",
-    "capture-modular-proof-reuse.json"
+    "capture-modular-proof-reuse.json",
+    "publication-cb3ca29.json",
+    "lifetime-verification-summary.json",
+    "lifetime-proof-v2/unit-report.txt",
+    "ledger-array-proofs-v1/result.json",
+    "sqlite-termination-proofs-v1/result.json",
+    "lifetime-ledger-sqlite-flow-v2/diagnostics.json"
   ],
   "open": [
-    "All-source flow scoped-capture diagnostics cleared in scoped-capture-flow-v1; fresh reported failures now lifetime_values, resource_scoped_run_ledger_wire and sqlite_parameter_source. Numeric recursive calls are being checked separately. Whole-project proof remains open.",
+    "All-source flow now reaches recovery_material_replay unused parameters/output warnings. Inspect their purpose before editing. Whole project numerical proof remains open.",
     "Successor full-domain runtime FAILED on 4096 zero padding: GNAT System.Generic_Bignums.Normalize fixed Bignum_Limit; guard now preserves process but does not repair math result.",
     "UTF8 four exception obligations",
     "full all-source strict proof and original runtime roster",
