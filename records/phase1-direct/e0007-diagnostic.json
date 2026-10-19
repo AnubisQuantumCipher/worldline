@@ -1,0 +1,132 @@
+{
+  "schema": "worldline-direct-e0007-diagnostic/1",
+  "claim": "TESTED SPARK flow legality repair only; no full proof or Phase One acceptance",
+  "baseCommit": "b560c696ec06930286d99658ab0205c88dff5f73",
+  "sourceAfter": {
+    "path": "core/worldline-evaluation_agent_native.adb",
+    "bytes": 115409,
+    "sha256": "371f181f2cdffed4b9a12a6c76beae60bae3c753675ca91b6b4ac13de22e9d03"
+  },
+  "cases": {
+    "e0007-before": {
+      "worker": {
+        "exit_code": 0,
+        "utc": "2026-10-19T14:23:13.353388+00:00"
+      },
+      "E0007": 0,
+      "errorLines": [],
+      "warningCount": 716,
+      "artifacts": [
+        {
+          "path": "records/phase1-direct/e0007-before/stdout",
+          "bytes": 177,
+          "sha256": "8517610e45437e0d5b9ddd6222d971c59f3fa5f0905c4e0abb9cc969c254b6ff"
+        },
+        {
+          "path": "records/phase1-direct/e0007-before/stderr",
+          "bytes": 265692,
+          "sha256": "f892ad99dc8c729b90635177ed138b56f9ab12312b899d26aa807762200b554e"
+        },
+        {
+          "path": "records/phase1-direct/e0007-before/launch.jsonl",
+          "bytes": 579,
+          "sha256": "723dc87b9e38d3451ad1d05ea535dbbb926b1d7ba5b0f41eb732b42b07f9ca06"
+        },
+        {
+          "path": "records/phase1-direct/e0007-before/worker-result.json",
+          "bytes": 59,
+          "sha256": "06e569c902417ed2531299868cdd0f2733517ebea185fa7b61e52a05dc9e085f"
+        },
+        {
+          "path": "records/phase1-direct/e0007-before/result.jsonl",
+          "bytes": 60,
+          "sha256": "e86f6728ebfc756ce934a53e8ef93f0c17f44171f3f8bb9d2a0853abd2c90be6"
+        }
+      ]
+    },
+    "e0007-flow-before": {
+      "worker": {
+        "exit_code": 1,
+        "utc": "2026-10-19T14:23:40.706883+00:00"
+      },
+      "E0007": 5,
+      "errorLines": [
+        " error: subtype constraint cannot depend on variable input \"Length\" [E0007]",
+        " error: subtype constraint cannot depend on variable input \"Size\" [E0007]",
+        " error: subtype constraint cannot depend on variable input \"Size\" [E0007]",
+        " error: subtype constraint cannot depend on variable input \"Size\" [E0007]",
+        " error: subtype constraint cannot depend on variable input \"Size\" [E0007]"
+      ],
+      "warningCount": 31,
+      "artifacts": [
+        {
+          "path": "records/phase1-direct/e0007-flow-before/stdout",
+          "bytes": 297,
+          "sha256": "e42967d1fc7abe5db9bf030b5a4d4d16cbc4a25b2f5a92d6dda4cab2ba09d8b7"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-before/stderr",
+          "bytes": 38649,
+          "sha256": "b18203b9e4ce1680901de15fee1451e569e71f300f82600e01d97c6bfe584a50"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-before/launch.jsonl",
+          "bytes": 583,
+          "sha256": "3d3ec5391a08bbaebfecb5b2e2d93dccb4ea1372b72ffe0fcc78a4896e27ab9f"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-before/worker-result.json",
+          "bytes": 59,
+          "sha256": "746141b8986931ed8e19f87328db08fd24ed6bbeb95eac5457a5da32ddc8c22b"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-before/result.jsonl",
+          "bytes": 60,
+          "sha256": "973bf0817ab479f66b99262404262aab77174b179452c934253924cec7d690df"
+        }
+      ]
+    },
+    "e0007-flow-after": {
+      "worker": {
+        "exit_code": 0,
+        "utc": "2026-10-19T14:24:13.988145+00:00"
+      },
+      "E0007": 0,
+      "errorLines": [],
+      "warningCount": 37,
+      "artifacts": [
+        {
+          "path": "records/phase1-direct/e0007-flow-after/stdout",
+          "bytes": 337,
+          "sha256": "a14c28d469e3da823dcb3cdd185e2653b862360063201829515850954de09992"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-after/stderr",
+          "bytes": 39757,
+          "sha256": "98d6dac8f0aee59232e00cfb7c2c7ce76ab484a28b4d93f28be3b2d0ea4e5ed8"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-after/launch.jsonl",
+          "bytes": 582,
+          "sha256": "b3ae97576430983347147895ecd619fa2551e13558f7bf0d84ed5a0be504a356"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-after/worker-result.json",
+          "bytes": 59,
+          "sha256": "268a36e841c594f9bbd132847cc8cf297df8745d2242947f1814f1cf0e6664a2"
+        },
+        {
+          "path": "records/phase1-direct/e0007-flow-after/result.jsonl",
+          "bytes": 60,
+          "sha256": "8c0f580449356da70a952e64bc6cf793394b2d2c96230f3e495662710b2e81a6"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Fast check alone exited zero without detecting E0007; retained as diagnostic-scope limitation",
+    "Flow after succeeds but retained warnings remain",
+    "Full strict proof, complete runtime, protected/actor evidence and independent acceptance still required",
+    "No accepted inputs, public contracts, proof floors or original tests changed"
+  ]
+}

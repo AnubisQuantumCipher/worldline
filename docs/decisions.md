@@ -1699,3 +1699,29 @@ qualification require terminal results and successor internal review.
 **Reversal:** a separately reviewed change supported by a concrete counterexample;
 never restore an early bare-record admission gate, manufacture protected inputs,
 suppress native refusal or change genuine failures into passing evaluations.
+
+
+## D119 — Bind computed return extents before declaring result subtypes
+
+**Options:** retain the five illegal mutable constraints; bind each completed
+extent to a local constant; or import the broader historical proposal that also
+changes supervisor poll state.
+
+**Evidence:** `records/phase1-direct/e0007-diagnostic.json` retains a focused
+flow reproduction with five E0007 errors and the matching successful flow run
+after constant binding. The installed GNATprove E0007 explanation recommends
+this construct. The fast check that missed the defect is retained.
+
+**Choice:** bind the completed length/size in UTF8, Show_Values, Cgroup_Path,
+Counters and Fields without changing sizing, rendering, contracts or admitted
+inputs. Keep the larger proposal separate. The full checks build and original
+Ada behavior/fuzz executables exit zero. Compiler/flow warnings remain; selected
+native runtime verification is recorded separately, including a timeout.
+
+**Review:** direct implementation verification only; independent review and
+Phase One acceptance NOT PERFORMED. This is a non-final engineering checkpoint,
+not a source acceptance or release. The user requested direct product work
+without the repeated workflow reviewer loop. Original final gates remain open.
+
+**Reversal:** invert this isolated extent-binding patch if a counterexample
+requires it; preserve before/after evidence and the original target guarantees.

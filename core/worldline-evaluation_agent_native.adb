@@ -232,48 +232,52 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
       end loop;
       --  The same immutable source has already passed validation and sizing.
       --  A disagreement while writing is an invariant failure, not absence.
-      return Result : B.Decoded (Length) with Relaxed_Initialization do
-         declare
-            Used : Natural := 0;
-         begin
-            Result.Valid := True;
-            Position := 0;
-            while Position < Bytes'Length loop
-               pragma Loop_Invariant (Position <= Bytes'Length);
-               pragma Loop_Invariant (Used <= Result.Length);
-               pragma Loop_Invariant (Result.Valid'Initialized);
-               pragma Loop_Invariant
-                 (if Used > 0 then Result.Data (1 .. Used)'Initialized);
-               pragma Loop_Variant (Increases => Position);
-               Step (Position, Advance, Width);
-               if Advance = 0 or else Advance > Bytes'Length - Position or else
-                 (Width = 0 and then not Replace_Errors)
-               then
+      declare
+         Result_Length : constant Natural := Length;
+      begin
+         return Result : B.Decoded (Result_Length) with Relaxed_Initialization do
+            declare
+               Used : Natural := 0;
+            begin
+               Result.Valid := True;
+               Position := 0;
+               while Position < Bytes'Length loop
+                  pragma Loop_Invariant (Position <= Bytes'Length);
+                  pragma Loop_Invariant (Used <= Result.Length);
+                  pragma Loop_Invariant (Result.Valid'Initialized);
+                  pragma Loop_Invariant
+                    (if Used > 0 then Result.Data (1 .. Used)'Initialized);
+                  pragma Loop_Variant (Increases => Position);
+                  Step (Position, Advance, Width);
+                  if Advance = 0 or else Advance > Bytes'Length - Position or else
+                    (Width = 0 and then not Replace_Errors)
+                  then
+                     raise Program_Error with "UTF8 decode extent mismatch";
+                  end if;
+                  if Width > 0 then
+                     if Width > Result.Length - Used or else Width > Bytes'Length - Position then
+                        raise Program_Error with "UTF8 decode extent mismatch";
+                     end if;
+                     Result.Data (Used + 1 .. Used + Width) :=
+                       Text_Slice (Bytes, Position, Position + Width);
+                     Used := Used + Width;
+                  else
+                     if 3 > Result.Length - Used then
+                        raise Program_Error with "UTF8 decode extent mismatch";
+                     end if;
+                     Result.Data (Used + 1 .. Used + 3) :=
+                       Character'Val (16#EF#) & Character'Val (16#BF#) & Character'Val (16#BD#);
+                     Used := Used + 3;
+                  end if;
+                  Position := Position + Advance;
+               end loop;
+               if Used /= Result.Length then
                   raise Program_Error with "UTF8 decode extent mismatch";
                end if;
-               if Width > 0 then
-                  if Width > Result.Length - Used or else Width > Bytes'Length - Position then
-                     raise Program_Error with "UTF8 decode extent mismatch";
-                  end if;
-                  Result.Data (Used + 1 .. Used + Width) :=
-                    Text_Slice (Bytes, Position, Position + Width);
-                  Used := Used + Width;
-               else
-                  if 3 > Result.Length - Used then
-                     raise Program_Error with "UTF8 decode extent mismatch";
-                  end if;
-                  Result.Data (Used + 1 .. Used + 3) :=
-                    Character'Val (16#EF#) & Character'Val (16#BF#) & Character'Val (16#BD#);
-                  Used := Used + 3;
-               end if;
-               Position := Position + Advance;
-            end loop;
-            if Used /= Result.Length then
-               raise Program_Error with "UTF8 decode extent mismatch";
-            end if;
-            pragma Assert (Result'Initialized);
-         end;
-      end return;
+               pragma Assert (Result'Initialized);
+            end;
+         end return;
+      end;
    end UTF8;
    function Strip (Text : String) return String is
       First, Last, Position, Width : Natural := 0;
@@ -840,14 +844,18 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          Size : Natural;
       begin
          Scan (False, Empty, Size);
-         return Result : String (1 .. Size) do
-            declare
-               Written : Natural;
-            begin
-               Scan (True, Result, Written);
-               pragma Assert (Written = Size);
-            end;
-         end return;
+         declare
+            Result_Length : constant Natural := Size;
+         begin
+            return Result : String (1 .. Result_Length) do
+               declare
+                  Written : Natural;
+               begin
+                  Scan (True, Result, Written);
+                  pragma Assert (Written = Result_Length);
+               end;
+            end return;
+         end;
       end Show_Values;
       function Telemetry_Show (Observation : V.Node) return Boolean is
          Args : constant V.Node := O (Observation, "argv");
@@ -998,14 +1006,18 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          Size : Natural;
       begin
          Scan (False, Empty, Size);
-         return Result : String (1 .. Size) do
-            declare
-               Written : Natural;
-            begin
-               Scan (True, Result, Written);
-               pragma Assert (Written = Size);
-            end;
-         end return;
+         declare
+            Result_Length : constant Natural := Size;
+         begin
+            return Result : String (1 .. Result_Length) do
+               declare
+                  Written : Natural;
+               begin
+                  Scan (True, Result, Written);
+                  pragma Assert (Written = Result_Length);
+               end;
+            end return;
+         end;
       end Cgroup_Path;
       function Cgroup (From, Before : Natural; Group, Name : String) return String is
          Found : V.Node := V.No_Node;
@@ -1291,14 +1303,18 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
          Size : Natural;
       begin
          Scan (False, Empty, Size);
-         return Result : String (1 .. Size) do
-            declare
-               Written : Natural;
-            begin
-               Scan (True, Result, Written);
-               pragma Assert (Written = Size);
-            end;
-         end return;
+         declare
+            Result_Length : constant Natural := Size;
+         begin
+            return Result : String (1 .. Result_Length) do
+               declare
+                  Written : Natural;
+               begin
+                  Scan (True, Result, Written);
+                  pragma Assert (Written = Result_Length);
+               end;
+            end return;
+         end;
       end Counters;
       function Derive_Reading (Index : Positive; Telemetry : Boolean) return String is
          Source_Index : constant Natural := Find_Show (Index, Telemetry);
@@ -1597,14 +1613,18 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
                Size : Natural;
             begin
                Scan (False, Empty, Size);
-               return Result : String (1 .. Size) do
-                  declare
-                     Written : Natural;
-                  begin
-                     Scan (True, Result, Written);
-                     pragma Assert (Written = Size);
-                  end;
-               end return;
+               declare
+                  Result_Length : constant Natural := Size;
+               begin
+                  return Result : String (1 .. Result_Length) do
+                     declare
+                        Written : Natural;
+                     begin
+                        Scan (True, Result, Written);
+                        pragma Assert (Written = Result_Length);
+                     end;
+                  end return;
+               end;
             end Fields;
          begin
             return Source_Archive_Matches (Fields,
