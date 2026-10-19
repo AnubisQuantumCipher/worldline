@@ -60,7 +60,11 @@ package body Worldline.Startup_Admission with SPARK_Mode is
       Negative : constant Boolean := V.Is_Integer (D, X) and then V.Negative (D, X);
    begin
       if Exponent = 16#7FF# then return False; end if;
-      while Used > 0 and then Mag (Mag'First + Used - 1) = 0 loop Used := Used - 1; end loop;
+      while Used > 0 and then Mag (Mag'First + Used - 1) = 0 loop
+         pragma Loop_Invariant (Used <= Mag'Length);
+         pragma Loop_Variant (Decreases => Used);
+         Used := Used - 1;
+      end loop;
       if Exponent /= 0 then Mantissa := Mantissa or 16#0010_0000_0000_0000#; end if;
       if Mantissa = 0 then return Used = 0; end if;
       if Used = 0 or else Negative /= ((Bits and 16#8000_0000_0000_0000#) /= 0) then return False; end if;
@@ -71,7 +75,11 @@ package body Worldline.Startup_Admission with SPARK_Mode is
          Shift := 0;
       end if;
       declare Remaining : U64 := Mantissa; begin
-         while Remaining > 0 loop Width := Width + 1; Remaining := Remaining / 2; end loop;
+         while Remaining > 0 loop
+            pragma Loop_Variant (Decreases => Remaining);
+            Width := Width + 1;
+            Remaining := Remaining / 2;
+         end loop;
       end;
       if Used /= (Width + E.Count (Shift) + 7) / 8 then return False; end if;
       for I in E.Count range 0 .. Used - 1 loop
@@ -108,8 +116,16 @@ package body Worldline.Startup_Admission with SPARK_Mode is
               Right : constant E.Bytes := Integer_Magnitude (B, Y);
               LL : E.Count := Left'Length;
               RL : E.Count := Right'Length; begin
-         while LL > 0 and then Left (Left'First + LL - 1) = 0 loop LL := LL - 1; end loop;
-         while RL > 0 and then Right (Right'First + RL - 1) = 0 loop RL := RL - 1; end loop;
+         while LL > 0 and then Left (Left'First + LL - 1) = 0 loop
+            pragma Loop_Invariant (LL <= Left'Length);
+            pragma Loop_Variant (Decreases => LL);
+            LL := LL - 1;
+         end loop;
+         while RL > 0 and then Right (Right'First + RL - 1) = 0 loop
+            pragma Loop_Invariant (RL <= Right'Length);
+            pragma Loop_Variant (Decreases => RL);
+            RL := RL - 1;
+         end loop;
          if LL /= RL then return False; end if;
          if LL = 0 then return True; end if;
          return (V.Is_Integer (A, X) and then V.Negative (A, X)) =
@@ -117,6 +133,8 @@ package body Worldline.Startup_Admission with SPARK_Mode is
            (for all I in E.Count range 0 .. LL - 1 => Left (Left'First + I) = Right (Right'First + I));
       end;
    end Numeric_Equal;
+   function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean
+     with Subprogram_Variant => (Decreases => X.Length);
    function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean is
    begin
       if not S.Valid (A, X) or else not S.Valid (B, Y) then return False; end if;
@@ -131,6 +149,7 @@ package body Worldline.Startup_Admission with SPARK_Mode is
                        Found : E.Count := 0; begin
                   if XP.Form /= E.List_Value or else E.Array_Length (A, XP.Children) /= 2 then return False; end if;
                   for K in E.Count range 1 .. E.Array_Length (B, YO.Children) loop
+                     pragma Loop_Invariant (Found < K);
                      declare YP : constant E.View := E.Decode (B, E.Array_Element (B, YO.Children, K - 1), E.Finalization); begin
                         if YP.Form /= E.List_Value or else E.Array_Length (B, YP.Children) /= 2 then return False; end if;
                         if Cross (A, B, E.Array_Element (A, XP.Children, 0), E.Array_Element (B, YP.Children, 0)) then

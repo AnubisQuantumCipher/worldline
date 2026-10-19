@@ -1,0 +1,12 @@
+{
+  "worker": {
+    "exit_code": 1,
+    "utc": "2026-10-19T17:02:56.400497+00:00"
+  },
+  "diagnostics": [
+    " medium: subprogram variant might fail\n--> worldline-startup_admission.adb:155:35\n  155 |                               if not Semantic_Same (A, B, E.Array_Element (A, XP.Children, 1), E.Array_Element (B, YP.Children, 1)) then return False; end if;\n      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n      + possible fix: subprogram at line 136 should mention A and B and X and Y in a precondition\n  136 |       function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean\n      |       ^\n      + provers reached time limit before completing the proof",
+    " medium: overflow check might fail, cannot prove upper bound for Found + 1\n--> worldline-startup_admission.adb:156:43\n  156 |                               Found := Found + 1;\n      |                                        ~~~~~~^~~\n      + reason for check: result of addition must fit in a 64-bits machine integer\n      + possible fix: loop at line 151 should mention Found in a loop invariant\n  151 |                      for K in E.Count range 1 .. E.Array_Length (B, YO.Children) loop\n      |                                                                                  ^\n      + provers reached time limit before completing the proof",
+    " medium: subprogram variant might fail\n--> worldline-startup_admission.adb:168:20\n  168 |                if not Semantic_Same (A, B, V.Element (A, X, I - 1), V.Element (B, Y, I - 1)) then return False; end if;\n      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n      + possible fix: subprogram at line 136 should mention A and B and X and Y in a precondition\n  136 |       function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean\n      |       ^\n      + provers reached time limit before completing the proof"
+  ],
+  "scope": "Semantic_Same selected only; cached other units not fresh evidence"
+}

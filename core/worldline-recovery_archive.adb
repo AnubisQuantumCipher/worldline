@@ -623,10 +623,11 @@ package body Worldline.Recovery_Archive with SPARK_Mode is
            Octet - Character'Pos ('a') + 10
          else 0);
    begin
-      if not Hexadecimal then return AP.Byte_At (Data, Item.Payload, Offset); end if;
-      if Offset >= AP.Byte_Length (Data, Item.Payload) / 2 then return 0; end if;
-      return Digit (AP.Byte_At (Data, Item.Payload, 2 * Offset)) * 16 +
-        Digit (AP.Byte_At (Data, Item.Payload, 2 * Offset + 1));
+      return
+        (if not Hexadecimal then AP.Byte_At (Data, Item.Payload, Offset)
+         elsif Offset >= AP.Byte_Length (Data, Item.Payload) / 2 then 0
+         else Digit (AP.Byte_At (Data, Item.Payload, 2 * Offset)) * 16 +
+           Digit (AP.Byte_At (Data, Item.Payload, 2 * Offset + 1)));
    end Source_Payload_Byte;
    function Source_Payload_Equal
      (L_Data, R_Data : E.Bytes; L, R : E.View; L_Scoped, R_Scoped : Boolean)
@@ -662,9 +663,11 @@ package body Worldline.Recovery_Archive with SPARK_Mode is
       if not AP.Borrow_Valid (L_Data, L.Payload) or else
         not AP.Borrow_Valid (R_Data, R.Payload) then return False; end if;
       while LN > 0 and then Source_Payload_Byte (L_Data, L, True, LN - 1) = 0 loop
+         pragma Loop_Variant (Decreases => LN);
          LN := LN - 1;
       end loop;
       while RN > 0 and then Source_Payload_Byte (R_Data, R, R_Scoped, RN - 1) = 0 loop
+         pragma Loop_Variant (Decreases => RN);
          RN := RN - 1;
       end loop;
       if LN /= RN or else (LN > 0 and then L.Sign /= R.Sign) then return False; end if;

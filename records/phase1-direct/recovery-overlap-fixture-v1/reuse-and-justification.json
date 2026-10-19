@@ -1,0 +1,16 @@
+{
+  "predecessor": "startup-recovery-runtime-v1/result.json",
+  "same_library_sha256": "7afcd94eba0e650930ee9cab8bae96ecd3e0d14d0a9fb279375a028223140859",
+  "unchanged_product_sources": true,
+  "original_runtime_outcome": "59 pass, one ctypes fixture error before native invocation",
+  "changed_test_methods": [
+    "test_history_mutable_query_overlap_is_refused_without_write"
+  ],
+  "fixture_change": "same union allocation, exact typed ctypes views; original 255/unchanged-memory assertions preserved, detached-output positive control added",
+  "fixture_sha256": "44c442b80a51acaab1dedec00f09ad7b15d1d50089a0cb22cb1304cd84b40a22",
+  "targeted_result": {
+    "exit_code": 0,
+    "utc": "2026-10-19T17:14:36.907326+00:00"
+  },
+  "phase_one_accepted": false
+}

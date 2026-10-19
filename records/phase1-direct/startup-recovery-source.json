@@ -1,0 +1,44 @@
+{
+  "utc": "2026-10-19T17:11:15.111415+00:00",
+  "base": "70643a621b1481b3b501087e315ca5275966911d",
+  "sources": {
+    "core/worldline-custody_v2_values.adb": "0d321fa877a468d4898773b6384ae497b0677b7c336c46a923c86dfc385205d8",
+    "core/worldline-custody_v2_values.ads": "108b6e45be459c529ce2c6e7ce6946a87c2df972489b262b5c01dfb5b3657f9f",
+    "core/worldline-operation_archive.ads": "69c1c2168a424d063f8b2964ac3b69a0b715dd3c82358fef60332ab22e531aa2",
+    "core/worldline-recovery_archive.adb": "c76bbe5d20ef78325d469509974ca411e7b52bf607801909b0ba110cdf5fa9ba",
+    "core/worldline-runner_outcome_bytes.adb": "2c4e492a80ad034b5c0ffdc1260ff320c7d534872ee112508df316030a3ddf34",
+    "core/worldline-startup_admission.adb": "8205d1313c11c41b4ebe1e506abdd2a04acd8146a1ebc382a34dd9ff57efe75a",
+    "core/worldline-startup_issuer_source.adb": "003ade43553808fbe3f96a9cf3a23a3fb07c04c46a2a05ae798651e43e1129c2"
+  },
+  "status": "selected helper/caller proofs pass; checked build/Ada/fuzz pass; 59 unchanged runtime cases pass plus corrected overlap control on same library; aggregate flow still open",
+  "changes": [
+    "Add actual decreasing loop measures and existing recursive call measure; no cap or changed branch acceptance",
+    "Replace payload byte early-return sequence with same lazy conditional expression"
+  ],
+  "original_public_specs": {
+    "core/worldline-startup_admission.ads": {
+      "unchanged": true,
+      "sha256": "43e7f2a10dd7c4f0fa485fb18d2ac50a71b8a8fc2830c5ed887bedf4630bf040"
+    },
+    "core/worldline-recovery_archive.ads": {
+      "unchanged": true,
+      "sha256": "7e72a8143b2487ff1a08faa22a31f2867832c44163016b4f917f5a4cea99a4f1"
+    },
+    "core/worldline-startup_issuer_source.ads": {
+      "unchanged": true,
+      "sha256": "2eaa49c9b71d62526d193ced8714e63bb997f66c2d3631f6c90e430a71729897"
+    },
+    "core/worldline-runner_outcome_bytes.ads": {
+      "unchanged": true,
+      "sha256": "cba4bad86a64c03ad66fa8dd4f5bd4eaea5517ac8eace01d69eb15988408c742"
+    }
+  },
+  "additional_contracts": {
+    "core/worldline-operation_archive.ads": "Field result length <= input encoded length; newly proved",
+    "core/worldline-custody_v2_values.ads": "Element empty or strict child; explicit specification check proved",
+    "core/worldline-custody_v2_values.adb": "Children result length <= input Item length; newly proved"
+  },
+  "no_new_preconditions": true,
+  "no_original_test_edits": false,
+  "test_fixture_correction": "recovery-overlap-fixture-v1/reuse-and-justification.json; preserve original owned allocation and assertions, add correctly typed pointer views and detached-output control"
+}

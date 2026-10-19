@@ -36,6 +36,8 @@ package body Worldline.Custody_V2_Values with SPARK_Mode is
       end return;
    end Hex_Value;
 
+   function Children (Data : E.Bytes; Item : E.Span) return E.Span
+     with Global => null, Post => Children'Result.Length <= Item.Length;
    function Children (Data : E.Bytes; Item : E.Span) return E.Span is
       Value : constant E.View := E.Decode
         (Data, S.A.Field (Data, Item, "items"), E.Operation);

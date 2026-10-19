@@ -53,10 +53,12 @@ package body Worldline.Runner_Outcome_Bytes with SPARK_Mode is
       Manager : constant E.Span := F (Capture, "managerResult");
       Kind : constant E.Span := F (Capture, "supervisionKind");
       Exit_Code : constant E.Span := F (Capture, "exitCode");
-      Cancelled, Timed_Out, Stopped : Boolean := False;
-      Fired, Unknown, Evidence_Hit, Evidence_Manager : Boolean := False;
+      Cancelled, Timed_Out, Stopped : Boolean;
+      Fired : Boolean;
+      Unknown, Evidence_Hit, Evidence_Manager : Boolean := False;
       Evidence_Unknown, Reason_Ceiling : Boolean := False;
-      Launch_Failed, Not_Supervised, Exit_Zero, Indeterminate : Boolean := False;
+      Launch_Failed : Boolean;
+      Not_Supervised, Exit_Zero, Indeterminate : Boolean := False;
       Ready : Boolean := True;
       Capture_Required : Boolean := False;
       --  A stage is resolved from complete exact builtin facts OR the actual
@@ -68,25 +70,29 @@ package body Worldline.Runner_Outcome_Bytes with SPARK_Mode is
          Observation : constant E.Span := F (Capture, Name);
          Value : E.Span := F (Left, "value");
          Valid : Boolean;
+         function Operand_Matches return Boolean is
+            O : constant E.Span := F (Observation, "operand");
+         begin
+            return (if Operand = "0" then
+              Form (O) = E.Integer_Value and then not B.Truth (Data, O)
+              else T (O, Operand));
+         end Operand_Matches;
       begin
          Result := False;
          if not Ready then return; end if;
          if Builtin (Left) and then not Kind_Lookup then
-            if Key /= "" then
-               if Form (Value) /= E.Object_Value then Ready := False; return; end if;
-               Value := F (Value, Key);
-            end if;
-            if Operator = "get_truth" then
-               Result := B.Truth (Data, Value);
-            elsif Operand = "0" then
-               --  Original bool/int/binary64 == 0, including both signed zeros,
-               --  arbitrary integers, NaN and infinity. No decimal conversion.
-               Result := Form (Value) in E.Boolean_Value | E.Integer_Value | E.Float_Value
-                 and then not B.Truth (Data, Value);
-            else
-               Result := T (Value, Operand);
-               if Operator = "ne" or else Operator = "get_ne" then Result := not Result; end if;
-            end if;
+            Ready := Key = "" or else Form (Value) = E.Object_Value;
+            Value := (if Ready and then Key /= "" then F (Value, Key) else Value);
+            --  Preserve the original lazy branches, including bool/int/float
+            --  comparison with zero and the two distinct getter observations.
+            Result := Ready and then
+              (if Operator = "get_truth" then B.Truth (Data, Value)
+               elsif Operand = "0" then
+                 Form (Value) in E.Boolean_Value | E.Integer_Value | E.Float_Value
+                   and then not B.Truth (Data, Value)
+               elsif Operator = "ne" or else Operator = "get_ne" then
+                 not T (Value, Operand)
+               else T (Value, Operand));
             return;
          end if;
          if not Foreign (Left) then Ready := False; return; end if;
@@ -106,35 +112,24 @@ package body Worldline.Runner_Outcome_Bytes with SPARK_Mode is
            Reference (F (Observation, "returnedTypeReference")) and then
            Reference (F (Observation, "leftReference")) and then
            Reference (F (Observation, "leftTypeReference"));
-         if Kind_Lookup then
-            Valid := Valid and then T (F (Left, "lookup"), "getitem") and then
+         Valid := Valid and then
+           (if Kind_Lookup then T (F (Left, "lookup"), "getitem") and then
               T (F (Left, "key"), "kind") and then
               T (F (Observation, "sourceOperation"), "getitem") and then
               T (F (Observation, "sourceKey"), "kind") and then
               B.Equal (Data, F (Observation, "sourceReference"), F (Left, "reference")) and then
-              Reference (F (Observation, "sourceTypeReference"));
-         else
-            Valid := Valid and then
-              B.Equal (Data, F (Observation, "leftReference"), F (Left, "reference"));
-         end if;
-         if Key /= "" then Valid := Valid and then T (F (Observation, "key"), Key); end if;
-         if Operator /= "get_truth" and then Operator /= "getitem_is_none" then
-            if Operand = "0" then
-               declare O : constant E.Span := F (Observation, "operand"); begin
-                  Valid := Valid and then Form (O) = E.Integer_Value and then not B.Truth (Data, O);
-               end;
-            else Valid := Valid and then T (F (Observation, "operand"), Operand);
-            end if;
-         end if;
+              Reference (F (Observation, "sourceTypeReference"))
+            else B.Equal (Data, F (Observation, "leftReference"), F (Left, "reference")));
+         Valid := Valid and then (Key = "" or else T (F (Observation, "key"), Key));
+         Valid := Valid and then
+           (Operator = "get_truth" or else Operator = "getitem_is_none" or else
+              Operand_Matches);
          Ready := Valid;
-         if Valid then
-            if Operator = "getitem_is_none" then
-               declare Lookup : constant E.Span := F (Observation, "lookupValue"); begin
-                  Result := Builtin (Lookup) and then Form (F (Lookup, "value")) = E.Null_Value;
-               end;
-            else Result := B.Is_True (Data, Observation, "returnedTruth");
-            end if;
-         end if;
+         Result := Valid and then
+           (if Operator = "getitem_is_none" then
+              Builtin (F (Observation, "lookupValue")) and then
+                Form (F (F (Observation, "lookupValue"), "value")) = E.Null_Value
+            else B.Is_True (Data, Observation, "returnedTruth"));
       end Stage;
       function Failure (Name : String) return String is
         (if Capture_Required then Need (Name) else Invalid);

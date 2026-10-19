@@ -1,0 +1,32 @@
+ info: implicit aspect Always_Terminates on "Semantic_Same" has been proved, subprogram will terminate
+--> worldline-startup_admission.adb:136:13
+
+ info: range check proved
+--> worldline-startup_admission.adb:147:17
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_admission.adb:147:73
+
+ info: range check proved
+--> worldline-startup_admission.adb:151:23
+
+ info: loop invariant initialization proved
+--> worldline-startup_admission.adb:152:45
+
+ info: loop invariant preservation proved
+--> worldline-startup_admission.adb:152:45
+
+ info: subprogram variant proved
+--> worldline-startup_admission.adb:156:35
+
+ info: overflow check proved
+--> worldline-startup_admission.adb:157:43
+
+ info: range check proved
+--> worldline-startup_admission.adb:168:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_admission.adb:168:53
+
+ info: subprogram variant proved
+--> worldline-startup_admission.adb:169:20

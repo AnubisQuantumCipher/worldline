@@ -1,9 +1,9 @@
 {
-  "utc": "2026-10-19T16:51:38.896671+00:00",
+  "utc": "2026-10-19T17:16:15.378484+00:00",
   "owner": "Codex direct Phase One; OMP owns only its separate workflow checkout",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "5f8e28b0e3ce9004022c744eafe5fc2ac066927b",
-  "published_readback": "5f8e28b0e3ce9004022c744eafe5fc2ac066927b",
+  "head": "70643a621b1481b3b501087e315ca5275966911d",
+  "published_readback": "70643a621b1481b3b501087e315ca5275966911d",
   "active_jobs": [],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
@@ -13,9 +13,10 @@
     "115d4a4: namespace offset/PID repair; selected helper proofs; old exact helper overflow reproduced; checked build and original Ada/fuzz plus child controls pass.",
     "Ledger typed refusal proof, canonical C output padding, checked build/Ada/fuzz, typed cleanup controls, 40 resource tests and 16 export-guard tests pass; reviewed exact-source pins regenerated.",
     "D125 custody/policy flow repairs; request-abandon and policy transport strict proof; Digest_Image eight checks proved.",
-    "D126 guards and primary-exception containment in thirteen C_API exports; reviewed exact-source pin update; checked build/original Ada/fuzz/typed controls and 66 selected Python tests pass."
+    "D126 guards and primary-exception containment in thirteen C_API exports; reviewed exact-source pin update; checked build/original Ada/fuzz/typed controls and 66 selected Python tests pass.",
+    "D127 selected proofs: Operation_Archive.Field eight checks, Children one, Element one, Count one, Semantic_Same eight. Explicit spec checks repair the zero-check region coverage gap. Whole Phase One proof still open."
   ],
-  "next": "Source-integrity test passed; publish qualified D125/D126 checkpoint. Then startup/recovery loop/recursive termination annotations and contextual branch warning; strict flow followed by proof. Keep new large-padding successor counterexample open and investigate checked big-integer implementation without domain caps or disabling ghost/assertions.",
+  "next": "Publish qualified D127 checkpoint and verify remote readback. Next aggregate flow frontier: scoped_capture_evolution_projection and scoped_capture_projection (flow-v3 diagnostics). Line scanners have original endpoint overflow risk: inspect earlier proved namespace offset pattern, preserve domains/fixtures. Initial_Root_Transport_Matches/Root_Capture_Matches mutual recursion needs a real structural measure. Full-domain GNAT big integer limit/Old retirement remain critical; no cap, disabled ghost, or reduced test is permitted.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -38,10 +39,23 @@
     "custody-native-guard-review.json",
     "custody-discard-runtime-v3/result.json",
     "custody-digest-proof-v2/gnatprove.out",
-    "custody-successor-runtime-v1/worker-result.json"
+    "custody-successor-runtime-v1/worker-result.json",
+    "publication-70643a6.json",
+    "startup-recovery-flow-v1/diagnostics.json",
+    "startup-recovery-flow-v2/diagnostics.json",
+    "startup-semantic-proof-v2/diagnostics.json",
+    "archive-child-bounds-proof-v1/scope.json",
+    "startup-semantic-proof-v3/scope.json",
+    "custody-child-bounds-proof-v1/scope.json",
+    "custody-element-bound-proof-v1/gnatprove.out",
+    "custody-count-bound-proof-v1/gnatprove.out",
+    "startup-recovery-runtime-v1/result.json",
+    "recovery-overlap-fixture-v1/reuse-and-justification.json",
+    "startup-recovery-flow-v3/diagnostics.json",
+    "startup-recovery-verification-summary.json"
   ],
   "open": [
-    "Aggregate flow FAILED: startup/recovery missing termination variants and contextual Source_Payload_Byte warning.",
+    "Aggregate flow FAILED only at reported scoped-capture modules in v2; startup/recovery/issuer/runner reported diagnostics cleared at flow level. Numeric recursive-variant proof and matching checked runtime still open.",
     "Successor full-domain runtime FAILED on 4096 zero padding: GNAT System.Generic_Bignums.Normalize fixed Bignum_Limit; guard now preserves process but does not repair math result.",
     "UTF8 four exception obligations",
     "full all-source strict proof and original runtime roster",

@@ -1,0 +1,112 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                                           Provers   Justified   Unproved
+-------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                36           36                                                 .           .          .
+Flow Dependencies                 .            .                                                 .           .          .
+Initialization                   34           34                                                 .           .          .
+Non-Aliasing                      .            .                                                 .           .          .
+Run-time Checks                 123            .    122 (CVC5 63%, Trivial 1%, Z3 31%, altergo 4%)           .          1
+Assertions                       18            .                 18 (CVC5 50%, Trivial 7%, Z3 43%)           .          .
+Functional Contracts             29            .     29 (CVC5 63%, Trivial 5%, Z3 29%, altergo 3%)           .          .
+LSP Verification                  .            .                                                 .           .          .
+Termination                      61           53                 6 (CVC5 50%, Z3 33%, altergo 17%)           .          2
+Concurrency                       .            .                                                 .           .          .
+-------------------------------------------------------------------------------------------------------------------------
+Total                           301    123 (41%)                                         175 (58%)           .     3 (1%)
+
+
+max steps used for successful proof: 2669
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 9 units
+in unit worldline-custody_v2_mutation_decision, 1 subprograms and packages out of 1 analyzed
+  Worldline.Custody_V2_Mutation_Decision.Digest_Image at worldline-custody_v2_mutation_decision.adb:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+in unit worldline-custody_v2_values, 22 subprograms and packages out of 22 analyzed
+  Worldline.Custody_V2_Values at worldline-custody_v2_values.ads:2 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Bytes_Value at worldline-custody_v2_values.ads:51 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Children at worldline-custody_v2_values.adb:39 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Custody_V2_Values.Count at worldline-custody_v2_values.ads:60 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Element at worldline-custody_v2_values.ads:62 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Hex_Domain at worldline-custody_v2_values.ads:21 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Hex_Text at worldline-custody_v2_values.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Hex_Value at worldline-custody_v2_values.ads:47 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Is_Integer at worldline-custody_v2_values.ads:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Is_Null at worldline-custody_v2_values.ads:39 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Is_Sequence at worldline-custody_v2_values.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Magnitude_Value at worldline-custody_v2_values.ads:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Negative at worldline-custody_v2_values.ads:57 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Nibble at worldline-custody_v2_values.adb:15 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Nonnegative_Count at worldline-custody_v2_values.ads:74 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Record_Field at worldline-custody_v2_values.ads:66 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Text_Value at worldline-custody_v2_values.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Type_Is at worldline-custody_v2_values.ads:8 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Valid_Bytes at worldline-custody_v2_values.ads:33 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Valid_Hex_Field at worldline-custody_v2_values.ads:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Valid_Text at worldline-custody_v2_values.ads:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Custody_V2_Values.Valid_Text_Field at worldline-custody_v2_values.ads:10 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-operation_archive, 1 subprograms and packages out of 1 analyzed
+  Worldline.Operation_Archive.Field at worldline-operation_archive.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+in unit worldline-resource_ledger_c_api, 15 subprograms and packages out of 15 analyzed
+  Worldline.Resource_Ledger_C_API at worldline-resource_ledger_c_api.ads:15 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.ABI_Version at worldline-resource_ledger_c_api.ads:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Compute at worldline-resource_ledger_c_api.ads:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Resource_Ledger_C_API.Copy_Data at worldline-resource_ledger_c_api.adb:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Decode at worldline-resource_ledger_c_api.adb:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Resource_Ledger_C_API.Decode at worldline-resource_ledger_c_api.adb:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Encode at worldline-resource_ledger_c_api.ads:35 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Headroom at worldline-resource_ledger_c_api.ads:60 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Resource_Ledger_C_API.Layout_Offset at worldline-resource_ledger_c_api.ads:39 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Layout_Size at worldline-resource_ledger_c_api.ads:38 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Resource_Ledger_C_API.Read_Byte at worldline-resource_ledger_c_api.adb:83 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Read_Quantity at worldline-resource_ledger_c_api.adb:96 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Read_Row at worldline-resource_ledger_c_api.adb:89 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Shape at worldline-resource_ledger_c_api.adb:59 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Shape at worldline-resource_ledger_c_api.adb:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-resource_policy_c_api, 13 subprograms and packages out of 13 analyzed
+  Worldline.Resource_Policy_C_API at worldline-resource_policy_c_api.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.ABI_Version at worldline-resource_policy_c_api.ads:53 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Admit at worldline-resource_policy_c_api.ads:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (20 checks)
+  Worldline.Resource_Policy_C_API.Decode at worldline-resource_policy_c_api.adb:86 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Resource_Policy_C_API.Decode at worldline-resource_policy_c_api.adb:90 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Policy_C_API.Decode_Data at worldline-resource_policy_c_api.adb:120 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Policy_C_API.Layout_Offset at worldline-resource_policy_c_api.ads:55 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Layout_Size at worldline-resource_policy_c_api.ads:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Resource_Policy_C_API.Read_Byte at worldline-resource_policy_c_api.adb:101 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Read_Disk at worldline-resource_policy_c_api.adb:112 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Policy_C_API.Read_Input at worldline-resource_policy_c_api.adb:106 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Shape at worldline-resource_policy_c_api.adb:79 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Shape at worldline-resource_policy_c_api.adb:83 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-root_custody_request_abandon, 14 subprograms and packages out of 14 analyzed
+  Worldline.Root_Custody_Request_Abandon at worldline-root_custody_request_abandon.ads:5 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Alternative_Allowed at worldline-root_custody_request_abandon.ads:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Alternative_Joined at worldline-root_custody_request_abandon.ads:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Apply_Next at worldline-root_custody_request_abandon.ads:163 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Worldline.Root_Custody_Request_Abandon.Decide at worldline-root_custody_request_abandon.ads:149 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Root_Custody_Request_Abandon.Event_Bound at worldline-root_custody_request_abandon.ads:89 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Generation_Allowed at worldline-root_custody_request_abandon.ads:108 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Legal at worldline-root_custody_request_abandon.ads:118 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Request_Kind at worldline-root_custody_request_abandon.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Subject_Bound at worldline-root_custody_request_abandon.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Subject_CAS at worldline-root_custody_request_abandon.ads:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Subjects_Valid at worldline-root_custody_request_abandon.ads:73 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Root_Custody_Request_Abandon.Table_Corresponds at worldline-root_custody_request_abandon.ads:57 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Transfer_Head_Joined at worldline-root_custody_request_abandon.ads:99 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-scoped_capture_namespace_projection, 1 subprograms and packages out of 1 analyzed
+  Worldline.Scoped_Capture_Namespace_Projection.Last_PID at worldline-scoped_capture_namespace_projection.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+in unit worldline-startup_admission, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Admission.Semantic_Same at worldline-startup_admission.adb:136 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 3 checks out of 6 proved
+in unit worldline-startup_source_custody, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Source_Custody.Next_Line at worldline-startup_source_custody.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)

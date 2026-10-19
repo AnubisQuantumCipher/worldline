@@ -1,0 +1,316 @@
+ info: no contextual analysis of "Float_Bits" (call returns unconstrained type)
+--> worldline-startup_admission.adb:45:42
+
+ info: no contextual analysis of "Float_Integer_Equal" (call returns unconstrained type)
+--> worldline-startup_admission.adb:58:33
+
+ info: no contextual analysis of "Numeric_Equal" (call returns unconstrained type)
+--> worldline-startup_admission.adb:115:42
+
+ info: implicit aspect Always_Terminates on "Semantic_Same" has been proved, subprogram will terminate
+--> worldline-startup_admission.adb:136:13
+
+ info: range check proved
+--> worldline-startup_admission.adb:147:17
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_admission.adb:147:73
+
+ info: range check proved
+--> worldline-startup_admission.adb:151:23
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_admission.adb:151:79
+
+ medium: subprogram variant might fail
+--> worldline-startup_admission.adb:155:35
+  155 |                               if not Semantic_Same (A, B, E.Array_Element (A, XP.Children, 1), E.Array_Element (B, YP.Children, 1)) then return False; end if;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at line 136 should mention A and B and X and Y in a precondition
+  136 |       function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean
+      |       ^
+      + provers reached time limit before completing the proof
+
+ medium: overflow check might fail, cannot prove upper bound for Found + 1
+--> worldline-startup_admission.adb:156:43
+  156 |                               Found := Found + 1;
+      |                                        ~~~~~~^~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: loop at line 151 should mention Found in a loop invariant
+  151 |                      for K in E.Count range 1 .. E.Array_Length (B, YO.Children) loop
+      |                                                                                  ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-startup_admission.adb:167:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-startup_admission.adb:167:53
+
+ medium: subprogram variant might fail
+--> worldline-startup_admission.adb:168:20
+  168 |                if not Semantic_Same (A, B, V.Element (A, X, I - 1), V.Element (B, Y, I - 1)) then return False; end if;
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at line 136 should mention A and B and X and Y in a precondition
+  136 |       function Semantic_Same (A, B : E.Bytes; X, Y : E.Span) return Boolean
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: no contextual analysis of "JSON_Matches" (call returns unconstrained type)
+--> worldline-startup_admission.adb:193:40
+
+ info: no contextual analysis of "Hash_Matches" (call returns unconstrained type)
+--> worldline-startup_admission.adb:205:40
+
+ info: no contextual analysis of "Cell_Matches" (call returns unconstrained type)
+--> worldline-startup_admission.adb:279:57
+
+ info: no contextual analysis of "SQLite_Excluded" (call returns unconstrained type)
+--> worldline-startup_admission.adb:300:40
+
+ info: no contextual analysis of "Store_Matches" (call returns unconstrained type)
+--> worldline-startup_admission.adb:354:75
+
+ info: analyzing call to "Row_Matches" in context
+--> worldline-startup_admission.adb:375:34
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:388:37
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:389:36
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:390:36
+
+ info: analyzing call to "Non_Internal_Tables" in context
+--> worldline-startup_admission.adb:396:10
+
+ info: no contextual analysis of "Columns" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:399:14
+
+ info: no contextual analysis of "Columns" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:400:14
+
+ info: no contextual analysis of "Columns" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:401:14
+
+ info: no contextual analysis of "JSON_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:421:29
+
+ info: no contextual analysis of "Ledger_Valid" (call returns unconstrained type)
+--> worldline-startup_admission.adb:423:55
+
+ info: no contextual analysis of "Hash_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:430:41
+
+ info: no contextual analysis of "Suffix_Path" (inside expression function)
+--> worldline-startup_admission.adb:462:10
+
+ info: no contextual analysis of "Original_Current_Valid" (nested subprogram)
+--> worldline-startup_admission.adb:463:07
+
+ info: no contextual analysis of "Held" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:484:14
+
+ info: no contextual analysis of "Held" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:485:14
+
+ info: no contextual analysis of "Held" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:486:14
+
+ info: no contextual analysis of "Held" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:487:14
+
+ info: analyzing call to "Stable_Database_Identity" in context
+--> worldline-startup_admission.adb:526:29
+
+ info: no contextual analysis of "Path" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:542:16
+
+ info: analyzing call to "Path" in context
+--> worldline-startup_admission.adb:546:13
+
+ info: analyzing call to "Path" in context
+--> worldline-startup_admission.adb:550:45
+
+ info: no contextual analysis of "Held" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:573:23
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:583:39
+
+ info: analyzing call to "Columns" in context
+--> worldline-startup_admission.adb:586:14
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:586:26
+
+ info: no contextual analysis of "Store_Identity" (call returns unconstrained type)
+--> worldline-startup_admission.adb:594:52
+
+ info: no contextual analysis of "Kernel_Identity" (call returns unconstrained type)
+--> worldline-startup_admission.adb:623:43
+
+ info: no contextual analysis of "Protected_Identity" (call returns unconstrained type)
+--> worldline-startup_admission.adb:629:41
+
+ info: analyzing call to "Path" in context
+--> worldline-startup_admission.adb:644:37
+
+ info: analyzing call to "Suffix_Path" in context
+--> worldline-startup_admission.adb:645:46
+
+ info: analyzing call to "Suffix_Path" in context
+--> worldline-startup_admission.adb:646:47
+
+ info: analyzing call to "Suffix_Path" in context
+--> worldline-startup_admission.adb:647:34
+
+ info: no contextual analysis of "JSON_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:653:14
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:659:15
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:660:13
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:661:13
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:667:14
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:668:14
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:671:14
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:672:14
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:673:14
+
+ info: no contextual analysis of "Object_Has" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:676:14
+
+ info: no contextual analysis of "Kernel_Identity" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:677:14
+
+ info: no contextual analysis of "Kernel_Identity" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:678:14
+
+ info: no contextual analysis of "Path" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:684:11
+
+ info: no contextual analysis of "Path" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:685:41
+
+ info: no contextual analysis of "JSON_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:686:14
+
+ info: no contextual analysis of "Ledger_Valid" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:690:68
+
+ info: no contextual analysis of "Hash_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:691:14
+
+ info: no contextual analysis of "Table" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:691:65
+
+ info: no contextual analysis of "Common_Source_Corresponds" (call returns unconstrained type)
+--> worldline-startup_admission.adb:691:119
+
+ info: no contextual analysis of "JSON_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:693:14
+
+ info: no contextual analysis of "JSON_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:694:14
+
+ info: no contextual analysis of "JSON_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:695:14
+
+ info: no contextual analysis of "Store_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:696:14
+
+ info: no contextual analysis of "Store_Identity" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:697:14
+
+ info: no contextual analysis of "JSON_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:701:14
+
+ info: no contextual analysis of "Common_Source_Corresponds" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:718:33
+
+ info: analyzing call to "Path" in context
+--> worldline-startup_admission.adb:732:37
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:734:39
+
+ info: analyzing call to "Suffix_Path" in context
+--> worldline-startup_admission.adb:735:46
+
+ info: no contextual analysis of "Common_Source_Corresponds" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:738:14
+
+ info: no contextual analysis of "Protected_Identity" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:748:15
+
+ info: no contextual analysis of "Protected_Identity" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:751:14
+
+ info: no contextual analysis of "Path" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:754:11
+
+ info: no contextual analysis of "Path" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:755:53
+
+ info: no contextual analysis of "Hash_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:770:23
+
+ info: no contextual analysis of "Observe_Source" (call returns unconstrained type)
+--> worldline-startup_admission.adb:770:78
+
+ info: no contextual analysis of "Hash_Matches" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:772:23
+
+ info: no contextual analysis of "Profile_Matches_Except_Journal" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:895:14
+
+ info: analyzing call to "Stable_Database_Identity" in context
+--> worldline-startup_admission.adb:916:23
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:927:54
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:928:54
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:929:54
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:930:54
+
+ info: no contextual analysis of "Table" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:932:39
+
+ info: no contextual analysis of "Table" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:932:76
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:947:54
+
+ info: analyzing call to "Table" in context
+--> worldline-startup_admission.adb:948:63
+
+ info: no contextual analysis of "Transition_Source" (in potentially unevaluated context)
+--> worldline-startup_admission.adb:983:09
+
+ info: analyzing call to "Transition_Source" in context
+--> worldline-startup_admission.adb:990:14
+gnatprove: unproved check messages considered as errors

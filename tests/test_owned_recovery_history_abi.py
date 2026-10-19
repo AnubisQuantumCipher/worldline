@@ -85,8 +85,16 @@ class OwnedRecoveryHistoryAbiControls(unittest.TestCase):
         owned = QuerySelectionAlias()
         data, rows = (C.c_uint8 * 0)(), (_Row * 0)()
         before = bytes(owned)
+        query = C.cast(C.byref(owned), C.POINTER(_Query))
+        output = C.cast(C.byref(owned), C.POINTER(_Selection))
         self.assertEqual(self.history(data, 0, rows, 0, 0, None,
-                                      C.byref(owned), C.byref(owned)), 255)
+                                      query, output), 255)
+        self.assertEqual(bytes(owned), before)
+        # The same query is transport-valid when only the output is detached.
+        # Both overlapping views above retain the original union allocation.
+        detached = _Selection()
+        self.assertEqual(self.history(data, 0, rows, 0, 0, None,
+                                      query, C.byref(detached)), 0)
         self.assertEqual(bytes(owned), before)
 
     def test_history_mutable_arena_overlap_is_refused_without_write(self):

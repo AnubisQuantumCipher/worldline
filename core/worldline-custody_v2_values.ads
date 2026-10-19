@@ -60,7 +60,9 @@ package Worldline.Custody_V2_Values with SPARK_Mode is
    function Count (Data : E.Bytes; Item : E.Span) return E.Count
       with Global => null, Post => Count'Result <= Item.Length;
    function Element (Data : E.Bytes; Item : E.Span; Ordinal : E.Count)
-      return E.Span with Global => null;
+      return E.Span with Global => null,
+        Post => Element'Result.Length = 0 or else
+          Element'Result.Length < Item.Length;
    function Record_Field (Data : E.Bytes; Item : E.Span; Name : String)
       return E.Span with Global => null;
    type Count_Result (Present : Boolean := False) is record

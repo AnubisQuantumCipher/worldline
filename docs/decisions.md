@@ -2040,3 +2040,44 @@ calculations reach that limit even for zero-padded small operands. Exception
 containment does not satisfy the mathematical result contract. No input cap,
 disabled assertion/ghost code, weaker expectation or installed runtime patch
 has been substituted. This is an open full-domain numerical/runtime obligation.
+
+
+## D127 — Prove structural progress through archive child contracts
+
+Strict aggregate flow next stopped on startup/recovery loops, output-array
+initialization and specialized runner branches. Add measures to the existing
+terminating loops and preserve their input domains. Iterate byte/hex output by
+the result index so initialization is direct. Express unchanged lazy runner
+branches as conditional expressions, removing only overwritten initializers;
+retain separate stage calls and actual foreign getter/equality observations.
+
+The first strict Semantic_Same proof did not discharge recursive progress or
+the dictionary match counter. Increasing a timeout would not supply the missing
+interface facts. Strengthen Operation_Archive.Field with its existing input-span
+length bound, expose the private Children bound, and strengthen Element with
+its strict-child-or-empty result. Add Found < K at the dictionary inner loop.
+These are implementation obligations, not caller assumptions or new preconditions.
+No rejection branch, numeric ceiling or weakened contract is introduced.
+
+Field's new postcondition and eight selected checks pass. Children's local
+postcondition passes. A region-limited helper run selected zero checks for the
+public Count/Element posts in the specification; this is explicitly not evidence
+for those posts. Separate declaration-scoped proof runs verify them. The caller
+now discharges eight selected checks including recursive variants and counter
+overflow. Earlier failures, region coverage limits and representation-phase
+timeout are retained; shared-cache totals are not fresh coverage.
+
+All-source flow still reports scoped-capture initialization/progress diagnostics.
+Only actual bounded helper/caller proof and recorded regression results establish
+this checkpoint's scope. Full original proof/runtime, complete value and Old
+retirement, protected/actor evidence and independent F7 remain required.
+
+Checked build and original Ada behavior/fuzz pass. The selected Python run
+passed 59 cases and hit one pre-existing ctypes fixture error before Ada was
+called. The query/output union now uses correctly typed views of the identical
+owned allocation. Both original refusal and unchanged-memory assertions remain;
+a detached-output positive control is added. That targeted control passes
+against the identical library and unchanged product sources. The initial
+60-case run remains FAILED, not relabeled as a successful single suite.
+`recovery-overlap-fixture-v1/reuse-and-justification.json` binds the continuation
+and verifies that all other methods in that test module are unchanged.

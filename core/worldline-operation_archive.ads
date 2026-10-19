@@ -15,7 +15,8 @@ package Worldline.Operation_Archive with SPARK_Mode is
        Subprogram_Variant => (Decreases => Encoded.Length);
    function Field (Data : E.Bytes; Encoded : E.Span; Name : String)
       return E.Span
-     with Global => null;
+     with Global => null,
+       Post => Field'Result.Length <= Encoded.Length;
    --  Original restore_archive's exact roundtrip equality. Object insertion
    --  order and float bits are preserved, not Python's numeric/coercing ==.
    function Same_Encoding (Data : E.Bytes; Left, Right : E.Span) return Boolean

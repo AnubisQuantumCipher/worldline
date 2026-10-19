@@ -235,3 +235,24 @@ is not functional success. No assertion, input domain or original acceptance
 gate was weakened. See `custody-verification-summary.json` and its raw receipts
 under `records/phase1-direct`. Full proof/runtime, retirement, protected/actor
 evidence and independent Phase One acceptance remain open.
+
+
+## Startup/recovery structural proof and matching runtime
+
+D127 clears the reported flow findings in startup admission, recovery archive,
+startup issuer and runner outcome processing. Semantic_Same's recursive
+variants and counter overflow now prove after strengthening the field/child
+span contracts and adding the loop invariant. Operation_Archive.Field, the
+local Children helper and the public Element/Count postconditions were checked
+separately. The original three proof failures and the region-selection coverage
+gap remain recorded; cached totals do not establish whole-source proof.
+
+The checked build and original Ada behavior/fuzz pass. The wider Python run
+passed 59 cases and exposed one ctypes fixture mismatch before native entry.
+The corrected same-allocation overlap test passes with its original refusal
+and no-write assertions plus a detached-output control, using the same library.
+These are combined receipts, not a relabeled successful 60-case invocation.
+
+Scoped-capture flow findings, compiler warnings, complete original proof/runtime,
+the full-domain numerical counterexample, Old retirement and authentic
+protected/actor/F7 acceptance remain open.

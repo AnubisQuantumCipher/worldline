@@ -1,0 +1,36 @@
+ info: initialization of "Whole" proved
+--> worldline-operation_archive.adb:606:07
+
+ info: initialization of "Child_Node" proved
+--> worldline-operation_archive.adb:606:14
+
+ info: range check proved
+--> worldline-operation_archive.adb:609:28
+
+ info: loop invariant initialization proved
+--> worldline-operation_archive.adb:614:33
+
+ info: loop invariant preservation proved
+--> worldline-operation_archive.adb:614:33
+
+ info: loop variant proved
+--> worldline-operation_archive.adb:615:31
+
+ info: overflow check proved
+--> worldline-operation_archive.adb:615:65
+
+ info: range check proved
+--> worldline-operation_archive.adb:616:36
+
+ info: overflow check proved
+--> worldline-operation_archive.adb:630:69
+
+ info: implicit aspect Always_Terminates on "Field" has been proved, subprogram will terminate
+--> worldline-operation_archive.ads:16:13
+
+ info: data dependencies proved
+--> worldline-operation_archive.ads:18:11
+
+ info: postcondition proved
+--> worldline-operation_archive.ads:19:16
+gnatprove: unproved check messages considered as errors

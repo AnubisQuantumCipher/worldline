@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-19T17:16:15.378484+00:00",
+  "base": "70643a621b1481b3b501087e315ca5275966911d",
+  "phase_one_accepted": false,
+  "source_audit": "startup-recovery-source.json",
+  "library_sha256": "7afcd94eba0e650930ee9cab8bae96ecd3e0d14d0a9fb279375a028223140859",
+  "proof": {
+    "Operation_Archive.Field": "eight checks; archive-child-bounds-proof-v1; command nonzero from earlier cached unrelated failures",
+    "Custody_V2_Values.Children": "one local postcondition; custody-child-bounds-proof-v1",
+    "Custody_V2_Values.Element": "one public postcondition; custody-element-bound-proof-v1",
+    "Custody_V2_Values.Count": "one public postcondition; custody-count-bound-proof-v1",
+    "Startup_Admission.Semantic_Same": "eight checks; startup-semantic-proof-v3; dependencies separately discharged"
+  },
+  "scope_warning": "Each named function is freshly checked. Shared report totals are not fresh all-source proof coverage. Region helper run did NOT check public posts; explicit specification subprogram runs did.",
+  "runtime": {
+    "checked_build": "PASS, compiler warnings remain",
+    "original_ada_tests": "PASS",
+    "original_ada_fuzz": "PASS",
+    "selected_python_invocation": "FAILED: 59 pass and one ctypes fixture error before native entry",
+    "corrected_overlap_fixture": "PASS with original assertions and new detached-output control",
+    "continuation_binding": "recovery-overlap-fixture-v1/reuse-and-justification.json",
+    "source_and_library_unchanged_during_original_run": true
+  },
+  "aggregate_flow": "FAILED: startup-recovery-flow-v3/diagnostics.json; scoped-capture modules",
+  "open": [
+    "unresolved full-domain successor/GNAT big integer limit",
+    "remaining scoped-capture flow",
+    "other modified function loop/index proof obligations and all original full-source strict proof",
+    "original complete runtime roster",
+    "implicit Old full-value retirement",
+    "actual protected and actor witnesses",
+    "independent F7 acceptance"
+  ]
+}
