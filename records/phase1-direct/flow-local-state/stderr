@@ -1,0 +1,784 @@
+ info: no contextual analysis of "JSON_Bytes" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:28:04
+
+ info: implicit aspect Always_Terminates on "JSON_Bytes" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:28:13
+
+ info: no contextual analysis of "Raw_Bytes" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:36:04
+
+ info: implicit aspect Always_Terminates on "Raw_Bytes" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:36:13
+
+ info: implicit aspect Always_Terminates on "Character_At" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:46:13
+
+ info: implicit aspect Always_Terminates on "Text_Slice" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:54:13
+
+ info: implicit aspect Always_Terminates on "Code" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:65:13
+
+ info: implicit aspect Always_Terminates on "White" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:89:13
+
+ info: implicit aspect Always_Terminates on "Digit" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:93:13
+
+ info: no contextual analysis of "String_Integer" (controlled return type)
+--> worldline-evaluation_agent_native.adb:110:04
+
+ info: implicit aspect Always_Terminates on "String_Integer" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:110:13
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:114:07
+
+ info: initialization of "C" proved
+--> worldline-evaluation_agent_native.adb:115:07
+
+ info: initialization of "Result" proved
+--> worldline-evaluation_agent_native.adb:117:07
+
+ info: no contextual analysis of "Integer_Value" (controlled return type)
+--> worldline-evaluation_agent_native.adb:145:04
+
+ info: implicit aspect Always_Terminates on "Integer_Value" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:145:13
+
+ info: no contextual analysis of "Image" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:169:04
+
+ info: implicit aspect Always_Terminates on "Image" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:169:13
+
+ info: implicit aspect Always_Terminates on "Image_Matches" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:176:13
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:182:80
+
+ info: implicit aspect Always_Terminates on "Str" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:183:13
+
+ info: implicit aspect Always_Terminates on "Bit" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:185:13
+
+ info: implicit aspect Always_Terminates on "Null_Or_Missing" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:186:13
+
+ info: implicit aspect Always_Terminates on "Get" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:188:13
+
+ info: implicit aspect Always_Terminates on "UTF8" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:191:13
+
+ info: no contextual analysis of "UTF8" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:192:07
+
+ info: initialization of "Advance" proved
+--> worldline-evaluation_agent_native.adb:192:43
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:192:52
+
+ info: initialization of "Lead" proved
+--> worldline-evaluation_agent_native.adb:196:10
+
+ info: initialization of "Next" proved
+--> worldline-evaluation_agent_native.adb:196:16
+
+ info: initialization of "Wanted" proved
+--> worldline-evaluation_agent_native.adb:196:22
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:219:07
+
+ info: initialization of "Advance" proved
+--> worldline-evaluation_agent_native.adb:219:14
+
+ info: implicit aspect Always_Terminates on "Add_For" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:220:16
+
+ info: no contextual analysis of "Strip" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:283:04
+
+ info: implicit aspect Always_Terminates on "Strip" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:283:13
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:285:07
+
+ info: no contextual analysis of "Prefix" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:308:04
+
+ info: implicit aspect Always_Terminates on "Prefix" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:308:13
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:310:07
+
+ info: implicit aspect Always_Terminates on "Line_End" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:324:13
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:329:07
+
+ info: implicit aspect Always_Terminates on "Next_Line" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:342:13
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:347:07
+
+ info: implicit aspect Always_Terminates on "Is_Digits" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:358:13
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:360:07
+
+ info: initialization of "Width" proved, in call inlined at worldline-evaluation_agent_native.adb:616
+--> worldline-evaluation_agent_native.adb:360:07
+
+ info: initialization of "Width" proved, in call inlined at worldline-evaluation_agent_native.adb:1375
+--> worldline-evaluation_agent_native.adb:360:07
+
+ info: initialization of "C" proved
+--> worldline-evaluation_agent_native.adb:361:07
+
+ info: initialization of "C" proved, in call inlined at worldline-evaluation_agent_native.adb:616
+--> worldline-evaluation_agent_native.adb:361:07
+
+ info: initialization of "C" proved, in call inlined at worldline-evaluation_agent_native.adb:1375
+--> worldline-evaluation_agent_native.adb:361:07
+
+ info: implicit aspect Always_Terminates on "O" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:388:16
+
+ info: implicit aspect Always_Terminates on "S" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:389:16
+
+ info: implicit aspect Always_Terminates on "Row" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:390:16
+
+ info: implicit aspect Always_Terminates on "Clean" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:391:16
+
+ info: implicit aspect Always_Terminates on "Accepted" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:398:16
+
+ info: implicit aspect Always_Terminates on "J" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:399:19
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:402:18
+
+ info: no contextual analysis of "Accepted" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:406:28
+
+ info: no contextual analysis of "Event" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:412:07
+
+ info: implicit aspect Always_Terminates on "Event" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:412:16
+
+ info: implicit aspect Always_Terminates on "J" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:413:19
+
+ info: initialization of "Result" proved
+--> worldline-evaluation_agent_native.adb:440:07
+
+ info: implicit aspect Always_Terminates on "Query_Valid" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:443:16
+
+ info: no contextual analysis of "Query_Valid" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:461:28
+
+ info: implicit aspect Always_Terminates on "Parse_Poll" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:463:16
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:466:61
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:467:18
+
+ info: no contextual analysis of "Parse_Poll" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:468:38
+
+ info: initialization of "Last" proved
+--> worldline-evaluation_agent_native.adb:471:10
+
+ info: initialization of "State" proved
+--> worldline-evaluation_agent_native.adb:473:17
+
+ info: no contextual analysis of "Query_Valid" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:480:45
+
+ info: implicit aspect Always_Terminates on "J" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:497:28
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:518:36
+
+ info: no contextual analysis of "Is_Digits" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:610:22
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:610:80
+
+ info: analyzing call to "Is_Digits" in context
+--> worldline-evaluation_agent_native.adb:616:16
+
+ info: no contextual analysis of "Prefix" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:644:77
+
+ info: implicit aspect Always_Terminates on "O" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:664:16
+
+ info: implicit aspect Always_Terminates on "R" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:665:16
+
+ info: implicit aspect Always_Terminates on "X" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:666:16
+
+ info: implicit aspect Always_Terminates on "F" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:667:16
+
+ info: implicit aspect Always_Terminates on "T" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:668:16
+
+ info: implicit aspect Always_Terminates on "Form" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:669:16
+
+ info: implicit aspect Always_Terminates on "Row" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:670:16
+
+ info: implicit aspect Always_Terminates on "Kind" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:671:16
+
+ info: implicit aspect Always_Terminates on "Acquisition" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:673:16
+
+ info: implicit aspect Always_Terminates on "Protocol_Source" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:684:16
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:701:33
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:702:39
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:703:36
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:704:43
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:705:36
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:706:40
+
+ info: initialization of "Output" proved
+--> worldline-evaluation_agent_native.adb:718:07
+
+ info: implicit aspect Always_Terminates on "Match" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:720:16
+
+ info: implicit aspect Always_Terminates on "Identity" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:723:16
+
+ info: implicit aspect Always_Terminates on "Clean_Process" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:725:16
+
+ info: implicit aspect Always_Terminates on "Same_Unit" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:732:16
+
+ info: no contextual analysis of "Retained_Since" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:734:07
+
+ info: implicit aspect Always_Terminates on "Retained_Since" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:734:16
+
+ info: implicit aspect Always_Terminates on "Wait_Zero" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:751:16
+
+ info: implicit aspect Always_Terminates on "Ref_Profile" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:753:16
+
+ info: no contextual analysis of "Process_Text" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:758:07
+
+ info: implicit aspect Always_Terminates on "Process_Text" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:758:16
+
+ info: implicit aspect Always_Terminates on "Show_Values" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:764:16
+
+ info: no contextual analysis of "Show_Values" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:767:10
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:767:65
+
+ info: implicit aspect Always_Terminates on "Ready" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:775:22
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:873:10
+
+ warning: aspect Unreferenced specified for "Empty" [enabled by default]
+--> worldline-evaluation_agent_native.adb:875:23
+  875 |             Scan (False, Empty, Size);
+      |                          ^~~~~
+
+ info: initialization of "Result" proved
+--> worldline-evaluation_agent_native.adb:879:20
+
+ info: initialization of "Written" proved
+--> worldline-evaluation_agent_native.adb:881:19
+
+ info: implicit aspect Always_Terminates on "Telemetry_Show" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:889:16
+
+ info: implicit aspect Always_Terminates on "Property" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:892:19
+
+ info: no contextual analysis of "Telemetry_Show" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:903:31
+
+ info: implicit aspect Always_Terminates on "Limits_Show" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:909:16
+
+ info: implicit aspect Always_Terminates on "Property" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:911:19
+
+ info: no contextual analysis of "Limits_Show" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:922:31
+
+ info: implicit aspect Always_Terminates on "Find_Show" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:928:16
+
+ info: no contextual analysis of "Telemetry_Show" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:933:34
+
+ info: no contextual analysis of "Limits_Show" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:934:21
+
+ info: implicit aspect Always_Terminates on "Cgroup_Path" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:942:16
+
+ info: no contextual analysis of "Cgroup_Path" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:943:10
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:943:65
+
+ info: initialization of "First" proved
+--> worldline-evaluation_agent_native.adb:950:13
+
+ info: implicit aspect Always_Terminates on "Ready" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:951:22
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:1037:10
+
+ warning: aspect Unreferenced specified for "Empty" [enabled by default]
+--> worldline-evaluation_agent_native.adb:1039:23
+ 1039 |             Scan (False, Empty, Size);
+      |                          ^~~~~
+
+ info: initialization of "Result" proved
+--> worldline-evaluation_agent_native.adb:1043:20
+
+ info: initialization of "Written" proved
+--> worldline-evaluation_agent_native.adb:1045:19
+
+ info: no contextual analysis of "Cgroup" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:1053:07
+
+ info: implicit aspect Always_Terminates on "Cgroup" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1053:16
+
+ info: no contextual analysis of "Cgroup_Path" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1072:66
+
+ info: implicit aspect Always_Terminates on "Ready" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1091:28
+
+ info: implicit aspect Always_Terminates on "Counters" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1116:16
+
+ info: no contextual analysis of "Counters" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1117:10
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:1117:65
+
+ info: implicit aspect Always_Terminates on "Ready" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1125:22
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:1191:19
+
+ info: initialization of "Value" proved
+--> worldline-evaluation_agent_native.adb:1192:19
+
+ info: initialization of "Key_First" proved
+--> worldline-evaluation_agent_native.adb:1235:19
+
+ info: initialization of "Key_Last" proved
+--> worldline-evaluation_agent_native.adb:1235:30
+
+ info: initialization of "Value_First" proved
+--> worldline-evaluation_agent_native.adb:1235:40
+
+ info: initialization of "Value_Last" proved
+--> worldline-evaluation_agent_native.adb:1235:53
+
+ info: implicit aspect Always_Terminates on "Space_At" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1236:28
+
+ info: implicit aspect Always_Terminates on "Advance" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1242:28
+
+ info: initialization of "W" proved
+--> worldline-evaluation_agent_native.adb:1247:22
+
+ info: no contextual analysis of "Space_At" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1254:59
+
+ info: no contextual analysis of "Space_At" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1254:79
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:1275:25
+
+ info: initialization of "Value" proved
+--> worldline-evaluation_agent_native.adb:1276:25
+
+ info: no contextual analysis of "Is_Digits" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1303:47
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:1337:10
+
+ warning: aspect Unreferenced specified for "Empty" [enabled by default]
+--> worldline-evaluation_agent_native.adb:1339:23
+ 1339 |             Scan (False, Empty, Size);
+      |                          ^~~~~
+
+ info: initialization of "Result" proved
+--> worldline-evaluation_agent_native.adb:1343:20
+
+ info: initialization of "Written" proved
+--> worldline-evaluation_agent_native.adb:1345:19
+
+ info: implicit aspect Always_Terminates on "Derive_Reading" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1353:16
+
+ info: analyzing call to "Find_Show" in context
+--> worldline-evaluation_agent_native.adb:1354:45
+
+ info: implicit aspect Always_Terminates on "Unavailable" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1357:19
+
+ info: implicit aspect Always_Terminates on "S" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1368:22
+
+ info: implicit aspect Always_Terminates on "Nullable" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1370:22
+
+ info: no contextual analysis of "Derive_Reading" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1372:13
+
+ info: no contextual analysis of "Number" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:1372:13
+
+ info: implicit aspect Always_Terminates on "Number" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1372:22
+
+ info: analyzing call to "Is_Digits" in context
+--> worldline-evaluation_agent_native.adb:1375:19
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1378:23
+
+ info: implicit aspect Always_Terminates on "Hit" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1393:28
+
+ info: implicit aspect Always_Terminates on "Kernel" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1411:28
+
+ info: implicit aspect Always_Terminates on "Source_Archive_Matches" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1435:16
+
+ info: no contextual analysis of "Source_Archive_Matches" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1438:43
+
+ info: implicit aspect Always_Terminates on "Resource_Join" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1448:16
+
+ info: implicit aspect Always_Terminates on "Maximum_Name" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1457:19
+
+ info: no contextual analysis of "Resource_Join" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1520:13
+
+ info: implicit aspect Always_Terminates on "Fields" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1520:22
+
+ info: no contextual analysis of "Fields" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1522:16
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:1522:71
+
+ info: implicit aspect Always_Terminates on "Ready" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1529:28
+
+ info: initialization of "Size" proved
+--> worldline-evaluation_agent_native.adb:1648:16
+
+ warning: aspect Unreferenced specified for "Empty" [enabled by default]
+--> worldline-evaluation_agent_native.adb:1650:29
+ 1650 |                   Scan (False, Empty, Size);
+      |                                ^~~~~
+
+ info: initialization of "Result" proved
+--> worldline-evaluation_agent_native.adb:1654:26
+
+ info: initialization of "Written" proved
+--> worldline-evaluation_agent_native.adb:1656:25
+
+ info: implicit aspect Always_Terminates on "Archive_Matches" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1670:16
+
+ info: implicit aspect Always_Terminates on "Digit64" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1673:19
+
+ info: no contextual analysis of "Archive_Matches" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1679:10
+
+ info: implicit aspect Always_Terminates on "Byte_At" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1679:19
+
+ info: initialization of "Position" proved
+--> worldline-evaluation_agent_native.adb:1681:13
+
+ info: initialization of "Position" proved, in call inlined at worldline-evaluation_agent_native.adb:1702
+--> worldline-evaluation_agent_native.adb:1681:13
+
+ info: initialization of "A" proved
+--> worldline-evaluation_agent_native.adb:1681:23
+
+ info: initialization of "A" proved, in call inlined at worldline-evaluation_agent_native.adb:1702
+--> worldline-evaluation_agent_native.adb:1681:23
+
+ info: initialization of "B1" proved
+--> worldline-evaluation_agent_native.adb:1681:26
+
+ info: initialization of "B1" proved, in call inlined at worldline-evaluation_agent_native.adb:1702
+--> worldline-evaluation_agent_native.adb:1681:26
+
+ info: initialization of "C" proved
+--> worldline-evaluation_agent_native.adb:1681:30
+
+ info: initialization of "C" proved, in call inlined at worldline-evaluation_agent_native.adb:1702
+--> worldline-evaluation_agent_native.adb:1681:30
+
+ info: initialization of "D" proved
+--> worldline-evaluation_agent_native.adb:1681:33
+
+ info: initialization of "D" proved, in call inlined at worldline-evaluation_agent_native.adb:1702
+--> worldline-evaluation_agent_native.adb:1681:33
+
+ info: analyzing call to "Byte_At" in context
+--> worldline-evaluation_agent_native.adb:1702:68
+
+ info: implicit aspect Always_Terminates on "Wait_Join" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1706:16
+
+ info: no contextual analysis of "Wait_Join" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1709:42
+
+ info: no contextual analysis of "Archive_Matches" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1730:16
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1740:49
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1741:53
+
+ info: implicit aspect Always_Terminates on "Supervisor_Exit_Join" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1744:16
+
+ info: no contextual analysis of "Supervisor_Exit_Join" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1745:43
+
+ info: implicit aspect Always_Terminates on "Protocol_Join" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1759:16
+
+ info: implicit aspect Always_Terminates on "Exact_Builtin" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1764:19
+
+ info: no contextual analysis of "Protocol_Join" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1774:10
+
+ info: implicit aspect Always_Terminates on "Archive_Equal" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1774:19
+
+ info: no contextual analysis of "Archive_Equal" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1775:45
+
+ info: implicit aspect Always_Terminates on "Source_Link" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1780:19
+
+ info: analyzing call to "Protocol_Source" in context
+--> worldline-evaluation_agent_native.adb:1782:41
+
+ info: no contextual analysis of "Archive_Equal" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1808:24
+
+ info: no contextual analysis of "Archive_Matches" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1811:26
+
+ info: no contextual analysis of "Archive_Equal" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1828:20
+
+ info: no contextual analysis of "Archive_Equal" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1833:20
+
+ info: implicit aspect Always_Terminates on "Kind_Stage" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1835:19
+
+ info: analyzing call to "Protocol_Source" in context
+--> worldline-evaluation_agent_native.adb:1837:41
+
+ info: no contextual analysis of "Kind_Stage" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1838:43
+
+ info: analyzing call to "Source_Link" in context
+--> worldline-evaluation_agent_native.adb:1845:20
+
+ info: implicit aspect Always_Terminates on "Builtin_Dict_Stage" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:1851:19
+
+ info: analyzing call to "Protocol_Source" in context
+--> worldline-evaluation_agent_native.adb:1853:41
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1854:43
+
+ info: analyzing call to "Source_Link" in context
+--> worldline-evaluation_agent_native.adb:1862:20
+
+ info: analyzing call to "Source_Link" in context
+--> worldline-evaluation_agent_native.adb:1901:17
+
+ info: no contextual analysis of "Source_Link" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1901:64
+
+ info: no contextual analysis of "Source_Link" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1902:12
+
+ info: no contextual analysis of "Source_Link" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1902:52
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1903:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1904:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1905:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1906:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1907:12
+
+ info: no contextual analysis of "Kind_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1908:12
+
+ info: no contextual analysis of "Kind_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1909:12
+
+ info: no contextual analysis of "Kind_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1910:12
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1935:10
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1943:46
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1946:98
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1948:50
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1952:70
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1954:43
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1955:32
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1957:49
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1963:10
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1965:78
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1974:91
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1996:46
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2019:16
+
+ info: no contextual analysis of "Supervisor_Exit_Join" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:2023:16
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2023:42
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2024:36
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2025:36
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2030:13
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2034:62
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2038:65
+
+ info: implicit aspect Always_Terminates on "Supervisor_Decide" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.ads:30:13
+
+ info: data dependencies proved
+--> worldline-evaluation_agent_native.ads:34:11
+
+ info: implicit aspect Always_Terminates on "Decide" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.ads:35:13
+
+ info: data dependencies proved
+--> worldline-evaluation_agent_native.ads:38:11

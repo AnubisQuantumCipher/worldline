@@ -1,0 +1,533 @@
+diff --git a/core/worldline-evaluation_agent_native.adb b/core/worldline-evaluation_agent_native.adb
+index bc14345..52afac1 100644
+--- a/core/worldline-evaluation_agent_native.adb
++++ b/core/worldline-evaluation_agent_native.adb
+@@ -215,7 +215,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+             Advance := Advance + 1;
+          end loop;
+       end Step;
+-      Position, Width, Advance, Length : Natural := 0;
++      Position, Length : Natural := 0;
++      Width, Advance : Natural;
+       function Add_For (W : Natural) return Natural is (if W = 0 then 3 else W);
+    begin
+       while Position < Bytes'Length loop
+@@ -280,7 +281,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+       end;
+    end UTF8;
+    function Strip (Text : String) return String is
+-      First, Last, Position, Width : Natural := 0;
++      First, Last, Position : Natural := 0;
++      Width : Natural;
+       Start_Found : Boolean := False;
+    begin
+       while Position < Text'Length loop
+@@ -304,7 +306,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+       return Text_Slice (Text, First, Last);
+    end Strip;
+    function Prefix (Text : String; Limit : Natural) return String is
+-      Position, Width, Seen : Natural := 0;
++      Position, Seen : Natural := 0;
++      Width : Natural;
+    begin
+       while Position < Text'Length and then Seen < Limit loop
+          pragma Loop_Invariant (Position <= Text'Length);
+@@ -353,7 +356,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+    end Next_Line;
+ 
+    function Is_Digits (Text : String) return Boolean is
+-      Position, Width : Natural := 0;
++      Position : Natural := 0;
++      Width : Natural;
+       C : Natural;
+       type Interval is record First, Last : Natural; end record;
+       type Interval_Array is array (Positive range <>) of Interval;
+@@ -422,8 +426,16 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+       FAILURE_ID : constant String := "d9b373ed55a64feb8242e02dbe79a49c";
+       Poll_Count, Final_Poll, Ordinal : Natural := 0;
+       Readable : Boolean := True;
+-      Break_Reached, Started, Started_Entry, Launched, Manager_Stopped, Failure, Exit_Seen : Boolean := False;
+-      Exit_Ordinal : Natural := 0;
++      Break_Reached : Boolean := False;
++      --  Each read owns its state. Initial polls consume the break facts;
++      --  only the final replay consumes the retained outcome details.
++      type Poll_State is limited record
++         Valid : Boolean := False;
++         Readable : Boolean;
++         Started_Entry, Launched, Manager_Stopped, Failure, Exit_Seen : Boolean := False;
++         Ended : Boolean := False;
++         Exit_Ordinal : Natural := 0;
++      end record;
+       Reread : V.Node := V.No_Node;
+       Result : Supervisor_Facts;
+       Events : constant V.Node := S ("events");
+@@ -448,90 +460,91 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+            V.Element (Observed, Args, 8).Form = V.String_Value and then
+            Image_Matches (V.Text (Observed, V.Element (Observed, Args, 8)), "--since=@", "", Seconds);
+       end Query_Valid;
+-      procedure Parse_Poll (Index : Positive; Match_Events : Boolean; Valid : out Boolean) is
++      function Parse_Poll (Index : Positive; Match_Events, Readable : Boolean) return Poll_State is
+          Item : constant V.Node := O (Row (Index), "observation");
+          Reader : constant Integer_Result :=
+            (if O (Item, "readerUid").Form /= V.Missing then Integer_Value (Observed, O (Item, "readerUid"))
+             else Integer_Value (Reader_UID, V.Parse (Reader_UID)));
+          Raw : constant B.Decoded := Raw_Bytes (Observed, O (Item, "stdout"));
+          Text : constant B.Decoded := UTF8 (Raw.Data, True);
+-         First, Last, Count : Natural := 0;
+-         Ended : Boolean := False;
++         First, Count : Natural := 0;
++         Last : Natural;
+       begin
+-         Valid := False;
+-         Started := False; Started_Entry := False; Launched := False;
+-         Manager_Stopped := False; Failure := False; Exit_Seen := False;
+-         if V.Is_Text (Observed, O (Item, "site"), "journal-tool-unavailable") then
+-            if O (Item, "journalctl").Form /= V.Null_Value then return; end if;
+-            if Match_Events and then V.Count (Supervisor_Record, Events) /= 0 then return; end if;
+-            Readable := False; Break_Reached := True; Valid := True; return;
+-         end if;
+-         if not Clean (Item) or else not Query_Valid (Item) then return; end if;
+-         if not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Observed, O (Item, "processWaitReturncode")), "0") then
+-            if Match_Events and then V.Count (Supervisor_Record, Events) /= 0 then return; end if;
+-            Readable := False; Break_Reached := True; Valid := True; return;
+-         end if;
+-         if not Reader.Valid or else
+-           (if O (Item, "readerUid").Form /= V.Missing then O (Item, "readerUid").Form /= V.Integer_Value
+-            else V.Parse (Reader_UID).Form /= V.Integer_Value) or else
+-           not Raw.Valid or else not Text.Valid then return; end if;
+-         while First < Text.Length loop
+-            pragma Loop_Invariant (First <= Text.Length);
+-            pragma Loop_Variant (Increases => First);
+-            Last := Line_End (Text.Data, First);
+-            pragma Assert (First < Text.Length and then Last <= Text.Length and then Last >= First);
+-            declare
+-               Line : constant String := Text.Data (First + 1 .. Last);
+-               Journal_Row : constant V.Node := V.Parse (Line);
+-               function J (Name : String) return V.Node is (V.Field (Line, Journal_Row, Name));
+-               ID : constant String := V.Text (Line, J ("MESSAGE_ID"));
+-            begin
+-               if Journal_Row.Form = V.Object_Value and then
+-                 J ("_SYSTEMD_UNIT").Form = V.String_Value and then
+-                 Image_Matches (V.Text (Line, J ("_SYSTEMD_UNIT")), "user@", ".service", Reader.Value) and then
+-                 V.Is_Text (Line, J ("_COMM"), "systemd") and then
+-                 (Null_Or_Missing (J ("USER_UNIT")) or else V.Is_Text (Line, J ("USER_UNIT"), Unit) or else
+-                  Null_Or_Missing (J ("UNIT")) or else V.Is_Text (Line, J ("UNIT"), Unit)) and then
+-                 J ("__REALTIME_TIMESTAMP").Form = V.Number_Value and then
+-                 V.Number_Image (Line, J ("__REALTIME_TIMESTAMP")) in "inf" | "-inf" then
+-                  return;
+-               end if;
+-               if Accepted (Line, Journal_Row, Reader.Value) then
+-                  if J ("MESSAGE_ID").Form in V.Array_Value | V.Object_Value then return; end if;
+-                  if Count = Natural'Last then return; end if;
+-                  Count := Count + 1;
+-                  if Match_Events then
+-                     declare
+-                        Stamp : constant Integer_Result :=
+-                          (if J ("__REALTIME_TIMESTAMP").Form = V.Missing then (True, To_Big_Integer (0))
+-                           else Integer_Value (Line, J ("__REALTIME_TIMESTAMP")));
+-                     begin
+-                        if not Worldline.Raw_JSON.Python_JSON_Equal (Event (Line, Journal_Row, Stamp.Value),
+-                          V.Slice (Supervisor_Record, V.Element (Supervisor_Record, Events, Count))) then return; end if;
+-                     end;
++         return State : Poll_State do
++            State.Readable := Readable;
++            if V.Is_Text (Observed, O (Item, "site"), "journal-tool-unavailable") then
++               if O (Item, "journalctl").Form /= V.Null_Value then return; end if;
++               if Match_Events and then V.Count (Supervisor_Record, Events) /= 0 then return; end if;
++               State.Readable := False; State.Valid := True; return;
++            end if;
++            if not Clean (Item) or else not Query_Valid (Item) then return; end if;
++            if not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Observed, O (Item, "processWaitReturncode")), "0") then
++               if Match_Events and then V.Count (Supervisor_Record, Events) /= 0 then return; end if;
++               State.Readable := False; State.Valid := True; return;
++            end if;
++            if not Reader.Valid or else
++              (if O (Item, "readerUid").Form /= V.Missing then O (Item, "readerUid").Form /= V.Integer_Value
++               else V.Parse (Reader_UID).Form /= V.Integer_Value) or else
++              not Raw.Valid or else not Text.Valid then return; end if;
++            while First < Text.Length loop
++               pragma Loop_Invariant (First <= Text.Length);
++               pragma Loop_Variant (Increases => First);
++               Last := Line_End (Text.Data, First);
++               pragma Assert (First < Text.Length and then Last <= Text.Length and then Last >= First);
++               declare
++                  Line : constant String := Text.Data (First + 1 .. Last);
++                  Journal_Row : constant V.Node := V.Parse (Line);
++                  function J (Name : String) return V.Node is (V.Field (Line, Journal_Row, Name));
++                  ID : constant String := V.Text (Line, J ("MESSAGE_ID"));
++               begin
++                  if Journal_Row.Form = V.Object_Value and then
++                    J ("_SYSTEMD_UNIT").Form = V.String_Value and then
++                    Image_Matches (V.Text (Line, J ("_SYSTEMD_UNIT")), "user@", ".service", Reader.Value) and then
++                    V.Is_Text (Line, J ("_COMM"), "systemd") and then
++                    (Null_Or_Missing (J ("USER_UNIT")) or else V.Is_Text (Line, J ("USER_UNIT"), Unit) or else
++                     Null_Or_Missing (J ("UNIT")) or else V.Is_Text (Line, J ("UNIT"), Unit)) and then
++                    J ("__REALTIME_TIMESTAMP").Form = V.Number_Value and then
++                    V.Number_Image (Line, J ("__REALTIME_TIMESTAMP")) in "inf" | "-inf" then
++                     return;
+                   end if;
+-                  if ID = STARTED_ID then Started_Entry := True; end if;
+-                  if ID = EXIT_ID then
+-                     if not Exit_Seen then Exit_Ordinal := Count; end if;
+-                     Exit_Seen := True;
++                  if Accepted (Line, Journal_Row, Reader.Value) then
++                     if J ("MESSAGE_ID").Form in V.Array_Value | V.Object_Value then return; end if;
++                     if Count = Natural'Last then return; end if;
++                     Count := Count + 1;
++                     if Match_Events then
++                        declare
++                           Stamp : constant Integer_Result :=
++                             (if J ("__REALTIME_TIMESTAMP").Form = V.Missing then (True, To_Big_Integer (0))
++                              else Integer_Value (Line, J ("__REALTIME_TIMESTAMP")));
++                        begin
++                           if not Worldline.Raw_JSON.Python_JSON_Equal (Event (Line, Journal_Row, Stamp.Value),
++                             V.Slice (Supervisor_Record, V.Element (Supervisor_Record, Events, Count))) then return; end if;
++                        end;
++                     end if;
++                     if ID = STARTED_ID then State.Started_Entry := True; end if;
++                     if ID = EXIT_ID then
++                        if Match_Events and then not State.Exit_Seen then State.Exit_Ordinal := Count; end if;
++                        State.Exit_Seen := True;
++                     end if;
++                     if Match_Events then
++                        State.Failure := State.Failure or else ID = FAILURE_ID;
++                        State.Launched := State.Launched or else ID = STARTING;
++                        State.Manager_Stopped := State.Manager_Stopped or else ID in STOPPING | STOPPED_ID;
++                     else
++                        State.Ended := State.Ended or else ID in EXIT_ID | FAILURE_ID | STOPPED_ID;
++                     end if;
+                   end if;
+-                  Failure := Failure or else ID = FAILURE_ID;
+-                  Launched := Launched or else ID = STARTING;
+-                  Manager_Stopped := Manager_Stopped or else ID in STOPPING | STOPPED_ID;
+-                  Ended := Ended or else ID in EXIT_ID | FAILURE_ID | STOPPED_ID;
+-               end if;
+-            end;
+-            declare
+-               Next : constant Natural := Next_Line (Text.Data, Last);
+-            begin
+-               pragma Assert (Next > First and then Next <= Text.Length);
+-               First := Next;
+-            end;
+-         end loop;
+-         Started := Started_Entry or else Exit_Seen;
+-         Break_Reached := (Started and then (Ended or else Wait_Zero or else Stopped)) or else not Readable;
+-         if Match_Events and then Count /= V.Count (Supervisor_Record, Events) then return; end if;
+-         Valid := True;
++               end;
++               declare
++                  Next : constant Natural := Next_Line (Text.Data, Last);
++               begin
++                  pragma Assert (Next > First and then Next <= Text.Length);
++                  First := Next;
++               end;
++            end loop;
++            if Match_Events and then Count /= V.Count (Supervisor_Record, Events) then return; end if;
++            State.Valid := True;
++         end return;
+       end Parse_Poll;
+    begin
+       if Rows.Form /= V.Array_Value or else Super.Form /= V.Object_Value or else
+@@ -542,7 +555,6 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+             declare
+                Item : constant V.Node := O (Row (I), "observation");
+                Actual_Ordinal : constant Integer_Result := Integer_Value (Observed, O (Row (I), "occurrence"));
+-               Valid : Boolean;
+             begin
+                if not Actual_Ordinal.Valid or else Actual_Ordinal.Value /= To_Big_Integer (Ordinal) or else
+                  not V.Is_Text (Observed, O (Item, "unit"), Unit) then return Result; end if;
+@@ -552,8 +564,15 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+                   if Break_Reached or else Reread.Form /= V.Missing or else
+                     not Worldline.Raw_JSON.Python_JSON_Equal
+                       (V.Slice (Observed, O (Item, "sinceUs")), Since_Us) then return Result; end if;
+-                  Parse_Poll (I, False, Valid);
+-                  if not Valid then return Result; end if;
++                  declare
++                     Poll : constant Poll_State := Parse_Poll (I, False, Readable);
++                  begin
++                     if not Poll.Valid then return Result; end if;
++                     Readable := Poll.Readable;
++                     Break_Reached :=
++                       ((Poll.Started_Entry or else Poll.Exit_Seen) and then
++                          (Poll.Ended or else Wait_Zero or else Stopped)) or else not Readable;
++                  end;
+                   Final_Poll := I; Poll_Count := Poll_Count + 1;
+                elsif V.Is_Text (Observed, O (Item, "site"), "launcher-stderr-reread") then
+                   if Reread.Form /= V.Missing then return Result; end if;
+@@ -564,60 +583,69 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+          end if;
+       end loop;
+       if Poll_Count = 0 then return Result; end if;
+-      declare Valid : Boolean; begin
+-         Parse_Poll (Final_Poll, True, Valid);
+-         if not Valid then return Result; end if;
+-      end;
+-      Result.Kind := (if Started then 1 else 3);
+-      Result.Stopped := Manager_Stopped;
+       declare
+-         Kind : constant String := (if Started then "SUPERVISED" elsif not Readable then "INDETERMINATE"
+-           elsif not Wait_Zero and then not Launched then "LAUNCH_FAILED" else "INDETERMINATE");
+-         First_Exit : constant V.Node :=
+-           (if Exit_Seen then V.Element (Supervisor_Record, Events, Exit_Ordinal) else V.No_Node);
+-         Raw_Status : constant V.Node := V.Field (Supervisor_Record, First_Exit, "exitStatus");
+-         Status_Text : constant String := Str (Supervisor_Record, Raw_Status);
+-         Parsed_Status : constant Integer_Result := String_Integer (Status_Text, True);
+-         Actual_Status : constant String :=
+-           (if not Exit_Seen or else Null_Or_Missing (Raw_Status) then "null"
+-            elsif Is_Digits (Status_Text) and then Parsed_Status.Valid then Image (Parsed_Status.Value)
+-            else Get (Supervisor_Record, Raw_Status));
+-         Result_Value : constant String :=
+-           (if Manager_Stopped then "stopped" elsif Failure or else (Exit_Seen and then Status_Text not in "0" | "None")
+-            then "failure" elsif Started and then Wait_Zero then "success" else "");
++         Poll : constant Poll_State := Parse_Poll (Final_Poll, True, Readable);
++         Started : constant Boolean := Poll.Started_Entry or else Poll.Exit_Seen;
++         Started_Entry : Boolean renames Poll.Started_Entry;
++         Launched : Boolean renames Poll.Launched;
++         Manager_Stopped : Boolean renames Poll.Manager_Stopped;
++         Failure : Boolean renames Poll.Failure;
++         Exit_Seen : Boolean renames Poll.Exit_Seen;
++         Exit_Ordinal : Natural renames Poll.Exit_Ordinal;
+       begin
+-         if Is_Digits (Status_Text) and then not Parsed_Status.Valid then return Result; end if;
+-         if not V.Is_Text (Supervisor_Record, S ("kind"), Kind) or else
+-           not V.Is_Text (Supervisor_Record, S ("unit"), Unit) or else
+-           not V.Is_Text (Supervisor_Record, S ("source"), (if Readable then "journal" else "journal-unavailable")) or else
+-           not V.Equal (Supervisor_Record, S ("launcherExit"), Launcher_Exit, V.Parse (Launcher_Exit)) or else
+-           not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("started")), Bit (Started)) or else
+-           not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("stoppedByManager")), Bit (Manager_Stopped)) or else
+-           not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("supervisionEvidence")),
+-             (if Started_Entry then V.Quote ("started-entry") elsif Exit_Seen then V.Quote ("process-exit-entry") else "null")) or else
+-           not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("exitCode")),
+-             Get (Supervisor_Record, V.Field (Supervisor_Record, First_Exit, "exitCode"))) or else
+-           not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("exitStatus")), Actual_Status) or else
+-           not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("result")),
+-             (if Result_Value = "" then "null" else V.Quote (Result_Value))) or else
+-           not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("windowMilliseconds")), "10000") then return Result; end if;
+-         if Started and then Reread.Form /= V.Missing then return Result; end if;
+-         if Reread.Form = V.Missing then
+-            if not V.Is_Text (Supervisor_Record, S ("launcherStderr"), "") then return Result; end if;
+-         elsif V.Is_False (Observed, O (Reread, "readReturned")) then
+-            if O (Reread, "exception").Form /= V.Object_Value or else
+-              not V.Is_Text (Supervisor_Record, S ("launcherStderr"), "") then return Result; end if;
+-         elsif V.Is_True (Observed, O (Reread, "readReturned")) and then
+-           O (Reread, "exception").Form = V.Null_Value then
+-            declare
+-               Bytes : constant B.Decoded := Raw_Bytes (Observed, O (Reread, "stderr"));
+-               Text : constant B.Decoded := UTF8 (Bytes.Data, True);
+-            begin
+-               if not Bytes.Valid or else not Text.Valid or else
+-                 not V.Is_Text (Supervisor_Record, S ("launcherStderr"), Prefix (Text.Data, 400)) then return Result; end if;
+-            end;
+-         else return Result;
+-         end if;
++         if not Poll.Valid then return Result; end if;
++         Readable := Poll.Readable;
++         Result.Kind := (if Started then 1 else 3);
++         Result.Stopped := Manager_Stopped;
++         declare
++            Kind : constant String := (if Started then "SUPERVISED" elsif not Readable then "INDETERMINATE"
++              elsif not Wait_Zero and then not Launched then "LAUNCH_FAILED" else "INDETERMINATE");
++            First_Exit : constant V.Node :=
++              (if Exit_Seen then V.Element (Supervisor_Record, Events, Exit_Ordinal) else V.No_Node);
++            Raw_Status : constant V.Node := V.Field (Supervisor_Record, First_Exit, "exitStatus");
++            Status_Text : constant String := Str (Supervisor_Record, Raw_Status);
++            Parsed_Status : constant Integer_Result := String_Integer (Status_Text, True);
++            Actual_Status : constant String :=
++              (if not Exit_Seen or else Null_Or_Missing (Raw_Status) then "null"
++               elsif Is_Digits (Status_Text) and then Parsed_Status.Valid then Image (Parsed_Status.Value)
++               else Get (Supervisor_Record, Raw_Status));
++            Result_Value : constant String :=
++              (if Manager_Stopped then "stopped" elsif Failure or else (Exit_Seen and then Status_Text not in "0" | "None")
++               then "failure" elsif Started and then Wait_Zero then "success" else "");
++         begin
++            if Is_Digits (Status_Text) and then not Parsed_Status.Valid then return Result; end if;
++            if not V.Is_Text (Supervisor_Record, S ("kind"), Kind) or else
++              not V.Is_Text (Supervisor_Record, S ("unit"), Unit) or else
++              not V.Is_Text (Supervisor_Record, S ("source"), (if Readable then "journal" else "journal-unavailable")) or else
++              not V.Equal (Supervisor_Record, S ("launcherExit"), Launcher_Exit, V.Parse (Launcher_Exit)) or else
++              not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("started")), Bit (Started)) or else
++              not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("stoppedByManager")), Bit (Manager_Stopped)) or else
++              not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("supervisionEvidence")),
++                (if Started_Entry then V.Quote ("started-entry") elsif Exit_Seen then V.Quote ("process-exit-entry") else "null")) or else
++              not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("exitCode")),
++                Get (Supervisor_Record, V.Field (Supervisor_Record, First_Exit, "exitCode"))) or else
++              not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("exitStatus")), Actual_Status) or else
++              not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("result")),
++                (if Result_Value = "" then "null" else V.Quote (Result_Value))) or else
++              not Worldline.Raw_JSON.Python_JSON_Equal (V.Slice (Supervisor_Record, S ("windowMilliseconds")), "10000") then return Result; end if;
++            if Started and then Reread.Form /= V.Missing then return Result; end if;
++            if Reread.Form = V.Missing then
++               if not V.Is_Text (Supervisor_Record, S ("launcherStderr"), "") then return Result; end if;
++            elsif V.Is_False (Observed, O (Reread, "readReturned")) then
++               if O (Reread, "exception").Form /= V.Object_Value or else
++                 not V.Is_Text (Supervisor_Record, S ("launcherStderr"), "") then return Result; end if;
++            elsif V.Is_True (Observed, O (Reread, "readReturned")) and then
++              O (Reread, "exception").Form = V.Null_Value then
++               declare
++                  Bytes : constant B.Decoded := Raw_Bytes (Observed, O (Reread, "stderr"));
++                  Text : constant B.Decoded := UTF8 (Bytes.Data, True);
++               begin
++                  if not Bytes.Valid or else not Text.Valid or else
++                    not V.Is_Text (Supervisor_Record, S ("launcherStderr"), Prefix (Text.Data, 400)) then return Result; end if;
++               end;
++            else return Result;
++            end if;
++         end;
+       end;
+       Result.Valid := True;
+       return Result;
+@@ -841,6 +869,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+             pragma Assert (Output'Initialized);
+          end Scan;
+          Empty : String (1 .. 0);
++         pragma Unreferenced (Empty); -- Counting has no output elements to consume.
+          Size : Natural;
+       begin
+          Scan (False, Empty, Size);
+@@ -917,7 +946,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+                 Post => Output'Initialized and then
+                   (if Render then Size = Output'Length)
+          is
+-            Used, Normalized, Position, First : Natural := 0;
++            Used, Normalized, Position : Natural := 0;
++            First : Natural;
+             function Ready return Boolean is
+               (not Render or else
+                  (Used <= Output'Length and then
+@@ -1003,6 +1033,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+             pragma Assert (Output'Initialized);
+          end Scan;
+          Empty : String (1 .. 0);
++         pragma Unreferenced (Empty); -- Counting has no output elements to consume.
+          Size : Natural;
+       begin
+          Scan (False, Empty, Size);
+@@ -1156,7 +1187,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+                declare
+                   Next : constant Natural := Used + Extent;
+                   Position : Natural := From;
+-                  Written, Width : Natural := 0;
++                  Written : Natural := 0;
++                  Width : Natural;
+                   Value : Integer;
+                begin
+                   if Render then
+@@ -1200,7 +1232,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+                   Last : constant Natural := Line_End (Text, First);
+                   Following : constant Natural := Next_Line (Text, Last);
+                   Offset : Natural := First;
+-                  Key_First, Key_Last, Value_First, Value_Last : Natural := 0;
++                  Key_First, Key_Last, Value_First, Value_Last : Natural;
+                   function Space_At (Pos : Natural) return Boolean is
+                      W : constant Natural := V.UTF8_Width (Text, Pos);
+                   begin
+@@ -1239,7 +1271,8 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+                      declare
+                         Position : Natural := Value_First;
+                         Significant_First : Natural := Value_Last;
+-                        Extent, Width : Natural := 0;
++                        Extent : Natural := 0;
++                        Width : Natural;
+                         Value : Integer;
+                         Valid : Boolean := True;
+                      begin
+@@ -1300,6 +1333,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+             pragma Assert (Output'Initialized);
+          end Scan;
+          Empty : String (1 .. 0);
++         pragma Unreferenced (Empty); -- Counting has no output elements to consume.
+          Size : Natural;
+       begin
+          Scan (False, Empty, Size);
+@@ -1610,6 +1644,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+                   pragma Assert (Output'Initialized);
+                end Scan;
+                Empty : String (1 .. 0);
++         pragma Unreferenced (Empty); -- Counting has no output elements to consume.
+                Size : Natural;
+             begin
+                Scan (False, Empty, Size);
+@@ -1760,43 +1795,42 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+             if Is_Kind and then
+               (not Match (O (Source, "sourceReference"), F (Stage, "sourceReference")) or else
+                not Match (O (Source, "sourceTypeReference"), F (Stage, "sourceTypeReference"))) then return False; end if;
+-            if Name = "ceilingEvidenceNoneLookup" then
+-               if not Match (O (Source, "lookupReference"), F (Stage, "returnedReference")) or else
+-                 not Match (O (Source, "lookupTypeReference"), F (Stage, "returnedTypeReference")) then return False; end if;
+-            elsif not Match (O (Source, "returnedReference"), F (Stage, "returnedReference")) or else
+-              not Match (O (Source, "returnedTypeReference"), F (Stage, "returnedTypeReference")) then return False;
+-            end if;
+-            if Is_Lookup and then Name not in "observedStateComparison" | "ceilingEvidenceNoneLookup" then
+-               if not V.Equal (Observed, O (Source, "lookupReference"), Observed, O (Source, "returnedReference")) or else
+-                 not V.Equal (Observed, O (Source, "lookupTypeReference"), Observed, O (Source, "returnedTypeReference")) or else
+-                 (Exact_Builtin (O (Source, "lookupTypeReference")) and then
+-                  not Archive_Equal (Source, "lookupArchive", "returnedArchive")) then return False; end if;
+-            end if;
+-            if Name in "observedStateComparison" | "ceilingEvidenceNoneLookup" then
+-               if T (F (F (Stage, "lookupValue"), "profile"), "builtin-v1") then
+-                  if not Archive_Matches (O (Source, "lookupArchive"), F (F (Stage, "lookupValue"), "value")) then return False; end if;
+-               elsif not Match (O (Source, "lookupReference"), F (F (Stage, "lookupValue"), "reference")) or else
+-                 not Match (O (Source, "lookupTypeReference"), F (F (Stage, "lookupValue"), "typeReference")) then return False;
+-               end if;
++            if (if Name = "ceilingEvidenceNoneLookup" then
++                   not Match (O (Source, "lookupReference"), F (Stage, "returnedReference")) or else
++                   not Match (O (Source, "lookupTypeReference"), F (Stage, "returnedTypeReference"))
++                else
++                   not Match (O (Source, "returnedReference"), F (Stage, "returnedReference")) or else
++                   not Match (O (Source, "returnedTypeReference"), F (Stage, "returnedTypeReference"))) or else
++              (Is_Lookup and then Name not in "observedStateComparison" | "ceilingEvidenceNoneLookup" and then
++                 (not V.Equal (Observed, O (Source, "lookupReference"), Observed, O (Source, "returnedReference")) or else
++                  not V.Equal (Observed, O (Source, "lookupTypeReference"), Observed, O (Source, "returnedTypeReference")) or else
++                  (Exact_Builtin (O (Source, "lookupTypeReference")) and then
++                   not Archive_Equal (Source, "lookupArchive", "returnedArchive")))) or else
++              (Name in "observedStateComparison" | "ceilingEvidenceNoneLookup" and then
++                 (if T (F (F (Stage, "lookupValue"), "profile"), "builtin-v1") then
++                     not Archive_Matches (O (Source, "lookupArchive"), F (F (Stage, "lookupValue"), "value"))
++                  else
++                     not Match (O (Source, "lookupReference"), F (F (Stage, "lookupValue"), "reference")) or else
++                     not Match (O (Source, "lookupTypeReference"), F (F (Stage, "lookupValue"), "typeReference"))))
++            then
++               return False;
+             end if;
+             for I in 1 .. V.Count (Observed, Key_Types) loop
+                Plain_Keys := Plain_Keys and then V.Equal
+                  (Observed, V.Element (Observed, Key_Types, I), Observed, O (Source_Objects, "stringTypeReference"));
+             end loop;
+-            if (Is_Lookup or else Is_Kind) and then Plain_Keys and then
+-              V.Equal (Observed, O (Source, "sourceTypeReference"), Observed, O (Source_Objects, "dictionaryTypeReference")) then
+-               if Is_Kind then
+-                  return V.Equal (Observed, O (Source, "keyStorageReference"), Observed, O (Source, "leftReference")) and then
+-                    V.Equal (Observed, O (Source, "keyStorageTypeReference"), Observed, O (Source, "leftTypeReference")) and then
+-                    (not Exact_Builtin (O (Source, "leftTypeReference")) or else
+-                     Archive_Equal (Source, "keyStorageArchive", "leftBeforeArchive"));
+-               end if;
+-               return V.Equal (Observed, O (Source, "keyStorageReference"), Observed, O (Source, "lookupReference")) and then
+-                 V.Equal (Observed, O (Source, "keyStorageTypeReference"), Observed, O (Source, "lookupTypeReference")) and then
+-                 (not Exact_Builtin (O (Source, "lookupTypeReference")) or else
+-                  Archive_Equal (Source, "keyStorageArchive", "lookupArchive"));
+-            end if;
+-            return True;
++            return not ((Is_Lookup or else Is_Kind) and then Plain_Keys and then
++              V.Equal (Observed, O (Source, "sourceTypeReference"), Observed, O (Source_Objects, "dictionaryTypeReference"))) or else
++              (if Is_Kind then
++                  V.Equal (Observed, O (Source, "keyStorageReference"), Observed, O (Source, "leftReference")) and then
++                  V.Equal (Observed, O (Source, "keyStorageTypeReference"), Observed, O (Source, "leftTypeReference")) and then
++                  (not Exact_Builtin (O (Source, "leftTypeReference")) or else
++                   Archive_Equal (Source, "keyStorageArchive", "leftBeforeArchive"))
++               else
++                  V.Equal (Observed, O (Source, "keyStorageReference"), Observed, O (Source, "lookupReference")) and then
++                  V.Equal (Observed, O (Source, "keyStorageTypeReference"), Observed, O (Source, "lookupTypeReference")) and then
++                  (not Exact_Builtin (O (Source, "lookupTypeReference")) or else
++                   Archive_Equal (Source, "keyStorageArchive", "lookupArchive")));
+          end Source_Link;
+          function Kind_Stage (Name, Operand : String; Not_Equal : Boolean) return Boolean is
+             Stage : constant E.Span := F (Capture, Name);
+@@ -1893,7 +1927,7 @@ package body Worldline.Evaluation_Agent_Native with SPARK_Mode is
+         R (Result, "covers").Form /= V.Array_Value or else
+         V.Count (Result_Record, R (Result, "covers")) /= 0 or else
+         R (Result, "argv").Form /= V.Array_Value then
+-         Missing (Source_Mismatch); return Output;
++         Output.Missing := Source_Mismatch; return Output;
+       end if;
+       if not T (F (Capture, "schema"), "worldline.runner-terminal-v2") or else
+         not T (F (Capture, "mode"), "runner-owner-v1") or else

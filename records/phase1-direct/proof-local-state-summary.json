@@ -1,0 +1,23 @@
+{
+  "status": "UNPROVEN_TIMEOUT",
+  "worker": {
+    "exit_code": 124,
+    "utc": "2026-10-19T14:57:59.693302+00:00"
+  },
+  "scope": "one complete native evaluation agent unit, level 3",
+  "proofCounts": null,
+  "completedReport": false,
+  "lastResourceSample": {
+    "event": "after",
+    "exit_code": 124,
+    "memory.current": "183902208",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "2938077184",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-435569438b944a9dab565a08250e1a28.scope",
+    "utc": "2026-10-19T14:57:59.691702+00:00"
+  },
+  "sourceSha256": "501c858e9faf6bfabbf28d5b79dfec62127136370f4ee33ed80fba2ab08f9a32",
+  "next": "Isolate UTF8 obligations at the same level and solver timeout; do not claim complete F2 from focused diagnostics."
+}

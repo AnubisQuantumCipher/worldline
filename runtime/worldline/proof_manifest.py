@@ -2306,7 +2306,7 @@ CONTRACT_PINS.update({
     'core/worldline-custody_v2_owner_canonical.adb': '702a7b26cc3c082ca0a53d5bd4a77d0e8f9ecd6869d678827a6951a4fa293062',
     'core/worldline-custody_v2_owner_canonical.ads': '0e39dc2a72fcf03374f30dcea0b05da7485e9f255967ef943723ed43ec52f4f5',
     'core/worldline-evaluation.adb': 'ca4cb14de7052b0b0b4a8e18b7fbdf859e949eb625a35377b8c68a85736285d3',
-    'core/worldline-evaluation_agent_native.adb': 'b74d7b8d84f190fafb4a4cdecc1892b116c956ce76919dbe53d4dc9cc6276af7',
+    'core/worldline-evaluation_agent_native.adb': '29ae7268a77977c1bb5fc1f5ff11104460b02735a16046ca4a307e36293f7b75',
     'core/worldline-evaluation_agent_native.ads': '14088300d81a83e26aad345de50e08df2d4b824a76cc46a5dc5587287d43607c',
     'core/worldline-evaluation_policy.adb': 'b4a38af50921511f74ec55b20f1d6f65e655a55facc2c3a8989e231ca764b86a',
     'core/worldline-evaluation_policy.ads': '374c4f2f38ebc7d0dcce470567c44f1964c25cd9c19a302ee638c01236b62f83',

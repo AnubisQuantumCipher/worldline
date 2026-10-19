@@ -58,3 +58,44 @@ unchanged shared library. This provides selected-roster coverage across two
 processes, not a single uninterrupted full assurance run. The first continuation
 launcher rejected a Python-version-specific verbose-name parsing mismatch
 before executing any tests; its failure and corrected runner are retained.
+
+## Follow-on flow repair (verification ongoing)
+
+Supervisor polling now returns a fresh local limited record for each read.
+Initial polls consume readability and termination facts; the final replay
+consumes the retained outcome details and first exit ordinal. This removes
+shared overwritten outputs while preserving each original early rejection,
+event comparison, occurrence check, break condition and final classification.
+The source of this candidate was the historical proposal, inspected separately;
+its unrelated removal of `Joined` was not adopted. The one initial early return
+now sets its missing-source reason directly because no later join is evaluated.
+
+Overwritten initializers were removed. Source_Link retains its exact short-circuit
+checks as Boolean expressions, avoiding dead statement warnings in contextual
+analysis. Count-only scans still use null output buffers; `pragma Unused` after
+the call explicitly declares those zero-element outputs unused. It does not
+suppress a check or discharge an obligation. The installed GNAT reference
+manual documents this post-use pragma; the initially attempted Unreferenced
+form generated four compiler diagnostics and is retained in the first run.
+
+`flow-local-state-v2` passes with `--warnings=error`, zero warning/error
+diagnostics and all reported flow checks. Level-3 proof remains in progress;
+this is not complete F2 evidence. Direct native supervisor controls exercise
+missing/unavailable observations, illegal follow-on polling, cross-poll state
+leakage, first-exit selection and retained-event mismatch. They are new fixtures
+awaiting build/run, not genuine protected-host evidence.
+
+## Follow-on verification result
+
+The complete native evaluation-agent unit proof reached its 900-second
+diagnostic limit with exit 124 and no completed report. Proof counts remain
+UNKNOWN; this is not a proof pass. The failed attempt is retained under
+`proof-local-state`, and a named UTF8 diagnostic is separate work.
+
+The rebuilt checks target, original Ada behavior tests including the seven
+new supervisor controls, and Ada fuzz executable all exited zero. The expanded
+Python roster completed 181 tests with OK and no skips, failures or errors.
+`local-state-runtime/result.json` binds the same source hashes and shared-library
+hash before and after. This is selected runtime regression evidence, not the
+complete original F3 roster or protected-host/actor acceptance. Compiler
+warnings elsewhere and complete strict proof remain open.

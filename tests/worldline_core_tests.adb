@@ -1,3 +1,4 @@
+with Native_Supervisor_Controls;
 with Ada.Text_IO;
 with Interfaces.C;
 with Attest;
@@ -438,5 +439,6 @@ begin
      (not Worldline.Receipts.Accepted (Receipt),
       "receipt rejection unstuck");
 
+   Native_Supervisor_Controls;
    Ada.Text_IO.Put_Line ("worldline_core_tests: PASS");
 end Worldline_Core_Tests;

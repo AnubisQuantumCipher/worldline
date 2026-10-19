@@ -1725,3 +1725,51 @@ without the repeated workflow reviewer loop. Original final gates remain open.
 
 **Reversal:** invert this isolated extent-binding patch if a counterexample
 requires it; preserve before/after evidence and the original target guarantees.
+
+
+## D120 — Make supervisor poll state local and explicit
+
+**Options:** retain mutable shared poll outputs overwritten by later calls;
+return each poll's complete state as a local limited value; or silence all
+unused-output warnings.
+
+**Choice:** use a fresh state record. Initial reads consume readability and
+break facts; final replay consumes its own started/failure/stop/first-exit
+facts. Every original validation, occurrence/ordering requirement and retained
+event comparison remains. Exit ordinal is meaningful only when an exit was
+seen; it is now local to that same poll. Removed initializers were overwritten
+before reads, as checked by flow analysis. Source_Link retains the same
+short-circuit predicates; the initial invalid-input return directly assigns
+its reason without updating a join variable that cannot be consumed.
+
+The only deliberately unused outputs are zero-element arrays from count-only
+scans. An explicit post-call `pragma Unused` documents this fact, following the
+installed compiler reference manual. No assertion, proof check, accepted case,
+coverage requirement or proof floor is disabled.
+
+**Evidence:** `records/phase1-direct/flow-local-state-v2` exits zero with
+`--warnings=error` and no warning/error diagnostics. The first trial with
+Unreferenced produced four diagnostics and remains preserved. The original
+source pin correctly rejected the changed body; the existing deterministic
+refresh tool updates that one digest and its check mode plus contract_problems
+then succeed. The original public spec is unchanged.
+
+**Verification pending:** level-3 proof and rebuilt runtime controls are still
+required. Seven additive direct-native fixtures cover unavailable/missing
+witnesses, forbidden follow-on polling, per-poll state separation, first-exit
+selection and event mismatch. They do not establish protected-host execution.
+
+**Review:** direct semantic inspection only; independent acceptance NOT
+PERFORMED. This is not release approval. The historical proposal's unrelated
+removal of Joined was not adopted.
+
+**Reversal:** a separate source change restoring the prior implementation if
+a concrete counterexample requires it; retain both versions, diagnostic
+failures and original acceptance requirements.
+
+**D120 result:** checked rebuild, original Ada tests with all seven new
+supervisor controls, fuzz, and the expanded 181-case Python roster pass at
+unchanged tested source/library hashes. The unit-level proof timed out with
+exit 124; no proof pass is claimed. See `records/phase1-direct/local-state-runtime`
+and `proof-local-state-summary.json`. The public source checkpoint remains
+non-final, with independent acceptance NOT PERFORMED.
