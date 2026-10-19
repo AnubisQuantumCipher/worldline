@@ -1,0 +1,22 @@
+ info: aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.ads:85:14
+
+ info: initialization of "Value" proved
+--> worldline-custody_v2_load_input.ads:85:57
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.ads:86:11
+
+ medium: postcondition might fail, cannot prove Parsed_Spans_Valid (Value)
+--> worldline-custody_v2_load_input.ads:88:11
+   88 |              Parsed_Spans_Valid (Value) and then N.Valid (Value.Arena, Value.Symbols));
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: call at worldline-custody_v2_load_input.adb:715 should mention Value (for argument Value) in a postcondition
+      --> worldline-custody_v2_load_input.adb:715:07
+  715 |          Decode_Into (Data, Envelope, Value, Used, False);
+      |          ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-custody_v2_load_input.ads:88:61
+gnatprove: unproved check messages considered as errors

@@ -20,6 +20,7 @@ REQUIRED_STEPS: tuple[str, ...] = (
     "raw-decoder-length-controls",
     "custody-decoder-build",
     "custody-decoder-fixtures",
+    "custody-decoder-extras",
     "custody-decoder-empty",
     "custody-decoder-empty-maximum",
     "custody-decoder-populated",

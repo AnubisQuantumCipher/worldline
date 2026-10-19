@@ -1,9 +1,7 @@
 package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
    package T renames V.S;
    package M renames A.M;
-   use type Q.Byte;
    use type S.SQL_Class;
-   use type E.Value_Kind;
    use type E.Encoding_Level;
    use type M.Subject_Kind;
    function Sextet (B : Q.Byte) return E.Count is
@@ -180,7 +178,11 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
         T.Field (Data, Record_Archive, "x5"), "primitive_inputs");
       Cause : constant E.Span := T.Field (Data, Primitives, "unknown_cause");
       Original : constant E.Span := T.Field (Data, Record_Archive, "original");
-      procedure Extra (Name : String; Cell : out S.SQL_Cell; Magnitude : Boolean := False) is
+      procedure Extra (Name : String; Cell : out S.SQL_Cell; Magnitude : Boolean := False)
+        with Pre => not Cell'Constrained,
+          Post => Used >= Used'Old and then
+          (if Used'Old <= Data'Length then Used <= Data'Length)
+      is
          Item : constant E.Span := T.Field (Data, Primitives, Name);
          Result : Decode_Status;
       begin
@@ -227,6 +229,12 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Extra ("abort_class", Extras.Abort_Class);
       if Status /= Parsed then return; end if;
       if T.Valid (Data, Cause) and then not V.Is_Null (Data, Cause) then
+         -- Recheck the append boundary after the preceding materializations.
+         -- No whole-arena snapshot is needed to establish these write bounds.
+         if not E.C.P.Valid (Data, Cause) then Status := Malformed; return; end if;
+         if Used > Data'Length or else Data'Length - Used < 64 then
+            Status := Storage_Extent; return;
+         end if;
          declare Hash : constant C.SHA.Digest := C.G.Hash (Data, Cause);
                  First : constant Q.Byte_Index := Data'First + Used; begin
             Extras.Cause_Archive := Cause;
@@ -399,7 +407,8 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
                declare
                   Raw : constant E.Bytes := V.Bytes_Value (Data, Record_Cell);
                begin
-                  Add (Event_Extra_Byte_Count (Raw, (Raw'First, Raw'Length)));
+                  Add (Event_Extra_Byte_Count
+                    (Raw, ((if Raw'Length = 0 then 1 else Raw'First), Raw'Length)));
                end;
             end if;
          end;
@@ -443,8 +452,58 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
         Cells (Value.Root_SQL, Value.Root_Count) and then Cells (Value.Subject_SQL, Value.Subject_Count) and then
         Cells (Value.Alternative_SQL, Value.Alternative_Count) and then Cells (Value.Blob_SQL, Value.Blob_Count);
    end Parsed_Spans_Valid;
+   procedure Initialize_Input (Data : E.Bytes; Value : out Parsed_Input)
+     with Post => Value.Status = Malformed and then
+       Value.Decoded_Event_Count = 0 and then Value.Arena_Used = 0
+   is
+   begin
+      Value.Decoded_Event_Count := 0; Value.Arena_Used := 0;
+      Value.Status := Malformed;
+      Value.Arena := [others => 0];
+      for I in Value.Arena'Range loop
+         if I <= Data'Length then
+            Value.Arena (I) := Data (Data'First + (I - 1));
+         end if;
+      end loop;
+      Value.Input := (1, 0); Value.Key := (1, 0); Value.Genesis_File := (1, 0);
+      Value.Source_Input := (1, 0);
+      Value.Genesis_Row := (1, 0); Value.Genesis_Message := (1, 0);
+      Value.Genesis_Mac := (1, 0); Value.Owner_Roster := (1, 0);
+      Value.Startup_Capture_Payload := (1, 0);
+      Value.Startup_Capture_Encoding := No_Original;
+      Value.Events := [others => (others => (1, 0))];
+      Value.Extras := [others => (Reattach_Epoch | Position | Next_Subgeneration |
+         Transfer_Mode | Abort_Class | Unknown_Cause => (Kind => S.SQL_Null),
+         Cause_Archive | Original_Payload | Root_Evidence_Payload | Native_Observations_Payload | Subject_Evidence_Payload => (1, 0),
+         Original_Encoding | Root_Evidence_Encoding | Native_Observations_Encoding | Subject_Evidence_Encoding => No_Original)];
+      Value.Heads := [others => (Name | Kind | Mac | Message => (1, 0),
+         Event_Id | Origin => (Present => False))];
+      Value.Roots := [others => (Present => False)]; Value.Subjects := [others => (Present => False)];
+      Value.Alternatives := [others => (Generation | Subgeneration => (False, 1, 0),
+         Operation | Subject => (Present => False), Kind_Of_Subject => M.Root,
+         Set => A.Ack_Set, Event_Id => [others => 0])];
+      Value.Event_SQL := [others => [others => (Kind => S.SQL_Null)]];
+      Value.Head_SQL := [others => [others => (Kind => S.SQL_Null)]];
+      Value.Root_SQL := [others => [others => (Kind => S.SQL_Null)]];
+      Value.Subject_SQL := [others => [others => (Kind => S.SQL_Null)]];
+      Value.Alternative_SQL := [others => [others => (Kind => S.SQL_Null)]];
+      Value.Blob_SQL := [others => [others => (Kind => S.SQL_Null)]];
+      Value.Event_Encoded := [others => (1, 0)]; Value.Head_Encoded := [others => (1, 0)];
+      Value.Root_Encoded := [others => (1, 0)]; Value.Subject_Encoded := [others => (1, 0)];
+      Value.Alternative_Encoded := [others => (1, 0)]; Value.Blob_Encoded := [others => (1, 0)];
+      Value.Symbols := (Root => [others => (Kind => S.SQL_Null)],
+         Request => [others => (Kind => S.SQL_Null)], Descriptor => [others => (Kind => S.SQL_Null)],
+         Abort_Name => [others => (Kind => S.SQL_Null)], Mode => [others => (Kind => S.SQL_Null)],
+         Zero | One | Zero_Magnitude | Empty_Text => (Kind => S.SQL_Null));
+   end Initialize_Input;
    procedure Decode_Into (Data : E.Bytes; Envelope : E.Span; Value : out Parsed_Input;
-                          Decoded_Used : out E.Count; Grown : Boolean) is
+                          Decoded_Used : out E.Count; Grown : Boolean)
+     with Post => (if Value.Status = Parsed then
+       Parsed_Spans_Valid (Value) and then N.Valid (Value.Arena, Value.Symbols) and then
+       Decoded_Used = Value.Arena_Used and then
+       (if Grown then Value.Decoded_Event_Count < Value.Event_Count and then
+          Value.Event_Count - Value.Decoded_Event_Count = 1))
+   is
       Size : constant Sizes := Counts (Data, Envelope);
       Used : E.Count := Data'Length;
       Good : Boolean := True;
@@ -505,7 +564,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       end Identity;
       function Digest (Cell : S.SQL_Cell) return M.Digest is
          Span : constant E.Span := Raw_Span (Cell, S.SQL_Text);
-         Result : M.Digest := (others => 0);
+         Result : M.Digest := [others => 0];
       begin
          if Span.Length /= 64 then return Result; end if;
          for B in E.Count range 0 .. Span.Length - 1 loop
@@ -533,51 +592,17 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
          end if;
          Result := (Kind => S.SQL_Text, Bytes => (Span.First, Span.Length));
       end Intern;
-      procedure Event_Extras (Index : Q.Byte_Index) is
+      procedure Event_Extras
+        (Arena : in out E.Bytes; Record_Archive : E.Span;
+         Extras : out Event_Extra) is
          Result : Decode_Status;
       begin
-         Append_Event_Extras (Value.Arena, Value.Events (Index).Record_Archive, Used, Value.Extras (Index), Result);
+         Append_Event_Extras (Arena, Record_Archive, Used, Extras, Result);
          if Result /= Parsed then Good := False; end if;
       end Event_Extras;
    begin
-      Decoded_Used := 0; Value.Decoded_Event_Count := 0; Value.Arena_Used := 0;
-      Value.Status := Malformed;
-      Value.Arena := [others => 0];
-      for I in Value.Arena'Range loop
-         if I <= Data'Length then
-            Value.Arena (I) := Data (Data'First + (I - 1));
-         end if;
-      end loop;
-      Value.Input := (1, 0); Value.Key := (1, 0); Value.Genesis_File := (1, 0);
-      Value.Source_Input := (1, 0);
-      Value.Genesis_Row := (1, 0); Value.Genesis_Message := (1, 0);
-      Value.Genesis_Mac := (1, 0); Value.Owner_Roster := (1, 0);
-      Value.Startup_Capture_Payload := (1, 0);
-      Value.Startup_Capture_Encoding := No_Original;
-      Value.Events := (others => (others => (1, 0)));
-      Value.Extras := (others => (Reattach_Epoch | Position | Next_Subgeneration |
-         Transfer_Mode | Abort_Class | Unknown_Cause => (Kind => S.SQL_Null),
-         Cause_Archive | Original_Payload | Root_Evidence_Payload | Native_Observations_Payload | Subject_Evidence_Payload => (1, 0),
-         Original_Encoding | Root_Evidence_Encoding | Native_Observations_Encoding | Subject_Evidence_Encoding => No_Original));
-      Value.Heads := (others => (Name | Kind | Mac | Message => (1, 0),
-         Event_Id | Origin => (Present => False)));
-      Value.Roots := (others => (Present => False)); Value.Subjects := (others => (Present => False));
-      Value.Alternatives := (others => (Generation | Subgeneration => (False, 1, 0),
-         Operation | Subject => (Present => False), Kind_Of_Subject => M.Root,
-         Set => A.Ack_Set, Event_Id => (others => 0)));
-      Value.Event_SQL := (others => (others => (Kind => S.SQL_Null)));
-      Value.Head_SQL := (others => (others => (Kind => S.SQL_Null)));
-      Value.Root_SQL := (others => (others => (Kind => S.SQL_Null)));
-      Value.Subject_SQL := (others => (others => (Kind => S.SQL_Null)));
-      Value.Alternative_SQL := (others => (others => (Kind => S.SQL_Null)));
-      Value.Blob_SQL := (others => (others => (Kind => S.SQL_Null)));
-      Value.Event_Encoded := (others => (1, 0)); Value.Head_Encoded := (others => (1, 0));
-      Value.Root_Encoded := (others => (1, 0)); Value.Subject_Encoded := (others => (1, 0));
-      Value.Alternative_Encoded := (others => (1, 0)); Value.Blob_Encoded := (others => (1, 0));
-      Value.Symbols := (Root => (others => (Kind => S.SQL_Null)),
-         Request => (others => (Kind => S.SQL_Null)), Descriptor => (others => (Kind => S.SQL_Null)),
-         Abort_Name => (others => (Kind => S.SQL_Null)), Mode => (others => (Kind => S.SQL_Null)),
-         Zero | One | Zero_Magnitude | Empty_Text => (Kind => S.SQL_Null));
+      Decoded_Used := 0;
+      Initialize_Input (Data, Value);
       if Size.Status /= Parsed then Value.Status := Size.Status; return; end if;
       if (if Grown then Value.Arena_Count < Size.Arena or else
             Value.Event_Count <= Size.Events or else Value.Event_Count - Size.Events /= 1
@@ -692,7 +717,9 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
               Set => Family, Event_Id => Digest (Value.Alternative_SQL (I, 7)));
          end;
       end loop;
-      for I in E.Count range 1 .. Size.Events loop Event_Extras (I); end loop;
+      for I in E.Count range 1 .. Size.Events loop
+         Event_Extras (Value.Arena, Value.Events (I).Record_Archive, Value.Extras (I));
+      end loop;
       for P in M.Root_Phase loop Intern (Value.Arena, Root_Name (P), Value.Symbols.Root (P)); end loop;
       for P in M.Request_Phase loop Intern (Value.Arena, Request_Name (P), Value.Symbols.Request (P)); end loop;
       for P in M.Descriptor_Phase loop Intern (Value.Arena, Descriptor_Name (P), Value.Symbols.Descriptor (P)); end loop;

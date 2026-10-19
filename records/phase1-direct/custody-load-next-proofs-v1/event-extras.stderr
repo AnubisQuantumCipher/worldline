@@ -1,0 +1,155 @@
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:179:48
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:180:18
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:181:43
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:182:46
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:218:25
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:219:34
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:219:62
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:219:70
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:229:19
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:229:56
+
+ medium: precondition might fail
+--> worldline-custody_v2_load_input.adb:230:53
+  230 |             declare Hash : constant C.SHA.Digest := C.G.Hash (Data, Cause);
+      |                                                     ~~~^~~~~~~~~~~~~~~~~~
+      + possible fix: call at line 227 should mention Data in a postcondition
+  227 |          Extra ("abort_class", Extras.Abort_Class);
+      |          ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:230:60
+
+ medium: overflow check might fail, cannot prove upper bound for Data'First + Used
+--> worldline-custody_v2_load_input.adb:231:62
+  231 |                     First : constant Q.Byte_Index := Data'First + Used; begin
+      |                                                      ~~~~~~~~~~~^~~~~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: call at line 227 should mention Used in a postcondition
+  227 |          Extra ("abort_class", Extras.Abort_Class);
+      |          ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:231:62
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:233:34
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:234:33
+
+ medium: overflow check might fail, cannot prove upper bound for First + E.Count (I - Hash'First) * 2
+--> worldline-custody_v2_load_input.adb:235:28
+  235 |                   Data (First + E.Count (I - Hash'First) * 2) := Hex (Hash (I) / 16);
+      |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: call at line 227 should mention Used in a postcondition
+  227 |          Extra ("abort_class", Extras.Abort_Class);
+      |          ^
+      + provers reached time limit before completing the proof
+
+ medium: array index check might fail
+--> worldline-custody_v2_load_input.adb:235:28
+  235 |                   Data (First + E.Count (I - Hash'First) * 2) := Hex (Hash (I) / 16);
+      |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + reason for check: result of addition must be a valid index into the array
+      + possible fix: call at line 227 should mention Used in a postcondition
+  227 |          Extra ("abort_class", Extras.Abort_Class);
+      |          ^
+      + provers reached time limit before completing the proof
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:235:77
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:236:28
+
+ medium: overflow check might fail, cannot prove upper bound for First + E.Count (I - Hash'First) * 2 + 1
+--> worldline-custody_v2_load_input.adb:236:59
+  236 |                   Data (First + E.Count (I - Hash'First) * 2 + 1) := Hex (Hash (I) mod 16);
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + possible fix: call at line 227 should mention Used in a postcondition
+  227 |          Extra ("abort_class", Extras.Abort_Class);
+      |          ^
+      + provers reached time limit before completing the proof
+
+ medium: array index check might fail
+--> worldline-custody_v2_load_input.adb:236:59
+  236 |                   Data (First + E.Count (I - Hash'First) * 2 + 1) := Hex (Hash (I) mod 16);
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+      + reason for check: result of addition must be a valid index into the array
+      + possible fix: call at line 227 should mention Used in a postcondition
+  227 |          Extra ("abort_class", Extras.Abort_Class);
+      |          ^
+      + provers reached time limit before completing the proof
+
+ info: division check proved
+--> worldline-custody_v2_load_input.adb:236:81
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:238:26
+
+ info: non-aliasing of formal parameters "Payload" and "Format" proved
+--> worldline-custody_v2_load_input.adb:241:42
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:242:35
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:242:50
+
+ info: non-aliasing of formal parameters "Payload" and "Format" proved
+--> worldline-custody_v2_load_input.adb:243:16
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:244:35
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:244:50
+
+ info: non-aliasing of formal parameters "Payload" and "Format" proved
+--> worldline-custody_v2_load_input.adb:245:16
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:246:35
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:246:50
+
+ info: non-aliasing of formal parameters "Payload" and "Format" proved
+--> worldline-custody_v2_load_input.adb:247:16
+
+ info: aspect Always_Terminates on "Append_Event_Extras" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.ads:105:14
+
+ info: initialization of "Extras" proved
+--> worldline-custody_v2_load_input.ads:107:07
+
+ info: initialization of "Status" proved
+--> worldline-custody_v2_load_input.ads:107:33
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.ads:108:11
+gnatprove: unproved check messages considered as errors

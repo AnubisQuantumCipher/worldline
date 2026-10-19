@@ -1,0 +1,35 @@
+ info: initialization of "Result" proved
+--> worldline-custody_v2_load_input.adb:322:07
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:365:27
+
+ info: initialization of "Rows" proved
+--> worldline-custody_v2_load_input.adb:378:10
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:393:17
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:393:54
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:402:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:402:49
+
+ info: precondition proved
+--> worldline-custody_v2_load_input.adb:409:46
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:412:62
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:412:74
+
+ info: implicit aspect Always_Terminates on "Counts" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.ads:77:13
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.ads:78:11

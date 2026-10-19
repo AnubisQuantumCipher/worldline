@@ -1,0 +1,48 @@
+ info: initialization of "Cell" proved
+--> worldline-custody_v2_load_input.adb:183:39
+
+ info: postcondition proved
+--> worldline-custody_v2_load_input.adb:184:22
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:185:31
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:185:56
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:187:45
+
+ info: initialization of "Result" proved
+--> worldline-custody_v2_load_input.adb:188:10
+
+ medium: discriminant check might fail
+--> worldline-custody_v2_load_input.adb:190:15
+  190 |             Cell := (Kind => S.SQL_Null);
+      |             ~~~~~^~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at line 183 should mention Cell'Constrained or Cell.Kind in a precondition
+  183 |          procedure Extra (Name : String; Cell : out S.SQL_Cell; Magnitude : Boolean := False)
+      |          ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:191:53
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:191:84
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:192:27
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:194:75
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:195:18
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:195:56
+
+ info: discriminant check proved
+--> worldline-custody_v2_load_input.adb:195:82
+gnatprove: unproved check messages considered as errors

@@ -1,0 +1,40 @@
+ info: initialization of "Result" proved
+--> worldline-custody_v2_load_input.adb:313:07
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:356:27
+
+ info: initialization of "Rows" proved
+--> worldline-custody_v2_load_input.adb:369:10
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:384:17
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:384:54
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:393:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:393:49
+
+ info: precondition proved
+--> worldline-custody_v2_load_input.adb:400:46
+
+ medium: range check might fail, cannot prove lower bound for Raw'First
+--> worldline-custody_v2_load_input.adb:402:57
+  402 |                      Add (Event_Extra_Byte_Count (Raw, (Raw'First, Raw'Length)));
+      |                                                         ~~~^~~~~~
+      + reason for check: value must fit in component type
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:402:68
+
+ info: implicit aspect Always_Terminates on "Counts" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.ads:77:13
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.ads:78:11
+gnatprove: unproved check messages considered as errors

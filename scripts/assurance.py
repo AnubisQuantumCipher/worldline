@@ -278,6 +278,10 @@ def run(out: Path, expect_sha: str | None) -> int:
                      "-P", "tests/custody_load_contracts.gpr"]) and ok
     ok = runner.step("custody-decoder-fixtures", [sys.executable,
                      "tests/generate_custody_load_fixtures.py"]) and ok
+    ok = runner.step("custody-decoder-extras",
+                     ["./bin/custody-load-contracts/custody_load_extras_tests",
+                      "tests/custody_load_extras.json",
+                      "tests/custody_load_extras_digest.json"]) and ok
     for label, rows in (("empty", "0"), ("populated", "1")):
         command = ["./bin/custody-load-contracts/custody_load_decode_tests",
                    f"tests/custody_load_{label}.json", rows]

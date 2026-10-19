@@ -1,0 +1,51 @@
+{
+  "status": "TESTED_PARTIAL_PROOF_NONFINAL",
+  "utc": "2026-10-19T21:49:36.528381+00:00",
+  "source_hashes": "custody-load-next-source-final.json",
+  "design": "custody-load-next-design.md",
+  "latest_strict_flow": {
+    "unit": "Worldline.Custody_V2_Load_Input",
+    "coverage": "48 of 48",
+    "evidence": "custody-load-next-proofs-v4/unit-flow-report.txt"
+  },
+  "latest_focused_proofs": [
+    {
+      "name": "extra",
+      "target_row": "Worldline.Custody_V2_Load_Input.Append_Event_Extras.Extra at worldline-custody_v2_load_input.adb:181 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (12 checks)"
+    },
+    {
+      "name": "event-extras",
+      "target_row": "Worldline.Custody_V2_Load_Input.Append_Event_Extras at worldline-custody_v2_load_input.ads:107 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (38 checks)"
+    },
+    {
+      "name": "initialize",
+      "target_row": "Worldline.Custody_V2_Load_Input.Initialize_Input at worldline-custody_v2_load_input.adb:455 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (49 checks)"
+    }
+  ],
+  "prior_candidate_proofs": "custody-load-next-proofs-v2/target-verification.json; these precede initialization extraction/import cleanup and are not a final whole-unit proof",
+  "runtime": {
+    "final_source": "custody-load-next-regressions-v1/verification.json",
+    "max_endpoint_decode": "custody-load-next-runtime-v1/verification.json; only redundant compiler-confirmed use clauses were removed afterward",
+    "oracle": "custody-extras-oracle-check.json",
+    "assurance_release_tests": "47 tests, zero skips, exit0; custody-load-next-assurance-tests.stderr"
+  },
+  "negative_evidence": [
+    "custody-load-next-proofs-v1: original Counts, event extras, wrapper failures",
+    "custody-load-next-proofs-v3: Extra constrained-output failure and main batch timeout",
+    "custody-load-next-proofs-v4/terminal-observation.json: main proof incomplete at batch deadline"
+  ],
+  "unapplied_candidate": "custody-component-init-candidate.json: initializer proved before timeout; further decomposition NOT applied",
+  "open": [
+    "whole decoder numeric proof including Decode_Into",
+    "original whole-source strict proof and runtime roster",
+    "original actor replay and authentic protected/actor witnesses",
+    "successor full-domain bignum boundary, UTF8 exception obligations, whole-value Old retirement",
+    "independent F7 acceptance"
+  ],
+  "claims_excluded": [
+    "Phase One complete",
+    "protected host qualified",
+    "independent acceptance",
+    "release-ready"
+  ]
+}

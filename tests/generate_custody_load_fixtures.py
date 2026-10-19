@@ -3,6 +3,7 @@
 Default mode checks committed bytes. These values confer no custody authority.
 """
 import argparse
+import hashlib
 from pathlib import Path
 
 from worldline.custody_load_kernel import envelope
@@ -28,6 +29,15 @@ def fixtures():
         owner = {"custody_head_messages": [b"message" for _ in rows["heads"]]}
         result[label] = envelope(b"fixture-key", b"genesis-file", b"genesis-row",
                                  "genesis-mac", owner, rows, {})
+    cause = {"reason": "synthetic-cause"}
+    result["extras"] = archive({
+        "x5": {"primitive_inputs": {
+            "reattach_epoch": 257, "position": -3, "next_subgeneration": b"\x00\xff",
+            "transfer_mode": "abc", "abort_class": None, "unknown_cause": cause},
+            "root_evidence": b"root", "native_observations": b"native",
+            "subject_evidence_raw": b"subject"},
+        "original": {"synthetic": "original"}})
+    result["extras_digest"] = hashlib.sha256(archive(cause)).hexdigest().encode("ascii")
     return result
 
 

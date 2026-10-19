@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "source": "original scoped producer codec and Python hashlib",
+  "checks": [
+    "fixture roundtrip exact",
+    "cause archive occurs once as unchanged substring",
+    "independent digest matches saved oracle"
+  ],
+  "fixture_sha256": "d05e8715e0887ba29de8d5872788042ac810a091d91af215d5ff89756defbb16"
+}

@@ -99,7 +99,9 @@ package Worldline.Custody_V2_Load_Input with SPARK_Mode is
    procedure Append_SQL_Cell
      (Data : in out E.Bytes; Encoded : E.Span; Used : in out E.Count;
       Cell : out S.SQL_Cell; Status : out Decode_Status)
-     with Global => null, Always_Terminates;
+     with Global => null, Always_Terminates,
+       Post => Used >= Used'Old and then
+         (if Used'Old <= Data'Length then Used <= Data'Length);
    function Event_Extra_Byte_Count (Data : E.Bytes; Record_Archive : E.Span)
       return E.Count with Global => null;
    procedure Append_Event_Extras

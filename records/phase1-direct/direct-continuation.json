@@ -1,9 +1,9 @@
 {
-  "utc": "2026-10-19T21:12:19.179021+00:00",
+  "utc": "2026-10-19T21:49:36.528381+00:00",
   "owner": "Codex direct Phase One; OMP owns only its separate workflow checkout",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "c51dc97450a46d86173f2bc61b3dd8a7c87913d7",
-  "published_readback": "c51dc97450a46d86173f2bc61b3dd8a7c87913d7",
+  "head": "d6bd9828cf216a746329398554887bab0c406ff4",
+  "published_readback": "d6bd9828cf216a746329398554887bab0c406ff4",
   "active_jobs": [],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
@@ -18,9 +18,9 @@
     "D128 scanner endpoint repair, field bounds and six cycle-call proofs; named root/native/maps proofs; checked build/original Ada/fuzz/scanners and 37 Python tests pass. See capture-verification-summary.json.",
     "D129 published 13954dc: full Lifetime_Values unit strict proof; four ledger array exact-contract proofs; SQLite Leading_Zeros and six variant proofs; endpoint/grammar/malformed runtime and existing resource/context/finalization/SQL controls passed. See lifetime-verification-summary.json.",
     "D130 published c51dc97, remote readback verified: whole raw decoder strict proof, original Ada/fuzz,188 exact length controls,45 native tests,46 assurance/release tests. See raw-layout-verification-summary.json.",
-    "D131 candidate: strict custody flow47/47, four helper numeric proofs,6 direct endpoint/constrained-output controls, Ada/fuzz,43 custody and47 assurance tests passed. Full numeric unit remains open. Publication pending."
+    "D131 published d6bd982: strict custody flow47/47, four helper proofs,6 direct controls, overflow reproducer, Ada/fuzz,43 custody regressions and47 assurance/release tests. Whole numeric unit and original Phase One gates remain open."
   ],
-  "next": "Publish exact D131 files from custody-load-candidate-source-hashes.json. Next proof driver prepared at custody-load-next-proofs-v1/driver.py; run only one heavy lane,300s. Existing array syntax cleanup candidate is NOT applied; remaining numeric/global gates open. OMP stopped.",
+  "next": "D132 candidate verified for nonfinal checkpoint: latest full-unit flow48/48; Extra12, caller38, initializer49 strict proofs; aggregate/standalone build, new extras endpoint controls, original Ada/fuzz and43 custody regressions passed;47 assurance/release tests passed. Main decoder batch timed out without verdict; prepared custody-load-main-proof-v1 driver runs only main. Publish checked checkpoint then run bounded360s job; full PhaseOne gates remain open. OMP stopped.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -83,7 +83,15 @@
     "raw-layout-runtime-v2/result.jsonl",
     "raw-aggregate-runtime-v3/result.jsonl",
     "raw-length-controls-v2/controls.json",
-    "raw-proof-window-justification.json"
+    "raw-proof-window-justification.json",
+    "custody-load-next-design.md",
+    "custody-load-next-proofs-v2/target-verification.json",
+    "custody-load-next-runtime-v1/verification.json",
+    "custody-load-next-source-final.json",
+    "custody-load-next-proofs-v4/unit-flow-report.txt",
+    "custody-extras-oracle-check.json",
+    "custody-load-next-verification-summary.json",
+    "custody-load-next-regressions-v1/verification.json"
   ],
   "open": [
     "Whole-source flow inventory retained in remaining-flow-inventory-v1. Recovery replay discard annotations repaired. Raw decoder initialization cleared by compiler-matched layouts; strict flow/proof rerun pending latest representation-length correction.",

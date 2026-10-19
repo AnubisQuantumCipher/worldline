@@ -1,10 +1,10 @@
 with "../core/worldline_core_sources.gpr";
 project Custody_Load_Contracts is
    for Source_Dirs use (".");
-   for Source_Files use ("custody_load_decode_tests.adb");
+   for Source_Files use ("custody_load_decode_tests.adb", "custody_load_extras_tests.adb");
    for Object_Dir use "../obj/custody-load-contracts";
    for Exec_Dir use "../bin/custody-load-contracts";
-   for Main use ("custody_load_decode_tests.adb");
+   for Main use ("custody_load_decode_tests.adb", "custody_load_extras_tests.adb");
    package Compiler is
       for Default_Switches ("Ada") use
         ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");

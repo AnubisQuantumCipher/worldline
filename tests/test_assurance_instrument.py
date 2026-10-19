@@ -171,6 +171,7 @@ class OneRoster(unittest.TestCase):
 
     def test_the_roster_requires_custody_decoder_controls(self) -> None:
         for name in ("custody-decoder-build", "custody-decoder-fixtures",
+                     "custody-decoder-extras",
                      "custody-decoder-empty", "custody-decoder-empty-maximum",
                      "custody-decoder-populated", "custody-decoder-populated-maximum"):
             self.assertIn(name, assurance_contract.REQUIRED_STEPS)
