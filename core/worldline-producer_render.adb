@@ -252,6 +252,7 @@ package body Worldline.Producer_Render with SPARK_Mode is
       Size : Natural;
    begin
       Quote_Scan (Text, V.No_Node, False, False, Empty, Size);
+      pragma Unused (Empty); -- Sizing has no output elements to consume.
       return Size;
    end Quote_Size;
 
@@ -515,6 +516,7 @@ package body Worldline.Producer_Render with SPARK_Mode is
                         Repr (Child);
                         First := False;
                      end loop;
+                     pragma Unused (Key); -- Array children have no object key.
                   end;
                   Put ("]");
                else
@@ -548,14 +550,19 @@ package body Worldline.Producer_Render with SPARK_Mode is
       Size : Natural;
    begin
       Scan (Data, Root, False, Empty, Size);
-      return Result : String (1 .. Size) do
-         declare
-            Written : Natural;
-         begin
-            Scan (Data, Root, True, Result, Written);
-            pragma Assert (Written = Size);
-         end;
-      end return;
+      pragma Unused (Empty); -- Sizing has no output elements to consume.
+      declare
+         Result_Length : constant Natural := Size;
+      begin
+         return Result : String (1 .. Result_Length) do
+            declare
+               Written : Natural;
+            begin
+               Scan (Data, Root, True, Result, Written);
+               pragma Assert (Written = Result_Length);
+            end;
+         end return;
+      end;
    end Build;
 
    function Quote (Text : String) return String is

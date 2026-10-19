@@ -1,0 +1,500 @@
+ info: no contextual analysis of "JSON_Bytes" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:28:04
+
+ info: no contextual analysis of "Raw_Bytes" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:36:04
+
+ info: no contextual analysis of "String_Integer" (controlled return type)
+--> worldline-evaluation_agent_native.adb:110:04
+
+ info: no contextual analysis of "Integer_Value" (controlled return type)
+--> worldline-evaluation_agent_native.adb:145:04
+
+ info: no contextual analysis of "Image" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:169:04
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:182:80
+
+ info: implicit aspect Always_Terminates on "UTF8" has been proved, subprogram will terminate
+--> worldline-evaluation_agent_native.adb:191:13
+
+ info: no contextual analysis of "UTF8" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:192:07
+
+ info: initialization of "Width" proved
+--> worldline-evaluation_agent_native.adb:219:07
+
+ info: initialization of "Advance" proved
+--> worldline-evaluation_agent_native.adb:219:14
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:222:29
+
+ info: loop invariant initialization proved
+--> worldline-evaluation_agent_native.adb:223:33
+
+ info: loop invariant preservation proved
+--> worldline-evaluation_agent_native.adb:223:33
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:223:50
+
+ info: loop variant proved
+--> worldline-evaluation_agent_native.adb:224:31
+
+ info: precondition proved
+--> worldline-evaluation_agent_native.adb:225:10
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:227:48
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:227:56
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:228:43
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:231:27
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:232:31
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:239:37
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:245:38
+
+ info: loop invariant preservation proved
+--> worldline-evaluation_agent_native.adb:246:42
+
+ info: loop invariant initialization proved
+--> worldline-evaluation_agent_native.adb:246:42
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:246:59
+
+ info: loop invariant initialization proved
+--> worldline-evaluation_agent_native.adb:247:42
+
+ info: loop invariant preservation proved
+--> worldline-evaluation_agent_native.adb:247:42
+
+ info: loop invariant initialization proved
+--> worldline-evaluation_agent_native.adb:248:42
+
+ info: loop invariant preservation proved
+--> worldline-evaluation_agent_native.adb:248:42
+
+ info: loop invariant initialization proved
+--> worldline-evaluation_agent_native.adb:250:22
+
+ info: loop invariant preservation proved
+--> worldline-evaluation_agent_native.adb:250:22
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:250:45
+
+ info: loop variant proved
+--> worldline-evaluation_agent_native.adb:251:40
+
+ info: precondition proved
+--> worldline-evaluation_agent_native.adb:252:19
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:253:57
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:253:65
+
+ medium: unexpected exception might be raised
+--> worldline-evaluation_agent_native.adb:256:22
+  256 |                         raise Program_Error with "UTF8 decode extent mismatch";
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + reason for check: "UTF8" allows propagating no exceptions
+      + possible explanation: "Program_Error" might be unexpectedly raised
+      + provers reached time limit before completing the proof
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:259:47
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:259:75
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:259:83
+
+ medium: unexpected exception might be raised
+--> worldline-evaluation_agent_native.adb:260:25
+  260 |                            raise Program_Error with "UTF8 decode extent mismatch";
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + reason for check: "UTF8" allows propagating no exceptions
+      + possible explanation: "Program_Error" might be unexpectedly raised
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:262:28
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:262:40
+
+ info: index check proved
+--> worldline-evaluation_agent_native.adb:262:40
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:262:52
+
+ info: index check proved
+--> worldline-evaluation_agent_native.adb:262:52
+
+ info: length check proved
+--> worldline-evaluation_agent_native.adb:262:61
+
+ info: precondition proved
+--> worldline-evaluation_agent_native.adb:263:24
+
+ info: length check proved
+--> worldline-evaluation_agent_native.adb:263:24
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:263:62
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:264:35
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:266:43
+
+ medium: unexpected exception might be raised
+--> worldline-evaluation_agent_native.adb:267:25
+  267 |                            raise Program_Error with "UTF8 decode extent mismatch";
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + reason for check: "UTF8" allows propagating no exceptions
+      + possible explanation: "Program_Error" might be unexpectedly raised
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-evaluation_agent_native.adb:269:28
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:269:40
+
+ info: index check proved
+--> worldline-evaluation_agent_native.adb:269:40
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:269:52
+
+ info: index check proved
+--> worldline-evaluation_agent_native.adb:269:52
+
+ info: length check proved
+--> worldline-evaluation_agent_native.adb:269:57
+
+ info: length check proved
+--> worldline-evaluation_agent_native.adb:270:72
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:271:35
+
+ info: overflow check proved
+--> worldline-evaluation_agent_native.adb:273:40
+
+ medium: unexpected exception might be raised
+--> worldline-evaluation_agent_native.adb:276:19
+  276 |                      raise Program_Error with "UTF8 decode extent mismatch";
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + reason for check: "UTF8" allows propagating no exceptions
+      + possible explanation: "Program_Error" might be unexpectedly raised
+      + provers reached time limit before completing the proof
+
+ info: assertion proved
+--> worldline-evaluation_agent_native.adb:278:31
+
+ info: no contextual analysis of "Strip" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:283:04
+
+ info: no contextual analysis of "Prefix" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:308:04
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:402:18
+
+ info: no contextual analysis of "Accepted" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:406:28
+
+ info: no contextual analysis of "Event" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:412:07
+
+ info: no contextual analysis of "Query_Valid" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:461:28
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:466:61
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:467:18
+
+ info: no contextual analysis of "Parse_Poll" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:468:38
+
+ info: no contextual analysis of "Query_Valid" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:480:45
+
+ info: no contextual analysis of "Integer_Value" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:518:36
+
+ info: no contextual analysis of "Is_Digits" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:610:22
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:610:80
+
+ info: analyzing call to "Is_Digits" in context
+--> worldline-evaluation_agent_native.adb:616:16
+
+ info: no contextual analysis of "Prefix" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:644:77
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:701:33
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:702:39
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:703:36
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:704:43
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:705:36
+
+ info: analyzing call to "Acquisition" in context
+--> worldline-evaluation_agent_native.adb:706:40
+
+ info: no contextual analysis of "Retained_Since" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:734:07
+
+ info: no contextual analysis of "Process_Text" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:758:07
+
+ info: no contextual analysis of "Show_Values" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:767:10
+
+ info: no contextual analysis of "Telemetry_Show" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:903:31
+
+ info: no contextual analysis of "Limits_Show" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:922:31
+
+ info: no contextual analysis of "Telemetry_Show" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:933:34
+
+ info: no contextual analysis of "Limits_Show" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:934:21
+
+ info: no contextual analysis of "Cgroup_Path" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:943:10
+
+ info: no contextual analysis of "Cgroup" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:1053:07
+
+ info: no contextual analysis of "Cgroup_Path" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1072:66
+
+ info: no contextual analysis of "Counters" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1117:10
+
+ info: no contextual analysis of "Space_At" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1254:59
+
+ info: no contextual analysis of "Space_At" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1254:79
+
+ info: no contextual analysis of "Is_Digits" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1303:47
+
+ info: analyzing call to "Find_Show" in context
+--> worldline-evaluation_agent_native.adb:1354:45
+
+ info: no contextual analysis of "Derive_Reading" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1372:13
+
+ info: no contextual analysis of "Number" (unconstrained return type)
+--> worldline-evaluation_agent_native.adb:1372:13
+
+ info: analyzing call to "Is_Digits" in context
+--> worldline-evaluation_agent_native.adb:1375:19
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1378:23
+
+ info: no contextual analysis of "Source_Archive_Matches" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1438:43
+
+ info: no contextual analysis of "Resource_Join" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1520:13
+
+ info: no contextual analysis of "Fields" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1522:16
+
+ info: no contextual analysis of "Archive_Matches" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1679:10
+
+ info: analyzing call to "Byte_At" in context
+--> worldline-evaluation_agent_native.adb:1702:68
+
+ info: no contextual analysis of "Wait_Join" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1709:42
+
+ info: no contextual analysis of "Archive_Matches" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1730:16
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1740:49
+
+ info: no contextual analysis of "Image" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1741:53
+
+ info: no contextual analysis of "Supervisor_Exit_Join" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1745:43
+
+ info: no contextual analysis of "Protocol_Join" (nested subprogram)
+--> worldline-evaluation_agent_native.adb:1774:10
+
+ info: no contextual analysis of "Archive_Equal" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1775:45
+
+ info: analyzing call to "Protocol_Source" in context
+--> worldline-evaluation_agent_native.adb:1782:41
+
+ info: no contextual analysis of "Archive_Equal" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1808:24
+
+ info: no contextual analysis of "Archive_Matches" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1811:26
+
+ info: no contextual analysis of "Archive_Equal" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1828:20
+
+ info: no contextual analysis of "Archive_Equal" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1833:20
+
+ info: analyzing call to "Protocol_Source" in context
+--> worldline-evaluation_agent_native.adb:1837:41
+
+ info: no contextual analysis of "Kind_Stage" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1838:43
+
+ info: analyzing call to "Source_Link" in context
+--> worldline-evaluation_agent_native.adb:1845:20
+
+ info: analyzing call to "Protocol_Source" in context
+--> worldline-evaluation_agent_native.adb:1853:41
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (call returns unconstrained type)
+--> worldline-evaluation_agent_native.adb:1854:43
+
+ info: analyzing call to "Source_Link" in context
+--> worldline-evaluation_agent_native.adb:1862:20
+
+ info: analyzing call to "Source_Link" in context
+--> worldline-evaluation_agent_native.adb:1901:17
+
+ info: no contextual analysis of "Source_Link" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1901:64
+
+ info: no contextual analysis of "Source_Link" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1902:12
+
+ info: no contextual analysis of "Source_Link" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1902:52
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1903:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1904:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1905:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1906:12
+
+ info: no contextual analysis of "Builtin_Dict_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1907:12
+
+ info: no contextual analysis of "Kind_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1908:12
+
+ info: no contextual analysis of "Kind_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1909:12
+
+ info: no contextual analysis of "Kind_Stage" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:1910:12
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1935:10
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1943:46
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1946:98
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1948:50
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1952:70
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1954:43
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1955:32
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1957:49
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1963:10
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1965:78
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1974:91
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:1996:46
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2019:16
+
+ info: no contextual analysis of "Supervisor_Exit_Join" (in potentially unevaluated context)
+--> worldline-evaluation_agent_native.adb:2023:16
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2023:42
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2024:36
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2025:36
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2030:13
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2034:62
+
+ info: analyzing call to "Missing" in context
+--> worldline-evaluation_agent_native.adb:2038:65
+gnatprove: unproved check messages considered as errors

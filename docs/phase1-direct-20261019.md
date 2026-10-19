@@ -99,3 +99,31 @@ Python roster completed 181 tests with OK and no skips, failures or errors.
 hash before and after. This is selected runtime regression evidence, not the
 complete original F3 roster or protected-host/actor acceptance. Compiler
 warnings elsewhere and complete strict proof remain open.
+
+
+## Renderer extent repair and aggregate flow inventory
+
+The aggregate library flow run exposed another E0007 mutable return bound in
+Producer_Render.Build. The result now uses an immutable copy of the computed
+extent; the original written-size assertion and accepted input domain remain.
+The zero-element sizing outputs and unused array-child key are explicitly
+marked Unused after the call. The first placement of the key pragma failed
+compilation and is retained; the corrected placement is in its declaration block.
+
+The aggregate flow run now completes analysis without the renderer diagnostics,
+but exits 1 on startup-custody termination/unused-assignment diagnostics and
+retained-custody pad initializers. This is not all-source proof. The diagnostic
+index is `records/phase1-direct/aggregate-flow-summary.json`.
+
+The checked rebuild, original Ada tests, and original Ada fuzz executable pass.
+The original representation oracle passes all 519 cases, including the large
+array/object and Unicode/duplicate-key cases. Its corpus and assertions are
+unchanged; only root/consumer path assignments were adapted, with a freshly
+compiled consumer against this worktree's canonical library project. Source and
+library hashes match before/after testing. Compiler and interface-set warnings
+remain; no warning-free build, complete proof, full runtime or F7 claim follows.
+
+The UTF8 focused level-3 diagnostic completed with four unproved exception checks
+and no Assume. The earlier whole-unit timeout is retained separately. Neither
+result establishes complete Phase One proof. Startup custody is the next concrete
+aggregate-flow repair; the original retirement and whole-system gates stay open.

@@ -1,0 +1,5 @@
+ error: pragma "Unused" argument must be in same declarative part
+--> worldline-producer_render.adb:514:40
+  514 |                            pragma Unused (Key); -- Array children have no object key.
+      |                                           ^~~
+gnatprove: error during generation of Global contracts

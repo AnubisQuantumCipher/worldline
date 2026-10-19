@@ -1,0 +1,36 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+----------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total      Flow                               Provers   Justified   Unproved
+----------------------------------------------------------------------------------------------------------
+Data Dependencies                 .         .                                     .           .          .
+Flow Dependencies                 .         .                                     .           .          .
+Initialization                    2         2                                     .           .          .
+Non-Aliasing                      .         .                                     .           .          .
+Run-time Checks                  43         .                 39 (CVC5 46%, Z3 54%)           .          4
+Assertions                       11         .    11 (CVC5 47%, Trivial 27%, Z3 27%)           .          .
+Functional Contracts              3         .                  3 (CVC5 75%, Z3 25%)           .          .
+LSP Verification                  .         .                                     .           .          .
+Termination                       3         1                  2 (CVC5 50%, Z3 50%)           .          .
+Concurrency                       .         .                                     .           .          .
+----------------------------------------------------------------------------------------------------------
+Total                            62    3 (5%)                              55 (89%)           .     4 (6%)
+
+
+max steps used for successful proof: 972
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-evaluation_agent_native, 1 subprograms and packages out of 1 analyzed
+  Worldline.Evaluation_Agent_Native.UTF8 at worldline-evaluation_agent_native.adb:191 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 55 checks out of 59 proved

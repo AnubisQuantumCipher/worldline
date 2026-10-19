@@ -1773,3 +1773,30 @@ unchanged tested source/library hashes. The unit-level proof timed out with
 exit 124; no proof pass is claimed. See `records/phase1-direct/local-state-runtime`
 and `proof-local-state-summary.json`. The public source checkpoint remains
 non-final, with independent acceptance NOT PERFORMED.
+
+
+## D121 — Bind the renderer result to an immutable computed extent
+
+**Problem:** aggregate strict flow rejected Producer_Render.Build's mutable
+return constraint (E0007) before the original assurance scope could complete.
+
+**Decision:** copy the computed size into a constant for the result constraint
+and its written-size assertion. Mark only zero-element sizing buffers and the
+array branch's unused object key explicitly unused after their calls. Preserve
+all public contracts, accepted cases, failure semantics and proof floors.
+
+**Evidence:** corrected aggregate analysis reaches subsequent units; the
+renderer rejection is absent, but startup/retained-custody diagnostics keep the
+aggregate result FAILED. Checked rebuild, original Ada tests/fuzz and all 519
+unchanged representation-oracle cases pass. The oracle's path-only adaptation,
+source/library identities and raw outcomes are retained under
+records/phase1-direct/render-runtime. Derived contract-pin refresh changes only
+the renderer body digest. The earlier misplaced-pragma compile failure remains.
+
+**Risk and boundary:** no intended behavior change. Two-pass extent equality
+still requires full proof, and the selected runtime evidence is not the full
+original campaign. Independent acceptance is NOT PERFORMED. No release or gate
+waiver is authorized by this checkpoint.
+
+**Reversal:** make a new source commit if a counterexample requires changing the
+repair; preserve all failed evidence and the original assurance requirements.

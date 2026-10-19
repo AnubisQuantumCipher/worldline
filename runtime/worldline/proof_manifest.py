@@ -2346,7 +2346,7 @@ CONTRACT_PINS.update({
     'core/worldline-policy_syntax.ads': '64ab0b1044f3f7a6c7d8f067ea810aa2d53e1dce6eea7e66bd478c0dee626630',
     'core/worldline-producer_bytes.adb': '208216635f2a0554832fcf2d1e9bc987066c965dc8e4b487298b8d8205ebf591',
     'core/worldline-producer_bytes.ads': '865389ee91f1059ddda5f2468a64debfd4ece4c06cc930665e5b6ebb5cc5d07c',
-    'core/worldline-producer_render.adb': 'f11670eb82621adbcdccf2c46df5b6fa93b6a2ad19d12d69588b2a186f0b4aea',
+    'core/worldline-producer_render.adb': 'd8ce4db60702adc9db3c91ad61515f6494137ad44ef83d2c9470a38ae5a7dc26',
     'core/worldline-producer_render.ads': 'ad62b58de1c7cb05f1cccb3a102bbdeb3ffa6230101a716df842939388e36cd1',
     'core/worldline-producer_unicode.ads': 'b968afb7b703c83843bc4a0728a4d50e068e78d1733863b57686af7e6a8acef3',
     'core/worldline-producer_values.adb': 'ded1864027fce9e70d2314127ad8e1f037ef8ed36037e0009cf1d7d1396388bf',
@@ -2581,6 +2581,6 @@ CONTRACT_PINS.update({
     'core/worldline-policy_source.adb': 'ef3b0abca40248ce26ef888487295cfd2c7c301044f1c7df980dc759e73cc45f',
     'core/worldline-evaluation_policy.adb': 'b4a38af50921511f74ec55b20f1d6f65e655a55facc2c3a8989e231ca764b86a',
     'core/worldline-recovery_syntax.adb': '105091a1d4fcb2cafea33891fc0b5b12702540d0a6da2b952deea261b6a3bd47',
-    'core/worldline-producer_render.adb': 'f11670eb82621adbcdccf2c46df5b6fa93b6a2ad19d12d69588b2a186f0b4aea',
+    'core/worldline-producer_render.adb': 'd8ce4db60702adc9db3c91ad61515f6494137ad44ef83d2c9470a38ae5a7dc26',
     'core/worldline-startup_source_custody.adb': '8ba5867f9772bd35fa624a5cc9d6138699561855aa716461f3314b5ab01d25d5',
 })

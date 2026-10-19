@@ -1,0 +1,31 @@
+{
+  "status": "UNPROVEN_FOUR_EXCEPTION_OBLIGATIONS",
+  "worker": {
+    "exit_code": 1,
+    "utc": "2026-10-19T15:05:53.997572+00:00"
+  },
+  "scope": "Worldline.Evaluation_Agent_Native.UTF8 only",
+  "proof_checks_proved": 55,
+  "proof_checks_total": 59,
+  "unproved_locations": [
+    256,
+    260,
+    267,
+    276
+  ],
+  "assume_count": 0,
+  "reason": "Missing proved relation between sizing pass and writing pass; time-limit failures do not establish an executable counterexample",
+  "constraints": [
+    "Keep original accepted values and byte replacement semantics",
+    "Do not suppress exceptions, weaken contracts, or replace them with refusal to turn proof green",
+    "Preserve checked-build memory/time bounds; avoid quadratic checked invariants or a new input-sized allocation without demonstrated admissibility"
+  ],
+  "source_commit": "b58a69d1b3c4905d8d4f3624be091fabd3cdf567",
+  "artifacts": {
+    "gnatprove.out": "7d4a3475dadf5bc0cb74d6d25782c457531004dbd4dd634975bc193f5720e681",
+    "gnatprove.sarif": "5348488ea6861ce0005d611d416ec41f14193a909ce01c137584a8b2aea59759",
+    "stdout": "5630c79c86733508e1a97578d17141dd8b19197970d221e70cadaa624e27c77f",
+    "stderr": "66d6ef04e1593ea7d7b1ca2650b1a20ff2a391309913365f4f33b451cae2444e"
+  },
+  "diagnosis_class": "Source-based SPEC hypothesis; no executable counterexample or complete equivalence proof established"
+}
