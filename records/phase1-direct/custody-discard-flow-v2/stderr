@@ -1,0 +1,5 @@
+ error: pragma "Unused" argument must be in same declarative part
+--> worldline-custody_v2_mutation_decision.adb:1150:28
+ 1150 |                pragma Unused (Used);
+      |                               ^~~~
+gnatprove: error during generation of Global contracts

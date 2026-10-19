@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-19T16:51:38.896671+00:00",
+  "owner": "Codex direct Phase One; OMP owns only its separate workflow checkout",
+  "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "head": "5f8e28b0e3ce9004022c744eafe5fc2ac066927b",
+  "published_readback": "5f8e28b0e3ce9004022c744eafe5fc2ac066927b",
+  "active_jobs": [],
+  "completed": [
+    "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
+    "Next_Line strict level3 proof: 35 total reported, zero unproved/justified/Assume",
+    "startup/policy checked build, original Ada tests/fuzz, 22 Python tests at b7f5aea",
+    "D116 stale empty-policy oracle corrected with original source/failure retained",
+    "115d4a4: namespace offset/PID repair; selected helper proofs; old exact helper overflow reproduced; checked build and original Ada/fuzz plus child controls pass.",
+    "Ledger typed refusal proof, canonical C output padding, checked build/Ada/fuzz, typed cleanup controls, 40 resource tests and 16 export-guard tests pass; reviewed exact-source pins regenerated.",
+    "D125 custody/policy flow repairs; request-abandon and policy transport strict proof; Digest_Image eight checks proved.",
+    "D126 guards and primary-exception containment in thirteen C_API exports; reviewed exact-source pin update; checked build/original Ada/fuzz/typed controls and 66 selected Python tests pass."
+  ],
+  "next": "Source-integrity test passed; publish qualified D125/D126 checkpoint. Then startup/recovery loop/recursive termination annotations and contextual branch warning; strict flow followed by proof. Keep new large-padding successor counterexample open and investigate checked big-integer implementation without domain caps or disabling ghost/assertions.",
+  "evidence": [
+    "render-runtime/result.json",
+    "proof-custody-next-line-v2/gnatprove.out",
+    "custody-runtime/result.json",
+    "custody-runtime-v2/result.json",
+    "custody-runtime-v2/native-reuse.json",
+    "custody-flow-summary.json",
+    "policy-empty-oracle-correction/justification.json",
+    "namespace-verification-summary.json",
+    "namespace-runtime-v2/result.json",
+    "namespace-runtime-v3/result.json",
+    "publication-115d4a4.json",
+    "ledger-verification-summary.json",
+    "ledger-transport-runtime-v3/result.json",
+    "ledger-transport-proof-v5/gnatprove.out",
+    "ledger-aggregate-flow-v1/diagnostics.json",
+    "ledger-transport-review.json",
+    "ledger-export-guard-tests/worker-result.json",
+    "custody-verification-summary.json",
+    "custody-native-guard-review.json",
+    "custody-discard-runtime-v3/result.json",
+    "custody-digest-proof-v2/gnatprove.out",
+    "custody-successor-runtime-v1/worker-result.json"
+  ],
+  "open": [
+    "Aggregate flow FAILED: startup/recovery missing termination variants and contextual Source_Payload_Byte warning.",
+    "Successor full-domain runtime FAILED on 4096 zero padding: GNAT System.Generic_Bignums.Normalize fixed Bignum_Limit; guard now preserves process but does not repair math result.",
+    "UTF8 four exception obligations",
+    "full all-source strict proof and original runtime roster",
+    "unbounded full-value implicit Old retirement conjunction",
+    "protected/actor witnesses and independent F7 acceptance"
+  ],
+  "memory": "SIA no-touch ask timed out. Note request 03ad54737654489385a9ac326b4be927 queued, not confirmed indexed; primary receipts authoritative."
+}

@@ -134,9 +134,10 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => On is
       Disks : not null access constant Disk_Array;
       Result : out Result_C) return U8
    is
+      Malformed_Input : exception;
    begin
       Result := (Disk_Index => 0, others => 0);
-      if Data'First /= 1 or else Disks'First /= 1 then return 255; end if;
+      if Data'First /= 1 or else Disks'First /= 1 then raise Malformed_Input; end if;
       declare
          V : Input_C;
       begin
@@ -149,7 +150,7 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => On is
            not Shape (V.Withheld_Memory) or else not Shape (V.Memory_Floor)
            or else not Shape (V.Requested_Memory)
          then
-            return 255;
+            raise Malformed_Input;
          end if;
          declare
             State : constant P.Policy_Input :=
@@ -158,10 +159,7 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => On is
                Decode (V.Disk_Byte_Floor), Decode (V.Disk_Inode_Floor),
                Decode (V.Available_Memory), Decode (V.Withheld_Memory),
                Decode (V.Memory_Floor), Decode (V.Requested_Memory));
-            Blank : constant Q.Quantity :=
-              (Negative => False, First => 1, Length => 0);
-            Rows : P.Disk_Array (1 .. Q.Byte_Count (Disks'Length)) :=
-              (others => (Free_Bytes => Blank, Free_Inodes => Blank));
+            Rows : P.Disk_Array (1 .. Q.Byte_Count (Disks'Length));
          begin
             for I in Rows'Range loop
                declare
@@ -171,7 +169,7 @@ package body Worldline.Resource_Policy_C_API with SPARK_Mode => On is
                   if not Shape (Row.Free_Bytes) or else
                     not Shape (Row.Free_Inodes)
                   then
-                     return 255;
+                     raise Malformed_Input;
                   end if;
                   Rows (I) := (Decode (Row.Free_Bytes), Decode (Row.Free_Inodes));
                end;

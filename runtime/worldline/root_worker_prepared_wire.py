@@ -8,9 +8,10 @@ Native archive equality, complete X5 fold and sole-C_API entry remain OPEN.
 from dataclasses import dataclass
 import ctypes as C
 from .errors import WorldlineError
+from .evaluation_terminal import TerminalRefused
 from .operation_capture import archive, restore_archive
 from .operation_authority_kernel import OperationAuthorityKernel, Arena, keys
-from .protected_startup import require, private_bytes
+from .protected_startup import StartupRefusal, require, private_bytes
 from .root_worker_prepared_inputs import PreparedInputs, capture_prepared_inputs
 
 @dataclass(frozen=True)
@@ -61,7 +62,8 @@ def _prepare_pair(kernel, reserve_raw, intent_raw, custody_prefix):
         r = prepare(reserve)
         i = prepare(intent)
         return bytes(arena.raw), r, i
-    except (ValueError, TypeError, KeyError, OverflowError) as exc:
+    except (ValueError, TypeError, KeyError, OverflowError,
+            StartupRefusal, TerminalRefused) as exc:
         raise WorldlineError('PREPARED_SNAPSHOT_MALFORMED',
                             'the complete original native snapshot schema differs') from exc
 

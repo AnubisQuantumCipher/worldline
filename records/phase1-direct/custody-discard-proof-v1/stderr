@@ -1,0 +1,323 @@
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:17:30
+
+ info: division check proved
+--> worldline-resource_policy_c_api.adb:17:43
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:18:30
+
+ info: division check proved
+--> worldline-resource_policy_c_api.adb:18:43
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:19:27
+
+ info: division check proved
+--> worldline-resource_policy_c_api.adb:19:40
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:20:26
+
+ info: division check proved
+--> worldline-resource_policy_c_api.adb:20:39
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:21:28
+
+ info: division check proved
+--> worldline-resource_policy_c_api.adb:21:41
+
+ info: implicit aspect Always_Terminates on "Shape" has been proved, subprogram will terminate
+--> worldline-resource_policy_c_api.adb:79:13
+
+ info: implicit aspect Always_Terminates on "Shape" has been proved, subprogram will terminate
+--> worldline-resource_policy_c_api.adb:83:13
+
+ info: implicit aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-resource_policy_c_api.adb:86:13
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:87:60
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:88:33
+
+ info: implicit aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-resource_policy_c_api.adb:90:13
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:97:44
+
+ info: local subprogram "Read_Byte" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-resource_policy_c_api.adb:101:14
+      + add a contract to analyze it separately from calling contexts
+
+ info: initialization of "Item" proved
+--> worldline-resource_policy_c_api.adb:101:42
+
+ info: initialization of "Item" proved
+--> worldline-resource_policy_c_api.adb:106:69
+
+ info: initialization of "Item" proved
+--> worldline-resource_policy_c_api.adb:112:93
+
+ info: index check proved
+--> worldline-resource_policy_c_api.adb:116:23
+
+ info: initialization of "Value" proved
+--> worldline-resource_policy_c_api.adb:121:55
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-resource_policy_c_api.adb:126:28
+
+ info: analyzing call to "Read_Byte" in context
+--> worldline-resource_policy_c_api.adb:127:10
+
+ info: index check proved
+--> worldline-resource_policy_c_api.adb:127:29
+
+ info: initialization of "V" proved
+--> worldline-resource_policy_c_api.adb:142:10
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:157:16
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:157:46
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:158:16
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:158:44
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:159:16
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:159:44
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:160:16
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:160:45
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:161:16
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:161:41
+
+ info: initialization of "Rows" proved
+--> worldline-resource_policy_c_api.adb:162:13
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:162:13
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:162:58
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-resource_policy_c_api.adb:164:33
+
+ info: initialization of "Row" proved
+--> worldline-resource_policy_c_api.adb:166:19
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:168:19
+
+ info: index check proved
+--> worldline-resource_policy_c_api.adb:174:25
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:174:32
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:174:57
+
+ info: initialization of "Arena" proved
+--> worldline-resource_policy_c_api.adb:178:16
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:178:16
+
+ info: range check proved
+--> worldline-resource_policy_c_api.adb:178:61
+
+ info: initialization of "D" proved
+--> worldline-resource_policy_c_api.adb:179:16
+
+ info: precondition proved
+--> worldline-resource_policy_c_api.adb:181:16
+
+ info: discriminant check proved
+--> worldline-resource_policy_c_api.adb:189:58
+
+ info: implicit aspect Always_Terminates on "ABI_Version" has been proved, subprogram will terminate
+--> worldline-resource_policy_c_api.ads:53:13
+
+ info: implicit aspect Always_Terminates on "Layout_Size" has been proved, subprogram will terminate
+--> worldline-resource_policy_c_api.ads:54:13
+
+ info: implicit aspect Always_Terminates on "Layout_Offset" has been proved, subprogram will terminate
+--> worldline-resource_policy_c_api.ads:55:13
+
+ info: initialization of "Result" proved
+--> worldline-resource_policy_c_api.ads:67:07
+ info: discriminant check proved
+--> worldline-root_custody_request_abandon.adb:11:86
+
+ info: loop invariant initialization proved
+--> worldline-root_custody_request_abandon.adb:58:13
+
+ info: loop invariant preservation proved
+--> worldline-root_custody_request_abandon.adb:58:13
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.adb:58:59
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.adb:59:61
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.adb:60:41
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.adb:62:42
+
+ info: loop invariant initialization proved
+--> worldline-root_custody_request_abandon.adb:64:13
+
+ info: loop invariant preservation proved
+--> worldline-root_custody_request_abandon.adb:64:13
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.adb:65:40
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.adb:65:66
+
+ info: implicit aspect Always_Terminates on "Subject_Bound" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:31:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:36:59
+
+ info: implicit aspect Always_Terminates on "Subject_CAS" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:37:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:43:09
+
+ info: implicit aspect Always_Terminates on "Request_Kind" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:44:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:45:70
+
+ info: implicit aspect Always_Terminates on "Alternative_Joined" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:46:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:56:09
+
+ info: implicit aspect Always_Terminates on "Table_Corresponds" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:57:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:64:09
+
+ info: implicit aspect Always_Terminates on "Alternative_Allowed" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:65:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:71:54
+
+ info: implicit aspect Always_Terminates on "Subjects_Valid" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:73:13
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:84:40
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:84:60
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:85:41
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:85:66
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:86:44
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:86:66
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:87:09
+
+ info: implicit aspect Always_Terminates on "Event_Bound" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:89:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:96:63
+
+ info: implicit aspect Always_Terminates on "Transfer_Head_Joined" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:99:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:104:63
+
+ info: implicit aspect Always_Terminates on "Generation_Allowed" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:108:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:116:09
+
+ info: implicit aspect Always_Terminates on "Legal" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:118:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:136:09
+
+ info: implicit aspect Always_Terminates on "Decide" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:149:13
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:154:09
+
+ info: postcondition proved
+--> worldline-root_custody_request_abandon.ads:155:14
+
+ info: discriminant check proved
+--> worldline-root_custody_request_abandon.ads:160:24
+
+ info: discriminant check proved
+--> worldline-root_custody_request_abandon.ads:161:49
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:161:49
+
+ info: aspect Always_Terminates on "Apply_Next" has been proved, subprogram will terminate
+--> worldline-root_custody_request_abandon.ads:163:14
+
+ info: data dependencies proved
+--> worldline-root_custody_request_abandon.ads:168:09
+
+ info: postcondition proved
+--> worldline-root_custody_request_abandon.ads:170:14
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:171:50
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:172:50
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:173:30
+
+ info: index check proved
+--> worldline-root_custody_request_abandon.ads:174:31

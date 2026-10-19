@@ -8,7 +8,8 @@ project Worldline_Tests is
    for Main use ("worldline_core_tests.adb", "worldline_core_fuzz.adb",
                  "startup_source_probe.adb",
                  "worldline-scoped_capture_namespace_projection-scan_tests.adb",
-                 "resource_ledger_transport_tests.adb");
+                 "resource_ledger_transport_tests.adb",
+                 "resource_policy_transport_tests.adb");
 
    type Build_Kind is ("checks", "release");
    Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");

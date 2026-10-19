@@ -1951,3 +1951,92 @@ D124 final guard validation: all 16 original typed-export correspondence tests
 pass after reviewed pin derivation, including the deliberate copy, ABI, alias,
 exception-return and source-literal mutation controls. This is source-guard
 TESTED evidence, not compiled-mutant or whole-system proof.
+
+## D125 — Explicit custody scratch lifetimes and policy refusal transport
+
+**Problem:** aggregate strict flow stopped on intentionally unchanged roots,
+discarded fold outputs, incomplete initialization analysis in mutation rendering,
+and an unreachable policy transport exception handler. Wider runtime regression
+also exposed prepared-wire internal refusals escaping its public error boundary.
+
+**Change:** preserve the request-abandon in-out interface and unchanged-roots
+postcondition; `Unmodified` declares its deliberate lack of assignment and adds
+the reciprocal warning if an assignment is introduced. Post-call `Unused`
+pragmas identify scratch outputs that each wrapper already discarded. These
+pragmas suppress the specific unused-value diagnostics; they do not establish
+proof or remove the calls, their checks, or their meaningful result consumers.
+Scratch proof/length outputs that were later overwritten now have separate local
+lifetimes. Remove only proven-overwritten initializers, preserving defaults that
+are used on partial paths. All four touched public Ada specs remain byte-identical.
+
+Digest rendering assigns one character per statically bounded array iteration.
+The successor arena is initialized before prefix copying; decimal rendering
+initializes its bounded buffer before filling the returned suffix. Existing
+overflow/refusal checks, counter domains, output sizing and successor checks
+remain. Malformed policy wire shapes enter the original local exception handler,
+which returns the original transport code with the already-zeroed result.
+No error escapes that routine, and no authorization moves out of SPARK.
+
+Prepared-wire encoding now wraps the two specific archive/guard refusal classes
+in its existing `WorldlineError` boundary, retaining the original exception as
+the cause. Original tests/assertions are preserved; additional controls check
+cause retention. This does not intercept protected acquisition outside the
+value encoder or catch arbitrary runtime exceptions.
+
+**Evidence and limits:** `custody-flow-source-audit.json` verifies unchanged
+specs and original test methods. `custody-discard-proof-v1` passes strict level-3
+proof for the request-abandon and policy-transport units. Only those named units
+receive proof credit; unrelated shared-cache entries are not fresh evidence.
+The checked build, original Ada behavior/fuzz and new typed policy refusal
+controls pass. The first wider runtime run failed on prepared-wire exception
+types; that failure is retained. Runtime v2 then exposed the native exception
+escape described in D126. The final focused regression result is recorded in
+`custody-discard-runtime-v3/result.json` and the verification summary.
+
+Aggregate flow advances beyond the repaired units but still fails on startup
+and recovery termination/statement diagnostics. The first mutation helper proof
+times out in dependency processing without a completed report: UNKNOWN. Its
+region-expanded command repeats a unit name; this observation is not a proven
+tool defect. A subsequent single-subprogram digest proof completed: its eight
+checks pass, with no flow errors, warnings or Assume. The shared report total
+also contains unrelated cached units and is not fresh coverage. Full source
+proof, original complete runtime, retirement, authentic
+protected/actor evidence and independent acceptance remain open. This is a
+non-final checkpoint, with no claim of Phase One completion.
+
+## D126 — Keep custody and worker exception handlers inside the native guard
+
+**Reproduced failure:** the real successor ABI killed its Python caller with
+`ADA.IO_EXCEPTIONS.DEVICE_ERROR` while reporting an earlier exception. Thirteen
+custody/worker exports lacked the native guard already used by adjacent exports;
+eight of their handlers called the diagnostic emitter directly. The emitter
+requires guard ownership and may itself fail on real descriptor errors.
+
+**Repair:** extend the existing guard's lifetime over each complete exported
+body and its inner handler. Queue original exceptions through the existing
+capture routine while the guard is owned. The existing finalizer drains and
+releases ownership; an outer handler preserves `Error_Internal` if guard
+acquisition/finalization fails. No exported signature, numeric range, decision,
+validation or authority contract changes. Complete-unit source review checked
+the changed bodies and exact equality of unrelated C_API bytes against the
+preceding checkpoint. The raw/normalized identities are derived only after that
+exact-source review. Review is not independent runtime execution or F7.
+
+**Tests:** real-library controls exercise all thirteen exports with nested
+entry, a contending thread and guard release. A child process closes stderr,
+provokes the existing underlying failure and verifies primary transport,
+sticky diagnostic failure and a subsequent native call. The test observes
+hidden C guard functions by their local ELF offsets, anchored with `dladdr`
+to the same unstripped library; it neither adds a production export nor loads
+a second mutex. The initial test instrumentation incorrectly expected hidden
+helpers in the dynamic symbol table; that failed attempt is retained separately.
+
+**Still FAILED:** original successor semantics require arbitrary zero padding.
+The new JACKAL-exact-oracle test retains 4096-byte padding, buffer sizing,
+canaries and unchanged inputs. After containment was repaired, fifteen subcases
+returned `Error_Internal`: installed GNAT `System.Generic_Bignums.Normalize`
+raises `Storage_Error` at its fixed `Bignum_Limit`. Checked full-value ghost
+calculations reach that limit even for zero-padded small operands. Exception
+containment does not satisfy the mathematical result contract. No input cap,
+disabled assertion/ghost code, weaker expectation or installed runtime patch
+has been substituted. This is an open full-domain numerical/runtime obligation.

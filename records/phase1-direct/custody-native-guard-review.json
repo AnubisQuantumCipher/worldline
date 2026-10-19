@@ -1,0 +1,164 @@
+{
+  "schema": "worldline.independent_source_review.v1",
+  "utc": "2026-10-19T16:47:56.155405+00:00",
+  "reviewer": "ledger_transport_review",
+  "requested_model": "gpt-6.1-sol",
+  "model_identity_basis": "parent tools invocation",
+  "runtime_model_introspection": "unavailable",
+  "base_commit": "5f8e28b0e3ce9004022c744eafe5fc2ac066927b",
+  "verdict": "CONCUR",
+  "complete_unit_read": true,
+  "scope": "Exact-source eligibility to update existing raw/normalized C_API pins for guard/exception-containment repair only. No publication, full-domain functionality, F7 or Phase One acceptance.",
+  "source_sha256": {
+    "core/worldline-c_api.adb": "56fd9834217306dff41751ff88fbc111515016ec711a0519dd4def206c9a28ae",
+    "core/worldline-c_api.ads": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+    "tests/test_custody_native_guard.py": "cedfd103e30d03e056c083ed2903b67957e50d4ec0f8c38ad4bebea0954cf9bd"
+  },
+  "library_observed_sha256": "aa9ec3af83abe0fbfaa8bdbb8b761d35f643c5dd60886b5feb32f13407904d5b",
+  "blocking_findings": [],
+  "coverage": {
+    "prior_complete_unit_receipt": "records/phase1-direct/ledger-transport-review.json",
+    "prior_complete_unit_receipt_sha256": "8b84d5c48b8180ce9344c1ca308b68297e6fdfcd8fcd5dba7ff1faeca111269b",
+    "prior_body_sha256": "90b71633ff33b55a4774908dce82fdfaadc9b7676dbf9908409a2d43be8616d8",
+    "new_changed_body_ranges_read": [
+      [
+        8828,
+        9210
+      ],
+      [
+        9395,
+        9778
+      ]
+    ],
+    "changed_functions": [
+      "Custody_Load_Decide_V2",
+      "Custody_Mutation_Decide_V2",
+      "Custody_Cleanup_Decide_V2",
+      "Custody_Closed_Decide_V2",
+      "Custody_Context_View_V2",
+      "Custody_Retry_Decide_V2",
+      "Custody_Serving_Decide_V2",
+      "Custody_Successor_LE_V2",
+      "Custody_Provision_Verify",
+      "Root_Worker_Output_Next_V1",
+      "Root_Worker_Output_Replay_V1",
+      "Root_Worker_Output_Written_V1",
+      "Root_Worker_Output_Prefix_V1"
+    ],
+    "all_unrelated_body_bytes_equal_base": true,
+    "spec_byte_identical_to_base": true,
+    "method": "Retained complete C_API body/spec review; exact outside-function byte comparison versus base. For every changed function, mechanically removed only the new guard/outer handler wrapper, reversed Capture_Native_Exception substitution, and compared whitespace-normalized bodies to original. All matched. All changed functions were also read directly."
+  },
+  "findings": [
+    {
+      "class": "REVIEWED",
+      "finding": "Guard lifetime encloses numeric validation, foreign view elaboration, decision calls, foreign output writes and inner exception handling. Existing finalization runs before the outer handler; the outer handler only returns Error_Internal and does not mutate shared Ada state after unlock. Acquisition/finalization failures are contained by that outer handler."
+    },
+    {
+      "class": "REVIEWED",
+      "finding": "Eight direct potentially raising Emit_Native_Diagnostic calls are replaced by existing Capture_Native_Exception while the guard remains alive. Complete original exception text is captured inside its secondary handler; finalization drains under the original guarded protocol. Existing primary ABI error returns and all successful decision/serialization bodies are retained."
+    },
+    {
+      "class": "REVIEWED",
+      "finding": "No introduced changes to layout, endianness, public declarations, numerical input validation, copy order, alias rules, status meanings, consequential authorization, proof contracts, SPARK-Off scope or proof gates. Existing environmental premises for live, aligned stable foreign allocations remain unproved."
+    },
+    {
+      "class": "OBSERVED_RECORDED",
+      "finding": "controls-v3 reports both tests passing on canonical library path. The helper resolves local production guard symbols through nm and dladdr anchored to an exported function of the same loaded ELF, verifies path and anchor relocation, and bounds the text inventory allocation. It does not create a substitute mutex/image or exported ABI."
+    },
+    {
+      "class": "OBSERVED_RECORDED",
+      "finding": "Controls cover same-thread recursive entry, other-thread waiting and release for each repaired export using rejected-input calls. A child process closes stderr and stimulates the real existing successor Storage_Error: transport stays Error_Internal, needed remains zero, public diagnostic status is sticky failure, a following invalid call remains usable and child exits normally. These are finite observations, not proof of all concurrency/cancellation/scheduling/exception cases."
+    },
+    {
+      "class": "FAILED_OPEN",
+      "finding": "successor-runtime-v1 retains the full-domain functional failures for 4096 leading-zero padding. Guard containment is not a repair of that numerical obligation. Parent identified existing GNAT Big_Integer Bignum_Limit=200 and ghost computation Storage_Error as cause; runtime source/cause was not independently re-derived in this reviewer lane."
+    },
+    {
+      "class": "FAILED_RETAINED",
+      "finding": "controls-v1 has undefined hidden guard-symbol and child exit-120 instrumentation failures. controls-v2/v3 correct test instrumentation without source changes. V1 is retained and is not represented as a new production crash."
+    },
+    {
+      "class": "UNPROVEN",
+      "finding": "Existing warning-bearing build, native mutex termination and cancellation behavior, compiler aliasing assumptions, arbitrary foreign allocation validity, all external dependencies and original full Phase One gates remain outside this narrow concurrence."
+    }
+  ],
+  "recorded_evidence": {
+    "custody-native-guard-build-v1": {
+      "files_sha256": {
+        "records/phase1-direct/custody-native-guard-build-v1/worker-result.json": "b61fc17123646f724198a49227535fe9d6e2dba05c33f39ae74226e22690df9f",
+        "records/phase1-direct/custody-native-guard-build-v1/launch.jsonl": "1c69576e6c5d0fa29a063711624fffffa0b00441e689db6e0fd964aa57faf077",
+        "records/phase1-direct/custody-native-guard-build-v1/stdout": "29d7ad754eb9fc7096bef8ffcdaafa3955c8f377251762ef5eddb52227d13a45",
+        "records/phase1-direct/custody-native-guard-build-v1/stderr": "6068ffce206353ca7f24061d0558b8a2d829d06fa141001b3bc3d9ee3deccf56"
+      },
+      "worker_result": {
+        "exit_code": 0,
+        "utc": "2026-10-19T16:37:47.092017+00:00"
+      }
+    },
+    "custody-native-guard-controls-v1": {
+      "files_sha256": {
+        "records/phase1-direct/custody-native-guard-controls-v1/worker-result.json": "d51c34f6e36f35f414762585f4be549ccb7550e0c11e8b48b35cc8b695690aae",
+        "records/phase1-direct/custody-native-guard-controls-v1/launch.jsonl": "ca627ccd24a8b51e5a4b0dede7702f030d4eebad7db6a440c4aca223456f7c31",
+        "records/phase1-direct/custody-native-guard-controls-v1/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "records/phase1-direct/custody-native-guard-controls-v1/stderr": "03f2f437e918500d7766665afb546cb9d90ac68b4b88fa21540f9064ac77a31b"
+      },
+      "worker_result": {
+        "exit_code": 1,
+        "utc": "2026-10-19T16:41:29.934861+00:00"
+      }
+    },
+    "custody-native-guard-controls-v2": {
+      "files_sha256": {
+        "records/phase1-direct/custody-native-guard-controls-v2/worker-result.json": "0458e454b0a764b48b3c3906221b43214146557b35eb586ea0104bbf1f272ef8",
+        "records/phase1-direct/custody-native-guard-controls-v2/launch.jsonl": "aca1dbb6c722bccacbd9094b234cc1b319728db566188bd3cd2cf0415db0f05f",
+        "records/phase1-direct/custody-native-guard-controls-v2/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "records/phase1-direct/custody-native-guard-controls-v2/stderr": "0a44af31b41efe7264a9d576253348fb568a219ded1631cc9580d9271016b9ec"
+      },
+      "worker_result": {
+        "exit_code": 0,
+        "utc": "2026-10-19T16:46:31.428730+00:00"
+      }
+    },
+    "custody-native-guard-controls-v3": {
+      "files_sha256": {
+        "records/phase1-direct/custody-native-guard-controls-v3/worker-result.json": "afb07c5c7355361ed04b0cb6e00c0ae6997da623d7a78b0e1f70f948ac2eec7d",
+        "records/phase1-direct/custody-native-guard-controls-v3/launch.jsonl": "f38b4cdfd5c906ff6c19e4a31070d425a25917e603fba53d09f1ea8efdd01160",
+        "records/phase1-direct/custody-native-guard-controls-v3/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "records/phase1-direct/custody-native-guard-controls-v3/stderr": "3dba38663031eddc82d2e140daa60f6b390f44b150acd49241b55a0f1845438a"
+      },
+      "worker_result": {
+        "exit_code": 0,
+        "utc": "2026-10-19T16:47:08.570572+00:00"
+      }
+    },
+    "custody-successor-runtime-v1": {
+      "files_sha256": {
+        "records/phase1-direct/custody-successor-runtime-v1/worker-result.json": "8de058289bbd000e2855b9b719e68577add555ae661ac757fe7bd041ab76f922",
+        "records/phase1-direct/custody-successor-runtime-v1/launch.jsonl": "ea7ac22af720e0377ecf8ca3b5b715be7e17e3d11b18dfde62764cddd2fc0cb2",
+        "records/phase1-direct/custody-successor-runtime-v1/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "records/phase1-direct/custody-successor-runtime-v1/stderr": "0abbab23f56b844765b636bae42da5cf80a9e309e904006074b00d07deb8c3c2"
+      },
+      "worker_result": {
+        "exit_code": 1,
+        "utc": "2026-10-19T16:38:06.126811+00:00"
+      }
+    }
+  },
+  "independent_execution": {
+    "build": false,
+    "test": false,
+    "proof": false,
+    "source_writes": false,
+    "pin_writes": false
+  },
+  "commands_performed": [
+    "git diff 5f8e28b -- core/worldline-c_api.adb",
+    "sed bounded changed-function reads",
+    "read new test source and recorded build/control/successor outputs",
+    "Python exact function-excluded byte correspondence and wrapper-reversal body comparisons",
+    "SHA256 source/library/evidence hashing"
+  ],
+  "smallest_sound_next_step": "Update only the raw/normalized C_API identities to these exact source bytes after verifying this receipt, retaining full-domain successor failure and all original integration gates as open.",
+  "acceptance_evidence_required": "Original full-domain successor controls must pass after a separately verified numerical repair; narrow guard tests and retained build evidence cannot establish full Phase One or F7."
+}

@@ -212,3 +212,26 @@ returns no findings. The review identifies additional preexisting native-call
 guard and diagnostic-exception issues in custody/worker exports. They remain
 open with exact locations in ledger-transport-review.json, alongside the remaining
 aggregate-flow, strict-proof and original acceptance obligations.
+
+
+## Custody flow, refusal transport and native exception containment
+
+The D125/D126 checkpoint preserves public contracts while repairing custody
+scratch-output flow, typed policy refusal cleanup, prepared-wire error wrapping
+and thirteen missing native guards. The checked build, original Ada behavior
+and fuzz programs, four typed policy refusal controls, and 66 selected Python
+tests pass against one recorded library hash. Existing test methods remain
+unchanged; the new prepared-wire control checks retained exception causes.
+
+Strict level-3 proof passes for the request-abandon/policy transport units and
+separately for Digest_Image (eight checks). Shared cached report totals are not
+fresh proof coverage. Aggregate flow still fails in startup/recovery.
+
+The new full-domain successor test found a real process exit. Guarded handlers
+now retain the primary failure and survive failed diagnostic output. That repair
+exposes a remaining checked-runtime Big_Integer limit: fifteen padded-input
+subcases still fail. The test retains the original required result; containment
+is not functional success. No assertion, input domain or original acceptance
+gate was weakened. See `custody-verification-summary.json` and its raw receipts
+under `records/phase1-direct`. Full proof/runtime, retirement, protected/actor
+evidence and independent Phase One acceptance remain open.

@@ -70,10 +70,11 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Hex_Digits : constant String := "0123456789abcdef";
       Image : String (1 .. 64);
    begin
-      for B in Hash'Range loop
-         pragma Loop_Variant (Increases => B);
-         Image (1 + (B - Hash'First) * 2) := Hex_Digits (1 + Natural (Hash (B) / 16));
-         Image (2 + (B - Hash'First) * 2) := Hex_Digits (1 + Natural (Hash (B) mod 16));
+      for N in Image'Range loop
+         pragma Loop_Variant (Increases => N);
+         Image (N) := Hex_Digits (1 + Natural
+           ((if N mod 2 = 1 then Hash (Hash'First + (N - 1) / 2) / 16
+             else Hash (Hash'First + (N - 1) / 2) mod 16)));
       end loop;
       return Image;
    end Digest_Image;
@@ -137,7 +138,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Output := (others => 0); Needed := 0; Complete := False;
       if Length = 0 or else Length > E.Count'Last - Data'Length then return; end if;
       declare
-         Arena : E.Bytes (1 .. Data'Length + Length);
+         Arena : E.Bytes (1 .. Data'Length + Length) := (others => 0);
          Used : E.Count := Data'Length;
          Item : E.Span;
          Produced : Boolean;
@@ -146,8 +147,8 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
             pragma Loop_Variant (Increases => Offset);
             Arena (Offset) := Data (Data'First + (Offset - 1));
          end loop;
-         Arena (Data'Length + 1 .. Arena'Last) := (others => 0);
          Append_Successor (Arena, (False, 1, Data'Length), Length, Used, Item, Produced);
+         pragma Unused (Used);
          if not Produced then return; end if;
          Needed := Item.Length;
          for Offset in E.Count range 1 .. E.Count'Min (Needed, Output'Length) loop
@@ -221,7 +222,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          if Start < Output'Length then Output (Output'First + Start) := B; end if;
       end Byte;
       procedure Number (N : E.Count) is
-         Buffer : String (1 .. E.Count'Width);
+         Buffer : String (1 .. E.Count'Width) := (others => '0');
          First : Positive := Buffer'Last;
          Rest : E.Count := N;
       begin
@@ -286,7 +287,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          if Present then Put ("""" & Digest_Image (Digest) & """"); else Put ("null"); end if;
       end Head;
    begin
-      Output := (others => 0); Length := (True, 0); Complete := False;
+      Output := (others => 0); Length := (True, 0);
       Put ("{""current_root"":");
       if State.Logical_S0 then Put ("null"); else Root_Row (State.Current); end if;
       Put (",""current_root_index"":"); Number ((if State.Logical_S0 then 0 else State.Current));
@@ -397,13 +398,15 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          Proof : OJ.Journal_Proof;
          Used : E.Count;
          Selector : M.Event_Record := Blank;
-         Operation, Kind_Name, Actor_Name, Subject_Kind, Subject : E.Span := (1, 0);
-         RI, SI : E.Count := 0;
+         Operation, Kind_Name, Actor_Name, Subject_Kind, Subject : E.Span;
+         RI : E.Count;
+         SI : E.Count := 0;
          Admission : E.Count := 0;
          Admission_Required, Admission_Found : Boolean := False;
-         Generation, Subgeneration : E.Span := (1, 0);
+         Generation, Subgeneration : E.Span;
          Next_Subgeneration, Next_Epoch : C.Optional_Span := (Present => False);
-         Kind_Found, Actor_Found, Subject_Found, Produced, Complete : Boolean := False;
+         Kind_Found, Actor_Found, Subject_Found : Boolean := False;
+         Produced, Complete : Boolean;
          Length : D.Length_Result;
          procedure Refuse (Reason : F.Status) is
          begin Result := (F.Fold_Refused, Reason, 0, 0, 0); end Refuse;
@@ -492,6 +495,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          I.Decode_Grown (Data, Before, Value, Used);
          if Value.Status /= I.Parsed then return; end if;
          Before_Context (Value, State, History, Proof, Folded);
+         pragma Unused (Proof);
          if Folded.State /= F.History_Folded then
             Result := (F.Fold_Refused, Folded.Reason, Folded.Position, 0, 0); return;
          end if;
@@ -819,10 +823,11 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          Extra : I.Event_Extra;
          Complete, Applied : Boolean;
          Length : D.Length_Result;
-         Head_Message, Head_Mac, Head_Kind, Alternative_Name : E.Span := (1, 0);
+         Head_Message, Head_Mac, Head_Kind, Alternative_Name : E.Span;
          Kind : M.Event_Kind := M.Prepared_Event;
          Kind_Found : Boolean := False;
-         Root_Index, Subject_Index : E.Count := 0;
+         Root_Index : E.Count;
+         Subject_Index : E.Count := 0;
          Dummy : constant M.Event_Record :=
            (Kind => M.Prepared_Event, Generation | Subgeneration => (False, 1, 0),
             Operation | Subject => (Present => False), Kind_Of_Subject => M.Root,
@@ -875,7 +880,12 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       begin
          I.Decode_Grown (Data, Before, Value, Used);
          if Value.Status /= I.Parsed then return; end if;
-         Before_Context (Value, State, History, Proof, Folded);
+         declare
+            Before_Proof : OJ.Journal_Proof;
+         begin
+            Before_Context (Value, State, History, Before_Proof, Folded);
+            pragma Unused (Before_Proof);
+         end;
          if Folded.State /= F.History_Folded then Fail (Folded.Reason, Folded.Position); return; end if;
          Put_Text ("operation", Row.Operation); Put_Text ("kind", Row.Kind);
          Put_Text ("actor", Row.Actor); Put_Text ("subject_kind", Row.Subject_Kind);
@@ -987,7 +997,12 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          Length := D.Base_Length (Value.Arena, Row);
          if not Good or else not Length.Valid or else Length.Needed > Value.Arena_Count - Used then return; end if;
          Row.Base_Archive := (Used + 1, Length.Needed);
-         D.Append_Base (Value.Arena, Row, Used, Length, Complete);
+         declare
+            Appended_Length : D.Length_Result;
+         begin
+            D.Append_Base (Value.Arena, Row, Used, Appended_Length, Complete);
+            pragma Unused (Appended_Length);
+         end;
          if not Complete then return; end if;
          declare Digests : constant D.Event_Digest_Result := D.Event_Digests (Value.Arena, Value.Key, Row.Base_Archive); begin
             if not Digests.Present then return; end if;
@@ -996,7 +1011,13 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
          Length := D.Head_Length (Value.Arena, Row.Event_Id, Value.Genesis_Row);
          if not Good or else not Length.Valid or else Length.Needed > Value.Arena_Count - Used then return; end if;
          Head_Message := (Used + 1, Length.Needed);
-         D.Append_Event_Head (Value.Arena, Row.Event_Id, Value.Genesis_Row, Used, Length, Complete);
+         declare
+            Appended_Length : D.Length_Result;
+         begin
+            D.Append_Event_Head (Value.Arena, Row.Event_Id, Value.Genesis_Row,
+                                 Used, Appended_Length, Complete);
+            pragma Unused (Appended_Length);
+         end;
          if not Complete then return; end if;
          Digest_Text (C.G.Mac (Value.Arena, Value.Key, Head_Message), Head_Mac);
          Intern ("EVENT", Head_Kind);
@@ -1136,6 +1157,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
             Result := (Ready_Apply, F.Front_Startup, 0, Length.Needed,
               (if Complete then Length.Needed else 0));
          end;
+         pragma Unused (Used);
       end;
    end Decide_Staged;
    procedure Decide (Data : E.Bytes; Output : out E.Bytes;
@@ -1145,6 +1167,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Emitter : OS.Output_Observation;
    begin
       Decide_Staged (Data, Output, Result, Mutation_Delta, Cleanup, Serving, Emitter);
+      pragma Unused (Cleanup, Serving, Emitter);
    end Decide;
    procedure Cleanup_Decide (Data : E.Bytes; Result : out Cleanup_Observation) is
       Output : E.Bytes (1 .. 0);
@@ -1153,6 +1176,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Emitter : OS.Output_Observation;
    begin
       Decide_Staged (Data, Output, Mutation, Cleanup_Route, Result, Serving, Emitter);
+      pragma Unused (Output, Serving, Emitter);
       if Result.State = F.History_Folded then return; end if;
       if Mutation.State = Replay_Unchanged then
          Result := (F.History_Folded, F.Recover_Retained, SE.No_Event, Mutation.Position);
@@ -1168,6 +1192,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Emitter : OS.Output_Observation;
    begin
       Decide_Staged (Data, Output, Mutation, Serving_Route, Cleanup, Serving, Emitter);
+      pragma Unused (Output, Cleanup, Emitter);
       Result := (Serving, Mutation.Reason, Mutation.Position);
    end Serving_Decide;
    procedure Closed_Decide (Data : E.Bytes; Result : out Serving_Observation) is
@@ -1178,6 +1203,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Emitter : OS.Output_Observation;
    begin
       Decide_Staged (Data, Output, Mutation, Closed_Route, Cleanup, Serving, Emitter);
+      pragma Unused (Output, Cleanup, Emitter);
       Result := (Serving, Mutation.Reason, Mutation.Position);
    end Closed_Decide;
    procedure Retry_Decide (Data : E.Bytes; Output : out E.Bytes;
@@ -1187,6 +1213,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Emitter : OS.Output_Observation;
    begin
       Decide_Staged (Data, Output, Result, Retry_Delta, Cleanup, Serving, Emitter);
+      pragma Unused (Cleanup, Serving, Emitter);
    end Retry_Decide;
    procedure Output_Query (Data : E.Bytes; Output : out E.Bytes;
                            Result : out OS.Output_Observation; Query : OS.Query_Kind)
@@ -1200,6 +1227,7 @@ package body Worldline.Custody_V2_Mutation_Decision with SPARK_Mode is
       Serving : SE.Join_Status;
    begin
       Decide_Staged (Data, Output, Mutation, Output_Route, Cleanup, Serving, Result, Query);
+      pragma Unused (Mutation, Cleanup, Serving);
    end Output_Query;
    procedure Output_Next (Data : E.Bytes; Output : out E.Bytes;
                           Result : out OS.Output_Observation) is

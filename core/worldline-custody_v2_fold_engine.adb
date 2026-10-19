@@ -669,12 +669,15 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       Proof : OJ.Journal_Proof;
    begin
       Fold_Prefix (Value, Through, State, History, Proof, Result);
+      --  This overload returns only State and Result, after the complete fold.
+      pragma Unused (History, Proof);
    end Fold_Prefix;
    procedure Fold (Value : I.Parsed_Input; State : out Fold_State;
                    Proof : out OJ.Journal_Proof; Result : out Observation) is
       History : A.R.Retained_Events (1 .. Value.Decoded_Event_Count) := (others => Blank);
    begin
       Fold_Prefix (Value, Value.Decoded_Event_Count, State, History, Proof, Result);
+      pragma Unused (History);
    end Fold;
    procedure Fold (Value : I.Parsed_Input; State : out Fold_State;
                    History : in out A.R.Retained_Events; Proof : out OJ.Journal_Proof;
@@ -751,6 +754,7 @@ package body Worldline.Custody_V2_Fold_Engine with SPARK_Mode is
       end if;
       Fold_Prefix_Core (Value, Value.Decoded_Event_Count, State, History,
                         Proof, Result, Initial_Proof);
+      pragma Unused (History);
       return Finish_Load (Value, State, Proof, Result);
    end Load_Decide;
 end Worldline.Custody_V2_Fold_Engine;

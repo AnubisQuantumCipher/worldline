@@ -1,0 +1,51 @@
+{
+  "utc": "2026-10-19T16:50:05.604346+00:00",
+  "base": "5f8e28b0e3ce9004022c744eafe5fc2ac066927b",
+  "phase_one_accepted": false,
+  "sources": {
+    "core/worldline-root_custody_request_abandon.adb": "9e389e52f785406ae6f612cf94f8d7f87e0bf9b3efc40d45a3b00748e359c8f4",
+    "core/worldline-root_custody_request_abandon.ads": "7bfdd57f39f0740a68e3a46f3506751b6453ad80ed38767eb7d5ed3431263caf",
+    "core/worldline-custody_v2_fold_engine.adb": "06a70effc7d6c738943f2a9542e1fc0b2e4e399baf9e2f41c3aaf33f97752037",
+    "core/worldline-custody_v2_fold_engine.ads": "ea38d708978eb7571f5b727ceb97238bc6bd96079bc03bfb32cf6faf8d9d8143",
+    "core/worldline-custody_v2_mutation_decision.adb": "7880a2cdce0902f1806673be83d5280042a4687e1be16db84414682361b82b1c",
+    "core/worldline-custody_v2_mutation_decision.ads": "602157b9ce54a5febed55a7448fbbb8893157246b96b9293d8b1c48bdfeef373",
+    "core/worldline-resource_policy_c_api.adb": "815b9c7647a10b0bde5e85614e6aa77b9a3e64d3024be5fc8e2b8d1824bf2b25",
+    "core/worldline-resource_policy_c_api.ads": "027dd1f28342c8619895bfd76e21c538ed8460bf3633fe51c507980c6f314389",
+    "tests/resource_policy_transport_tests.adb": "c89d9995862597731d7610048e2a10336ca315934e3df3db96073a188c36a3ae",
+    "tests/worldline_tests.gpr": "5aef80d644c2831aee4e52b1a5ec1c40d5e668611d83f637b4363d8b406d3745",
+    "core/worldline-c_api.adb": "56fd9834217306dff41751ff88fbc111515016ec711a0519dd4def206c9a28ae",
+    "core/worldline-c_api.ads": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+    "runtime/worldline/root_worker_prepared_wire.py": "07750fc0cf07beae33a485a43afb96d59b7e64172d4f87638a2f62ae837909aa",
+    "tests/test_prepared_wire_values.py": "4826695e72ba8f915ca6e1c8c5ccc96a7b1f3338b71fc1b70c2b5d068e0bfa1e",
+    "tests/test_custody_native_guard.py": "cedfd103e30d03e056c083ed2903b67957e50d4ec0f8c38ad4bebea0954cf9bd"
+  },
+  "library_sha256": "aa9ec3af83abe0fbfaa8bdbb8b761d35f643c5dd60886b5feb32f13407904d5b",
+  "verified": {
+    "checked_build": true,
+    "original_ada_tests": true,
+    "original_ada_fuzz": true,
+    "typed_policy_refusal_controls": true,
+    "focused_python": "66 tests PASS; custody-discard-runtime-v3/resource-regression.stderr",
+    "source_and_library_stable": true,
+    "selected_proof": [
+      "request-abandon and policy-transport named units: custody-discard-proof-v1/gnatprove.out",
+      "Digest_Image: eight checks, zero flow errors/warnings/Assume; custody-digest-proof-v2/gnatprove.out"
+    ],
+    "guard_review": "custody-native-guard-review.json; exact-source review only",
+    "source_integrity": "16 tests PASS; custody-export-guard-tests/stderr"
+  },
+  "failed_or_unknown": {
+    "aggregate_flow": "custody-discard-flow-v4/diagnostics.json; startup/recovery termination and contextual warning",
+    "successor_full_domain": "custody-successor-runtime-v1: 15 failed subcases for 4096 zero padding; actual GNAT Big_Integer fixed limit",
+    "earlier_runtime": "v1 leaked prepared-wire refusals; v2 exited on secondary Device_Error",
+    "initial_guard_instrumentation": "controls-v1 hidden symbols unavailable; repaired test controls-v3 passes",
+    "region_proof": "custody-render-proof-v1 timeout in dependency phase, no fresh proof report"
+  },
+  "required_open": [
+    "full all-source strict proof and original runtime roster",
+    "full-domain numerical model/runtime and automatic implicit Old retirement",
+    "UTF8 exception obligations",
+    "protected and actor witnesses",
+    "independent F7 acceptance"
+  ]
+}

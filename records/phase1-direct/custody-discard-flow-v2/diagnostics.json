@@ -1,0 +1,11 @@
+{
+  "worker": {
+    "exit_code": 1,
+    "utc": "2026-10-19T16:24:36.149186+00:00"
+  },
+  "diagnostics": [
+    " error: pragma \"Unused\" argument must be in same declarative part\n--> worldline-custody_v2_mutation_decision.adb:1150:28\n 1150 |                pragma Unused (Used);\n      |                               ^~~~\ngnatprove: error during generation of Global contracts\n"
+  ],
+  "report_completed_for_run": false,
+  "report_scope": "flow only; shared cache may retain unrelated proof entries; no new proof credit"
+}

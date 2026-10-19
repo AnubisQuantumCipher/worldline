@@ -1,0 +1,11 @@
+{
+  "worker": {
+    "exit_code": 1,
+    "utc": "2026-10-19T16:25:11.738428+00:00"
+  },
+  "diagnostics": [
+    " warning: initialization of \"Rows\" has no effect\n--> worldline-resource_policy_c_api.adb:164:13\n  164 |                Rows : P.Disk_Array (1 .. Q.Byte_Count (Disks'Length)) :=\n      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n  165 |                  (others => (Free_Bytes => Blank, Free_Inodes => Blank));\n      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+  ],
+  "report_completed_for_run": true,
+  "report_scope": "flow only; shared cache may retain unrelated proof entries; no new proof credit"
+}

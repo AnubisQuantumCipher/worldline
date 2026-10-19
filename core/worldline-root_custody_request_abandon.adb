@@ -45,6 +45,9 @@ package body Worldline.Root_Custody_Request_Abandon with SPARK_Mode is
       Events : R.Retained_Events; Rows : A.Alternative_Rows;
       Root : A.Expected_Root; Expected : Expected_Request; Proposed : M.Event_Record)
    is
+      --  The shared transition interface retains Roots as in out; abandonment
+      --  changes only subjects, as required by the unchanged-roots postcondition.
+      pragma Unmodified (Roots);
    begin
       for I in Subjects'Range loop
          if Subject_Bound (Data, Subjects (I), Expected) then

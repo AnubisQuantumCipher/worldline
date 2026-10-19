@@ -1,0 +1,20 @@
+{
+  "kind": "review-bound-source-pin-derivation",
+  "target": "core/worldline-c_api.adb",
+  "review_sha256": "a5f9c44040eb48d1ac00e8ae6417959081b6c4e0dd2638e172f5202cfde4a5f9",
+  "source_sha256": "56fd9834217306dff41751ff88fbc111515016ec711a0519dd4def206c9a28ae",
+  "changes": [
+    {
+      "table": "_TYPED_EXPORT_NORMALIZED_UNIT_PINS",
+      "before": "d9d46ab316bbf6dee1b771a47c73327c653f6078e982314d83ff870b7295e2b0",
+      "after": "64a839d076a4e52d8fb65c599a91f9eb0812adef30f8e48a4e80669f56557f52"
+    },
+    {
+      "table": "_TYPED_EXPORT_RAW_UNIT_PINS",
+      "before": "90b71633ff33b55a4774908dce82fdfaadc9b7676dbf9908409a2d43be8616d8",
+      "after": "56fd9834217306dff41751ff88fbc111515016ec711a0519dd4def206c9a28ae"
+    }
+  ],
+  "mode": "write",
+  "proof_or_acceptance": false
+}

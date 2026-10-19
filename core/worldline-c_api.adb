@@ -8830,35 +8830,42 @@ end Transaction_Relation_V1;
       Status, Position : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Input, Length, Status, 8) or else
-        not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
-           with Import, Address => Input;
-         Size : constant Custody_I.Sizes := Custody_I.Counts (Data);
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
-         Custody_U64.To_Pointer (Position).all := 0;
-         if Size.Status /= Custody_I.Parsed then return Error_OK; end if;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Input, Length, Status, 8) or else
+           not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
          declare
-            Value : Custody_I.Parsed_Input (Size.Arena, Size.Events, Size.Heads,
-              Size.Roots, Size.Subjects, Size.Alternatives, Size.Blobs);
-            Result : Custody_F.Observation;
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
+              with Import, Address => Input;
+            Size : constant Custody_I.Sizes := Custody_I.Counts (Data);
          begin
-            Custody_I.Decode (Data, Value);
-            Result := Custody_F.Load_Decide (Value);
-            Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_F.Status'Pos (Result.Reason));
-            Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
-            return Error_OK;
+            Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
+            Custody_U64.To_Pointer (Position).all := 0;
+            if Size.Status /= Custody_I.Parsed then return Error_OK; end if;
+            declare
+               Value : Custody_I.Parsed_Input (Size.Arena, Size.Events, Size.Heads,
+                 Size.Roots, Size.Subjects, Size.Alternatives, Size.Blobs);
+               Result : Custody_F.Observation;
+            begin
+               Custody_I.Decode (Data, Value);
+               Result := Custody_F.Load_Decide (Value);
+               Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_F.Status'Pos (Result.Reason));
+               Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
+               return Error_OK;
+            end;
          end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_load_decide_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_load_decide_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Load_Decide_V2;
    function Custody_Mutation_Decide_V2
      (Input : System.Address; Length : Interfaces.C.size_t;
@@ -8866,106 +8873,127 @@ end Transaction_Relation_V1;
       Capacity : Interfaces.C.size_t; Written : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Output, Capacity) or else
-        not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
-        not Custody_U64_Fits (Written) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Status, 8, Written, 8) or else
-        not Custody_Disjoint (Position, 8, Written, 8) or else
-        not Custody_Disjoint (Input, Length, Output, Capacity) or else
-        not Custody_Disjoint (Input, Length, Status, 8) or else
-        not Custody_Disjoint (Input, Length, Position, 8) or else
-        not Custody_Disjoint (Input, Length, Written, 8) or else
-        not Custody_Disjoint (Output, Capacity, Status, 8) or else
-        not Custody_Disjoint (Output, Capacity, Position, 8) or else
-        not Custody_Disjoint (Output, Capacity, Written, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
-           with Import, Address => Input;
-         Result : Custody_M.Observation;
-         procedure Publish is
-         begin
-            Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_M.Status_Code (Result));
-            Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
-            Custody_U64.To_Pointer (Written).all := Interfaces.Unsigned_64 (Result.Needed);
-         end Publish;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
-         Custody_U64.To_Pointer (Position).all := 0;
-         Custody_U64.To_Pointer (Written).all := 0;
-         if Capacity = 0 then
-            declare Empty : Custody_I.E.Bytes (1 .. 0); begin Custody_M.Decide (Data, Empty, Result); end;
-         else
-            declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity))
-              with Import, Address => Output;
-            begin Custody_M.Decide (Data, Buffer, Result); end;
-         end if;
-         Publish;
-         if Capacity /= 0 and then Result.Needed > Custody_I.E.Count (Capacity) then return Error_Too_Large; end if;
-         return Error_OK;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Output, Capacity) or else
+           not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
+           not Custody_U64_Fits (Written) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Status, 8, Written, 8) or else
+           not Custody_Disjoint (Position, 8, Written, 8) or else
+           not Custody_Disjoint (Input, Length, Output, Capacity) or else
+           not Custody_Disjoint (Input, Length, Status, 8) or else
+           not Custody_Disjoint (Input, Length, Position, 8) or else
+           not Custody_Disjoint (Input, Length, Written, 8) or else
+           not Custody_Disjoint (Output, Capacity, Status, 8) or else
+           not Custody_Disjoint (Output, Capacity, Position, 8) or else
+           not Custody_Disjoint (Output, Capacity, Written, 8) then return Error_Invalid_Argument; end if;
+         declare
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
+              with Import, Address => Input;
+            Result : Custody_M.Observation;
+            procedure Publish is
+            begin
+               Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_M.Status_Code (Result));
+               Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
+               Custody_U64.To_Pointer (Written).all := Interfaces.Unsigned_64 (Result.Needed);
+            end Publish;
+         begin
+            Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
+            Custody_U64.To_Pointer (Position).all := 0;
+            Custody_U64.To_Pointer (Written).all := 0;
+            if Capacity = 0 then
+               declare Empty : Custody_I.E.Bytes (1 .. 0); begin Custody_M.Decide (Data, Empty, Result); end;
+            else
+               declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity))
+                 with Import, Address => Output;
+               begin Custody_M.Decide (Data, Buffer, Result); end;
+            end if;
+            Publish;
+            if Capacity /= 0 and then Result.Needed > Custody_I.E.Count (Capacity) then return Error_Too_Large; end if;
+            return Error_OK;
+         end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_mutation_decide_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_mutation_decide_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Mutation_Decide_V2;
    function Custody_Cleanup_Decide_V2
      (Input : System.Address; Length : Interfaces.C.size_t;
       Status, Position : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Input, Length, Status, 8) or else
-        not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
-           with Import, Address => Input;
-         Result : Custody_M.Cleanup_Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (4 + Custody_F.Status'Pos (Custody_F.Input_Malformed));
-         Custody_U64.To_Pointer (Position).all := 0;
-         Custody_M.Cleanup_Decide (Data, Result);
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (Custody_M.Cleanup_Status_Code (Result));
-         Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
-         return Error_OK;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Input, Length, Status, 8) or else
+           not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
+         declare
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
+              with Import, Address => Input;
+            Result : Custody_M.Cleanup_Observation;
+         begin
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (4 + Custody_F.Status'Pos (Custody_F.Input_Malformed));
+            Custody_U64.To_Pointer (Position).all := 0;
+            Custody_M.Cleanup_Decide (Data, Result);
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (Custody_M.Cleanup_Status_Code (Result));
+            Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
+            return Error_OK;
+         end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_cleanup_decide_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_cleanup_decide_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Cleanup_Decide_V2;
    function Custody_Closed_Decide_V2
      (Input : System.Address; Length : Interfaces.C.size_t;
       Status, Position : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Input, Length, Status, 8) or else
-        not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
-           with Import, Address => Input;
-         Result : Custody_M.Serving_Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Status).all := 0;
-         Custody_U64.To_Pointer (Position).all := 0;
-         Custody_M.Closed_Decide (Data, Result);
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (Custody_M.SE.Join_Status'Pos (Result.Kind));
-         Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
-         return Error_OK;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Input, Length, Status, 8) or else
+           not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
+         declare
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
+              with Import, Address => Input;
+            Result : Custody_M.Serving_Observation;
+         begin
+            Custody_U64.To_Pointer (Status).all := 0;
+            Custody_U64.To_Pointer (Position).all := 0;
+            Custody_M.Closed_Decide (Data, Result);
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (Custody_M.SE.Join_Status'Pos (Result.Kind));
+            Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
+            return Error_OK;
+         end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_closed_decide_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_closed_decide_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Closed_Decide_V2;
    function Custody_Context_View_V2
      (Input : System.Address; Length : Interfaces.C.size_t;
@@ -8973,49 +9001,56 @@ end Transaction_Relation_V1;
       Capacity : Interfaces.C.size_t; Written : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Output, Capacity) or else
-        not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
-        not Custody_U64_Fits (Written) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Status, 8, Written, 8) or else
-        not Custody_Disjoint (Position, 8, Written, 8) or else
-        not Custody_Disjoint (Input, Length, Output, Capacity) or else
-        not Custody_Disjoint (Input, Length, Status, 8) or else
-        not Custody_Disjoint (Input, Length, Position, 8) or else
-        not Custody_Disjoint (Input, Length, Written, 8) or else
-        not Custody_Disjoint (Output, Capacity, Status, 8) or else
-        not Custody_Disjoint (Output, Capacity, Position, 8) or else
-        not Custody_Disjoint (Output, Capacity, Written, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
-           with Import, Address => Input;
-         Result : Custody_M.Context_Observation;
-         procedure Publish is
-         begin
-            Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_F.Status'Pos (Result.Reason));
-            Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
-            Custody_U64.To_Pointer (Written).all := Interfaces.Unsigned_64 (Result.Needed);
-         end Publish;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
-         Custody_U64.To_Pointer (Position).all := 0;
-         Custody_U64.To_Pointer (Written).all := 0;
-         if Capacity = 0 then
-            declare Empty : Custody_I.E.Bytes (1 .. 0); begin Custody_M.Context_View (Data, Empty, Result); end;
-         else
-            declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity))
-              with Import, Address => Output;
-            begin Custody_M.Context_View (Data, Buffer, Result); end;
-         end if;
-         Publish;
-         if Capacity /= 0 and then Result.Needed > Custody_I.E.Count (Capacity) then return Error_Too_Large; end if;
-         return Error_OK;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Output, Capacity) or else
+           not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
+           not Custody_U64_Fits (Written) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Status, 8, Written, 8) or else
+           not Custody_Disjoint (Position, 8, Written, 8) or else
+           not Custody_Disjoint (Input, Length, Output, Capacity) or else
+           not Custody_Disjoint (Input, Length, Status, 8) or else
+           not Custody_Disjoint (Input, Length, Position, 8) or else
+           not Custody_Disjoint (Input, Length, Written, 8) or else
+           not Custody_Disjoint (Output, Capacity, Status, 8) or else
+           not Custody_Disjoint (Output, Capacity, Position, 8) or else
+           not Custody_Disjoint (Output, Capacity, Written, 8) then return Error_Invalid_Argument; end if;
+         declare
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
+              with Import, Address => Input;
+            Result : Custody_M.Context_Observation;
+            procedure Publish is
+            begin
+               Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_F.Status'Pos (Result.Reason));
+               Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
+               Custody_U64.To_Pointer (Written).all := Interfaces.Unsigned_64 (Result.Needed);
+            end Publish;
+         begin
+            Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
+            Custody_U64.To_Pointer (Position).all := 0;
+            Custody_U64.To_Pointer (Written).all := 0;
+            if Capacity = 0 then
+               declare Empty : Custody_I.E.Bytes (1 .. 0); begin Custody_M.Context_View (Data, Empty, Result); end;
+            else
+               declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity))
+                 with Import, Address => Output;
+               begin Custody_M.Context_View (Data, Buffer, Result); end;
+            end if;
+            Publish;
+            if Capacity /= 0 and then Result.Needed > Custody_I.E.Count (Capacity) then return Error_Too_Large; end if;
+            return Error_OK;
+         end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_context_view_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_context_view_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Context_View_V2;
    function Custody_Retry_Decide_V2
      (Input : System.Address; Length : Interfaces.C.size_t;
@@ -9023,71 +9058,85 @@ end Transaction_Relation_V1;
       Capacity : Interfaces.C.size_t; Written : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Output, Capacity) or else
-        not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
-        not Custody_U64_Fits (Written) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Status, 8, Written, 8) or else
-        not Custody_Disjoint (Position, 8, Written, 8) or else
-        not Custody_Disjoint (Input, Length, Output, Capacity) or else
-        not Custody_Disjoint (Input, Length, Status, 8) or else
-        not Custody_Disjoint (Input, Length, Position, 8) or else
-        not Custody_Disjoint (Input, Length, Written, 8) or else
-        not Custody_Disjoint (Output, Capacity, Status, 8) or else
-        not Custody_Disjoint (Output, Capacity, Position, 8) or else
-        not Custody_Disjoint (Output, Capacity, Written, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length)) with Import, Address => Input;
-         Result : Custody_M.Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
-         Custody_U64.To_Pointer (Position).all := 0;
-         Custody_U64.To_Pointer (Written).all := 0;
-         if Capacity = 0 then
-            declare Empty : Custody_I.E.Bytes (1 .. 0); begin Custody_M.Retry_Decide (Data, Empty, Result); end;
-         else
-            declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity)) with Import, Address => Output;
-            begin Custody_M.Retry_Decide (Data, Buffer, Result); end;
-         end if;
-         Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_M.Status_Code (Result));
-         Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
-         Custody_U64.To_Pointer (Written).all := Interfaces.Unsigned_64 (Result.Needed);
-         if Capacity /= 0 and then Result.Needed > Custody_I.E.Count (Capacity) then return Error_Too_Large; end if;
-         return Error_OK;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Output, Capacity) or else
+           not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
+           not Custody_U64_Fits (Written) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Status, 8, Written, 8) or else
+           not Custody_Disjoint (Position, 8, Written, 8) or else
+           not Custody_Disjoint (Input, Length, Output, Capacity) or else
+           not Custody_Disjoint (Input, Length, Status, 8) or else
+           not Custody_Disjoint (Input, Length, Position, 8) or else
+           not Custody_Disjoint (Input, Length, Written, 8) or else
+           not Custody_Disjoint (Output, Capacity, Status, 8) or else
+           not Custody_Disjoint (Output, Capacity, Position, 8) or else
+           not Custody_Disjoint (Output, Capacity, Written, 8) then return Error_Invalid_Argument; end if;
+         declare
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length)) with Import, Address => Input;
+            Result : Custody_M.Observation;
+         begin
+            Custody_U64.To_Pointer (Status).all := Custody_F.Status'Pos (Custody_F.Input_Malformed);
+            Custody_U64.To_Pointer (Position).all := 0;
+            Custody_U64.To_Pointer (Written).all := 0;
+            if Capacity = 0 then
+               declare Empty : Custody_I.E.Bytes (1 .. 0); begin Custody_M.Retry_Decide (Data, Empty, Result); end;
+            else
+               declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity)) with Import, Address => Output;
+               begin Custody_M.Retry_Decide (Data, Buffer, Result); end;
+            end if;
+            Custody_U64.To_Pointer (Status).all := Interfaces.Unsigned_64 (Custody_M.Status_Code (Result));
+            Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
+            Custody_U64.To_Pointer (Written).all := Interfaces.Unsigned_64 (Result.Needed);
+            if Capacity /= 0 and then Result.Needed > Custody_I.E.Count (Capacity) then return Error_Too_Large; end if;
+            return Error_OK;
+         end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_retry_decide_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_retry_decide_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Retry_Decide_V2;
    function Custody_Serving_Decide_V2
      (Input : System.Address; Length : Interfaces.C.size_t;
       Status, Position : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Input, Length, Status, 8) or else
-        not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
-           with Import, Address => Input;
-         Result : Custody_M.Serving_Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Status).all := 0;
-         Custody_U64.To_Pointer (Position).all := 0;
-         Custody_M.Serving_Decide (Data, Result);
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (Custody_M.SE.Join_Status'Pos (Result.Kind));
-         Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
-         return Error_OK;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_U64_Fits (Status) or else not Custody_U64_Fits (Position) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Input, Length, Status, 8) or else
+           not Custody_Disjoint (Input, Length, Position, 8) then return Error_Invalid_Argument; end if;
+         declare
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
+              with Import, Address => Input;
+            Result : Custody_M.Serving_Observation;
+         begin
+            Custody_U64.To_Pointer (Status).all := 0;
+            Custody_U64.To_Pointer (Position).all := 0;
+            Custody_M.Serving_Decide (Data, Result);
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (Custody_M.SE.Join_Status'Pos (Result.Kind));
+            Custody_U64.To_Pointer (Position).all := Interfaces.Unsigned_64 (Result.Position);
+            return Error_OK;
+         end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_serving_decide_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_serving_decide_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Serving_Decide_V2;
    -- Merge after the common custody-v2 CAPI body snippet; reuse its geometry
    -- helpers. Encoding only: no authentication, permission, SQL or effects.
@@ -9097,36 +9146,43 @@ end Transaction_Relation_V1;
       Needed : System.Address) return Interfaces.C.int
    is
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Output, Capacity) or else
-        not Custody_U64_Fits (Needed) or else
-        not Custody_Disjoint (Input, Length, Output, Capacity) or else
-        not Custody_Disjoint (Input, Length, Needed, 8) or else
-        not Custody_Disjoint (Output, Capacity, Needed, 8) then return Error_Invalid_Argument; end if;
       declare
-         Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
-           with Import, Address => Input;
-         N : Custody_I.E.Count;
-         Complete : Boolean;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         Custody_U64.To_Pointer (Needed).all := 0;
-         if Capacity = 0 then
-            declare Empty : Custody_I.E.Bytes (1 .. 0); begin
-               Custody_M.Successor_LE (Data, Empty, N, Complete);
-            end;
-         else
-            declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity))
-              with Import, Address => Output;
-            begin Custody_M.Successor_LE (Data, Buffer, N, Complete); end;
-         end if;
-         Custody_U64.To_Pointer (Needed).all := Interfaces.Unsigned_64 (N);
-         if N = 0 or else (Capacity /= 0 and then not Complete) then return Error_Too_Large; end if;
-         return Error_OK;
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Output, Capacity) or else
+           not Custody_U64_Fits (Needed) or else
+           not Custody_Disjoint (Input, Length, Output, Capacity) or else
+           not Custody_Disjoint (Input, Length, Needed, 8) or else
+           not Custody_Disjoint (Output, Capacity, Needed, 8) then return Error_Invalid_Argument; end if;
+         declare
+            Data : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Length))
+              with Import, Address => Input;
+            N : Custody_I.E.Count;
+            Complete : Boolean;
+         begin
+            Custody_U64.To_Pointer (Needed).all := 0;
+            if Capacity = 0 then
+               declare Empty : Custody_I.E.Bytes (1 .. 0); begin
+                  Custody_M.Successor_LE (Data, Empty, N, Complete);
+               end;
+            else
+               declare Buffer : Custody_I.E.Bytes (1 .. Custody_I.E.Count (Capacity))
+                 with Import, Address => Output;
+               begin Custody_M.Successor_LE (Data, Buffer, N, Complete); end;
+            end if;
+            Custody_U64.To_Pointer (Needed).all := Interfaces.Unsigned_64 (N);
+            if N = 0 or else (Capacity /= 0 and then not Complete) then return Error_Too_Large; end if;
+            return Error_OK;
+         end;
+      exception
+         when Error : others =>
+            Capture_Native_Exception ("wl_custody_successor_le_v2: ", Error);
+            return Error_Internal;
       end;
    exception
-      when Error : others =>
-         Emit_Native_Diagnostic ("wl_custody_successor_le_v2: " & Ada.Exceptions.Exception_Information (Error));
-         return Error_Internal;
+      when others => return Error_Internal;
    end Custody_Successor_LE_V2;
    type Custody_Operation_Query is
      (Startup_Query, Append_Query, Recovery_Query, Bootstrap_Query);
@@ -9352,92 +9408,99 @@ end Transaction_Relation_V1;
       Stride : constant Interfaces.C.size_t := Retained_Span'Object_Size / System.Storage_Unit;
       Expected : Interfaces.C.size_t := 37;
    begin
-      -- Counts bound owned host storage only, never numeric quantities or key values.
-      if Genesis_Count > (Interfaces.C.size_t'Last - Expected) / 2 then return Error_Invalid_Argument; end if;
-      Expected := Expected + Genesis_Count * 2;
-      if Event_Count > (Interfaces.C.size_t'Last - Expected) / 7 then return Error_Invalid_Argument; end if;
-      Expected := Expected + Event_Count * 7;
-      if Head_Count > (Interfaces.C.size_t'Last - Expected) / 3 then return Error_Invalid_Argument; end if;
-      Expected := Expected + Head_Count * 3;
-      if Span_Count /= Expected or else
-        Data_Length > Interfaces.C.size_t (RC.E.Count'Last) or else
-        Span_Count > Interfaces.C.size_t (RC.E.Count'Last) or else
-        Span_Count > Interfaces.C.size_t (Storage_Offset'Last) / Stride or else
-        not Owner_Extent (Data, Data_Length, 1) or else
-        not Owner_Extent (Spans, Span_Count * Stride, Retained_Span'Alignment) or else
-        Output_Size /= Provision_Output'Object_Size / System.Storage_Unit or else
-        not Owner_Extent (Output, Output_Size, Provision_Output'Alignment)
-      then return Error_Invalid_Argument; end if;
       declare
-         A : RC.E.Bytes (1 .. RC.E.Count (Data_Length));
-         type Span_Array is array (RC.E.Q.Byte_Index range <>) of RC.E.Span;
-         Owned : Span_Array (1 .. RC.E.Count (Span_Count));
-         G : RC.Genesis_Rows (1 .. RC.E.Count (Genesis_Count));
-         E : RC.Event_Rows (1 .. RC.E.Count (Event_Count));
-         H : RC.Head_Rows (1 .. RC.E.Count (Head_Count));
-         Selected : CP.Selected_Artifacts;
-         Prior : CP.M.Context_Inputs;
-         P : RC.E.Count := 0;
-         Cursor : RC.E.Count := 37;
-         function Take return RC.E.Span is
-         begin
-            Cursor := Cursor + 1;
-            return Owned (Cursor);
-         end Take;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         for I in A'Range loop A (I) := Get_Byte (Data, Storage_Offset (I - 1)); end loop;
-         for I in Owned'Range loop
-            declare
-               Raw : constant Retained_Span := Retained_Span_Pointers.To_Pointer
-                 (Spans + Storage_Offset (Interfaces.C.size_t (I - 1) * Stride)).all;
-            begin
-               if Raw.First < 1 or else Raw.Length < 0 then return Error_Invalid_Argument; end if;
-               Owned (I) := (RC.E.Q.Byte_Index (Raw.First), RC.E.Count (Raw.Length));
-               if not RC.E.C.P.Valid (A, Owned (I)) then return Error_Invalid_Argument; end if;
-            end;
-         end loop;
-         for Item in Selected'Range loop
-            Selected (Item).Raw := Owned (P + 1);
-            Selected (Item).Encoded := Owned (P + 2);
-            Selected (Item).Path := Owned (P + 3);
-            P := P + 3;
-         end loop;
-         P := 12;
-         for Item in Prior'Range loop
-            Prior (Item).Raw := Owned (P + 1);
-            Prior (Item).Actual_Path := Owned (P + 2);
-            Prior (Item).Retained_Path := Owned (P + 3);
-            Prior (Item).Retained_SHA256 := Owned (P + 4);
-            P := P + 4;
-         end loop;
-         -- Sequential assignments preserve declared field order; no evaluation-
-         -- order dependence from side-effecting function calls in aggregates.
-         for I in G'Range loop G (I).Name := Take; G (I).Value := Take; end loop;
-         for I in E'Range loop
-            E (I).Event_Id := Take; E (I).Previous := Take;
-            E (I).Operation := Take; E (I).Kind := Take;
-            E (I).Record_Archive := Take; E (I).Mac := Take; E (I).Base_Archive := Take;
-         end loop;
-         for I in H'Range loop
-            H (I).Name := Take; H (I).Event_Id := Take; H (I).Mac := Take;
-         end loop;
+         -- Counts bound owned host storage only, never numeric quantities or key values.
+         if Genesis_Count > (Interfaces.C.size_t'Last - Expected) / 2 then return Error_Invalid_Argument; end if;
+         Expected := Expected + Genesis_Count * 2;
+         if Event_Count > (Interfaces.C.size_t'Last - Expected) / 7 then return Error_Invalid_Argument; end if;
+         Expected := Expected + Event_Count * 7;
+         if Head_Count > (Interfaces.C.size_t'Last - Expected) / 3 then return Error_Invalid_Argument; end if;
+         Expected := Expected + Head_Count * 3;
+         if Span_Count /= Expected or else
+           Data_Length > Interfaces.C.size_t (RC.E.Count'Last) or else
+           Span_Count > Interfaces.C.size_t (RC.E.Count'Last) or else
+           Span_Count > Interfaces.C.size_t (Storage_Offset'Last) / Stride or else
+           not Owner_Extent (Data, Data_Length, 1) or else
+           not Owner_Extent (Spans, Span_Count * Stride, Retained_Span'Alignment) or else
+           Output_Size /= Provision_Output'Object_Size / System.Storage_Unit or else
+           not Owner_Extent (Output, Output_Size, Provision_Output'Alignment)
+         then return Error_Invalid_Argument; end if;
          declare
-            Value : constant CP.Result := CP.Decide
-              (A, Selected, Owned (10), Owned (11), Owned (12), Prior,
-               Owned (33), Owned (34), Owned (35), Owned (36), Owned (37), G, E, H);
-            Result : constant Provision_Output :=
-              (Status => CP.Status'Pos (Value.State),
-               Failing_Row => Interfaces.Integer_64 (Value.Position));
+            A : RC.E.Bytes (1 .. RC.E.Count (Data_Length));
+            type Span_Array is array (RC.E.Q.Byte_Index range <>) of RC.E.Span;
+            Owned : Span_Array (1 .. RC.E.Count (Span_Count));
+            G : RC.Genesis_Rows (1 .. RC.E.Count (Genesis_Count));
+            E : RC.Event_Rows (1 .. RC.E.Count (Event_Count));
+            H : RC.Head_Rows (1 .. RC.E.Count (Head_Count));
+            Selected : CP.Selected_Artifacts;
+            Prior : CP.M.Context_Inputs;
+            P : RC.E.Count := 0;
+            Cursor : RC.E.Count := 37;
+            function Take return RC.E.Span is
+            begin
+               Cursor := Cursor + 1;
+               return Owned (Cursor);
+            end Take;
          begin
-            -- All input bytes/spans/rows owned before writing potentially aliased output.
-            Provision_Output_Pointers.To_Pointer (Output).all := Result;
+            for I in A'Range loop A (I) := Get_Byte (Data, Storage_Offset (I - 1)); end loop;
+            for I in Owned'Range loop
+               declare
+                  Raw : constant Retained_Span := Retained_Span_Pointers.To_Pointer
+                    (Spans + Storage_Offset (Interfaces.C.size_t (I - 1) * Stride)).all;
+               begin
+                  if Raw.First < 1 or else Raw.Length < 0 then return Error_Invalid_Argument; end if;
+                  Owned (I) := (RC.E.Q.Byte_Index (Raw.First), RC.E.Count (Raw.Length));
+                  if not RC.E.C.P.Valid (A, Owned (I)) then return Error_Invalid_Argument; end if;
+               end;
+            end loop;
+            for Item in Selected'Range loop
+               Selected (Item).Raw := Owned (P + 1);
+               Selected (Item).Encoded := Owned (P + 2);
+               Selected (Item).Path := Owned (P + 3);
+               P := P + 3;
+            end loop;
+            P := 12;
+            for Item in Prior'Range loop
+               Prior (Item).Raw := Owned (P + 1);
+               Prior (Item).Actual_Path := Owned (P + 2);
+               Prior (Item).Retained_Path := Owned (P + 3);
+               Prior (Item).Retained_SHA256 := Owned (P + 4);
+               P := P + 4;
+            end loop;
+            -- Sequential assignments preserve declared field order; no evaluation-
+            -- order dependence from side-effecting function calls in aggregates.
+            for I in G'Range loop G (I).Name := Take; G (I).Value := Take; end loop;
+            for I in E'Range loop
+               E (I).Event_Id := Take; E (I).Previous := Take;
+               E (I).Operation := Take; E (I).Kind := Take;
+               E (I).Record_Archive := Take; E (I).Mac := Take; E (I).Base_Archive := Take;
+            end loop;
+            for I in H'Range loop
+               H (I).Name := Take; H (I).Event_Id := Take; H (I).Mac := Take;
+            end loop;
+            declare
+               Value : constant CP.Result := CP.Decide
+                 (A, Selected, Owned (10), Owned (11), Owned (12), Prior,
+                  Owned (33), Owned (34), Owned (35), Owned (36), Owned (37), G, E, H);
+               Result : constant Provision_Output :=
+                 (Status => CP.Status'Pos (Value.State),
+                  Failing_Row => Interfaces.Integer_64 (Value.Position));
+            begin
+               -- All input bytes/spans/rows owned before writing potentially aliased output.
+               Provision_Output_Pointers.To_Pointer (Output).all := Result;
+            end;
          end;
+         Flush_Native_Diagnostic_Trace;
+         return Error_OK;
+      exception when others =>
+         Flush_Native_Diagnostic_Trace;
+         return Error_Internal;
       end;
-      Flush_Native_Diagnostic_Trace;
-      return Error_OK;
-   exception when others =>
-      Flush_Native_Diagnostic_Trace;
-      return Error_Internal;
+   exception
+      when others => return Error_Internal;
    end Custody_Provision_Verify;
    package Emitter_S renames Worldline.Root_Output_Sequence;
    package Emitter_C renames Worldline.Emitter_Allocation_Capture;
@@ -9458,53 +9521,60 @@ end Transaction_Relation_V1;
       Size_Bytes : constant Interfaces.C.size_t :=
         Interfaces.C.size_t'Size / System.Storage_Unit;
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Ordinal, Capacity) or else
-        not Custody_U64_Fits (Status) or else
-        not Custody_U64_Fits (Position) or else
-        not Emitter_Size_Fits (Ordinal_Length) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
-      then
-         return Error_Invalid_Argument;
-      end if;
       declare
-         Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
-         Result : Emitter_S.Output_Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         declare
-            Bounds : aliased Foreign_Array_Bounds :=
-              (First => 1, Last => Interfaces.Integer_64 (Length));
-         begin
-            Emitter_C.Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
-         end;
-         Flush_Native_Diagnostic_Trace;
-         -- Input view has ceased to exist; all foreign writes follow capture.
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
-         Custody_U64.To_Pointer (Position).all :=
-           Interfaces.Unsigned_64 (Result.Position);
-         Emitter_Size.To_Pointer (Ordinal_Length).all :=
-           Interfaces.C.size_t (Result.Needed);
-         if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Ordinal, Capacity) or else
+           not Custody_U64_Fits (Status) or else
+           not Custody_U64_Fits (Position) or else
+           not Emitter_Size_Fits (Ordinal_Length) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
          then
-            return Error_Too_Large;
+            return Error_Invalid_Argument;
          end if;
-         for J in 1 .. Result.Written loop
-            Put_Byte
-              (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
-               Interfaces.Unsigned_8 (Buffer (J)));
-         end loop;
-         return Error_OK;
+         declare
+            Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
+            Result : Emitter_S.Output_Observation;
+         begin
+            declare
+               Bounds : aliased Foreign_Array_Bounds :=
+                 (First => 1, Last => Interfaces.Integer_64 (Length));
+            begin
+               Emitter_C.Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
+            end;
+            Flush_Native_Diagnostic_Trace;
+            -- Input view has ceased to exist; all foreign writes follow capture.
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
+            Custody_U64.To_Pointer (Position).all :=
+              Interfaces.Unsigned_64 (Result.Position);
+            Emitter_Size.To_Pointer (Ordinal_Length).all :=
+              Interfaces.C.size_t (Result.Needed);
+            if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+            then
+               return Error_Too_Large;
+            end if;
+            for J in 1 .. Result.Written loop
+               Put_Byte
+                 (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
+                  Interfaces.Unsigned_8 (Buffer (J)));
+            end loop;
+            return Error_OK;
+         end;
+      exception
+         when others =>
+            Flush_Native_Diagnostic_Trace;
+            return Error_Internal;
       end;
    exception
-      when others =>
-         Flush_Native_Diagnostic_Trace;
-         return Error_Internal;
+      when others => return Error_Internal;
    end Root_Worker_Output_Next_V1;
 
    function Root_Worker_Output_Replay_V1
@@ -9516,53 +9586,60 @@ end Transaction_Relation_V1;
       Size_Bytes : constant Interfaces.C.size_t :=
         Interfaces.C.size_t'Size / System.Storage_Unit;
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Ordinal, Capacity) or else
-        not Custody_U64_Fits (Status) or else
-        not Custody_U64_Fits (Position) or else
-        not Emitter_Size_Fits (Ordinal_Length) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
-      then
-         return Error_Invalid_Argument;
-      end if;
       declare
-         Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
-         Result : Emitter_S.Output_Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         declare
-            Bounds : aliased Foreign_Array_Bounds :=
-              (First => 1, Last => Interfaces.Integer_64 (Length));
-         begin
-            Emitter_C.Replay_Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
-         end;
-         Flush_Native_Diagnostic_Trace;
-         -- Input view has ceased to exist; all foreign writes follow capture.
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
-         Custody_U64.To_Pointer (Position).all :=
-           Interfaces.Unsigned_64 (Result.Position);
-         Emitter_Size.To_Pointer (Ordinal_Length).all :=
-           Interfaces.C.size_t (Result.Needed);
-         if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Ordinal, Capacity) or else
+           not Custody_U64_Fits (Status) or else
+           not Custody_U64_Fits (Position) or else
+           not Emitter_Size_Fits (Ordinal_Length) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
          then
-            return Error_Too_Large;
+            return Error_Invalid_Argument;
          end if;
-         for J in 1 .. Result.Written loop
-            Put_Byte
-              (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
-               Interfaces.Unsigned_8 (Buffer (J)));
-         end loop;
-         return Error_OK;
+         declare
+            Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
+            Result : Emitter_S.Output_Observation;
+         begin
+            declare
+               Bounds : aliased Foreign_Array_Bounds :=
+                 (First => 1, Last => Interfaces.Integer_64 (Length));
+            begin
+               Emitter_C.Replay_Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
+            end;
+            Flush_Native_Diagnostic_Trace;
+            -- Input view has ceased to exist; all foreign writes follow capture.
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
+            Custody_U64.To_Pointer (Position).all :=
+              Interfaces.Unsigned_64 (Result.Position);
+            Emitter_Size.To_Pointer (Ordinal_Length).all :=
+              Interfaces.C.size_t (Result.Needed);
+            if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+            then
+               return Error_Too_Large;
+            end if;
+            for J in 1 .. Result.Written loop
+               Put_Byte
+                 (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
+                  Interfaces.Unsigned_8 (Buffer (J)));
+            end loop;
+            return Error_OK;
+         end;
+      exception
+         when others =>
+            Flush_Native_Diagnostic_Trace;
+            return Error_Internal;
       end;
    exception
-      when others =>
-         Flush_Native_Diagnostic_Trace;
-         return Error_Internal;
+      when others => return Error_Internal;
    end Root_Worker_Output_Replay_V1;
    function Root_Worker_Output_Written_V1
      (Input : System.Address; Length : Interfaces.C.size_t;
@@ -9573,53 +9650,60 @@ end Transaction_Relation_V1;
       Size_Bytes : constant Interfaces.C.size_t :=
         Interfaces.C.size_t'Size / System.Storage_Unit;
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Ordinal, Capacity) or else
-        not Custody_U64_Fits (Status) or else
-        not Custody_U64_Fits (Position) or else
-        not Emitter_Size_Fits (Ordinal_Length) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
-      then
-         return Error_Invalid_Argument;
-      end if;
       declare
-         Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
-         Result : Emitter_S.Output_Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         declare
-            Bounds : aliased Foreign_Array_Bounds :=
-              (First => 1, Last => Interfaces.Integer_64 (Length));
-         begin
-            Emitter_C.Written_Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
-         end;
-         Flush_Native_Diagnostic_Trace;
-         -- Input view has ceased to exist; all foreign writes follow capture.
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
-         Custody_U64.To_Pointer (Position).all :=
-           Interfaces.Unsigned_64 (Result.Position);
-         Emitter_Size.To_Pointer (Ordinal_Length).all :=
-           Interfaces.C.size_t (Result.Needed);
-         if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Ordinal, Capacity) or else
+           not Custody_U64_Fits (Status) or else
+           not Custody_U64_Fits (Position) or else
+           not Emitter_Size_Fits (Ordinal_Length) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
          then
-            return Error_Too_Large;
+            return Error_Invalid_Argument;
          end if;
-         for J in 1 .. Result.Written loop
-            Put_Byte
-              (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
-               Interfaces.Unsigned_8 (Buffer (J)));
-         end loop;
-         return Error_OK;
+         declare
+            Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
+            Result : Emitter_S.Output_Observation;
+         begin
+            declare
+               Bounds : aliased Foreign_Array_Bounds :=
+                 (First => 1, Last => Interfaces.Integer_64 (Length));
+            begin
+               Emitter_C.Written_Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
+            end;
+            Flush_Native_Diagnostic_Trace;
+            -- Input view has ceased to exist; all foreign writes follow capture.
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
+            Custody_U64.To_Pointer (Position).all :=
+              Interfaces.Unsigned_64 (Result.Position);
+            Emitter_Size.To_Pointer (Ordinal_Length).all :=
+              Interfaces.C.size_t (Result.Needed);
+            if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+            then
+               return Error_Too_Large;
+            end if;
+            for J in 1 .. Result.Written loop
+               Put_Byte
+                 (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
+                  Interfaces.Unsigned_8 (Buffer (J)));
+            end loop;
+            return Error_OK;
+         end;
+      exception
+         when others =>
+            Flush_Native_Diagnostic_Trace;
+            return Error_Internal;
       end;
    exception
-      when others =>
-         Flush_Native_Diagnostic_Trace;
-         return Error_Internal;
+      when others => return Error_Internal;
    end Root_Worker_Output_Written_V1;
 
    function Root_Worker_Output_Prefix_V1
@@ -9631,53 +9715,60 @@ end Transaction_Relation_V1;
       Size_Bytes : constant Interfaces.C.size_t :=
         Interfaces.C.size_t'Size / System.Storage_Unit;
    begin
-      if not Custody_Bytes_Fit (Input, Length) or else
-        not Custody_Bytes_Fit (Ordinal, Capacity) or else
-        not Custody_U64_Fits (Status) or else
-        not Custody_U64_Fits (Position) or else
-        not Emitter_Size_Fits (Ordinal_Length) or else
-        not Custody_Disjoint (Status, 8, Position, 8) or else
-        not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
-        not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
-        not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
-      then
-         return Error_Invalid_Argument;
-      end if;
       declare
-         Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
-         Result : Emitter_S.Output_Observation;
+         Native_Call : Native_Call_Guard;
+         pragma Unreferenced (Native_Call);
       begin
-         declare
-            Bounds : aliased Foreign_Array_Bounds :=
-              (First => 1, Last => Interfaces.Integer_64 (Length));
-         begin
-            Emitter_C.Prefix_Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
-         end;
-         Flush_Native_Diagnostic_Trace;
-         -- Input view has ceased to exist; all foreign writes follow capture.
-         Custody_U64.To_Pointer (Status).all :=
-           Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
-         Custody_U64.To_Pointer (Position).all :=
-           Interfaces.Unsigned_64 (Result.Position);
-         Emitter_Size.To_Pointer (Ordinal_Length).all :=
-           Interfaces.C.size_t (Result.Needed);
-         if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+         if not Custody_Bytes_Fit (Input, Length) or else
+           not Custody_Bytes_Fit (Ordinal, Capacity) or else
+           not Custody_U64_Fits (Status) or else
+           not Custody_U64_Fits (Position) or else
+           not Emitter_Size_Fits (Ordinal_Length) or else
+           not Custody_Disjoint (Status, 8, Position, 8) or else
+           not Custody_Disjoint (Status, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Position, 8, Ordinal_Length, Size_Bytes) or else
+           not Custody_Disjoint (Ordinal, Capacity, Status, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Position, 8) or else
+           not Custody_Disjoint (Ordinal, Capacity, Ordinal_Length, Size_Bytes)
          then
-            return Error_Too_Large;
+            return Error_Invalid_Argument;
          end if;
-         for J in 1 .. Result.Written loop
-            Put_Byte
-              (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
-               Interfaces.Unsigned_8 (Buffer (J)));
-         end loop;
-         return Error_OK;
+         declare
+            Buffer : Emitter_S.E.Bytes (1 .. Emitter_S.E.Count (Capacity));
+            Result : Emitter_S.Output_Observation;
+         begin
+            declare
+               Bounds : aliased Foreign_Array_Bounds :=
+                 (First => 1, Last => Interfaces.Integer_64 (Length));
+            begin
+               Emitter_C.Prefix_Capture (Observe_Resource_Bytes (Input, Bounds), Buffer, Result);
+            end;
+            Flush_Native_Diagnostic_Trace;
+            -- Input view has ceased to exist; all foreign writes follow capture.
+            Custody_U64.To_Pointer (Status).all :=
+              Interfaces.Unsigned_64 (Emitter_S.Allocation_Status'Pos (Result.Kind));
+            Custody_U64.To_Pointer (Position).all :=
+              Interfaces.Unsigned_64 (Result.Position);
+            Emitter_Size.To_Pointer (Ordinal_Length).all :=
+              Interfaces.C.size_t (Result.Needed);
+            if Capacity /= 0 and then Result.Needed > Emitter_S.E.Count (Capacity)
+            then
+               return Error_Too_Large;
+            end if;
+            for J in 1 .. Result.Written loop
+               Put_Byte
+                 (Ordinal, System.Storage_Elements.Storage_Offset (J - 1),
+                  Interfaces.Unsigned_8 (Buffer (J)));
+            end loop;
+            return Error_OK;
+         end;
+      exception
+         when others =>
+            Flush_Native_Diagnostic_Trace;
+            return Error_Internal;
       end;
    exception
-      when others =>
-         Flush_Native_Diagnostic_Trace;
-         return Error_Internal;
+      when others => return Error_Internal;
    end Root_Worker_Output_Prefix_V1;
    function Full_Physical_Version return Interfaces.Unsigned_32 is
    begin
