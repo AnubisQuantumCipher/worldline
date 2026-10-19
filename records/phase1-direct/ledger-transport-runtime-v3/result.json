@@ -1,0 +1,109 @@
+{
+  "claim": "TESTED focused source repair only; original Phase One gates remain open",
+  "sources_before": {
+    "core/worldline-resource_ledger_c_api.adb": "197758acdf2ecaeb8c4fccb5604f9d7fb639b4cf6be93e4b75993f3f02918c4f",
+    "core/worldline-resource_ledger_c_api.ads": "38d09c0348874826ee4bcc8cbae87415751bb2ef7c46d5d790957f40e1e2b77d",
+    "core/worldline-c_api.adb": "90b71633ff33b55a4774908dce82fdfaadc9b7676dbf9908409a2d43be8616d8",
+    "core/worldline-custody_v2_machine_evidence.adb": "9af940d739d409c9c214d7a86a7e0b470f79235ef785fbc542a3860fddcdb737",
+    "tests/resource_ledger_transport_tests.adb": "2a168972ba122ada8651418778a2cab6a15430f7dfd8896bc5fe2897b245dfe0",
+    "tests/test_resource_owned_abi.py": "50100118fc29ead05af12371e48cac730aa4cfd7f1d50de02f00e83e7858e8a2",
+    "tests/worldline_tests.gpr": "72ee3a3ff29bd82427faa7b6200b6c625fb08c457955575d460bb0113b4628ca"
+  },
+  "steps": [
+    {
+      "name": "checked-build",
+      "argv": [
+        "gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "worldline.gpr",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-cargs:Ada",
+        "-fPIC"
+      ],
+      "started": "2026-10-19T16:08:56.301911+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T16:09:04.991040+00:00",
+      "artifacts": {
+        "stdout": "f9f3d806d423cdee19db5a24a91365483f74600d1a64968e97bdcc50f8b49d08",
+        "stderr": "550125df1c1cc551de37e88abeaef35c4634e761222da14a1e53767adb475364"
+      }
+    },
+    {
+      "name": "ada-tests",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/worldline_core_tests"
+      ],
+      "started": "2026-10-19T16:09:05.036144+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T16:09:05.052631+00:00",
+      "artifacts": {
+        "stdout": "594f964d3b1211c20569de80e9736b25bf0494ad07a1553f6c8902d9d770b60c",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "ada-fuzz",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/worldline_core_fuzz"
+      ],
+      "started": "2026-10-19T16:09:05.053027+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T16:09:05.063912+00:00",
+      "artifacts": {
+        "stdout": "9ca57b286a18e1ff777da8f3923d69fdd8c0e20615c8fb1c2278c47a2f6d6a98",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "typed-refusal-controls",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/resource_ledger_transport_tests"
+      ],
+      "started": "2026-10-19T16:09:05.064205+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T16:09:05.065963+00:00",
+      "artifacts": {
+        "stdout": "5067ab028c8713fc6332da07a3bcc5e32a64bd132b9ebf7946c4cc07db8ad07f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "resource-regression",
+      "argv": [
+        "/usr/bin/python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_resource_owned_abi",
+        "test_resource_ledger",
+        "test_resource_headroom",
+        "test_resource_policy"
+      ],
+      "started": "2026-10-19T16:09:05.066131+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T16:09:20.267821+00:00",
+      "artifacts": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "09a155e1d1f5c526ede07a724fb900b3c9214fac0cf69b0364c09b539da0faf4"
+      }
+    }
+  ],
+  "library_before_tests": "86085a692aaaf3475fc25852833f0e615cf90db5d8eb7780db425841b0baa1c0",
+  "sources_after": {
+    "core/worldline-resource_ledger_c_api.adb": "197758acdf2ecaeb8c4fccb5604f9d7fb639b4cf6be93e4b75993f3f02918c4f",
+    "core/worldline-resource_ledger_c_api.ads": "38d09c0348874826ee4bcc8cbae87415751bb2ef7c46d5d790957f40e1e2b77d",
+    "core/worldline-c_api.adb": "90b71633ff33b55a4774908dce82fdfaadc9b7676dbf9908409a2d43be8616d8",
+    "core/worldline-custody_v2_machine_evidence.adb": "9af940d739d409c9c214d7a86a7e0b470f79235ef785fbc542a3860fddcdb737",
+    "tests/resource_ledger_transport_tests.adb": "2a168972ba122ada8651418778a2cab6a15430f7dfd8896bc5fe2897b245dfe0",
+    "tests/test_resource_owned_abi.py": "50100118fc29ead05af12371e48cac730aa4cfd7f1d50de02f00e83e7858e8a2",
+    "tests/worldline_tests.gpr": "72ee3a3ff29bd82427faa7b6200b6c625fb08c457955575d460bb0113b4628ca"
+  },
+  "library_after_tests": "86085a692aaaf3475fc25852833f0e615cf90db5d8eb7780db425841b0baa1c0",
+  "success": true
+}

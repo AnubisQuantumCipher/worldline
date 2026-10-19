@@ -121,16 +121,20 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => On is
       Total : out Resource_Quantities.Quantity;
       Status : out Resource_Ledger.Result_Status) return U8
    is
+      Malformed_Input : exception;
    begin
-      if Data'First /= 1 or else Rows'First /= 1 or else Detail_Arena'First /= 1 or else Total_Arena'First /= 1 or else Typed_Details'First /= 1 or else Typed_Details'Length /= Rows'Length then Detail_Arena := (others => 0); Total_Arena := (others => 0);
-         Typed_Details := (others => L.Empty); Total := L.Empty; Status := L.Invalid_Input; return 255; end if;
+      -- The local handler supplies the same complete refusal state for both
+      -- checked malformed inputs and unexpected failures; it never escapes.
+      if Data'First /= 1 or else Rows'First /= 1 or else
+        Detail_Arena'First /= 1 or else Total_Arena'First /= 1 or else
+        Typed_Details'First /= 1 or else Typed_Details'Length /= Rows'Length
+      then
+         raise Malformed_Input;
+      end if;
       declare
          Arena : Q.Byte_Array (1 .. Q.Byte_Count (Data'Length));
-         Blank_Row : constant L.Reservation_Row :=
-           (Reserved => L.Empty, Used => (Present => False));
+         Typed_Rows : L.Reservation_Array (1 .. Q.Byte_Count (Rows'Length));
          Blank_Slot : constant L.Output_Span := (First => 1, Length => 0);
-         Typed_Rows : L.Reservation_Array (1 .. Q.Byte_Count (Rows'Length)) :=
-           (others => Blank_Row);
          Slots : L.Span_Array (Typed_Rows'Range) := (others => Blank_Slot);
       begin
          Copy_Data (Data, Arena);
@@ -144,8 +148,7 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => On is
                  V.Output_First > Size (Q.Byte_Count'Last) or else
                  V.Output_Length > Size (Q.Byte_Count'Last)
                then
-                  Detail_Arena := (others => 0); Total_Arena := (others => 0);
-         Typed_Details := (others => L.Empty); Total := L.Empty; Status := L.Invalid_Input; return 255;
+                  raise Malformed_Input;
                end if;
                Typed_Rows (I) := (Decode (V.Reserved), Decode (V.Used));
                Slots (I) := (Q.Byte_Index (V.Output_First),
@@ -167,8 +170,11 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => On is
       Typed_Result : out Resource_Quantities.Quantity;
       Status : out Resource_Ledger.Result_Status) return U8
    is
+      Malformed_Input : exception;
    begin
-      if Data'First /= 1 or else Output_Arena'First /= 1 then Output_Arena := (others => 0); Typed_Result := L.Empty; Status := L.Invalid_Input; return 255; end if;
+      if Data'First /= 1 or else Output_Arena'First /= 1 then
+         raise Malformed_Input;
+      end if;
       declare
          A, W, F : Quantity_C;
       begin
@@ -176,7 +182,7 @@ package body Worldline.Resource_Ledger_C_API with SPARK_Mode => On is
          Read_Quantity (Withheld, W);
          Read_Quantity (Floor, F);
          if not Shape (A) or else not Shape (W) or else not Shape (F) then
-            Output_Arena := (others => 0); Typed_Result := L.Empty; Status := L.Invalid_Input; return 255;
+            raise Malformed_Input;
          end if;
          declare
             Arena : Q.Byte_Array (1 .. Q.Byte_Count (Data'Length));

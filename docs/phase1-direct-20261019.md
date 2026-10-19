@@ -179,3 +179,36 @@ unreachable exception-handler code in Resource_Ledger_C_API; its typed caller
 contracts and existing foreign exception boundary must be preserved during repair.
 No handler is removed or warning suppressed by this checkpoint. Original retirement,
 complete same-source proof/runtime and host/actor/independent acceptance remain open.
+
+
+## Typed resource-ledger refusal and output representation
+
+D124 retains complete local refusal cleanup, using a locally handled malformed
+input exception to make that path explicit to strict analysis. The typed module
+passes focused level-3 proof. A cleanup relocation was rejected after a direct
+Ada caller was found; the public spec and that caller remain unchanged.
+
+Actual native regression found nondeterministic Quantity_C/Result_C padding.
+The existing foreign writes now initialize the full owned C extent and store
+fields individually. Whole-record byte comparisons now pass. The lifecycle
+ownership test covers both its original exact-byte ABI and the actual current
+ordinary production ABI without deleting the old control. Checked build,
+original Ada tests/fuzz, new typed cleanup controls and 40 selected resource
+tests pass at matching before/after source and library hashes.
+
+Proof scope and failed attempts are indexed in ledger-verification-summary.json.
+These tests do not replace the original full assurance roster or authentic
+protected/actor evidence. Phase One remains unaccepted.
+
+Aggregate library flow cleared the ledger findings and now reports only the
+recorded Roots parameter-mode warning and discarded fold History/Proof outputs.
+The run still exits 1; this is not a full flow pass. The transport fingerprint
+guard detected the changed C body as intended, and its update requires complete
+unit review plus exact-source derivation. No mismatch is suppressed.
+
+Complete-unit GPT-6.1 source review now supports the exact C transport pin update.
+Both raw/normalized identities are regenerated and checked; contract_problems
+returns no findings. The review identifies additional preexisting native-call
+guard and diagnostic-exception issues in custody/worker exports. They remain
+open with exact locations in ledger-transport-review.json, alongside the remaining
+aggregate-flow, strict-proof and original acceptance obligations.

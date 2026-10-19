@@ -79,6 +79,12 @@ class ResourceOwnedABITests(unittest.TestCase):
         transport = call(data, len(data), rows, len(rows), detail, len(detail), total, len(total), descriptors, C.byref(result))
         self.assertEqual(transport, 0)
         self.assertEqual((bytes(data), bytes(rows)), before)
+        expected_quantity = L._Quantity(descriptors[0].first, descriptors[0].length,
+                                        descriptors[0].negative)
+        expected_result = L._Result(result.status,
+            L._Quantity(result.total.first, result.total.length, result.total.negative))
+        self.assertEqual(bytes(descriptors), bytes(expected_quantity))
+        self.assertEqual(bytes(result), bytes(expected_result))
         return bytes(detail), bytes(total), bytes(descriptors), bytes(result)
 
     def test_ledger_absent_usage_is_ignored_and_owned(self):
@@ -118,6 +124,37 @@ class ResourceOwnedABITests(unittest.TestCase):
                     before = tuple(bytes(owner) for owner in owners)
                     self.assertEqual(call(*args), 255)
                     self.assertEqual(tuple(bytes(owner) for owner in owners), before)
+
+    def test_ledger_typed_shape_refusal_preserves_foreign_outputs(self):
+        call = L._api(self.core)
+        data = (C.c_uint8 * 1)(7)
+        rows = (L._Row * 1)(L._Row(L._Quantity(1, 1, 2),
+            L._Optional(0, L._Quantity(1, 0, 0)), 1, 2))
+        detail = (C.c_uint8 * 2)(0xA5, 0xA5)
+        total = (C.c_uint8 * 2)(0xA5, 0xA5)
+        descriptors = (L._Quantity * 1)()
+        result = L._Result()
+        C.memset(descriptors, 0xA5, C.sizeof(descriptors))
+        C.memset(C.byref(result), 0xA5, C.sizeof(result))
+        owners = (data, rows, detail, total, descriptors, result)
+        before = tuple(bytes(owner) for owner in owners)
+        self.assertEqual(call(data, 1, rows, 1, detail, 2, total, 2,
+                              descriptors, C.byref(result)), 255)
+        self.assertEqual(tuple(bytes(owner) for owner in owners), before)
+
+    def test_headroom_typed_shape_refusal_preserves_foreign_outputs(self):
+        call = L._headroom_api(self.core)
+        data = (C.c_uint8 * 1)(7)
+        invalid = L._Quantity(1, 1, 2)
+        zero = L._Quantity(1, 0, 0)
+        output = (C.c_uint8 * 2)(0xA5, 0xA5)
+        result = L._Result()
+        C.memset(C.byref(result), 0xA5, C.sizeof(result))
+        owners = (data, invalid, zero, output, result)
+        before = tuple(bytes(owner) for owner in owners)
+        self.assertEqual(call(data, 1, C.byref(invalid), C.byref(zero),
+                              C.byref(zero), output, 2, C.byref(result)), 255)
+        self.assertEqual(tuple(bytes(owner) for owner in owners), before)
 
     def test_headroom_readonly_descriptor_alias_and_checked_extent(self):
         call = L._headroom_api(self.core)
@@ -220,6 +257,7 @@ class ResourceOwnedABITests(unittest.TestCase):
             'wl_resource_ledger_headroom': ((0, 1, 1), (2, None, C.sizeof(P._Quantity)),
                                             (3, None, C.sizeof(P._Quantity)), (4, None, C.sizeof(P._Quantity))),
             'wl_reservation_lifecycle_plan': ((0, 1, 1), (2, 3, C.sizeof(V._Row))),
+            'wl_ordinary_reservation_lifecycle_plan': ((0, 1, 1),),
             'wl_resource_run_ledger_check_v1': ((0, 1, 1), (2, 3, 1), (4, 5, C.sizeof(R.RawRow)),
                                                (6, 7, C.sizeof(R.RawRow)), (8, 9, C.sizeof(R.RawNative))),
         }
@@ -229,6 +267,8 @@ class ResourceOwnedABITests(unittest.TestCase):
             'wl_resource_ledger_compute': ((4, 5, 1), (6, 7, 1), (8, 3, C.sizeof(P._Quantity)), (9, None, C.sizeof(L._Result))),
             'wl_resource_ledger_headroom': ((5, 6, 1), (7, None, C.sizeof(L._Result))),
             'wl_reservation_lifecycle_plan': ((8, 9, 1),),
+            'wl_ordinary_reservation_lifecycle_plan': ((2, 3, 1),
+                (4, None, C.sizeof(C.c_uint32)), (5, None, C.sizeof(C.c_size_t))),
             'wl_resource_run_ledger_check_v1': ((10, 11, 1),),
         }
         observed = []
@@ -272,7 +312,13 @@ class ResourceOwnedABITests(unittest.TestCase):
         P.decide_policy(**policy, core=core)
         L.compute_ledger(((LARGE, None),), core=core)
         L.compute_headroom(LARGE, 0, 0, core=core)
-        V.release_plan(('identity',), 'identity', core=core)
+        self.assertEqual(V.release_plan(('identity',), 'identity', core=core), (True,))
+        # The original exact-byte ABI remains a separate compatibility control.
+        # The production facade now uses the ordinary full-protocol ABI above.
+        legacy_rows = (V._Row * 1)(V._Row(1, 0, 2))
+        legacy_mask = (C.c_uint8 * 1)(0xA5)
+        self.assertEqual(V._api(core)(None, 0, legacy_rows, 1, 2, 0,
+                                     1, 0, legacy_mask, 1), 3)
         E.observe_policy(**policy, core=core)
         E.observe_ledger(((LARGE, None),), core=core)
         before = state(0)

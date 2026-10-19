@@ -1,0 +1,216 @@
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:16:30
+
+ info: division check proved
+--> worldline-resource_ledger_c_api.adb:16:43
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:17:30
+
+ info: division check proved
+--> worldline-resource_ledger_c_api.adb:17:43
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:18:25
+
+ info: division check proved
+--> worldline-resource_ledger_c_api.adb:18:38
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:19:28
+
+ info: division check proved
+--> worldline-resource_ledger_c_api.adb:19:41
+
+ info: implicit aspect Always_Terminates on "Shape" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:59:13
+
+ info: implicit aspect Always_Terminates on "Shape" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:63:13
+
+ info: implicit aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:65:13
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:66:60
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:67:33
+
+ info: implicit aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:69:13
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:76:44
+
+ info: local subprogram "Read_Byte" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-resource_ledger_c_api.adb:83:14
+      + add a contract to analyze it separately from calling contexts
+
+ info: initialization of "Item" proved
+--> worldline-resource_ledger_c_api.adb:83:42
+
+ info: initialization of "Item" proved
+--> worldline-resource_ledger_c_api.adb:89:91
+
+ info: index check proved
+--> worldline-resource_ledger_c_api.adb:93:23
+
+ info: initialization of "Item" proved
+--> worldline-resource_ledger_c_api.adb:96:75
+
+ info: initialization of "Value" proved
+--> worldline-resource_ledger_c_api.adb:105:55
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-resource_ledger_c_api.adb:110:28
+
+ info: analyzing call to "Read_Byte" in context
+--> worldline-resource_ledger_c_api.adb:111:10
+
+ info: index check proved
+--> worldline-resource_ledger_c_api.adb:111:29
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:125:208
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:125:238
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:126:24
+
+ info: initialization of "Arena" proved
+--> worldline-resource_ledger_c_api.adb:128:10
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:128:10
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:128:55
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:132:10
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:132:67
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:133:12
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:134:10
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:134:53
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:136:10
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-resource_ledger_c_api.adb:137:36
+
+ info: initialization of "V" proved
+--> worldline-resource_ledger_c_api.adb:139:16
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:141:16
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:147:32
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:147:62
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:148:24
+
+ info: index check proved
+--> worldline-resource_ledger_c_api.adb:150:28
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:150:35
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:150:56
+
+ info: index check proved
+--> worldline-resource_ledger_c_api.adb:151:23
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:151:45
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:152:45
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:168:76
+
+ info: initialization of "A" proved
+--> worldline-resource_ledger_c_api.adb:170:10
+
+ info: initialization of "W" proved
+--> worldline-resource_ledger_c_api.adb:170:13
+
+ info: initialization of "F" proved
+--> worldline-resource_ledger_c_api.adb:170:16
+
+ info: length check proved
+--> worldline-resource_ledger_c_api.adb:176:26
+
+ info: initialization of "Arena" proved
+--> worldline-resource_ledger_c_api.adb:179:13
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:179:13
+
+ info: range check proved
+--> worldline-resource_ledger_c_api.adb:179:58
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:181:13
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:183:23
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:183:35
+
+ info: precondition proved
+--> worldline-resource_ledger_c_api.adb:183:47
+
+ info: implicit aspect Always_Terminates on "Encode" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:38:13
+
+ info: implicit aspect Always_Terminates on "ABI_Version" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:40:13
+
+ info: implicit aspect Always_Terminates on "Layout_Size" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:41:13
+
+ info: implicit aspect Always_Terminates on "Layout_Offset" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:42:13
+
+ info: initialization of "Detail_Arena" proved
+--> worldline-resource_ledger_c_api.ads:52:07
+
+ info: initialization of "Total_Arena" proved
+--> worldline-resource_ledger_c_api.ads:52:21
+
+ info: initialization of "Typed_Details" proved
+--> worldline-resource_ledger_c_api.ads:53:07
+
+ info: initialization of "Total" proved
+--> worldline-resource_ledger_c_api.ads:54:07
+
+ info: initialization of "Status" proved
+--> worldline-resource_ledger_c_api.ads:55:07
+
+ info: initialization of "Output_Arena" proved
+--> worldline-resource_ledger_c_api.ads:66:07
+
+ info: initialization of "Typed_Result" proved
+--> worldline-resource_ledger_c_api.ads:67:07
+
+ info: initialization of "Status" proved
+--> worldline-resource_ledger_c_api.ads:68:07

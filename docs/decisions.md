@@ -1877,3 +1877,77 @@ strict proof, original complete runtime, protected/actor execution and independe
 F7 acceptance remain open. No contract, proof floor or accepted case is waived.
 
 **Reversal:** a new corrective commit with the original failure evidence retained.
+
+
+## D124 — Keep typed refusal cleanup reachable and canonicalize ledger output bytes
+
+**Problem:** strict flow rejected the typed resource-ledger exception handlers as
+unreachable. Subsequent native controls exposed unspecified padding copied into
+Quantity_C/Result_C outputs, breaking deterministic byte correspondence.
+
+**Decision:** declare a local Malformed_Input exception in Compute and Headroom.
+Their existing malformed-input branches now raise to the existing local handler,
+which still zeros the same complete outputs, supplies Invalid_Input and returns
+255. No exception propagates from those explicit branches. Normal computation,
+validation predicates, snapshots and all unexpected-exception cleanup remain.
+Remove the overwritten Typed_Rows initializer; retain Slots initialization as
+required by verified flow. The public typed spec and callers remain unchanged.
+
+The existing C-boundary Write_Quantity and Write_Result now initialize each full
+owned output extent and assign individual fields, instead of copying unspecified
+Ada record padding. All prior extent/alignment/alias checks and transport behavior
+remain; no authorization arithmetic moves out of SPARK.
+
+**Rejected alternative:** moving cleanup solely to the foreign boundary passed
+focused proof but was rejected after the alias-aware inventory found the direct
+Custody_V2_Machine_Evidence.Joined caller. Both the candidate patch and its result
+are retained. This demonstrates why a local proof pass was not acceptance.
+
+**Evidence:** strict level-3 proof passes the typed module with zero reported
+warnings/errors/unproved/justified and no pragma Assume. Selected Compute and
+Headroom report 17 and 7 checks respectively; helpers have their own retained
+entries. Unrelated shared-cache report entries receive no new proof credit.
+The checked canonical build, original Ada behavior/fuzz, actual typed malformed
+cleanup controls and 40 selected Python resource tests pass with source/library
+hash equality before/after. Earlier compile, flow and runtime failures remain
+under records/phase1-direct/ledger-*.
+
+The native ownership test had also expected a legacy lifecycle call from a
+production facade that already uses the ordinary full-protocol API. Preserve
+all old span checks and add an explicit legacy call; additionally observe the
+actual ordinary API, its input/output extents and result. No old ABI or assertion
+is dropped. New padding assertions require full bytes to match zero-initialized
+ctypes records; they do not hide the defect by comparing only semantic fields.
+
+**Risk and limits:** locally handled malformed inputs now use the Ada exception
+mechanism; the same routine catches them before returning, without changing the
+public contract or allowing nonlocal propagation. Compiler/runtime exception
+machinery and the existing foreign writes remain in the trusted runtime boundary.
+Finite controls do not prove arbitrary host allocation/stack or authenticated
+custody. Full-source strict proof, original full runtime, retirement, protected/
+actor controls and independent acceptance remain open. No proof floor is lowered.
+
+**Reversal:** new corrective commit; preserve all original negative evidence.
+
+
+**D124 pin review:** the existing typed-export guard rejected the changed C
+transport source as intended. One separately invoked actual GPT-6.1 reviewer
+read the complete C_API body/spec, verified that only the two ledger writer
+functions differ, and returned CONCUR for exact-source repin eligibility.
+The receipt is ledger-transport-review.json; the source identity is derived
+from its reviewed bytes, not manually supplied hash literals. The guarded
+repin script rejects missing/incomplete review and changed-source controls;
+normal and raw transport identities are checked after regeneration. This is
+source-only review, not F7. No test/proof run was falsely attributed to the
+reviewer; it inspected and hash-verified the retained runs.
+
+The reviewer retained preexisting custody/worker exports without Native_Call_Guard
+and potentially raising diagnostic calls inside custody exception handlers.
+These remain separate whole-system acceptance blockers with exact anchors in
+the receipt. Compiler warnings elsewhere remain. Aggregate flow clears the
+ledger findings but still fails on Roots mode and discarded fold outputs.
+
+D124 final guard validation: all 16 original typed-export correspondence tests
+pass after reviewed pin derivation, including the deliberate copy, ABI, alias,
+exception-return and source-literal mutation controls. This is source-guard
+TESTED evidence, not compiled-mutant or whole-system proof.

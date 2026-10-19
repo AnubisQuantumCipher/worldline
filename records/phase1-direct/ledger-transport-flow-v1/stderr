@@ -1,0 +1,91 @@
+ info: implicit aspect Always_Terminates on "Shape" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:59:13
+
+ info: implicit aspect Always_Terminates on "Shape" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:63:13
+
+ info: implicit aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:65:13
+
+ info: implicit aspect Always_Terminates on "Decode" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.adb:69:13
+
+ info: initialization of "Item" proved
+--> worldline-resource_ledger_c_api.adb:83:42
+
+ info: initialization of "Item" proved
+--> worldline-resource_ledger_c_api.adb:89:91
+
+ info: initialization of "Item" proved
+--> worldline-resource_ledger_c_api.adb:96:75
+
+ info: initialization of "Value" proved
+--> worldline-resource_ledger_c_api.adb:105:55
+
+ info: analyzing call to "Read_Byte" in context
+--> worldline-resource_ledger_c_api.adb:111:10
+
+ info: initialization of "Arena" proved
+--> worldline-resource_ledger_c_api.adb:128:10
+
+ info: initialization of "V" proved
+--> worldline-resource_ledger_c_api.adb:139:16
+
+ warning: this statement is never reached
+--> worldline-resource_ledger_c_api.adb:162:22
+  162 |          when others => return 255;
+      |                         ^~~~~~~~~~
+
+ info: initialization of "A" proved
+--> worldline-resource_ledger_c_api.adb:174:10
+
+ info: initialization of "W" proved
+--> worldline-resource_ledger_c_api.adb:174:13
+
+ info: initialization of "F" proved
+--> worldline-resource_ledger_c_api.adb:174:16
+
+ info: initialization of "Arena" proved
+--> worldline-resource_ledger_c_api.adb:183:13
+
+ warning: this statement is never reached
+--> worldline-resource_ledger_c_api.adb:194:22
+  194 |          when others => return 255;
+      |                         ^~~~~~~~~~
+
+ info: implicit aspect Always_Terminates on "Encode" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:35:13
+
+ info: implicit aspect Always_Terminates on "ABI_Version" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:37:13
+
+ info: implicit aspect Always_Terminates on "Layout_Size" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:38:13
+
+ info: implicit aspect Always_Terminates on "Layout_Offset" has been proved, subprogram will terminate
+--> worldline-resource_ledger_c_api.ads:39:13
+
+ info: initialization of "Detail_Arena" proved
+--> worldline-resource_ledger_c_api.ads:49:07
+
+ info: initialization of "Total_Arena" proved
+--> worldline-resource_ledger_c_api.ads:49:21
+
+ info: initialization of "Typed_Details" proved
+--> worldline-resource_ledger_c_api.ads:50:07
+
+ info: initialization of "Total" proved
+--> worldline-resource_ledger_c_api.ads:51:07
+
+ info: initialization of "Status" proved
+--> worldline-resource_ledger_c_api.ads:52:07
+
+ info: initialization of "Output_Arena" proved
+--> worldline-resource_ledger_c_api.ads:63:07
+
+ info: initialization of "Typed_Result" proved
+--> worldline-resource_ledger_c_api.ads:64:07
+
+ info: initialization of "Status" proved
+--> worldline-resource_ledger_c_api.ads:65:07
+gnatprove: error during analysis of data and information flow

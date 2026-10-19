@@ -1,0 +1,49 @@
+{
+  "claim": "TESTED focused source repair only; original Phase One gates remain open",
+  "sources_before": {
+    "core/worldline-resource_ledger_c_api.adb": "197758acdf2ecaeb8c4fccb5604f9d7fb639b4cf6be93e4b75993f3f02918c4f",
+    "core/worldline-resource_ledger_c_api.ads": "38d09c0348874826ee4bcc8cbae87415751bb2ef7c46d5d790957f40e1e2b77d",
+    "core/worldline-c_api.adb": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+    "core/worldline-custody_v2_machine_evidence.adb": "9af940d739d409c9c214d7a86a7e0b470f79235ef785fbc542a3860fddcdb737",
+    "tests/resource_ledger_transport_tests.adb": "1e685e4473cbb218c775bd2fcd65a0d35d6c5d5ec226e11ff9d8c2dde9acb853",
+    "tests/test_resource_owned_abi.py": "06ac5d0c93756b16ea6c5665629d41703a6c7f21bd74fb7a21a58141fed27102",
+    "tests/worldline_tests.gpr": "72ee3a3ff29bd82427faa7b6200b6c625fb08c457955575d460bb0113b4628ca"
+  },
+  "steps": [
+    {
+      "name": "checked-build",
+      "argv": [
+        "gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "worldline.gpr",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-cargs:Ada",
+        "-fPIC"
+      ],
+      "started": "2026-10-19T16:06:37.548333+00:00",
+      "exit_code": 4,
+      "finished": "2026-10-19T16:06:38.073761+00:00",
+      "artifacts": {
+        "stdout": "ac8ae69f1769b369f39c2b36e03c1839297b0ca8b0574b99a59461bdb9f4a5a0",
+        "stderr": "10073a3e4893a7e763e6bdc8372341d60c520dd72632bf5cfa1c80a0dbaae6f2"
+      }
+    }
+  ],
+  "sources_after": {
+    "core/worldline-resource_ledger_c_api.adb": "197758acdf2ecaeb8c4fccb5604f9d7fb639b4cf6be93e4b75993f3f02918c4f",
+    "core/worldline-resource_ledger_c_api.ads": "38d09c0348874826ee4bcc8cbae87415751bb2ef7c46d5d790957f40e1e2b77d",
+    "core/worldline-c_api.adb": "04e61d48bb3fba9f6e6af3325b331bcb00a6a9289afda4a96f313b9e8f9aa90a",
+    "core/worldline-custody_v2_machine_evidence.adb": "9af940d739d409c9c214d7a86a7e0b470f79235ef785fbc542a3860fddcdb737",
+    "tests/resource_ledger_transport_tests.adb": "1e685e4473cbb218c775bd2fcd65a0d35d6c5d5ec226e11ff9d8c2dde9acb853",
+    "tests/test_resource_owned_abi.py": "06ac5d0c93756b16ea6c5665629d41703a6c7f21bd74fb7a21a58141fed27102",
+    "tests/worldline_tests.gpr": "72ee3a3ff29bd82427faa7b6200b6c625fb08c457955575d460bb0113b4628ca"
+  },
+  "library_after_tests": "078891cc2510d0ba517362ae81d10212a1e1cd38a8231fdacdef9358e5dac946",
+  "success": false
+}

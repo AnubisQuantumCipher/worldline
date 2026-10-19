@@ -1,0 +1,54 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-----------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                                          Provers   Justified   Unproved
+-----------------------------------------------------------------------------------------------------------------------
+Data Dependencies                 2           2                                                .           .          .
+Flow Dependencies                 .           .                                                .           .          .
+Initialization                   19          19                                                .           .          .
+Non-Aliasing                      .           .                                                .           .          .
+Run-time Checks                  73           .    73 (CVC5 51%, Trivial 2%, Z3 46%, altergo 2%)           .          .
+Assertions                       12           .                            12 (CVC5 70%, Z3 30%)           .          .
+Functional Contracts             10           .               10 (CVC5 15%, Trivial 10%, Z3 75%)           .          .
+LSP Verification                  .           .                                                .           .          .
+Termination                      13           9                             4 (CVC5 75%, Z3 25%)           .          .
+Concurrency                       .           .                                                .           .          .
+-----------------------------------------------------------------------------------------------------------------------
+Total                           129    30 (23%)                                         99 (77%)           .          .
+
+
+max steps used for successful proof: 211
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 3 units
+in unit worldline-resource_ledger_c_api, 15 subprograms and packages out of 15 analyzed
+  Worldline.Resource_Ledger_C_API at worldline-resource_ledger_c_api.ads:18 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.ABI_Version at worldline-resource_ledger_c_api.ads:40 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Compute at worldline-resource_ledger_c_api.ads:49 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  Worldline.Resource_Ledger_C_API.Copy_Data at worldline-resource_ledger_c_api.adb:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Decode at worldline-resource_ledger_c_api.adb:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Resource_Ledger_C_API.Decode at worldline-resource_ledger_c_api.adb:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Encode at worldline-resource_ledger_c_api.ads:38 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Headroom at worldline-resource_ledger_c_api.ads:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Resource_Ledger_C_API.Layout_Offset at worldline-resource_ledger_c_api.ads:42 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Layout_Size at worldline-resource_ledger_c_api.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Resource_Ledger_C_API.Read_Byte at worldline-resource_ledger_c_api.adb:83 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Read_Quantity at worldline-resource_ledger_c_api.adb:96 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Read_Row at worldline-resource_ledger_c_api.adb:89 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Shape at worldline-resource_ledger_c_api.adb:59 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Shape at worldline-resource_ledger_c_api.adb:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-scoped_capture_namespace_projection, 1 subprograms and packages out of 1 analyzed
+  Worldline.Scoped_Capture_Namespace_Projection.Last_PID at worldline-scoped_capture_namespace_projection.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+in unit worldline-startup_source_custody, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Source_Custody.Next_Line at worldline-startup_source_custody.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)

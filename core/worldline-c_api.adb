@@ -2602,7 +2602,14 @@ package body Worldline.C_API with SPARK_Mode => Off is
       if Pointer = null then
          raise Constraint_Error;
       end if;
-      Pointer.all := Item;
+      -- Whole-record assignment can copy unspecified Ada padding. Initialize
+      -- the complete owned C extent, then write only its declared fields.
+      for Offset in Storage_Offset range 0 .. Quantity_C'Object_Size / System.Storage_Unit - 1 loop
+         Write_Byte (Address + Offset, 0);
+      end loop;
+      Pointer.First := Item.First;
+      Pointer.Length := Item.Length;
+      Pointer.Negative := Item.Negative;
    end Write_Quantity;
    procedure Write_Result (Address : System.Address; Item : Result_C)
      with Exceptional_Cases => (others => True)
@@ -2612,7 +2619,11 @@ package body Worldline.C_API with SPARK_Mode => Off is
       if Pointer = null then
          raise Constraint_Error;
       end if;
-      Pointer.all := Item;
+      for Offset in Storage_Offset range 0 .. Result_C'Object_Size / System.Storage_Unit - 1 loop
+         Write_Byte (Address + Offset, 0);
+      end loop;
+      Pointer.Status := Item.Status;
+      Write_Quantity (Address + Item.Total'Position, Item.Total);
    end Write_Result;
    procedure Write_Data (Address : System.Address; Value : Q.Byte_Array)
      with Pre => (Value'Length = 0 or else Address /= System.Null_Address),

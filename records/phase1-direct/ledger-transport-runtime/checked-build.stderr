@@ -1,0 +1,21 @@
+resource_ledger_transport_tests.adb:12:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at line 11 [-gnatwr]
+resource_ledger_transport_tests.adb:18:07: warning: aliased object has explicit bounds [enabled by default]
+resource_ledger_transport_tests.adb:18:07: warning: declare without bounds (and with explicit initialization) [enabled by default]
+resource_ledger_transport_tests.adb:18:07: warning: for use with unconstrained access [enabled by default]
+resource_ledger_transport_tests.adb:19:07: warning: aliased object has explicit bounds [enabled by default]
+resource_ledger_transport_tests.adb:19:07: warning: declare without bounds (and with explicit initialization) [enabled by default]
+resource_ledger_transport_tests.adb:19:07: warning: for use with unconstrained access [enabled by default]
+resource_ledger_transport_tests.adb:29:10: error: object subtype must statically match designated subtype
+resource_ledger_transport_tests.adb:29:23: error: object subtype must statically match designated subtype
+resource_ledger_transport_tests.adb:39:07: warning: aliased object has explicit bounds [enabled by default]
+resource_ledger_transport_tests.adb:39:07: warning: declare without bounds (and with explicit initialization) [enabled by default]
+resource_ledger_transport_tests.adb:39:07: warning: for use with unconstrained access [enabled by default]
+resource_ledger_transport_tests.adb:49:10: error: object subtype must statically match designated subtype
+worldline-resource_ledger_c_api.adb:2:06: warning: redundant with clause in body [-gnatwr]
+worldline-resource_ledger_c_api.adb:3:06: warning: redundant with clause in body [-gnatwr]
+worldline-resource_ledger_c_api.adb:6:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-resource_ledger_c_api.adb:6:04: warning: use clause for type "U8" defined at worldline-resource_ledger_c_api.ads:16 has no effect [-gnatwu]
+worldline-resource_ledger_c_api.adb:163:38: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-resource_ledger_c_api.adb:163:68: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-resource_ledger_c_api.adb:164:27: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]
+worldline-resource_ledger_c_api.adb:198:38: warning: array aggregate using () is an obsolescent syntax, use [] instead [-gnatwj]

@@ -1,0 +1,274 @@
+{
+  "schema": "worldline.independent_source_review.v1",
+  "utc": "2026-10-19T16:14:42.843803+00:00",
+  "reviewer": "ledger_transport_review",
+  "model": "gpt-6.1-sol",
+  "model_provenance": "Parent confirmed actual spawn invocation model=gpt-6.1-sol, fork_turns=none; no runtime model attestation.",
+  "base_commit": "115d4a43ebb2e01d3374f1535ce44e64767ceefb",
+  "head_at_review": "115d4a43ebb2e01d3374f1535ce44e64767ceefb",
+  "verdict": "CONCUR",
+  "complete_unit_read": true,
+  "scope": "Source-only eligibility to update exact raw/normalized unit pins for the frozen repair; not publication, F7, full Phase One, or system acceptance.",
+  "source_sha256": {
+    "core/worldline-c_api.adb": "90b71633ff33b55a4774908dce82fdfaadc9b7676dbf9908409a2d43be8616d8",
+    "core/worldline-c_api.ads": "d947b43d0b111a516fafc85789f2310e0942d43673524fc04c1451f23db88aa6",
+    "core/worldline-resource_ledger_c_api.adb": "197758acdf2ecaeb8c4fccb5604f9d7fb639b4cf6be93e4b75993f3f02918c4f",
+    "core/worldline-resource_ledger_c_api.ads": "38d09c0348874826ee4bcc8cbae87415751bb2ef7c46d5d790957f40e1e2b77d",
+    "core/worldline-resource_policy_c_api.ads": "027dd1f28342c8619895bfd76e21c538ed8460bf3633fe51c507980c6f314389",
+    "core/worldline-custody_v2_machine_evidence.adb": "9af940d739d409c9c214d7a86a7e0b470f79235ef785fbc542a3860fddcdb737",
+    "tests/resource_ledger_transport_tests.adb": "2a168972ba122ada8651418778a2cab6a15430f7dfd8896bc5fe2897b245dfe0",
+    "tests/test_resource_owned_abi.py": "50100118fc29ead05af12371e48cac730aa4cfd7f1d50de02f00e83e7858e8a2",
+    "tests/worldline_tests.gpr": "72ee3a3ff29bd82427faa7b6200b6c625fb08c457955575d460bb0113b4628ca"
+  },
+  "complete_unit_read_coverage": {
+    "core/worldline-c_api.adb": {
+      "lines": [
+        1,
+        9835
+      ],
+      "bounded_chunks": [
+        [
+          1,
+          180
+        ],
+        [
+          181,
+          1100
+        ],
+        [
+          1101,
+          2010
+        ],
+        [
+          1400,
+          1700
+        ],
+        [
+          2011,
+          2419
+        ],
+        [
+          2420,
+          2920
+        ],
+        [
+          2921,
+          3650
+        ],
+        [
+          3651,
+          4350
+        ],
+        [
+          4351,
+          5050
+        ],
+        [
+          4680,
+          4710
+        ],
+        [
+          5051,
+          5650
+        ],
+        [
+          5651,
+          6250
+        ],
+        [
+          5940,
+          6040
+        ],
+        [
+          6070,
+          6140
+        ],
+        [
+          6251,
+          6900
+        ],
+        [
+          6420,
+          6485
+        ],
+        [
+          6480,
+          6620
+        ],
+        [
+          6901,
+          7250
+        ],
+        [
+          6920,
+          6950
+        ],
+        [
+          7251,
+          7630
+        ],
+        [
+          7631,
+          8030
+        ],
+        [
+          8031,
+          8450
+        ],
+        [
+          8451,
+          8880
+        ],
+        [
+          8881,
+          9330
+        ],
+        [
+          9331,
+          9835
+        ]
+      ],
+      "note": "Truncated response middles re-read in explicit overlapping chunks; all source lines read."
+    },
+    "core/worldline-c_api.ads": {
+      "lines": [
+        1,
+        1156
+      ],
+      "bounded_chunks": [
+        [
+          1,
+          400
+        ],
+        [
+          401,
+          780
+        ],
+        [
+          781,
+          1156
+        ]
+      ]
+    },
+    "core/worldline-resource_ledger_c_api.adb": {
+      "entire_unit": true
+    },
+    "core/worldline-resource_ledger_c_api.ads": {
+      "entire_unit": true
+    },
+    "core/worldline-resource_policy_c_api.ads": {
+      "entire_unit": true
+    },
+    "core/worldline-custody_v2_machine_evidence.adb": {
+      "coverage": "Direct call and alias lifetime context; not entire unit; bytes verified unchanged."
+    },
+    "tests/resource_ledger_transport_tests.adb": {
+      "entire_unit": true
+    },
+    "tests/test_resource_owned_abi.py": {
+      "coverage": "Complete diff only."
+    }
+  },
+  "blocking_findings": [],
+  "findings": [
+    {
+      "classification": "REVIEWED",
+      "scope": "introduced repair",
+      "finding": "No introduced defect identified. Full owned Quantity_C and Result_C extents are zeroed before scalar field writes; nested Total uses its Ada component Position. Native C representation and endianness are preserved, with no hard-coded multi-byte serialization."
+    },
+    {
+      "classification": "REVIEWED",
+      "scope": "introduced repair",
+      "finding": "Writer actuals are owned local encoded descriptors/aggregates, disjoint from validated foreign outputs. Existing extent, alignment, multiplication, address-wrap and mutable-overlap checks precede snapshot and writes. Foreign memory liveness, stability and allocation validity remain caller premises."
+    },
+    {
+      "classification": "REVIEWED",
+      "scope": "typed entry semantics",
+      "finding": "Malformed checks now raise a local exception caught by the original local catch-all, retaining zeroed arenas, empty typed quantities, Invalid_Input and 255 for direct Ada callers. Foreign transport writes only after success and therefore preserves foreign outputs on typed refusal. Typed_Rows is fully populated before L.Compute, and Slots initialization remains. No spec/caller changes, proof suppression, assumption, new Off unit or weakened gate."
+    },
+    {
+      "classification": "PREEXISTING_UNPROVEN",
+      "scope": "full unit acceptance",
+      "finding": "Several exported custody-v2 and root-worker-output functions have no Native_Call_Guard despite the blanket unit comment. Custody handlers directly call Emit_Native_Diagnostic, which can raise Device_Error. Unchanged by this repair; exception-containment and guard-wide claims require separate validation/repair before relying on them. Examples: Custody_Load_Decide_V2, Custody_Mutation_Decide_V2, Custody_Provision_Verify, Root_Worker_Output_Next_V1.",
+      "anchors": {
+        "core/worldline-c_api.adb": [
+          107,
+          197,
+          203,
+          8828,
+          8860,
+          8863,
+          8910,
+          8939,
+          8967,
+          9017,
+          9061,
+          9089,
+          9128,
+          9344,
+          9452
+        ]
+      },
+      "required_followup": "Review each exported unguarded entry against native diagnostic/global-state requirements; failure injection must establish that diagnostic emission cannot escape its C boundary. Source-only padding concurrence does not close that obligation."
+    },
+    {
+      "classification": "PREEXISTING_UNPROVEN",
+      "scope": "whole unit/CI",
+      "finding": "Recorded checked build emits existing aliasing and many other warnings; exit zero is not a zero-warning result. This review neither resolves compiler aliasing warnings nor proves all unchecked conversions or foreign-memory premises.",
+      "anchors": {
+        "records/phase1-direct/ledger-transport-runtime-v3/checked-build.stderr": [
+          1,
+          4,
+          5,
+          6
+        ]
+      }
+    }
+  ],
+  "correspondence": {
+    "all_other_c_api_bytes_identical": true,
+    "public_spec_and_direct_caller_unchanged": [
+      "core/worldline-c_api.ads",
+      "core/worldline-resource_ledger_c_api.ads",
+      "core/worldline-resource_policy_c_api.ads",
+      "core/worldline-custody_v2_machine_evidence.adb"
+    ],
+    "method": "Exact byte prefix/suffix equality excluding only the two changed writers; git-show byte comparisons for unchanged specs/caller."
+  },
+  "evidence_inspected": {
+    "runtime_v3": {
+      "path": "records/phase1-direct/ledger-transport-runtime-v3/result.json",
+      "all_recorded_source_bindings_current": true,
+      "all_recorded_stdout_stderr_hashes_verified": true,
+      "recorded_steps": [
+        "checked-build",
+        "ada-tests",
+        "ada-fuzz",
+        "typed-refusal-controls",
+        "resource-regression"
+      ],
+      "python_summary": "Ran 40 tests; OK",
+      "independently_executed": false
+    },
+    "proof_v5": {
+      "path": "records/phase1-direct/ledger-transport-proof-v5",
+      "observed": "Strict module launch, zero exit worker receipt, all ledger subprograms analyzed, no ledger warnings/errors/Assume and no justified/unproved checks in report. Combined summary includes unrelated cached units; no combined-count claim made.",
+      "independently_executed": false
+    },
+    "runtime_v2": {
+      "path": "records/phase1-direct/ledger-transport-runtime-v2/result.json",
+      "observed": "Recorded resource-regression exit 1 and success false retained; prior C_API source differs from current."
+    }
+  },
+  "commands_performed": [
+    "cat applicable AGENTS.md and ada-omarchy SKILL.md",
+    "git diff and git show base:path",
+    "sed bounded source reads and rg direct-call context",
+    "hashlib SHA256 source/artifact checks",
+    "read existing recorded proof/runtime receipts; no builds, tests or proof executed"
+  ],
+  "remaining_acceptance": "Repin only these exact frozen bytes after parent verifies reviewer model provenance and receipt. Existing full Phase One/F7/source/proof/runtime/ABI/actor/protected publication gates stay open; whole-system proof and native-call-wide exception/guard claims are not established.",
+  "requested_model": "gpt-6.1-sol",
+  "model_identity_basis": "parent tools invocation",
+  "runtime_model_introspection": "unavailable"
+}

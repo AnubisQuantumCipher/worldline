@@ -1,0 +1,13 @@
+{
+  "worker": {
+    "exit_code": 1,
+    "utc": "2026-10-19T16:09:36.993920+00:00"
+  },
+  "diagnostics": [
+    "\n warning: \"Roots\" is not modified, could be IN\n--> worldline-root_custody_request_abandon.ads:164:28\n  164 |         (Data : Q.Byte_Array; Roots : in out M.Root_State_Array;\n      |                               ^~~~~\n",
+    "\n warning: \"History\" is set by \"Fold_Prefix\" but not used after the call\n--> worldline-custody_v2_fold_engine.adb:671:43\n  671 |          Fold_Prefix (Value, Through, State, History, Proof, Result);\n      |                                              ^~~~~~~\n",
+    "\n warning: \"Proof\" is set by \"Fold_Prefix\" but not used after the call\n--> worldline-custody_v2_fold_engine.adb:671:52\n  671 |          Fold_Prefix (Value, Through, State, History, Proof, Result);\n      |                                                       ^~~~~\n",
+    "\n warning: \"History\" is set by \"Fold_Prefix\" but not used after the call\n--> worldline-custody_v2_fold_engine.adb:677:61\n  677 |          Fold_Prefix (Value, Value.Decoded_Event_Count, State, History, Proof, Result);\n      |                                                                ^~~~~~~\n",
+    "\n warning: \"History\" is set by \"Fold_Prefix_Core\" but not used after the call\n--> worldline-custody_v2_fold_engine.adb:752:66\n  752 |          Fold_Prefix_Core (Value, Value.Decoded_Event_Count, State, History,\n      |                                                                     ^~~~~~~\n"
+  ]
+}
