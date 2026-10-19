@@ -162,3 +162,20 @@ that expectation is corrected to False. Explicit-empty/absent and all fixture
 inputs remain unchanged. The second Python run uses the exact same tested native
 source/library; it does not repeat the already-passed build and Ada runs. These
 ordinary fixtures do not stand in for genuine protected execution.
+
+
+## Namespace scan repair checkpoint
+
+D123 repairs an actual maximum-index overflow and expresses line/map/PID scan
+progress without narrowing the original input domain. Focused proofs pass the
+selected four helpers; the exact old helper's overflow is reproduced. The final
+checked build, original Ada behavior/fuzz and new native namespace controls pass.
+Source/library hashes bind the reused build to the successful runtime continuation.
+The failed PID proof and harness compile remain in the evidence.
+
+This is not complete F2/F3 evidence. Shared proof-cache entries outside the selected
+functions are excluded from new proof claims. The next aggregate finding is
+unreachable exception-handler code in Resource_Ledger_C_API; its typed caller
+contracts and existing foreign exception boundary must be preserved during repair.
+No handler is removed or warning suppressed by this checkpoint. Original retirement,
+complete same-source proof/runtime and host/actor/independent acceptance remain open.

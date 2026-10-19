@@ -1,0 +1,357 @@
+ info: no contextual analysis of "Bytes_Is" (call returns unconstrained type)
+--> worldline-scoped_capture_namespace_projection.adb:22:42
+
+ info: no contextual analysis of "Credential" (controlled return type)
+--> worldline-scoped_capture_namespace_projection.adb:29:04
+
+ info: unrolling loop [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:35:48
+
+ info: local subprogram "Text_Payload" only analyzed in the context of calls [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:45:13
+      + add a contract to analyze it separately from calling contexts
+
+ info: analyzing call to "Text_Payload" in context
+--> worldline-scoped_capture_namespace_projection.adb:55:43
+
+ info: no contextual analysis of "Namespace_Node" (call returns unconstrained type)
+--> worldline-scoped_capture_namespace_projection.adb:59:43
+
+ info: no contextual analysis of "Stable_Proc" (call returns unconstrained type)
+--> worldline-scoped_capture_namespace_projection.adb:90:35
+
+ info: cannot unroll loop (local non-scalar declaration at line 117) [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:116:26
+
+ info: no contextual analysis of "Stable_Proc" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:140:21
+
+ info: no contextual analysis of "Stable_Proc" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:141:68
+
+ info: no contextual analysis of "Namespace_Node" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:145:21
+
+ info: no contextual analysis of "Namespace_Node" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:146:21
+
+ info: no contextual analysis of "Actor_Source" (call returns unconstrained type)
+--> worldline-scoped_capture_namespace_projection.adb:151:43
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:158:21
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:159:21
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:160:21
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:179:24
+
+ info: loop variant proved
+--> worldline-scoped_capture_namespace_projection.adb:180:31
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_namespace_projection.adb:181:33
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_namespace_projection.adb:181:33
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:181:45
+
+ info: precondition proved
+--> worldline-scoped_capture_namespace_projection.adb:182:47
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:183:55
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:183:55
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:183:71
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:183:71
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:188:28
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:188:44
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:188:75
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:189:23
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:189:55
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:189:59
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:189:63
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:189:77
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:189:81
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:189:85
+
+ info: loop variant proved
+--> worldline-scoped_capture_namespace_projection.adb:192:37
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_namespace_projection.adb:193:39
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_namespace_projection.adb:193:39
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:193:51
+
+ info: precondition proved
+--> worldline-scoped_capture_namespace_projection.adb:194:51
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:195:62
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:195:62
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:195:76
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:195:76
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:23
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:27
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:31
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:42
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:46
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:50
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:62
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:66
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:70
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:81
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:85
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:199:89
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:201:32
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:202:33
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:205:29
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:213:24
+
+ info: loop variant proved
+--> worldline-scoped_capture_namespace_projection.adb:214:31
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_namespace_projection.adb:215:33
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_namespace_projection.adb:215:33
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:215:45
+
+ info: precondition proved
+--> worldline-scoped_capture_namespace_projection.adb:216:47
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:217:55
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:217:55
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:217:71
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:217:71
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:221:25
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:221:44
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:221:48
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:221:62
+
+ info: predicate check proved
+--> worldline-scoped_capture_namespace_projection.adb:221:74
+
+ info: range check proved
+--> worldline-scoped_capture_namespace_projection.adb:222:28
+
+ info: overflow check proved
+--> worldline-scoped_capture_namespace_projection.adb:223:29
+
+ info: no contextual analysis of "ID_Matches" (call returns unconstrained type)
+--> worldline-scoped_capture_namespace_projection.adb:244:41
+
+ info: cannot unroll loop (local non-scalar declaration at line 266) [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:264:26
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:354:17
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:355:17
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:356:17
+
+ info: no contextual analysis of "Stable_Proc" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:357:21
+
+ info: no contextual analysis of "Bytes_Is" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:363:21
+
+ info: no contextual analysis of "Root_PID_Matches" (call returns unconstrained type)
+--> worldline-scoped_capture_namespace_projection.adb:365:45
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:386:20
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:386:64
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:392:20
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:393:20
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:399:20
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:399:64
+
+ info: no contextual analysis of "Actor_Source" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:419:21
+
+ info: no contextual analysis of "Actor_Source" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:419:76
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:422:17
+
+ info: no contextual analysis of "Stable_Proc" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:423:21
+
+ info: no contextual analysis of "Namespace_Node" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:424:21
+
+ info: no contextual analysis of "Namespace_Node" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:425:21
+
+ info: no contextual analysis of "ID_Matches" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:427:21
+
+ info: no contextual analysis of "ID_Matches" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:428:21
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:443:20
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:444:20
+
+ info: no contextual analysis of "Credential" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:449:21
+
+ info: no contextual analysis of "Root_PID_Matches" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:451:22
+
+ info: no contextual analysis of "FD_Bytes_Match" (call returns unconstrained type)
+--> worldline-scoped_capture_namespace_projection.adb:458:42
+
+ info: unrolling loop [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:460:48
+
+ info: no contextual analysis of "Bytes_Is" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:476:21
+
+ info: no contextual analysis of "FD_Bytes_Match" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:477:21
+
+ info: cannot unroll loop (local non-scalar declaration at line 488) [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:487:37
+
+ info: no contextual analysis of "Actor_Source" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:525:21
+
+ info: no contextual analysis of "Actor_Source" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:526:21
+
+ info: no contextual analysis of "Actor_Source" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:527:21
+
+ info: no contextual analysis of "Actor_Source" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:528:21
+
+ info: no contextual analysis of "Actor_Source" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:529:21
+
+ info: no contextual analysis of "Stable_Proc" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:546:21
+
+ info: no contextual analysis of "Stable_Proc" (in potentially unevaluated context)
+--> worldline-scoped_capture_namespace_projection.adb:547:21
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:571:75
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:589:70
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:600:50
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_namespace_projection.adb:604:83

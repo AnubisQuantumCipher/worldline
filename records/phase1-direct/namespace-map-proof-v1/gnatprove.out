@@ -1,0 +1,60 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                                           Provers   Justified   Unproved
+------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                 8           8                                                 .           .          .
+Flow Dependencies                 .           .                                                 .           .          .
+Initialization                    2           2                                                 .           .          .
+Non-Aliasing                      .           .                                                 .           .          .
+Run-time Checks                  74           .    74 (CVC5 54%, Trivial 19%, Z3 27%, altergo 1%)           .          .
+Assertions                       12           .                             12 (CVC5 50%, Z3 50%)           .          .
+Functional Contracts              4           .                 4 (CVC5 50%, Trivial 25%, Z3 25%)           .          .
+LSP Verification                  .           .                                                 .           .          .
+Termination                      26          22                              4 (CVC5 50%, Z3 50%)           .          .
+Concurrency                       .           .                                                 .           .          .
+------------------------------------------------------------------------------------------------------------------------
+Total                           126    32 (25%)                                          94 (75%)           .          .
+
+
+max steps used for successful proof: 30
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 2 units
+in unit worldline-scoped_capture_namespace_projection, 23 subprograms and packages out of 23 analyzed
+  Worldline.Scoped_Capture_Namespace_Projection at worldline-scoped_capture_namespace_projection.ads:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Actor_Source at worldline-scoped_capture_namespace_projection.adb:128 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Bytes_Is at worldline-scoped_capture_namespace_projection.adb:19 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Credential at worldline-scoped_capture_namespace_projection.adb:29 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Credentials at worldline-scoped_capture_namespace_projection.adb:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.FD_Bytes_Match at worldline-scoped_capture_namespace_projection.adb:454 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.FD_Receipt_Matches at worldline-scoped_capture_namespace_projection.ads:9 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Field_Same at worldline-scoped_capture_namespace_projection.adb:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.ID_Matches at worldline-scoped_capture_namespace_projection.adb:228 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Identity_Same at worldline-scoped_capture_namespace_projection.adb:74 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Last_PID at worldline-scoped_capture_namespace_projection.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Map_Line_End at worldline-scoped_capture_namespace_projection.ads:25 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Map_Valid at worldline-scoped_capture_namespace_projection.ads:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Map_Value at worldline-scoped_capture_namespace_projection.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Namespace_Node at worldline-scoped_capture_namespace_projection.adb:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Node at worldline-scoped_capture_namespace_projection.adb:80 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Node_Same at worldline-scoped_capture_namespace_projection.adb:78 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Reverse_Host_Matches at worldline-scoped_capture_namespace_projection.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Root_PID_Matches at worldline-scoped_capture_namespace_projection.adb:305 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.SCM_Credentials_Match at worldline-scoped_capture_namespace_projection.ads:12 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Same at worldline-scoped_capture_namespace_projection.adb:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Stable_Proc at worldline-scoped_capture_namespace_projection.adb:82 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Namespace_Projection.Text_Payload at worldline-scoped_capture_namespace_projection.adb:45 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-startup_source_custody, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Source_Custody.Next_Line at worldline-startup_source_custody.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)

@@ -1841,3 +1841,39 @@ stale expected boolean to False. All fixture inputs, roster equality, bundle,
 explicit-empty and absent controls remain. This strengthens detection of a false
 empty declaration; no production behavior or acceptance requirement is weakened.
 The subsequent 22-test run passes at unchanged native source/library identities.
+
+
+## D123 — Bound namespace scans by offsets and expose PID progress
+
+**Problem:** the namespace map scanner advanced an absolute array index past
+E.Count'Last. A one-byte rebased array demonstrates Constraint_Error in the exact
+old helper. Aggregate flow also could not establish namespace scan termination.
+
+**Decision:** scan map lines with offsets in 0 .. Raw'Length and convert to an
+array index only for an actual byte. Preserve newline, interval, overlap and
+uint32 validation rules. Stop a malformed unmatched final map line at the
+existing overflow sentinel. Explicitly consume the first nonspace PID byte
+before scanning the rest of that word, retaining the same delimiter grammar and
+decimal rejection. State bounded cursor invariants and progress variants.
+Private helper declarations allow a child test to exercise production bodies;
+no public authorization interface or SPARK-Off boundary is added.
+
+**Evidence:** focused strict level-3 proofs pass Map_Line_End (14 checks),
+Map_Valid (44), Map_Value (17), and Last_PID (24). Earlier PID proof failed its
+outer-loop variant and is retained. Reports share a compiler cache; unrelated
+entries and excluded functions with zero checks are not credited as new proofs.
+Map proofs precede the PID-only rewrite, with their bodies unchanged.
+The checked canonical build, original Ada tests/fuzz and namespace child controls
+pass at the final source/library hashes. The exact old helper reproduces
+Constraint_Error; its first harness compile failed a missing operator visibility
+clause, now corrected with failure evidence retained. The v3 runner reuses the
+passed v2 build only after verifying unchanged source and library hashes.
+See records/phase1-direct/namespace-verification-summary.json.
+
+**Risk and limits:** ordinary byte fixtures do not authenticate namespaces,
+credentials or protected custody. Aggregate flow is still FAILED on the next
+resource-ledger exception-handler diagnostics. Full-domain retirement, whole
+strict proof, original complete runtime, protected/actor execution and independent
+F7 acceptance remain open. No contract, proof floor or accepted case is waived.
+
+**Reversal:** a new corrective commit with the original failure evidence retained.

@@ -1,0 +1,60 @@
+{
+  "claim": "TESTED focused source repair only; original Phase One gates remain open",
+  "sources_before": {
+    "core/worldline-scoped_capture_namespace_projection.adb": "58e3b3e73f75e57cd77f0b343506a5fd30cf6d168996213db9bfddfc944d371c",
+    "core/worldline-scoped_capture_namespace_projection.ads": "566b8c220d354b91f19e7ea103aa4afb7c470c12eeced375ed4c8315059be807",
+    "tests/worldline-scoped_capture_namespace_projection-scan_tests.adb": "5af60d271d10edeb7891562cfa202f67a699d36f92f8de1d1210d5c6e34d3f3f",
+    "tests/worldline_tests.gpr": "caf22f983f22c396bf0e75b69d538d84521b9820555c21d75fd29f3ad6aca5c2"
+  },
+  "steps": [
+    {
+      "name": "checked-build",
+      "argv": [
+        "gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "worldline.gpr",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-cargs:Ada",
+        "-fPIC"
+      ],
+      "started": "2026-10-19T15:56:34.690520+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:56:38.048073+00:00",
+      "artifacts": {
+        "stdout": "8547c8fd06118e00850e849e13a48ca4f1af1c00b3c77458e1e999e6f398c8f9",
+        "stderr": "821dab7c90ac85971206f4f5d96995838972f1e4ca973a5c0cd62ff11f2ba50a"
+      }
+    },
+    {
+      "name": "original-helper-build",
+      "argv": [
+        "gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "records/phase1-direct/namespace-original-counterexample/original_map_end.gpr",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-cargs:Ada",
+        "-fPIC"
+      ],
+      "started": "2026-10-19T15:56:38.097322+00:00",
+      "exit_code": 4,
+      "finished": "2026-10-19T15:56:38.566192+00:00",
+      "artifacts": {
+        "stdout": "69c4bcf390855f9605be662427f25b7c48e7be5e32f23b0c2cee08f0218ac1d2",
+        "stderr": "eaa8bbc707efe7b2a7aa0da3b8215efd12ef199f303e3274120dd39bce7db6b9"
+      }
+    }
+  ],
+  "library_before_tests": "078891cc2510d0ba517362ae81d10212a1e1cd38a8231fdacdef9358e5dac946"
+}

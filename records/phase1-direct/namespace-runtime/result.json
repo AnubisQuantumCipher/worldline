@@ -1,0 +1,83 @@
+{
+  "claim": "TESTED focused source repair only; original Phase One gates remain open",
+  "sources_before": {
+    "core/worldline-scoped_capture_namespace_projection.adb": "de861c6df50ddc3156c976c940374d4801b31326f7217e6581148b6c97895d6d",
+    "core/worldline-scoped_capture_namespace_projection.ads": "566b8c220d354b91f19e7ea103aa4afb7c470c12eeced375ed4c8315059be807",
+    "tests/worldline-scoped_capture_namespace_projection-scan_tests.adb": "5af60d271d10edeb7891562cfa202f67a699d36f92f8de1d1210d5c6e34d3f3f",
+    "tests/worldline_tests.gpr": "caf22f983f22c396bf0e75b69d538d84521b9820555c21d75fd29f3ad6aca5c2"
+  },
+  "steps": [
+    {
+      "name": "checked-build",
+      "argv": [
+        "gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "worldline.gpr",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-cargs:Ada",
+        "-fPIC"
+      ],
+      "started": "2026-10-19T15:48:31.561652+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:48:44.198801+00:00",
+      "artifacts": {
+        "stdout": "5ae73c5f0ec0d98f3beebf806864913655b80080916ed1dd4890cb257e918b9f",
+        "stderr": "a3290fbd834b14f86aab033ff8b4363bd1a16e51941e3851a72c12bd99d92586"
+      }
+    },
+    {
+      "name": "ada-tests",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/worldline_core_tests"
+      ],
+      "started": "2026-10-19T15:48:44.271495+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:48:44.289391+00:00",
+      "artifacts": {
+        "stdout": "594f964d3b1211c20569de80e9736b25bf0494ad07a1553f6c8902d9d770b60c",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "ada-fuzz",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/worldline_core_fuzz"
+      ],
+      "started": "2026-10-19T15:48:44.290321+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:48:44.307080+00:00",
+      "artifacts": {
+        "stdout": "9ca57b286a18e1ff777da8f3923d69fdd8c0e20615c8fb1c2278c47a2f6d6a98",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "namespace-controls",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/worldline-scoped_capture_namespace_projection-scan_tests"
+      ],
+      "started": "2026-10-19T15:48:44.307335+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:48:44.309166+00:00",
+      "artifacts": {
+        "stdout": "eb41d6e363a7c48ba33e108440be3b5b043d7d03f826ac722a65495b4abdf318",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "library_before_tests": "51a8680bac1794ea15165d458fbdf8fb25fa818525cef3ad94cc5302a701e29f",
+  "sources_after": {
+    "core/worldline-scoped_capture_namespace_projection.adb": "de861c6df50ddc3156c976c940374d4801b31326f7217e6581148b6c97895d6d",
+    "core/worldline-scoped_capture_namespace_projection.ads": "566b8c220d354b91f19e7ea103aa4afb7c470c12eeced375ed4c8315059be807",
+    "tests/worldline-scoped_capture_namespace_projection-scan_tests.adb": "5af60d271d10edeb7891562cfa202f67a699d36f92f8de1d1210d5c6e34d3f3f",
+    "tests/worldline_tests.gpr": "caf22f983f22c396bf0e75b69d538d84521b9820555c21d75fd29f3ad6aca5c2"
+  },
+  "library_after_tests": "51a8680bac1794ea15165d458fbdf8fb25fa818525cef3ad94cc5302a701e29f",
+  "success": true
+}

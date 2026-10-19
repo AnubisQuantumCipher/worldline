@@ -1,0 +1,13 @@
+with "../../../core/worldline_core.gpr";
+project Original_Map_End is
+ for Source_Dirs use (".");
+ for Object_Dir use "obj";
+ for Exec_Dir use "bin";
+ for Main use ("original_map_end.adb");
+ package Compiler is
+  for Default_Switches ("Ada") use ("-gnat2022", "-gnata", "-gnatVa", "-O2", "-g");
+ end Compiler;
+ package Linker is
+  for Default_Switches ("Ada") use ("-Wl,-rpath,/home/sicarii/Work/worldline-phase1-direct-20261019/lib");
+ end Linker;
+end Original_Map_End;

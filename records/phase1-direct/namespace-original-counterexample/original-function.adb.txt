@@ -1,0 +1,6 @@
+   function Map_Line_End (Raw : E.Bytes; Start : E.Count) return E.Count is
+      Finish : E.Count := Start;
+   begin
+      while Finish <= Raw'Last and then Raw (Finish) /= 10 loop Finish := Finish + 1; end loop;
+      return Finish;
+   end Map_Line_End;

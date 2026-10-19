@@ -1,0 +1,62 @@
+{
+  "status": "NONFINAL_FOCUSED_CHECKPOINT",
+  "proof_runs": [
+    {
+      "directory": "records/phase1-direct/namespace-line-proof-v1",
+      "worker": {
+        "exit_code": 0,
+        "utc": "2026-10-19T15:47:32.746819+00:00"
+      },
+      "selected_namespace_entries": [
+        "  Worldline.Scoped_Capture_Namespace_Projection.Map_Line_End at worldline-scoped_capture_namespace_projection.ads:25 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (14 checks)"
+      ]
+    },
+    {
+      "directory": "records/phase1-direct/namespace-map-proof-v1",
+      "worker": {
+        "exit_code": 0,
+        "utc": "2026-10-19T15:50:00.755414+00:00"
+      },
+      "selected_namespace_entries": [
+        "  Worldline.Scoped_Capture_Namespace_Projection.Map_Valid at worldline-scoped_capture_namespace_projection.ads:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (44 checks)",
+        "  Worldline.Scoped_Capture_Namespace_Projection.Map_Value at worldline-scoped_capture_namespace_projection.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)"
+      ]
+    },
+    {
+      "directory": "records/phase1-direct/namespace-pid-proof-v1",
+      "worker": {
+        "exit_code": 1,
+        "utc": "2026-10-19T15:51:57.082937+00:00"
+      },
+      "selected_namespace_entries": [
+        "  Worldline.Scoped_Capture_Namespace_Projection.Last_PID at worldline-scoped_capture_namespace_projection.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 21 checks out of 22 proved"
+      ]
+    },
+    {
+      "directory": "records/phase1-direct/namespace-pid-proof-v2",
+      "worker": {
+        "exit_code": 0,
+        "utc": "2026-10-19T15:53:24.652237+00:00"
+      },
+      "selected_namespace_entries": [
+        "  Worldline.Scoped_Capture_Namespace_Projection.Last_PID at worldline-scoped_capture_namespace_projection.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)"
+      ]
+    },
+    {
+      "directory": "records/phase1-direct/namespace-flow-v1",
+      "worker": {
+        "exit_code": 1,
+        "utc": "2026-10-19T15:45:30.214122+00:00"
+      }
+    }
+  ],
+  "runtime": "namespace-runtime-v3/result.json",
+  "checked_build": "namespace-runtime-v2/result.json",
+  "old_helper_counterexample": "namespace-runtime-v3/original-helper-reproduce.stdout",
+  "limits": [
+    "Focused reports share a cache: other function entries are not new proof.",
+    "Map_Line_End and Map_Valid/Map_Value proofs precede the Last_PID-only rewrite; their bodies are unchanged.",
+    "Aggregate flow remains FAILED on resource-ledger exception-handler warnings.",
+    "Full strict proof, original full runtime, retirement, authentic host/actor and F7 acceptance remain open."
+  ]
+}

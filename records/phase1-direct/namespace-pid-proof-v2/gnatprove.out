@@ -1,0 +1,38 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+---------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total      Flow                              Provers   Justified   Unproved
+---------------------------------------------------------------------------------------------------------
+Data Dependencies                 2         2                                    .           .          .
+Flow Dependencies                 .         .                                    .           .          .
+Initialization                    1         1                                    .           .          .
+Non-Aliasing                      .         .                                    .           .          .
+Run-time Checks                  40         .    40 (CVC5 84%, Trivial 3%, Z3 13%)           .          .
+Assertions                       12         .                12 (CVC5 70%, Z3 30%)           .          .
+Functional Contracts              1         .            1 (CVC5 60%, Trivial 40%)           .          .
+LSP Verification                  .         .                                    .           .          .
+Termination                       5         1                 4 (CVC5 75%, Z3 25%)           .          .
+Concurrency                       .         .                                    .           .          .
+---------------------------------------------------------------------------------------------------------
+Total                            61    4 (7%)                             57 (93%)           .          .
+
+
+max steps used for successful proof: 2
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 2 units
+in unit worldline-scoped_capture_namespace_projection, 1 subprograms and packages out of 1 analyzed
+  Worldline.Scoped_Capture_Namespace_Projection.Last_PID at worldline-scoped_capture_namespace_projection.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+in unit worldline-startup_source_custody, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Source_Custody.Next_Line at worldline-startup_source_custody.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)
