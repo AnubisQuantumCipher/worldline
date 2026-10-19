@@ -1,0 +1,7 @@
+{
+  "findings": [
+    " medium: loop variant might fail\n--> worldline-scoped_capture_projection.adb:267:31\n  267 |             pragma Loop_Variant (Increases => Position);\n      |                                  ^~~~~~~~~\n      + provers reached time and memory limit before completing the proof",
+    " warning: no recursive call visible [variant-no-recursion]\n--> worldline-scoped_capture_projection.ads:32:27\n   32 |         with Global => null, Subprogram_Variant => (Decreases => Inventory.Length);\n      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\ngnatprove: unproved check messages considered as errors\n"
+  ],
+  "scope": "body line region 213:288; public postconditions excluded"
+}

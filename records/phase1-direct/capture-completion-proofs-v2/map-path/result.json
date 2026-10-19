@@ -1,0 +1,42 @@
+{
+  "argv": [
+    "gnatprove",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=60",
+    "-j2",
+    "--subdirs=direct-proof-custody-next-line",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-u",
+    "worldline-scoped_capture_projection.adb",
+    "--limit-subp=worldline-scoped_capture_projection.adb:372"
+  ],
+  "sources_before": {
+    "core/worldline-retained_evidence_replay.adb": "a20561b8f419dc21dcb88fb9b8986d2837155fa9a69bff47277166315e250324",
+    "core/worldline-retained_evidence_replay.ads": "ff3dd0dfd6583a8fabd6cedcf7e7de18a7207317ffc17507393f6682ebf99788",
+    "core/worldline-scoped_capture_projection.adb": "04b62cd9721026a8d3b36b8b8b7a3fdfa73681080008746880026480261db15b",
+    "core/worldline-scoped_capture_projection.ads": "5cc29eb93d5d133fb841cb663430aeff623feae2ddc0487896422d239a2d1da9"
+  },
+  "exit_code": 0,
+  "fresh_report": true,
+  "sources_after": {
+    "core/worldline-retained_evidence_replay.adb": "a20561b8f419dc21dcb88fb9b8986d2837155fa9a69bff47277166315e250324",
+    "core/worldline-retained_evidence_replay.ads": "ff3dd0dfd6583a8fabd6cedcf7e7de18a7207317ffc17507393f6682ebf99788",
+    "core/worldline-scoped_capture_projection.adb": "04b62cd9721026a8d3b36b8b8b7a3fdfa73681080008746880026480261db15b",
+    "core/worldline-scoped_capture_projection.ads": "5cc29eb93d5d133fb841cb663430aeff623feae2ddc0487896422d239a2d1da9"
+  },
+  "source_stable": true,
+  "findings": []
+}

@@ -17,7 +17,6 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
    package Q renames E.Q;
    package SHA renames Attest.SHA256;
    use SPARK.Big_Integers;
-   use type E.Count;
    use type E.Span;
    use type E.Value_Kind;
    use type E.Bytes;
@@ -96,6 +95,7 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       Place : Big_Integer := To_Big_Integer (1);
    begin
       while Remaining > 0 loop
+         pragma Loop_Variant (Decreases => Remaining);
          Result := Result + To_Big_Integer (Integer (Remaining mod 256)) * Place;
          Place := Place * To_Big_Integer (256); Remaining := Remaining / 256;
       end loop;
@@ -211,23 +211,47 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
    function Descriptor (Data : E.Bytes; Inventory, Name : E.Span) return E.Span is
      (Member_Value (Data, F (Data, Inventory, "current_descriptors"), Name));
 
+   function Line_End (Raw : E.Bytes; Start : E.Count) return E.Count
+     with Pre => Start <= Raw'Length,
+       Post => Line_End'Result in Start .. Raw'Length
+   is
+      Finish : E.Count := Start;
+   begin
+      while Finish < Raw'Length and then Raw (Raw'First + Finish) /= 10 loop
+         pragma Loop_Variant (Increases => Finish);
+         pragma Loop_Invariant (Finish in Start .. Raw'Length);
+         Finish := Finish + 1;
+      end loop;
+      return Finish;
+   end Line_End;
+
    function Line (Raw : E.Bytes; Name : String; Separator : Q.Byte) return E.Span is
-      Start : Q.Byte_Index := Raw'First;
+      Start : E.Count := 0;
       Found : E.Span := (1, 0);
    begin
-      while Start <= Raw'Last loop
+      while Start < Raw'Length loop
+         pragma Loop_Variant (Increases => Start);
+         pragma Loop_Invariant (Start <= Raw'Length);
+         pragma Loop_Invariant (E.C.P.Valid (Raw, Found));
          declare
-            Finish : Q.Byte_Index := Start;
+            Finish : constant E.Count := Line_End (Raw, Start);
          begin
-            while Finish <= Raw'Last and then Raw (Finish) /= 10 loop Finish := Finish + 1; end loop;
             if Finish - Start > E.Count (Name'Length)
-              and then (for all I in Name'Range => Raw (Start + E.Count (I - Name'First)) = Character'Pos (Name (I)))
-              and then Raw (Start + E.Count (Name'Length)) = Separator
+              and then (for all I in Name'Range =>
+                Raw (Raw'First + (Start + E.Count (I - Name'First))) = Character'Pos (Name (I)))
+              and then Raw (Raw'First + (Start + E.Count (Name'Length))) = Separator
             then
                if Found.Length > 0 then return (1, 0); end if;
-               Found := (Start + E.Count (Name'Length) + 1, Finish - Start - E.Count (Name'Length) - 1);
+               declare
+                  Value_Start : constant E.Count := Start + E.Count (Name'Length) + 1;
+               begin
+                  --  Preserve representable empty endpoints. At the last legal
+                  --  index, an empty value has no representable successor index.
+                  Found := (if Value_Start = Raw'Length and then Raw'Last = E.Count'Last
+                    then (1, 0) else (Raw'First + Value_Start, Finish - Value_Start));
+               end;
             end if;
-            if Finish = Raw'Last then exit; end if;
+            if Finish = Raw'Length then exit; end if;
             Start := Finish + 1;
          end;
       end loop;
@@ -240,14 +264,24 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
    begin
       if not E.C.P.Valid (Raw, Item) then return (1, 0); end if;
       while Position < Item.Length loop
-         while Position < Item.Length and then Space (Raw (Item.First + Position)) loop Position := Position + 1; end loop;
+         pragma Loop_Variant (Increases => Position);
+         pragma Loop_Invariant (Position <= Item.Length);
+         while Position < Item.Length and then Space (Raw (Item.First + Position)) loop
+            pragma Loop_Variant (Increases => Position);
+            pragma Loop_Invariant (Position in Position'Loop_Entry .. Item.Length);
+            Position := Position + 1;
+         end loop;
+         exit when Position = Item.Length;
          declare Start : constant E.Count := Position; begin
-            while Position < Item.Length and then not Space (Raw (Item.First + Position)) loop Position := Position + 1; end loop;
-            if Position > Start then
-               if Current = Index then return (Item.First + Start, Position - Start); end if;
-               if Current = Positive'Last then return (1, 0); end if;
-               Current := Current + 1;
-            end if;
+            Position := Position + 1;
+            while Position < Item.Length and then not Space (Raw (Item.First + Position)) loop
+               pragma Loop_Variant (Increases => Position);
+               pragma Loop_Invariant (Position in Start + 1 .. Item.Length);
+               Position := Position + 1;
+            end loop;
+            if Current = Index then return (Item.First + Start, Position - Start); end if;
+            if Current = Positive'Last then return (1, 0); end if;
+            Current := Current + 1;
          end;
       end loop;
       return (1, 0);
@@ -335,6 +369,32 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       end;
       return Result;
    end Credential_Number;
+   function Map_Path_Selected (Data, Raw : E.Bytes; Files, Path : E.Span) return Boolean is
+   begin
+      if Len (Data, Files) > 0 then
+         for I in E.Count range 0 .. Len (Data, Files) - 1 loop
+            declare
+               File : constant E.Span := Element (Data, Files, I);
+               Encoded_Path : constant E.Span := F (Data, File, "path");
+            begin
+               if Text_Valid (Data, Encoded_Path) then
+                  declare
+                     Path_Bytes : constant E.Bytes := Text_Bytes (Data, Encoded_Path);
+                  begin
+                     if Parts_Same (Raw, Path, Path_Bytes, (1, Path_Bytes'Length))
+                       and then (Text (Data, F (Data, File, "role"), "INTERPRETER")
+                         or else Text (Data, F (Data, File, "role"), "EXECUTABLE")
+                         or else Text (Data, F (Data, File, "role"), "EXTENSION")
+                         or else Text (Data, F (Data, File, "role"), "DATA"))
+                     then return True; end if;
+                  end;
+               end if;
+            end;
+         end loop;
+      end if;
+      return False;
+   end Map_Path_Selected;
+
    function Maps_Match (Data : E.Bytes; Maps, Inventory : E.Span) return Boolean is
       Files : constant E.Span := F (Data, Inventory, "current_source_files");
    begin
@@ -344,33 +404,26 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
          Offset : E.Count := 0;
       begin
          while Offset < Raw'Length loop
+            pragma Loop_Variant (Increases => Offset);
+            pragma Loop_Invariant (Offset <= Raw'Length);
             declare
                Start : constant E.Count := Offset;
-               Found : Boolean := False;
             begin
-               while Offset < Raw'Length and then Raw (Raw'First + Offset) /= 10 loop Offset := Offset + 1; end loop;
+               Offset := Line_End (Raw, Start);
                declare
                   Line_Span : constant E.Span := (Raw'First + Start, Offset - Start);
                   Fifth : constant E.Span := Word (Raw, Line_Span, 5);
                   Tail : E.Count := (if Fifth.Length = 0 then Offset else Fifth.First - Raw'First + Fifth.Length);
                begin
-                  while Tail < Offset and then Raw (Raw'First + Tail) in 9 | 32 loop Tail := Tail + 1; end loop;
+                  while Tail < Offset and then Raw (Raw'First + Tail) in 9 | 32 loop
+                     pragma Loop_Variant (Increases => Tail);
+                     pragma Loop_Invariant (Tail <= Offset);
+                     Tail := Tail + 1;
+                  end loop;
                   if Tail < Offset and then Raw (Raw'First + Tail) = 47 then
-                     if Len (Data, Files) > 0 then
-                        for I in E.Count range 0 .. Len (Data, Files) - 1 loop
-                           declare File : constant E.Span := Element (Data, Files, I); begin
-                              if Text_Valid (Data, F (Data, File, "path"))
-                                and then Parts_Same (Raw, (Raw'First + Tail, Offset - Tail),
-                                  Text_Bytes (Data, F (Data, File, "path")), (1, Text_Bytes (Data, F (Data, File, "path"))'Length))
-                                and then (Text (Data, F (Data, File, "role"), "INTERPRETER")
-                                  or else Text (Data, F (Data, File, "role"), "EXECUTABLE")
-                                  or else Text (Data, F (Data, File, "role"), "EXTENSION")
-                                  or else Text (Data, F (Data, File, "role"), "DATA"))
-                              then Found := True; exit; end if;
-                           end;
-                        end loop;
-                     end if;
-                     if not Found then return False; end if;
+                     if not Map_Path_Selected
+                       (Data, Raw, Files, (Raw'First + Tail, Offset - Tail))
+                     then return False; end if;
                   end if;
                end;
                if Offset < Raw'Length then Offset := Offset + 1; end if;
@@ -1368,7 +1421,7 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
                           then F (Data, Subject_Role, "descriptor") else Subject_Role);
                         Root_Name : constant E.Span := (if K = 15 and then not Is_None (Data, Root_Role)
                           then F (Data, Root_Role, "descriptor") else Root_Role);
-                        Alias_Value : E.Span := (1, 0);
+                        Alias_Value : E.Span;
                      begin
                         if Is_None (Data, Subject_Name) then
                            if not Is_None (Data, Root_Name) then return False; end if;
@@ -1421,7 +1474,7 @@ package body Worldline.Scoped_Capture_Projection with SPARK_Mode is
       Projection : E.Span := F (Data, Provenance, "scoped_projection");
       Rows, Facts, Observed, Sources, Inventory, Entries : E.Span;
       Owner : E.Span := F (Data, Provenance, "owner_state");
-      Initial : E.Span := (1, 0);
+      Initial : E.Span;
    begin
       if Capture.Length = 0 then Capture := F (Data, Provenance, "complete_scoped_capture"); end if;
       if Capture.Length = 0 and then F (Data, Provenance, "packet").Length > 0 then Capture := Provenance; end if;

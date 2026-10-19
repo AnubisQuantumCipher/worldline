@@ -37,7 +37,9 @@ package body Worldline.Retained_Evidence_Replay with SPARK_Mode is
    use type A.C.Chain_Row;
    function Original_Valid (Data : E.Bytes; Item : E.Span) return Boolean is
      (Worldline.Recovery_Archive.Source_Valid (Data, Item, False));
-   function Field (Data : E.Bytes; Item : E.Span; Name : String) return E.Span is
+   function Field (Data : E.Bytes; Item : E.Span; Name : String) return E.Span
+     with Post => Field'Result.Length <= Item.Length
+   is
       View : constant E.View := E.Decode (Data, Item, E.Operation);
    begin
       if SA.Valid (Data, Item) then return P.Record_Field (Data, Item, Name);
@@ -118,9 +120,7 @@ package body Worldline.Retained_Evidence_Replay with SPARK_Mode is
       return Result;
    end Hex_Bytes;
    function Bytes_Shape (Data : E.Bytes; Item : E.Span; Size : E.Count) return Boolean is
-   begin
-      return Archive_Bytes_Valid (Data, Item) and then Archive_Bytes (Data, Item)'Length = Size;
-   end Bytes_Shape;
+     (Archive_Bytes_Valid (Data, Item) and then Archive_Bytes (Data, Item)'Length = Size);
    function Tuple_Is (Data : E.Bytes; Item : E.Span) return Boolean is
      ((SA.Valid (Data, Item) and then P.Type_Is (Data, Item, "tuple"))
       or else (Original_Valid (Data, Item) and then E.Decode (Data, Item, E.Operation).Form = E.Tuple_Value));
@@ -2526,6 +2526,41 @@ Digest_Matches (Data, Field (Data, Item, "operation_id"), Raw (A.Operation_Id), 
       return E.C.Operation_Archive_JSON_Matches (Arena, Data,
         (First => Q.Byte_Index (Raw.First), Length => Q.Byte_Count (Raw.Length)), Item);
    end Projection_Matches;
+   --  Keep the raw-record projection separate from the recursive archive walk.
+   --  Every original projection conjunct below is preserved in its original order.
+   function Root_Native_Capture_Matches
+     (Data : E.Bytes; Input, Arena_Item, Source, Before, After,
+      Physical_Raw, Native_Fields, Provenance_Archive : E.Span) return Boolean
+     with Global => null,
+       Pre => Bytes_Shape (Data, Input, Y.Raw_Input'Size / System.Storage_Unit)
+         and then Archive_Bytes_Valid (Data, Arena_Item)
+   is
+      Raw : constant Y.Raw_Input := RD.Load (Archive_Bytes (Data, Input));
+      Arena : constant E.Bytes := Archive_Bytes (Data, Arena_Item);
+   begin
+      if Raw.Mode /= J.Admission_Mode'Pos (J.Root_Controller_Admission)
+        or else not Y.Well_Formed (Arena, Raw.Controller)
+      then return False; end if;
+      return Projection_Matches (Arena, Data, Raw.Controller.current_source, Source)
+        and then Projection_Matches (Arena, Data, Raw.Controller.raw_request, Field (Data, Provenance_Archive, "original_request"))
+        and then Projection_Matches (Arena, Data, Raw.Controller.raw_manager, Field (Data, Physical_Raw, "manager"))
+        and then Matches (Arena, Data, Field (Data, Before, "status"), Raw.Controller.Process.raw_status)
+        and then Matches (Arena, Data, Field (Data, Before, "stat"), Raw.Controller.Process.raw_stat)
+        and then Matches (Arena, Data, Field (Data, Before, "cgroup"), Raw.Controller.Process.raw_cgroup)
+        and then Matches (Arena, Data, Field (Data, Before, "maps"), Raw.Controller.Process.raw_maps)
+        and then Matches (Arena, Data, Field (Data, Before, "cmdline"), Raw.Controller.Process.raw_cmdline)
+        -- Original before/after observation permits CPU counters/stat and
+        -- status counters to change, but cgroup/maps/cmdline are immutable.
+        and then OA.Same_Encoding (Data, Field (Data, Before, "cgroup"), Field (Data, After, "cgroup"))
+        and then OA.Same_Encoding (Data, Field (Data, Before, "maps"), Field (Data, After, "maps"))
+        and then OA.Same_Encoding (Data, Field (Data, Before, "cmdline"), Field (Data, After, "cmdline"))
+        and then Matches (Arena, Data, Field (Data, Native_Fields, "helper_image"), Raw.Controller.worker_image)
+        and then Matches (Arena, Data, Field (Data, Native_Fields, "dispatch"), Raw.Controller.dispatch)
+        and then Matches (Arena, Data, Field (Data, Native_Fields, "actual_unit"), Raw.Controller.Process.actual_unit)
+        and then Matches (Arena, Data, Field (Data, Native_Fields, "cgroup"), Raw.Controller.Process.cgroup)
+        and then Matches (Arena, Data, Field (Data, Native_Fields, "invocation"), Raw.Controller.Process.invocation)
+        and then Matches (Arena, Data, Field (Data, Native_Fields, "namespace"), Raw.Controller.Process.namespace);
+   end Root_Native_Capture_Matches;
    function Root_Capture_Matches
      (Data : E.Bytes; Observation_Archive, Provenance_Archive : E.Span) return Boolean
    is
@@ -2567,33 +2602,9 @@ Digest_Matches (Data, Field (Data, Item, "operation_id"), Raw (A.Operation_Id), 
       if Has_Subject and then not Worldline.Scoped_Capture_Projection.Subject_Capture_Matches
         (Data, Subject, Field (Data, Capture, "inventory"), Field (Data, Capture, "packet"))
       then return False; end if;
-      declare
-         Raw : constant Y.Raw_Input := RD.Load (Archive_Bytes (Data, Input));
-         Arena : constant E.Bytes := Archive_Bytes (Data, Arena_Item);
-      begin
-         if Raw.Mode /= J.Admission_Mode'Pos (J.Root_Controller_Admission)
-           or else not Y.Well_Formed (Arena, Raw.Controller)
-         then return False; end if;
-         return Projection_Matches (Arena, Data, Raw.Controller.current_source, Source)
-           and then Projection_Matches (Arena, Data, Raw.Controller.raw_request, Field (Data, Provenance_Archive, "original_request"))
-           and then Projection_Matches (Arena, Data, Raw.Controller.raw_manager, Field (Data, Physical_Raw, "manager"))
-           and then Matches (Arena, Data, Field (Data, Before, "status"), Raw.Controller.Process.raw_status)
-           and then Matches (Arena, Data, Field (Data, Before, "stat"), Raw.Controller.Process.raw_stat)
-           and then Matches (Arena, Data, Field (Data, Before, "cgroup"), Raw.Controller.Process.raw_cgroup)
-           and then Matches (Arena, Data, Field (Data, Before, "maps"), Raw.Controller.Process.raw_maps)
-           and then Matches (Arena, Data, Field (Data, Before, "cmdline"), Raw.Controller.Process.raw_cmdline)
-           -- Original before/after observation permits CPU counters/stat and
-           -- status counters to change, but cgroup/maps/cmdline are immutable.
-           and then OA.Same_Encoding (Data, Field (Data, Before, "cgroup"), Field (Data, After, "cgroup"))
-           and then OA.Same_Encoding (Data, Field (Data, Before, "maps"), Field (Data, After, "maps"))
-           and then OA.Same_Encoding (Data, Field (Data, Before, "cmdline"), Field (Data, After, "cmdline"))
-           and then Matches (Arena, Data, Field (Data, Native_Fields, "helper_image"), Raw.Controller.worker_image)
-           and then Matches (Arena, Data, Field (Data, Native_Fields, "dispatch"), Raw.Controller.dispatch)
-           and then Matches (Arena, Data, Field (Data, Native_Fields, "actual_unit"), Raw.Controller.Process.actual_unit)
-           and then Matches (Arena, Data, Field (Data, Native_Fields, "cgroup"), Raw.Controller.Process.cgroup)
-           and then Matches (Arena, Data, Field (Data, Native_Fields, "invocation"), Raw.Controller.Process.invocation)
-           and then Matches (Arena, Data, Field (Data, Native_Fields, "namespace"), Raw.Controller.Process.namespace);
-      end;
+      return Root_Native_Capture_Matches
+        (Data, Input, Arena_Item, Source, Before, After,
+         Physical_Raw, Native_Fields, Provenance_Archive);
    end Root_Capture_Matches;
    function Archive_Field
      (Data : E.Bytes; Item : E.Span; Name : String) return E.Span is

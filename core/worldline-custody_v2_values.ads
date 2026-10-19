@@ -64,7 +64,8 @@ package Worldline.Custody_V2_Values with SPARK_Mode is
         Post => Element'Result.Length = 0 or else
           Element'Result.Length < Item.Length;
    function Record_Field (Data : E.Bytes; Item : E.Span; Name : String)
-      return E.Span with Global => null;
+      return E.Span with Global => null,
+        Post => Record_Field'Result.Length <= Item.Length;
    type Count_Result (Present : Boolean := False) is record
       case Present is
          when True => Value : E.Count;

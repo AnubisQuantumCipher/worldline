@@ -1,0 +1,231 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-------------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total         Flow                                           Provers   Justified   Unproved
+-------------------------------------------------------------------------------------------------------------------------
+Data Dependencies                50           50                                                 .           .          .
+Flow Dependencies                 .            .                                                 .           .          .
+Initialization                   47           47                                                 .           .          .
+Non-Aliasing                      .            .                                                 .           .          .
+Run-time Checks                 127            .    127 (CVC5 63%, Trivial 1%, Z3 32%, altergo 4%)           .          .
+Assertions                       20            .     20 (CVC5 47%, Trivial 6%, Z3 44%, altergo 3%)           .          .
+Functional Contracts             30            .     30 (CVC5 64%, Trivial 4%, Z3 28%, altergo 3%)           .          .
+LSP Verification                  .            .                                                 .           .          .
+Termination                     179          168                11 (CVC5 36%, Z3 36%, altergo 27%)           .          .
+Concurrency                       .            .                                                 .           .          .
+-------------------------------------------------------------------------------------------------------------------------
+Total                           453    265 (58%)                                         188 (42%)           .          .
+
+
+max steps used for successful proof: 2669
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 12 units
+in unit worldline-custody_v2_mutation_decision, 1 subprograms and packages out of 1 analyzed
+  Worldline.Custody_V2_Mutation_Decision.Digest_Image at worldline-custody_v2_mutation_decision.adb:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+in unit worldline-custody_v2_values, 1 subprograms and packages out of 1 analyzed
+  Worldline.Custody_V2_Values.Record_Field at worldline-custody_v2_values.ads:66 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+in unit worldline-operation_archive, 1 subprograms and packages out of 1 analyzed
+  Worldline.Operation_Archive.Field at worldline-operation_archive.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+in unit worldline-resource_ledger_c_api, 15 subprograms and packages out of 15 analyzed
+  Worldline.Resource_Ledger_C_API at worldline-resource_ledger_c_api.ads:15 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.ABI_Version at worldline-resource_ledger_c_api.ads:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Compute at worldline-resource_ledger_c_api.ads:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+  Worldline.Resource_Ledger_C_API.Copy_Data at worldline-resource_ledger_c_api.adb:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Decode at worldline-resource_ledger_c_api.adb:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Resource_Ledger_C_API.Decode at worldline-resource_ledger_c_api.adb:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Encode at worldline-resource_ledger_c_api.ads:35 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Headroom at worldline-resource_ledger_c_api.ads:60 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+  Worldline.Resource_Ledger_C_API.Layout_Offset at worldline-resource_ledger_c_api.ads:39 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Layout_Size at worldline-resource_ledger_c_api.ads:38 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  Worldline.Resource_Ledger_C_API.Read_Byte at worldline-resource_ledger_c_api.adb:83 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Read_Quantity at worldline-resource_ledger_c_api.adb:96 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Read_Row at worldline-resource_ledger_c_api.adb:89 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Ledger_C_API.Shape at worldline-resource_ledger_c_api.adb:59 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Ledger_C_API.Shape at worldline-resource_ledger_c_api.adb:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-resource_policy_c_api, 13 subprograms and packages out of 13 analyzed
+  Worldline.Resource_Policy_C_API at worldline-resource_policy_c_api.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.ABI_Version at worldline-resource_policy_c_api.ads:53 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Admit at worldline-resource_policy_c_api.ads:63 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (20 checks)
+  Worldline.Resource_Policy_C_API.Decode at worldline-resource_policy_c_api.adb:86 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (2 checks)
+  Worldline.Resource_Policy_C_API.Decode at worldline-resource_policy_c_api.adb:90 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Policy_C_API.Decode_Data at worldline-resource_policy_c_api.adb:120 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Policy_C_API.Layout_Offset at worldline-resource_policy_c_api.ads:55 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Layout_Size at worldline-resource_policy_c_api.ads:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)
+  Worldline.Resource_Policy_C_API.Read_Byte at worldline-resource_policy_c_api.adb:101 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Read_Disk at worldline-resource_policy_c_api.adb:112 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Resource_Policy_C_API.Read_Input at worldline-resource_policy_c_api.adb:106 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Shape at worldline-resource_policy_c_api.adb:79 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Resource_Policy_C_API.Shape at worldline-resource_policy_c_api.adb:83 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-retained_evidence_replay, 1 subprograms and packages out of 1 analyzed
+  Worldline.Retained_Evidence_Replay.Root_Capture_Matches at worldline-retained_evidence_replay.ads:86 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+in unit worldline-root_custody_request_abandon, 14 subprograms and packages out of 14 analyzed
+  Worldline.Root_Custody_Request_Abandon at worldline-root_custody_request_abandon.ads:5 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Alternative_Allowed at worldline-root_custody_request_abandon.ads:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Alternative_Joined at worldline-root_custody_request_abandon.ads:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Apply_Next at worldline-root_custody_request_abandon.ads:163 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (15 checks)
+  Worldline.Root_Custody_Request_Abandon.Decide at worldline-root_custody_request_abandon.ads:149 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  Worldline.Root_Custody_Request_Abandon.Event_Bound at worldline-root_custody_request_abandon.ads:89 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Generation_Allowed at worldline-root_custody_request_abandon.ads:108 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Legal at worldline-root_custody_request_abandon.ads:118 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Request_Kind at worldline-root_custody_request_abandon.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Subject_Bound at worldline-root_custody_request_abandon.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Subject_CAS at worldline-root_custody_request_abandon.ads:37 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Subjects_Valid at worldline-root_custody_request_abandon.ads:73 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (6 checks)
+  Worldline.Root_Custody_Request_Abandon.Table_Corresponds at worldline-root_custody_request_abandon.ads:57 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Root_Custody_Request_Abandon.Transfer_Head_Joined at worldline-root_custody_request_abandon.ads:99 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-scoped_capture_evolution_projection, 56 subprograms and packages out of 56 analyzed
+  Worldline.Scoped_Capture_Evolution_Projection at worldline-scoped_capture_evolution_projection.ads:7 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Byte_Count at worldline-scoped_capture_evolution_projection.adb:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Bytes_Valid at worldline-scoped_capture_evolution_projection.adb:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Closed_Roles_Match at worldline-scoped_capture_evolution_projection.ads:12 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Closed_Roles_Match.Actor_Matches at worldline-scoped_capture_evolution_projection.adb:867 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Closed_Roles_Match.Close_Matches at worldline-scoped_capture_evolution_projection.adb:870 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Closed_Roles_Match.Role_Lineage_Matches at worldline-scoped_capture_evolution_projection.adb:906 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Closed_Roles_Match.Writer_Alias_Acquisition_Matches at worldline-scoped_capture_evolution_projection.adb:1041 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Closed_Roles_Match.Writer_Lineage_Matches at worldline-scoped_capture_evolution_projection.adb:888 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Count_Is at worldline-scoped_capture_evolution_projection.adb:216 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Descriptor_Maps_Match at worldline-scoped_capture_evolution_projection.adb:109 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Evolution_Matches at worldline-scoped_capture_evolution_projection.ads:30 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Evolution_Matches.Actor_Matches at worldline-scoped_capture_evolution_projection.adb:1472 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Evolution_Matches.Fresh_Actor_Matches at worldline-scoped_capture_evolution_projection.adb:1475 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Evolution_Matches.Import_Matches at worldline-scoped_capture_evolution_projection.adb:1447 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Evolution_Matches.Kcmp at worldline-scoped_capture_evolution_projection.adb:1435 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Evolution_Matches.Original_Matches at worldline-scoped_capture_evolution_projection.adb:1463 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.FD at worldline-scoped_capture_evolution_projection.adb:101 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Find at worldline-scoped_capture_evolution_projection.adb:125 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Find_Row at worldline-scoped_capture_evolution_projection.adb:138 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Flags_Match at worldline-scoped_capture_evolution_projection.adb:252 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Identity at worldline-scoped_capture_evolution_projection.adb:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Image_Matches at worldline-scoped_capture_evolution_projection.adb:45 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Initial_Roles_Match at worldline-scoped_capture_evolution_projection.adb:1246 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Initial_Roles_Match.Cross at worldline-scoped_capture_evolution_projection.adb:1256 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Initial_Root_Transport_Matches at worldline-scoped_capture_evolution_projection.ads:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Initial_Root_Transport_Matches.Baseline at worldline-scoped_capture_evolution_projection.adb:339 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Initial_Root_Transport_Matches.Received_Before at worldline-scoped_capture_evolution_projection.adb:363 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Is_None at worldline-scoped_capture_evolution_projection.adb:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Item at worldline-scoped_capture_evolution_projection.adb:60 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Joined_Bytes at worldline-scoped_capture_evolution_projection.adb:229 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Key at worldline-scoped_capture_evolution_projection.adb:68 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Len at worldline-scoped_capture_evolution_projection.adb:58 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Locks_Match at worldline-scoped_capture_evolution_projection.adb:151 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Lookup at worldline-scoped_capture_evolution_projection.adb:72 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Members at worldline-scoped_capture_evolution_projection.adb:62 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Number_Is at worldline-scoped_capture_evolution_projection.adb:84 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Physical_Roles_Match at worldline-scoped_capture_evolution_projection.adb:163 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Receipt_Part_Matches at worldline-scoped_capture_evolution_projection.adb:207 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Role_Name at worldline-scoped_capture_evolution_projection.adb:119 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.SF at worldline-scoped_capture_evolution_projection.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Same at worldline-scoped_capture_evolution_projection.adb:20 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Scoped_Name at worldline-scoped_capture_evolution_projection.adb:186 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Seq at worldline-scoped_capture_evolution_projection.adb:56 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Source_Bytes at worldline-scoped_capture_evolution_projection.adb:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Stream_Matches at worldline-scoped_capture_evolution_projection.adb:297 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Subject_Roles_Match at worldline-scoped_capture_evolution_projection.ads:25 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Subject_Roles_Match at worldline-scoped_capture_evolution_projection.ads:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Subject_Roles_Match.Cross at worldline-scoped_capture_evolution_projection.adb:1346 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Subject_Transport_Matches at worldline-scoped_capture_evolution_projection.ads:14 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Subject_Transport_Matches.B_46.B_52.Preclose_Baseline at worldline-scoped_capture_evolution_projection.adb:745 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Subject_Transport_Matches.B_46.Baseline at worldline-scoped_capture_evolution_projection.adb:636 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Text at worldline-scoped_capture_evolution_projection.adb:52 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Valid at worldline-scoped_capture_evolution_projection.adb:17 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Value at worldline-scoped_capture_evolution_projection.adb:70 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Evolution_Projection.Width at worldline-scoped_capture_evolution_projection.adb:65 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-scoped_capture_namespace_projection, 1 subprograms and packages out of 1 analyzed
+  Worldline.Scoped_Capture_Namespace_Projection.Last_PID at worldline-scoped_capture_namespace_projection.ads:34 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (24 checks)
+in unit worldline-scoped_capture_projection, 80 subprograms and packages out of 80 analyzed
+  Worldline.Scoped_Capture_Projection at worldline-scoped_capture_projection.ads:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Byte_Part_Equals at worldline-scoped_capture_projection.adb:310 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Bytes at worldline-scoped_capture_projection.adb:75 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Bytes_Valid at worldline-scoped_capture_projection.adb:70 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Cgroup_Identity at worldline-scoped_capture_projection.adb:1146 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Classifier_Matches at worldline-scoped_capture_projection.adb:1076 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Count_Number at worldline-scoped_capture_projection.adb:92 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Credential_Number at worldline-scoped_capture_projection.adb:358 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Current_History_Matches at worldline-scoped_capture_projection.adb:922 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Current_Matches at worldline-scoped_capture_projection.adb:983 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Current_Source_Matches at worldline-scoped_capture_projection.ads:21 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Decimal at worldline-scoped_capture_projection.ads:53 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Descriptor at worldline-scoped_capture_projection.adb:211 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Digest_Matches at worldline-scoped_capture_projection.adb:176 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Element at worldline-scoped_capture_projection.adb:47 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Field_Same at worldline-scoped_capture_projection.adb:152 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Float_Bits at worldline-scoped_capture_projection.adb:147 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Float_Valid at worldline-scoped_capture_projection.adb:141 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Hash_Field at worldline-scoped_capture_projection.ads:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Head_Matches at worldline-scoped_capture_projection.adb:1166 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Head_Source_Matches at worldline-scoped_capture_projection.ads:27 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Hex_Matches at worldline-scoped_capture_projection.adb:157 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Id_Hex at worldline-scoped_capture_projection.ads:25 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Id_Text at worldline-scoped_capture_projection.adb:174 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Image_Matches at worldline-scoped_capture_projection.adb:1150 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Integer_Valid at worldline-scoped_capture_projection.adb:62 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Is_None at worldline-scoped_capture_projection.adb:68 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Is_Number at worldline-scoped_capture_projection.adb:104 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.JSON_Matches at worldline-scoped_capture_projection.adb:192 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.JSON_Source_Value_Matches at worldline-scoped_capture_projection.ads:41 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.JSON_Value_Matches at worldline-scoped_capture_projection.ads:20 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Len at worldline-scoped_capture_projection.adb:53 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Line at worldline-scoped_capture_projection.ads:44 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Line_End at worldline-scoped_capture_projection.adb:214 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Lossless_Matches at worldline-scoped_capture_projection.adb:849 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Maps_Match at worldline-scoped_capture_projection.ads:56 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Member_Value at worldline-scoped_capture_projection.ads:31 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Members at worldline-scoped_capture_projection.adb:117 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Namespace_Matches at worldline-scoped_capture_projection.ads:26 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Nibble at worldline-scoped_capture_projection.adb:140 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Number at worldline-scoped_capture_projection.ads:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Parts_Same at worldline-scoped_capture_projection.adb:320 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Peer_Matches at worldline-scoped_capture_projection.adb:1194 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Physical_Matches at worldline-scoped_capture_projection.adb:1234 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Poll_Matches at worldline-scoped_capture_projection.adb:333 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Process_Cgroup_Matches at worldline-scoped_capture_projection.ads:55 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Process_Image_Matches at worldline-scoped_capture_projection.adb:422 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Process_Matches at worldline-scoped_capture_projection.adb:455 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Process_Source_Matches at worldline-scoped_capture_projection.ads:35 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Property at worldline-scoped_capture_projection.ads:23 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Raw_Source_Field at worldline-scoped_capture_projection.ads:32 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Reconstruction_Matches at worldline-scoped_capture_projection.adb:582 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Rights_Matches at worldline-scoped_capture_projection.adb:552 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Role_Entry at worldline-scoped_capture_projection.adb:323 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Role_Roster_Matches at worldline-scoped_capture_projection.ads:28 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Same at worldline-scoped_capture_projection.adb:150 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Scoped_Capture_Matches at worldline-scoped_capture_projection.ads:10 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Scoped_Descriptor_Alias_Matches at worldline-scoped_capture_projection.ads:36 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Scoped_Descriptor_Alias_Matches.Cross at worldline-scoped_capture_projection.adb:1565 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Scoped_Descriptor_Alias_Matches.Cross_Identity at worldline-scoped_capture_projection.adb:1567 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Scoped_Descriptor_Alias_Matches.Find at worldline-scoped_capture_projection.adb:1574 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Scoped_Record_Matches at worldline-scoped_capture_projection.ads:42 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Sequence_Valid at worldline-scoped_capture_projection.adb:59 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Source_Files_Match at worldline-scoped_capture_projection.adb:557 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Source_Record_Matches at worldline-scoped_capture_projection.ads:43 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Space at worldline-scoped_capture_projection.adb:260 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Stable_Identity at worldline-scoped_capture_projection.adb:202 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Stat_Number at worldline-scoped_capture_projection.ads:54 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Subject_Capture_Matches at worldline-scoped_capture_projection.ads:13 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  Worldline.Scoped_Capture_Projection.Subject_Capture_Matches.Role_FD at worldline-scoped_capture_projection.adb:1324 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Subject_Capture_Matches.Role_Name at worldline-scoped_capture_projection.adb:1317 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Subject_Capture_Matches.Width at worldline-scoped_capture_projection.adb:1313 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Syscall at worldline-scoped_capture_projection.adb:208 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Text at worldline-scoped_capture_projection.adb:66 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Text_Bytes at worldline-scoped_capture_projection.adb:114 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Text_Valid at worldline-scoped_capture_projection.adb:109 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Text_View at worldline-scoped_capture_projection.adb:107 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.UUID_Matches at worldline-scoped_capture_projection.adb:900 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Value_Matches at worldline-scoped_capture_projection.ads:19 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+  Worldline.Scoped_Capture_Projection.Word at worldline-scoped_capture_projection.ads:46 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (0 checks)
+in unit worldline-startup_admission, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Admission.Semantic_Same at worldline-startup_admission.adb:136 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+in unit worldline-startup_source_custody, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Source_Custody.Next_Line at worldline-startup_source_custody.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)

@@ -9,7 +9,9 @@ project Worldline_Tests is
                  "startup_source_probe.adb",
                  "worldline-scoped_capture_namespace_projection-scan_tests.adb",
                  "resource_ledger_transport_tests.adb",
-                 "resource_policy_transport_tests.adb");
+                 "resource_policy_transport_tests.adb",
+                 "scoped_capture_scan_tests.adb",
+                 "scoped_capture_probe.adb");
 
    type Build_Kind is ("checks", "release");
    Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");

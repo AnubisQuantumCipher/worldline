@@ -6,12 +6,16 @@ with Worldline.Retained_Evidence_Replay;
 package Worldline.Scoped_Capture_Projection with SPARK_Mode is
    package R renames Worldline.Retained_Evidence_Replay;
    package E renames R.E;
+   use type E.Count;
    function Scoped_Capture_Matches
      (Data : E.Bytes; Observation, Provenance : E.Span) return Boolean
      with Global => null;
    function Subject_Capture_Matches
      (Data : E.Bytes; Subject, Primary, Packet : E.Span) return Boolean
-     with Global => null;
+     with Global => null,
+       Subprogram_Variant =>
+         (Decreases => E.Count'Max (Subject.Length, Primary.Length),
+          Decreases => Natural'(2));
    function Value_Matches (Data : E.Bytes; Left, Right : E.Span) return Boolean with Global => null;
    function JSON_Value_Matches (Data : E.Bytes; JSON, Item : E.Span) return Boolean with Global => null;
    function Current_Source_Matches (Data : E.Bytes; Packet, Projection : E.Span) return Boolean with Global => null;
@@ -22,18 +26,30 @@ package Worldline.Scoped_Capture_Projection with SPARK_Mode is
    function Namespace_Matches (Data : E.Bytes; Id, Identity : E.Span) return Boolean with Global => null;
    function Head_Source_Matches (Data : E.Bytes; Fact, Source : E.Span) return Boolean with Global => null;
    function Role_Roster_Matches (Data : E.Bytes; Inventory : E.Span) return Boolean
-     with Global => null, Subprogram_Variant => (Decreases => Inventory.Length);
+     with Global => null, Subprogram_Variant =>
+       (Decreases => Inventory.Length, Decreases => Natural'(1));
    function Member_Value (Data : E.Bytes; Item, Name : E.Span) return E.Span with Global => null;
-   function Raw_Source_Field (Data : E.Bytes; Item : E.Span; Name : String) return E.Span with Global => null;
+   function Raw_Source_Field (Data : E.Bytes; Item : E.Span; Name : String) return E.Span
+     with Global => null, Post => Raw_Source_Field'Result.Length = 0
+       or else Raw_Source_Field'Result.Length < Item.Length;
    function Process_Source_Matches (Data : E.Bytes; Item, Inventory, Namespace, Unit, Invocation : E.Span) return Boolean with Global => null;
    function Scoped_Descriptor_Alias_Matches (Data, Actual_Data : E.Bytes;
      Inventory, Role, FD, Identity : E.Span) return Boolean
-     with Global => null, Subprogram_Variant => (Decreases => Inventory.Length);
+     --  The wrapper is nonrecursive; its local Find owns the decreasing
+     --  inventory measure. The function's implicit termination check remains.
+     with Global => null;
    function JSON_Source_Value_Matches (Data : E.Bytes; Raw, Value : E.Span; Canonical : Boolean; Scoped : Boolean := False) return Boolean with Global => null;
    function Scoped_Record_Matches (Data : E.Bytes; Encoded, Typed : E.Span; Scoped, Typed_Scoped : Boolean := False) return Boolean with Global => null;
    function Source_Record_Matches (Data : E.Bytes; Encoded, Raw_Source : E.Span; Scoped, Raw_Scoped : Boolean := False) return Boolean with Global => null;
-   function Line (Raw : E.Bytes; Name : String; Separator : E.Q.Byte) return E.Span with Global => null;
-   function Word (Raw : E.Bytes; Item : E.Span; Index : Positive) return E.Span with Global => null;
+   function Line (Raw : E.Bytes; Name : String; Separator : E.Q.Byte) return E.Span
+     with Global => null, Post => E.C.P.Valid (Raw, Line'Result);
+   function Word (Raw : E.Bytes; Item : E.Span; Index : Positive) return E.Span
+     with Global => null,
+       Post => E.C.P.Valid (Raw, Word'Result)
+         and then (Word'Result.Length = 0
+           or else (Word'Result.First >= Item.First
+             and then Word'Result.First - Item.First <= Item.Length
+             and then Word'Result.Length <= Item.Length - (Word'Result.First - Item.First)));
    function Decimal (Raw : E.Bytes; Item : E.Span) return SPARK.Big_Integers.Valid_Big_Integer with Global => null;
    function Stat_Number (Raw : E.Bytes; Index : Positive) return SPARK.Big_Integers.Valid_Big_Integer with Global => null;
    function Process_Cgroup_Matches (Data : E.Bytes; Raw, Native : E.Span) return Boolean with Global => null;

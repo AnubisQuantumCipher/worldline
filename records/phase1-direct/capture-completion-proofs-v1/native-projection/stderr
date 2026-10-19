@@ -1,0 +1,27 @@
+ info: implicit aspect Always_Terminates on "Root_Native_Capture_Matches" has been proved, subprogram will terminate
+--> worldline-retained_evidence_replay.adb:2533:13
+
+ info: data dependencies proved
+--> worldline-retained_evidence_replay.adb:2536:11
+
+ info: range check proved
+--> worldline-retained_evidence_replay.adb:2537:52
+
+ info: division check proved
+--> worldline-retained_evidence_replay.adb:2537:58
+
+ medium: precondition might fail
+--> worldline-retained_evidence_replay.adb:2540:39
+ 2540 |          Raw : constant Y.Raw_Input := RD.Load (Archive_Bytes (Data, Input));
+      |                                        ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time and memory limit before completing the proof
+
+ medium: precondition might fail
+--> worldline-retained_evidence_replay.adb:2540:46
+ 2540 |          Raw : constant Y.Raw_Input := RD.Load (Archive_Bytes (Data, Input));
+      |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      + provers reached time and memory limit before completing the proof
+
+ info: precondition proved
+--> worldline-retained_evidence_replay.adb:2541:35
+gnatprove: unproved check messages considered as errors

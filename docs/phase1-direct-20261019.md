@@ -256,3 +256,45 @@ These are combined receipts, not a relabeled successful 60-case invocation.
 Scoped-capture flow findings, compiler warnings, complete original proof/runtime,
 the full-domain numerical counterexample, Old retirement and authentic
 protected/actor/F7 acceptance remain open.
+
+## D128: capture scanner overflow and structural recursion
+
+The original public line scanner raises `CONSTRAINT_ERROR` on an owned one-byte
+array at the maximum legal index. The retained baseline is
+`records/phase1-direct/scoped-scan-baseline-v1`. Line scanning now uses offsets,
+preserves representable empty endpoints and the original duplicate-field
+behavior, and returns valid spans. Word scanning carries its actual progress
+through whitespace and returns a proved subspan. Maps path selection retains
+the original complete byte comparisons and all permitted roles.
+
+The recursive capture cycle now has a lexicographic archive-size/stage measure.
+Separate helper contracts bound raw and scoped field sizes; no depth cap, public
+input precondition, assumed bound or omitted capture check was introduced. The
+nonrecursive native comparison tail was extracted intact from root capture so
+the recursive walk can be verified without repeatedly expanding the raw record.
+The extracted helper is itself checked; its original comparisons remain.
+
+Selected strict level-3 proofs establish Line (34 checks), Word (25), raw field
+(2), scoped record field (1), retained field (2), Count_Number (8), native
+projection (5), Maps_Match (28), and its path helper (3). The six recursive call
+sites are checked separately, with the final root call included in the complete
+root-capture function proof. These are named scopes, not a claim based on cached
+aggregate report totals. Unchanged helper bodies and contracts are explicitly
+compared for modular reuse after extraction. See `capture-modular-proof-reuse.json`
+and `capture-verification-summary.json` for exact sources and scope boundaries.
+
+The final `capture-runtime-v3/result.json` records the checked build, original Ada
+tests and fuzz harness, the maximum-index scanner controls and 37 Python tests
+passing with stable product source and library bytes. Compiler warnings elsewhere
+remain. Two original scoped-history status assertions initially contradicted
+the unchanged declarative decision contract. Their original inputs and failure
+are preserved; the expected refusal order is corrected and an added control
+still requires the later historical-row refusal. No executable authorization
+policy was changed. The rationale and original test are retained under
+`scoped-history-oracle-correction`.
+
+The aggregate flow frontier still includes lifetime values, scoped ledger-wire
+initialization and SQLite numeric formatting. Complete original strict proof,
+full runtime coverage, the full-domain numerical failure, implicit Old retirement
+and authentic protected/actor/F7 acceptance remain open. This is a non-final
+product checkpoint; OMP remains stopped and owns only its separate workflow.

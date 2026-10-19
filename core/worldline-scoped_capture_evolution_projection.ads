@@ -15,7 +15,8 @@ package Worldline.Scoped_Capture_Evolution_Projection with SPARK_Mode is
      with Global => null;
    --  Authentic initial ROOT custody is distinct from a later subject frame.
    function Initial_Root_Transport_Matches (Data : E.Bytes; Inventory : E.Span) return Boolean
-     with Global => null;
+     with Global => null, Subprogram_Variant =>
+       (Decreases => Inventory.Length, Decreases => Natural'(0));
    --  Both operands are complete original raw archive values (never scoped).
    --  The caller proves whole S.record/raw transfer equality and the complete
    --  native Item.Material.metadata.provenance.subject_capture floor; Inventory

@@ -85,7 +85,8 @@ package Worldline.Retained_Evidence_Replay with SPARK_Mode is
       return Boolean with Global => null;
    function Root_Capture_Matches
      (Data : E.Bytes; Observation_Archive, Provenance_Archive : E.Span)
-      return Boolean with Global => null;
+      return Boolean with Global => null, Subprogram_Variant =>
+        (Decreases => Provenance_Archive.Length, Decreases => Natural'(3));
    -- Original exact ten-member current and eight-member intake provenance remain
    -- valid. The sole additive subject_capture member is accepted only when the
    -- complete same-event subject/native/descriptor relation validates it.

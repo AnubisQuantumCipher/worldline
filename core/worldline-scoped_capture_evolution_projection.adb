@@ -341,7 +341,7 @@ package body Worldline.Scoped_Capture_Evolution_Projection with SPARK_Mode is
       is
          Frame : constant E.Span := F (Data, Here, "frame");
          Prior : E.Span := F (Data, F (Data, Here, "reconstruction"), "original_inventory");
-         Found : E.Span := Empty;
+         Found : E.Span;
          Closures : constant E.Span := F (Data, Frame, "closed_roles");
       begin
          if Same (Data, Frame, F (Data, Root_Frame, "owned_descriptor_roster")) then return Here; end if;
@@ -397,7 +397,7 @@ package body Worldline.Scoped_Capture_Evolution_Projection with SPARK_Mode is
          end loop;
          return False;
       end Received_Before;
-      Before : E.Span := Empty;
+      Before : E.Span;
    begin
       if Transport.Length = 0 then return True; end if;
       Before := Baseline (Inventory);
@@ -640,7 +640,7 @@ package body Worldline.Scoped_Capture_Evolution_Projection with SPARK_Mode is
             Reconstruction : constant E.Span := F (Data, F (Data, Here, "reconstruction"), "original_inventory");
             Evolution : constant E.Span := F (Data, F (Data, Frame, "evolution"), "original_inventory");
             Closed : constant E.Span := F (Data, Frame, "closed_roles");
-            Found : E.Span := Empty;
+            Found : E.Span;
          begin
             if RA.Ordered_Source_Value_Matches (Original, Data, Original_Span, Frame, False, False) then return Here; end if;
             if Reconstruction.Length > 0 and then Reconstruction.Length < Here.Length then
@@ -748,7 +748,7 @@ package body Worldline.Scoped_Capture_Evolution_Projection with SPARK_Mode is
                Here_Frame : constant E.Span := F (Data, Here, "frame");
                Closed_Roles : constant E.Span := F (Data, Here_Frame, "closed_roles");
                Prior : E.Span := F (Data, F (Data, Here, "reconstruction"), "original_inventory");
-               Found : E.Span := Empty;
+               Found : E.Span;
             begin
                if Same (Data, Here_Frame, F (Data, Current_Inventory, "frame"))
                  and then Physical_Roles_Match (Data, F (Data, Here, "roles"), F (Data, Capture, "roles"))

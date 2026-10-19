@@ -1,0 +1,341 @@
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:34:79
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:86:37
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:129:48
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:160:26
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:183:24
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:184:20
+
+ info: implicit aspect Always_Terminates on "Line_End" has been proved, subprogram will terminate
+--> worldline-scoped_capture_projection.adb:214:13
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:215:30
+
+ info: postcondition proved
+--> worldline-scoped_capture_projection.adb:216:16
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:216:47
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:220:25
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:220:57
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:220:57
+
+ info: loop variant proved
+--> worldline-scoped_capture_projection.adb:221:31
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:222:33
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:222:33
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:222:55
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:223:27
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:232:24
+
+ info: loop variant proved
+--> worldline-scoped_capture_projection.adb:233:31
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:234:33
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:234:33
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:234:45
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:235:33
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:235:33
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:235:46
+
+ info: precondition proved
+--> worldline-scoped_capture_projection.adb:237:42
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:239:23
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:239:46
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:241:32
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:241:32
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:241:41
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:241:54
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:241:54
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:241:93
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:242:39
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:242:39
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:242:48
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:242:63
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:246:59
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:246:74
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:246:83
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:246:83
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:250:49
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:251:49
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:251:49
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:251:71
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:251:71
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:254:28
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:255:29
+
+ info: implicit aspect Always_Terminates on "Space" has been proved, subprogram will terminate
+--> worldline-scoped_capture_projection.adb:260:13
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:265:27
+
+ medium: loop variant might fail
+--> worldline-scoped_capture_projection.adb:267:31
+  267 |             pragma Loop_Variant (Increases => Position);
+      |                                  ^~~~~~~~~
+      + provers reached time and memory limit before completing the proof
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:268:33
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:268:33
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:269:71
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:269:71
+
+ info: loop variant proved
+--> worldline-scoped_capture_projection.adb:270:34
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:271:36
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:271:36
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:272:34
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:276:34
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:277:78
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:277:78
+
+ info: loop variant proved
+--> worldline-scoped_capture_projection.adb:278:37
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:279:39
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:279:39
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:279:57
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:280:37
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:282:56
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:282:74
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:282:74
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:284:32
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:293:51
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:304:26
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:327:60
+
+ info: unrolling loop [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:364:48
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:394:75
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:420:60
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:442:59
+
+ info: unrolling loop [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:530:41
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:563:61
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:603:65
+
+ info: unrolling loop [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:619:65
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:623:68
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:632:65
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:645:74
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:654:89
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:685:77
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:736:63
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:810:53
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:819:91
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:868:66
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:880:54
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:903:29
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:945:66
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1040:62
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1148:60
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1174:48
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1213:66
+
+ info: cannot unroll loop (local non-scalar declaration at line 1278) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1276:41
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1322:63
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1359:60
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1370:59
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1378:73
+
+ info: cannot unroll loop (local non-scalar declaration at line 1398) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1396:51
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1486:59
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1503:59
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1584:65
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1593:66
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:1606:96
+
+ warning: no recursive call visible [variant-no-recursion]
+--> worldline-scoped_capture_projection.ads:32:27
+   32 |         with Global => null, Subprogram_Variant => (Decreases => Inventory.Length);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gnatprove: unproved check messages considered as errors

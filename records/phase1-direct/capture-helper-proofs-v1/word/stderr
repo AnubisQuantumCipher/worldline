@@ -1,0 +1,6 @@
+ error: aspect "Always_Terminates" cannot apply to function [E0016]
+--> worldline-scoped_capture_projection.ads:40:27
+   40 |         with Global => null, Always_Terminates;
+      |                              ^~~~~~~~~~~~~~~~~
+      + launch "gnatprove --explain=E0016" for more information
+gnatprove: error during generation of Global contracts

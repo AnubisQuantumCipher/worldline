@@ -1,0 +1,119 @@
+ info: precondition proved
+--> worldline-scoped_capture_projection.adb:377:36
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:380:28
+
+ info: loop variant proved
+--> worldline-scoped_capture_projection.adb:381:34
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:382:36
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:382:36
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:382:49
+
+ info: precondition proved
+--> worldline-scoped_capture_projection.adb:387:26
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:389:61
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:389:61
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:389:77
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:389:77
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:391:87
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:391:99
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:391:99
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:393:63
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:393:63
+
+ info: loop variant proved
+--> worldline-scoped_capture_projection.adb:394:43
+
+ info: loop invariant initialization proved
+--> worldline-scoped_capture_projection.adb:395:45
+
+ info: loop invariant preservation proved
+--> worldline-scoped_capture_projection.adb:395:45
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:396:35
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:398:60
+
+ info: index check proved
+--> worldline-scoped_capture_projection.adb:398:60
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:400:29
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:400:75
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:403:70
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:403:70
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:403:85
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:403:85
+
+ medium: precondition might fail
+--> worldline-scoped_capture_projection.adb:404:35
+  404 |                                      Text_Bytes (Data, F (Data, File, "path")), (1, Text_Bytes (Data, F (Data, File, "path"))'Length))
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at worldline-scoped_capture_projection.ads:56 should mention Data in a precondition
+      --> worldline-scoped_capture_projection.ads:56:04
+   56 |       function Maps_Match (Data : E.Bytes; Maps, Inventory : E.Span) return Boolean with Global => null;
+      |       ^
+      + provers reached time limit before completing the proof
+
+ medium: precondition might fail
+--> worldline-scoped_capture_projection.adb:404:82
+  404 |                                      Text_Bytes (Data, F (Data, File, "path")), (1, Text_Bytes (Data, F (Data, File, "path"))'Length))
+      |                                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + possible fix: subprogram at worldline-scoped_capture_projection.ads:56 should mention Data in a precondition
+      --> worldline-scoped_capture_projection.ads:56:04
+   56 |       function Maps_Match (Data : E.Bytes; Maps, Inventory : E.Span) return Boolean with Global => null;
+      |       ^
+      + provers reached time limit before completing the proof
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:404:123
+
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:416:31
+
+ info: overflow check proved
+--> worldline-scoped_capture_projection.adb:416:61
+
+ info: implicit aspect Always_Terminates on "Maps_Match" has been proved, subprogram will terminate
+--> worldline-scoped_capture_projection.ads:56:13
+
+ info: data dependencies proved
+--> worldline-scoped_capture_projection.ads:56:87
+gnatprove: unproved check messages considered as errors

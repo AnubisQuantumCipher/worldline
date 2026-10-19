@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/prove-capture-cycle.py", line 63, in <module>
+    results = [check(case) for case in CASES]
+               ~~~~~^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/prove-capture-cycle.py", line 44, in check
+    result = subprocess.run(argv, cwd=ROOT, stdin=subprocess.DEVNULL,
+                            stdout=stdout, stderr=stderr, timeout=240)
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2179, in _communicate
+    self.wait(timeout=self._remaining_time(endtime))
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1279, in wait
+    return self._wait(timeout=timeout)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2076, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['gnatprove', '-P', 'core/worldline_core_sources.gpr', '--no-inlining', '--mode=all', '--level=3', '--report=all', '--checks-as-errors=on', '--proof-warnings=on', '--warnings=error', '--memlimit=1024', '--timeout=60', '-j2', '--subdirs=direct-proof-custody-next-line', '-XWORLDLINE_BUILD=checks', '-XSPARKLIB_MODE=full', '-XSPARKLIB_BUILD=Production', '-XSPARKLIB_LIBRARY_TYPE=static', '-XSPARKLIB_INSTALLED=True', '-u', 'worldline-retained_evidence_replay.adb', '--limit-line=worldline-retained_evidence_replay.adb:2569']' timed out after 240 seconds

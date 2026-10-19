@@ -1,0 +1,48 @@
+{
+  "argv": [
+    "gnatprove",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=60",
+    "-j2",
+    "--subdirs=direct-proof-custody-next-line",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-u",
+    "worldline-scoped_capture_projection.adb",
+    "--limit-subp=worldline-scoped_capture_projection.ads:44"
+  ],
+  "sources_before": {
+    "core/worldline-custody_v2_values.adb": "0d321fa877a468d4898773b6384ae497b0677b7c336c46a923c86dfc385205d8",
+    "core/worldline-custody_v2_values.ads": "e8d788cbe6d90ab0623216f6a0b88f55dbb023602a1a274d262a0ba5591c28f7",
+    "core/worldline-retained_evidence_replay.adb": "6668a5de7ffa26a1f1870c1231674c9dda6ac9e5efc6c7a44b1694f0d1d0e8fc",
+    "core/worldline-retained_evidence_replay.ads": "ff3dd0dfd6583a8fabd6cedcf7e7de18a7207317ffc17507393f6682ebf99788",
+    "core/worldline-scoped_capture_projection.adb": "1926353c7a63458734182af722c404c6df8b634c7b785f577962593b614ef435",
+    "core/worldline-scoped_capture_projection.ads": "2d4335adcd7f42f269aa83b7c5bc7bfa3d56aa28bb13cb5f55c9300adb76c00c"
+  },
+  "exit_code": 1,
+  "fresh_report": false,
+  "sources_after": {
+    "core/worldline-custody_v2_values.adb": "0d321fa877a468d4898773b6384ae497b0677b7c336c46a923c86dfc385205d8",
+    "core/worldline-custody_v2_values.ads": "e8d788cbe6d90ab0623216f6a0b88f55dbb023602a1a274d262a0ba5591c28f7",
+    "core/worldline-retained_evidence_replay.adb": "6668a5de7ffa26a1f1870c1231674c9dda6ac9e5efc6c7a44b1694f0d1d0e8fc",
+    "core/worldline-retained_evidence_replay.ads": "ff3dd0dfd6583a8fabd6cedcf7e7de18a7207317ffc17507393f6682ebf99788",
+    "core/worldline-scoped_capture_projection.adb": "1926353c7a63458734182af722c404c6df8b634c7b785f577962593b614ef435",
+    "core/worldline-scoped_capture_projection.ads": "2d4335adcd7f42f269aa83b7c5bc7bfa3d56aa28bb13cb5f55c9300adb76c00c"
+  },
+  "source_stable": true,
+  "findings": [
+    " error: aspect \"Always_Terminates\" cannot apply to function [E0016]\n--> worldline-scoped_capture_projection.ads:40:27\n   40 |         with Global => null, Always_Terminates;\n      |                              ^~~~~~~~~~~~~~~~~\n      + launch \"gnatprove --explain=E0016\" for more information\ngnatprove: error during generation of Global contracts\n"
+  ]
+}

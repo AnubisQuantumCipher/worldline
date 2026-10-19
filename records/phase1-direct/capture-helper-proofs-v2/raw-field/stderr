@@ -1,0 +1,14 @@
+ info: range check proved
+--> worldline-scoped_capture_projection.adb:34:14
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-scoped_capture_projection.adb:34:79
+
+ info: implicit aspect Always_Terminates on "Raw_Source_Field" has been proved, subprogram will terminate
+--> worldline-scoped_capture_projection.ads:32:13
+
+ info: data dependencies proved
+--> worldline-scoped_capture_projection.ads:33:11
+
+ info: postcondition proved
+--> worldline-scoped_capture_projection.ads:33:35

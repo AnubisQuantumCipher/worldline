@@ -1,0 +1,68 @@
+test_native_complete_maps_and_role_selection (test_scoped_capture_scan.ScopedCaptureMapsControls.test_native_complete_maps_and_role_selection) ... ok
+test_actual_close_has_same_descriptor_ebadf_readback (test_custody_subject_primitives.CustodySubjectPrimitiveControls.test_actual_close_has_same_descriptor_ebadf_readback) ... ok
+test_listener_failure_is_raw_not_connected_requester_success (test_custody_subject_primitives.CustodySubjectPrimitiveControls.test_listener_failure_is_raw_not_connected_requester_success) ... ok
+test_real_rights_raw_credentials_and_lossless_archive (test_custody_subject_primitives.CustodySubjectPrimitiveControls.test_real_rights_raw_credentials_and_lossless_archive) ... ok
+test_caller_transaction_required_and_no_missing_database_created (test_custody_v2_sql_capture.CustodyV2SQLCaptureControls.test_caller_transaction_required_and_no_missing_database_created) ... ok
+test_consumer_captures_real_dangling_fk_not_authorization_flag (test_custody_v2_sql_capture.CustodyV2SQLCaptureControls.test_consumer_captures_real_dangling_fk_not_authorization_flag) ... ok
+test_empty_origin_null_fk_and_exact_whole_snapshot (test_custody_v2_sql_capture.CustodyV2SQLCaptureControls.test_empty_origin_null_fk_and_exact_whole_snapshot) ... ok
+test_native_quantity_domain_not_sql_integer (test_custody_v2_sql_capture.CustodyV2SQLCaptureControls.test_native_quantity_domain_not_sql_integer) ... ok
+test_complete_fk_observation_preserves_null_and_empty (test_custody_foreign_key_capture.CustodyForeignKeyCaptureControls.test_complete_fk_observation_preserves_null_and_empty) ... ok
+test_dangling_fk_retained_for_native_refusal_not_filtered (test_custody_foreign_key_capture.CustodyForeignKeyCaptureControls.test_dangling_fk_retained_for_native_refusal_not_filtered) ... ok
+test_real_journal_hook_receives_same_read_transaction (test_custody_foreign_key_capture.CustodyForeignKeyCaptureControls.test_real_journal_hook_receives_same_read_transaction) ... ok
+test_complete_native_input_rosters_are_copied_before_output_alias (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_complete_native_input_rosters_are_copied_before_output_alias) ... ok
+test_fresh_launch_cannot_borrow_an_old_context (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_fresh_launch_cannot_borrow_an_old_context) ... ok
+test_full_quantity_magnitude_survives_rollover_physical_charge_without_word_narrowing (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_full_quantity_magnitude_survives_rollover_physical_charge_without_word_narrowing) ... ok
+test_historical_terminal_release_under_different_current_policy_uses_exact_old_binding (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_historical_terminal_release_under_different_current_policy_uses_exact_old_binding) ... ok
+test_history_frame_cannot_reuse_immutable_head_or_rewrite_old_root (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_history_frame_cannot_reuse_immutable_head_or_rewrite_old_root) ... ok
+test_missing_frame_epoch_is_named_invalid_snapshot_without_variant_exception (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_missing_frame_epoch_is_named_invalid_snapshot_without_variant_exception) ... ok
+test_rollover_cannot_drop_physical_hold_or_replace_original_projection (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_rollover_cannot_drop_physical_hold_or_replace_original_projection) ... FAIL
+test_rollover_keeps_reserved_row_full_amount_old_scope_and_no_prime_nonempty_roots (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_rollover_keeps_reserved_row_full_amount_old_scope_and_no_prime_nonempty_roots) ... ok
+test_unknown_descendants_do_not_release_old_hold (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_unknown_descendants_do_not_release_old_hold) ... ok
+test_whole_physical_projection_refuses_hidden_retained_charge (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_whole_physical_projection_refuses_hidden_retained_charge) ... FAIL
+test_bytes_and_string_keys_remain_distinct_ordered_and_untrimmed (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_bytes_and_string_keys_remain_distinct_ordered_and_untrimmed) ... ok
+test_complete_root_and_actor_credential_dataclasses_are_not_hex_projected (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_complete_root_and_actor_credential_dataclasses_are_not_hex_projected) ... ok
+test_complete_scoped_source_image_preserves_original_packet_and_physical_byte_keys (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_complete_scoped_source_image_preserves_original_packet_and_physical_byte_keys) ... ok
+test_duplicate_keys_unknown_tags_and_wrong_shapes_refuse (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_duplicate_keys_unknown_tags_and_wrong_shapes_refuse) ... ok
+test_explicit_root_prepared_and_retained_dataclasses_roundtrip (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_explicit_root_prepared_and_retained_dataclasses_roundtrip) ... ok
+test_full_scoped_and_child_dataclasses_roundtrip_without_projection (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_full_scoped_and_child_dataclasses_roundtrip_without_projection) ... ok
+test_missing_duplicate_extra_and_reordered_dataclass_fields_refuse (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_missing_duplicate_extra_and_reordered_dataclass_fields_refuse) ... ok
+test_native_load_and_mutation_clients_use_only_scoped_envelopes (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_native_load_and_mutation_clients_use_only_scoped_envelopes) ... ok
+test_noncanonical_integer_magnitudes_and_negative_zero_refuse (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_noncanonical_integer_magnitudes_and_negative_zero_refuse) ... ok
+test_operation_snapshot_preserves_original_raw_archive_nested_values (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_operation_snapshot_preserves_original_raw_archive_nested_values) ... ok
+test_original_collapse_input_archive_and_hex_are_byte_exact (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_original_collapse_input_archive_and_hex_are_byte_exact) ... ok
+test_original_scoped_snapshot_preserves_all_typed_fields (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_original_scoped_snapshot_preserves_all_typed_fields) ... ok
+test_retained_original_scoped_source_grammar_remains_readable (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_retained_original_scoped_source_grammar_remains_readable) ... ok
+test_root_registry_covers_selected_original_scoped_and_root_classes (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_root_registry_covers_selected_original_scoped_and_root_classes) ... ok
+test_scoped_native_transport_remains_exact_ordinary_S_grammar (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_scoped_native_transport_remains_exact_ordinary_S_grammar) ... ok
+test_unknown_record_module_and_registry_injection_never_enroll (test_root_worker_codec_lossless.RootWorkerCodecLosslessControls.test_unknown_record_module_and_registry_injection_never_enroll) ... ok
+
+======================================================================
+FAIL: test_rollover_cannot_drop_physical_hold_or_replace_original_projection (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_rollover_cannot_drop_physical_hold_or_replace_original_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_resource_scoped_history_v1.py", line 126, in test_rollover_cannot_drop_physical_hold_or_replace_original_projection
+    self.assertEqual(self.kernel.decide(replace(p,proposed_rows=(),proposed_projection=(),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        proposed_buckets=(bucket(),),actual_buckets=(bucket(),))).status,'HISTORICAL_ROW_CHANGED')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'IMMUTABLE_ORIGIN_CHANGED' != 'HISTORICAL_ROW_CHANGED'
+- IMMUTABLE_ORIGIN_CHANGED
++ HISTORICAL_ROW_CHANGED
+
+
+======================================================================
+FAIL: test_whole_physical_projection_refuses_hidden_retained_charge (test_resource_scoped_history_v1.ResourceScopedHistoryV1Tests.test_whole_physical_projection_refuses_hidden_retained_charge)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_resource_scoped_history_v1.py", line 108, in test_whole_physical_projection_refuses_hidden_retained_charge
+    self.assertEqual(self.kernel.decide(q).status,'INVALID_BEFORE')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'PHYSICAL_PROJECTION_INVALID' != 'INVALID_BEFORE'
+- PHYSICAL_PROJECTION_INVALID
++ INVALID_BEFORE
+
+
+----------------------------------------------------------------------
+Ran 37 tests in 42.356s
+
+FAILED (failures=2)

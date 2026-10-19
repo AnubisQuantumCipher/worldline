@@ -105,7 +105,8 @@ class ResourceScopedHistoryV1Tests(unittest.TestCase):
             projection=(*p.projection,projection(other)),proposed_projection=(*p.projection,projection(other)),
             observed=(*p.observed,replace(p.observed[0],bound=other.bound)),
             facts=(*p.facts,replace(p.facts[0],retained=other.bound)))
-        self.assertEqual(self.kernel.decide(q).status,'INVALID_BEFORE')
+        # Decision_Reference checks physical conservation after valid shape.
+        self.assertEqual(self.kernel.decide(q).status,'PHYSICAL_PROJECTION_INVALID')
 
     def test_missing_frame_epoch_is_named_invalid_snapshot_without_variant_exception(self):
         p=self.rollover();h=(replace(p.history[0],first_epoch=None),)
@@ -124,7 +125,11 @@ class ResourceScopedHistoryV1Tests(unittest.TestCase):
     def test_rollover_cannot_drop_physical_hold_or_replace_original_projection(self):
         p=self.rollover()
         self.assertEqual(self.kernel.decide(replace(p,proposed_rows=(),proposed_projection=(),
-            proposed_buckets=(bucket(),),actual_buckets=(bucket(),))).status,'HISTORICAL_ROW_CHANGED')
+            proposed_buckets=(bucket(),),actual_buckets=(bucket(),))).status,'IMMUTABLE_ORIGIN_CHANGED')
+        # Keep the projection intact to reach the later historical-row gate.
+        changed_row=replace(p.proposed_rows[0],state='LAUNCH_INTENT',planned_unit=b'worldline-row.service')
+        self.assertEqual(self.kernel.decide(replace(p,proposed_rows=(changed_row,))).status,
+                         'HISTORICAL_ROW_CHANGED')
         changed=replace(p.proposed_projection[0],catalogue_head=b'new-unbound-catalogue')
         self.assertEqual(self.kernel.decide(replace(p,proposed_projection=(changed,))).status,
                          'PHYSICAL_PROJECTION_INVALID')
