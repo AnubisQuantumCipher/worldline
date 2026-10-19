@@ -1,0 +1,19 @@
+{
+  "previous": "raw-aggregate-proof-v1",
+  "exit_code": 124,
+  "observed": "entity transformation/proof continued across record decoders; no emitted failing diagnostic before deadline; record aggregate construction reduced live translator memory compared with sequential-update baseline",
+  "next_total_timeout_seconds": 900,
+  "unchanged": [
+    "MemoryMax=8G",
+    "MemorySwapMax=0",
+    "j2",
+    "strict level3",
+    "no-inlining",
+    "warnings=error",
+    "checks-as-errors=on",
+    "proof-warnings=on",
+    "memlimit=1024 per solver",
+    "timeout=5 per solver check"
+  ],
+  "claim": "No completed whole-unit proof yet. Total wall-clock window only is increased; no obligation is removed."
+}

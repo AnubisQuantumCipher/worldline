@@ -80,15 +80,108 @@ package Resource_Actor_Admission_Wire with SPARK_Mode is
       Proc_Fs_Uid : W.Raw_Quantity;
       Proc_Fs_Gid : W.Raw_Quantity;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Observation use record
+      Bound at 0 range 0 .. 1983;
+      Raw_Frame at 248 range 0 .. 191;
+      Raw_Sender at 272 range 0 .. 191;
+      Ticket at 296 range 0 .. 191;
+      Raw_Proc_Status at 320 range 0 .. 191;
+      Raw_Proc_Cgroup at 344 range 0 .. 191;
+      Raw_Proc_Maps at 368 range 0 .. 191;
+      Raw_Proc_Cmdline at 392 range 0 .. 191;
+      Raw_Pidfd_Info at 416 range 0 .. 191;
+      Namespace at 440 range 0 .. 191;
+      Held_Namespace at 464 range 0 .. 191;
+      Helper_Image at 488 range 0 .. 191;
+      Expected_Helper_Image at 512 range 0 .. 191;
+      Executable_Plan at 536 range 0 .. 191;
+      Expected_Executable_Plan at 560 range 0 .. 191;
+      Original_Requester at 584 range 0 .. 191;
+      Requester_Credentials at 608 range 0 .. 191;
+      Expected_Requester_Credentials at 632 range 0 .. 191;
+      Dispatch at 656 range 0 .. 191;
+      Running_Event at 680 range 0 .. 191;
+      Expected_Running_Event at 704 range 0 .. 191;
+      Canonical_Use_Event at 728 range 0 .. 191;
+      Expected_Canonical_Use_Event at 752 range 0 .. 191;
+      Store_Genesis at 776 range 0 .. 191;
+      Expected_Store_Genesis at 800 range 0 .. 191;
+      Source_Lease at 824 range 0 .. 191;
+      Expected_Source_Lease at 848 range 0 .. 191;
+      Actor_Wait at 872 range 0 .. 191;
+      Helper_Wait at 896 range 0 .. 191;
+      Namespace_Wait at 920 range 0 .. 191;
+      Host_Pid at 944 range 0 .. 191;
+      Namespace_Pid at 968 range 0 .. 191;
+      Sender_Uid at 992 range 0 .. 191;
+      Sender_Gid at 1016 range 0 .. 191;
+      Real_Uid at 1040 range 0 .. 191;
+      Effective_Uid at 1064 range 0 .. 191;
+      Saved_Uid at 1088 range 0 .. 191;
+      Real_Gid at 1112 range 0 .. 191;
+      Effective_Gid at 1136 range 0 .. 191;
+      Saved_Gid at 1160 range 0 .. 191;
+      Capability_Version at 1184 range 0 .. 191;
+      Effective_Low at 1208 range 0 .. 191;
+      Permitted_Low at 1232 range 0 .. 191;
+      Inheritable_Low at 1256 range 0 .. 191;
+      Effective_High at 1280 range 0 .. 191;
+      Permitted_High at 1304 range 0 .. 191;
+      Inheritable_High at 1328 range 0 .. 191;
+      Securebits at 1352 range 0 .. 191;
+      No_New_Privs at 1376 range 0 .. 191;
+      Requester_Uid at 1400 range 0 .. 191;
+      Requester_Gid at 1424 range 0 .. 191;
+      Configured_Requester_Uid at 1448 range 0 .. 191;
+      Workload_Uid at 1472 range 0 .. 191;
+      Workload_Gid at 1496 range 0 .. 191;
+      Proc_Host_Pid at 1520 range 0 .. 191;
+      Proc_Namespace_Pid at 1544 range 0 .. 191;
+      Proc_Real_Uid at 1568 range 0 .. 191;
+      Proc_Effective_Uid at 1592 range 0 .. 191;
+      Proc_Saved_Uid at 1616 range 0 .. 191;
+      Proc_Real_Gid at 1640 range 0 .. 191;
+      Proc_Effective_Gid at 1664 range 0 .. 191;
+      Proc_Saved_Gid at 1688 range 0 .. 191;
+      Proc_Effective at 1712 range 0 .. 191;
+      Proc_Permitted at 1736 range 0 .. 191;
+      Proc_Inheritable at 1760 range 0 .. 191;
+      Proc_Bounding at 1784 range 0 .. 191;
+      Proc_Ambient at 1808 range 0 .. 191;
+      Proc_No_New_Privs at 1832 range 0 .. 191;
+      Proc_Fs_Uid at 1856 range 0 .. 191;
+      Proc_Fs_Gid at 1880 range 0 .. 191;
+   end record;
+   for Raw_Observation'Size use 15232;
+   for Raw_Observation'Object_Size use 15232;
+   for Raw_Observation'Alignment use 8;
    type Raw_Capability is record
       Index, Bounding, Ambient : W.Raw_Quantity;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Capability use record
+      Index at 0 range 0 .. 191;
+      Bounding at 24 range 0 .. 191;
+      Ambient at 48 range 0 .. 191;
+   end record;
+   for Raw_Capability'Size use 576;
+   for Raw_Capability'Object_Size use 576;
+   for Raw_Capability'Alignment use 8;
    type Raw_Capability_Array is array (Q.Byte_Index range <>) of Raw_Capability;
    type Raw_Group_Array is array (Q.Byte_Index range <>) of W.Raw_Quantity;
    type Raw_Packet is record
       Ledger : N.Raw_Packet;
       Captured : Raw_Observation;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Packet use record
+      Ledger at 0 range 0 .. 22015;
+      Captured at 2752 range 0 .. 15231;
+   end record;
+   for Raw_Packet'Size use 37248;
+   for Raw_Packet'Object_Size use 37248;
+   for Raw_Packet'Alignment use 8;
    function Well_Formed (Data : Q.Byte_Array; V : Raw_Observation) return Boolean is
      (W.Well_Formed (Data, V.Bound)
       and then W.Well_Formed (Data, V.Raw_Frame)

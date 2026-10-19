@@ -1,0 +1,5 @@
+ error: pragma "Unused" can only be applied to a variable
+--> worldline-recovery_material_replay.adb:1617:22
+ 1617 |          pragma Unused (Requirement);
+      |                         ^~~~~~~~~~~
+gnatprove: error during generation of Global contracts

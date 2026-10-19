@@ -1,0 +1,25 @@
+ error: components in "others" choice must have same type
+--> worldline-retained_raw_decode.adb:914:38
+  914 |          Layout : constant W.Raw_Id := (others => 0);
+      |                                         ^~~~~~
+
+ error: components in "others" choice must have same type
+--> worldline-retained_raw_decode.adb:938:44
+  938 |          Layout : constant W.Raw_Quantity := (others => 0);
+      |                                               ^~~~~~
+
+ error: components in "others" choice must have same type
+--> worldline-retained_raw_decode.adb:1343:39
+ 1343 |          Layout : constant T.Raw_UID := (others => 0);
+      |                                          ^~~~~~
+
+ error: components in "others" choice must have same type
+--> worldline-retained_raw_decode.adb:1356:44
+ 1356 |          Layout : constant T.Raw_Quantity := (others => 0);
+      |                                               ^~~~~~
+
+ error: components in "others" choice must have same type
+--> worldline-retained_raw_decode.adb:1461:42
+ 1461 |          Layout : constant RW.Raw_Epoch := (others => 0);
+      |                                             ^~~~~~
+gnatprove: error during generation of Global contracts

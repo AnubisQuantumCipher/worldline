@@ -17,15 +17,40 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
       First : I64;
       Length : I64;
    end record with Convention => C;
+   --  Preserve the compiler-observed C ABI as explicit proof-visible layout.
+   for Raw_Id use record
+      Present at 0 range 0 .. 7;
+      First at 8 range 0 .. 63;
+      Length at 16 range 0 .. 63;
+   end record;
+   for Raw_Id'Size use 192;
+   for Raw_Id'Alignment use 8;
    type Raw_Quantity is record
       Negative : U8;
       First : I64;
       Length : I64;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Quantity use record
+      Negative at 0 range 0 .. 7;
+      First at 8 range 0 .. 63;
+      Length at 16 range 0 .. 63;
+   end record;
+   for Raw_Quantity'Size use 192;
+   for Raw_Quantity'Object_Size use 192;
+   for Raw_Quantity'Alignment use 8;
    type Raw_Epoch is record
       Present : U8;
       Value : Raw_Quantity;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Epoch use record
+      Present at 0 range 0 .. 7;
+      Value at 8 range 0 .. 191;
+   end record;
+   for Raw_Epoch'Size use 256;
+   for Raw_Epoch'Object_Size use 256;
+   for Raw_Epoch'Alignment use 8;
    type Raw_Context is record
       Universe : Raw_Id;
       Policy : Raw_Id;
@@ -37,6 +62,21 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
       Authority : Raw_Id;
       Policy_Epoch : Raw_Epoch;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Context use record
+      Universe at 0 range 0 .. 191;
+      Policy at 24 range 0 .. 191;
+      Resource at 48 range 0 .. 191;
+      Unit at 72 range 0 .. 191;
+      Instance at 96 range 0 .. 191;
+      Host at 120 range 0 .. 191;
+      Boot at 144 range 0 .. 191;
+      Authority at 168 range 0 .. 191;
+      Policy_Epoch at 192 range 0 .. 255;
+   end record;
+   for Raw_Context'Size use 1792;
+   for Raw_Context'Object_Size use 1792;
+   for Raw_Context'Alignment use 8;
    type Raw_Binding is record
       Reservation : Raw_Id;
       Operation : Raw_Id;
@@ -49,6 +89,22 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
       Provenance : Raw_Id;
       Resource_Epoch : Raw_Epoch;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Binding use record
+      Reservation at 0 range 0 .. 191;
+      Operation at 24 range 0 .. 191;
+      Owner at 48 range 0 .. 191;
+      Workload at 72 range 0 .. 191;
+      Universe_Head at 96 range 0 .. 191;
+      Capability at 120 range 0 .. 191;
+      Grant_Use at 144 range 0 .. 191;
+      Payload at 168 range 0 .. 191;
+      Provenance at 192 range 0 .. 191;
+      Resource_Epoch at 216 range 0 .. 255;
+   end record;
+   for Raw_Binding'Size use 1984;
+   for Raw_Binding'Object_Size use 1984;
+   for Raw_Binding'Alignment use 8;
    type Raw_Row is record
       Scope : Raw_Context;
       Bound : Raw_Binding;
@@ -62,6 +118,23 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
       Cgroup : Raw_Id;
       Invocation : Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Row use record
+      Scope at 0 range 0 .. 1791;
+      Bound at 224 range 0 .. 1983;
+      Parent at 472 range 0 .. 191;
+      Kind at 496 range 0 .. 7;
+      State at 497 range 0 .. 7;
+      Amount at 504 range 0 .. 191;
+      Observed_Usage at 528 range 0 .. 255;
+      Planned_Unit at 560 range 0 .. 191;
+      Actual_Unit at 584 range 0 .. 191;
+      Cgroup at 608 range 0 .. 191;
+      Invocation at 632 range 0 .. 191;
+   end record;
+   for Raw_Row'Size use 5248;
+   for Raw_Row'Object_Size use 5248;
+   for Raw_Row'Alignment use 8;
    type Raw_State is record
       Scope : Raw_Context;
       Resource_Epoch : Raw_Epoch;
@@ -71,6 +144,19 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
       Held_Total : Raw_Quantity;
       Charged_Total : Raw_Quantity;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_State use record
+      Scope at 0 range 0 .. 1791;
+      Resource_Epoch at 224 range 0 .. 255;
+      Universe_Head at 256 range 0 .. 191;
+      Ledger_Head at 280 range 0 .. 191;
+      Capacity at 304 range 0 .. 191;
+      Held_Total at 328 range 0 .. 191;
+      Charged_Total at 352 range 0 .. 191;
+   end record;
+   for Raw_State'Size use 3008;
+   for Raw_State'Object_Size use 3008;
+   for Raw_State'Alignment use 8;
    type Raw_Native is record
       Scope : Raw_Context;
       Resource_Epoch : Raw_Epoch;
@@ -81,6 +167,20 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
       Observation_Head : Raw_Id;
       Observed : U8;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Native use record
+      Scope at 0 range 0 .. 1791;
+      Resource_Epoch at 224 range 0 .. 255;
+      Bound at 256 range 0 .. 1983;
+      Actual_Unit at 504 range 0 .. 191;
+      Cgroup at 528 range 0 .. 191;
+      Invocation at 552 range 0 .. 191;
+      Observation_Head at 576 range 0 .. 191;
+      Observed at 600 range 0 .. 7;
+   end record;
+   for Raw_Native'Size use 4808;
+   for Raw_Native'Object_Size use 4864;
+   for Raw_Native'Alignment use 8;
    type Raw_Request is record
       Kind : U8;
       Scope : Raw_Context;
@@ -93,6 +193,22 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
       Bound : Raw_Binding;
       New_Row : Raw_Row;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Request use record
+      Kind at 0 range 0 .. 7;
+      Scope at 8 range 0 .. 1791;
+      Expected_Epoch at 232 range 0 .. 255;
+      Expected_Ledger_Head at 264 range 0 .. 191;
+      Request_Id at 288 range 0 .. 191;
+      Reservation at 312 range 0 .. 191;
+      Operation_Id at 336 range 0 .. 191;
+      Requester at 360 range 0 .. 191;
+      Bound at 384 range 0 .. 1983;
+      New_Row at 632 range 0 .. 5247;
+   end record;
+   for Raw_Request'Size use 10304;
+   for Raw_Request'Object_Size use 10304;
+   for Raw_Request'Alignment use 8;
    type Raw_Packet is record
       Schema_Version : U32;
       Before_State : Raw_State;
@@ -102,6 +218,13 @@ package Resource_Run_Ledger_Wire with SPARK_Mode is
    type Raw_Result is record
       Status : U32;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Result use record
+      Status at 0 range 0 .. 31;
+   end record;
+   for Raw_Result'Size use 32;
+   for Raw_Result'Object_Size use 32;
+   for Raw_Result'Alignment use 4;
    type Raw_Row_Array is array (Q.Byte_Index range <>) of Raw_Row;
    type Raw_Native_Array is array (Q.Byte_Index range <>) of Raw_Native;
    function Well_Formed (Data : Q.Byte_Array; Raw : Raw_Id) return Boolean is

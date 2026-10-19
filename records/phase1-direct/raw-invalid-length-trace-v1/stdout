@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x5df0
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+PASS rebased raw ID decoding
+PASS maximum-index raw ID decoding
+
+Breakpoint 1.2, <__gnat_raise_exception> (e=0xfffff7fa31a8 <ada.assertions.assertion_error>, message=...) at a-except.adb:1176
+#0  <__gnat_raise_exception> (e=0xfffff7fa31a8 <ada.assertions.assertion_error>, message=...) at a-except.adb:1176
+#1  0x0000fffff7e1d24c in system.assertions.raise_assert_failure (msg=...) at s-assert.adb:44
+#2  0x0000fffff7c85760 in worldline.retained_raw_decode.load (data=...) at /home/sicarii/Work/worldline-phase1-direct-20261019/core/worldline-retained_raw_decode.ads:38
+#3  0x0000aaaaaaaa6494 in raw_decode_tests.case_1.reject_length (count=count@entry=0) at /home/sicarii/Work/worldline-phase1-direct-20261019/tests/raw_decode_case.adb:29
+#4  0x0000aaaaaaad619c in raw_decode_tests.case_1 () at /home/sicarii/Work/worldline-phase1-direct-20261019/tests/raw_decode_case.adb:80
+#5  0x0000aaaaaab002e8 in raw_decode_tests.group_1 () at /home/sicarii/Work/worldline-phase1-direct-20261019/tests/raw_decode_tests.adb:143
+#6  raw_decode_tests () at /home/sicarii/Work/worldline-phase1-direct-20261019/tests/raw_decode_tests.adb:271

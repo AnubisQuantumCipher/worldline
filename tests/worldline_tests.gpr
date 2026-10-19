@@ -12,7 +12,8 @@ project Worldline_Tests is
                  "resource_policy_transport_tests.adb",
                  "scoped_capture_scan_tests.adb",
                  "scoped_capture_probe.adb",
-                 "lifetime_value_tests.adb");
+                 "lifetime_value_tests.adb",
+                 "raw_decode_tests.adb");
 
    type Build_Kind is ("checks", "release");
    Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");

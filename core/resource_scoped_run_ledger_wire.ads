@@ -19,6 +19,18 @@ package Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       History_Head : W.Raw_Id;
       Physical_Head : W.Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_State use record
+      Current at 0 range 0 .. 1791;
+      Resource_Epoch at 224 range 0 .. 255;
+      Universe_Head at 256 range 0 .. 191;
+      Ledger_Head at 280 range 0 .. 191;
+      History_Head at 304 range 0 .. 191;
+      Physical_Head at 328 range 0 .. 191;
+   end record;
+   for Raw_State'Size use 2816;
+   for Raw_State'Object_Size use 2816;
+   for Raw_State'Alignment use 8;
    use type S.State;
    type Raw_Scope_Frame is record
       Scope : W.Raw_Context;
@@ -37,12 +49,42 @@ package Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       Catalogue_Head : W.Raw_Id;
       Observation_Head : W.Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Scope_Frame use record
+      Scope at 0 range 0 .. 1791;
+      First_Epoch at 224 range 0 .. 255;
+      Universe_Head at 256 range 0 .. 191;
+      Frame_Head at 280 range 0 .. 191;
+      Prior_Frame at 304 range 0 .. 191;
+      Store_Genesis at 328 range 0 .. 191;
+      Store_Id at 352 range 0 .. 191;
+      Root_Head at 376 range 0 .. 191;
+      Prime at 400 range 0 .. 191;
+      Root_Count at 424 range 0 .. 191;
+      Cause at 448 range 0 .. 191;
+      Requester at 472 range 0 .. 191;
+      Receipt at 496 range 0 .. 191;
+      Catalogue_Head at 520 range 0 .. 191;
+      Observation_Head at 544 range 0 .. 191;
+   end record;
+   for Raw_Scope_Frame'Size use 4544;
+   for Raw_Scope_Frame'Object_Size use 4544;
+   for Raw_Scope_Frame'Alignment use 8;
    use type S.Scope_Frame;
    type Raw_Physical_Key is record
       Machine : W.Raw_Id;
       Resource : W.Raw_Id;
       Unit : W.Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Physical_Key use record
+      Machine at 0 range 0 .. 191;
+      Resource at 24 range 0 .. 191;
+      Unit at 48 range 0 .. 191;
+   end record;
+   for Raw_Physical_Key'Size use 576;
+   for Raw_Physical_Key'Object_Size use 576;
+   for Raw_Physical_Key'Alignment use 8;
    use type S.Physical_Key;
    type Raw_Bucket is record
       Key : Raw_Physical_Key;
@@ -53,6 +95,19 @@ package Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       Catalogue_Head : W.Raw_Id;
       Observation_Head : W.Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Bucket use record
+      Key at 0 range 0 .. 575;
+      Capacity at 72 range 0 .. 191;
+      Held_Total at 96 range 0 .. 191;
+      Charged_Total at 120 range 0 .. 191;
+      Capacity_Source at 144 range 0 .. 191;
+      Catalogue_Head at 168 range 0 .. 191;
+      Observation_Head at 192 range 0 .. 191;
+   end record;
+   for Raw_Bucket'Size use 1728;
+   for Raw_Bucket'Object_Size use 1728;
+   for Raw_Bucket'Alignment use 8;
    use type S.Bucket;
    type Raw_Projection is record
       Key : Raw_Physical_Key;
@@ -63,6 +118,19 @@ package Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       Denominator : W.Raw_Quantity;
       Amount : W.Raw_Quantity;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Projection use record
+      Key at 0 range 0 .. 575;
+      Bound at 72 range 0 .. 1983;
+      Origin at 320 range 0 .. 1791;
+      Catalogue_Head at 544 range 0 .. 191;
+      Numerator at 568 range 0 .. 191;
+      Denominator at 592 range 0 .. 191;
+      Amount at 616 range 0 .. 191;
+   end record;
+   for Raw_Projection'Size use 5120;
+   for Raw_Projection'Object_Size use 5120;
+   for Raw_Projection'Alignment use 8;
    use type S.Projection;
    type Raw_Current_Observation is record
       Scope : W.Raw_Context;
@@ -82,6 +150,28 @@ package Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       Catalogue_Head : W.Raw_Id;
       Observation_Head : W.Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Current_Observation use record
+      Scope at 0 range 0 .. 1791;
+      Resource_Epoch at 224 range 0 .. 255;
+      Universe_Head at 256 range 0 .. 191;
+      Ledger_Head at 280 range 0 .. 191;
+      History_Head at 304 range 0 .. 191;
+      Physical_Head at 328 range 0 .. 191;
+      Store_Genesis at 352 range 0 .. 191;
+      Store_Id at 376 range 0 .. 191;
+      Root_Head at 400 range 0 .. 191;
+      Prime at 424 range 0 .. 191;
+      Root_Count at 448 range 0 .. 191;
+      Cause at 472 range 0 .. 191;
+      Requester at 496 range 0 .. 191;
+      Receipt at 520 range 0 .. 191;
+      Catalogue_Head at 544 range 0 .. 191;
+      Observation_Head at 568 range 0 .. 191;
+   end record;
+   for Raw_Current_Observation'Size use 4736;
+   for Raw_Current_Observation'Object_Size use 4736;
+   for Raw_Current_Observation'Alignment use 8;
    use type S.Current_Observation;
    type Raw_Intent is record
       Kind : W.U8;
@@ -93,6 +183,20 @@ package Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       Requester : W.Raw_Id;
       Receipt : W.Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Intent use record
+      Kind at 0 range 0 .. 7;
+      Original at 8 range 0 .. 10303;
+      Expected_Epoch at 1296 range 0 .. 255;
+      Expected_Ledger_Head at 1328 range 0 .. 191;
+      Request_Id at 1352 range 0 .. 191;
+      Cause at 1376 range 0 .. 191;
+      Requester at 1400 range 0 .. 191;
+      Receipt at 1424 range 0 .. 191;
+   end record;
+   for Raw_Intent'Size use 11584;
+   for Raw_Intent'Object_Size use 11584;
+   for Raw_Intent'Alignment use 8;
    use type S.Intent;
    type Raw_History_Array is array (Q.Byte_Index range <>) of Raw_Scope_Frame;
    type Raw_Bucket_Array is array (Q.Byte_Index range <>) of Raw_Bucket;
@@ -104,6 +208,17 @@ package Resource_Scoped_Run_Ledger_Wire with SPARK_Mode is
       Current : Raw_Current_Observation;
       Request : Raw_Intent;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Packet use record
+      Schema_Version at 0 range 0 .. 31;
+      Before_State at 8 range 0 .. 2815;
+      Proposed_State at 360 range 0 .. 2815;
+      Current at 712 range 0 .. 4735;
+      Request at 1304 range 0 .. 11583;
+   end record;
+   for Raw_Packet'Size use 22016;
+   for Raw_Packet'Object_Size use 22016;
+   for Raw_Packet'Alignment use 8;
    function Well_Formed (Data : Q.Byte_Array; Raw : Raw_State) return Boolean is
      (W.Well_Formed (Data, Raw.Current)
       and then W.Well_Formed (Data, Raw.Resource_Epoch)

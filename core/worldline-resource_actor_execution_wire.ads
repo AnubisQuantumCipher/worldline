@@ -26,6 +26,27 @@ package Worldline.Resource_Actor_Execution_Wire with SPARK_Mode is
       Preparer : W.Raw_Id;
       Selected_Plan : W.Raw_Id;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Crosswalk use record
+      Resource_Current at 0 range 0 .. 4735;
+      Operation_Policy at 592 range 0 .. 263;
+      Operation_Root_Set at 625 range 0 .. 263;
+      Owner_Genesis at 664 range 0 .. 191;
+      Installation at 688 range 0 .. 191;
+      Gate_Config at 712 range 0 .. 191;
+      Managed_Observation at 736 range 0 .. 191;
+      Original_Grant at 760 range 0 .. 191;
+      Complete_Crosswalk at 784 range 0 .. 191;
+      Current_Source at 808 range 0 .. 191;
+      Original_Request at 832 range 0 .. 191;
+      Original_Requester at 856 range 0 .. 191;
+      Original_Transaction at 880 range 0 .. 191;
+      Preparer at 904 range 0 .. 191;
+      Selected_Plan at 928 range 0 .. 191;
+   end record;
+   for Raw_Crosswalk'Size use 7616;
+   for Raw_Crosswalk'Object_Size use 7616;
+   for Raw_Crosswalk'Alignment use 8;
    function Well_Formed (Data : Q.Byte_Array; V : Raw_Crosswalk) return Boolean is
      (N.Well_Formed (Data, V.Resource_Current)
       and then T.C.Well_Formed (V.Operation_Policy) and then T.C.Well_Formed (V.Operation_Root_Set)

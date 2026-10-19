@@ -1,0 +1,21 @@
+{
+  "status": "TIMED_OUT",
+  "completed": [
+    "all retained raw native layout/padding controls",
+    "typed ledger/headroom cleanup",
+    "original worldline_core_tests",
+    "original worldline_core_fuzz",
+    "188 exact length controls",
+    "45 native integration tests"
+  ],
+  "pending": [
+    "original actor replay fixtures",
+    "assurance and release instrument tests"
+  ],
+  "compiler_warnings_open": [
+    "raw decoder unused Data formals/redundant use clause/spec-only Interfaces import"
+  ],
+  "source_frozen": true,
+  "exit_code": 124,
+  "unfinished": "actor fixture export exceeded total 600s; no actor replay verdict or assurance tests reached"
+}

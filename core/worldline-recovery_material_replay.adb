@@ -1612,6 +1612,9 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       Retained_Count : E.Count := 0;
       Position : E.Count := (if Data'Last = E.Count'Last then Data'Last else Data'Last + 1);
       Needed : constant E.Count := Arena_Length (Data, Material, L);
+      --  Rebuild each retained binding as recorded. Current requirement matching
+      --  belongs to the selection query, not to history collection.
+      pragma Unreferenced (Requirement);
    begin
       Valid := Needed > 0 and then Arena'First = Data'First and then Arena'Length >= Needed
         and then Rows'Length = Row_Count (Data, Material, L)
@@ -1791,6 +1794,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    begin
       Collect (Data, Material, World, Requirement, Arena, Rows, Finalization, Current,
         Valid, Promotions, Final_Promotion, At_Layer, Facts_Data, Capsules);
+      --  This wrapper returns classified records, not promotion projections.
+      pragma Unused (Promotions, Final_Promotion);
    end Classify_All;
    function Tree_Equal (Left_Data : E.Bytes; Left : E.Span; LL : E.Layer;
                         Right_Data : E.Bytes; Right : E.Span; RL : E.Layer) return Boolean is
@@ -2045,6 +2050,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
         (if Selection.Head.Kind = H.Finalization then Final_Promotion
          elsif Selection.Head.Kind = H.History_Entry then Promotions (Selection.Head.Index) else False),
         Result);
+      pragma Unused (Arena);
       return Result;
    end Rebuild;
    function Owner_Promotion
@@ -2059,7 +2065,9 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    begin
       Collect (Data, Material, Field (Data, Owner, "world"), Field (Data, Owner, "requirement"),
         Arena, Rows, Finalization, Current, Valid, Promotions, Final_Promotion, Facts_Data => Facts_Data, Capsules => Capsules);
-      return Valid and then Rows'Length > 0 and then Promotions (Rows'Last);
+      --  Only the final history promotion is this accessor's result.
+      pragma Unused (Arena, Rows, Finalization, Current, Final_Promotion);
+      return Valid and then Promotions'Length > 0 and then Promotions (Promotions'Last);
    end Owner_Promotion;
    function Owner_Selected
      (Data : E.Bytes; Saved, Owner : E.Span; Facts_Data : E.Bytes;
@@ -2074,9 +2082,11 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
    begin
       Collect (Data, Material, Field (Data, Owner, "world"), Field (Data, Owner, "requirement"),
         Arena, Rows, Finalization, Current, Valid, Promotions, Final_Promotion, Facts_Data => Facts_Data, Capsules => Capsules);
-      if not Valid or else Rows'Length = 0 then return (others => <>); end if;
-      Selected_Matches (Data, Saved, Material, (H.History_Entry, Rows'Last),
-        Current, Arena, Promotions (Rows'Last), Result, True);
+      pragma Unused (Rows, Finalization, Final_Promotion);
+      if not Valid or else Promotions'Length = 0 then return (others => <>); end if;
+      Selected_Matches (Data, Saved, Material, (H.History_Entry, Promotions'Last),
+        Current, Arena, Promotions (Promotions'Last), Result, True);
+      pragma Unused (Arena);
       return Result;
    end Owner_Selected;
    function Agent_Record_JSON (Value : String) return String is
@@ -3006,6 +3016,8 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
       Collect (Data, Material, Subject, Field (Data, Authoritative_Requirement, "requirementHash"),
         Arena, History, Final_Record, Native_Current, Source_Valid, Promotions, Final_Promotion,
         Facts_Data => Facts_Data, Capsules => Capsules);
+      --  Context joining consumes the native current cursor and rebuilt arena.
+      pragma Unused (History, Final_Record, Promotions, Final_Promotion);
       if not Source_Valid or else not Decoded.Present or else not Full_Stream (Data, Saved)
         or else not Same (Data, Header, Initial)
         or else not Same (Data, Field (Data, Header, "subject"), Field (Data, Context, "candidate"))
@@ -3042,6 +3054,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
          for I in Root'Range loop Arena (Before.First + E.Count (I - Root'First)) := Character'Pos (Root (I)); end loop;
          for I in Post_Root'Range loop Arena (After.First + E.Count (I - Post_Root'First)) := Character'Pos (Post_Root (I)); end loop;
          Plan_Checks (Captured_Plan, Arena, Policy_Position, Captured_Required, Native_Completion, Source_Valid, False);
+         pragma Unused (Policy_Position, Native_Completion);
       end if;
       for I in Rows'Range loop
          Read_Result (Data, Child (Data, Typed, I - 1), Field (Data, Capture, "source"),
@@ -3107,6 +3120,7 @@ package body Worldline.Recovery_Material_Replay with SPARK_Mode is
             Metadata (I) := (Check_Span, Source_Span, Payload_Span, Execution_Span, Verifier_Span);
          end loop;
          Plan_Checks (Current_Plan, B, Position, Required, Completion, Source_Valid, False);
+         pragma Unused (Position, Completion);
          Put (Data, (if Finalization then Field (Data, Child (Data, Field (Data, Material, "finalization"), 0), "store_id")
                     else Field (Data, Material, "pending_store")), B, Store_Id, Source_Valid);
          Put (Data, Field (Data, Subject, "instance_id"), B, Subject_Id, Source_Valid, Expected_Form => E.Text_Value);

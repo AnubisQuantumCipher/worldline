@@ -1,0 +1,492 @@
+[
+{
+  "name": "Resource_Actor_Admission_Wire.Raw_Observation",
+  "location": "resource_actor_admission_wire.ads:11:9",
+  "Size": 15232,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Bound",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Raw_Frame",
+      "Position":  248,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Sender",
+      "Position":  272,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Ticket",
+      "Position":  296,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Proc_Status",
+      "Position":  320,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Proc_Cgroup",
+      "Position":  344,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Proc_Maps",
+      "Position":  368,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Proc_Cmdline",
+      "Position":  392,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Pidfd_Info",
+      "Position":  416,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Namespace",
+      "Position":  440,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Held_Namespace",
+      "Position":  464,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Helper_Image",
+      "Position":  488,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Helper_Image",
+      "Position":  512,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Executable_Plan",
+      "Position":  536,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Executable_Plan",
+      "Position":  560,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Original_Requester",
+      "Position":  584,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester_Credentials",
+      "Position":  608,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Requester_Credentials",
+      "Position":  632,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Dispatch",
+      "Position":  656,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Running_Event",
+      "Position":  680,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Running_Event",
+      "Position":  704,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Canonical_Use_Event",
+      "Position":  728,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Canonical_Use_Event",
+      "Position":  752,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Store_Genesis",
+      "Position":  776,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Store_Genesis",
+      "Position":  800,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Source_Lease",
+      "Position":  824,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Source_Lease",
+      "Position":  848,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Actor_Wait",
+      "Position":  872,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Helper_Wait",
+      "Position":  896,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Namespace_Wait",
+      "Position":  920,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Host_Pid",
+      "Position":  944,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Namespace_Pid",
+      "Position":  968,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Sender_Uid",
+      "Position":  992,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Sender_Gid",
+      "Position": 1016,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Real_Uid",
+      "Position": 1040,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Effective_Uid",
+      "Position": 1064,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Saved_Uid",
+      "Position": 1088,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Real_Gid",
+      "Position": 1112,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Effective_Gid",
+      "Position": 1136,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Saved_Gid",
+      "Position": 1160,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Capability_Version",
+      "Position": 1184,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Effective_Low",
+      "Position": 1208,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Permitted_Low",
+      "Position": 1232,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Inheritable_Low",
+      "Position": 1256,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Effective_High",
+      "Position": 1280,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Permitted_High",
+      "Position": 1304,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Inheritable_High",
+      "Position": 1328,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Securebits",
+      "Position": 1352,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "No_New_Privs",
+      "Position": 1376,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester_Uid",
+      "Position": 1400,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester_Gid",
+      "Position": 1424,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Configured_Requester_Uid",
+      "Position": 1448,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Workload_Uid",
+      "Position": 1472,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Workload_Gid",
+      "Position": 1496,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Host_Pid",
+      "Position": 1520,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Namespace_Pid",
+      "Position": 1544,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Real_Uid",
+      "Position": 1568,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Effective_Uid",
+      "Position": 1592,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Saved_Uid",
+      "Position": 1616,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Real_Gid",
+      "Position": 1640,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Effective_Gid",
+      "Position": 1664,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Saved_Gid",
+      "Position": 1688,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Effective",
+      "Position": 1712,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Permitted",
+      "Position": 1736,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Inheritable",
+      "Position": 1760,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Bounding",
+      "Position": 1784,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Ambient",
+      "Position": 1808,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_No_New_Privs",
+      "Position": 1832,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Fs_Uid",
+      "Position": 1856,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Proc_Fs_Gid",
+      "Position": 1880,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Actor_Admission_Wire.Raw_Capability",
+  "location": "resource_actor_admission_wire.ads:83:9",
+  "Size": 576,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Index",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Bounding",
+      "Position": 24,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Ambient",
+      "Position": 48,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Actor_Admission_Wire.Raw_Capability_Array",
+  "location": "resource_actor_admission_wire.ads:86:9",
+  "Alignment": 8,
+  "Component_Size": 576
+}
+,
+{
+  "name": "Resource_Actor_Admission_Wire.Raw_Group_Array",
+  "location": "resource_actor_admission_wire.ads:87:9",
+  "Alignment": 8,
+  "Component_Size": 192
+}
+,
+{
+  "name": "Resource_Actor_Admission_Wire.Raw_Packet",
+  "location": "resource_actor_admission_wire.ads:88:9",
+  "Size": 37248,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Ledger",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 22016
+    },
+    {
+      "name": "Captured",
+      "Position": 2752,
+      "First_Bit": 0,
+      "Size": 15232
+    }
+  ]
+}
+]

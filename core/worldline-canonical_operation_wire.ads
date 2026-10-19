@@ -14,6 +14,18 @@ package Worldline.Canonical_Operation_Wire with SPARK_Mode is
       Peer : W.Raw_UID;
       Collapse : K.C.Raw_Request;
    end record with Convention=>C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Input use record
+      Authority at 0 range 0 .. 49087;
+      State at 6136 range 0 .. 3007;
+      Bound at 6512 range 0 .. 1983;
+      Requester at 6760 range 0 .. 191;
+      Peer at 6784 range 0 .. 63;
+      Collapse at 6792 range 0 .. 7063;
+   end record;
+   for Raw_Input'Size use 61400;
+   for Raw_Input'Object_Size use 61440;
+   for Raw_Input'Alignment use 8;
    type Raw_Result is record Disposition : Interfaces.Unsigned_8; end record with Convention=>C;
    function Well_Formed(Data:K.A.Q.Byte_Array; V:Raw_Input) return Boolean is
      (W.Well_Formed(V.Authority) and then W.Recovery_Well_Formed(Data,V.Authority.Facts)

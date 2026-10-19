@@ -1,0 +1,123 @@
+[
+{
+  "name": "Worldline.Chain_Authority_Wire.Raw_Hash",
+  "location": "worldline-chain_authority_wire.ads:11:9",
+  "Size": 256,
+  "Alignment": 1,
+  "Component_Size": 8
+}
+,
+{
+  "name": "Worldline.Chain_Authority_Wire.Raw_Digest",
+  "location": "worldline-chain_authority_wire.ads:13:9",
+  "Size": 264,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Present",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Value",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 256
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Chain_Authority_Wire.Raw_Row",
+  "location": "worldline-chain_authority_wire.ads:17:9",
+  "Size": 1056,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Previous",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Actual_Payload_Root",
+      "Position": 33,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Stored_Payload_Root",
+      "Position": 66,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Stored_Head",
+      "Position": 99,
+      "First_Bit": 0,
+      "Size": 264
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Chain_Authority_Wire.Raw_Anchors",
+  "location": "worldline-chain_authority_wire.ads:20:9",
+  "Size": 800,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Kind",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Observed_Genesis",
+      "Position":  1,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Witnessed_Genesis",
+      "Position": 34,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Witnessed_Head",
+      "Position": 67,
+      "First_Bit": 0,
+      "Size": 264
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Chain_Authority_Wire.Raw_Result",
+  "location": "worldline-chain_authority_wire.ads:24:9",
+  "Size": 384,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Disposition",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Head",
+      "Position":  1,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Accepted_Count",
+      "Position": 40,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ]
+}
+]

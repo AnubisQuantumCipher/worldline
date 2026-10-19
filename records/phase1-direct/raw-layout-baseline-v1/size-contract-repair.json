@@ -1,0 +1,13 @@
+{
+  "types": [
+    "RW.Raw_Request",
+    "T.Raw_Use",
+    "W.Raw_Native",
+    "O.Raw_Facts",
+    "CX.Raw_Input",
+    "CO.Raw_Input",
+    "CX.Raw_Material"
+  ],
+  "reason": "Nested native object component images include trailing padding beyond type value size. Preserve exact original value-size input and additionally support exact compiler object-size input. Source_Padding_Valid retains full-byte zero-padding checks.",
+  "baseline_failure": "raw-layout-runtime-v1/worker-result.json"
+}

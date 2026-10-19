@@ -1,0 +1,280 @@
+[
+{
+  "name": "Resource_Observation_Classification_Wire.U8",
+  "location": "resource_observation_classification_wire.ads:8:12",
+  "Size": 8,
+  "Alignment": 1
+}
+,
+{
+  "name": "Resource_Observation_Classification_Wire.Raw_Facts",
+  "location": "resource_observation_classification_wire.ads:12:9",
+  "Object_Size": 11072,
+  "Value_Size": 11016,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Current",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Current_Epoch",
+      "Position":  224,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Retained",
+      "Position":  256,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Current_Universe_Head",
+      "Position":  504,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Current_Ledger_Head",
+      "Position":  528,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Intent",
+      "Position":  552,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Dispatch",
+      "Position":  576,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Observation_Head",
+      "Position":  600,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Actual_Unit",
+      "Position":  624,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cgroup",
+      "Position":  648,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Invocation",
+      "Position":  672,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Namespace",
+      "Position":  696,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Held_Namespace",
+      "Position":  720,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Peer",
+      "Position":  744,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Held_Peer",
+      "Position":  768,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Helper_Image",
+      "Position":  792,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Helper_Image",
+      "Position":  816,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Challenge",
+      "Position":  840,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Held_Challenge",
+      "Position":  864,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Protocol",
+      "Position":  888,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Closed_Event",
+      "Position":  912,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Namespace_Wait",
+      "Position":  936,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Helper_Wait",
+      "Position":  960,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cgroup_Events",
+      "Position":  984,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cgroup_Type",
+      "Position": 1008,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Manager_Delegate",
+      "Position": 1032,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cgroup_Owner",
+      "Position": 1056,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Cgroup_Group_Write",
+      "Position": 1088,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Cgroup_Other_Write",
+      "Position": 1120,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Actual_Store_Genesis",
+      "Position": 1152,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Actual_Store_Id",
+      "Position": 1176,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Owner_Store_Genesis",
+      "Position": 1200,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Owner_Store_Id",
+      "Position": 1224,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Genesis_Universe",
+      "Position": 1248,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Genesis_Instance",
+      "Position": 1272,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Genesis_Context_Head",
+      "Position": 1296,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Genesis_Prime",
+      "Position": 1320,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Genesis_Root_Count",
+      "Position": 1344,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Phase",
+      "Position": 1376,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Observation_Classification_Wire.Raw_Input",
+  "location": "resource_observation_classification_wire.ads:53:9",
+  "Object_Size": 19328,
+  "Value_Size": 19272,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "State",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 3008
+    },
+    {
+      "name": "Item",
+      "Position":  376,
+      "First_Bit": 0,
+      "Size": 5248
+    },
+    {
+      "name": "Captured",
+      "Position": 1032,
+      "First_Bit": 0,
+      "Size": 11072
+    }
+  ]
+}
+]

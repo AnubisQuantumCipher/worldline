@@ -1,0 +1,292 @@
+[
+{
+  "name": "Worldline.Collapse_Wire.Byte",
+  "location": "worldline-collapse_wire.ads:15:12",
+  "Size": 8,
+  "Alignment": 1
+}
+,
+{
+  "name": "Worldline.Collapse_Wire.Raw_Bytes_32",
+  "location": "worldline-collapse_wire.ads:16:9",
+  "Size": 256,
+  "Alignment": 1,
+  "Component_Size": 8
+}
+,
+{
+  "name": "Worldline.Collapse_Wire.Raw_Bytes_8",
+  "location": "worldline-collapse_wire.ads:17:9",
+  "Size": 64,
+  "Alignment": 1,
+  "Component_Size": 8
+}
+,
+{
+  "name": "Worldline.Collapse_Wire.Raw_Optional_Hash",
+  "location": "worldline-collapse_wire.ads:21:9",
+  "Size": 264,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Present",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Value",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 256
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Collapse_Wire.Raw_Optional_Counter",
+  "location": "worldline-collapse_wire.ads:28:9",
+  "Size": 72,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Present",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Value_Le",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Collapse_Wire.Raw_Request",
+  "location": "worldline-collapse_wire.ads:33:9",
+  "Size": 7064,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Candidate_State",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Phase",
+      "Position":   1,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Evaluation_Mode",
+      "Position":   2,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Conflicts",
+      "Position":   3,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Foreign_Writes",
+      "Position":   4,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Roster_Complete",
+      "Position":   5,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Staged_Roster_Complete",
+      "Position":   6,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Expected_Parent",
+      "Position":   7,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Candidate_Parent",
+      "Position":  40,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Expected_Subject",
+      "Position":  73,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Evidence_Subject",
+      "Position": 106,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Expected_Base",
+      "Position": 139,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Candidate_Base",
+      "Position": 172,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Expected_Delta",
+      "Position": 205,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Candidate_Delta",
+      "Position": 238,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Expected_Root_Set",
+      "Position": 271,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Candidate_Root_Set",
+      "Position": 304,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Expected_Staged_Root",
+      "Position": 337,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Actual_Staged_Root",
+      "Position": 370,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Staged_Content_Root",
+      "Position": 403,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Tested_Root",
+      "Position": 436,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Current_Requirement",
+      "Position": 469,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Resulting_Requirement",
+      "Position": 502,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Evaluated_Requirement",
+      "Position": 535,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Declared_Verifiers",
+      "Position": 568,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Executed_Verifiers",
+      "Position": 601,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Staged_Evaluated_Requirement",
+      "Position": 634,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Staged_Executed_Verifiers",
+      "Position": 667,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Staged_Examined_Root",
+      "Position": 700,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Expected_Checkpoint",
+      "Position": 733,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Witnessed_Checkpoint",
+      "Position": 766,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Registered_Watch_Set",
+      "Position": 799,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Watched_Set",
+      "Position": 832,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Generation_Before",
+      "Position": 865,
+      "First_Bit": 0,
+      "Size": 72
+    },
+    {
+      "name": "Generation_After",
+      "Position": 874,
+      "First_Bit": 0,
+      "Size": 72
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Collapse_Wire.Invalid_Request",
+  "location": "worldline-collapse_wire.ads:71:4",
+  "Size": 8,
+  "Alignment": 1
+}
+]

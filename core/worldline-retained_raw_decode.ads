@@ -12,7 +12,6 @@ with Worldline.Operation_Authority_Wire;
 with Worldline.Chain_Authority_Wire;
 with Worldline.Recovery_Authorization_V3_Wire;
 with Resource_Quantities;
-with Interfaces;
 with System;
 package Worldline.Retained_Raw_Decode with SPARK_Mode is
    package Q renames Resource_Quantities;
@@ -30,6 +29,10 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    package CX renames Worldline.Canonical_Exchange_Wire;
    package HC renames Worldline.Canonical_Owner_Completion_Wire;
    use type Q.Byte_Count;
+   --  Preserve value images and also decode complete native object images.
+   --  C components may include alignment padding beyond their value size.
+   --  Only the two compiler-pinned sizes are admitted; padding validation
+   --  examines every supplied byte and still rejects nonzero padding.
    function Load (Data : Q.Byte_Array) return D.Raw_Packet
      with Global => null, Pre => Data'Length = D.Raw_Packet'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return N.Raw_Packet
@@ -85,7 +88,8 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Load (Data : Q.Byte_Array) return T.Raw_Evidence
      with Global => null, Pre => Data'Length = T.Raw_Evidence'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return RW.Raw_Request
-     with Global => null, Pre => Data'Length = RW.Raw_Request'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = RW.Raw_Request'Size / System.Storage_Unit
+       or else Data'Length = RW.Raw_Request'Object_Size / System.Storage_Unit);
    function Load (Data : Q.Byte_Array) return RW.Raw_Binding
      with Global => null, Pre => Data'Length = RW.Raw_Binding'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return RW.Raw_Digest
@@ -101,7 +105,8 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Load (Data : Q.Byte_Array) return T.Raw_Rights
      with Global => null, Pre => Data'Length = T.Raw_Rights'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return T.Raw_Use
-     with Global => null, Pre => Data'Length = T.Raw_Use'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = T.Raw_Use'Size / System.Storage_Unit
+       or else Data'Length = T.Raw_Use'Object_Size / System.Storage_Unit);
    function Load (Data : Q.Byte_Array) return C.Raw_Row
      with Global => null, Pre => Data'Length = C.Raw_Row'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return D.Raw_Capability
@@ -115,9 +120,11 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Load (Data : Q.Byte_Array) return N.Raw_Bucket
      with Global => null, Pre => Data'Length = N.Raw_Bucket'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return W.Raw_Native
-     with Global => null, Pre => Data'Length = W.Raw_Native'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = W.Raw_Native'Size / System.Storage_Unit
+       or else Data'Length = W.Raw_Native'Object_Size / System.Storage_Unit);
    function Load (Data : Q.Byte_Array) return O.Raw_Facts
-     with Global => null, Pre => Data'Length = O.Raw_Facts'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = O.Raw_Facts'Size / System.Storage_Unit
+       or else Data'Length = O.Raw_Facts'Object_Size / System.Storage_Unit);
    function Load (Data : Q.Byte_Array) return W.Raw_Result
      with Global => null, Pre => Data'Length = W.Raw_Result'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return T.Raw_Result
@@ -125,9 +132,11 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Load (Data : Q.Byte_Array) return HC.Raw_Input
      with Global => null, Pre => Data'Length = HC.Raw_Input'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return CX.Raw_Input
-     with Global => null, Pre => Data'Length = CX.Raw_Input'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = CX.Raw_Input'Size / System.Storage_Unit
+       or else Data'Length = CX.Raw_Input'Object_Size / System.Storage_Unit);
    function Load (Data : Q.Byte_Array) return CO.Raw_Input
-     with Global => null, Pre => Data'Length = CO.Raw_Input'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = CO.Raw_Input'Size / System.Storage_Unit
+       or else Data'Length = CO.Raw_Input'Object_Size / System.Storage_Unit);
    function Load (Data : Q.Byte_Array) return W.Raw_State
      with Global => null, Pre => Data'Length = W.Raw_State'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return CW.Raw_Request
@@ -141,7 +150,8 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Load (Data : Q.Byte_Array) return CW.Raw_Bytes_8
      with Global => null, Pre => Data'Length = CW.Raw_Bytes_8'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return CX.Raw_Material
-     with Global => null, Pre => Data'Length = CX.Raw_Material'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = CX.Raw_Material'Size / System.Storage_Unit
+       or else Data'Length = CX.Raw_Material'Object_Size / System.Storage_Unit);
    function Load (Data : Q.Byte_Array) return HC.Raw_Result
      with Global => null, Pre => Data'Length = HC.Raw_Result'Size / System.Storage_Unit;
    function Load (Data : Q.Byte_Array) return CX.Raw_Result
@@ -201,7 +211,8 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_Evidence) return Boolean
      with Global => null, Pre => Data'Length = T.Raw_Evidence'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : RW.Raw_Request) return Boolean
-     with Global => null, Pre => Data'Length = RW.Raw_Request'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = RW.Raw_Request'Size / System.Storage_Unit
+       or else Data'Length = RW.Raw_Request'Object_Size / System.Storage_Unit);
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : RW.Raw_Binding) return Boolean
      with Global => null, Pre => Data'Length = RW.Raw_Binding'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : RW.Raw_Digest) return Boolean
@@ -217,7 +228,8 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_Rights) return Boolean
      with Global => null, Pre => Data'Length = T.Raw_Rights'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_Use) return Boolean
-     with Global => null, Pre => Data'Length = T.Raw_Use'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = T.Raw_Use'Size / System.Storage_Unit
+       or else Data'Length = T.Raw_Use'Object_Size / System.Storage_Unit);
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : C.Raw_Row) return Boolean
      with Global => null, Pre => Data'Length = C.Raw_Row'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : D.Raw_Capability) return Boolean
@@ -231,9 +243,11 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : N.Raw_Bucket) return Boolean
      with Global => null, Pre => Data'Length = N.Raw_Bucket'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : W.Raw_Native) return Boolean
-     with Global => null, Pre => Data'Length = W.Raw_Native'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = W.Raw_Native'Size / System.Storage_Unit
+       or else Data'Length = W.Raw_Native'Object_Size / System.Storage_Unit);
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : O.Raw_Facts) return Boolean
-     with Global => null, Pre => Data'Length = O.Raw_Facts'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = O.Raw_Facts'Size / System.Storage_Unit
+       or else Data'Length = O.Raw_Facts'Object_Size / System.Storage_Unit);
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : W.Raw_Result) return Boolean
      with Global => null, Pre => Data'Length = W.Raw_Result'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_Result) return Boolean
@@ -241,9 +255,11 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : HC.Raw_Input) return Boolean
      with Global => null, Pre => Data'Length = HC.Raw_Input'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CX.Raw_Input) return Boolean
-     with Global => null, Pre => Data'Length = CX.Raw_Input'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = CX.Raw_Input'Size / System.Storage_Unit
+       or else Data'Length = CX.Raw_Input'Object_Size / System.Storage_Unit);
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CO.Raw_Input) return Boolean
-     with Global => null, Pre => Data'Length = CO.Raw_Input'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = CO.Raw_Input'Size / System.Storage_Unit
+       or else Data'Length = CO.Raw_Input'Object_Size / System.Storage_Unit);
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : W.Raw_State) return Boolean
      with Global => null, Pre => Data'Length = W.Raw_State'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CW.Raw_Request) return Boolean
@@ -257,7 +273,8 @@ package Worldline.Retained_Raw_Decode with SPARK_Mode is
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CW.Raw_Bytes_8) return Boolean
      with Global => null, Pre => Data'Length = CW.Raw_Bytes_8'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CX.Raw_Material) return Boolean
-     with Global => null, Pre => Data'Length = CX.Raw_Material'Size / System.Storage_Unit;
+     with Global => null, Pre => (Data'Length = CX.Raw_Material'Size / System.Storage_Unit
+       or else Data'Length = CX.Raw_Material'Object_Size / System.Storage_Unit);
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : HC.Raw_Result) return Boolean
      with Global => null, Pre => Data'Length = HC.Raw_Result'Size / System.Storage_Unit;
    function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CX.Raw_Result) return Boolean

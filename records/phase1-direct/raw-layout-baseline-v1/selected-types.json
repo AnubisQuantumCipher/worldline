@@ -1,0 +1,3823 @@
+[
+  {
+    "alias": "D.Raw_Packet",
+    "file": "resource_actor_admission_wire.ads",
+    "representation": {
+      "name": "Resource_Actor_Admission_Wire.Raw_Packet",
+      "location": "resource_actor_admission_wire.ads:88:9",
+      "Size": 37248,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Ledger",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 22016
+        },
+        {
+          "name": "Captured",
+          "Position": 2752,
+          "First_Bit": 0,
+          "Size": 15232
+        }
+      ]
+    },
+    "source_sha256": "915b6efa8a1c0bb3017e208e4c1ef8e12a0719c7dafed40ef9d2602640dae9ae"
+  },
+  {
+    "alias": "N.Raw_Packet",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Packet",
+      "location": "resource_scoped_run_ledger_wire.ads:101:9",
+      "Size": 22016,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Schema_Version",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "Before_State",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 2816
+        },
+        {
+          "name": "Proposed_State",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 2816
+        },
+        {
+          "name": "Current",
+          "Position": 712,
+          "First_Bit": 0,
+          "Size": 4736
+        },
+        {
+          "name": "Request",
+          "Position": 1304,
+          "First_Bit": 0,
+          "Size": 11584
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "N.Raw_State",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_State",
+      "location": "resource_scoped_run_ledger_wire.ads:14:9",
+      "Size": 2816,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "History_Head",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Physical_Head",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "W.Raw_Context",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Context",
+      "location": "resource_run_ledger_wire.ads:37:9",
+      "Size": 1792,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Universe",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Policy",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Unit",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Instance",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Boot",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Authority",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "W.Raw_Id",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Id",
+      "location": "resource_run_ledger_wire.ads:15:9",
+      "Size": 192,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "W.Raw_Epoch",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Epoch",
+      "location": "resource_run_ledger_wire.ads:33:9",
+      "Size": 256,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "W.Raw_Quantity",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Quantity",
+      "location": "resource_run_ledger_wire.ads:28:9",
+      "Size": 192,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Negative",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "N.Raw_Current_Observation",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Current_Observation",
+      "location": "resource_scoped_run_ledger_wire.ads:67:9",
+      "Size": 4736,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "History_Head",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Physical_Head",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Id",
+          "Position": 376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Head",
+          "Position": 400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prime",
+          "Position": 424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Count",
+          "Position": 448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "N.Raw_Intent",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Intent",
+      "location": "resource_scoped_run_ledger_wire.ads:86:9",
+      "Size": 11584,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Kind",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Original",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 10304
+        },
+        {
+          "name": "Expected_Epoch",
+          "Position": 1296,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Expected_Ledger_Head",
+          "Position": 1328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Request_Id",
+          "Position": 1352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 1400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 1424,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "W.Raw_Request",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Request",
+      "location": "resource_run_ledger_wire.ads:92:9",
+      "Size": 10304,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Kind",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Scope",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Expected_Epoch",
+          "Position": 232,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Expected_Ledger_Head",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Request_Id",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Reservation",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Operation_Id",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Bound",
+          "Position": 384,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "New_Row",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 5248
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "W.Raw_Binding",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Binding",
+      "location": "resource_run_ledger_wire.ads:48:9",
+      "Size": 1984,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Reservation",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Operation",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capability",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Grant_Use",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Payload",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Provenance",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "W.Raw_Row",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Row",
+      "location": "resource_run_ledger_wire.ads:60:9",
+      "Size": 5248,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Bound",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Parent",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Kind",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "State",
+          "Position": 497,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Amount",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observed_Usage",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Planned_Unit",
+          "Position": 560,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 584,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 608,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "D.Raw_Observation",
+    "file": "resource_actor_admission_wire.ads",
+    "representation": {
+      "name": "Resource_Actor_Admission_Wire.Raw_Observation",
+      "location": "resource_actor_admission_wire.ads:11:9",
+      "Size": 15232,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Raw_Frame",
+          "Position": 248,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Sender",
+          "Position": 272,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ticket",
+          "Position": 296,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Status",
+          "Position": 320,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Cgroup",
+          "Position": 344,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Maps",
+          "Position": 368,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Cmdline",
+          "Position": 392,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Pidfd_Info",
+          "Position": 416,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 440,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Namespace",
+          "Position": 464,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Image",
+          "Position": 488,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Helper_Image",
+          "Position": 512,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Executable_Plan",
+          "Position": 536,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Executable_Plan",
+          "Position": 560,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Requester",
+          "Position": 584,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Credentials",
+          "Position": 608,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Requester_Credentials",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 656,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Running_Event",
+          "Position": 680,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Running_Event",
+          "Position": 704,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Canonical_Use_Event",
+          "Position": 728,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Canonical_Use_Event",
+          "Position": 752,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 776,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Store_Genesis",
+          "Position": 800,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 824,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Source_Lease",
+          "Position": 848,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actor_Wait",
+          "Position": 872,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Wait",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Wait",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host_Pid",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Pid",
+          "Position": 968,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sender_Uid",
+          "Position": 992,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sender_Gid",
+          "Position": 1016,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Uid",
+          "Position": 1040,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Uid",
+          "Position": 1064,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Uid",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Gid",
+          "Position": 1112,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Gid",
+          "Position": 1136,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Gid",
+          "Position": 1160,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capability_Version",
+          "Position": 1184,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Low",
+          "Position": 1208,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Permitted_Low",
+          "Position": 1232,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Inheritable_Low",
+          "Position": 1256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_High",
+          "Position": 1280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Permitted_High",
+          "Position": 1304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Inheritable_High",
+          "Position": 1328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Securebits",
+          "Position": 1352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "No_New_Privs",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Uid",
+          "Position": 1400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Gid",
+          "Position": 1424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Configured_Requester_Uid",
+          "Position": 1448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload_Uid",
+          "Position": 1472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload_Gid",
+          "Position": 1496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Host_Pid",
+          "Position": 1520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Namespace_Pid",
+          "Position": 1544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Real_Uid",
+          "Position": 1568,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective_Uid",
+          "Position": 1592,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Saved_Uid",
+          "Position": 1616,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Real_Gid",
+          "Position": 1640,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective_Gid",
+          "Position": 1664,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Saved_Gid",
+          "Position": 1688,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective",
+          "Position": 1712,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Permitted",
+          "Position": 1736,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Inheritable",
+          "Position": 1760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Bounding",
+          "Position": 1784,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Ambient",
+          "Position": 1808,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_No_New_Privs",
+          "Position": 1832,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Fs_Uid",
+          "Position": 1856,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Fs_Gid",
+          "Position": 1880,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "915b6efa8a1c0bb3017e208e4c1ef8e12a0719c7dafed40ef9d2602640dae9ae"
+  },
+  {
+    "alias": "X.Raw_Crosswalk",
+    "file": "worldline-resource_actor_execution_wire.ads",
+    "representation": {
+      "name": "Worldline.Resource_Actor_Execution_Wire.Raw_Crosswalk",
+      "location": "worldline-resource_actor_execution_wire.ads:12:9",
+      "Size": 7616,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Resource_Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 4736
+        },
+        {
+          "name": "Operation_Policy",
+          "Position": 592,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Operation_Root_Set",
+          "Position": 625,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Genesis",
+          "Position": 664,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Installation",
+          "Position": 688,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Gate_Config",
+          "Position": 712,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Managed_Observation",
+          "Position": 736,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Grant",
+          "Position": 760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Complete_Crosswalk",
+          "Position": 784,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Source",
+          "Position": 808,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Request",
+          "Position": 832,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Requester",
+          "Position": 856,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Transaction",
+          "Position": 880,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Preparer",
+          "Position": 904,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Selected_Plan",
+          "Position": 928,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1620caa88cd05fe723862e622cc984161be38beef7d236cb4cd69f5f641688cd"
+  },
+  {
+    "alias": "C.Raw_Digest",
+    "file": "worldline-chain_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Chain_Authority_Wire.Raw_Digest",
+      "location": "worldline-chain_authority_wire.ads:13:9",
+      "Size": 264,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ]
+    },
+    "source_sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6"
+  },
+  {
+    "alias": "C.Raw_Hash",
+    "file": "worldline-chain_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Chain_Authority_Wire.Raw_Hash",
+      "location": "worldline-chain_authority_wire.ads:11:9",
+      "Size": 256,
+      "Alignment": 1,
+      "Component_Size": 8
+    },
+    "source_sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6"
+  },
+  {
+    "alias": "Y.Raw_Input",
+    "file": "worldline-resource_child_execution_wire.ads",
+    "representation": {
+      "name": "Worldline.Resource_Child_Execution_Wire.Raw_Input",
+      "location": "worldline-resource_child_execution_wire.ads:101:9",
+      "Size": 19904,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Mode",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Controller",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 10048
+        },
+        {
+          "name": "Child_Task",
+          "Position": 1264,
+          "First_Bit": 0,
+          "Size": 9792
+        }
+      ]
+    },
+    "source_sha256": "d2deefa1bc0612fe66bbf0d6742778dffcd9cb7bee001fca749430bfaf590836"
+  },
+  {
+    "alias": "Y.Raw_Controller",
+    "file": "worldline-resource_child_execution_wire.ads",
+    "representation": {
+      "name": "Worldline.Resource_Child_Execution_Wire.Raw_Controller",
+      "location": "worldline-resource_child_execution_wire.ads:35:9",
+      "Size": 10048,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Process",
+          "Position": 248,
+          "First_Bit": 0,
+          "Size": 4224
+        },
+        {
+          "name": "Requester_Uid",
+          "Position": 776,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Gid",
+          "Position": 800,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Manager",
+          "Position": 824,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Channel",
+          "Position": 848,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Endpoint",
+          "Position": 872,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Owner_Endpoint",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Source_Lease",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Worker_Image",
+          "Position": 968,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Worker_Image",
+          "Position": 992,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Handler_Plan",
+          "Position": 1016,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Handler_Plan",
+          "Position": 1040,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Request",
+          "Position": 1064,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 1112,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Running_Event",
+          "Position": 1136,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Running_Event",
+          "Position": 1160,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 1184,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Store_Genesis",
+          "Position": 1208,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Source",
+          "Position": 1232,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "d2deefa1bc0612fe66bbf0d6742778dffcd9cb7bee001fca749430bfaf590836"
+  },
+  {
+    "alias": "Y.Raw_Process",
+    "file": "worldline-resource_child_execution_wire.ads",
+    "representation": {
+      "name": "Worldline.Resource_Child_Execution_Wire.Raw_Process",
+      "location": "worldline-resource_child_execution_wire.ads:10:9",
+      "Size": 4224,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Raw_Status",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Stat",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Cgroup",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Maps",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Cmdline",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Pidfd_Info",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 240,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Pidfd_Wait",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host_Pid",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Start_Tick",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Pid",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Start_Tick",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Uid",
+          "Position": 384,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Uid",
+          "Position": 408,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Uid",
+          "Position": 432,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Gid",
+          "Position": 456,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Gid",
+          "Position": 480,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Gid",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "d2deefa1bc0612fe66bbf0d6742778dffcd9cb7bee001fca749430bfaf590836"
+  },
+  {
+    "alias": "Y.Raw_Task",
+    "file": "worldline-resource_child_execution_wire.ads",
+    "representation": {
+      "name": "Worldline.Resource_Child_Execution_Wire.Raw_Task",
+      "location": "worldline-resource_child_execution_wire.ads:58:9",
+      "Size": 9792,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Action",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Root",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Child",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Task_Id",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_World",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Child_World",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Instance",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Child_Instance",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "World_Store",
+          "Position": 624,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Full_World_Ancestry",
+          "Position": 648,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Workload",
+          "Position": 672,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sandbox",
+          "Position": 696,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Adapter",
+          "Position": 720,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Context",
+          "Position": 744,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Mission",
+          "Position": 768,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Stdin",
+          "Position": 792,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Credential_Source",
+          "Position": 816,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Executable_Source",
+          "Position": 840,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Configuration",
+          "Position": 864,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Plan",
+          "Position": 888,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Native_Cost_Input",
+          "Position": 912,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Request",
+          "Position": 936,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 960,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Dispatch",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Running_Event",
+          "Position": 1032,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Journal",
+          "Position": 1056,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Intent",
+          "Position": 1080,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Reservation_Event",
+          "Position": 1104,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Launch_Event",
+          "Position": 1128,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Namespace_Source",
+          "Position": 1152,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Fd_Lineage",
+          "Position": 1176,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 1200,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "d2deefa1bc0612fe66bbf0d6742778dffcd9cb7bee001fca749430bfaf590836"
+  },
+  {
+    "alias": "Y.Raw_Namespace",
+    "file": "worldline-resource_child_execution_wire.ads",
+    "representation": {
+      "name": "Worldline.Resource_Child_Execution_Wire.Raw_Namespace",
+      "location": "worldline-resource_child_execution_wire.ads:93:9",
+      "Size": 960,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Identity",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Nsfs",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Get_Parent",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "d2deefa1bc0612fe66bbf0d6742778dffcd9cb7bee001fca749430bfaf590836"
+  },
+  {
+    "alias": "T.Raw_Input",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Input",
+      "location": "worldline-operation_authority_wire.ads:50:9",
+      "Size": 49088,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Schema",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "Mode",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Bound",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Now",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Facts",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 41024
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "T.Raw_Binding",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Binding",
+      "location": "worldline-operation_authority_wire.ads:23:9",
+      "Size": 7808,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Action",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Id",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 7128
+        },
+        {
+          "name": "Peer",
+          "Position": 892,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Preparer",
+          "Position": 900,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Owner",
+          "Position": 908,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Target_Owner",
+          "Position": 916,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 928,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 952,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "T.Raw_Ids",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Ids",
+      "location": "worldline-operation_authority_wire.ads:21:9",
+      "Size": 7128,
+      "Alignment": 1,
+      "Component_Size": 264
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "T.Raw_UID",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Uid",
+      "location": "worldline-operation_authority_wire.ads:17:9",
+      "Size": 64,
+      "Alignment": 4,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "T.Raw_Quantity",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Quantity",
+      "location": "worldline-operation_authority_wire.ads:13:9",
+      "Size": 192,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Negative",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "T.Raw_Evidence",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Evidence",
+      "location": "worldline-operation_authority_wire.ads:40:9",
+      "Size": 41024,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Effect_Binding",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Actual_Receipt_Root",
+          "Position": 976,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Causal_Root",
+          "Position": 1009,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "No_Effect_Binding",
+          "Position": 1048,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Owner_Resolution",
+          "Position": 2024,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Quarantine_Head",
+          "Position": 3000,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Receipt_Head",
+          "Position": 3033,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Causal_Head",
+          "Position": 3066,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Recovery",
+          "Position": 3104,
+          "First_Bit": 0,
+          "Size": 15744
+        },
+        {
+          "name": "Original_Use",
+          "Position": 5072,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Effect_Material_First",
+          "Position": 5112,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Effect_Material_Length",
+          "Position": 5120,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "RW.Raw_Request",
+    "file": "worldline-recovery_authorization_v3_wire.ads",
+    "representation": {
+      "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Request",
+      "location": "worldline-recovery_authorization_v3_wire.ads:64:9",
+      "Object_Size": 15744,
+      "Value_Size": 15696,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Schema_Version",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "State",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Fresh",
+          "Position": 5,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Historical",
+          "Position": 6,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Grant_Eligible",
+          "Position": 7,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Issued_Binding",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Recovered_Binding",
+          "Position": 952,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Native",
+          "Position": 1896,
+          "First_Bit": 0,
+          "Size": 528
+        }
+      ]
+    },
+    "source_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8"
+  },
+  {
+    "alias": "RW.Raw_Binding",
+    "file": "worldline-recovery_authorization_v3_wire.ads",
+    "representation": {
+      "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Binding",
+      "location": "worldline-recovery_authorization_v3_wire.ads:30:9",
+      "Size": 7552,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Mode",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Operation",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Transaction",
+          "Position": 34,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Capability",
+          "Position": 67,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 100,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Instance",
+          "Position": 133,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Subject",
+          "Position": 166,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Root",
+          "Position": 199,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Current_Requirement",
+          "Position": 232,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Resulting_Requirement",
+          "Position": 265,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Requester",
+          "Position": 298,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Grant_Use",
+          "Position": 331,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy_Identity",
+          "Position": 364,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Selected_Evaluation",
+          "Position": 397,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "History_Head",
+          "Position": 430,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Reservation",
+          "Position": 463,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Host",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Prime",
+          "Position": 529,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Root",
+          "Position": 562,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Mapping",
+          "Position": 595,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Mapping",
+          "Position": 628,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Input_Snapshot",
+          "Position": 661,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Build",
+          "Position": 694,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Library",
+          "Position": 727,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Mapping",
+          "Position": 760,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Issuer_Head",
+          "Position": 793,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Receipt_Head",
+          "Position": 826,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Causal_Head",
+          "Position": 859,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8"
+  },
+  {
+    "alias": "RW.Raw_Digest",
+    "file": "worldline-recovery_authorization_v3_wire.ads",
+    "representation": {
+      "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Digest",
+      "location": "worldline-recovery_authorization_v3_wire.ads:22:9",
+      "Size": 264,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ]
+    },
+    "source_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8"
+  },
+  {
+    "alias": "RW.Raw_Hash",
+    "file": "worldline-recovery_authorization_v3_wire.ads",
+    "representation": {
+      "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Hash",
+      "location": "worldline-recovery_authorization_v3_wire.ads:20:9",
+      "Size": 256,
+      "Alignment": 1,
+      "Component_Size": 8
+    },
+    "source_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8"
+  },
+  {
+    "alias": "RW.Raw_Epoch",
+    "file": "worldline-recovery_authorization_v3_wire.ads",
+    "representation": {
+      "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Epoch",
+      "location": "worldline-recovery_authorization_v3_wire.ads:26:9",
+      "Size": 192,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Negative",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ]
+    },
+    "source_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8"
+  },
+  {
+    "alias": "RW.Raw_Native",
+    "file": "worldline-recovery_authorization_v3_wire.ads",
+    "representation": {
+      "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Native",
+      "location": "worldline-recovery_authorization_v3_wire.ads:61:9",
+      "Size": 528,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Live_Mapping",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Live_Root",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ]
+    },
+    "source_sha256": "5fbcfe66182b55cedec51c13ec56a5380e458fd6b5c92c4d70c97fd68e2bd2d8"
+  },
+  {
+    "alias": "T.Raw_Grant",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Grant",
+      "location": "worldline-operation_authority_wire.ads:29:9",
+      "Size": 2880,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Id",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Parent",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Issuer",
+          "Position": 66,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Instance",
+          "Position": 99,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Root_Set",
+          "Position": 132,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy",
+          "Position": 165,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Subject",
+          "Position": 200,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Owner",
+          "Position": 208,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Allowed",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 328
+        },
+        {
+          "name": "State",
+          "Position": 257,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Epoch",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ceiling",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Issued_At",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expires_At",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "T.Raw_Rights",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Rights",
+      "location": "worldline-operation_authority_wire.ads:22:9",
+      "Size": 328,
+      "Alignment": 1,
+      "Component_Size": 8
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "T.Raw_Use",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Use",
+      "location": "worldline-operation_authority_wire.ads:36:9",
+      "Object_Size": 7872,
+      "Value_Size": 7816,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "State",
+          "Position": 976,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "C.Raw_Row",
+    "file": "worldline-chain_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Chain_Authority_Wire.Raw_Row",
+      "location": "worldline-chain_authority_wire.ads:17:9",
+      "Size": 1056,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Previous",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Payload_Root",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Stored_Payload_Root",
+          "Position": 66,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Stored_Head",
+          "Position": 99,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ]
+    },
+    "source_sha256": "f8cdfc4e323bcc78afbb4a032198a5fc10627671b4f333088d4160d903a7eda6"
+  },
+  {
+    "alias": "D.Raw_Capability",
+    "file": "resource_actor_admission_wire.ads",
+    "representation": {
+      "name": "Resource_Actor_Admission_Wire.Raw_Capability",
+      "location": "resource_actor_admission_wire.ads:83:9",
+      "Size": 576,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Index",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Bounding",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ambient",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "915b6efa8a1c0bb3017e208e4c1ef8e12a0719c7dafed40ef9d2602640dae9ae"
+  },
+  {
+    "alias": "N.Raw_Scope_Frame",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Scope_Frame",
+      "location": "resource_scoped_run_ledger_wire.ads:23:9",
+      "Size": 4544,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "First_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Frame_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prior_Frame",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Id",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Head",
+          "Position": 376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prime",
+          "Position": 400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Count",
+          "Position": 424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "N.Raw_Projection",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Projection",
+      "location": "resource_scoped_run_ledger_wire.ads:57:9",
+      "Size": 5120,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Key",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 576
+        },
+        {
+          "name": "Bound",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Origin",
+          "Position": 320,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Numerator",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Denominator",
+          "Position": 592,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Amount",
+          "Position": 616,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "N.Raw_Physical_Key",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Physical_Key",
+      "location": "resource_scoped_run_ledger_wire.ads:41:9",
+      "Size": 576,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Machine",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Unit",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "N.Raw_Bucket",
+    "file": "resource_scoped_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Bucket",
+      "location": "resource_scoped_run_ledger_wire.ads:47:9",
+      "Size": 1728,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Key",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 576
+        },
+        {
+          "name": "Capacity",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Total",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Charged_Total",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capacity_Source",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "1d5d990280c2ed1f34828aec8db6cddb2011d9dc5f539fda1ec8b018f86f871d"
+  },
+  {
+    "alias": "W.Raw_Native",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Native",
+      "location": "resource_run_ledger_wire.ads:82:9",
+      "Object_Size": 4864,
+      "Value_Size": 4808,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Bound",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observed",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "O.Raw_Facts",
+    "file": "resource_observation_classification_wire.ads",
+    "representation": {
+      "name": "Resource_Observation_Classification_Wire.Raw_Facts",
+      "location": "resource_observation_classification_wire.ads:12:9",
+      "Object_Size": 11072,
+      "Value_Size": 11016,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Current_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Retained",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Current_Universe_Head",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Ledger_Head",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Intent",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 624,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 648,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 672,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 696,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Namespace",
+          "Position": 720,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Peer",
+          "Position": 744,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Peer",
+          "Position": 768,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Image",
+          "Position": 792,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Helper_Image",
+          "Position": 816,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Challenge",
+          "Position": 840,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Challenge",
+          "Position": 864,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Protocol",
+          "Position": 888,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Closed_Event",
+          "Position": 912,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Wait",
+          "Position": 936,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Wait",
+          "Position": 960,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Events",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Type",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Manager_Delegate",
+          "Position": 1032,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Owner",
+          "Position": 1056,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Cgroup_Group_Write",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Cgroup_Other_Write",
+          "Position": 1120,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Actual_Store_Genesis",
+          "Position": 1152,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Store_Id",
+          "Position": 1176,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Store_Genesis",
+          "Position": 1200,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Store_Id",
+          "Position": 1224,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Universe",
+          "Position": 1248,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Instance",
+          "Position": 1272,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Context_Head",
+          "Position": 1296,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Prime",
+          "Position": 1320,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Root_Count",
+          "Position": 1344,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Phase",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    "source_sha256": "1add9952684d426f2388bd5b3d6967a3c3bd63a5affecff66ad810f069a8f189"
+  },
+  {
+    "alias": "W.Raw_Result",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_Result",
+      "location": "resource_run_ledger_wire.ads:110:9",
+      "Size": 32,
+      "Alignment": 4,
+      "record": [
+        {
+          "name": "Status",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "T.Raw_Result",
+    "file": "worldline-operation_authority_wire.ads",
+    "representation": {
+      "name": "Worldline.Operation_Authority_Wire.Raw_Result",
+      "location": "worldline-operation_authority_wire.ads:57:9",
+      "Size": 8,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    "source_sha256": "7e2998cb83c7381f1e5e241e8c175886378c3a4c82853e22c3567f257a3c72ab"
+  },
+  {
+    "alias": "HC.Raw_Input",
+    "file": "worldline-canonical_owner_completion_wire.ads",
+    "representation": {
+      "name": "Worldline.Canonical_Owner_Completion_Wire.Raw_Input",
+      "location": "worldline-canonical_owner_completion_wire.ads:9:9",
+      "Size": 143744,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Historical",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 94656
+        },
+        {
+          "name": "Current",
+          "Position": 11832,
+          "First_Bit": 0,
+          "Size": 49088
+        }
+      ]
+    },
+    "source_sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745"
+  },
+  {
+    "alias": "CX.Raw_Input",
+    "file": "worldline-canonical_exchange_wire.ads",
+    "representation": {
+      "name": "Worldline.Canonical_Exchange_Wire.Raw_Input",
+      "location": "worldline-canonical_exchange_wire.ads:25:9",
+      "Object_Size": 94656,
+      "Value_Size": 94608,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Operation_Input",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 61440
+        },
+        {
+          "name": "Material",
+          "Position": 7680,
+          "First_Bit": 0,
+          "Size": 33152
+        },
+        {
+          "name": "Before",
+          "Position": 11824,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Mode",
+          "Position": 11825,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    "source_sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0"
+  },
+  {
+    "alias": "CO.Raw_Input",
+    "file": "worldline-canonical_operation_wire.ads",
+    "representation": {
+      "name": "Worldline.Canonical_Operation_Wire.Raw_Input",
+      "location": "worldline-canonical_operation_wire.ads:9:9",
+      "Object_Size": 61440,
+      "Value_Size": 61400,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Authority",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 49088
+        },
+        {
+          "name": "State",
+          "Position": 6136,
+          "First_Bit": 0,
+          "Size": 3008
+        },
+        {
+          "name": "Bound",
+          "Position": 6512,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Requester",
+          "Position": 6760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Peer",
+          "Position": 6784,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Collapse",
+          "Position": 6792,
+          "First_Bit": 0,
+          "Size": 7064
+        }
+      ]
+    },
+    "source_sha256": "38f0b23eed88141ace33b6b5d4400f8ecfe07481e7380d91d1f17c6715f49cca"
+  },
+  {
+    "alias": "W.Raw_State",
+    "file": "resource_run_ledger_wire.ads",
+    "representation": {
+      "name": "Resource_Run_Ledger_Wire.Raw_State",
+      "location": "resource_run_ledger_wire.ads:73:9",
+      "Size": 3008,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capacity",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Total",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Charged_Total",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ]
+    },
+    "source_sha256": "e29a7a43aabcfd2f1049af79b1364fc95f820812e2af92c29a881a4110158f81"
+  },
+  {
+    "alias": "CW.Raw_Request",
+    "file": "worldline-collapse_wire.ads",
+    "representation": {
+      "name": "Worldline.Collapse_Wire.Raw_Request",
+      "location": "worldline-collapse_wire.ads:33:9",
+      "Size": 7064,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Candidate_State",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Phase",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Evaluation_Mode",
+          "Position": 2,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Conflicts",
+          "Position": 3,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Foreign_Writes",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Roster_Complete",
+          "Position": 5,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Staged_Roster_Complete",
+          "Position": 6,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Expected_Parent",
+          "Position": 7,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Parent",
+          "Position": 40,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Subject",
+          "Position": 73,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Evidence_Subject",
+          "Position": 106,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Base",
+          "Position": 139,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Base",
+          "Position": 172,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Delta",
+          "Position": 205,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Delta",
+          "Position": 238,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Root_Set",
+          "Position": 271,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Root_Set",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Staged_Root",
+          "Position": 337,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Staged_Root",
+          "Position": 370,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Content_Root",
+          "Position": 403,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Tested_Root",
+          "Position": 436,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Current_Requirement",
+          "Position": 469,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Resulting_Requirement",
+          "Position": 502,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Evaluated_Requirement",
+          "Position": 535,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Declared_Verifiers",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Executed_Verifiers",
+          "Position": 601,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Evaluated_Requirement",
+          "Position": 634,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Executed_Verifiers",
+          "Position": 667,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Examined_Root",
+          "Position": 700,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Checkpoint",
+          "Position": 733,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Checkpoint",
+          "Position": 766,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Registered_Watch_Set",
+          "Position": 799,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Watched_Set",
+          "Position": 832,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Generation_Before",
+          "Position": 865,
+          "First_Bit": 0,
+          "Size": 72
+        },
+        {
+          "name": "Generation_After",
+          "Position": 874,
+          "First_Bit": 0,
+          "Size": 72
+        }
+      ]
+    },
+    "source_sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd"
+  },
+  {
+    "alias": "CW.Raw_Optional_Hash",
+    "file": "worldline-collapse_wire.ads",
+    "representation": {
+      "name": "Worldline.Collapse_Wire.Raw_Optional_Hash",
+      "location": "worldline-collapse_wire.ads:21:9",
+      "Size": 264,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ]
+    },
+    "source_sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd"
+  },
+  {
+    "alias": "CW.Raw_Bytes_32",
+    "file": "worldline-collapse_wire.ads",
+    "representation": {
+      "name": "Worldline.Collapse_Wire.Raw_Bytes_32",
+      "location": "worldline-collapse_wire.ads:16:9",
+      "Size": 256,
+      "Alignment": 1,
+      "Component_Size": 8
+    },
+    "source_sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd"
+  },
+  {
+    "alias": "CW.Raw_Optional_Counter",
+    "file": "worldline-collapse_wire.ads",
+    "representation": {
+      "name": "Worldline.Collapse_Wire.Raw_Optional_Counter",
+      "location": "worldline-collapse_wire.ads:28:9",
+      "Size": 72,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value_Le",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ]
+    },
+    "source_sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd"
+  },
+  {
+    "alias": "CW.Raw_Bytes_8",
+    "file": "worldline-collapse_wire.ads",
+    "representation": {
+      "name": "Worldline.Collapse_Wire.Raw_Bytes_8",
+      "location": "worldline-collapse_wire.ads:17:9",
+      "Size": 64,
+      "Alignment": 1,
+      "Component_Size": 8
+    },
+    "source_sha256": "987b3fa75865ae84fa1549424c947853c89a6f7a6762112975ace4d1918a00bd"
+  },
+  {
+    "alias": "CX.Raw_Material",
+    "file": "worldline-canonical_exchange_wire.ads",
+    "representation": {
+      "name": "Worldline.Canonical_Exchange_Wire.Raw_Material",
+      "location": "worldline-canonical_exchange_wire.ads:10:9",
+      "Object_Size": 33152,
+      "Value_Size": 33112,
+      "Alignment": 8,
+      "record": [
+        {
+          "name": "Worker_Issued",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Worker_Recovered",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Canonical_Issued",
+          "Position": 1888,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Canonical_Recovered",
+          "Position": 2832,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Worker_Native",
+          "Position": 3776,
+          "First_Bit": 0,
+          "Size": 528
+        },
+        {
+          "name": "Canonical_Native",
+          "Position": 3842,
+          "First_Bit": 0,
+          "Size": 528
+        },
+        {
+          "name": "Worker_Receipt_Genesis",
+          "Position": 3908,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Receipt_Genesis",
+          "Position": 3941,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Receipt_Head",
+          "Position": 3974,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Causal_Genesis",
+          "Position": 4007,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Causal_Genesis",
+          "Position": 4040,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Causal_Head",
+          "Position": 4073,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Quarantine_Head",
+          "Position": 4106,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ]
+    },
+    "source_sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0"
+  },
+  {
+    "alias": "HC.Raw_Result",
+    "file": "worldline-canonical_owner_completion_wire.ads",
+    "representation": {
+      "name": "Worldline.Canonical_Owner_Completion_Wire.Raw_Result",
+      "location": "worldline-canonical_owner_completion_wire.ads:13:9",
+      "Size": 8,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    "source_sha256": "b71eefefbfc60925db272c99f0e7d9e5593bc4213ed85ff70e81eac8a39c3745"
+  },
+  {
+    "alias": "CX.Raw_Result",
+    "file": "worldline-canonical_exchange_wire.ads",
+    "representation": {
+      "name": "Worldline.Canonical_Exchange_Wire.Raw_Result",
+      "location": "worldline-canonical_exchange_wire.ads:30:9",
+      "Size": 8,
+      "Alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ]
+    },
+    "source_sha256": "2815b0bb4c3ddece1da92ae33b595699b664378208f6a39275b5dedb43a5b3c0"
+  }
+]

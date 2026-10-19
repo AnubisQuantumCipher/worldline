@@ -266,6 +266,14 @@ def run(out: Path, expect_sha: str | None) -> int:
     ok = runner.step("build", ["gprbuild", "-q", "-P", "worldline.gpr"]) and ok
     ok = runner.step("ada-tests", ["./bin/worldline_core_tests"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
     ok = runner.step("ada-fuzz", ["./bin/worldline_core_fuzz"], check=lambda o: {"ok": "PASS" in o, "line": o.strip().splitlines()[-1] if o.strip() else ""}) and ok
+    ok = runner.step("raw-decoder-layout", ["./bin/raw_decode_tests"]) and ok
+    # Invalid Ada preconditions are tested in one runtime, separately from the
+    # production encapsulated library's C-interface rejection controls.
+    ok = runner.step("raw-decoder-contract-build", ["gprbuild", "-q", "-p", "-j2",
+                     "-P", "tests/raw_decode_contracts.gpr"]) and ok
+    ok = runner.step("raw-decoder-length-controls", [sys.executable,
+                     "tests/raw_decode_length_controls.py", "--out",
+                     str(runner.out / "raw-decoder-length-controls.json")]) and ok
     private_env = {**env, "WORLDLINE_PRIVATE_EVALUATOR_TEST": "1"}
     # Verbose output names any remaining host-capability skips in the retained log.
     # The private integration cases must run here too, so the release gate's skipped

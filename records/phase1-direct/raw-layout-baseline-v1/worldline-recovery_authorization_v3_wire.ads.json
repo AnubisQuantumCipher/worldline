@@ -1,0 +1,352 @@
+[
+{
+  "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Hash",
+  "location": "worldline-recovery_authorization_v3_wire.ads:20:9",
+  "Size": 256,
+  "Alignment": 1,
+  "Component_Size": 8
+}
+,
+{
+  "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Digest",
+  "location": "worldline-recovery_authorization_v3_wire.ads:22:9",
+  "Size": 264,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Present",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Value",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 256
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Epoch",
+  "location": "worldline-recovery_authorization_v3_wire.ads:26:9",
+  "Size": 192,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Present",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Negative",
+      "Position":  1,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "First",
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Length",
+      "Position": 16,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Binding",
+  "location": "worldline-recovery_authorization_v3_wire.ads:30:9",
+  "Size": 7552,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Mode",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Operation",
+      "Position":   1,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Transaction",
+      "Position":  34,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Capability",
+      "Position":  67,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Universe_Head",
+      "Position": 100,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Instance",
+      "Position": 133,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Subject",
+      "Position": 166,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Staged_Root",
+      "Position": 199,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Current_Requirement",
+      "Position": 232,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Resulting_Requirement",
+      "Position": 265,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Requester",
+      "Position": 298,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Grant_Use",
+      "Position": 331,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Policy_Identity",
+      "Position": 364,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Selected_Evaluation",
+      "Position": 397,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "History_Head",
+      "Position": 430,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Reservation",
+      "Position": 463,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Host",
+      "Position": 496,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Before_Prime",
+      "Position": 529,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Before_Root",
+      "Position": 562,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Before_Mapping",
+      "Position": 595,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Staged_Mapping",
+      "Position": 628,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Input_Snapshot",
+      "Position": 661,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Kernel_Build",
+      "Position": 694,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Kernel_Library",
+      "Position": 727,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Kernel_Mapping",
+      "Position": 760,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Issuer_Head",
+      "Position": 793,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Receipt_Head",
+      "Position": 826,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Causal_Head",
+      "Position": 859,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Policy_Epoch",
+      "Position": 896,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Resource_Epoch",
+      "Position": 920,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Native",
+  "location": "worldline-recovery_authorization_v3_wire.ads:61:9",
+  "Size": 528,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Live_Mapping",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Live_Root",
+      "Position": 33,
+      "First_Bit": 0,
+      "Size": 264
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Request",
+  "location": "worldline-recovery_authorization_v3_wire.ads:64:9",
+  "Object_Size": 15744,
+  "Value_Size": 15696,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Schema_Version",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "State",
+      "Position":    4,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Fresh",
+      "Position":    5,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Historical",
+      "Position":    6,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Grant_Eligible",
+      "Position":    7,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Issued_Binding",
+      "Position":    8,
+      "First_Bit": 0,
+      "Size": 7552
+    },
+    {
+      "name": "Recovered_Binding",
+      "Position":  952,
+      "First_Bit": 0,
+      "Size": 7552
+    },
+    {
+      "name": "Native",
+      "Position": 1896,
+      "First_Bit": 0,
+      "Size": 528
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Recovery_Authorization_V3_Wire.Raw_Result",
+  "location": "worldline-recovery_authorization_v3_wire.ads:70:9",
+  "Size": 16,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Action",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "State",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+]

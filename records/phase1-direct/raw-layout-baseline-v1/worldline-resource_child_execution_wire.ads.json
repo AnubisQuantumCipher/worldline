@@ -1,0 +1,577 @@
+[
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Process",
+  "location": "worldline-resource_child_execution_wire.ads:10:9",
+  "Size": 4224,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Raw_Status",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Stat",
+      "Position":  24,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Cgroup",
+      "Position":  48,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Maps",
+      "Position":  72,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Cmdline",
+      "Position":  96,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Pidfd_Info",
+      "Position": 120,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Namespace",
+      "Position": 144,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cgroup",
+      "Position": 168,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Actual_Unit",
+      "Position": 192,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Invocation",
+      "Position": 216,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Source_Lease",
+      "Position": 240,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Pidfd_Wait",
+      "Position": 264,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Host_Pid",
+      "Position": 288,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Start_Tick",
+      "Position": 312,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Parent_Pid",
+      "Position": 336,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Parent_Start_Tick",
+      "Position": 360,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Real_Uid",
+      "Position": 384,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Effective_Uid",
+      "Position": 408,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Saved_Uid",
+      "Position": 432,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Real_Gid",
+      "Position": 456,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Effective_Gid",
+      "Position": 480,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Saved_Gid",
+      "Position": 504,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Process_Array",
+  "location": "worldline-resource_child_execution_wire.ads:34:9",
+  "Alignment": 8,
+  "Component_Size": 4224
+}
+,
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Controller",
+  "location": "worldline-resource_child_execution_wire.ads:35:9",
+  "Size": 10048,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Bound",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Process",
+      "Position":  248,
+      "First_Bit": 0,
+      "Size": 4224
+    },
+    {
+      "name": "Requester_Uid",
+      "Position":  776,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester_Gid",
+      "Position":  800,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Manager",
+      "Position":  824,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Channel",
+      "Position":  848,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Owner_Endpoint",
+      "Position":  872,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Owner_Endpoint",
+      "Position":  896,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Source_Lease",
+      "Position":  920,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Source_Lease",
+      "Position":  944,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Worker_Image",
+      "Position":  968,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Worker_Image",
+      "Position":  992,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Handler_Plan",
+      "Position": 1016,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Handler_Plan",
+      "Position": 1040,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Request",
+      "Position": 1064,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester",
+      "Position": 1088,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Dispatch",
+      "Position": 1112,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Running_Event",
+      "Position": 1136,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Running_Event",
+      "Position": 1160,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Store_Genesis",
+      "Position": 1184,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expected_Store_Genesis",
+      "Position": 1208,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Current_Source",
+      "Position": 1232,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Task",
+  "location": "worldline-resource_child_execution_wire.ads:58:9",
+  "Size": 9792,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Action",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Root",
+      "Position":    8,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Child",
+      "Position":  256,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Task_Id",
+      "Position":  504,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_World",
+      "Position":  528,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Child_World",
+      "Position":  552,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_Instance",
+      "Position":  576,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Child_Instance",
+      "Position":  600,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "World_Store",
+      "Position":  624,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Full_World_Ancestry",
+      "Position":  648,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Original_Workload",
+      "Position":  672,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Sandbox",
+      "Position":  696,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Adapter",
+      "Position":  720,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Context",
+      "Position":  744,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Mission",
+      "Position":  768,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Stdin",
+      "Position":  792,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Credential_Source",
+      "Position":  816,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Executable_Source",
+      "Position":  840,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Configuration",
+      "Position":  864,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Owner_Plan",
+      "Position":  888,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Native_Cost_Input",
+      "Position":  912,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Request",
+      "Position":  936,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester",
+      "Position":  960,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cause",
+      "Position":  984,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_Dispatch",
+      "Position": 1008,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_Running_Event",
+      "Position": 1032,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Task_Journal",
+      "Position": 1056,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Task_Intent",
+      "Position": 1080,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Task_Reservation_Event",
+      "Position": 1104,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Task_Launch_Event",
+      "Position": 1128,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Parent_Namespace_Source",
+      "Position": 1152,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Fd_Lineage",
+      "Position": 1176,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Source_Lease",
+      "Position": 1200,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Task_Array",
+  "location": "worldline-resource_child_execution_wire.ads:92:9",
+  "Alignment": 8,
+  "Component_Size": 9792
+}
+,
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Namespace",
+  "location": "worldline-resource_child_execution_wire.ads:93:9",
+  "Size": 960,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Identity",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Parent",
+      "Position": 24,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Nsfs",
+      "Position": 48,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Raw_Get_Parent",
+      "Position": 72,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Source_Lease",
+      "Position": 96,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Namespace_Array",
+  "location": "worldline-resource_child_execution_wire.ads:100:9",
+  "Alignment": 8,
+  "Component_Size": 960
+}
+,
+{
+  "name": "Worldline.Resource_Child_Execution_Wire.Raw_Input",
+  "location": "worldline-resource_child_execution_wire.ads:101:9",
+  "Size": 19904,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Mode",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Controller",
+      "Position":    8,
+      "First_Bit": 0,
+      "Size": 10048
+    },
+    {
+      "name": "Child_Task",
+      "Position": 1264,
+      "First_Bit": 0,
+      "Size": 9792
+    }
+  ]
+}
+]

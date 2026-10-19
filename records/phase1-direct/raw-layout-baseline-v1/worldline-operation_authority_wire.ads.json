@@ -1,0 +1,399 @@
+[
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Digest",
+  "location": "worldline-operation_authority_wire.ads:12:12",
+  "Size": 264,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Present",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Value",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 256
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Quantity",
+  "location": "worldline-operation_authority_wire.ads:13:9",
+  "Size": 192,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Present",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Negative",
+      "Position":  1,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "First",
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Length",
+      "Position": 16,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Uid",
+  "location": "worldline-operation_authority_wire.ads:17:9",
+  "Size": 64,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "Present",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Value",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Ids",
+  "location": "worldline-operation_authority_wire.ads:21:9",
+  "Size": 7128,
+  "Alignment": 1,
+  "Component_Size": 264
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Rights",
+  "location": "worldline-operation_authority_wire.ads:22:9",
+  "Size": 328,
+  "Alignment": 1,
+  "Component_Size": 8
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Binding",
+  "location": "worldline-operation_authority_wire.ads:23:9",
+  "Size": 7808,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Action",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Id",
+      "Position":   1,
+      "First_Bit": 0,
+      "Size": 7128
+    },
+    {
+      "name": "Peer",
+      "Position": 892,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Preparer",
+      "Position": 900,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Owner",
+      "Position": 908,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Target_Owner",
+      "Position": 916,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Policy_Epoch",
+      "Position": 928,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Resource_Epoch",
+      "Position": 952,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Grant",
+  "location": "worldline-operation_authority_wire.ads:29:9",
+  "Size": 2880,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Id",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Parent",
+      "Position":  33,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Issuer",
+      "Position":  66,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Instance",
+      "Position":  99,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Root_Set",
+      "Position": 132,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Policy",
+      "Position": 165,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Subject",
+      "Position": 200,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Owner",
+      "Position": 208,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Allowed",
+      "Position": 216,
+      "First_Bit": 0,
+      "Size": 328
+    },
+    {
+      "name": "State",
+      "Position": 257,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Epoch",
+      "Position": 264,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Ceiling",
+      "Position": 288,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Issued_At",
+      "Position": 312,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Expires_At",
+      "Position": 336,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Use",
+  "location": "worldline-operation_authority_wire.ads:36:9",
+  "Object_Size": 7872,
+  "Value_Size": 7816,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Bound",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 7808
+    },
+    {
+      "name": "State",
+      "Position": 976,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Evidence",
+  "location": "worldline-operation_authority_wire.ads:40:9",
+  "Size": 41024,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Effect_Binding",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 7808
+    },
+    {
+      "name": "Actual_Receipt_Root",
+      "Position":  976,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Actual_Causal_Root",
+      "Position": 1009,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "No_Effect_Binding",
+      "Position": 1048,
+      "First_Bit": 0,
+      "Size": 7808
+    },
+    {
+      "name": "Owner_Resolution",
+      "Position": 2024,
+      "First_Bit": 0,
+      "Size": 7808
+    },
+    {
+      "name": "Quarantine_Head",
+      "Position": 3000,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Witnessed_Receipt_Head",
+      "Position": 3033,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Witnessed_Causal_Head",
+      "Position": 3066,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Recovery",
+      "Position": 3104,
+      "First_Bit": 0,
+      "Size": 15744
+    },
+    {
+      "name": "Original_Use",
+      "Position": 5072,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Effect_Material_First",
+      "Position": 5112,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Effect_Material_Length",
+      "Position": 5120,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Input",
+  "location": "worldline-operation_authority_wire.ads:50:9",
+  "Size": 49088,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Schema",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Mode",
+      "Position":    4,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Bound",
+      "Position":    8,
+      "First_Bit": 0,
+      "Size": 7808
+    },
+    {
+      "name": "Now",
+      "Position":  984,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Facts",
+      "Position": 1008,
+      "First_Bit": 0,
+      "Size": 41024
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Operation_Authority_Wire.Raw_Result",
+  "location": "worldline-operation_authority_wire.ads:57:9",
+  "Size": 8,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Disposition",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+]

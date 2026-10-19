@@ -1,0 +1,138 @@
+[
+{
+  "name": "Worldline.Canonical_Exchange_Wire.Raw_Material",
+  "location": "worldline-canonical_exchange_wire.ads:10:9",
+  "Object_Size": 33152,
+  "Value_Size": 33112,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Worker_Issued",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 7552
+    },
+    {
+      "name": "Worker_Recovered",
+      "Position":  944,
+      "First_Bit": 0,
+      "Size": 7552
+    },
+    {
+      "name": "Canonical_Issued",
+      "Position": 1888,
+      "First_Bit": 0,
+      "Size": 7552
+    },
+    {
+      "name": "Canonical_Recovered",
+      "Position": 2832,
+      "First_Bit": 0,
+      "Size": 7552
+    },
+    {
+      "name": "Worker_Native",
+      "Position": 3776,
+      "First_Bit": 0,
+      "Size": 528
+    },
+    {
+      "name": "Canonical_Native",
+      "Position": 3842,
+      "First_Bit": 0,
+      "Size": 528
+    },
+    {
+      "name": "Worker_Receipt_Genesis",
+      "Position": 3908,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Owner_Receipt_Genesis",
+      "Position": 3941,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Worker_Receipt_Head",
+      "Position": 3974,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Worker_Causal_Genesis",
+      "Position": 4007,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Owner_Causal_Genesis",
+      "Position": 4040,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Worker_Causal_Head",
+      "Position": 4073,
+      "First_Bit": 0,
+      "Size": 264
+    },
+    {
+      "name": "Quarantine_Head",
+      "Position": 4106,
+      "First_Bit": 0,
+      "Size": 264
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Canonical_Exchange_Wire.Raw_Input",
+  "location": "worldline-canonical_exchange_wire.ads:25:9",
+  "Object_Size": 94656,
+  "Value_Size": 94608,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Operation_Input",
+      "Position":     0,
+      "First_Bit": 0,
+      "Size": 61440
+    },
+    {
+      "name": "Material",
+      "Position":  7680,
+      "First_Bit": 0,
+      "Size": 33152
+    },
+    {
+      "name": "Before",
+      "Position": 11824,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Mode",
+      "Position": 11825,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Canonical_Exchange_Wire.Raw_Result",
+  "location": "worldline-canonical_exchange_wire.ads:30:9",
+  "Size": 8,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Disposition",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+]

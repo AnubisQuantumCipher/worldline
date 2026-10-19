@@ -19,14 +19,37 @@ package Worldline.Recovery_Authorization_V3_Wire with SPARK_Mode is
    use type R.Recovery_Action;
    type Raw_Hash is array (Hash'Range) of Interfaces.Unsigned_8
      with Convention => C;
+   --  Preserve compiler-observed C array layout.
+   for Raw_Hash'Component_Size use 8;
+   for Raw_Hash'Size use 256;
+   for Raw_Hash'Object_Size use 256;
+   for Raw_Hash'Alignment use 1;
    type Raw_Digest is record
       Present : Interfaces.Unsigned_8;
       Value : Raw_Hash;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Digest use record
+      Present at 0 range 0 .. 7;
+      Value at 1 range 0 .. 255;
+   end record;
+   for Raw_Digest'Size use 264;
+   for Raw_Digest'Object_Size use 264;
+   for Raw_Digest'Alignment use 1;
    type Raw_Epoch is record
       Present, Negative : Interfaces.Unsigned_8;
       First, Length : Interfaces.Integer_64;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Epoch use record
+      Present at 0 range 0 .. 7;
+      Negative at 1 range 0 .. 7;
+      First at 8 range 0 .. 63;
+      Length at 16 range 0 .. 63;
+   end record;
+   for Raw_Epoch'Size use 192;
+   for Raw_Epoch'Object_Size use 192;
+   for Raw_Epoch'Alignment use 8;
    type Raw_Binding is record
       Mode : Interfaces.Unsigned_8;
       Operation : Raw_Digest;
@@ -58,15 +81,73 @@ package Worldline.Recovery_Authorization_V3_Wire with SPARK_Mode is
       Causal_Head : Raw_Digest;
       Policy_Epoch, Resource_Epoch : Raw_Epoch;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Binding use record
+      Mode at 0 range 0 .. 7;
+      Operation at 1 range 0 .. 263;
+      Transaction at 34 range 0 .. 263;
+      Capability at 67 range 0 .. 263;
+      Universe_Head at 100 range 0 .. 263;
+      Instance at 133 range 0 .. 263;
+      Subject at 166 range 0 .. 263;
+      Staged_Root at 199 range 0 .. 263;
+      Current_Requirement at 232 range 0 .. 263;
+      Resulting_Requirement at 265 range 0 .. 263;
+      Requester at 298 range 0 .. 263;
+      Grant_Use at 331 range 0 .. 263;
+      Policy_Identity at 364 range 0 .. 263;
+      Selected_Evaluation at 397 range 0 .. 263;
+      History_Head at 430 range 0 .. 263;
+      Reservation at 463 range 0 .. 263;
+      Host at 496 range 0 .. 263;
+      Before_Prime at 529 range 0 .. 263;
+      Before_Root at 562 range 0 .. 263;
+      Before_Mapping at 595 range 0 .. 263;
+      Staged_Mapping at 628 range 0 .. 263;
+      Input_Snapshot at 661 range 0 .. 263;
+      Kernel_Build at 694 range 0 .. 263;
+      Kernel_Library at 727 range 0 .. 263;
+      Kernel_Mapping at 760 range 0 .. 263;
+      Issuer_Head at 793 range 0 .. 263;
+      Receipt_Head at 826 range 0 .. 263;
+      Causal_Head at 859 range 0 .. 263;
+      Policy_Epoch at 896 range 0 .. 191;
+      Resource_Epoch at 920 range 0 .. 191;
+   end record;
+   for Raw_Binding'Size use 7552;
+   for Raw_Binding'Object_Size use 7552;
+   for Raw_Binding'Alignment use 8;
    type Raw_Native is record
       Live_Mapping, Live_Root : Raw_Digest;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Native use record
+      Live_Mapping at 0 range 0 .. 263;
+      Live_Root at 33 range 0 .. 263;
+   end record;
+   for Raw_Native'Size use 528;
+   for Raw_Native'Object_Size use 528;
+   for Raw_Native'Alignment use 1;
    type Raw_Request is record
       Schema_Version : Interfaces.Unsigned_32;
       State, Fresh, Historical, Grant_Eligible : Interfaces.Unsigned_8;
       Issued_Binding, Recovered_Binding : Raw_Binding;
       Native : Raw_Native;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Request use record
+      Schema_Version at 0 range 0 .. 31;
+      State at 4 range 0 .. 7;
+      Fresh at 5 range 0 .. 7;
+      Historical at 6 range 0 .. 7;
+      Grant_Eligible at 7 range 0 .. 7;
+      Issued_Binding at 8 range 0 .. 7551;
+      Recovered_Binding at 952 range 0 .. 7551;
+      Native at 1896 range 0 .. 527;
+   end record;
+   for Raw_Request'Size use 15696;
+   for Raw_Request'Object_Size use 15744;
+   for Raw_Request'Alignment use 8;
    type Raw_Result is record
       Action, State : Interfaces.Unsigned_8;
    end record with Convention => C;

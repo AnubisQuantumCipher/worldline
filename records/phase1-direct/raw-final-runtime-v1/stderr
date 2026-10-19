@@ -1,0 +1,21 @@
+worldline-retained_raw_decode.adb:4:04: warning: "Unsigned_8" is already use-visible through previous use_type_clause at worldline.ads:4 [-gnatwr]
+worldline-retained_raw_decode.adb:4:04: warning: use clause for type "Byte" defined at resource_quantities.ads:6 has no effect [-gnatwu]
+worldline-retained_raw_decode.adb:1081:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1341:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1387:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1525:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1530:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1613:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1622:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1650:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.adb:1655:35: warning: formal parameter "Data" is not referenced [-gnatwf]
+worldline-retained_raw_decode.ads:15:06: warning: unit "Interfaces" is not referenced in spec [-gnatwu]
+worldline-retained_raw_decode.ads:15:06: warning: with clause might be moved to body [-gnatwu]
+attest_sha256.gpr:1:33: warning: file name does not match project name, should be "worldline_attest_sha256.gpr"
+controls.gpr:2:32: warning: file name does not match project name, should be "actor_archive_controls.gpr"
+attest_sha256.gpr:1:33: warning: file name does not match project name, should be "worldline_attest_sha256.gpr"
+.............................................
+----------------------------------------------------------------------
+Ran 45 tests in 40.705s
+
+OK

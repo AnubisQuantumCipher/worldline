@@ -1,0 +1,2821 @@
+{
+  "records": [
+    {
+      "type": "D.Raw_Packet",
+      "fields": [
+        {
+          "field": "Ledger",
+          "position": 0,
+          "bytes": 2752
+        },
+        {
+          "field": "Captured",
+          "position": 2752,
+          "bytes": 1904
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_Packet",
+      "fields": [
+        {
+          "field": "Schema_Version",
+          "position": 0,
+          "bytes": 4
+        },
+        {
+          "field": "Before_State",
+          "position": 8,
+          "bytes": 352
+        },
+        {
+          "field": "Proposed_State",
+          "position": 360,
+          "bytes": 352
+        },
+        {
+          "field": "Current",
+          "position": 712,
+          "bytes": 592
+        },
+        {
+          "field": "Request",
+          "position": 1304,
+          "bytes": 1448
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_State",
+      "fields": [
+        {
+          "field": "Current",
+          "position": 0,
+          "bytes": 224
+        },
+        {
+          "field": "Resource_Epoch",
+          "position": 224,
+          "bytes": 32
+        },
+        {
+          "field": "Universe_Head",
+          "position": 256,
+          "bytes": 24
+        },
+        {
+          "field": "Ledger_Head",
+          "position": 280,
+          "bytes": 24
+        },
+        {
+          "field": "History_Head",
+          "position": 304,
+          "bytes": 24
+        },
+        {
+          "field": "Physical_Head",
+          "position": 328,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Context",
+      "fields": [
+        {
+          "field": "Universe",
+          "position": 0,
+          "bytes": 24
+        },
+        {
+          "field": "Policy",
+          "position": 24,
+          "bytes": 24
+        },
+        {
+          "field": "Resource",
+          "position": 48,
+          "bytes": 24
+        },
+        {
+          "field": "Unit",
+          "position": 72,
+          "bytes": 24
+        },
+        {
+          "field": "Instance",
+          "position": 96,
+          "bytes": 24
+        },
+        {
+          "field": "Host",
+          "position": 120,
+          "bytes": 24
+        },
+        {
+          "field": "Boot",
+          "position": 144,
+          "bytes": 24
+        },
+        {
+          "field": "Authority",
+          "position": 168,
+          "bytes": 24
+        },
+        {
+          "field": "Policy_Epoch",
+          "position": 192,
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Id",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "First",
+          "position": 8,
+          "bytes": 8
+        },
+        {
+          "field": "Length",
+          "position": 16,
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Epoch",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Value",
+          "position": 8,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Quantity",
+      "fields": [
+        {
+          "field": "Negative",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "First",
+          "position": 8,
+          "bytes": 8
+        },
+        {
+          "field": "Length",
+          "position": 16,
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_Current_Observation",
+      "fields": [
+        {
+          "field": "Scope",
+          "position": 0,
+          "bytes": 224
+        },
+        {
+          "field": "Resource_Epoch",
+          "position": 224,
+          "bytes": 32
+        },
+        {
+          "field": "Universe_Head",
+          "position": 256,
+          "bytes": 24
+        },
+        {
+          "field": "Ledger_Head",
+          "position": 280,
+          "bytes": 24
+        },
+        {
+          "field": "History_Head",
+          "position": 304,
+          "bytes": 24
+        },
+        {
+          "field": "Physical_Head",
+          "position": 328,
+          "bytes": 24
+        },
+        {
+          "field": "Store_Genesis",
+          "position": 352,
+          "bytes": 24
+        },
+        {
+          "field": "Store_Id",
+          "position": 376,
+          "bytes": 24
+        },
+        {
+          "field": "Root_Head",
+          "position": 400,
+          "bytes": 24
+        },
+        {
+          "field": "Prime",
+          "position": 424,
+          "bytes": 24
+        },
+        {
+          "field": "Root_Count",
+          "position": 448,
+          "bytes": 24
+        },
+        {
+          "field": "Cause",
+          "position": 472,
+          "bytes": 24
+        },
+        {
+          "field": "Requester",
+          "position": 496,
+          "bytes": 24
+        },
+        {
+          "field": "Receipt",
+          "position": 520,
+          "bytes": 24
+        },
+        {
+          "field": "Catalogue_Head",
+          "position": 544,
+          "bytes": 24
+        },
+        {
+          "field": "Observation_Head",
+          "position": 568,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_Intent",
+      "fields": [
+        {
+          "field": "Kind",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Original",
+          "position": 8,
+          "bytes": 1288
+        },
+        {
+          "field": "Expected_Epoch",
+          "position": 1296,
+          "bytes": 32
+        },
+        {
+          "field": "Expected_Ledger_Head",
+          "position": 1328,
+          "bytes": 24
+        },
+        {
+          "field": "Request_Id",
+          "position": 1352,
+          "bytes": 24
+        },
+        {
+          "field": "Cause",
+          "position": 1376,
+          "bytes": 24
+        },
+        {
+          "field": "Requester",
+          "position": 1400,
+          "bytes": 24
+        },
+        {
+          "field": "Receipt",
+          "position": 1424,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Request",
+      "fields": [
+        {
+          "field": "Kind",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Scope",
+          "position": 8,
+          "bytes": 224
+        },
+        {
+          "field": "Expected_Epoch",
+          "position": 232,
+          "bytes": 32
+        },
+        {
+          "field": "Expected_Ledger_Head",
+          "position": 264,
+          "bytes": 24
+        },
+        {
+          "field": "Request_Id",
+          "position": 288,
+          "bytes": 24
+        },
+        {
+          "field": "Reservation",
+          "position": 312,
+          "bytes": 24
+        },
+        {
+          "field": "Operation_Id",
+          "position": 336,
+          "bytes": 24
+        },
+        {
+          "field": "Requester",
+          "position": 360,
+          "bytes": 24
+        },
+        {
+          "field": "Bound",
+          "position": 384,
+          "bytes": 248
+        },
+        {
+          "field": "New_Row",
+          "position": 632,
+          "bytes": 656
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Binding",
+      "fields": [
+        {
+          "field": "Reservation",
+          "position": 0,
+          "bytes": 24
+        },
+        {
+          "field": "Operation",
+          "position": 24,
+          "bytes": 24
+        },
+        {
+          "field": "Owner",
+          "position": 48,
+          "bytes": 24
+        },
+        {
+          "field": "Workload",
+          "position": 72,
+          "bytes": 24
+        },
+        {
+          "field": "Universe_Head",
+          "position": 96,
+          "bytes": 24
+        },
+        {
+          "field": "Capability",
+          "position": 120,
+          "bytes": 24
+        },
+        {
+          "field": "Grant_Use",
+          "position": 144,
+          "bytes": 24
+        },
+        {
+          "field": "Payload",
+          "position": 168,
+          "bytes": 24
+        },
+        {
+          "field": "Provenance",
+          "position": 192,
+          "bytes": 24
+        },
+        {
+          "field": "Resource_Epoch",
+          "position": 216,
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Row",
+      "fields": [
+        {
+          "field": "Scope",
+          "position": 0,
+          "bytes": 224
+        },
+        {
+          "field": "Bound",
+          "position": 224,
+          "bytes": 248
+        },
+        {
+          "field": "Parent",
+          "position": 472,
+          "bytes": 24
+        },
+        {
+          "field": "Kind",
+          "position": 496,
+          "bytes": 1
+        },
+        {
+          "field": "State",
+          "position": 497,
+          "bytes": 1
+        },
+        {
+          "field": "Amount",
+          "position": 504,
+          "bytes": 24
+        },
+        {
+          "field": "Observed_Usage",
+          "position": 528,
+          "bytes": 32
+        },
+        {
+          "field": "Planned_Unit",
+          "position": 560,
+          "bytes": 24
+        },
+        {
+          "field": "Actual_Unit",
+          "position": 584,
+          "bytes": 24
+        },
+        {
+          "field": "Cgroup",
+          "position": 608,
+          "bytes": 24
+        },
+        {
+          "field": "Invocation",
+          "position": 632,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "D.Raw_Observation",
+      "fields": [
+        {
+          "field": "Bound",
+          "position": 0,
+          "bytes": 248
+        },
+        {
+          "field": "Raw_Frame",
+          "position": 248,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Sender",
+          "position": 272,
+          "bytes": 24
+        },
+        {
+          "field": "Ticket",
+          "position": 296,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Proc_Status",
+          "position": 320,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Proc_Cgroup",
+          "position": 344,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Proc_Maps",
+          "position": 368,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Proc_Cmdline",
+          "position": 392,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Pidfd_Info",
+          "position": 416,
+          "bytes": 24
+        },
+        {
+          "field": "Namespace",
+          "position": 440,
+          "bytes": 24
+        },
+        {
+          "field": "Held_Namespace",
+          "position": 464,
+          "bytes": 24
+        },
+        {
+          "field": "Helper_Image",
+          "position": 488,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Helper_Image",
+          "position": 512,
+          "bytes": 24
+        },
+        {
+          "field": "Executable_Plan",
+          "position": 536,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Executable_Plan",
+          "position": 560,
+          "bytes": 24
+        },
+        {
+          "field": "Original_Requester",
+          "position": 584,
+          "bytes": 24
+        },
+        {
+          "field": "Requester_Credentials",
+          "position": 608,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Requester_Credentials",
+          "position": 632,
+          "bytes": 24
+        },
+        {
+          "field": "Dispatch",
+          "position": 656,
+          "bytes": 24
+        },
+        {
+          "field": "Running_Event",
+          "position": 680,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Running_Event",
+          "position": 704,
+          "bytes": 24
+        },
+        {
+          "field": "Canonical_Use_Event",
+          "position": 728,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Canonical_Use_Event",
+          "position": 752,
+          "bytes": 24
+        },
+        {
+          "field": "Store_Genesis",
+          "position": 776,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Store_Genesis",
+          "position": 800,
+          "bytes": 24
+        },
+        {
+          "field": "Source_Lease",
+          "position": 824,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Source_Lease",
+          "position": 848,
+          "bytes": 24
+        },
+        {
+          "field": "Actor_Wait",
+          "position": 872,
+          "bytes": 24
+        },
+        {
+          "field": "Helper_Wait",
+          "position": 896,
+          "bytes": 24
+        },
+        {
+          "field": "Namespace_Wait",
+          "position": 920,
+          "bytes": 24
+        },
+        {
+          "field": "Host_Pid",
+          "position": 944,
+          "bytes": 24
+        },
+        {
+          "field": "Namespace_Pid",
+          "position": 968,
+          "bytes": 24
+        },
+        {
+          "field": "Sender_Uid",
+          "position": 992,
+          "bytes": 24
+        },
+        {
+          "field": "Sender_Gid",
+          "position": 1016,
+          "bytes": 24
+        },
+        {
+          "field": "Real_Uid",
+          "position": 1040,
+          "bytes": 24
+        },
+        {
+          "field": "Effective_Uid",
+          "position": 1064,
+          "bytes": 24
+        },
+        {
+          "field": "Saved_Uid",
+          "position": 1088,
+          "bytes": 24
+        },
+        {
+          "field": "Real_Gid",
+          "position": 1112,
+          "bytes": 24
+        },
+        {
+          "field": "Effective_Gid",
+          "position": 1136,
+          "bytes": 24
+        },
+        {
+          "field": "Saved_Gid",
+          "position": 1160,
+          "bytes": 24
+        },
+        {
+          "field": "Capability_Version",
+          "position": 1184,
+          "bytes": 24
+        },
+        {
+          "field": "Effective_Low",
+          "position": 1208,
+          "bytes": 24
+        },
+        {
+          "field": "Permitted_Low",
+          "position": 1232,
+          "bytes": 24
+        },
+        {
+          "field": "Inheritable_Low",
+          "position": 1256,
+          "bytes": 24
+        },
+        {
+          "field": "Effective_High",
+          "position": 1280,
+          "bytes": 24
+        },
+        {
+          "field": "Permitted_High",
+          "position": 1304,
+          "bytes": 24
+        },
+        {
+          "field": "Inheritable_High",
+          "position": 1328,
+          "bytes": 24
+        },
+        {
+          "field": "Securebits",
+          "position": 1352,
+          "bytes": 24
+        },
+        {
+          "field": "No_New_Privs",
+          "position": 1376,
+          "bytes": 24
+        },
+        {
+          "field": "Requester_Uid",
+          "position": 1400,
+          "bytes": 24
+        },
+        {
+          "field": "Requester_Gid",
+          "position": 1424,
+          "bytes": 24
+        },
+        {
+          "field": "Configured_Requester_Uid",
+          "position": 1448,
+          "bytes": 24
+        },
+        {
+          "field": "Workload_Uid",
+          "position": 1472,
+          "bytes": 24
+        },
+        {
+          "field": "Workload_Gid",
+          "position": 1496,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Host_Pid",
+          "position": 1520,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Namespace_Pid",
+          "position": 1544,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Real_Uid",
+          "position": 1568,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Effective_Uid",
+          "position": 1592,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Saved_Uid",
+          "position": 1616,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Real_Gid",
+          "position": 1640,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Effective_Gid",
+          "position": 1664,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Saved_Gid",
+          "position": 1688,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Effective",
+          "position": 1712,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Permitted",
+          "position": 1736,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Inheritable",
+          "position": 1760,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Bounding",
+          "position": 1784,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Ambient",
+          "position": 1808,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_No_New_Privs",
+          "position": 1832,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Fs_Uid",
+          "position": 1856,
+          "bytes": 24
+        },
+        {
+          "field": "Proc_Fs_Gid",
+          "position": 1880,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "X.Raw_Crosswalk",
+      "fields": [
+        {
+          "field": "Resource_Current",
+          "position": 0,
+          "bytes": 592
+        },
+        {
+          "field": "Operation_Policy",
+          "position": 592,
+          "bytes": 33
+        },
+        {
+          "field": "Operation_Root_Set",
+          "position": 625,
+          "bytes": 33
+        },
+        {
+          "field": "Owner_Genesis",
+          "position": 664,
+          "bytes": 24
+        },
+        {
+          "field": "Installation",
+          "position": 688,
+          "bytes": 24
+        },
+        {
+          "field": "Gate_Config",
+          "position": 712,
+          "bytes": 24
+        },
+        {
+          "field": "Managed_Observation",
+          "position": 736,
+          "bytes": 24
+        },
+        {
+          "field": "Original_Grant",
+          "position": 760,
+          "bytes": 24
+        },
+        {
+          "field": "Complete_Crosswalk",
+          "position": 784,
+          "bytes": 24
+        },
+        {
+          "field": "Current_Source",
+          "position": 808,
+          "bytes": 24
+        },
+        {
+          "field": "Original_Request",
+          "position": 832,
+          "bytes": 24
+        },
+        {
+          "field": "Original_Requester",
+          "position": 856,
+          "bytes": 24
+        },
+        {
+          "field": "Original_Transaction",
+          "position": 880,
+          "bytes": 24
+        },
+        {
+          "field": "Preparer",
+          "position": 904,
+          "bytes": 24
+        },
+        {
+          "field": "Selected_Plan",
+          "position": 928,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "C.Raw_Digest",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Value",
+          "position": 1,
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "type": "Y.Raw_Input",
+      "fields": [
+        {
+          "field": "Mode",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Controller",
+          "position": 8,
+          "bytes": 1256
+        },
+        {
+          "field": "Child_Task",
+          "position": 1264,
+          "bytes": 1224
+        }
+      ]
+    },
+    {
+      "type": "Y.Raw_Controller",
+      "fields": [
+        {
+          "field": "Bound",
+          "position": 0,
+          "bytes": 248
+        },
+        {
+          "field": "Process",
+          "position": 248,
+          "bytes": 528
+        },
+        {
+          "field": "Requester_Uid",
+          "position": 776,
+          "bytes": 24
+        },
+        {
+          "field": "Requester_Gid",
+          "position": 800,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Manager",
+          "position": 824,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Channel",
+          "position": 848,
+          "bytes": 24
+        },
+        {
+          "field": "Owner_Endpoint",
+          "position": 872,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Owner_Endpoint",
+          "position": 896,
+          "bytes": 24
+        },
+        {
+          "field": "Source_Lease",
+          "position": 920,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Source_Lease",
+          "position": 944,
+          "bytes": 24
+        },
+        {
+          "field": "Worker_Image",
+          "position": 968,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Worker_Image",
+          "position": 992,
+          "bytes": 24
+        },
+        {
+          "field": "Handler_Plan",
+          "position": 1016,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Handler_Plan",
+          "position": 1040,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Request",
+          "position": 1064,
+          "bytes": 24
+        },
+        {
+          "field": "Requester",
+          "position": 1088,
+          "bytes": 24
+        },
+        {
+          "field": "Dispatch",
+          "position": 1112,
+          "bytes": 24
+        },
+        {
+          "field": "Running_Event",
+          "position": 1136,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Running_Event",
+          "position": 1160,
+          "bytes": 24
+        },
+        {
+          "field": "Store_Genesis",
+          "position": 1184,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Store_Genesis",
+          "position": 1208,
+          "bytes": 24
+        },
+        {
+          "field": "Current_Source",
+          "position": 1232,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "Y.Raw_Process",
+      "fields": [
+        {
+          "field": "Raw_Status",
+          "position": 0,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Stat",
+          "position": 24,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Cgroup",
+          "position": 48,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Maps",
+          "position": 72,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Cmdline",
+          "position": 96,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Pidfd_Info",
+          "position": 120,
+          "bytes": 24
+        },
+        {
+          "field": "Namespace",
+          "position": 144,
+          "bytes": 24
+        },
+        {
+          "field": "Cgroup",
+          "position": 168,
+          "bytes": 24
+        },
+        {
+          "field": "Actual_Unit",
+          "position": 192,
+          "bytes": 24
+        },
+        {
+          "field": "Invocation",
+          "position": 216,
+          "bytes": 24
+        },
+        {
+          "field": "Source_Lease",
+          "position": 240,
+          "bytes": 24
+        },
+        {
+          "field": "Pidfd_Wait",
+          "position": 264,
+          "bytes": 24
+        },
+        {
+          "field": "Host_Pid",
+          "position": 288,
+          "bytes": 24
+        },
+        {
+          "field": "Start_Tick",
+          "position": 312,
+          "bytes": 24
+        },
+        {
+          "field": "Parent_Pid",
+          "position": 336,
+          "bytes": 24
+        },
+        {
+          "field": "Parent_Start_Tick",
+          "position": 360,
+          "bytes": 24
+        },
+        {
+          "field": "Real_Uid",
+          "position": 384,
+          "bytes": 24
+        },
+        {
+          "field": "Effective_Uid",
+          "position": 408,
+          "bytes": 24
+        },
+        {
+          "field": "Saved_Uid",
+          "position": 432,
+          "bytes": 24
+        },
+        {
+          "field": "Real_Gid",
+          "position": 456,
+          "bytes": 24
+        },
+        {
+          "field": "Effective_Gid",
+          "position": 480,
+          "bytes": 24
+        },
+        {
+          "field": "Saved_Gid",
+          "position": 504,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "Y.Raw_Task",
+      "fields": [
+        {
+          "field": "Action",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Root",
+          "position": 8,
+          "bytes": 248
+        },
+        {
+          "field": "Child",
+          "position": 256,
+          "bytes": 248
+        },
+        {
+          "field": "Task_Id",
+          "position": 504,
+          "bytes": 24
+        },
+        {
+          "field": "Root_World",
+          "position": 528,
+          "bytes": 24
+        },
+        {
+          "field": "Child_World",
+          "position": 552,
+          "bytes": 24
+        },
+        {
+          "field": "Root_Instance",
+          "position": 576,
+          "bytes": 24
+        },
+        {
+          "field": "Child_Instance",
+          "position": 600,
+          "bytes": 24
+        },
+        {
+          "field": "World_Store",
+          "position": 624,
+          "bytes": 24
+        },
+        {
+          "field": "Full_World_Ancestry",
+          "position": 648,
+          "bytes": 24
+        },
+        {
+          "field": "Original_Workload",
+          "position": 672,
+          "bytes": 24
+        },
+        {
+          "field": "Sandbox",
+          "position": 696,
+          "bytes": 24
+        },
+        {
+          "field": "Adapter",
+          "position": 720,
+          "bytes": 24
+        },
+        {
+          "field": "Context",
+          "position": 744,
+          "bytes": 24
+        },
+        {
+          "field": "Mission",
+          "position": 768,
+          "bytes": 24
+        },
+        {
+          "field": "Stdin",
+          "position": 792,
+          "bytes": 24
+        },
+        {
+          "field": "Credential_Source",
+          "position": 816,
+          "bytes": 24
+        },
+        {
+          "field": "Executable_Source",
+          "position": 840,
+          "bytes": 24
+        },
+        {
+          "field": "Configuration",
+          "position": 864,
+          "bytes": 24
+        },
+        {
+          "field": "Owner_Plan",
+          "position": 888,
+          "bytes": 24
+        },
+        {
+          "field": "Native_Cost_Input",
+          "position": 912,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Request",
+          "position": 936,
+          "bytes": 24
+        },
+        {
+          "field": "Requester",
+          "position": 960,
+          "bytes": 24
+        },
+        {
+          "field": "Cause",
+          "position": 984,
+          "bytes": 24
+        },
+        {
+          "field": "Root_Dispatch",
+          "position": 1008,
+          "bytes": 24
+        },
+        {
+          "field": "Root_Running_Event",
+          "position": 1032,
+          "bytes": 24
+        },
+        {
+          "field": "Task_Journal",
+          "position": 1056,
+          "bytes": 24
+        },
+        {
+          "field": "Task_Intent",
+          "position": 1080,
+          "bytes": 24
+        },
+        {
+          "field": "Task_Reservation_Event",
+          "position": 1104,
+          "bytes": 24
+        },
+        {
+          "field": "Task_Launch_Event",
+          "position": 1128,
+          "bytes": 24
+        },
+        {
+          "field": "Parent_Namespace_Source",
+          "position": 1152,
+          "bytes": 24
+        },
+        {
+          "field": "Fd_Lineage",
+          "position": 1176,
+          "bytes": 24
+        },
+        {
+          "field": "Source_Lease",
+          "position": 1200,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "Y.Raw_Namespace",
+      "fields": [
+        {
+          "field": "Identity",
+          "position": 0,
+          "bytes": 24
+        },
+        {
+          "field": "Parent",
+          "position": 24,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Nsfs",
+          "position": 48,
+          "bytes": 24
+        },
+        {
+          "field": "Raw_Get_Parent",
+          "position": 72,
+          "bytes": 24
+        },
+        {
+          "field": "Source_Lease",
+          "position": 96,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_Input",
+      "fields": [
+        {
+          "field": "Schema",
+          "position": 0,
+          "bytes": 4
+        },
+        {
+          "field": "Mode",
+          "position": 4,
+          "bytes": 1
+        },
+        {
+          "field": "Bound",
+          "position": 8,
+          "bytes": 976
+        },
+        {
+          "field": "Now",
+          "position": 984,
+          "bytes": 24
+        },
+        {
+          "field": "Facts",
+          "position": 1008,
+          "bytes": 5128
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_Binding",
+      "fields": [
+        {
+          "field": "Action",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Id",
+          "position": 1,
+          "bytes": 891
+        },
+        {
+          "field": "Peer",
+          "position": 892,
+          "bytes": 8
+        },
+        {
+          "field": "Preparer",
+          "position": 900,
+          "bytes": 8
+        },
+        {
+          "field": "Owner",
+          "position": 908,
+          "bytes": 8
+        },
+        {
+          "field": "Target_Owner",
+          "position": 916,
+          "bytes": 8
+        },
+        {
+          "field": "Policy_Epoch",
+          "position": 928,
+          "bytes": 24
+        },
+        {
+          "field": "Resource_Epoch",
+          "position": 952,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_UID",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Value",
+          "position": 4,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_Quantity",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Negative",
+          "position": 1,
+          "bytes": 1
+        },
+        {
+          "field": "First",
+          "position": 8,
+          "bytes": 8
+        },
+        {
+          "field": "Length",
+          "position": 16,
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_Evidence",
+      "fields": [
+        {
+          "field": "Effect_Binding",
+          "position": 0,
+          "bytes": 976
+        },
+        {
+          "field": "Actual_Receipt_Root",
+          "position": 976,
+          "bytes": 33
+        },
+        {
+          "field": "Actual_Causal_Root",
+          "position": 1009,
+          "bytes": 33
+        },
+        {
+          "field": "No_Effect_Binding",
+          "position": 1048,
+          "bytes": 976
+        },
+        {
+          "field": "Owner_Resolution",
+          "position": 2024,
+          "bytes": 976
+        },
+        {
+          "field": "Quarantine_Head",
+          "position": 3000,
+          "bytes": 33
+        },
+        {
+          "field": "Witnessed_Receipt_Head",
+          "position": 3033,
+          "bytes": 33
+        },
+        {
+          "field": "Witnessed_Causal_Head",
+          "position": 3066,
+          "bytes": 33
+        },
+        {
+          "field": "Recovery",
+          "position": 3104,
+          "bytes": 1968
+        },
+        {
+          "field": "Original_Use",
+          "position": 5072,
+          "bytes": 33
+        },
+        {
+          "field": "Effect_Material_First",
+          "position": 5112,
+          "bytes": 8
+        },
+        {
+          "field": "Effect_Material_Length",
+          "position": 5120,
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "type": "RW.Raw_Request",
+      "fields": [
+        {
+          "field": "Schema_Version",
+          "position": 0,
+          "bytes": 4
+        },
+        {
+          "field": "State",
+          "position": 4,
+          "bytes": 1
+        },
+        {
+          "field": "Fresh",
+          "position": 5,
+          "bytes": 1
+        },
+        {
+          "field": "Historical",
+          "position": 6,
+          "bytes": 1
+        },
+        {
+          "field": "Grant_Eligible",
+          "position": 7,
+          "bytes": 1
+        },
+        {
+          "field": "Issued_Binding",
+          "position": 8,
+          "bytes": 944
+        },
+        {
+          "field": "Recovered_Binding",
+          "position": 952,
+          "bytes": 944
+        },
+        {
+          "field": "Native",
+          "position": 1896,
+          "bytes": 66
+        }
+      ]
+    },
+    {
+      "type": "RW.Raw_Binding",
+      "fields": [
+        {
+          "field": "Mode",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Operation",
+          "position": 1,
+          "bytes": 33
+        },
+        {
+          "field": "Transaction",
+          "position": 34,
+          "bytes": 33
+        },
+        {
+          "field": "Capability",
+          "position": 67,
+          "bytes": 33
+        },
+        {
+          "field": "Universe_Head",
+          "position": 100,
+          "bytes": 33
+        },
+        {
+          "field": "Instance",
+          "position": 133,
+          "bytes": 33
+        },
+        {
+          "field": "Subject",
+          "position": 166,
+          "bytes": 33
+        },
+        {
+          "field": "Staged_Root",
+          "position": 199,
+          "bytes": 33
+        },
+        {
+          "field": "Current_Requirement",
+          "position": 232,
+          "bytes": 33
+        },
+        {
+          "field": "Resulting_Requirement",
+          "position": 265,
+          "bytes": 33
+        },
+        {
+          "field": "Requester",
+          "position": 298,
+          "bytes": 33
+        },
+        {
+          "field": "Grant_Use",
+          "position": 331,
+          "bytes": 33
+        },
+        {
+          "field": "Policy_Identity",
+          "position": 364,
+          "bytes": 33
+        },
+        {
+          "field": "Selected_Evaluation",
+          "position": 397,
+          "bytes": 33
+        },
+        {
+          "field": "History_Head",
+          "position": 430,
+          "bytes": 33
+        },
+        {
+          "field": "Reservation",
+          "position": 463,
+          "bytes": 33
+        },
+        {
+          "field": "Host",
+          "position": 496,
+          "bytes": 33
+        },
+        {
+          "field": "Before_Prime",
+          "position": 529,
+          "bytes": 33
+        },
+        {
+          "field": "Before_Root",
+          "position": 562,
+          "bytes": 33
+        },
+        {
+          "field": "Before_Mapping",
+          "position": 595,
+          "bytes": 33
+        },
+        {
+          "field": "Staged_Mapping",
+          "position": 628,
+          "bytes": 33
+        },
+        {
+          "field": "Input_Snapshot",
+          "position": 661,
+          "bytes": 33
+        },
+        {
+          "field": "Kernel_Build",
+          "position": 694,
+          "bytes": 33
+        },
+        {
+          "field": "Kernel_Library",
+          "position": 727,
+          "bytes": 33
+        },
+        {
+          "field": "Kernel_Mapping",
+          "position": 760,
+          "bytes": 33
+        },
+        {
+          "field": "Issuer_Head",
+          "position": 793,
+          "bytes": 33
+        },
+        {
+          "field": "Receipt_Head",
+          "position": 826,
+          "bytes": 33
+        },
+        {
+          "field": "Causal_Head",
+          "position": 859,
+          "bytes": 33
+        },
+        {
+          "field": "Policy_Epoch",
+          "position": 896,
+          "bytes": 24
+        },
+        {
+          "field": "Resource_Epoch",
+          "position": 920,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "RW.Raw_Digest",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Value",
+          "position": 1,
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "type": "RW.Raw_Epoch",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Negative",
+          "position": 1,
+          "bytes": 1
+        },
+        {
+          "field": "First",
+          "position": 8,
+          "bytes": 8
+        },
+        {
+          "field": "Length",
+          "position": 16,
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "type": "RW.Raw_Native",
+      "fields": [
+        {
+          "field": "Live_Mapping",
+          "position": 0,
+          "bytes": 33
+        },
+        {
+          "field": "Live_Root",
+          "position": 33,
+          "bytes": 33
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_Grant",
+      "fields": [
+        {
+          "field": "Id",
+          "position": 0,
+          "bytes": 33
+        },
+        {
+          "field": "Parent",
+          "position": 33,
+          "bytes": 33
+        },
+        {
+          "field": "Issuer",
+          "position": 66,
+          "bytes": 33
+        },
+        {
+          "field": "Instance",
+          "position": 99,
+          "bytes": 33
+        },
+        {
+          "field": "Root_Set",
+          "position": 132,
+          "bytes": 33
+        },
+        {
+          "field": "Policy",
+          "position": 165,
+          "bytes": 33
+        },
+        {
+          "field": "Subject",
+          "position": 200,
+          "bytes": 8
+        },
+        {
+          "field": "Owner",
+          "position": 208,
+          "bytes": 8
+        },
+        {
+          "field": "Allowed",
+          "position": 216,
+          "bytes": 41
+        },
+        {
+          "field": "State",
+          "position": 257,
+          "bytes": 1
+        },
+        {
+          "field": "Epoch",
+          "position": 264,
+          "bytes": 24
+        },
+        {
+          "field": "Ceiling",
+          "position": 288,
+          "bytes": 24
+        },
+        {
+          "field": "Issued_At",
+          "position": 312,
+          "bytes": 24
+        },
+        {
+          "field": "Expires_At",
+          "position": 336,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_Use",
+      "fields": [
+        {
+          "field": "Bound",
+          "position": 0,
+          "bytes": 976
+        },
+        {
+          "field": "State",
+          "position": 976,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "type": "C.Raw_Row",
+      "fields": [
+        {
+          "field": "Previous",
+          "position": 0,
+          "bytes": 33
+        },
+        {
+          "field": "Actual_Payload_Root",
+          "position": 33,
+          "bytes": 33
+        },
+        {
+          "field": "Stored_Payload_Root",
+          "position": 66,
+          "bytes": 33
+        },
+        {
+          "field": "Stored_Head",
+          "position": 99,
+          "bytes": 33
+        }
+      ]
+    },
+    {
+      "type": "D.Raw_Capability",
+      "fields": [
+        {
+          "field": "Index",
+          "position": 0,
+          "bytes": 24
+        },
+        {
+          "field": "Bounding",
+          "position": 24,
+          "bytes": 24
+        },
+        {
+          "field": "Ambient",
+          "position": 48,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_Scope_Frame",
+      "fields": [
+        {
+          "field": "Scope",
+          "position": 0,
+          "bytes": 224
+        },
+        {
+          "field": "First_Epoch",
+          "position": 224,
+          "bytes": 32
+        },
+        {
+          "field": "Universe_Head",
+          "position": 256,
+          "bytes": 24
+        },
+        {
+          "field": "Frame_Head",
+          "position": 280,
+          "bytes": 24
+        },
+        {
+          "field": "Prior_Frame",
+          "position": 304,
+          "bytes": 24
+        },
+        {
+          "field": "Store_Genesis",
+          "position": 328,
+          "bytes": 24
+        },
+        {
+          "field": "Store_Id",
+          "position": 352,
+          "bytes": 24
+        },
+        {
+          "field": "Root_Head",
+          "position": 376,
+          "bytes": 24
+        },
+        {
+          "field": "Prime",
+          "position": 400,
+          "bytes": 24
+        },
+        {
+          "field": "Root_Count",
+          "position": 424,
+          "bytes": 24
+        },
+        {
+          "field": "Cause",
+          "position": 448,
+          "bytes": 24
+        },
+        {
+          "field": "Requester",
+          "position": 472,
+          "bytes": 24
+        },
+        {
+          "field": "Receipt",
+          "position": 496,
+          "bytes": 24
+        },
+        {
+          "field": "Catalogue_Head",
+          "position": 520,
+          "bytes": 24
+        },
+        {
+          "field": "Observation_Head",
+          "position": 544,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_Projection",
+      "fields": [
+        {
+          "field": "Key",
+          "position": 0,
+          "bytes": 72
+        },
+        {
+          "field": "Bound",
+          "position": 72,
+          "bytes": 248
+        },
+        {
+          "field": "Origin",
+          "position": 320,
+          "bytes": 224
+        },
+        {
+          "field": "Catalogue_Head",
+          "position": 544,
+          "bytes": 24
+        },
+        {
+          "field": "Numerator",
+          "position": 568,
+          "bytes": 24
+        },
+        {
+          "field": "Denominator",
+          "position": 592,
+          "bytes": 24
+        },
+        {
+          "field": "Amount",
+          "position": 616,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_Physical_Key",
+      "fields": [
+        {
+          "field": "Machine",
+          "position": 0,
+          "bytes": 24
+        },
+        {
+          "field": "Resource",
+          "position": 24,
+          "bytes": 24
+        },
+        {
+          "field": "Unit",
+          "position": 48,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "N.Raw_Bucket",
+      "fields": [
+        {
+          "field": "Key",
+          "position": 0,
+          "bytes": 72
+        },
+        {
+          "field": "Capacity",
+          "position": 72,
+          "bytes": 24
+        },
+        {
+          "field": "Held_Total",
+          "position": 96,
+          "bytes": 24
+        },
+        {
+          "field": "Charged_Total",
+          "position": 120,
+          "bytes": 24
+        },
+        {
+          "field": "Capacity_Source",
+          "position": 144,
+          "bytes": 24
+        },
+        {
+          "field": "Catalogue_Head",
+          "position": 168,
+          "bytes": 24
+        },
+        {
+          "field": "Observation_Head",
+          "position": 192,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Native",
+      "fields": [
+        {
+          "field": "Scope",
+          "position": 0,
+          "bytes": 224
+        },
+        {
+          "field": "Resource_Epoch",
+          "position": 224,
+          "bytes": 32
+        },
+        {
+          "field": "Bound",
+          "position": 256,
+          "bytes": 248
+        },
+        {
+          "field": "Actual_Unit",
+          "position": 504,
+          "bytes": 24
+        },
+        {
+          "field": "Cgroup",
+          "position": 528,
+          "bytes": 24
+        },
+        {
+          "field": "Invocation",
+          "position": 552,
+          "bytes": 24
+        },
+        {
+          "field": "Observation_Head",
+          "position": 576,
+          "bytes": 24
+        },
+        {
+          "field": "Observed",
+          "position": 600,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "type": "O.Raw_Facts",
+      "fields": [
+        {
+          "field": "Current",
+          "position": 0,
+          "bytes": 224
+        },
+        {
+          "field": "Current_Epoch",
+          "position": 224,
+          "bytes": 32
+        },
+        {
+          "field": "Retained",
+          "position": 256,
+          "bytes": 248
+        },
+        {
+          "field": "Current_Universe_Head",
+          "position": 504,
+          "bytes": 24
+        },
+        {
+          "field": "Current_Ledger_Head",
+          "position": 528,
+          "bytes": 24
+        },
+        {
+          "field": "Intent",
+          "position": 552,
+          "bytes": 24
+        },
+        {
+          "field": "Dispatch",
+          "position": 576,
+          "bytes": 24
+        },
+        {
+          "field": "Observation_Head",
+          "position": 600,
+          "bytes": 24
+        },
+        {
+          "field": "Actual_Unit",
+          "position": 624,
+          "bytes": 24
+        },
+        {
+          "field": "Cgroup",
+          "position": 648,
+          "bytes": 24
+        },
+        {
+          "field": "Invocation",
+          "position": 672,
+          "bytes": 24
+        },
+        {
+          "field": "Namespace",
+          "position": 696,
+          "bytes": 24
+        },
+        {
+          "field": "Held_Namespace",
+          "position": 720,
+          "bytes": 24
+        },
+        {
+          "field": "Peer",
+          "position": 744,
+          "bytes": 24
+        },
+        {
+          "field": "Held_Peer",
+          "position": 768,
+          "bytes": 24
+        },
+        {
+          "field": "Helper_Image",
+          "position": 792,
+          "bytes": 24
+        },
+        {
+          "field": "Expected_Helper_Image",
+          "position": 816,
+          "bytes": 24
+        },
+        {
+          "field": "Challenge",
+          "position": 840,
+          "bytes": 24
+        },
+        {
+          "field": "Held_Challenge",
+          "position": 864,
+          "bytes": 24
+        },
+        {
+          "field": "Protocol",
+          "position": 888,
+          "bytes": 24
+        },
+        {
+          "field": "Closed_Event",
+          "position": 912,
+          "bytes": 24
+        },
+        {
+          "field": "Namespace_Wait",
+          "position": 936,
+          "bytes": 24
+        },
+        {
+          "field": "Helper_Wait",
+          "position": 960,
+          "bytes": 24
+        },
+        {
+          "field": "Cgroup_Events",
+          "position": 984,
+          "bytes": 24
+        },
+        {
+          "field": "Cgroup_Type",
+          "position": 1008,
+          "bytes": 24
+        },
+        {
+          "field": "Manager_Delegate",
+          "position": 1032,
+          "bytes": 24
+        },
+        {
+          "field": "Cgroup_Owner",
+          "position": 1056,
+          "bytes": 32
+        },
+        {
+          "field": "Cgroup_Group_Write",
+          "position": 1088,
+          "bytes": 32
+        },
+        {
+          "field": "Cgroup_Other_Write",
+          "position": 1120,
+          "bytes": 32
+        },
+        {
+          "field": "Actual_Store_Genesis",
+          "position": 1152,
+          "bytes": 24
+        },
+        {
+          "field": "Actual_Store_Id",
+          "position": 1176,
+          "bytes": 24
+        },
+        {
+          "field": "Owner_Store_Genesis",
+          "position": 1200,
+          "bytes": 24
+        },
+        {
+          "field": "Owner_Store_Id",
+          "position": 1224,
+          "bytes": 24
+        },
+        {
+          "field": "Genesis_Universe",
+          "position": 1248,
+          "bytes": 24
+        },
+        {
+          "field": "Genesis_Instance",
+          "position": 1272,
+          "bytes": 24
+        },
+        {
+          "field": "Genesis_Context_Head",
+          "position": 1296,
+          "bytes": 24
+        },
+        {
+          "field": "Genesis_Prime",
+          "position": 1320,
+          "bytes": 24
+        },
+        {
+          "field": "Genesis_Root_Count",
+          "position": 1344,
+          "bytes": 32
+        },
+        {
+          "field": "Phase",
+          "position": 1376,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_Result",
+      "fields": [
+        {
+          "field": "Status",
+          "position": 0,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "type": "T.Raw_Result",
+      "fields": [
+        {
+          "field": "Disposition",
+          "position": 0,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "type": "HC.Raw_Input",
+      "fields": [
+        {
+          "field": "Historical",
+          "position": 0,
+          "bytes": 11832
+        },
+        {
+          "field": "Current",
+          "position": 11832,
+          "bytes": 6136
+        }
+      ]
+    },
+    {
+      "type": "CX.Raw_Input",
+      "fields": [
+        {
+          "field": "Operation_Input",
+          "position": 0,
+          "bytes": 7680
+        },
+        {
+          "field": "Material",
+          "position": 7680,
+          "bytes": 4144
+        },
+        {
+          "field": "Before",
+          "position": 11824,
+          "bytes": 1
+        },
+        {
+          "field": "Mode",
+          "position": 11825,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "type": "CO.Raw_Input",
+      "fields": [
+        {
+          "field": "Authority",
+          "position": 0,
+          "bytes": 6136
+        },
+        {
+          "field": "State",
+          "position": 6136,
+          "bytes": 376
+        },
+        {
+          "field": "Bound",
+          "position": 6512,
+          "bytes": 248
+        },
+        {
+          "field": "Requester",
+          "position": 6760,
+          "bytes": 24
+        },
+        {
+          "field": "Peer",
+          "position": 6784,
+          "bytes": 8
+        },
+        {
+          "field": "Collapse",
+          "position": 6792,
+          "bytes": 883
+        }
+      ]
+    },
+    {
+      "type": "W.Raw_State",
+      "fields": [
+        {
+          "field": "Scope",
+          "position": 0,
+          "bytes": 224
+        },
+        {
+          "field": "Resource_Epoch",
+          "position": 224,
+          "bytes": 32
+        },
+        {
+          "field": "Universe_Head",
+          "position": 256,
+          "bytes": 24
+        },
+        {
+          "field": "Ledger_Head",
+          "position": 280,
+          "bytes": 24
+        },
+        {
+          "field": "Capacity",
+          "position": 304,
+          "bytes": 24
+        },
+        {
+          "field": "Held_Total",
+          "position": 328,
+          "bytes": 24
+        },
+        {
+          "field": "Charged_Total",
+          "position": 352,
+          "bytes": 24
+        }
+      ]
+    },
+    {
+      "type": "CW.Raw_Request",
+      "fields": [
+        {
+          "field": "Candidate_State",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Phase",
+          "position": 1,
+          "bytes": 1
+        },
+        {
+          "field": "Evaluation_Mode",
+          "position": 2,
+          "bytes": 1
+        },
+        {
+          "field": "Conflicts",
+          "position": 3,
+          "bytes": 1
+        },
+        {
+          "field": "Foreign_Writes",
+          "position": 4,
+          "bytes": 1
+        },
+        {
+          "field": "Roster_Complete",
+          "position": 5,
+          "bytes": 1
+        },
+        {
+          "field": "Staged_Roster_Complete",
+          "position": 6,
+          "bytes": 1
+        },
+        {
+          "field": "Expected_Parent",
+          "position": 7,
+          "bytes": 33
+        },
+        {
+          "field": "Candidate_Parent",
+          "position": 40,
+          "bytes": 33
+        },
+        {
+          "field": "Expected_Subject",
+          "position": 73,
+          "bytes": 33
+        },
+        {
+          "field": "Evidence_Subject",
+          "position": 106,
+          "bytes": 33
+        },
+        {
+          "field": "Expected_Base",
+          "position": 139,
+          "bytes": 33
+        },
+        {
+          "field": "Candidate_Base",
+          "position": 172,
+          "bytes": 33
+        },
+        {
+          "field": "Expected_Delta",
+          "position": 205,
+          "bytes": 33
+        },
+        {
+          "field": "Candidate_Delta",
+          "position": 238,
+          "bytes": 33
+        },
+        {
+          "field": "Expected_Root_Set",
+          "position": 271,
+          "bytes": 33
+        },
+        {
+          "field": "Candidate_Root_Set",
+          "position": 304,
+          "bytes": 33
+        },
+        {
+          "field": "Expected_Staged_Root",
+          "position": 337,
+          "bytes": 33
+        },
+        {
+          "field": "Actual_Staged_Root",
+          "position": 370,
+          "bytes": 33
+        },
+        {
+          "field": "Staged_Content_Root",
+          "position": 403,
+          "bytes": 33
+        },
+        {
+          "field": "Tested_Root",
+          "position": 436,
+          "bytes": 33
+        },
+        {
+          "field": "Current_Requirement",
+          "position": 469,
+          "bytes": 33
+        },
+        {
+          "field": "Resulting_Requirement",
+          "position": 502,
+          "bytes": 33
+        },
+        {
+          "field": "Evaluated_Requirement",
+          "position": 535,
+          "bytes": 33
+        },
+        {
+          "field": "Declared_Verifiers",
+          "position": 568,
+          "bytes": 33
+        },
+        {
+          "field": "Executed_Verifiers",
+          "position": 601,
+          "bytes": 33
+        },
+        {
+          "field": "Staged_Evaluated_Requirement",
+          "position": 634,
+          "bytes": 33
+        },
+        {
+          "field": "Staged_Executed_Verifiers",
+          "position": 667,
+          "bytes": 33
+        },
+        {
+          "field": "Staged_Examined_Root",
+          "position": 700,
+          "bytes": 33
+        },
+        {
+          "field": "Expected_Checkpoint",
+          "position": 733,
+          "bytes": 33
+        },
+        {
+          "field": "Witnessed_Checkpoint",
+          "position": 766,
+          "bytes": 33
+        },
+        {
+          "field": "Registered_Watch_Set",
+          "position": 799,
+          "bytes": 33
+        },
+        {
+          "field": "Watched_Set",
+          "position": 832,
+          "bytes": 33
+        },
+        {
+          "field": "Generation_Before",
+          "position": 865,
+          "bytes": 9
+        },
+        {
+          "field": "Generation_After",
+          "position": 874,
+          "bytes": 9
+        }
+      ]
+    },
+    {
+      "type": "CW.Raw_Optional_Hash",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Value",
+          "position": 1,
+          "bytes": 32
+        }
+      ]
+    },
+    {
+      "type": "CW.Raw_Optional_Counter",
+      "fields": [
+        {
+          "field": "Present",
+          "position": 0,
+          "bytes": 1
+        },
+        {
+          "field": "Value_Le",
+          "position": 1,
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "type": "CX.Raw_Material",
+      "fields": [
+        {
+          "field": "Worker_Issued",
+          "position": 0,
+          "bytes": 944
+        },
+        {
+          "field": "Worker_Recovered",
+          "position": 944,
+          "bytes": 944
+        },
+        {
+          "field": "Canonical_Issued",
+          "position": 1888,
+          "bytes": 944
+        },
+        {
+          "field": "Canonical_Recovered",
+          "position": 2832,
+          "bytes": 944
+        },
+        {
+          "field": "Worker_Native",
+          "position": 3776,
+          "bytes": 66
+        },
+        {
+          "field": "Canonical_Native",
+          "position": 3842,
+          "bytes": 66
+        },
+        {
+          "field": "Worker_Receipt_Genesis",
+          "position": 3908,
+          "bytes": 33
+        },
+        {
+          "field": "Owner_Receipt_Genesis",
+          "position": 3941,
+          "bytes": 33
+        },
+        {
+          "field": "Worker_Receipt_Head",
+          "position": 3974,
+          "bytes": 33
+        },
+        {
+          "field": "Worker_Causal_Genesis",
+          "position": 4007,
+          "bytes": 33
+        },
+        {
+          "field": "Owner_Causal_Genesis",
+          "position": 4040,
+          "bytes": 33
+        },
+        {
+          "field": "Worker_Causal_Head",
+          "position": 4073,
+          "bytes": 33
+        },
+        {
+          "field": "Quarantine_Head",
+          "position": 4106,
+          "bytes": 33
+        }
+      ]
+    },
+    {
+      "type": "HC.Raw_Result",
+      "fields": [
+        {
+          "field": "Disposition",
+          "position": 0,
+          "bytes": 1
+        }
+      ]
+    },
+    {
+      "type": "CX.Raw_Result",
+      "fields": [
+        {
+          "field": "Disposition",
+          "position": 0,
+          "bytes": 1
+        }
+      ]
+    }
+  ],
+  "basis": "exact compiler-pinned field Position and Size; only attribute substitution and removal of unused layout witnesses",
+  "source_sha256": "d638fcb1010524641b1017cd90bcd1f9d0e9e797e19095e7b1e07f2de0588e14"
+}

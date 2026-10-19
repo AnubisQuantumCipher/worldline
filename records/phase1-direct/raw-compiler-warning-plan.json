@@ -1,0 +1,20 @@
+{
+  "status": "IMPLEMENTED; verification pending",
+  "unused_data_only_for_total_true_padding_predicates": [
+    "C.Raw_Hash",
+    "RW.Raw_Hash",
+    "T.Raw_Rights",
+    "W.Raw_Result",
+    "T.Raw_Result",
+    "CW.Raw_Bytes_32",
+    "CW.Raw_Bytes_8",
+    "HC.Raw_Result",
+    "CX.Raw_Result"
+  ],
+  "other_changes": [
+    "move Interfaces with clause from specification to body",
+    "remove redundant use type Q.Byte inherited from parent"
+  ],
+  "no_warning_category_disabled": true,
+  "behavior_change": false
+}

@@ -1,0 +1,2634 @@
+[
+  {
+    "case": {
+      "case": 1,
+      "type": "D.Raw_Packet",
+      "value_bytes": 4656,
+      "object_bytes": 4656
+    },
+    "length": 4656,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 1,
+      "type": "D.Raw_Packet",
+      "value_bytes": 4656,
+      "object_bytes": 4656
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 1,
+      "type": "D.Raw_Packet",
+      "value_bytes": 4656,
+      "object_bytes": 4656
+    },
+    "length": 4657,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 2,
+      "type": "N.Raw_Packet",
+      "value_bytes": 2752,
+      "object_bytes": 2752
+    },
+    "length": 2752,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 2,
+      "type": "N.Raw_Packet",
+      "value_bytes": 2752,
+      "object_bytes": 2752
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 2,
+      "type": "N.Raw_Packet",
+      "value_bytes": 2752,
+      "object_bytes": 2752
+    },
+    "length": 2753,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 3,
+      "type": "N.Raw_State",
+      "value_bytes": 352,
+      "object_bytes": 352
+    },
+    "length": 352,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 3,
+      "type": "N.Raw_State",
+      "value_bytes": 352,
+      "object_bytes": 352
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 3,
+      "type": "N.Raw_State",
+      "value_bytes": 352,
+      "object_bytes": 352
+    },
+    "length": 353,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 4,
+      "type": "W.Raw_Context",
+      "value_bytes": 224,
+      "object_bytes": 224
+    },
+    "length": 224,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 4,
+      "type": "W.Raw_Context",
+      "value_bytes": 224,
+      "object_bytes": 224
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 4,
+      "type": "W.Raw_Context",
+      "value_bytes": 224,
+      "object_bytes": 224
+    },
+    "length": 225,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 5,
+      "type": "W.Raw_Id",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 24,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 5,
+      "type": "W.Raw_Id",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 5,
+      "type": "W.Raw_Id",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 25,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 6,
+      "type": "W.Raw_Epoch",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 32,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 6,
+      "type": "W.Raw_Epoch",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 6,
+      "type": "W.Raw_Epoch",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 33,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 7,
+      "type": "W.Raw_Quantity",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 24,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 7,
+      "type": "W.Raw_Quantity",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 7,
+      "type": "W.Raw_Quantity",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 25,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 8,
+      "type": "N.Raw_Current_Observation",
+      "value_bytes": 592,
+      "object_bytes": 592
+    },
+    "length": 592,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 8,
+      "type": "N.Raw_Current_Observation",
+      "value_bytes": 592,
+      "object_bytes": 592
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 8,
+      "type": "N.Raw_Current_Observation",
+      "value_bytes": 592,
+      "object_bytes": 592
+    },
+    "length": 593,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 9,
+      "type": "N.Raw_Intent",
+      "value_bytes": 1448,
+      "object_bytes": 1448
+    },
+    "length": 1448,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 9,
+      "type": "N.Raw_Intent",
+      "value_bytes": 1448,
+      "object_bytes": 1448
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 9,
+      "type": "N.Raw_Intent",
+      "value_bytes": 1448,
+      "object_bytes": 1448
+    },
+    "length": 1449,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 10,
+      "type": "W.Raw_Request",
+      "value_bytes": 1288,
+      "object_bytes": 1288
+    },
+    "length": 1288,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 10,
+      "type": "W.Raw_Request",
+      "value_bytes": 1288,
+      "object_bytes": 1288
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 10,
+      "type": "W.Raw_Request",
+      "value_bytes": 1288,
+      "object_bytes": 1288
+    },
+    "length": 1289,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 11,
+      "type": "W.Raw_Binding",
+      "value_bytes": 248,
+      "object_bytes": 248
+    },
+    "length": 248,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 11,
+      "type": "W.Raw_Binding",
+      "value_bytes": 248,
+      "object_bytes": 248
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 11,
+      "type": "W.Raw_Binding",
+      "value_bytes": 248,
+      "object_bytes": 248
+    },
+    "length": 249,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 12,
+      "type": "W.Raw_Row",
+      "value_bytes": 656,
+      "object_bytes": 656
+    },
+    "length": 656,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 12,
+      "type": "W.Raw_Row",
+      "value_bytes": 656,
+      "object_bytes": 656
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 12,
+      "type": "W.Raw_Row",
+      "value_bytes": 656,
+      "object_bytes": 656
+    },
+    "length": 657,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 13,
+      "type": "D.Raw_Observation",
+      "value_bytes": 1904,
+      "object_bytes": 1904
+    },
+    "length": 1904,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 13,
+      "type": "D.Raw_Observation",
+      "value_bytes": 1904,
+      "object_bytes": 1904
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 13,
+      "type": "D.Raw_Observation",
+      "value_bytes": 1904,
+      "object_bytes": 1904
+    },
+    "length": 1905,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 14,
+      "type": "X.Raw_Crosswalk",
+      "value_bytes": 952,
+      "object_bytes": 952
+    },
+    "length": 952,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 14,
+      "type": "X.Raw_Crosswalk",
+      "value_bytes": 952,
+      "object_bytes": 952
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 14,
+      "type": "X.Raw_Crosswalk",
+      "value_bytes": 952,
+      "object_bytes": 952
+    },
+    "length": 953,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 15,
+      "type": "C.Raw_Digest",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 33,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 15,
+      "type": "C.Raw_Digest",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 15,
+      "type": "C.Raw_Digest",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 34,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 16,
+      "type": "C.Raw_Hash",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 32,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 16,
+      "type": "C.Raw_Hash",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 16,
+      "type": "C.Raw_Hash",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 33,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 17,
+      "type": "Y.Raw_Input",
+      "value_bytes": 2488,
+      "object_bytes": 2488
+    },
+    "length": 2488,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 17,
+      "type": "Y.Raw_Input",
+      "value_bytes": 2488,
+      "object_bytes": 2488
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 17,
+      "type": "Y.Raw_Input",
+      "value_bytes": 2488,
+      "object_bytes": 2488
+    },
+    "length": 2489,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 18,
+      "type": "Y.Raw_Controller",
+      "value_bytes": 1256,
+      "object_bytes": 1256
+    },
+    "length": 1256,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 18,
+      "type": "Y.Raw_Controller",
+      "value_bytes": 1256,
+      "object_bytes": 1256
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 18,
+      "type": "Y.Raw_Controller",
+      "value_bytes": 1256,
+      "object_bytes": 1256
+    },
+    "length": 1257,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 19,
+      "type": "Y.Raw_Process",
+      "value_bytes": 528,
+      "object_bytes": 528
+    },
+    "length": 528,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 19,
+      "type": "Y.Raw_Process",
+      "value_bytes": 528,
+      "object_bytes": 528
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 19,
+      "type": "Y.Raw_Process",
+      "value_bytes": 528,
+      "object_bytes": 528
+    },
+    "length": 529,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 20,
+      "type": "Y.Raw_Task",
+      "value_bytes": 1224,
+      "object_bytes": 1224
+    },
+    "length": 1224,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 20,
+      "type": "Y.Raw_Task",
+      "value_bytes": 1224,
+      "object_bytes": 1224
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 20,
+      "type": "Y.Raw_Task",
+      "value_bytes": 1224,
+      "object_bytes": 1224
+    },
+    "length": 1225,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 21,
+      "type": "Y.Raw_Namespace",
+      "value_bytes": 120,
+      "object_bytes": 120
+    },
+    "length": 120,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 21,
+      "type": "Y.Raw_Namespace",
+      "value_bytes": 120,
+      "object_bytes": 120
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 21,
+      "type": "Y.Raw_Namespace",
+      "value_bytes": 120,
+      "object_bytes": 120
+    },
+    "length": 121,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 22,
+      "type": "T.Raw_Input",
+      "value_bytes": 6136,
+      "object_bytes": 6136
+    },
+    "length": 6136,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 22,
+      "type": "T.Raw_Input",
+      "value_bytes": 6136,
+      "object_bytes": 6136
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 22,
+      "type": "T.Raw_Input",
+      "value_bytes": 6136,
+      "object_bytes": 6136
+    },
+    "length": 6137,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 23,
+      "type": "T.Raw_Binding",
+      "value_bytes": 976,
+      "object_bytes": 976
+    },
+    "length": 976,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 23,
+      "type": "T.Raw_Binding",
+      "value_bytes": 976,
+      "object_bytes": 976
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 23,
+      "type": "T.Raw_Binding",
+      "value_bytes": 976,
+      "object_bytes": 976
+    },
+    "length": 977,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 24,
+      "type": "T.Raw_Ids",
+      "value_bytes": 891,
+      "object_bytes": 891
+    },
+    "length": 891,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 24,
+      "type": "T.Raw_Ids",
+      "value_bytes": 891,
+      "object_bytes": 891
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 24,
+      "type": "T.Raw_Ids",
+      "value_bytes": 891,
+      "object_bytes": 891
+    },
+    "length": 892,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 25,
+      "type": "T.Raw_UID",
+      "value_bytes": 8,
+      "object_bytes": 8
+    },
+    "length": 8,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 25,
+      "type": "T.Raw_UID",
+      "value_bytes": 8,
+      "object_bytes": 8
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 25,
+      "type": "T.Raw_UID",
+      "value_bytes": 8,
+      "object_bytes": 8
+    },
+    "length": 9,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 26,
+      "type": "T.Raw_Quantity",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 24,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 26,
+      "type": "T.Raw_Quantity",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 26,
+      "type": "T.Raw_Quantity",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 25,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 27,
+      "type": "T.Raw_Evidence",
+      "value_bytes": 5128,
+      "object_bytes": 5128
+    },
+    "length": 5128,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 27,
+      "type": "T.Raw_Evidence",
+      "value_bytes": 5128,
+      "object_bytes": 5128
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 27,
+      "type": "T.Raw_Evidence",
+      "value_bytes": 5128,
+      "object_bytes": 5128
+    },
+    "length": 5129,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 28,
+      "type": "RW.Raw_Request",
+      "value_bytes": 1962,
+      "object_bytes": 1968
+    },
+    "length": 1962,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 28,
+      "type": "RW.Raw_Request",
+      "value_bytes": 1962,
+      "object_bytes": 1968
+    },
+    "length": 1968,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 28,
+      "type": "RW.Raw_Request",
+      "value_bytes": 1962,
+      "object_bytes": 1968
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 28,
+      "type": "RW.Raw_Request",
+      "value_bytes": 1962,
+      "object_bytes": 1968
+    },
+    "length": 1969,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 28,
+      "type": "RW.Raw_Request",
+      "value_bytes": 1962,
+      "object_bytes": 1968
+    },
+    "length": 1963,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 29,
+      "type": "RW.Raw_Binding",
+      "value_bytes": 944,
+      "object_bytes": 944
+    },
+    "length": 944,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 29,
+      "type": "RW.Raw_Binding",
+      "value_bytes": 944,
+      "object_bytes": 944
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 29,
+      "type": "RW.Raw_Binding",
+      "value_bytes": 944,
+      "object_bytes": 944
+    },
+    "length": 945,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 30,
+      "type": "RW.Raw_Digest",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 33,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 30,
+      "type": "RW.Raw_Digest",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 30,
+      "type": "RW.Raw_Digest",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 34,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 31,
+      "type": "RW.Raw_Hash",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 32,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 31,
+      "type": "RW.Raw_Hash",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 31,
+      "type": "RW.Raw_Hash",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 33,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 32,
+      "type": "RW.Raw_Epoch",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 24,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 32,
+      "type": "RW.Raw_Epoch",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 32,
+      "type": "RW.Raw_Epoch",
+      "value_bytes": 24,
+      "object_bytes": 24
+    },
+    "length": 25,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 33,
+      "type": "RW.Raw_Native",
+      "value_bytes": 66,
+      "object_bytes": 66
+    },
+    "length": 66,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 33,
+      "type": "RW.Raw_Native",
+      "value_bytes": 66,
+      "object_bytes": 66
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 33,
+      "type": "RW.Raw_Native",
+      "value_bytes": 66,
+      "object_bytes": 66
+    },
+    "length": 67,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 34,
+      "type": "T.Raw_Grant",
+      "value_bytes": 360,
+      "object_bytes": 360
+    },
+    "length": 360,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 34,
+      "type": "T.Raw_Grant",
+      "value_bytes": 360,
+      "object_bytes": 360
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 34,
+      "type": "T.Raw_Grant",
+      "value_bytes": 360,
+      "object_bytes": 360
+    },
+    "length": 361,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 35,
+      "type": "T.Raw_Rights",
+      "value_bytes": 41,
+      "object_bytes": 41
+    },
+    "length": 41,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 35,
+      "type": "T.Raw_Rights",
+      "value_bytes": 41,
+      "object_bytes": 41
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 35,
+      "type": "T.Raw_Rights",
+      "value_bytes": 41,
+      "object_bytes": 41
+    },
+    "length": 42,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 36,
+      "type": "T.Raw_Use",
+      "value_bytes": 977,
+      "object_bytes": 984
+    },
+    "length": 977,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 36,
+      "type": "T.Raw_Use",
+      "value_bytes": 977,
+      "object_bytes": 984
+    },
+    "length": 984,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 36,
+      "type": "T.Raw_Use",
+      "value_bytes": 977,
+      "object_bytes": 984
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 36,
+      "type": "T.Raw_Use",
+      "value_bytes": 977,
+      "object_bytes": 984
+    },
+    "length": 985,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 36,
+      "type": "T.Raw_Use",
+      "value_bytes": 977,
+      "object_bytes": 984
+    },
+    "length": 978,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 37,
+      "type": "C.Raw_Row",
+      "value_bytes": 132,
+      "object_bytes": 132
+    },
+    "length": 132,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 37,
+      "type": "C.Raw_Row",
+      "value_bytes": 132,
+      "object_bytes": 132
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 37,
+      "type": "C.Raw_Row",
+      "value_bytes": 132,
+      "object_bytes": 132
+    },
+    "length": 133,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 38,
+      "type": "D.Raw_Capability",
+      "value_bytes": 72,
+      "object_bytes": 72
+    },
+    "length": 72,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 38,
+      "type": "D.Raw_Capability",
+      "value_bytes": 72,
+      "object_bytes": 72
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 38,
+      "type": "D.Raw_Capability",
+      "value_bytes": 72,
+      "object_bytes": 72
+    },
+    "length": 73,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 39,
+      "type": "N.Raw_Scope_Frame",
+      "value_bytes": 568,
+      "object_bytes": 568
+    },
+    "length": 568,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 39,
+      "type": "N.Raw_Scope_Frame",
+      "value_bytes": 568,
+      "object_bytes": 568
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 39,
+      "type": "N.Raw_Scope_Frame",
+      "value_bytes": 568,
+      "object_bytes": 568
+    },
+    "length": 569,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 40,
+      "type": "N.Raw_Projection",
+      "value_bytes": 640,
+      "object_bytes": 640
+    },
+    "length": 640,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 40,
+      "type": "N.Raw_Projection",
+      "value_bytes": 640,
+      "object_bytes": 640
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 40,
+      "type": "N.Raw_Projection",
+      "value_bytes": 640,
+      "object_bytes": 640
+    },
+    "length": 641,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 41,
+      "type": "N.Raw_Physical_Key",
+      "value_bytes": 72,
+      "object_bytes": 72
+    },
+    "length": 72,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 41,
+      "type": "N.Raw_Physical_Key",
+      "value_bytes": 72,
+      "object_bytes": 72
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 41,
+      "type": "N.Raw_Physical_Key",
+      "value_bytes": 72,
+      "object_bytes": 72
+    },
+    "length": 73,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 42,
+      "type": "N.Raw_Bucket",
+      "value_bytes": 216,
+      "object_bytes": 216
+    },
+    "length": 216,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 42,
+      "type": "N.Raw_Bucket",
+      "value_bytes": 216,
+      "object_bytes": 216
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 42,
+      "type": "N.Raw_Bucket",
+      "value_bytes": 216,
+      "object_bytes": 216
+    },
+    "length": 217,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 43,
+      "type": "W.Raw_Native",
+      "value_bytes": 601,
+      "object_bytes": 608
+    },
+    "length": 601,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 43,
+      "type": "W.Raw_Native",
+      "value_bytes": 601,
+      "object_bytes": 608
+    },
+    "length": 608,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 43,
+      "type": "W.Raw_Native",
+      "value_bytes": 601,
+      "object_bytes": 608
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 43,
+      "type": "W.Raw_Native",
+      "value_bytes": 601,
+      "object_bytes": 608
+    },
+    "length": 609,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 43,
+      "type": "W.Raw_Native",
+      "value_bytes": 601,
+      "object_bytes": 608
+    },
+    "length": 602,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 44,
+      "type": "O.Raw_Facts",
+      "value_bytes": 1377,
+      "object_bytes": 1384
+    },
+    "length": 1377,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 44,
+      "type": "O.Raw_Facts",
+      "value_bytes": 1377,
+      "object_bytes": 1384
+    },
+    "length": 1384,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 44,
+      "type": "O.Raw_Facts",
+      "value_bytes": 1377,
+      "object_bytes": 1384
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 44,
+      "type": "O.Raw_Facts",
+      "value_bytes": 1377,
+      "object_bytes": 1384
+    },
+    "length": 1385,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 44,
+      "type": "O.Raw_Facts",
+      "value_bytes": 1377,
+      "object_bytes": 1384
+    },
+    "length": 1378,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 45,
+      "type": "W.Raw_Result",
+      "value_bytes": 4,
+      "object_bytes": 4
+    },
+    "length": 4,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 45,
+      "type": "W.Raw_Result",
+      "value_bytes": 4,
+      "object_bytes": 4
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 45,
+      "type": "W.Raw_Result",
+      "value_bytes": 4,
+      "object_bytes": 4
+    },
+    "length": 5,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 46,
+      "type": "T.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 1,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 46,
+      "type": "T.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 46,
+      "type": "T.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 2,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 47,
+      "type": "HC.Raw_Input",
+      "value_bytes": 17968,
+      "object_bytes": 17968
+    },
+    "length": 17968,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 47,
+      "type": "HC.Raw_Input",
+      "value_bytes": 17968,
+      "object_bytes": 17968
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 47,
+      "type": "HC.Raw_Input",
+      "value_bytes": 17968,
+      "object_bytes": 17968
+    },
+    "length": 17969,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 48,
+      "type": "CX.Raw_Input",
+      "value_bytes": 11826,
+      "object_bytes": 11832
+    },
+    "length": 11826,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 48,
+      "type": "CX.Raw_Input",
+      "value_bytes": 11826,
+      "object_bytes": 11832
+    },
+    "length": 11832,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 48,
+      "type": "CX.Raw_Input",
+      "value_bytes": 11826,
+      "object_bytes": 11832
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 48,
+      "type": "CX.Raw_Input",
+      "value_bytes": 11826,
+      "object_bytes": 11832
+    },
+    "length": 11833,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 48,
+      "type": "CX.Raw_Input",
+      "value_bytes": 11826,
+      "object_bytes": 11832
+    },
+    "length": 11827,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 49,
+      "type": "CO.Raw_Input",
+      "value_bytes": 7675,
+      "object_bytes": 7680
+    },
+    "length": 7675,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 49,
+      "type": "CO.Raw_Input",
+      "value_bytes": 7675,
+      "object_bytes": 7680
+    },
+    "length": 7680,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 49,
+      "type": "CO.Raw_Input",
+      "value_bytes": 7675,
+      "object_bytes": 7680
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 49,
+      "type": "CO.Raw_Input",
+      "value_bytes": 7675,
+      "object_bytes": 7680
+    },
+    "length": 7681,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 49,
+      "type": "CO.Raw_Input",
+      "value_bytes": 7675,
+      "object_bytes": 7680
+    },
+    "length": 7676,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 50,
+      "type": "W.Raw_State",
+      "value_bytes": 376,
+      "object_bytes": 376
+    },
+    "length": 376,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 50,
+      "type": "W.Raw_State",
+      "value_bytes": 376,
+      "object_bytes": 376
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 50,
+      "type": "W.Raw_State",
+      "value_bytes": 376,
+      "object_bytes": 376
+    },
+    "length": 377,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 51,
+      "type": "CW.Raw_Request",
+      "value_bytes": 883,
+      "object_bytes": 883
+    },
+    "length": 883,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 51,
+      "type": "CW.Raw_Request",
+      "value_bytes": 883,
+      "object_bytes": 883
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 51,
+      "type": "CW.Raw_Request",
+      "value_bytes": 883,
+      "object_bytes": 883
+    },
+    "length": 884,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 52,
+      "type": "CW.Raw_Optional_Hash",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 33,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 52,
+      "type": "CW.Raw_Optional_Hash",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 52,
+      "type": "CW.Raw_Optional_Hash",
+      "value_bytes": 33,
+      "object_bytes": 33
+    },
+    "length": 34,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 53,
+      "type": "CW.Raw_Bytes_32",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 32,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 53,
+      "type": "CW.Raw_Bytes_32",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 53,
+      "type": "CW.Raw_Bytes_32",
+      "value_bytes": 32,
+      "object_bytes": 32
+    },
+    "length": 33,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 54,
+      "type": "CW.Raw_Optional_Counter",
+      "value_bytes": 9,
+      "object_bytes": 9
+    },
+    "length": 9,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 54,
+      "type": "CW.Raw_Optional_Counter",
+      "value_bytes": 9,
+      "object_bytes": 9
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 54,
+      "type": "CW.Raw_Optional_Counter",
+      "value_bytes": 9,
+      "object_bytes": 9
+    },
+    "length": 10,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 55,
+      "type": "CW.Raw_Bytes_8",
+      "value_bytes": 8,
+      "object_bytes": 8
+    },
+    "length": 8,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 55,
+      "type": "CW.Raw_Bytes_8",
+      "value_bytes": 8,
+      "object_bytes": 8
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 55,
+      "type": "CW.Raw_Bytes_8",
+      "value_bytes": 8,
+      "object_bytes": 8
+    },
+    "length": 9,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 56,
+      "type": "CX.Raw_Material",
+      "value_bytes": 4139,
+      "object_bytes": 4144
+    },
+    "length": 4139,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 56,
+      "type": "CX.Raw_Material",
+      "value_bytes": 4139,
+      "object_bytes": 4144
+    },
+    "length": 4144,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 56,
+      "type": "CX.Raw_Material",
+      "value_bytes": 4139,
+      "object_bytes": 4144
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 56,
+      "type": "CX.Raw_Material",
+      "value_bytes": 4139,
+      "object_bytes": 4144
+    },
+    "length": 4145,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 56,
+      "type": "CX.Raw_Material",
+      "value_bytes": 4139,
+      "object_bytes": 4144
+    },
+    "length": 4140,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 57,
+      "type": "HC.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 1,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 57,
+      "type": "HC.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 57,
+      "type": "HC.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 2,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 58,
+      "type": "CX.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 1,
+    "admitted": true,
+    "exit_code": 0,
+    "stdout": "ACCEPTED\n",
+    "stderr": "",
+    "passed": true
+  },
+  {
+    "case": {
+      "case": 58,
+      "type": "CX.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 0,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  },
+  {
+    "case": {
+      "case": 58,
+      "type": "CX.Raw_Result",
+      "value_bytes": 1,
+      "object_bytes": 1
+    },
+    "length": 2,
+    "admitted": false,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "\nraised PROGRAM_ERROR : unhandled signal\n",
+    "passed": false
+  }
+]

@@ -1,0 +1,262 @@
+[
+  {
+    "type": "D.Raw_Packet",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_Packet",
+    "fields": 5,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_State",
+    "fields": 6,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Context",
+    "fields": 9,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Id",
+    "fields": 3,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Epoch",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Quantity",
+    "fields": 3,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_Current_Observation",
+    "fields": 16,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_Intent",
+    "fields": 8,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Request",
+    "fields": 10,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Binding",
+    "fields": 10,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Row",
+    "fields": 11,
+    "simple_record": true
+  },
+  {
+    "type": "D.Raw_Observation",
+    "fields": 70,
+    "simple_record": true
+  },
+  {
+    "type": "X.Raw_Crosswalk",
+    "fields": 15,
+    "simple_record": true
+  },
+  {
+    "type": "C.Raw_Digest",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "Y.Raw_Input",
+    "fields": 3,
+    "simple_record": true
+  },
+  {
+    "type": "Y.Raw_Controller",
+    "fields": 22,
+    "simple_record": true
+  },
+  {
+    "type": "Y.Raw_Process",
+    "fields": 22,
+    "simple_record": true
+  },
+  {
+    "type": "Y.Raw_Task",
+    "fields": 33,
+    "simple_record": true
+  },
+  {
+    "type": "Y.Raw_Namespace",
+    "fields": 5,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_Input",
+    "fields": 5,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_Binding",
+    "fields": 8,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_UID",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_Quantity",
+    "fields": 4,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_Evidence",
+    "fields": 12,
+    "simple_record": true
+  },
+  {
+    "type": "RW.Raw_Request",
+    "fields": 8,
+    "simple_record": true
+  },
+  {
+    "type": "RW.Raw_Binding",
+    "fields": 30,
+    "simple_record": true
+  },
+  {
+    "type": "RW.Raw_Digest",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "RW.Raw_Epoch",
+    "fields": 4,
+    "simple_record": true
+  },
+  {
+    "type": "RW.Raw_Native",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_Grant",
+    "fields": 14,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_Use",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "C.Raw_Row",
+    "fields": 4,
+    "simple_record": true
+  },
+  {
+    "type": "D.Raw_Capability",
+    "fields": 3,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_Scope_Frame",
+    "fields": 15,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_Projection",
+    "fields": 7,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_Physical_Key",
+    "fields": 3,
+    "simple_record": true
+  },
+  {
+    "type": "N.Raw_Bucket",
+    "fields": 7,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Native",
+    "fields": 8,
+    "simple_record": true
+  },
+  {
+    "type": "O.Raw_Facts",
+    "fields": 39,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_Result",
+    "fields": 1,
+    "simple_record": true
+  },
+  {
+    "type": "T.Raw_Result",
+    "fields": 1,
+    "simple_record": true
+  },
+  {
+    "type": "HC.Raw_Input",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "CX.Raw_Input",
+    "fields": 4,
+    "simple_record": true
+  },
+  {
+    "type": "CO.Raw_Input",
+    "fields": 6,
+    "simple_record": true
+  },
+  {
+    "type": "W.Raw_State",
+    "fields": 7,
+    "simple_record": true
+  },
+  {
+    "type": "CW.Raw_Request",
+    "fields": 35,
+    "simple_record": true
+  },
+  {
+    "type": "CW.Raw_Optional_Hash",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "CW.Raw_Optional_Counter",
+    "fields": 2,
+    "simple_record": true
+  },
+  {
+    "type": "CX.Raw_Material",
+    "fields": 13,
+    "simple_record": true
+  },
+  {
+    "type": "HC.Raw_Result",
+    "fields": 1,
+    "simple_record": true
+  },
+  {
+    "type": "CX.Raw_Result",
+    "fields": 1,
+    "simple_record": true
+  }
+]

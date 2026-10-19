@@ -1,0 +1,10 @@
+{
+  "findings": [
+    " warning: aspect Unused specified for \"Rows\" [enabled by default]\n--> worldline-recovery_material_replay.adb:2070:29\n 2070 |          return Valid and then Rows'Length > 0 and then Promotions (Rows'Last);\n      |                                ^~~~",
+    " warning: aspect Unused specified for \"Rows\" [enabled by default]\n--> worldline-recovery_material_replay.adb:2070:66\n 2070 |          return Valid and then Rows'Length > 0 and then Promotions (Rows'Last);\n      |                                                                     ^~~~",
+    " warning: aspect Unused specified for \"Rows\" [enabled by default]\n--> worldline-recovery_material_replay.adb:2086:28\n 2086 |          if not Valid or else Rows'Length = 0 then return (others => <>); end if;\n      |                               ^~~~",
+    " warning: aspect Unused specified for \"Rows\" [enabled by default]\n--> worldline-recovery_material_replay.adb:2087:66\n 2087 |          Selected_Matches (Data, Saved, Material, (H.History_Entry, Rows'Last),\n      |                                                                     ^~~~",
+    " warning: aspect Unused specified for \"Rows\" [enabled by default]\n--> worldline-recovery_material_replay.adb:2088:37\n 2088 |            Current, Arena, Promotions (Rows'Last), Result, True);\n      |                                        ^~~~"
+  ],
+  "scope": "all-source strict flow"
+}

@@ -1,0 +1,544 @@
+[
+{
+  "name": "Resource_Run_Ledger_Wire.U8",
+  "location": "resource_run_ledger_wire.ads:7:12",
+  "Size": 8,
+  "Alignment": 1
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.U32",
+  "location": "resource_run_ledger_wire.ads:8:12",
+  "Size": 32,
+  "Alignment": 4
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.I64",
+  "location": "resource_run_ledger_wire.ads:9:12",
+  "Size": 64,
+  "Alignment": 8
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Id",
+  "location": "resource_run_ledger_wire.ads:15:9",
+  "Size": 192,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Present",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "First",
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Length",
+      "Position": 16,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Quantity",
+  "location": "resource_run_ledger_wire.ads:20:9",
+  "Size": 192,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Negative",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "First",
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Length",
+      "Position": 16,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Epoch",
+  "location": "resource_run_ledger_wire.ads:25:9",
+  "Size": 256,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Present",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Value",
+      "Position": 8,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Context",
+  "location": "resource_run_ledger_wire.ads:29:9",
+  "Size": 1792,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Universe",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Policy",
+      "Position":  24,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Resource",
+      "Position":  48,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Unit",
+      "Position":  72,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Instance",
+      "Position":  96,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Host",
+      "Position": 120,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Boot",
+      "Position": 144,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Authority",
+      "Position": 168,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Policy_Epoch",
+      "Position": 192,
+      "First_Bit": 0,
+      "Size": 256
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Binding",
+  "location": "resource_run_ledger_wire.ads:40:9",
+  "Size": 1984,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Reservation",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Operation",
+      "Position":  24,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Owner",
+      "Position":  48,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Workload",
+      "Position":  72,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Universe_Head",
+      "Position":  96,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Capability",
+      "Position": 120,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Grant_Use",
+      "Position": 144,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Payload",
+      "Position": 168,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Provenance",
+      "Position": 192,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Resource_Epoch",
+      "Position": 216,
+      "First_Bit": 0,
+      "Size": 256
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Row",
+  "location": "resource_run_ledger_wire.ads:52:9",
+  "Size": 5248,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Scope",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Bound",
+      "Position": 224,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Parent",
+      "Position": 472,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Kind",
+      "Position": 496,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "State",
+      "Position": 497,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Amount",
+      "Position": 504,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Observed_Usage",
+      "Position": 528,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Planned_Unit",
+      "Position": 560,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Actual_Unit",
+      "Position": 584,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cgroup",
+      "Position": 608,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Invocation",
+      "Position": 632,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_State",
+  "location": "resource_run_ledger_wire.ads:65:9",
+  "Size": 3008,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Scope",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Resource_Epoch",
+      "Position": 224,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Universe_Head",
+      "Position": 256,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Ledger_Head",
+      "Position": 280,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Capacity",
+      "Position": 304,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Held_Total",
+      "Position": 328,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Charged_Total",
+      "Position": 352,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Native",
+  "location": "resource_run_ledger_wire.ads:74:9",
+  "Object_Size": 4864,
+  "Value_Size": 4808,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Scope",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Resource_Epoch",
+      "Position": 224,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Bound",
+      "Position": 256,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Actual_Unit",
+      "Position": 504,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cgroup",
+      "Position": 528,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Invocation",
+      "Position": 552,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Observation_Head",
+      "Position": 576,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Observed",
+      "Position": 600,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Request",
+  "location": "resource_run_ledger_wire.ads:84:9",
+  "Size": 10304,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Kind",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Scope",
+      "Position":   8,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Expected_Epoch",
+      "Position": 232,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Expected_Ledger_Head",
+      "Position": 264,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Request_Id",
+      "Position": 288,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Reservation",
+      "Position": 312,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Operation_Id",
+      "Position": 336,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester",
+      "Position": 360,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Bound",
+      "Position": 384,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "New_Row",
+      "Position": 632,
+      "First_Bit": 0,
+      "Size": 5248
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Packet",
+  "location": "resource_run_ledger_wire.ads:96:9",
+  "Size": 16384,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Schema_Version",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Before_State",
+      "Position":   8,
+      "First_Bit": 0,
+      "Size": 3008
+    },
+    {
+      "name": "Proposed_State",
+      "Position": 384,
+      "First_Bit": 0,
+      "Size": 3008
+    },
+    {
+      "name": "Intent",
+      "Position": 760,
+      "First_Bit": 0,
+      "Size": 10304
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Result",
+  "location": "resource_run_ledger_wire.ads:102:9",
+  "Size": 32,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "Status",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Row_Array",
+  "location": "resource_run_ledger_wire.ads:105:9",
+  "Alignment": 8,
+  "Component_Size": 5248
+}
+,
+{
+  "name": "Resource_Run_Ledger_Wire.Raw_Native_Array",
+  "location": "resource_run_ledger_wire.ads:106:9",
+  "Alignment": 8,
+  "Component_Size": 4864
+}
+]

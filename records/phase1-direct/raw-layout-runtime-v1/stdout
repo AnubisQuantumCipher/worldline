@@ -1,0 +1,221 @@
+Compile
+   [Ada]          worldline_core_tests.adb
+   [Ada]          worldline-scoped_capture_namespace_projection-scan_tests.adb
+   [Ada]          resource_ledger_transport_tests.adb
+   [Ada]          scoped_capture_scan_tests.adb
+   [Ada]          scoped_capture_probe.adb
+   [Ada]          raw_decode_tests.adb
+   [Ada]          worldline-recovery_packet.adb
+   [Ada]          worldline-canonical_operation_wire.ads
+   [Ada]          resource_run_ledger_c_api.adb
+   [Ada]          worldline-actuation_full_wire.ads
+   [Ada]          worldline-custody_v2_closed_state.adb
+   [Ada]          worldline-startup_source_custody.adb
+   [Ada]          worldline-canonical_exchange_wire.ads
+   [Ada]          worldline-retained_source_layout.adb
+   [Ada]          worldline-scoped_capture_namespace_projection.adb
+   [Ada]          worldline-operation_result_view.adb
+   [Ada]          worldline-custody_v2_fold_engine.adb
+   [Ada]          worldline-recovery_authorization_v3_wire.adb
+   [Ada]          worldline-custody_v2_mutation_decision.adb
+   [Ada]          worldline-startup_admission.adb
+   [Ada]          worldline-scoped_capture_projection.adb
+   [Ada]          worldline-scoped_capture_evolution_projection.adb
+   [Ada]          worldline-recovery_authorization_v3_c_api.adb
+   [Ada]          worldline-emitter_allocation_capture.adb
+   [Ada]          worldline-canonical_exchange.adb
+   [Ada]          worldline-operation_result_relations.adb
+   [Ada]          resource_scoped_run_ledger_wire.adb
+   [Ada]          worldline-chain_authority_wire.adb
+   [Ada]          worldline-native_execution_views.adb
+   [Ada]          worldline-journal_witness.adb
+   [Ada]          worldline-sqlite_parameter_source.adb
+   [Ada]          worldline-custody_v2_k4_resource_ack.adb
+   [Ada]          worldline-recovery_material_replay.adb
+   [Ada]          worldline-excluded_source_owner.adb
+   [Ada]          worldline-c_api.adb
+   [Ada]          worldline-chain_authority_c_api.adb
+   [Ada]          worldline-operation_authority_wire.adb
+   [Ada]          worldline-canonical_owner_completion.adb
+   [Ada]          worldline-actor_archive_replay.adb
+   [Ada]          worldline-custody_v2_owner_canonical.adb
+   [Ada]          evaluation_finalization_c.adb
+   [Ada]          worldline-custody_v2_prepared_wire.adb
+   [Ada]          worldline-custody_v2_owner_correspondence.adb
+   [Ada]          worldline-root_output_sequence.adb
+   [Ada]          worldline-recovery_owner_replay.adb
+   [Ada]          worldline-resource_actor_execution_wire.adb
+   [Ada]          worldline-scoped_capture_history_projection.adb
+   [Ada]          worldline-canonical_owner_completion_wire.ads
+   [Ada]          worldline-custody_v2_root_evidence.adb
+   [Ada]          resource_run_ledger_wire.adb
+   [Ada]          evaluation_completion_c.adb
+   [Ada]          worldline-owner_conjunction_wire.adb
+   [Ada]          worldline-custody_v2_typed_step.adb
+   [Ada]          worldline-retained_evidence_replay.adb
+   [Ada]          worldline-retained_raw_decode.adb
+   [Ada]          worldline-evaluation_authority.adb
+   [Ada]          worldline-emitter_channel_evidence.adb
+   [Ada]          resource_observation_classification_wire.adb
+   [Ada]          worldline-transaction_relations.adb
+   [Ada]          worldline-scoped_record_source.adb
+   [Ada]          worldline-custody_v2_subject_evidence.adb
+   [Ada]          worldline-scoped_capture_owner_projection.adb
+   [Ada]          worldline-custody_v2_operation_journal.adb
+   [Ada]          worldline-resource_child_execution_wire.adb
+   [Ada]          resource_actor_admission_wire.adb
+   [Ada]          worldline-collapse_wire.adb
+   [Ada]          worldline-canonical_operation.adb
+   [Ada]          worldline-native_execution_capture.adb
+   [Ada]          worldline_collapse_checks.adb
+   [Ada]          raw_decode_case.adb
+Warning: In library project "Worldline_Core"
+         Unit "Worldline.canonical_Operation" is not in the interface set
+         but it is needed by the spec of "Worldline.canonical_Exchange"
+         Unit "Worldline.archive_Base64" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.archive_Text" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.canonical_Operation_Wire" is not in the interface set
+         but it is needed by "Worldline.canonical_Exchange_Wire"
+         Unit "Worldline.scoped_Archive" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Evidence_Replay"
+         Unit "Attest.custody_Sha256" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Load_Input" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Raw_Next" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+         Unit "Worldline.custody_V2_Typed_Step" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Raw_Next"
+         Unit "Worldline.custody_V2_Archive_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.custody_V2_Empty_Seed" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.retained_Custody_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Empty_Seed"
+         Unit "Worldline.root_Custody_Archive_Join" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Custody_Chain"
+         Unit "Worldline.root_Custody_Row_Schema" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.root_Custody_Model" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Row_Schema"
+         Unit "Worldline.custody_V2_Fold_Rows" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Request_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Request_Abandon"
+         Unit "Worldline.root_Custody_Replay" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Abandon"
+         Unit "Worldline.root_Custody_Phase_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Replay"
+         Unit "Worldline.root_Custody_Context" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Phase_Values"
+         Unit "Worldline.custody_V2_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+Build Libraries
+   [gprlib]       worldline_core.lexch
+   [bind SAL]     worldline_core
+   [Ada]          b__worldline_core.adb
+   [link library] libworldline_core.so
+Bind
+   [gprbind]      worldline_core_tests.bexch
+   [gprbind]      worldline_core_fuzz.bexch
+   [Ada]          worldline_core_fuzz.ali
+   [Ada]          worldline_core_tests.ali
+   [gprbind]      startup_source_probe.bexch
+   [Ada]          startup_source_probe.ali
+   [gprbind]      worldline-scoped_capture_namespace_projection-scan_tests.bexch
+   [Ada]          worldline-scoped_capture_namespace_projection-scan_tests.ali
+   [gprbind]      resource_ledger_transport_tests.bexch
+   [gprbind]      resource_policy_transport_tests.bexch
+   [Ada]          resource_ledger_transport_tests.ali
+   [Ada]          resource_policy_transport_tests.ali
+   [gprbind]      scoped_capture_scan_tests.bexch
+   [gprbind]      scoped_capture_probe.bexch
+   [Ada]          scoped_capture_scan_tests.ali
+   [Ada]          scoped_capture_probe.ali
+   [gprbind]      lifetime_value_tests.bexch
+   [Ada]          lifetime_value_tests.ali
+   [gprbind]      raw_decode_tests.bexch
+   [Ada]          raw_decode_tests.ali
+Warning: In library project "Worldline_Core"
+         Unit "Worldline.canonical_Operation" is not in the interface set
+         but it is needed by the spec of "Worldline.canonical_Exchange"
+         Unit "Worldline.archive_Base64" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.archive_Text" is not in the interface set
+         but it is needed by the spec of "Worldline.archive_Envelope"
+         Unit "Worldline.canonical_Operation_Wire" is not in the interface set
+         but it is needed by "Worldline.canonical_Exchange_Wire"
+         Unit "Worldline.scoped_Archive" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Evidence_Replay"
+         Unit "Attest.custody_Sha256" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Load_Input" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_K4_Resource_Ack"
+         Unit "Worldline.custody_V2_Raw_Next" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+         Unit "Worldline.custody_V2_Typed_Step" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Raw_Next"
+         Unit "Worldline.custody_V2_Archive_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.custody_V2_Empty_Seed" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.retained_Custody_Chain" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Empty_Seed"
+         Unit "Worldline.root_Custody_Archive_Join" is not in the interface set
+         but it is needed by the spec of "Worldline.retained_Custody_Chain"
+         Unit "Worldline.root_Custody_Row_Schema" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Archive_Chain"
+         Unit "Worldline.root_Custody_Model" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Row_Schema"
+         Unit "Worldline.custody_V2_Fold_Rows" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Request_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Typed_Step"
+         Unit "Worldline.root_Custody_Abandon" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Request_Abandon"
+         Unit "Worldline.root_Custody_Replay" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Abandon"
+         Unit "Worldline.root_Custody_Phase_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Replay"
+         Unit "Worldline.root_Custody_Context" is not in the interface set
+         but it is needed by the spec of "Worldline.root_Custody_Phase_Values"
+         Unit "Worldline.custody_V2_Values" is not in the interface set
+         but it is needed by the spec of "Worldline.custody_V2_Load_Input"
+Link
+   [link]         worldline_core_tests.adb
+   [link]         worldline_core_fuzz.adb
+   [link]         startup_source_probe.adb
+   [link]         worldline-scoped_capture_namespace_projection-scan_tests.adb
+   [link]         resource_ledger_transport_tests.adb
+   [link]         resource_policy_transport_tests.adb
+   [link]         scoped_capture_scan_tests.adb
+   [link]         scoped_capture_probe.adb
+   [link]         lifetime_value_tests.adb
+   [link]         raw_decode_tests.adb
+PASS rebased raw ID decoding
+PASS maximum-index raw ID decoding
+PASS D.Raw_Packet
+PASS N.Raw_Packet
+PASS N.Raw_State
+PASS W.Raw_Context
+PASS W.Raw_Id
+PASS W.Raw_Epoch
+PASS W.Raw_Quantity
+PASS N.Raw_Current_Observation
+PASS N.Raw_Intent
+PASS W.Raw_Request
+PASS W.Raw_Binding
+PASS W.Raw_Row
+PASS D.Raw_Observation
+PASS X.Raw_Crosswalk
+PASS C.Raw_Digest
+PASS C.Raw_Hash
+PASS Y.Raw_Input
+PASS Y.Raw_Controller
+PASS Y.Raw_Process
+PASS Y.Raw_Task
+PASS Y.Raw_Namespace

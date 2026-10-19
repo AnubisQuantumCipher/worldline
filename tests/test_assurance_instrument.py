@@ -164,6 +164,11 @@ class OneRoster(unittest.TestCase):
     def test_the_roster_requires_real_private_host_checks(self) -> None:
         self.assertIn("private-host-tests", assurance_contract.REQUIRED_STEPS)
 
+    def test_the_roster_requires_raw_decoder_controls(self) -> None:
+        for name in ("raw-decoder-layout", "raw-decoder-contract-build",
+                     "raw-decoder-length-controls"):
+            self.assertIn(name, assurance_contract.REQUIRED_STEPS)
+
     def test_the_roster_has_no_duplicates(self) -> None:
         self.assertEqual(len(set(assurance_contract.REQUIRED_STEPS)), len(assurance_contract.REQUIRED_STEPS))
 

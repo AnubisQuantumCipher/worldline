@@ -10,7 +10,22 @@ package Worldline.Canonical_Owner_Completion_Wire with SPARK_Mode is
       Historical : V.Raw_Input;
       Current : W.W.Raw_Input;
    end record with Convention=>C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Input use record
+      Historical at 0 range 0 .. 94655;
+      Current at 11832 range 0 .. 49087;
+   end record;
+   for Raw_Input'Size use 143744;
+   for Raw_Input'Object_Size use 143744;
+   for Raw_Input'Alignment use 8;
    type Raw_Result is record Disposition : Interfaces.Unsigned_8; end record with Convention=>C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Result use record
+      Disposition at 0 range 0 .. 7;
+   end record;
+   for Raw_Result'Size use 8;
+   for Raw_Result'Object_Size use 8;
+   for Raw_Result'Alignment use 1;
    function Well_Formed(Data:Y.A.Q.Byte_Array; Item:Raw_Input) return Boolean is
      (V.Well_Formed(Data,Item.Historical)
       and then Item.Historical.Before=Y.X.Phase'Pos(Y.X.Quarantined)

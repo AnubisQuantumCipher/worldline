@@ -8,7 +8,6 @@ package body Worldline.Transaction_Archive_JSON with SPARK_Mode is
    use type E.Count;
    use type E.Value_Kind;
    use type E.Layer;
-   use type E.Q.Byte;
    use type Interfaces.Unsigned_64;
    package R renames Worldline.Producer_Render;
 

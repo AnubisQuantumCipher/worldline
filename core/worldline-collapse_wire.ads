@@ -14,7 +14,17 @@ package Worldline.Collapse_Wire with SPARK_Mode is
 
    subtype Byte is Interfaces.Unsigned_8;
    type Raw_Bytes_32 is array (0 .. 31) of Byte with Convention => C;
+   --  Preserve compiler-observed C array layout.
+   for Raw_Bytes_32'Component_Size use 8;
+   for Raw_Bytes_32'Size use 256;
+   for Raw_Bytes_32'Object_Size use 256;
+   for Raw_Bytes_32'Alignment use 1;
    type Raw_Bytes_8 is array (0 .. 7) of Byte with Convention => C;
+   --  Preserve compiler-observed C array layout.
+   for Raw_Bytes_8'Component_Size use 8;
+   for Raw_Bytes_8'Size use 64;
+   for Raw_Bytes_8'Object_Size use 64;
+   for Raw_Bytes_8'Alignment use 1;
 
    --  present is 0 or 1. Absent: every value byte is 0. Present: the value is
    --  not all zero, so no zero digest can pass for a real identity.
@@ -22,6 +32,14 @@ package Worldline.Collapse_Wire with SPARK_Mode is
       Present : Byte;
       Value   : Raw_Bytes_32;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Optional_Hash use record
+      Present at 0 range 0 .. 7;
+      Value at 1 range 0 .. 255;
+   end record;
+   for Raw_Optional_Hash'Size use 264;
+   for Raw_Optional_Hash'Object_Size use 264;
+   for Raw_Optional_Hash'Alignment use 1;
 
    --  A little-endian 64-bit counter with the same presence rule (a present
    --  counter may be zero).
@@ -29,6 +47,14 @@ package Worldline.Collapse_Wire with SPARK_Mode is
       Present  : Byte;
       Value_LE : Raw_Bytes_8;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Optional_Counter use record
+      Present at 0 range 0 .. 7;
+      Value_Le at 1 range 0 .. 63;
+   end record;
+   for Raw_Optional_Counter'Size use 72;
+   for Raw_Optional_Counter'Object_Size use 72;
+   for Raw_Optional_Counter'Alignment use 1;
 
    type Raw_Request is record
       Candidate_State        : Byte;
@@ -67,6 +93,47 @@ package Worldline.Collapse_Wire with SPARK_Mode is
       Generation_Before            : Raw_Optional_Counter;
       Generation_After             : Raw_Optional_Counter;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Request use record
+      Candidate_State at 0 range 0 .. 7;
+      Phase at 1 range 0 .. 7;
+      Evaluation_Mode at 2 range 0 .. 7;
+      Conflicts at 3 range 0 .. 7;
+      Foreign_Writes at 4 range 0 .. 7;
+      Roster_Complete at 5 range 0 .. 7;
+      Staged_Roster_Complete at 6 range 0 .. 7;
+      Expected_Parent at 7 range 0 .. 263;
+      Candidate_Parent at 40 range 0 .. 263;
+      Expected_Subject at 73 range 0 .. 263;
+      Evidence_Subject at 106 range 0 .. 263;
+      Expected_Base at 139 range 0 .. 263;
+      Candidate_Base at 172 range 0 .. 263;
+      Expected_Delta at 205 range 0 .. 263;
+      Candidate_Delta at 238 range 0 .. 263;
+      Expected_Root_Set at 271 range 0 .. 263;
+      Candidate_Root_Set at 304 range 0 .. 263;
+      Expected_Staged_Root at 337 range 0 .. 263;
+      Actual_Staged_Root at 370 range 0 .. 263;
+      Staged_Content_Root at 403 range 0 .. 263;
+      Tested_Root at 436 range 0 .. 263;
+      Current_Requirement at 469 range 0 .. 263;
+      Resulting_Requirement at 502 range 0 .. 263;
+      Evaluated_Requirement at 535 range 0 .. 263;
+      Declared_Verifiers at 568 range 0 .. 263;
+      Executed_Verifiers at 601 range 0 .. 263;
+      Staged_Evaluated_Requirement at 634 range 0 .. 263;
+      Staged_Executed_Verifiers at 667 range 0 .. 263;
+      Staged_Examined_Root at 700 range 0 .. 263;
+      Expected_Checkpoint at 733 range 0 .. 263;
+      Witnessed_Checkpoint at 766 range 0 .. 263;
+      Registered_Watch_Set at 799 range 0 .. 263;
+      Watched_Set at 832 range 0 .. 263;
+      Generation_Before at 865 range 0 .. 71;
+      Generation_After at 874 range 0 .. 71;
+   end record;
+   for Raw_Request'Size use 7064;
+   for Raw_Request'Object_Size use 7064;
+   for Raw_Request'Alignment use 1;
 
    Invalid_Request : constant Byte := 255;
 

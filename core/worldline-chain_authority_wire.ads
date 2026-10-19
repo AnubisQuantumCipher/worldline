@@ -10,13 +10,36 @@ package Worldline.Chain_Authority_Wire with SPARK_Mode is
    use type Hash;
    type Raw_Hash is array (Hash'Range) of Interfaces.Unsigned_8
      with Convention => C;
+   --  Preserve compiler-observed C array layout.
+   for Raw_Hash'Component_Size use 8;
+   for Raw_Hash'Size use 256;
+   for Raw_Hash'Object_Size use 256;
+   for Raw_Hash'Alignment use 1;
    type Raw_Digest is record
       Present : Interfaces.Unsigned_8;
       Value : Raw_Hash;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Digest use record
+      Present at 0 range 0 .. 7;
+      Value at 1 range 0 .. 255;
+   end record;
+   for Raw_Digest'Size use 264;
+   for Raw_Digest'Object_Size use 264;
+   for Raw_Digest'Alignment use 1;
    type Raw_Row is record
       Previous, Actual_Payload_Root, Stored_Payload_Root, Stored_Head : Raw_Digest;
    end record with Convention => C;
+   --  Preserve compiler-observed C field layout.
+   for Raw_Row use record
+      Previous at 0 range 0 .. 263;
+      Actual_Payload_Root at 33 range 0 .. 263;
+      Stored_Payload_Root at 66 range 0 .. 263;
+      Stored_Head at 99 range 0 .. 263;
+   end record;
+   for Raw_Row'Size use 1056;
+   for Raw_Row'Object_Size use 1056;
+   for Raw_Row'Alignment use 1;
    type Raw_Anchors is record
       Kind : Interfaces.Unsigned_8;
       Observed_Genesis, Witnessed_Genesis, Witnessed_Head : Raw_Digest;

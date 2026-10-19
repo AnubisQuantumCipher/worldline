@@ -1,0 +1,19 @@
+{
+  "findings": [
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:157:56\n  157 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : W.Raw_Id) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:161:56\n  161 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : W.Raw_Quantity) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:179:56\n  179 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : C.Raw_Hash) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:197:56\n  197 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_UID) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:199:56\n  199 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_Quantity) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:209:56\n  209 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : RW.Raw_Hash) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:211:56\n  211 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : RW.Raw_Epoch) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:217:56\n  217 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_Rights) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:237:56\n  237 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : W.Raw_Result) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:239:56\n  239 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : T.Raw_Result) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:253:56\n  253 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CW.Raw_Bytes_32) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:257:56\n  257 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CW.Raw_Bytes_8) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:261:56\n  261 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : HC.Raw_Result) return Boolean\n      |                                                           ^~~",
+    " warning: unused variable \"Raw\"\n--> worldline-retained_raw_decode.ads:263:56\n  263 |       function Source_Padding_Valid (Data : Q.Byte_Array; Raw : CX.Raw_Result) return Boolean\n      |                                                           ^~~"
+  ],
+  "scope": "retained_raw_decode whole-unit strict flow"
+}

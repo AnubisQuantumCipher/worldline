@@ -1,0 +1,17 @@
+with "../core/worldline_core_sources.gpr";
+
+--  Deliberate Ada precondition violations must remain within one Ada runtime.
+--  The production standalone library is encapsulated and exposes C guards;
+--  its separately owned Ada exceptions are not a cross-runtime test protocol.
+project Raw_Decode_Contracts is
+   for Source_Dirs use (".");
+   for Source_Files use
+     ("raw_decode_tests.adb", "raw_decode_case.ads", "raw_decode_case.adb");
+   for Object_Dir use "../obj/raw-decode-contracts";
+   for Exec_Dir use "../bin/raw-decode-contracts";
+   for Main use ("raw_decode_tests.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-gnata");
+   end Compiler;
+end Raw_Decode_Contracts;

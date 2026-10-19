@@ -1,0 +1,62 @@
+[
+{
+  "name": "Worldline.Canonical_Operation_Wire.Raw_Input",
+  "location": "worldline-canonical_operation_wire.ads:9:9",
+  "Object_Size": 61440,
+  "Value_Size": 61400,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Authority",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 49088
+    },
+    {
+      "name": "State",
+      "Position": 6136,
+      "First_Bit": 0,
+      "Size": 3008
+    },
+    {
+      "name": "Bound",
+      "Position": 6512,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Requester",
+      "Position": 6760,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Peer",
+      "Position": 6784,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "Collapse",
+      "Position": 6792,
+      "First_Bit": 0,
+      "Size": 7064
+    }
+  ]
+}
+,
+{
+  "name": "Worldline.Canonical_Operation_Wire.Raw_Result",
+  "location": "worldline-canonical_operation_wire.ads:17:9",
+  "Size": 8,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Disposition",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ]
+}
+]

@@ -1,10 +1,17 @@
 {
-  "utc": "2026-10-19T18:34:33.398307+00:00",
+  "utc": "2026-10-19T20:33:14.058247+00:00",
   "owner": "Codex direct Phase One; OMP owns only its separate workflow checkout",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "cb3ca29e77a1a3f62e7cc02ca2f7405f2ad1a71b",
-  "published_readback": "cb3ca29e77a1a3f62e7cc02ca2f7405f2ad1a71b",
-  "active_jobs": [],
+  "head": "13954dcc4f2446b8d9b013081a21b173e22455b3",
+  "published_readback": "13954dcc4f2446b8d9b013081a21b173e22455b3",
+  "active_jobs": [
+    {
+      "scope": "custody-load alias/init repair whole-unit strict numeric proof",
+      "exec_session_id": 12561,
+      "receipt": "custody-load-proof-v1",
+      "deadline_seconds": 600
+    }
+  ],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
     "Next_Line strict level3 proof: 35 total reported, zero unproved/justified/Assume",
@@ -16,9 +23,10 @@
     "D126 guards and primary-exception containment in thirteen C_API exports; reviewed exact-source pin update; checked build/original Ada/fuzz/typed controls and 66 selected Python tests pass.",
     "D127 selected proofs: Operation_Archive.Field eight checks, Children one, Element one, Count one, Semantic_Same eight. Explicit spec checks repair the zero-check region coverage gap. Whole Phase One proof still open.",
     "D128 scanner endpoint repair, field bounds and six cycle-call proofs; named root/native/maps proofs; checked build/original Ada/fuzz/scanners and 37 Python tests pass. See capture-verification-summary.json.",
-    "D129 candidate: full Lifetime_Values unit strict proof; four ledger array exact-contract proofs; SQLite Leading_Zeros and six variant proofs; endpoint/grammar/malformed runtime and existing resource/context/finalization/SQL controls passed. See lifetime-verification-summary.json."
+    "D129 published 13954dc: full Lifetime_Values unit strict proof; four ledger array exact-contract proofs; SQLite Leading_Zeros and six variant proofs; endpoint/grammar/malformed runtime and existing resource/context/finalization/SQL controls passed. See lifetime-verification-summary.json.",
+    "D130 raw decoder final strict proof and checked runtime passed; see raw-layout-verification-summary.json. Publication pending."
   ],
-  "next": "Inspect recovery_material_replay unused parameters/outputs for semantic purpose before repair. Then original full strict proof/runtime, successor full-domain Bignum limit, UTF8, implicit Old, protected/actor and independent F7 acceptance remain required.",
+  "next": "Publish D130 by explicit candidate-source-hashes list, excluding custody-load source/pins. Custody-load-flow-v1 cleared all alias/init findings and left only discarded Used warning; explicit Unused annotation applied and whole numeric proof live12561. Original actor replay fixture exporter timed out; preserve all cases with bounded/resumable execution. Do not resume OMP.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -71,15 +79,35 @@
     "lifetime-proof-v2/unit-report.txt",
     "ledger-array-proofs-v1/result.json",
     "sqlite-termination-proofs-v1/result.json",
-    "lifetime-ledger-sqlite-flow-v2/diagnostics.json"
+    "lifetime-ledger-sqlite-flow-v2/diagnostics.json",
+    "publication-13954dc.json",
+    "remaining-flow-inventory-v1/diagnostics.json",
+    "raw-primitives-proofs-v1/result.json",
+    "raw-layout-baseline-v1/compiler-layout-comparison.json",
+    "raw-layout-flow-v1/diagnostics.json",
+    "raw-layout-design.md",
+    "raw-layout-runtime-v2/result.jsonl",
+    "raw-aggregate-runtime-v3/result.jsonl",
+    "raw-length-controls-v2/controls.json",
+    "raw-proof-window-justification.json"
   ],
   "open": [
-    "All-source flow now reaches recovery_material_replay unused parameters/output warnings. Inspect their purpose before editing. Whole project numerical proof remains open.",
+    "Whole-source flow inventory retained in remaining-flow-inventory-v1. Recovery replay discard annotations repaired. Raw decoder initialization cleared by compiler-matched layouts; strict flow/proof rerun pending latest representation-length correction.",
     "Successor full-domain runtime FAILED on 4096 zero padding: GNAT System.Generic_Bignums.Normalize fixed Bignum_Limit; guard now preserves process but does not repair math result.",
     "UTF8 four exception obligations",
     "full all-source strict proof and original runtime roster",
     "unbounded full-value implicit Old retirement conjunction",
     "protected/actor witnesses and independent F7 acceptance"
   ],
-  "memory": "Bounded no-touch SIA recall succeeded (senses live, chains pass, graph complete); returned model-origin navigation. No new-note indexing claim."
+  "memory": {
+    "class": "model-origin navigation only, not proof",
+    "note_slug": "notes/2026-10-19-192539-codex-a0a654423bff4d1d9c2e4544d775ddf7",
+    "ready_exit": 0,
+    "indexed_ask_exit": 0,
+    "exact_recall_exit": 0,
+    "exact_recall": "sia-raw-layout-exact-recall.txt",
+    "current_state_authority": "direct-continuation.json and live receipts; earlier note contains an older proof handle",
+    "pin_applied": true,
+    "pin_evidence": "sia-raw-layout-pin-state.json"
+  }
 }

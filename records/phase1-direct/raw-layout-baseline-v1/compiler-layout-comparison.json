@@ -1,0 +1,7282 @@
+[
+  {
+    "type": "D.Raw_Packet",
+    "equal": true,
+    "before": {
+      "value_size": 37248,
+      "object_size": 37248,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Ledger",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 22016
+        },
+        {
+          "name": "Captured",
+          "Position": 2752,
+          "First_Bit": 0,
+          "Size": 15232
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 37248,
+      "object_size": 37248,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Ledger",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 22016
+        },
+        {
+          "name": "Captured",
+          "Position": 2752,
+          "First_Bit": 0,
+          "Size": 15232
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_Packet",
+    "equal": true,
+    "before": {
+      "value_size": 22016,
+      "object_size": 22016,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Schema_Version",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "Before_State",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 2816
+        },
+        {
+          "name": "Proposed_State",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 2816
+        },
+        {
+          "name": "Current",
+          "Position": 712,
+          "First_Bit": 0,
+          "Size": 4736
+        },
+        {
+          "name": "Request",
+          "Position": 1304,
+          "First_Bit": 0,
+          "Size": 11584
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 22016,
+      "object_size": 22016,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Schema_Version",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "Before_State",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 2816
+        },
+        {
+          "name": "Proposed_State",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 2816
+        },
+        {
+          "name": "Current",
+          "Position": 712,
+          "First_Bit": 0,
+          "Size": 4736
+        },
+        {
+          "name": "Request",
+          "Position": 1304,
+          "First_Bit": 0,
+          "Size": 11584
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_State",
+    "equal": true,
+    "before": {
+      "value_size": 2816,
+      "object_size": 2816,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "History_Head",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Physical_Head",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 2816,
+      "object_size": 2816,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "History_Head",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Physical_Head",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Context",
+    "equal": true,
+    "before": {
+      "value_size": 1792,
+      "object_size": 1792,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Universe",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Policy",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Unit",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Instance",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Boot",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Authority",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 1792,
+      "object_size": 1792,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Universe",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Policy",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Unit",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Instance",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Boot",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Authority",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Id",
+    "equal": true,
+    "before": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Epoch",
+    "equal": true,
+    "before": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Quantity",
+    "equal": true,
+    "before": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Negative",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Negative",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_Current_Observation",
+    "equal": true,
+    "before": {
+      "value_size": 4736,
+      "object_size": 4736,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "History_Head",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Physical_Head",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Id",
+          "Position": 376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Head",
+          "Position": 400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prime",
+          "Position": 424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Count",
+          "Position": 448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 4736,
+      "object_size": 4736,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "History_Head",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Physical_Head",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Id",
+          "Position": 376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Head",
+          "Position": 400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prime",
+          "Position": 424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Count",
+          "Position": 448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_Intent",
+    "equal": true,
+    "before": {
+      "value_size": 11584,
+      "object_size": 11584,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Kind",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Original",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 10304
+        },
+        {
+          "name": "Expected_Epoch",
+          "Position": 1296,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Expected_Ledger_Head",
+          "Position": 1328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Request_Id",
+          "Position": 1352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 1400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 1424,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 11584,
+      "object_size": 11584,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Kind",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Original",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 10304
+        },
+        {
+          "name": "Expected_Epoch",
+          "Position": 1296,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Expected_Ledger_Head",
+          "Position": 1328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Request_Id",
+          "Position": 1352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 1400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 1424,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Request",
+    "equal": true,
+    "before": {
+      "value_size": 10304,
+      "object_size": 10304,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Kind",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Scope",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Expected_Epoch",
+          "Position": 232,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Expected_Ledger_Head",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Request_Id",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Reservation",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Operation_Id",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Bound",
+          "Position": 384,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "New_Row",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 5248
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 10304,
+      "object_size": 10304,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Kind",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Scope",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Expected_Epoch",
+          "Position": 232,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Expected_Ledger_Head",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Request_Id",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Reservation",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Operation_Id",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Bound",
+          "Position": 384,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "New_Row",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 5248
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Binding",
+    "equal": true,
+    "before": {
+      "value_size": 1984,
+      "object_size": 1984,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Reservation",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Operation",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capability",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Grant_Use",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Payload",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Provenance",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 1984,
+      "object_size": 1984,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Reservation",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Operation",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capability",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Grant_Use",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Payload",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Provenance",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Row",
+    "equal": true,
+    "before": {
+      "value_size": 5248,
+      "object_size": 5248,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Bound",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Parent",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Kind",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "State",
+          "Position": 497,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Amount",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observed_Usage",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Planned_Unit",
+          "Position": 560,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 584,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 608,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 5248,
+      "object_size": 5248,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Bound",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Parent",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Kind",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "State",
+          "Position": 497,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Amount",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observed_Usage",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Planned_Unit",
+          "Position": 560,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 584,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 608,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "D.Raw_Observation",
+    "equal": true,
+    "before": {
+      "value_size": 15232,
+      "object_size": 15232,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Raw_Frame",
+          "Position": 248,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Sender",
+          "Position": 272,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ticket",
+          "Position": 296,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Status",
+          "Position": 320,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Cgroup",
+          "Position": 344,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Maps",
+          "Position": 368,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Cmdline",
+          "Position": 392,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Pidfd_Info",
+          "Position": 416,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 440,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Namespace",
+          "Position": 464,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Image",
+          "Position": 488,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Helper_Image",
+          "Position": 512,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Executable_Plan",
+          "Position": 536,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Executable_Plan",
+          "Position": 560,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Requester",
+          "Position": 584,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Credentials",
+          "Position": 608,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Requester_Credentials",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 656,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Running_Event",
+          "Position": 680,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Running_Event",
+          "Position": 704,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Canonical_Use_Event",
+          "Position": 728,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Canonical_Use_Event",
+          "Position": 752,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 776,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Store_Genesis",
+          "Position": 800,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 824,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Source_Lease",
+          "Position": 848,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actor_Wait",
+          "Position": 872,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Wait",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Wait",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host_Pid",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Pid",
+          "Position": 968,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sender_Uid",
+          "Position": 992,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sender_Gid",
+          "Position": 1016,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Uid",
+          "Position": 1040,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Uid",
+          "Position": 1064,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Uid",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Gid",
+          "Position": 1112,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Gid",
+          "Position": 1136,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Gid",
+          "Position": 1160,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capability_Version",
+          "Position": 1184,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Low",
+          "Position": 1208,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Permitted_Low",
+          "Position": 1232,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Inheritable_Low",
+          "Position": 1256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_High",
+          "Position": 1280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Permitted_High",
+          "Position": 1304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Inheritable_High",
+          "Position": 1328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Securebits",
+          "Position": 1352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "No_New_Privs",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Uid",
+          "Position": 1400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Gid",
+          "Position": 1424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Configured_Requester_Uid",
+          "Position": 1448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload_Uid",
+          "Position": 1472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload_Gid",
+          "Position": 1496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Host_Pid",
+          "Position": 1520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Namespace_Pid",
+          "Position": 1544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Real_Uid",
+          "Position": 1568,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective_Uid",
+          "Position": 1592,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Saved_Uid",
+          "Position": 1616,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Real_Gid",
+          "Position": 1640,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective_Gid",
+          "Position": 1664,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Saved_Gid",
+          "Position": 1688,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective",
+          "Position": 1712,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Permitted",
+          "Position": 1736,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Inheritable",
+          "Position": 1760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Bounding",
+          "Position": 1784,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Ambient",
+          "Position": 1808,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_No_New_Privs",
+          "Position": 1832,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Fs_Uid",
+          "Position": 1856,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Fs_Gid",
+          "Position": 1880,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 15232,
+      "object_size": 15232,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Raw_Frame",
+          "Position": 248,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Sender",
+          "Position": 272,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ticket",
+          "Position": 296,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Status",
+          "Position": 320,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Cgroup",
+          "Position": 344,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Maps",
+          "Position": 368,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Proc_Cmdline",
+          "Position": 392,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Pidfd_Info",
+          "Position": 416,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 440,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Namespace",
+          "Position": 464,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Image",
+          "Position": 488,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Helper_Image",
+          "Position": 512,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Executable_Plan",
+          "Position": 536,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Executable_Plan",
+          "Position": 560,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Requester",
+          "Position": 584,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Credentials",
+          "Position": 608,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Requester_Credentials",
+          "Position": 632,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 656,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Running_Event",
+          "Position": 680,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Running_Event",
+          "Position": 704,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Canonical_Use_Event",
+          "Position": 728,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Canonical_Use_Event",
+          "Position": 752,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 776,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Store_Genesis",
+          "Position": 800,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 824,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Source_Lease",
+          "Position": 848,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actor_Wait",
+          "Position": 872,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Wait",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Wait",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host_Pid",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Pid",
+          "Position": 968,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sender_Uid",
+          "Position": 992,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sender_Gid",
+          "Position": 1016,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Uid",
+          "Position": 1040,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Uid",
+          "Position": 1064,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Uid",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Gid",
+          "Position": 1112,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Gid",
+          "Position": 1136,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Gid",
+          "Position": 1160,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capability_Version",
+          "Position": 1184,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Low",
+          "Position": 1208,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Permitted_Low",
+          "Position": 1232,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Inheritable_Low",
+          "Position": 1256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_High",
+          "Position": 1280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Permitted_High",
+          "Position": 1304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Inheritable_High",
+          "Position": 1328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Securebits",
+          "Position": 1352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "No_New_Privs",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Uid",
+          "Position": 1400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Gid",
+          "Position": 1424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Configured_Requester_Uid",
+          "Position": 1448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload_Uid",
+          "Position": 1472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Workload_Gid",
+          "Position": 1496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Host_Pid",
+          "Position": 1520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Namespace_Pid",
+          "Position": 1544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Real_Uid",
+          "Position": 1568,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective_Uid",
+          "Position": 1592,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Saved_Uid",
+          "Position": 1616,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Real_Gid",
+          "Position": 1640,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective_Gid",
+          "Position": 1664,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Saved_Gid",
+          "Position": 1688,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Effective",
+          "Position": 1712,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Permitted",
+          "Position": 1736,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Inheritable",
+          "Position": 1760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Bounding",
+          "Position": 1784,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Ambient",
+          "Position": 1808,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_No_New_Privs",
+          "Position": 1832,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Fs_Uid",
+          "Position": 1856,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Proc_Fs_Gid",
+          "Position": 1880,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "X.Raw_Crosswalk",
+    "equal": true,
+    "before": {
+      "value_size": 7616,
+      "object_size": 7616,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Resource_Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 4736
+        },
+        {
+          "name": "Operation_Policy",
+          "Position": 592,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Operation_Root_Set",
+          "Position": 625,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Genesis",
+          "Position": 664,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Installation",
+          "Position": 688,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Gate_Config",
+          "Position": 712,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Managed_Observation",
+          "Position": 736,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Grant",
+          "Position": 760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Complete_Crosswalk",
+          "Position": 784,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Source",
+          "Position": 808,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Request",
+          "Position": 832,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Requester",
+          "Position": 856,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Transaction",
+          "Position": 880,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Preparer",
+          "Position": 904,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Selected_Plan",
+          "Position": 928,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 7616,
+      "object_size": 7616,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Resource_Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 4736
+        },
+        {
+          "name": "Operation_Policy",
+          "Position": 592,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Operation_Root_Set",
+          "Position": 625,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Genesis",
+          "Position": 664,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Installation",
+          "Position": 688,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Gate_Config",
+          "Position": 712,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Managed_Observation",
+          "Position": 736,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Grant",
+          "Position": 760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Complete_Crosswalk",
+          "Position": 784,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Source",
+          "Position": 808,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Request",
+          "Position": 832,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Requester",
+          "Position": 856,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Transaction",
+          "Position": 880,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Preparer",
+          "Position": 904,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Selected_Plan",
+          "Position": 928,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "C.Raw_Digest",
+    "equal": true,
+    "before": {
+      "value_size": 264,
+      "object_size": 264,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 264,
+      "object_size": 264,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "C.Raw_Hash",
+    "equal": true,
+    "before": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    },
+    "after": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    }
+  },
+  {
+    "type": "Y.Raw_Input",
+    "equal": true,
+    "before": {
+      "value_size": 19904,
+      "object_size": 19904,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Mode",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Controller",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 10048
+        },
+        {
+          "name": "Child_Task",
+          "Position": 1264,
+          "First_Bit": 0,
+          "Size": 9792
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 19904,
+      "object_size": 19904,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Mode",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Controller",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 10048
+        },
+        {
+          "name": "Child_Task",
+          "Position": 1264,
+          "First_Bit": 0,
+          "Size": 9792
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "Y.Raw_Controller",
+    "equal": true,
+    "before": {
+      "value_size": 10048,
+      "object_size": 10048,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Process",
+          "Position": 248,
+          "First_Bit": 0,
+          "Size": 4224
+        },
+        {
+          "name": "Requester_Uid",
+          "Position": 776,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Gid",
+          "Position": 800,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Manager",
+          "Position": 824,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Channel",
+          "Position": 848,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Endpoint",
+          "Position": 872,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Owner_Endpoint",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Source_Lease",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Worker_Image",
+          "Position": 968,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Worker_Image",
+          "Position": 992,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Handler_Plan",
+          "Position": 1016,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Handler_Plan",
+          "Position": 1040,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Request",
+          "Position": 1064,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 1112,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Running_Event",
+          "Position": 1136,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Running_Event",
+          "Position": 1160,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 1184,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Store_Genesis",
+          "Position": 1208,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Source",
+          "Position": 1232,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 10048,
+      "object_size": 10048,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Process",
+          "Position": 248,
+          "First_Bit": 0,
+          "Size": 4224
+        },
+        {
+          "name": "Requester_Uid",
+          "Position": 776,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester_Gid",
+          "Position": 800,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Manager",
+          "Position": 824,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Channel",
+          "Position": 848,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Endpoint",
+          "Position": 872,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Owner_Endpoint",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Source_Lease",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Worker_Image",
+          "Position": 968,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Worker_Image",
+          "Position": 992,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Handler_Plan",
+          "Position": 1016,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Handler_Plan",
+          "Position": 1040,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Request",
+          "Position": 1064,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 1112,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Running_Event",
+          "Position": 1136,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Running_Event",
+          "Position": 1160,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 1184,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Store_Genesis",
+          "Position": 1208,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Source",
+          "Position": 1232,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "Y.Raw_Process",
+    "equal": true,
+    "before": {
+      "value_size": 4224,
+      "object_size": 4224,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Raw_Status",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Stat",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Cgroup",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Maps",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Cmdline",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Pidfd_Info",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 240,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Pidfd_Wait",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host_Pid",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Start_Tick",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Pid",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Start_Tick",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Uid",
+          "Position": 384,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Uid",
+          "Position": 408,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Uid",
+          "Position": 432,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Gid",
+          "Position": 456,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Gid",
+          "Position": 480,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Gid",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 4224,
+      "object_size": 4224,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Raw_Status",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Stat",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Cgroup",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Maps",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Cmdline",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Pidfd_Info",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 240,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Pidfd_Wait",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Host_Pid",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Start_Tick",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Pid",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Start_Tick",
+          "Position": 360,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Uid",
+          "Position": 384,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Uid",
+          "Position": 408,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Uid",
+          "Position": 432,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Real_Gid",
+          "Position": 456,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Effective_Gid",
+          "Position": 480,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Saved_Gid",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "Y.Raw_Task",
+    "equal": true,
+    "before": {
+      "value_size": 9792,
+      "object_size": 9792,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Action",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Root",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Child",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Task_Id",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_World",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Child_World",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Instance",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Child_Instance",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "World_Store",
+          "Position": 624,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Full_World_Ancestry",
+          "Position": 648,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Workload",
+          "Position": 672,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sandbox",
+          "Position": 696,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Adapter",
+          "Position": 720,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Context",
+          "Position": 744,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Mission",
+          "Position": 768,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Stdin",
+          "Position": 792,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Credential_Source",
+          "Position": 816,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Executable_Source",
+          "Position": 840,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Configuration",
+          "Position": 864,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Plan",
+          "Position": 888,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Native_Cost_Input",
+          "Position": 912,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Request",
+          "Position": 936,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 960,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Dispatch",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Running_Event",
+          "Position": 1032,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Journal",
+          "Position": 1056,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Intent",
+          "Position": 1080,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Reservation_Event",
+          "Position": 1104,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Launch_Event",
+          "Position": 1128,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Namespace_Source",
+          "Position": 1152,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Fd_Lineage",
+          "Position": 1176,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 1200,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 9792,
+      "object_size": 9792,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Action",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Root",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Child",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Task_Id",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_World",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Child_World",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Instance",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Child_Instance",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "World_Store",
+          "Position": 624,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Full_World_Ancestry",
+          "Position": 648,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Original_Workload",
+          "Position": 672,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Sandbox",
+          "Position": 696,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Adapter",
+          "Position": 720,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Context",
+          "Position": 744,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Mission",
+          "Position": 768,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Stdin",
+          "Position": 792,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Credential_Source",
+          "Position": 816,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Executable_Source",
+          "Position": 840,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Configuration",
+          "Position": 864,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Plan",
+          "Position": 888,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Native_Cost_Input",
+          "Position": 912,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Request",
+          "Position": 936,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 960,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Dispatch",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Running_Event",
+          "Position": 1032,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Journal",
+          "Position": 1056,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Intent",
+          "Position": 1080,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Reservation_Event",
+          "Position": 1104,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Task_Launch_Event",
+          "Position": 1128,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent_Namespace_Source",
+          "Position": 1152,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Fd_Lineage",
+          "Position": 1176,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 1200,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "Y.Raw_Namespace",
+    "equal": true,
+    "before": {
+      "value_size": 960,
+      "object_size": 960,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Identity",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Nsfs",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Get_Parent",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 960,
+      "object_size": 960,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Identity",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Parent",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Nsfs",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Raw_Get_Parent",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Source_Lease",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Input",
+    "equal": true,
+    "before": {
+      "value_size": 49088,
+      "object_size": 49088,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Schema",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "Mode",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Bound",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Now",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Facts",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 41024
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 49088,
+      "object_size": 49088,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Schema",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "Mode",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Bound",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Now",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Facts",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 41024
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Binding",
+    "equal": true,
+    "before": {
+      "value_size": 7808,
+      "object_size": 7808,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Action",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Id",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 7128
+        },
+        {
+          "name": "Peer",
+          "Position": 892,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Preparer",
+          "Position": 900,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Owner",
+          "Position": 908,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Target_Owner",
+          "Position": 916,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 928,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 952,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 7808,
+      "object_size": 7808,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Action",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Id",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 7128
+        },
+        {
+          "name": "Peer",
+          "Position": 892,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Preparer",
+          "Position": 900,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Owner",
+          "Position": 908,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Target_Owner",
+          "Position": 916,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 928,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 952,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Ids",
+    "equal": true,
+    "before": {
+      "value_size": 7128,
+      "object_size": 7128,
+      "alignment": 1,
+      "record": null,
+      "component_size": 264
+    },
+    "after": {
+      "value_size": 7128,
+      "object_size": 7128,
+      "alignment": 1,
+      "record": null,
+      "component_size": 264
+    }
+  },
+  {
+    "type": "T.Raw_UID",
+    "equal": true,
+    "before": {
+      "value_size": 64,
+      "object_size": 64,
+      "alignment": 4,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 64,
+      "object_size": 64,
+      "alignment": 4,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Quantity",
+    "equal": true,
+    "before": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Negative",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Negative",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Evidence",
+    "equal": true,
+    "before": {
+      "value_size": 41024,
+      "object_size": 41024,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Effect_Binding",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Actual_Receipt_Root",
+          "Position": 976,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Causal_Root",
+          "Position": 1009,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "No_Effect_Binding",
+          "Position": 1048,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Owner_Resolution",
+          "Position": 2024,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Quarantine_Head",
+          "Position": 3000,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Receipt_Head",
+          "Position": 3033,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Causal_Head",
+          "Position": 3066,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Recovery",
+          "Position": 3104,
+          "First_Bit": 0,
+          "Size": 15744
+        },
+        {
+          "name": "Original_Use",
+          "Position": 5072,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Effect_Material_First",
+          "Position": 5112,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Effect_Material_Length",
+          "Position": 5120,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 41024,
+      "object_size": 41024,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Effect_Binding",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Actual_Receipt_Root",
+          "Position": 976,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Causal_Root",
+          "Position": 1009,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "No_Effect_Binding",
+          "Position": 1048,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Owner_Resolution",
+          "Position": 2024,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "Quarantine_Head",
+          "Position": 3000,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Receipt_Head",
+          "Position": 3033,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Causal_Head",
+          "Position": 3066,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Recovery",
+          "Position": 3104,
+          "First_Bit": 0,
+          "Size": 15744
+        },
+        {
+          "name": "Original_Use",
+          "Position": 5072,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Effect_Material_First",
+          "Position": 5112,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Effect_Material_Length",
+          "Position": 5120,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "RW.Raw_Request",
+    "equal": true,
+    "before": {
+      "value_size": 15696,
+      "object_size": 15744,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Schema_Version",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "State",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Fresh",
+          "Position": 5,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Historical",
+          "Position": 6,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Grant_Eligible",
+          "Position": 7,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Issued_Binding",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Recovered_Binding",
+          "Position": 952,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Native",
+          "Position": 1896,
+          "First_Bit": 0,
+          "Size": 528
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 15696,
+      "object_size": 15744,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Schema_Version",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        },
+        {
+          "name": "State",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Fresh",
+          "Position": 5,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Historical",
+          "Position": 6,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Grant_Eligible",
+          "Position": 7,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Issued_Binding",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Recovered_Binding",
+          "Position": 952,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Native",
+          "Position": 1896,
+          "First_Bit": 0,
+          "Size": 528
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "RW.Raw_Binding",
+    "equal": true,
+    "before": {
+      "value_size": 7552,
+      "object_size": 7552,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Mode",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Operation",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Transaction",
+          "Position": 34,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Capability",
+          "Position": 67,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 100,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Instance",
+          "Position": 133,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Subject",
+          "Position": 166,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Root",
+          "Position": 199,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Current_Requirement",
+          "Position": 232,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Resulting_Requirement",
+          "Position": 265,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Requester",
+          "Position": 298,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Grant_Use",
+          "Position": 331,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy_Identity",
+          "Position": 364,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Selected_Evaluation",
+          "Position": 397,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "History_Head",
+          "Position": 430,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Reservation",
+          "Position": 463,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Host",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Prime",
+          "Position": 529,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Root",
+          "Position": 562,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Mapping",
+          "Position": 595,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Mapping",
+          "Position": 628,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Input_Snapshot",
+          "Position": 661,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Build",
+          "Position": 694,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Library",
+          "Position": 727,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Mapping",
+          "Position": 760,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Issuer_Head",
+          "Position": 793,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Receipt_Head",
+          "Position": 826,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Causal_Head",
+          "Position": 859,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 7552,
+      "object_size": 7552,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Mode",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Operation",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Transaction",
+          "Position": 34,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Capability",
+          "Position": 67,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 100,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Instance",
+          "Position": 133,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Subject",
+          "Position": 166,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Root",
+          "Position": 199,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Current_Requirement",
+          "Position": 232,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Resulting_Requirement",
+          "Position": 265,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Requester",
+          "Position": 298,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Grant_Use",
+          "Position": 331,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy_Identity",
+          "Position": 364,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Selected_Evaluation",
+          "Position": 397,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "History_Head",
+          "Position": 430,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Reservation",
+          "Position": 463,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Host",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Prime",
+          "Position": 529,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Root",
+          "Position": 562,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Before_Mapping",
+          "Position": 595,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Mapping",
+          "Position": 628,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Input_Snapshot",
+          "Position": 661,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Build",
+          "Position": 694,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Library",
+          "Position": 727,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Kernel_Mapping",
+          "Position": 760,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Issuer_Head",
+          "Position": 793,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Receipt_Head",
+          "Position": 826,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Causal_Head",
+          "Position": 859,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy_Epoch",
+          "Position": 896,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 920,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "RW.Raw_Digest",
+    "equal": true,
+    "before": {
+      "value_size": 264,
+      "object_size": 264,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 264,
+      "object_size": 264,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "RW.Raw_Hash",
+    "equal": true,
+    "before": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    },
+    "after": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    }
+  },
+  {
+    "type": "RW.Raw_Epoch",
+    "equal": true,
+    "before": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Negative",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 192,
+      "object_size": 192,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Negative",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "First",
+          "Position": 8,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Length",
+          "Position": 16,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "RW.Raw_Native",
+    "equal": true,
+    "before": {
+      "value_size": 528,
+      "object_size": 528,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Live_Mapping",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Live_Root",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 528,
+      "object_size": 528,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Live_Mapping",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Live_Root",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Grant",
+    "equal": true,
+    "before": {
+      "value_size": 2880,
+      "object_size": 2880,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Id",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Parent",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Issuer",
+          "Position": 66,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Instance",
+          "Position": 99,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Root_Set",
+          "Position": 132,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy",
+          "Position": 165,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Subject",
+          "Position": 200,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Owner",
+          "Position": 208,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Allowed",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 328
+        },
+        {
+          "name": "State",
+          "Position": 257,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Epoch",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ceiling",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Issued_At",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expires_At",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 2880,
+      "object_size": 2880,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Id",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Parent",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Issuer",
+          "Position": 66,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Instance",
+          "Position": 99,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Root_Set",
+          "Position": 132,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Policy",
+          "Position": 165,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Subject",
+          "Position": 200,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Owner",
+          "Position": 208,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Allowed",
+          "Position": 216,
+          "First_Bit": 0,
+          "Size": 328
+        },
+        {
+          "name": "State",
+          "Position": 257,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Epoch",
+          "Position": 264,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ceiling",
+          "Position": 288,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Issued_At",
+          "Position": 312,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expires_At",
+          "Position": 336,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Rights",
+    "equal": true,
+    "before": {
+      "value_size": 328,
+      "object_size": 328,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    },
+    "after": {
+      "value_size": 328,
+      "object_size": 328,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    }
+  },
+  {
+    "type": "T.Raw_Use",
+    "equal": true,
+    "before": {
+      "value_size": 7816,
+      "object_size": 7872,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "State",
+          "Position": 976,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 7816,
+      "object_size": 7872,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Bound",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7808
+        },
+        {
+          "name": "State",
+          "Position": 976,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "C.Raw_Row",
+    "equal": true,
+    "before": {
+      "value_size": 1056,
+      "object_size": 1056,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Previous",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Payload_Root",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Stored_Payload_Root",
+          "Position": 66,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Stored_Head",
+          "Position": 99,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 1056,
+      "object_size": 1056,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Previous",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Payload_Root",
+          "Position": 33,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Stored_Payload_Root",
+          "Position": 66,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Stored_Head",
+          "Position": 99,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "D.Raw_Capability",
+    "equal": true,
+    "before": {
+      "value_size": 576,
+      "object_size": 576,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Index",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Bounding",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ambient",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 576,
+      "object_size": 576,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Index",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Bounding",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ambient",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_Scope_Frame",
+    "equal": true,
+    "before": {
+      "value_size": 4544,
+      "object_size": 4544,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "First_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Frame_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prior_Frame",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Id",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Head",
+          "Position": 376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prime",
+          "Position": 400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Count",
+          "Position": 424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 4544,
+      "object_size": 4544,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "First_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Frame_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prior_Frame",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Genesis",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Store_Id",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Head",
+          "Position": 376,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Prime",
+          "Position": 400,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Root_Count",
+          "Position": 424,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cause",
+          "Position": 448,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Requester",
+          "Position": 472,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Receipt",
+          "Position": 496,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 520,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_Projection",
+    "equal": true,
+    "before": {
+      "value_size": 5120,
+      "object_size": 5120,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Key",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 576
+        },
+        {
+          "name": "Bound",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Origin",
+          "Position": 320,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Numerator",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Denominator",
+          "Position": 592,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Amount",
+          "Position": 616,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 5120,
+      "object_size": 5120,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Key",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 576
+        },
+        {
+          "name": "Bound",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Origin",
+          "Position": 320,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 544,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Numerator",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Denominator",
+          "Position": 592,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Amount",
+          "Position": 616,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_Physical_Key",
+    "equal": true,
+    "before": {
+      "value_size": 576,
+      "object_size": 576,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Machine",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Unit",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 576,
+      "object_size": 576,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Machine",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Resource",
+          "Position": 24,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Unit",
+          "Position": 48,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "N.Raw_Bucket",
+    "equal": true,
+    "before": {
+      "value_size": 1728,
+      "object_size": 1728,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Key",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 576
+        },
+        {
+          "name": "Capacity",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Total",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Charged_Total",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capacity_Source",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 1728,
+      "object_size": 1728,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Key",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 576
+        },
+        {
+          "name": "Capacity",
+          "Position": 72,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Total",
+          "Position": 96,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Charged_Total",
+          "Position": 120,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capacity_Source",
+          "Position": 144,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Catalogue_Head",
+          "Position": 168,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 192,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Native",
+    "equal": true,
+    "before": {
+      "value_size": 4808,
+      "object_size": 4864,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Bound",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observed",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 4808,
+      "object_size": 4864,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Bound",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observed",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "O.Raw_Facts",
+    "equal": true,
+    "before": {
+      "value_size": 11016,
+      "object_size": 11072,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Current_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Retained",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Current_Universe_Head",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Ledger_Head",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Intent",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 624,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 648,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 672,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 696,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Namespace",
+          "Position": 720,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Peer",
+          "Position": 744,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Peer",
+          "Position": 768,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Image",
+          "Position": 792,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Helper_Image",
+          "Position": 816,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Challenge",
+          "Position": 840,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Challenge",
+          "Position": 864,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Protocol",
+          "Position": 888,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Closed_Event",
+          "Position": 912,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Wait",
+          "Position": 936,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Wait",
+          "Position": 960,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Events",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Type",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Manager_Delegate",
+          "Position": 1032,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Owner",
+          "Position": 1056,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Cgroup_Group_Write",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Cgroup_Other_Write",
+          "Position": 1120,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Actual_Store_Genesis",
+          "Position": 1152,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Store_Id",
+          "Position": 1176,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Store_Genesis",
+          "Position": 1200,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Store_Id",
+          "Position": 1224,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Universe",
+          "Position": 1248,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Instance",
+          "Position": 1272,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Context_Head",
+          "Position": 1296,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Prime",
+          "Position": 1320,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Root_Count",
+          "Position": 1344,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Phase",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 11016,
+      "object_size": 11072,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Current",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Current_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Retained",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Current_Universe_Head",
+          "Position": 504,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Current_Ledger_Head",
+          "Position": 528,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Intent",
+          "Position": 552,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Dispatch",
+          "Position": 576,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Observation_Head",
+          "Position": 600,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Unit",
+          "Position": 624,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup",
+          "Position": 648,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Invocation",
+          "Position": 672,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace",
+          "Position": 696,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Namespace",
+          "Position": 720,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Peer",
+          "Position": 744,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Peer",
+          "Position": 768,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Image",
+          "Position": 792,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Expected_Helper_Image",
+          "Position": 816,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Challenge",
+          "Position": 840,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Challenge",
+          "Position": 864,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Protocol",
+          "Position": 888,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Closed_Event",
+          "Position": 912,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Namespace_Wait",
+          "Position": 936,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Helper_Wait",
+          "Position": 960,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Events",
+          "Position": 984,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Type",
+          "Position": 1008,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Manager_Delegate",
+          "Position": 1032,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Cgroup_Owner",
+          "Position": 1056,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Cgroup_Group_Write",
+          "Position": 1088,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Cgroup_Other_Write",
+          "Position": 1120,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Actual_Store_Genesis",
+          "Position": 1152,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Actual_Store_Id",
+          "Position": 1176,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Store_Genesis",
+          "Position": 1200,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Owner_Store_Id",
+          "Position": 1224,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Universe",
+          "Position": 1248,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Instance",
+          "Position": 1272,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Context_Head",
+          "Position": 1296,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Prime",
+          "Position": 1320,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Genesis_Root_Count",
+          "Position": 1344,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Phase",
+          "Position": 1376,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_Result",
+    "equal": true,
+    "before": {
+      "value_size": 32,
+      "object_size": 32,
+      "alignment": 4,
+      "record": [
+        {
+          "name": "Status",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 32,
+      "object_size": 32,
+      "alignment": 4,
+      "record": [
+        {
+          "name": "Status",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "T.Raw_Result",
+    "equal": true,
+    "before": {
+      "value_size": 8,
+      "object_size": 8,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 8,
+      "object_size": 8,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "HC.Raw_Input",
+    "equal": true,
+    "before": {
+      "value_size": 143744,
+      "object_size": 143744,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Historical",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 94656
+        },
+        {
+          "name": "Current",
+          "Position": 11832,
+          "First_Bit": 0,
+          "Size": 49088
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 143744,
+      "object_size": 143744,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Historical",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 94656
+        },
+        {
+          "name": "Current",
+          "Position": 11832,
+          "First_Bit": 0,
+          "Size": 49088
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "CX.Raw_Input",
+    "equal": true,
+    "before": {
+      "value_size": 94608,
+      "object_size": 94656,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Operation_Input",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 61440
+        },
+        {
+          "name": "Material",
+          "Position": 7680,
+          "First_Bit": 0,
+          "Size": 33152
+        },
+        {
+          "name": "Before",
+          "Position": 11824,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Mode",
+          "Position": 11825,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 94608,
+      "object_size": 94656,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Operation_Input",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 61440
+        },
+        {
+          "name": "Material",
+          "Position": 7680,
+          "First_Bit": 0,
+          "Size": 33152
+        },
+        {
+          "name": "Before",
+          "Position": 11824,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Mode",
+          "Position": 11825,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "CO.Raw_Input",
+    "equal": true,
+    "before": {
+      "value_size": 61400,
+      "object_size": 61440,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Authority",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 49088
+        },
+        {
+          "name": "State",
+          "Position": 6136,
+          "First_Bit": 0,
+          "Size": 3008
+        },
+        {
+          "name": "Bound",
+          "Position": 6512,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Requester",
+          "Position": 6760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Peer",
+          "Position": 6784,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Collapse",
+          "Position": 6792,
+          "First_Bit": 0,
+          "Size": 7064
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 61400,
+      "object_size": 61440,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Authority",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 49088
+        },
+        {
+          "name": "State",
+          "Position": 6136,
+          "First_Bit": 0,
+          "Size": 3008
+        },
+        {
+          "name": "Bound",
+          "Position": 6512,
+          "First_Bit": 0,
+          "Size": 1984
+        },
+        {
+          "name": "Requester",
+          "Position": 6760,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Peer",
+          "Position": 6784,
+          "First_Bit": 0,
+          "Size": 64
+        },
+        {
+          "name": "Collapse",
+          "Position": 6792,
+          "First_Bit": 0,
+          "Size": 7064
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "W.Raw_State",
+    "equal": true,
+    "before": {
+      "value_size": 3008,
+      "object_size": 3008,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capacity",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Total",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Charged_Total",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 3008,
+      "object_size": 3008,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Scope",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 1792
+        },
+        {
+          "name": "Resource_Epoch",
+          "Position": 224,
+          "First_Bit": 0,
+          "Size": 256
+        },
+        {
+          "name": "Universe_Head",
+          "Position": 256,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Ledger_Head",
+          "Position": 280,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Capacity",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Held_Total",
+          "Position": 328,
+          "First_Bit": 0,
+          "Size": 192
+        },
+        {
+          "name": "Charged_Total",
+          "Position": 352,
+          "First_Bit": 0,
+          "Size": 192
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "CW.Raw_Request",
+    "equal": true,
+    "before": {
+      "value_size": 7064,
+      "object_size": 7064,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Candidate_State",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Phase",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Evaluation_Mode",
+          "Position": 2,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Conflicts",
+          "Position": 3,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Foreign_Writes",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Roster_Complete",
+          "Position": 5,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Staged_Roster_Complete",
+          "Position": 6,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Expected_Parent",
+          "Position": 7,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Parent",
+          "Position": 40,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Subject",
+          "Position": 73,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Evidence_Subject",
+          "Position": 106,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Base",
+          "Position": 139,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Base",
+          "Position": 172,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Delta",
+          "Position": 205,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Delta",
+          "Position": 238,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Root_Set",
+          "Position": 271,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Root_Set",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Staged_Root",
+          "Position": 337,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Staged_Root",
+          "Position": 370,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Content_Root",
+          "Position": 403,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Tested_Root",
+          "Position": 436,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Current_Requirement",
+          "Position": 469,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Resulting_Requirement",
+          "Position": 502,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Evaluated_Requirement",
+          "Position": 535,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Declared_Verifiers",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Executed_Verifiers",
+          "Position": 601,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Evaluated_Requirement",
+          "Position": 634,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Executed_Verifiers",
+          "Position": 667,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Examined_Root",
+          "Position": 700,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Checkpoint",
+          "Position": 733,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Checkpoint",
+          "Position": 766,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Registered_Watch_Set",
+          "Position": 799,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Watched_Set",
+          "Position": 832,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Generation_Before",
+          "Position": 865,
+          "First_Bit": 0,
+          "Size": 72
+        },
+        {
+          "name": "Generation_After",
+          "Position": 874,
+          "First_Bit": 0,
+          "Size": 72
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 7064,
+      "object_size": 7064,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Candidate_State",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Phase",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Evaluation_Mode",
+          "Position": 2,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Conflicts",
+          "Position": 3,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Foreign_Writes",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Roster_Complete",
+          "Position": 5,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Staged_Roster_Complete",
+          "Position": 6,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Expected_Parent",
+          "Position": 7,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Parent",
+          "Position": 40,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Subject",
+          "Position": 73,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Evidence_Subject",
+          "Position": 106,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Base",
+          "Position": 139,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Base",
+          "Position": 172,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Delta",
+          "Position": 205,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Delta",
+          "Position": 238,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Root_Set",
+          "Position": 271,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Candidate_Root_Set",
+          "Position": 304,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Staged_Root",
+          "Position": 337,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Actual_Staged_Root",
+          "Position": 370,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Content_Root",
+          "Position": 403,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Tested_Root",
+          "Position": 436,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Current_Requirement",
+          "Position": 469,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Resulting_Requirement",
+          "Position": 502,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Evaluated_Requirement",
+          "Position": 535,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Declared_Verifiers",
+          "Position": 568,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Executed_Verifiers",
+          "Position": 601,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Evaluated_Requirement",
+          "Position": 634,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Executed_Verifiers",
+          "Position": 667,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Staged_Examined_Root",
+          "Position": 700,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Expected_Checkpoint",
+          "Position": 733,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Witnessed_Checkpoint",
+          "Position": 766,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Registered_Watch_Set",
+          "Position": 799,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Watched_Set",
+          "Position": 832,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Generation_Before",
+          "Position": 865,
+          "First_Bit": 0,
+          "Size": 72
+        },
+        {
+          "name": "Generation_After",
+          "Position": 874,
+          "First_Bit": 0,
+          "Size": 72
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "CW.Raw_Optional_Hash",
+    "equal": true,
+    "before": {
+      "value_size": 264,
+      "object_size": 264,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 264,
+      "object_size": 264,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 256
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "CW.Raw_Bytes_32",
+    "equal": true,
+    "before": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    },
+    "after": {
+      "value_size": 256,
+      "object_size": 256,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    }
+  },
+  {
+    "type": "CW.Raw_Optional_Counter",
+    "equal": true,
+    "before": {
+      "value_size": 72,
+      "object_size": 72,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value_Le",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 72,
+      "object_size": 72,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Present",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        },
+        {
+          "name": "Value_Le",
+          "Position": 1,
+          "First_Bit": 0,
+          "Size": 64
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "CW.Raw_Bytes_8",
+    "equal": true,
+    "before": {
+      "value_size": 64,
+      "object_size": 64,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    },
+    "after": {
+      "value_size": 64,
+      "object_size": 64,
+      "alignment": 1,
+      "record": null,
+      "component_size": 8
+    }
+  },
+  {
+    "type": "CX.Raw_Material",
+    "equal": true,
+    "before": {
+      "value_size": 33112,
+      "object_size": 33152,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Worker_Issued",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Worker_Recovered",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Canonical_Issued",
+          "Position": 1888,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Canonical_Recovered",
+          "Position": 2832,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Worker_Native",
+          "Position": 3776,
+          "First_Bit": 0,
+          "Size": 528
+        },
+        {
+          "name": "Canonical_Native",
+          "Position": 3842,
+          "First_Bit": 0,
+          "Size": 528
+        },
+        {
+          "name": "Worker_Receipt_Genesis",
+          "Position": 3908,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Receipt_Genesis",
+          "Position": 3941,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Receipt_Head",
+          "Position": 3974,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Causal_Genesis",
+          "Position": 4007,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Causal_Genesis",
+          "Position": 4040,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Causal_Head",
+          "Position": 4073,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Quarantine_Head",
+          "Position": 4106,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 33112,
+      "object_size": 33152,
+      "alignment": 8,
+      "record": [
+        {
+          "name": "Worker_Issued",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Worker_Recovered",
+          "Position": 944,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Canonical_Issued",
+          "Position": 1888,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Canonical_Recovered",
+          "Position": 2832,
+          "First_Bit": 0,
+          "Size": 7552
+        },
+        {
+          "name": "Worker_Native",
+          "Position": 3776,
+          "First_Bit": 0,
+          "Size": 528
+        },
+        {
+          "name": "Canonical_Native",
+          "Position": 3842,
+          "First_Bit": 0,
+          "Size": 528
+        },
+        {
+          "name": "Worker_Receipt_Genesis",
+          "Position": 3908,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Receipt_Genesis",
+          "Position": 3941,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Receipt_Head",
+          "Position": 3974,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Causal_Genesis",
+          "Position": 4007,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Owner_Causal_Genesis",
+          "Position": 4040,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Worker_Causal_Head",
+          "Position": 4073,
+          "First_Bit": 0,
+          "Size": 264
+        },
+        {
+          "name": "Quarantine_Head",
+          "Position": 4106,
+          "First_Bit": 0,
+          "Size": 264
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "HC.Raw_Result",
+    "equal": true,
+    "before": {
+      "value_size": 8,
+      "object_size": 8,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 8,
+      "object_size": 8,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    }
+  },
+  {
+    "type": "CX.Raw_Result",
+    "equal": true,
+    "before": {
+      "value_size": 8,
+      "object_size": 8,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    },
+    "after": {
+      "value_size": 8,
+      "object_size": 8,
+      "alignment": 1,
+      "record": [
+        {
+          "name": "Disposition",
+          "Position": 0,
+          "First_Bit": 0,
+          "Size": 8
+        }
+      ],
+      "component_size": null
+    }
+  }
+]

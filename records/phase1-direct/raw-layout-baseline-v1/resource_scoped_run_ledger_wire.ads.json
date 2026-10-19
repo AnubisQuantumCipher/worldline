@@ -1,0 +1,503 @@
+[
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_State",
+  "location": "resource_scoped_run_ledger_wire.ads:14:9",
+  "Size": 2816,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Current",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Resource_Epoch",
+      "Position": 224,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Universe_Head",
+      "Position": 256,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Ledger_Head",
+      "Position": 280,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "History_Head",
+      "Position": 304,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Physical_Head",
+      "Position": 328,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Scope_Frame",
+  "location": "resource_scoped_run_ledger_wire.ads:23:9",
+  "Size": 4544,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Scope",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "First_Epoch",
+      "Position": 224,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Universe_Head",
+      "Position": 256,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Frame_Head",
+      "Position": 280,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Prior_Frame",
+      "Position": 304,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Store_Genesis",
+      "Position": 328,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Store_Id",
+      "Position": 352,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_Head",
+      "Position": 376,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Prime",
+      "Position": 400,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_Count",
+      "Position": 424,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cause",
+      "Position": 448,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester",
+      "Position": 472,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Receipt",
+      "Position": 496,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Catalogue_Head",
+      "Position": 520,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Observation_Head",
+      "Position": 544,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Physical_Key",
+  "location": "resource_scoped_run_ledger_wire.ads:41:9",
+  "Size": 576,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Machine",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Resource",
+      "Position": 24,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Unit",
+      "Position": 48,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Bucket",
+  "location": "resource_scoped_run_ledger_wire.ads:47:9",
+  "Size": 1728,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Key",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 576
+    },
+    {
+      "name": "Capacity",
+      "Position":  72,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Held_Total",
+      "Position":  96,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Charged_Total",
+      "Position": 120,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Capacity_Source",
+      "Position": 144,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Catalogue_Head",
+      "Position": 168,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Observation_Head",
+      "Position": 192,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Projection",
+  "location": "resource_scoped_run_ledger_wire.ads:57:9",
+  "Size": 5120,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Key",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 576
+    },
+    {
+      "name": "Bound",
+      "Position":  72,
+      "First_Bit": 0,
+      "Size": 1984
+    },
+    {
+      "name": "Origin",
+      "Position": 320,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Catalogue_Head",
+      "Position": 544,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Numerator",
+      "Position": 568,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Denominator",
+      "Position": 592,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Amount",
+      "Position": 616,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Current_Observation",
+  "location": "resource_scoped_run_ledger_wire.ads:67:9",
+  "Size": 4736,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Scope",
+      "Position":   0,
+      "First_Bit": 0,
+      "Size": 1792
+    },
+    {
+      "name": "Resource_Epoch",
+      "Position": 224,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Universe_Head",
+      "Position": 256,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Ledger_Head",
+      "Position": 280,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "History_Head",
+      "Position": 304,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Physical_Head",
+      "Position": 328,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Store_Genesis",
+      "Position": 352,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Store_Id",
+      "Position": 376,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_Head",
+      "Position": 400,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Prime",
+      "Position": 424,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Root_Count",
+      "Position": 448,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cause",
+      "Position": 472,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester",
+      "Position": 496,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Receipt",
+      "Position": 520,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Catalogue_Head",
+      "Position": 544,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Observation_Head",
+      "Position": 568,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Intent",
+  "location": "resource_scoped_run_ledger_wire.ads:86:9",
+  "Size": 11584,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Kind",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "Original",
+      "Position":    8,
+      "First_Bit": 0,
+      "Size": 10304
+    },
+    {
+      "name": "Expected_Epoch",
+      "Position": 1296,
+      "First_Bit": 0,
+      "Size": 256
+    },
+    {
+      "name": "Expected_Ledger_Head",
+      "Position": 1328,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Request_Id",
+      "Position": 1352,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Cause",
+      "Position": 1376,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Requester",
+      "Position": 1400,
+      "First_Bit": 0,
+      "Size": 192
+    },
+    {
+      "name": "Receipt",
+      "Position": 1424,
+      "First_Bit": 0,
+      "Size": 192
+    }
+  ]
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_History_Array",
+  "location": "resource_scoped_run_ledger_wire.ads:97:9",
+  "Alignment": 8,
+  "Component_Size": 4544
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Bucket_Array",
+  "location": "resource_scoped_run_ledger_wire.ads:98:9",
+  "Alignment": 8,
+  "Component_Size": 1728
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Projection_Array",
+  "location": "resource_scoped_run_ledger_wire.ads:99:9",
+  "Alignment": 8,
+  "Component_Size": 5120
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Facts_Array",
+  "location": "resource_scoped_run_ledger_wire.ads:100:9",
+  "Alignment": 8,
+  "Component_Size": 11072
+}
+,
+{
+  "name": "Resource_Scoped_Run_Ledger_Wire.Raw_Packet",
+  "location": "resource_scoped_run_ledger_wire.ads:101:9",
+  "Size": 22016,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "Schema_Version",
+      "Position":    0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "Before_State",
+      "Position":    8,
+      "First_Bit": 0,
+      "Size": 2816
+    },
+    {
+      "name": "Proposed_State",
+      "Position":  360,
+      "First_Bit": 0,
+      "Size": 2816
+    },
+    {
+      "name": "Current",
+      "Position":  712,
+      "First_Bit": 0,
+      "Size": 4736
+    },
+    {
+      "name": "Request",
+      "Position": 1304,
+      "First_Bit": 0,
+      "Size": 11584
+    }
+  ]
+}
+]
