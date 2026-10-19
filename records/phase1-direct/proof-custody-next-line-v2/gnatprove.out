@@ -1,0 +1,36 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total      Flow                      Provers   Justified   Unproved
+-------------------------------------------------------------------------------------------------
+Data Dependencies                 1         1                            .           .          .
+Flow Dependencies                 .         .                            .           .          .
+Initialization                    1         1                            .           .          .
+Non-Aliasing                      .         .                            .           .          .
+Run-time Checks                  25         .        25 (CVC5 90%, Z3 10%)           .          .
+Assertions                        6         .         6 (CVC5 60%, Z3 40%)           .          .
+Functional Contracts              1         .    1 (CVC5 60%, Trivial 40%)           .          .
+LSP Verification                  .         .                            .           .          .
+Termination                       1         .                     1 (CVC5)           .          .
+Concurrency                       .         .                            .           .          .
+-------------------------------------------------------------------------------------------------
+Total                            35    2 (6%)                     33 (94%)           .          .
+
+
+max steps used for successful proof: 2
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-startup_source_custody, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Source_Custody.Next_Line at worldline-startup_source_custody.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)

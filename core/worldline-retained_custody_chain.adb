@@ -69,7 +69,8 @@ package body Worldline.Retained_Custody_Chain with SPARK_Mode is
    function Mac (Data : E.Bytes; Key, Message : E.Span) return SHA.Digest
    with Pre => E.C.P.Valid (Data, Key) and then E.C.P.Valid (Data, Message)
    is
-      K0, Inner_Pad, Outer_Pad : Block := (others => 0);
+      K0 : Block := (others => 0);
+      Inner_Pad, Outer_Pad : Block;
       Inner_Context, Outer_Context : SHA.Context := SHA.Initial;
    begin
       if Key.Length > SHA.Block_Bytes then

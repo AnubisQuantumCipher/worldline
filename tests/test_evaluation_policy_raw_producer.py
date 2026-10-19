@@ -18,7 +18,8 @@ class RawPolicyProducer(unittest.TestCase):
     def test_native_roster_preserves_original_sorted_unique_and_declared_empty(self):
         required, empty, declarations = project(self.requirement, core=self.core)
         self.assertEqual(required, ['a', 'z'])
-        self.assertTrue(empty)
+        # D116: a nonempty required roster cannot declare an empty policy.
+        self.assertFalse(empty)
         self.assertTrue(declarations['a'].bundle_declared)
         empty_policy = copy.deepcopy(self.requirement)
         empty_policy['policy']['requiredChecks'] = []

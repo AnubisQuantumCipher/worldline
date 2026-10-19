@@ -1,0 +1,36 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+---------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total      Flow                              Provers   Justified   Unproved
+---------------------------------------------------------------------------------------------------------
+Data Dependencies                 1         1                                    .           .          .
+Flow Dependencies                 .         .                                    .           .          .
+Initialization                    1         1                                    .           .          .
+Non-Aliasing                      .         .                                    .           .          .
+Run-time Checks                  25         .    23 (CVC5 19%, Z3 80%, altergo 2%)           .          2
+Assertions                        4         .                 4 (CVC5 17%, Z3 83%)           .          .
+Functional Contracts              1         .    1 (CVC5 40%, Trivial 40%, Z3 20%)           .          .
+LSP Verification                  .         .                                    .           .          .
+Termination                       1         .                               1 (Z3)           .          .
+Concurrency                       .         .                                    .           .          .
+---------------------------------------------------------------------------------------------------------
+Total                            33    2 (6%)                             29 (88%)           .     2 (6%)
+
+
+max steps used for successful proof: 135
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-startup_source_custody, 1 subprograms and packages out of 1 analyzed
+  Worldline.Startup_Source_Custody.Next_Line at worldline-startup_source_custody.adb:22 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 29 checks out of 31 proved

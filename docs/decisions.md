@@ -1800,3 +1800,44 @@ waiver is authorized by this checkpoint.
 
 **Reversal:** make a new source commit if a counterexample requires changing the
 repair; preserve all failed evidence and the original assurance requirements.
+
+
+## D122 — Express startup scanner progress without changing its accepted grammar
+
+**Problem:** aggregate flow could not establish termination of envelope scans,
+and contextual inlining exposed unused outputs/overwritten initializers.
+
+**Decision:** require Next_Line to preserve cursor monotonicity and advance on
+a valid line; add bounded field/cursor invariants and loop variants. Use dedicated
+local discarded-header values instead of declaring a subsequently consumed line
+unused. Make Role_Selected's already-required valid-line check explicit. Remove
+only initializers overwritten before every read, including the fully populated
+HMAC pads. Bind Policy_Syntax.Probe's computed result extent to a constant after
+a separately observed E0007. Preserve schemas, full values, assertions and gates.
+
+**Verification:** focused strict level-3 Next_Line proof passes 35 reported checks,
+zero unproved/justified and no Assume; the initial two-index-check failure is
+retained. Aggregate flow remains FAILED on namespace-projection findings. Checked
+build, original Ada tests/fuzz and the selected 22 Python tests pass. The Python
+roster includes twelve native scanner and six glob-policy subcases. No complete
+proof or independent acceptance is claimed.
+
+**Risk:** scanner contracts must hold on malformed and boundary inputs as well as
+valid lines. Fixed ordinary native cases exercise both; they cannot establish
+protected source authenticity. The added Valid branch repeats a fact required
+by the preceding complete Envelope_Valid scan, rather than narrowing the accepted
+language. Full source/host/retirement/actor acceptance remains unresolved.
+
+**Reversal:** a new corrective commit if evidence contradicts the change; preserve
+the counterexample, all prior runs and the original acceptance requirements.
+
+
+**D122 oracle correction:** the first selected run failed the previously UNRUN
+raw-policy test's expected `empty=True` for required `['a', 'z']`. D116 explicitly
+requires zero canonical required entries, and the production body is byte-identical
+to base b560c69. Preserve the original test file, failed run, hashes and rationale
+under `records/phase1-direct/policy-empty-oracle-correction`; change only this
+stale expected boolean to False. All fixture inputs, roster equality, bundle,
+explicit-empty and absent controls remain. This strengthens detection of a false
+empty declaration; no production behavior or acceptance requirement is weakened.
+The subsequent 22-test run passes at unchanged native source/library identities.

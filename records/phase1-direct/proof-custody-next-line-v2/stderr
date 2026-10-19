@@ -1,0 +1,239 @@
+ info: initialization of "Result" proved
+--> worldline-startup_source_custody.adb:22:63
+
+ info: data dependencies proved
+--> worldline-startup_source_custody.adb:23:11
+
+ info: postcondition proved
+--> worldline-startup_source_custody.adb:24:16
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:25:28
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:25:52
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:32:21
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:33:23
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:33:51
+
+ info: index check proved
+--> worldline-startup_source_custody.adb:33:51
+
+ info: loop variant proved
+--> worldline-startup_source_custody.adb:34:31
+
+ info: loop invariant initialization proved
+--> worldline-startup_source_custody.adb:35:33
+
+ info: loop invariant preservation proved
+--> worldline-startup_source_custody.adb:35:33
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:35:65
+
+ info: loop invariant initialization proved
+--> worldline-startup_source_custody.adb:36:33
+
+ info: loop invariant preservation proved
+--> worldline-startup_source_custody.adb:36:33
+
+ info: loop invariant initialization proved
+--> worldline-startup_source_custody.adb:37:33
+
+ info: loop invariant preservation proved
+--> worldline-startup_source_custody.adb:37:33
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:38:24
+
+ info: index check proved
+--> worldline-startup_source_custody.adb:38:24
+
+ info: index check proved
+--> worldline-startup_source_custody.adb:40:27
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:40:42
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:40:42
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:40:58
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:40:58
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:41:20
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:41:41
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:43:27
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:45:20
+
+ info: index check proved
+--> worldline-startup_source_custody.adb:46:21
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:46:36
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:46:36
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:46:52
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:46:52
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:47:23
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:47:65
+
+ info: no contextual analysis of "Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:68:39
+
+ info: no contextual analysis of "Path_Hex_Matches" (call returns unconstrained type)
+--> worldline-startup_source_custody.adb:79:78
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:149:41
+
+ info: no contextual analysis of "Cache_Paths_Match" (nested subprogram)
+--> worldline-startup_source_custody.adb:205:15
+
+ info: analyzing call to "Match_Source" in context
+--> worldline-startup_source_custody.adb:238:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:240:10
+
+ info: analyzing call to "Match_Source" in context
+--> worldline-startup_source_custody.adb:242:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:244:10
+
+ info: analyzing call to "Match_Bytes" in context
+--> worldline-startup_source_custody.adb:246:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:249:13
+
+ info: analyzing call to "Match_Bytes" in context
+--> worldline-startup_source_custody.adb:251:13
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:254:10
+
+ info: analyzing call to "Match_Source" in context
+--> worldline-startup_source_custody.adb:266:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:268:10
+
+ info: no contextual analysis of "Envelope_Valid" (nested subprogram)
+--> worldline-startup_source_custody.adb:283:07
+
+ info: analyzing call to "Key" in context
+--> worldline-startup_source_custody.adb:343:26
+
+ info: analyzing call to "Key" in context
+--> worldline-startup_source_custody.adb:343:38
+
+ info: no contextual analysis of "Closure_Corresponds" (call returns unconstrained type)
+--> worldline-startup_source_custody.adb:362:40
+
+ info: no contextual analysis of "Interpreter_Selected" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:365:48
+
+ info: no contextual analysis of "Flags_Match" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:370:17
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:382:26
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:384:26
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:386:27
+
+ info: no contextual analysis of "File_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:387:27
+
+ info: no contextual analysis of "File_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:388:27
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:390:27
+
+ info: no contextual analysis of "File_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:391:27
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:393:26
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:395:26
+
+ info: analyzing call to "Cache_Matches" in context
+--> worldline-startup_source_custody.adb:400:32
+
+ info: analyzing call to "Image_Matches" in context
+--> worldline-startup_source_custody.adb:406:26
+
+ info: analyzing call to "Image_Matches" in context
+--> worldline-startup_source_custody.adb:408:26
+
+ info: no contextual analysis of "Envelope_Valid" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:448:52
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:471:23
+
+ info: no contextual analysis of "Listed" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:474:26
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:481:23
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:484:23
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:487:23
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:490:23
+
+ info: no contextual analysis of "Path_Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:516:16
+
+ info: no contextual analysis of "Path_Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:537:16
+
+ info: no contextual analysis of "Path_Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:558:16
+
+ info: analyzing call to "Stable" in context
+--> worldline-startup_source_custody.adb:615:35
+
+ info: no contextual analysis of "Mode_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:615:60
+
+ info: analyzing call to "Stable" in context
+--> worldline-startup_source_custody.adb:628:26

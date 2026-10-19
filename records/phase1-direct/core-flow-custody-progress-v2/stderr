@@ -1,0 +1,5 @@
+ error: pragma "Unused" argument must be in same declarative part
+--> worldline-startup_source_custody.adb:336:28
+  336 |                pragma Unused (Earlier); -- Skip the already-validated header.
+      |                               ^~~~~~~
+gnatprove: error during generation of Global contracts

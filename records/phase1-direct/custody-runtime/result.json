@@ -1,0 +1,101 @@
+{
+  "claim": "TESTED focused source repair only; original Phase One gates remain open",
+  "sources_before": {
+    "core/worldline-startup_source_custody.adb": "8bc9eebbd8df0eab3a82d0cb8948df60c3610ea02a32b8facc2e6d87e71570e3",
+    "core/worldline-retained_custody_chain.adb": "34663e31f2b9630a4671b86db5fd56b2322ccb6956c4730193365c473ea2ea60",
+    "core/worldline-policy_syntax.adb": "c2e59f937d49e75831452e956bb2eb9aa471ccfe77ef176743f18b7a6ad2d568",
+    "tests/startup_source_probe.adb": "ea4f4a3548739b2349165b015c3fcc955a701b28d79d99bf7f9d19872b6cf387",
+    "tests/worldline_tests.gpr": "0d03478cb736f90b73065aaf648384f7f0339d295a1d86fe60b97d98411b74bf",
+    "tests/test_startup_source_scan.py": "f1fa1ff06fbacd0eed82a791fca67140de5f10562e070ca47aa9935e1746439e",
+    "tests/test_policy_source_raw_correspondence.py": "74e7dd9c88f6f718d2686bfbf2585816a56732ff808e47683b88048c400085d7"
+  },
+  "steps": [
+    {
+      "name": "checked-build",
+      "argv": [
+        "gprbuild",
+        "-p",
+        "-j2",
+        "-P",
+        "worldline.gpr",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-cargs:Ada",
+        "-fPIC"
+      ],
+      "started": "2026-10-19T15:38:35.734096+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:38:38.822605+00:00",
+      "artifacts": {
+        "stdout": "f4c2ca64513b396a5e43b1cdb49480706894cc41110cb6b43b4454c985e764be",
+        "stderr": "a0128cd934a9a59a0d2123bfff3a9bf8c3c8de417a5e8130e5b3119d611906c4"
+      }
+    },
+    {
+      "name": "ada-tests",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/worldline_core_tests"
+      ],
+      "started": "2026-10-19T15:38:38.868874+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:38:38.903813+00:00",
+      "artifacts": {
+        "stdout": "594f964d3b1211c20569de80e9736b25bf0494ad07a1553f6c8902d9d770b60c",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "ada-fuzz",
+      "argv": [
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/bin/worldline_core_fuzz"
+      ],
+      "started": "2026-10-19T15:38:38.904064+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:38:38.914295+00:00",
+      "artifacts": {
+        "stdout": "9ca57b286a18e1ff777da8f3923d69fdd8c0e20615c8fb1c2278c47a2f6d6a98",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "native-controls",
+      "argv": [
+        "/usr/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_startup_source_scan",
+        "test_policy_source_raw_correspondence",
+        "test_project",
+        "test_evaluation_policy_raw_producer"
+      ],
+      "started": "2026-10-19T15:38:38.914528+00:00",
+      "exit_code": 1,
+      "finished": "2026-10-19T15:38:42.969194+00:00",
+      "artifacts": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "42270f12c9e528450ee7ef7bf2b2c24bba8224003a2439c05a8a14c68a91e557"
+      }
+    }
+  ],
+  "library_before_tests": "f2ac84eca7aeaa6e4ccb0a25050781f3dfd3098656400d0a5c6e511eae5b3f5d",
+  "sources_after": {
+    "core/worldline-startup_source_custody.adb": "8bc9eebbd8df0eab3a82d0cb8948df60c3610ea02a32b8facc2e6d87e71570e3",
+    "core/worldline-retained_custody_chain.adb": "34663e31f2b9630a4671b86db5fd56b2322ccb6956c4730193365c473ea2ea60",
+    "core/worldline-policy_syntax.adb": "c2e59f937d49e75831452e956bb2eb9aa471ccfe77ef176743f18b7a6ad2d568",
+    "tests/startup_source_probe.adb": "ea4f4a3548739b2349165b015c3fcc955a701b28d79d99bf7f9d19872b6cf387",
+    "tests/worldline_tests.gpr": "0d03478cb736f90b73065aaf648384f7f0339d295a1d86fe60b97d98411b74bf",
+    "tests/test_startup_source_scan.py": "f1fa1ff06fbacd0eed82a791fca67140de5f10562e070ca47aa9935e1746439e",
+    "tests/test_policy_source_raw_correspondence.py": "74e7dd9c88f6f718d2686bfbf2585816a56732ff808e47683b88048c400085d7"
+  },
+  "library_after_tests": "f2ac84eca7aeaa6e4ccb0a25050781f3dfd3098656400d0a5c6e511eae5b3f5d",
+  "unittest_summaries": [
+    "22"
+  ],
+  "unittest_terminal_ok": false,
+  "success": false
+}

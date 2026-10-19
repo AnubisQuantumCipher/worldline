@@ -1,0 +1,270 @@
+{
+  "meaning": "Aggregate flow failed. Repaired startup-custody diagnostics are absent from v5; namespace projection is the next reported failure. Full proof is not claimed.",
+  "runs": [
+    {
+      "evidence": "records/phase1-direct/core-flow-custody-progress",
+      "result": {
+        "exit_code": 1,
+        "utc": "2026-10-19T15:25:56.013338+00:00"
+      },
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "message": "\"Earlier\" is set by \"Next_Line\" but not used after the call",
+          "location": "worldline-startup_source_custody.adb:335:33"
+        },
+        {
+          "severity": "warning",
+          "message": "\"Offset\" is set by \"Next_Line\" but not used after the call",
+          "location": "worldline-startup_source_custody.adb:363:24"
+        },
+        {
+          "severity": "warning",
+          "message": "\"Item\" is set by \"Next_Line\" but not used after the call",
+          "location": "worldline-startup_source_custody.adb:445:36"
+        }
+      ]
+    },
+    {
+      "evidence": "records/phase1-direct/core-flow-custody-progress-v2",
+      "result": {
+        "exit_code": 1,
+        "utc": "2026-10-19T15:26:25.930757+00:00"
+      },
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "pragma \"Unused\" argument must be in same declarative part",
+          "location": "worldline-startup_source_custody.adb:336:28"
+        }
+      ]
+    },
+    {
+      "evidence": "records/phase1-direct/core-flow-custody-progress-v3",
+      "result": {
+        "exit_code": 1,
+        "utc": "2026-10-19T15:27:25.972287+00:00"
+      },
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Earlier\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:340:36"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Earlier\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:341:23"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Earlier\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:342:43"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Earlier\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:343:43"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Earlier\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:345:32"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Earlier\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:345:77"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:452:56"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:453:20"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:468:30"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:470:38"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:471:33"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:472:57"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:473:41"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:474:36"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:476:57"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:478:33"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:480:38"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:481:33"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:483:38"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:484:33"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:486:38"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:487:33"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:489:38"
+        },
+        {
+          "severity": "warning",
+          "message": "aspect Unused specified for \"Item\" [enabled by default]",
+          "location": "worldline-startup_source_custody.adb:490:33"
+        }
+      ]
+    },
+    {
+      "evidence": "records/phase1-direct/core-flow-custody-progress-v4",
+      "result": {
+        "exit_code": 1,
+        "utc": "2026-10-19T15:28:10.924451+00:00"
+      },
+      "diagnostics": [
+        {
+          "severity": "error",
+          "message": "subtype constraint cannot depend on variable input \"Size\" [E0007]",
+          "location": "worldline-policy_syntax.adb:192:36"
+        }
+      ]
+    },
+    {
+      "evidence": "records/phase1-direct/core-flow-custody-progress-v5",
+      "result": {
+        "exit_code": 1,
+        "utc": "2026-10-19T15:29:12.291268+00:00"
+      },
+      "diagnostics": [
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Map_Value\" could be incorrect, loop might be nonterminating, in call inlined at worldline-scoped_capture_namespace_projection.adb:205",
+          "location": "worldline-scoped_capture_namespace_projection.adb:169:60"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"ID_Matches\" could be incorrect, loop might be nonterminating, in call inlined at worldline-scoped_capture_namespace_projection.adb:177, in call inlined at worldline-scoped_capture_namespace_projection.adb:239",
+          "location": "worldline-scoped_capture_namespace_projection.adb:169:60"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"ID_Matches\" could be incorrect, loop might be nonterminating, in call inlined at worldline-scoped_capture_namespace_projection.adb:187, in call inlined at worldline-scoped_capture_namespace_projection.adb:239",
+          "location": "worldline-scoped_capture_namespace_projection.adb:169:60"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Map_Line_End\" could be incorrect, loop might be nonterminating",
+          "location": "worldline-scoped_capture_namespace_projection.adb:169:60"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Map_Valid\" could be incorrect, loop might be nonterminating, in call inlined at worldline-scoped_capture_namespace_projection.adb:177",
+          "location": "worldline-scoped_capture_namespace_projection.adb:169:60"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Map_Valid\" could be incorrect, loop might be nonterminating, in call inlined at worldline-scoped_capture_namespace_projection.adb:187",
+          "location": "worldline-scoped_capture_namespace_projection.adb:169:60"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"ID_Matches\" could be incorrect, loop might be nonterminating, in call inlined at worldline-scoped_capture_namespace_projection.adb:239",
+          "location": "worldline-scoped_capture_namespace_projection.adb:176:31"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Map_Valid\" could be incorrect, loop might be nonterminating",
+          "location": "worldline-scoped_capture_namespace_projection.adb:176:31"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"ID_Matches\" could be incorrect, loop might be nonterminating, in call inlined at worldline-scoped_capture_namespace_projection.adb:239",
+          "location": "worldline-scoped_capture_namespace_projection.adb:186:33"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Map_Valid\" could be incorrect, loop might be nonterminating",
+          "location": "worldline-scoped_capture_namespace_projection.adb:186:33"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Map_Value\" could be incorrect, loop might be nonterminating",
+          "location": "worldline-scoped_capture_namespace_projection.adb:204:31"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Last_PID\" could be incorrect, loop might be nonterminating",
+          "location": "worldline-scoped_capture_namespace_projection.adb:271:36"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Last_PID\" could be incorrect, loop might be nonterminating",
+          "location": "worldline-scoped_capture_namespace_projection.adb:272:86"
+        },
+        {
+          "severity": "medium",
+          "message": "implicit aspect Always_Terminates on \"Last_PID\" could be incorrect, loop might be nonterminating",
+          "location": "worldline-scoped_capture_namespace_projection.adb:274:93"
+        },
+        {
+          "severity": "warning",
+          "message": "initialization of \"Worker\" has no effect",
+          "location": "worldline-scoped_capture_namespace_projection.adb:300:07"
+        }
+      ]
+    }
+  ]
+}

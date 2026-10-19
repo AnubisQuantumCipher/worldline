@@ -1,0 +1,54 @@
+{
+  "claim": "TESTED focused source repair only; original Phase One gates remain open",
+  "sources_before": {
+    "core/worldline-startup_source_custody.adb": "8bc9eebbd8df0eab3a82d0cb8948df60c3610ea02a32b8facc2e6d87e71570e3",
+    "core/worldline-retained_custody_chain.adb": "34663e31f2b9630a4671b86db5fd56b2322ccb6956c4730193365c473ea2ea60",
+    "core/worldline-policy_syntax.adb": "c2e59f937d49e75831452e956bb2eb9aa471ccfe77ef176743f18b7a6ad2d568",
+    "tests/startup_source_probe.adb": "ea4f4a3548739b2349165b015c3fcc955a701b28d79d99bf7f9d19872b6cf387",
+    "tests/worldline_tests.gpr": "0d03478cb736f90b73065aaf648384f7f0339d295a1d86fe60b97d98411b74bf",
+    "tests/test_startup_source_scan.py": "f1fa1ff06fbacd0eed82a791fca67140de5f10562e070ca47aa9935e1746439e",
+    "tests/test_policy_source_raw_correspondence.py": "74e7dd9c88f6f718d2686bfbf2585816a56732ff808e47683b88048c400085d7",
+    "tests/test_evaluation_policy_raw_producer.py": "d73f04a14c8be7206728097866d41757df89273b0b5c7d93eef749f7a2df33f2"
+  },
+  "steps": [
+    {
+      "name": "native-controls",
+      "argv": [
+        "/usr/bin/python",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_startup_source_scan",
+        "test_policy_source_raw_correspondence",
+        "test_project",
+        "test_evaluation_policy_raw_producer"
+      ],
+      "started": "2026-10-19T15:40:10.948475+00:00",
+      "exit_code": 0,
+      "finished": "2026-10-19T15:40:15.267107+00:00",
+      "artifacts": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "ad23c9074e3da8a6c5c31e06a94b25ab3ef87531f51b9e28dd898bbbbf049c64"
+      }
+    }
+  ],
+  "library_before_tests": "f2ac84eca7aeaa6e4ccb0a25050781f3dfd3098656400d0a5c6e511eae5b3f5d",
+  "native_build_and_ada_tests": "records/phase1-direct/custody-runtime/result.json",
+  "sources_after": {
+    "core/worldline-startup_source_custody.adb": "8bc9eebbd8df0eab3a82d0cb8948df60c3610ea02a32b8facc2e6d87e71570e3",
+    "core/worldline-retained_custody_chain.adb": "34663e31f2b9630a4671b86db5fd56b2322ccb6956c4730193365c473ea2ea60",
+    "core/worldline-policy_syntax.adb": "c2e59f937d49e75831452e956bb2eb9aa471ccfe77ef176743f18b7a6ad2d568",
+    "tests/startup_source_probe.adb": "ea4f4a3548739b2349165b015c3fcc955a701b28d79d99bf7f9d19872b6cf387",
+    "tests/worldline_tests.gpr": "0d03478cb736f90b73065aaf648384f7f0339d295a1d86fe60b97d98411b74bf",
+    "tests/test_startup_source_scan.py": "f1fa1ff06fbacd0eed82a791fca67140de5f10562e070ca47aa9935e1746439e",
+    "tests/test_policy_source_raw_correspondence.py": "74e7dd9c88f6f718d2686bfbf2585816a56732ff808e47683b88048c400085d7",
+    "tests/test_evaluation_policy_raw_producer.py": "d73f04a14c8be7206728097866d41757df89273b0b5c7d93eef749f7a2df33f2"
+  },
+  "library_after_tests": "f2ac84eca7aeaa6e4ccb0a25050781f3dfd3098656400d0a5c6e511eae5b3f5d",
+  "unittest_summaries": [
+    "22"
+  ],
+  "unittest_terminal_ok": true,
+  "success": true
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "stale-test-oracle-correction",
+  "requirement": "D116: require zero canonical required entries and preserve explicit-empty/absent distinction",
+  "old_source_sha256": "41981be08406533f8cecba8d0ec871afe0174efa611b87ca2186b1c7b405bd47",
+  "new_source_sha256": "d73f04a14c8be7206728097866d41757df89273b0b5c7d93eef749f7a2df33f2",
+  "production_body_sha256": "a3742aeb94b465a6ef4ea31b4c9c7ae178cb500d1d87950a3ea1933c7e5b444b",
+  "production_body_unchanged_from": "b560c69",
+  "prior_failed_run": "records/phase1-direct/custody-runtime/native-controls.stderr",
+  "changed": "Only nonempty-roster expected empty boolean True to False. All input fixtures and other assertions preserved; empty/absent controls unchanged.",
+  "risk": "A permissive regression returning empty=True for nonempty requirements will now fail this control. No production or accepted domain change."
+}

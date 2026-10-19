@@ -100,6 +100,25 @@ class NativePolicySource(unittest.TestCase):
         self.bind(source)
         self.refused()
 
+    def test_glob_verifier_probe_preserves_separation(self):
+        for pattern, cover, accepted in (
+            ('exam/*.py', 'src/**', True),
+            ('exam/*.py', 'exam/**', False),
+            ('exam/**/case?.py', 'src/**', True),
+            ('exam/[ab].py', 'exam/**', False),
+            ('*.py', 'src/**', True),
+            ('exam/*.py', 'exam/*.py', False),
+        ):
+            with self.subTest(pattern=pattern, cover=cover):
+                self.raw['checks'][0].update(verifiers=[pattern], covers=[cover])
+                self.requirement['policy']['canonical']['checks'][0].update(
+                    verifiers=[pattern], covers=[cover])
+                self.bind(self.raw)
+                if accepted:
+                    self.assertEqual(self.native()[0], ['check'])
+                else:
+                    self.refused()
+
     def test_actual_source_refusals_are_native_not_canonical_success_flags(self):
         baseline = copy.deepcopy(self.requirement)
         mutations = [

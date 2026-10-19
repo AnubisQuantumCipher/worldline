@@ -127,3 +127,38 @@ The UTF8 focused level-3 diagnostic completed with four unproved exception check
 and no Assume. The earlier whole-unit timeout is retained separately. Neither
 result establishes complete Phase One proof. Startup custody is the next concrete
 aggregate-flow repair; the original retirement and whole-system gates stay open.
+
+
+## Startup scan progress and policy probe extent
+
+Next_Line now states its monotone cursor and strict progress on a valid line.
+Every scanning while loop declares its cursor variant. The field counter has
+an explicit bounded invariant. The focused strict level-3 run initially left
+two array-index checks unproved; after adding the field bound it passes all
+35 reported checks, with zero unproved/justified and no Assume. This proves
+Next_Line only, not all callers or complete custody/authority semantics.
+
+Header values discarded by callers have separate local variables; the next
+line's state is not declared unused. A role-selection scan now checks the
+returned Valid bit explicitly, as its other callers already do; Envelope_Valid
+already rejects every malformed input before that scan, so this does not remove
+an accepted envelope. Overwritten initializers are removed, including HMAC pads
+that are assigned over their entire fixed range before use. No algorithm or
+cryptographic boundary is replaced.
+
+The aggregate flow inventory now gets past these units and reports namespace
+projection termination findings. It also exposed Policy_Syntax.Probe's mutable
+return extent; the same immutable extent binding preserves its assertion and
+probe behavior. Every failed inventory/pragma trial is retained in
+custody-flow-summary.json. Derived pins change only modified sources/test project;
+proof floors and coverage remain fixed.
+
+The checked build, original Ada tests and fuzz pass. The selected Python run
+passes 22 tests, including twelve native scan cases and six glob-policy cases.
+The first run retained one stale oracle failure: an old raw-policy test expected
+a nonempty required roster to be declared empty, contradicting D116 and the
+unchanged base implementation. The original test file/failure are retained; only
+that expectation is corrected to False. Explicit-empty/absent and all fixture
+inputs remain unchanged. The second Python run uses the exact same tested native
+source/library; it does not repeat the already-passed build and Ada runs. These
+ordinary fixtures do not stand in for genuine protected execution.

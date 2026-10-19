@@ -1,0 +1,248 @@
+ info: initialization of "Result" proved
+--> worldline-startup_source_custody.adb:22:63
+
+ info: data dependencies proved
+--> worldline-startup_source_custody.adb:23:11
+
+ info: postcondition proved
+--> worldline-startup_source_custody.adb:24:16
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:25:28
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:25:52
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:32:21
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:33:23
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:33:51
+
+ info: index check proved
+--> worldline-startup_source_custody.adb:33:51
+
+ info: loop variant proved
+--> worldline-startup_source_custody.adb:34:31
+
+ info: loop invariant initialization proved
+--> worldline-startup_source_custody.adb:35:33
+
+ info: loop invariant preservation proved
+--> worldline-startup_source_custody.adb:35:33
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:35:65
+
+ info: loop invariant initialization proved
+--> worldline-startup_source_custody.adb:36:33
+
+ info: loop invariant preservation proved
+--> worldline-startup_source_custody.adb:36:33
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:37:24
+
+ info: index check proved
+--> worldline-startup_source_custody.adb:37:24
+
+ medium: array index check might fail
+--> worldline-startup_source_custody.adb:39:27
+   39 |                Result.Parts (N) := (B'First + First, Offset - First);
+      |                              ^
+      + reason for check: value must be a valid index into the array
+      + possible fix: loop invariant at line 35 should mention N
+   35 |             pragma Loop_Invariant (Offset in Offset'Loop_Entry .. B'Length);
+      |             ^
+      + provers reached time limit before completing the proof
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:39:42
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:39:42
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:39:58
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:39:58
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:40:20
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:40:41
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:42:27
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:44:20
+
+ medium: array index check might fail
+--> worldline-startup_source_custody.adb:45:21
+   45 |          Result.Parts (N) := (B'First + First, Offset - First);
+      |                        ^
+      + reason for check: value must be a valid index into the array
+      + possible fix: loop invariant at line 35 should mention N
+   35 |             pragma Loop_Invariant (Offset in Offset'Loop_Entry .. B'Length);
+      |             ^
+      + provers reached time limit before completing the proof
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:45:36
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:45:36
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:45:52
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:45:52
+
+ info: range check proved
+--> worldline-startup_source_custody.adb:46:23
+
+ info: overflow check proved
+--> worldline-startup_source_custody.adb:46:65
+
+ info: no contextual analysis of "Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:67:39
+
+ info: no contextual analysis of "Path_Hex_Matches" (call returns unconstrained type)
+--> worldline-startup_source_custody.adb:78:78
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:148:41
+
+ info: no contextual analysis of "Cache_Paths_Match" (nested subprogram)
+--> worldline-startup_source_custody.adb:204:15
+
+ info: analyzing call to "Match_Source" in context
+--> worldline-startup_source_custody.adb:237:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:239:10
+
+ info: analyzing call to "Match_Source" in context
+--> worldline-startup_source_custody.adb:241:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:243:10
+
+ info: analyzing call to "Match_Bytes" in context
+--> worldline-startup_source_custody.adb:245:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:248:13
+
+ info: analyzing call to "Match_Bytes" in context
+--> worldline-startup_source_custody.adb:250:13
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:253:10
+
+ info: analyzing call to "Match_Source" in context
+--> worldline-startup_source_custody.adb:265:10
+
+ info: analyzing call to "Match_Text" in context
+--> worldline-startup_source_custody.adb:267:10
+
+ info: no contextual analysis of "Envelope_Valid" (nested subprogram)
+--> worldline-startup_source_custody.adb:282:07
+
+ info: analyzing call to "Key" in context
+--> worldline-startup_source_custody.adb:342:26
+
+ info: analyzing call to "Key" in context
+--> worldline-startup_source_custody.adb:342:38
+
+ info: no contextual analysis of "Closure_Corresponds" (call returns unconstrained type)
+--> worldline-startup_source_custody.adb:361:40
+
+ info: no contextual analysis of "Interpreter_Selected" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:364:48
+
+ info: no contextual analysis of "Flags_Match" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:369:17
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:381:26
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:383:26
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:385:27
+
+ info: no contextual analysis of "File_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:386:27
+
+ info: no contextual analysis of "File_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:387:27
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:389:27
+
+ info: no contextual analysis of "File_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:390:27
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:392:26
+
+ info: analyzing call to "File_Matches" in context
+--> worldline-startup_source_custody.adb:394:26
+
+ info: analyzing call to "Cache_Matches" in context
+--> worldline-startup_source_custody.adb:399:32
+
+ info: analyzing call to "Image_Matches" in context
+--> worldline-startup_source_custody.adb:405:26
+
+ info: analyzing call to "Image_Matches" in context
+--> worldline-startup_source_custody.adb:407:26
+
+ info: no contextual analysis of "Envelope_Valid" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:447:52
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:470:23
+
+ info: no contextual analysis of "Listed" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:473:26
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:480:23
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:483:23
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:486:23
+
+ info: analyzing call to "Listed" in context
+--> worldline-startup_source_custody.adb:489:23
+
+ info: no contextual analysis of "Path_Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:515:16
+
+ info: no contextual analysis of "Path_Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:536:16
+
+ info: no contextual analysis of "Path_Hex_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:557:16
+
+ info: analyzing call to "Stable" in context
+--> worldline-startup_source_custody.adb:614:35
+
+ info: no contextual analysis of "Mode_Matches" (in potentially unevaluated context)
+--> worldline-startup_source_custody.adb:614:60
+
+ info: analyzing call to "Stable" in context
+--> worldline-startup_source_custody.adb:627:26
+gnatprove: unproved check messages considered as errors

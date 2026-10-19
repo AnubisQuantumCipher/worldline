@@ -17,13 +17,24 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       Count : Natural range 0 .. 5 := 0;
       Parts : Fields := (others => (1, 0));
    end record;
-   procedure Next_Line (B : E.Bytes; Offset : in out E.Count; Result : out Line) is
+   -- A valid line consumes at least its terminating newline. Malformed lines
+   -- may stop without progress; every caller rejects them before continuing.
+   procedure Next_Line (B : E.Bytes; Offset : in out E.Count; Result : out Line)
+     with Global => null,
+       Post => Offset >= Offset'Old and then
+         (if Offset'Old < B'Length then Offset <= B'Length) and then
+         (if Result.Valid then Offset > Offset'Old)
+   is
       First : E.Count := Offset;
       N : Natural := 1;
    begin
       Result := (others => <>);
       if Offset >= B'Length then return; end if;
       while Offset < B'Length and then B (B'First + Offset) /= 10 loop
+         pragma Loop_Variant (Increases => Offset);
+         pragma Loop_Invariant (Offset in Offset'Loop_Entry .. B'Length);
+         pragma Loop_Invariant (First <= Offset);
+         pragma Loop_Invariant (N in Result.Parts'Range);
          if B (B'First + Offset) = 9 then
             if N = 5 then return; end if;
             Result.Parts (N) := (B'First + First, Offset - First);
@@ -80,6 +91,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       Found : E.Count := 0;
    begin
       while Offset < B'Length loop
+         pragma Loop_Variant (Increases => Offset);
          Next_Line (B, Offset, Item);
          if not Item.Valid then return False; end if;
          if Item.Count = 5 and then Plain (B, Item.Parts (1), "FILE") and then
@@ -101,6 +113,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
    begin
       if not V.Valid_Text (D, F (D, Event, "module")) or else not V.Valid_Text (D, Name) then return False; end if;
       while Offset < B'Length loop
+         pragma Loop_Variant (Increases => Offset);
          Next_Line (B, Offset, Item);
          if not Item.Valid then return False; end if;
          if Item.Count = 2 and then Plain (B, Item.Parts (1), Kind) and then
@@ -114,6 +127,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       Found : E.Count := 0;
    begin
       while Offset < B'Length loop
+         pragma Loop_Variant (Increases => Offset);
          Next_Line (B, Offset, Item);
          if not Item.Valid then return False; end if;
          if Item.Count = 5 and then Plain (B, Item.Parts (1), "FILE") and then Plain (B, Item.Parts (2), "INTERPRETER") then
@@ -134,6 +148,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       if not V.Type_Is (D, Presence, "bool") or else Actual.Form /= E.Boolean_Value then return False; end if;
       if Actual.Boolean_Bit then return File_Matches (D, B, Path, F (D, Candidate, "bytes_hex"), "CACHE"); end if;
       while Offset < B'Length loop
+         pragma Loop_Variant (Increases => Offset);
          Next_Line (B, Offset, Item);
          if not Item.Valid then return False; end if;
          if Item.Count = 2 and then Plain (B, Item.Parts (1), "ABSENT") and then
@@ -153,6 +168,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
                  Found : E.Count := 0; begin
             Offset := 0;
             while Offset < B'Length loop
+               pragma Loop_Variant (Increases => Offset);
                Next_Line (B, Offset, Item);
                if not Item.Valid then return False; end if;
                if Item.Count = 3 and then Plain (B, Item.Parts (1), "FLAG") and then Plain (B, Item.Parts (2), Name) then
@@ -180,7 +196,8 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
               Adjacent : constant E.Bytes := V.Text_Value (D, Second);
               Cache_Tag : constant E.Bytes := V.Text_Value (D, Tag);
               Opt : constant E.Bytes := V.Text_Value (D, Optimize);
-              Slash, Dot, Cursor, Keep : E.Count := 0;
+              Slash, Dot, Cursor : E.Count := 0;
+              Keep : E.Count;
               Matched : Boolean;
               --  The matchers advance the shared Cursor, so SPARK requires
               --  them to be procedures; each original short-circuit chain
@@ -253,8 +270,9 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       end;
    end Cache_Paths_Match;
    function Envelope_Valid (B : E.Bytes) return Boolean is
-      Offset, Previous_Offset : E.Count := 0;
-      Item, Earlier, Header : Line;
+      Offset : E.Count := 0;
+      Previous_Offset : E.Count;
+      Item, Header : Line;
       Helper_Count, Interpreter_Count : E.Count := 0;
       function Equal (A, C : E.Span) return Boolean is
         (A.Length = C.Length and then
@@ -275,6 +293,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       if not Header.Valid or else Header.Count /= 1 or else
          not Plain (B, Header.Parts (1), "WORLDLINE-APPROVED-SOURCE-ENVELOPE-V1") then return False; end if;
       while Offset < B'Length loop
+         pragma Loop_Variant (Increases => Offset);
          Previous_Offset := Offset;
          Next_Line (B, Offset, Item);
          if not Item.Valid then return False; end if;
@@ -313,9 +332,12 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
                     Plain (B, Item.Parts (2), "magic") or else Plain (B, Item.Parts (2), "version")) then return False; end if;
          else return False;
          end if;
-         declare Scan : E.Count := 0; begin
-            Next_Line (B, Scan, Earlier);
+         declare Scan : E.Count := 0;
+                 Earlier, Skipped_Header : Line; begin
+            Next_Line (B, Scan, Skipped_Header);
+            pragma Unused (Skipped_Header); -- Skip the already-validated header.
             while Scan < Previous_Offset loop
+               pragma Loop_Variant (Increases => Scan);
                Next_Line (B, Scan, Earlier);
                if not Earlier.Valid then return False; end if;
                if Equal (Key (Item), Key (Earlier)) and then
@@ -342,6 +364,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
               Header : Line; begin
          if not Envelope_Valid (B) or else not Interpreter_Selected (Data, B, F (Data, Source, "interpreter")) then return False; end if;
          Next_Line (B, Offset, Header);
+         pragma Unused (Offset); -- Only the header is needed in this scope.
          if not Header.Valid or else Header.Count /= 1 or else
             not Plain (B, Header.Parts (1), "WORLDLINE-APPROVED-SOURCE-ENVELOPE-V1") or else
             not Flags_Match (Data, B, F (Data, Source, "interpreter_flags")) then return False; end if;
@@ -417,18 +440,22 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
          S.Member_Count (Data, Closure) /= 5 then return False; end if;
       declare Owner : constant E.Bytes := V.Hex_Value (Data, Owner_Hex, "value");
               Actor : constant E.Bytes := V.Hex_Value (Data, Actor_Hex, "value");
-              Offset, Scan, Start, Old_Start : E.Count := 0;
-              Item, Original : Line;
+              Offset : E.Count := 0;
+              Scan, Start, Old_Start : E.Count;
+              Item, Original, Skipped_Header : Line;
               Files, Dirs, Absent, Builtins, Frozen, Flags, Entries : E.Count := 0;
       begin
          if not Envelope_Valid (Owner) or else not Envelope_Valid (Actor) then return False; end if;
-         Next_Line (Actor, Offset, Item);
+         Next_Line (Actor, Offset, Skipped_Header);
+         pragma Unused (Skipped_Header); -- Skip the already-validated header.
          while Offset < Actor'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Start := Offset; Next_Line (Actor, Offset, Item);
             if not Item.Valid then return False; end if;
             Scan := 0;
             declare Matches : E.Count := 0; begin
                while Scan < Owner'Length loop
+                  pragma Loop_Variant (Increases => Scan);
                   Old_Start := Scan; Next_Line (Owner, Scan, Original);
                   if not Original.Valid then return False; end if;
                   if Offset - Start = Scan - Old_Start and then
@@ -482,6 +509,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
               Item : Line;
               Found : E.Count := 0; begin
          while Offset < B'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Next_Line (B, Offset, Item);
             if not Item.Valid then return False; end if;
             if Item.Count = 5 and then Plain (B, Item.Parts (1), "FILE") and then
@@ -502,6 +530,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
       declare B : constant E.Bytes := V.Hex_Value (Data, Encoded, "value");
               Offset, Found : E.Count := 0; Item : Line; begin
          while Offset < B'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Next_Line (B, Offset, Item);
             if not Item.Valid then return False; end if;
             if Item.Count = 5 and then Plain (B, Item.Parts (1), "FILE") and then
@@ -522,7 +551,9 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
               Offset, Found : E.Count := 0; Item : Line; begin
          if not Envelope_Valid (B) then return False; end if;
          while Offset < B'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Next_Line (B, Offset, Item);
+            if not Item.Valid then return False; end if;
             if Item.Count = 5 and then Plain (B, Item.Parts (1), "FILE") and then
                Path_Hex_Matches (Data, B, Item.Parts (3), Path) then
                if not Plain (B, Item.Parts (2), Role) then return False; end if;
@@ -572,6 +603,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
               Offset, Files, Envelopes : E.Count := 0; Item : Line; begin
          if not Envelope_Valid (B) then return False; end if;
          while Offset < B'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Next_Line (B, Offset, Item);
             if not Item.Valid then return False; end if;
             if Item.Count = 5 and then Plain (B, Item.Parts (1), "FILE") then
@@ -638,6 +670,7 @@ package body Worldline.Startup_Source_Custody with SPARK_Mode is
               Item : Line; begin
          if not Envelope_Valid (B) then return False; end if;
          while Offset < B'Length loop
+            pragma Loop_Variant (Increases => Offset);
             Next_Line (B, Offset, Item);
             if not Item.Valid then return False; end if;
             if Item.Count = 5 and then Plain (B, Item.Parts (1), "FILE") then

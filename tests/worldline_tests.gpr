@@ -5,7 +5,8 @@ project Worldline_Tests is
    for Source_Dirs use (".");
    for Object_Dir use "../obj/tests";
    for Exec_Dir use "../bin";
-   for Main use ("worldline_core_tests.adb", "worldline_core_fuzz.adb");
+   for Main use ("worldline_core_tests.adb", "worldline_core_fuzz.adb",
+                 "startup_source_probe.adb");
 
    type Build_Kind is ("checks", "release");
    Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");

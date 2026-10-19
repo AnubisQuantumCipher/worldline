@@ -189,14 +189,19 @@ package body Worldline.Policy_Syntax with SPARK_Mode is
    begin
       if First >= Pattern'Length then return Suffix; end if;
       Scan (False, Empty, Size);
-      return Result : String (1 .. Size) do
-         declare
-            Written : Natural;
-         begin
-            Scan (True, Result, Written);
-            pragma Assert (Written = Size);
-         end;
-      end return;
+      pragma Unused (Empty); -- The sizing pass has no output elements.
+      declare
+         Result_Length : constant Natural := Size;
+      begin
+         return Result : String (1 .. Result_Length) do
+            declare
+               Written : Natural;
+            begin
+               Scan (True, Result, Written);
+               pragma Assert (Written = Result_Length);
+            end;
+         end return;
+      end;
    end Probe;
    function Verifier_Separate (Verifiers, Covers : String) return Boolean is
    begin
