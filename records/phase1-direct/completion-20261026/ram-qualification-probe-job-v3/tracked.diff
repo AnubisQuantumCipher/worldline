@@ -1,0 +1,201 @@
+diff --git a/docs/decisions.md b/docs/decisions.md
+index 399e1b3..079bb24 100644
+--- a/docs/decisions.md
++++ b/docs/decisions.md
+@@ -2355,3 +2355,86 @@ integration still require coherent implementation. No guessed API or unsound pat
+ is adopted. Raw third-party files stay local; public checkpoint metadata supplies
+ their original exact references and hashes. Coordinator reviewafe19a7a approves only
+ controlled future verification, retaining its structural and resource obligations.
++
++## D142 — Bound new diagnostic compiler output in private RAM
++
++Options were to continue disk-backed compilation without enough output capacity,
++resume the iPad work the user stopped, or qualify a bounded RAM output path.
++Choose the third for diagnostic component qualification only. The real source
++worktree, old objects, installed tools, original 10 GB reserve, shared heavy lock,
++14 GiB admission, 8 GiB scope and zero swap remain. No existing artifact is retired.
++This does not qualify authentic protected execution or any final acceptance gate.
++
++The initial 2 MiB tmpfs probe enforces ENOSPC, charges 2 MiB then 4 MiB including
++restore to the original cgroup, and restores the complete two-file archive with
++matching hashes/metadata. Its post-write archive-size check is insufficient as a
++hard disk bound, and it tests no failure-path retention. Preserve those limits.
++Evidence: completion-20261026/ram-output-probe-v1 and its terminal job receipts.
++
++The successor driver f5eacc2b uses a private user/mount namespace and Bubblewrap
++read-only disk inputs, with only declared compiler outputs writable in a 24 MiB,
++1024-inode tmpfs. A second 24 MiB tmpfs is the complete restore target. New archive
++writes have an enforced 8 MiB ceiling, preallocated before execution; 4 MiB is
++reserved in admission for separate bounded receipts. Unwritten preallocation is
++released only after archive completion. USTAR entry/path/logical-size checks reject
++unsupported output, and the complete manifest restores nanosecond mtimes. Compression
++is not guaranteed to fit: a ceiling failure retains its partial archive and prior
++inventory and is incomplete, never a proof pass. A whole-scope kill may lose new
++ephemeral output; durable launch/cgroup evidence must state that loss. It does not
++authorize deletion of historical output. The reviewer confirms that preserving every
++failed ephemeral cache through all OOM is not a binding guarantee; preserving failure
++history and rejecting missing evidence is binding.
++
++The successor probe actually attempts a forbidden disk write, observes EROFS, writes
++a known RAM witness, then dies by SIGKILL (exit 137 through Bubblewrap). Root readback
++confirms exact stdout/witness hashes, a 252-byte fully restored archive, unchanged
++source, empty parent mountpoints, peak 37,543,936 bytes, zero OOM events and a terminal
++unpopulated scope. The archive-ceiling negative control rejects byte 1025 before it
++reaches its 1024-byte output. This is TESTED process-failure retention, not an OOM
++survival claim. The helper's initial source review found a false-pass path for an
++unexpected child exit; root corrected it before this probe. Both review revisions
++and all probe results remain under completion-20261026. Compiler qualification must
++add exact source and original-object readback, actual tool outcome and a fresh report;
++the probe alone provides none of that proof credit. Reversal is to stop using the new
++driver and preserve its evidence; production source and underlying objects are intact.
++
++The actual Chunk diagnostic then exits 1 during dependency setup, before a fresh
++proof result: the read-only device bind denies the launcher's /dev/null access and
++the imported Attest proof-object directory is not writable. This is a sandbox
++configuration failure, not a source proof verdict. The complete 1,339,778-byte
++archive cf969247300043c48589d0888658353d0fbb963fccaaf22e5169088d8598ae48
++passes full restore comparison; source and underlying root objects are unchanged,
++peak memory is 267,812,864 bytes, OOM counters are zero and the scope is terminal.
++The separate v2 driver proposes a remounted-read-only private device directory and
++RAM copies of all three declared object trees under a 32 MiB output cap. Its probe
++is REFUSED by disk admission before namespace/tool execution. The v2 mapping is
++therefore unqualified. Preserve both drivers and failures; do not infer a fix from
++the source change. Linux free space subsequently reaches the 10 GB reserve. The
++whole /dev/vda device hosts ext4 with no additional unallocated partition exposed.
++No further build/proof is admitted. No reserve or acceptance policy is weakened.
++
++## D143 — Retain reviewed source successors without production promotion
++
++The new reservation replay candidate caches parsed root/rows/operation, performs
++optional original uniqueness once, and compares each mask byte once. Review
++5e0c64f6 finds no concrete malformed/partial-output/index counterexample and no
++quartic prefix recurrence. It does not establish total linear cost: original
++Element scans, pairwise uniqueness and manager capture remain. The constant
++Reconciled_Gone identity postcondition is a separate unapplied patch. Actual Ada
++legality, Conforms equivalence and production Plan-to-Conforms proof remain UNRUN.
++Choose controlled qualification next, not integration or a weakened public Post.
++
++UTF8 coordinator v2 decomposes its phases into contracted nested helpers. Review
++0d7f3006 finds the exact checkpoint predicate/public domain/four guards preserved.
++The helper Preconditions relocate the obligations to real callers; proving a helper
++alone cannot close those calls. Nested lexical length, out-parameter copyback,
++chunk/slice temporaries, the failed-chunk postcondition replay and early-invalid
++allocation remain explicit obligations. No compilation/proof/runtime pass is claimed.
++
++The full-domain column/run arithmetic scaffold is allocation- and recursion-free
++source with seven bounded scalar routines. It is not a standard Big_Integer backend,
++and it does not repair checked recursive prefix evaluation, wide storage, independent
++copy ownership, implicit Old retirement or the original 805-byte counterexample.
++Keep those obligations open. All proposals are outside production and reversible by
++leaving them unapplied; exact source hashes, implementation arguments and reviews are
++under completion-20261026. The root remains the sole production integrator.
+diff --git a/docs/phase1-acceptance-report.md b/docs/phase1-acceptance-report.md
+index 1f1090a..31b4605 100644
+--- a/docs/phase1-acceptance-report.md
++++ b/docs/phase1-acceptance-report.md
+@@ -1,6 +1,6 @@
+ # Phase 1 acceptance report
+ 
+-Current engineering candidate (2026-10-26): sole owner continues `codex/phase1-direct-20261019` at base `c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec` plus recorded dirty source hashes. The unchanged zero-padding successor regression passes on the earlier quantity603a4bc3/loader318a9033 build; six current numeric routines have 87 clean focused proof checks. The current quantity7463adf3/loaderfbf8962f integration has not yet completed build/runtime requalification. A significant 805-byte value still raises the installed big-integer limit error. Current loader full qualification, production UTF8, automatic full-value/implicit Old retirement, full frozen-source campaigns, authentic protected/actor gates and independent acceptance remain open. The actual UTF8 prototype has 155 proved checks but a strict warning failure; its corrected rerun was stopped for disk capacity with no fresh proof result. D133-D140 and `records/phase1-direct/completion-20261026/` retain exact successes and failures. These results do not promote any historical gate below. Phase 1 remains OPEN; no narrowed claim is selected.
++Current engineering candidate (2026-10-26): published source `1d1488207b5df63dd18df0bc7c8e313f2847371e`, with documentary HEAD `08e95150aa3e5c747821c6865534ff326a93a38a`. The unchanged padding regression passed on the earlier quantity603a4bc3/loader318a9033 build; six current numeric routines have 87 clean focused checks. Current quantity7463adf3/loaderfbf8962f integrated build/runtime remains unqualified, and a significant 805-byte value still raises the installed big-integer error. The UTF8 Chunk prototype had 155 proved checks but a strict warning failure; its corrected disk run stopped for capacity, and its later RAM run failed sandbox dependency setup before proof. The corrected wrapper probe was then refused by storage admission. D142 retains the tested RAM/SIGKILL retention evidence and complete failed-run archive; D143 proposals remain uncompiled outside production. Linux has reached the unchanged 10 GB reserve. Full loader/UTF8/authority proof, automatic full-value/implicit Old retirement, frozen-source campaigns, authentic protected/actor runs and independent acceptance remain open. These component results promote no historical gate below. Phase 1 remains OPEN; no narrowed claim is selected.
+ 
+ Historical engineering candidate (2026-10-17): semantic repairs are under qualification on isolated branch `astra/phase1-completion-20261016`. The v10 checked build/core/fuzz/native smoke and 519-case representation oracle pass. The original huge-array workload now passes with exact 214,748,369-byte output; a real primary exit 7 now retains native `COMPLETED/FAIL` and `DEGRADED`. Corrected behavioral authority/source guards pass 39 controls and reject both owned always-complete/late-pin-publication mutants. These finite results and scoped internal source approvals are not complete matching-source formal/runtime campaigns, original retirement, authentic operator gates or acceptance. See D116–D118 and `docs/phase1-progress.md`; no Phase One completion or new successful proof manifest is claimed.
+ 
+diff --git a/docs/phase1-progress.md b/docs/phase1-progress.md
+index 227d8cd..eeb2b45 100644
+--- a/docs/phase1-progress.md
++++ b/docs/phase1-progress.md
+@@ -646,3 +646,18 @@ processes were removed. The five missing FSF interface files were retrieved with
+ a bounded 507,029-byte source budget; checked-call, ownership-enrollment and Old
+ postcheck integration still prevent a sound translator patch. All helper work is
+ settled; no heavy job remains active.
++
++D142 adds a tested private-RAM/read-only-input diagnostic wrapper. The SIGKILL
++probe retains and fully restores its output, but the actual corrected Chunk proof
++stops before proof on /dev/null and imported Attest output permissions. Its complete
++archive is retained and source/old objects remain unchanged. A mapping correction
++is source-only: the next probe is refused before launch as Linux reaches the unchanged
++10 GB reserve. No current corrected-Chunk proof pass is added. All these job scopes
++are terminal. Additional Linux capacity is required before admitted verification.
++
++D143 retains independently source-reviewed reservation replay and decomposed UTF8
++coordinator successors, plus an uncompiled exact-column/run arithmetic scaffold.
++Production stays at published engineering source 1d14882 (documentary HEAD08e9515).
++No proposal is a full-domain/runtime/Old repair or a passed Phase One gate. The next
++sound step is resource admission, corrected wrapper probe, then strict single-unit
++legality/proof and original checked controls before production integration.
+diff --git a/records/phase1-direct/direct-continuation.json b/records/phase1-direct/direct-continuation.json
+index 222b2d7..b5d3582 100644
+--- a/records/phase1-direct/direct-continuation.json
++++ b/records/phase1-direct/direct-continuation.json
+@@ -1,5 +1,5 @@
+ {
+-  "utc": "2026-10-26T15:56:27.049143+00:00",
++  "utc": "2026-10-26T16:50:15.173164+00:00",
+   "owner": "Codex Phase One completion thread 01a1787b-9465-7363-96e3-47c837eec185; OMP separate and stopped",
+   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+   "head": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+@@ -21,7 +21,7 @@
+     "D131 published d6bd982: strict custody flow47/47, four helper proofs,6 direct controls, overflow reproducer, Ada/fuzz,43 custody regressions and47 assurance/release tests. Whole numeric unit and original Phase One gates remain open.",
+     "D132 published c6c0674, remote readback verified: initialization extraction and scalar append/cause bounds; strict custody flow48/48 and focused Extra12, AppendEventExtras38, InitializeInput49 proofs; original Ada/fuzz,43 custody regressions,47 assurance/release tests and endpoint controls passed. See custody-load-next-verification-summary.json."
+   ],
+-  "next": "Restore adequate local build capacity without reducing10GBreserve or deleting protected evidence; user ended iPad work. Then rerun correctedChunk wholeunit strictproof (body8bd72, spec520c), qualify source-reviewed coordinator after routine decomposition/resourceinspection, and finish currentloader fullproof/build/runtime. Numeric6routines have87cleanselectedchecks on current7463/c074. Significant805-byte runtime and fullO1remainopen. Exact5FSFinterfaces fetched underboundedbudget; remainingcheckedcall/owner-enrollment/Oldpostcheck integration preventsoundtranslatorpatch. Reservation quarticchecked-scanproposal rejected, productionunchanged. Preserve all originalsame-source andindependentacceptancegates.",
++  "next": "Additional Linux storage capacity is required: reserve reached; user ended iPad work. Qualify ram_qualification_v2 probe after admission, then current correctedChunk strictproof and reviewed replay/coordinator legality. v1 RAMChunk failed dependencysetup, fully retained; no new proof. Numeric scaffold is uncompiled and not a runtime replacement. Original full-domain/O1 and all same-source/F7 gates remain open.",
+   "evidence": [
+     "render-runtime/result.json",
+     "proof-custody-next-line-v2/gnatprove.out",
+@@ -110,7 +110,8 @@
+     "completion-20261026/utf8-budgeted-chunks-v1/runtime-discriminator-readback-v2.json",
+     "completion-20261026/utf8-chunk-proof-v1/result.json",
+     "completion-20261026/utf8-chunk-proof-v2/result.json",
+-    "completion-20261026/pins-current-readback-v1.json"
++    "completion-20261026/pins-current-readback-v1.json",
++    "completion-20261026/bounded-continuation-readback-v1.json"
+   ],
+   "open": [
+     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
+@@ -135,7 +136,7 @@
+   "resumption": "completion-20261026/resumption.json",
+   "phase_acceptance": false,
+   "current_runtime_boundary": "Passing96.492s unchanged padding regression used earlier quantity603a4bc3/loader318a9033 checked build. Currentquantity7463adf3/loaderfbf8962f integrated build/runtime remainsUNRUN; numeric87checks applycurrent7463/c074 only.",
+-  "helper_status": "All helper assignments settled; all dispatchedgpt-6.1-sol/high. Internal source/readback reviews only, never F7.",
++  "helper_status": "All three GPT-6.1-Sol/high helper assignments are settled; no helper jobs or production writes.",
+   "source_proposals": [
+     "completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/independent-review.json",
+     "completion-20261026/old-retirement-fresh-owner-slice-v1/source-closure.json",
+@@ -144,5 +145,34 @@
+   ],
+   "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+   "head_class": "Published engineering source checkpoint; later documentary receipt commits may advance GitHEAD without changing this source.",
+-  "publication_receipt": "completion-20261026/publication-receipt-v1.json"
++  "publication_receipt": "completion-20261026/publication-receipt-v1.json",
++  "latest_continuation": "completion-20261026/bounded-continuation-readback-v1.json",
++  "pending_publication": "Resolved by remote API checkpoint70d3db9; a later receipt-only commit may advance remote further. Local GitHEAD remains08e9515.",
++  "remote_checkpoint": {
++    "utc": "2026-10-26T16:50:15.173164+00:00",
++    "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
++    "tree": "8f42e9c45c5d85eb2a76759b526600bccbfa9759",
++    "parents": [
++      "08e95150aa3e5c747821c6865534ff326a93a38a"
++    ],
++    "branch": "codex/phase1-direct-20261019",
++    "remote_branch_exact_readback": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
++    "local_HEAD": "08e95150aa3e5c747821c6865534ff326a93a38a",
++    "published_source_checkpoint_unchanged": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
++    "plan_sha256": "ef48ddde71642dbd4af6dabac5d1b095c9d326dffc4d3d369532abf85c532f94",
++    "tree_readback": "api-tree-readback-v1.json",
++    "selected_paths": 120,
++    "complete_tree_entries": 5018,
++    "unexpected_tree_or_blob_changes": [],
++    "publication_method": "GitHub create_tree/create_commit/update_ref expected_sha=08e9515, force=false; connector commit readback and git ls-remote exact SHA; no local Git object/index writes",
++    "phase_acceptance": false,
++    "local_git_safety": "Remote is ahead of local HEAD. Do not commit/push stale local history. After capacity returns, fetch and reconcile this owned branch while preserving local source/evidence; never force-push away remote checkpoints.",
++    "free_bytes_observed": 10013102080
++  },
++  "blocked_condition_audit": {
++    "consecutive_goal_turns_at_current_impasse": 1,
++    "condition": "Linux has reached/breached unchanged10GBreserve; required compiler/proof/toolchain jobs cannot be admitted, and no additional approved storage is available. Source-only continuations and publication have been completed; need user/external capacity change.",
++    "goal_complete": false,
++    "request_pending": "User asked to increase Linux disk or provide another Linux volume; do not resume iPad work."
++  }
+ }

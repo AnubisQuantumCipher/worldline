@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v2.py", line 310, in <module>
+    sys.exit(parent(sys.argv[1]))
+             ~~~~~~^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v2.py", line 272, in parent
+    raise RuntimeError("insufficient bounded qualification disk budget")
+RuntimeError: insufficient bounded qualification disk budget
