@@ -1,0 +1,26 @@
+{
+  "schema": "worldline.private-tmpfs-retention-correction.v1",
+  "date": "2026-10-26",
+  "reviewer": "/root/acceptance_map",
+  "prior_review_sha256": "c3c52524279bdb092aae39e56428d88ef4634887ba3ffbcef7cabba57c960a90",
+  "classification": "SOURCE_REVIEW_CORRECTION_NO_EXECUTION",
+  "correction": "The prior review's retention-fallback wording was too strong if read as requiring preservation of every newly generated failed ephemeral output through every OOM. No inspected binding requirement imposes that. The prior review is retained unchanged as negative history; this addendum controls that interpretation.",
+  "binding_source": {
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/AGENTS.md",
+    "requirements": [
+      "Preserve or strengthen proof contracts, accepted proof floors, required coverage, acceptance cases, negative history and principal boundaries.",
+      "Retain historical evidence and record corrections explicitly."
+    ],
+    "user_requirement": "Distinguish PROVED, TESTED, OBSERVED, ASSUMED, UNPROVEN, and FAILED; fail closed on missing or mismatched evidence."
+  },
+  "failure_boundary": "If the entire new tool/collector scope is killed before archival, retain the durable launcher, cgroup accounting and available partial stdio; explicitly record LOST_EPHEMERAL_OUTPUTS and the exact unavailable coverage/artifacts. Mark the run FAILED or incomplete and make no accepted proof, complete-retention or successful-result claim. Preexisting artifacts remain untouched. This is not a waiver of any existing gate.",
+  "success_boundary": "A successful result still requires complete final output inventory, bounded archive publication, independent bounded RAM restore and file/content/selected-metadata verification, exact source identity and complete required proof coverage. Tool exit zero alone is insufficient.",
+  "bounded_probe_assessment": "A new 2MiB namespace/filesystem probe with explicit inode/file/path/write caps is a sound next operational qualification. This review executes no probe and approves no proof result.",
+  "remaining_budget_controls": [
+    "For the proposed real tiny proof, express total tmpfs 32MiB and real reservation 38MB in exact bytes. Count objects, TMPDIR, cache and RAM stdio against the same total, with nr_inodes=2048.",
+    "Derive archive overhead from the actual archive format, bounded paths and selected metadata. USTAR has a 512-byte header and at most 511 bytes padding per regular entry; PAX/GNU long-path or metadata extensions can add more. An unexplained approximately 3MiB allowance is not yet a bound.",
+    "A preallocated archive file does not reserve space for separately created receipts, metadata or disk stdio. Preallocate/bound those too, or make the total reservation cover their actual allocation. Enforce archive byte cap before writes, not after overflow.",
+    "Compression failure, ENOSPC, cap mismatch or source mismatch is an explicit FAILED observation. Missing newly created failed cache is not silently converted into acceptance."
+  ],
+  "actions": {"job": false, "mount": false, "proof": false, "download": false, "production_edit": false}
+}

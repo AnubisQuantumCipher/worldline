@@ -1,0 +1,96 @@
+{
+  "utc": "2026-10-26T16:37:55.559195+00:00",
+  "phase_acceptance": false,
+  "source_head": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "documentary_head": "08e95150aa3e5c747821c6865534ff326a93a38a",
+  "production_changes_this_continuation": false,
+  "jobs": {
+    "ram-output-probe-job-v1": {
+      "worker": {
+        "exit_code": 0,
+        "utc": "2026-10-26T16:05:33.332143+00:00"
+      },
+      "terminal": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-26T16:05:34.289745+00:00"
+      }
+    },
+    "ram-qualification-probe-job-v1": {
+      "worker": {
+        "exit_code": 0,
+        "utc": "2026-10-26T16:25:32.715440+00:00"
+      },
+      "terminal": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-26T16:25:33.679841+00:00"
+      }
+    },
+    "ram-qualification-chunk-job-v1": {
+      "worker": {
+        "exit_code": 1,
+        "utc": "2026-10-26T16:27:45.104725+00:00"
+      },
+      "terminal": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-26T16:27:46.068146+00:00"
+      }
+    },
+    "ram-qualification-probe-job-v2": {
+      "worker": {
+        "exit_code": 1,
+        "utc": "2026-10-26T16:30:35.533470+00:00"
+      },
+      "terminal": {
+        "populated": false,
+        "scope_state": {
+          "ActiveState": "inactive",
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "MemoryMax": "infinity",
+          "MemoryPeak": "[not set]",
+          "MemorySwapMax": "infinity",
+          "Result": "success",
+          "SubState": "dead"
+        },
+        "utc": "2026-10-26T16:30:36.487706+00:00"
+      }
+    }
+  },
+  "free_bytes_observed": 9998684160,
+  "reserve_bytes": 10000000000,
+  "archive_sha256": "cf969247300043c48589d0888658353d0fbb963fccaaf22e5169088d8598ae48",
+  "probe_v2": "REFUSED_BY_DISK_ADMISSION_BEFORE_NAMESPACE_AND_TOOL",
+  "chunk_v1": "DEPENDENCY_SETUP_FAILED_NO_FRESH_PROOF",
+  "new_proposals": "SOURCE_ONLY_UNCOMPILED_UNPROVEN",
+  "publication": "This continuation remains local pending safe storage budget for Git. Previous published engineering checkpoint remains unchanged."
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "worldline.ram-qualification-source-review.v2",
+  "date": "2026-10-26",
+  "reviewer": "/root/acceptance_map",
+  "source_sha256": "f5eacc2bfb904ab541b55f21fc44a4430ca763d19a0da50f489d07be55d4ff74",
+  "prior_review": "ram-qualification-source-review-v1.json retained unchanged at its earlier source cut",
+  "classification": "SOURCE_REVIEW_AND_READBACK_OF_PARENT_EXECUTED_FILESYSTEM_PROBE; reviewer ran no job",
+  "verdict": "QUALIFIED_FOR_CONTROLLED_FAILURE_CAPABLE_CHUNK_DIAGNOSTIC_ONLY; NO_PROOF_OR_PHASE_ACCEPTANCE",
+  "policy": "No binding rule requires guaranteed archival of every newly generated failed ephemeral cache through all OOM. Original sources/outputs stay on real disk and readonly. A strict cap may produce FAILED/LOST_EPHEMERAL_OUTPUTS with available durable evidence; successful-result credit requires complete verified archive and unchanged exact sources.",
+  "bounds": {
+    "original_cgroup_bytes": 8589934592,
+    "swap_bytes": 0,
+    "output_tmpfs_bytes": 25165824,
+    "separate_restore_tmpfs_bytes": 25165824,
+    "inodes_each": 1024,
+    "archive_ceiling_bytes": 8388608,
+    "other_receipt_admission_bytes": 4194304,
+    "disk_reserve_bytes": 10000000000
+  },
+  "source_changes_reviewed": [
+    "Probe validates intentional SIGKILL exit plus retained file/stdout hashes and host forbidden-file absence.",
+    "Read-only /dev replaces new writable device tmpfs.",
+    "Parent catches collector timeout; output inventory saved before archive attempt.",
+    "Driver/source/object tree pins before/after; actual compiler flags remain strict with j2, timeout5 and per-solver1024MiB."
+  ],
+  "probe_observed": {
+    "worker": {
+      "exit_code": 0,
+      "utc": "2026-10-26T16:25:32.715440+00:00"
+    },
+    "tool_exit": 137,
+    "archive_bytes": 252,
+    "archive_sha256": "84056231a40b02cfd75bb0e260c621a3dc7160a9b8cecaa7d8fccac5ad9ee77c",
+    "archive_manifest_matches_record": true,
+    "retained_archive_payload_read_independently": {
+      "tmp/before-kill.txt": "retained after child SIGKILL\n",
+      "tool.stderr": "",
+      "tool.stdout": "readonly boundary rejected write\n"
+    },
+    "inside_full_restore_metadata_comparison_recorded": true,
+    "source_unchanged": true,
+    "outer_mountpoints_empty_recorded": true,
+    "inside_mount_namespace": "mnt:[4026532909]",
+    "outer_mount_namespace": "mnt:[4026531832]",
+    "memory_peak_bytes": 37543936,
+    "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0"
+  },
+  "diagnostic_launch_assessment": "No specific remaining launch blocker found for an explicitly failure-capable bounded whole-unit Chunk diagnostic. Read-only host root/dev prevents ordinary unmapped filesystem writes; unexpected required writes should fail the tool. RAM/inode/archive exhaustion is a recorded diagnostic failure, never acceptance.",
+  "open_before_any_chunk_credit": [
+    "Read current exact source identity, original-object-tree invariance and actual strict command.",
+    "Read actual tool exit and fresh exact-unit proof summary/coverage; do not infer proof from filesystem probe.",
+    "Require complete verified retained archive and terminal scope. If archive capacity fails, preserve available inventory/partial archive and mark failed/lost.",
+    "Original O1/full-domain/F7 and integrated resource/behavior gates remain open."
+  ],
+  "remaining_limitations": [
+    "Probe did not exercise compiler write paths, OOM, archive saturation or full phase workload.",
+    "4MiB receipt value is an admission allowance, not a physical fallocation reservation; original disk guard remains necessary.",
+    "Unsupported USTAR names/hardlinks/metadata or receipt exceptions can fail closed; no guaranteed-success claim."
+  ],
+  "actions": {
+    "job": false,
+    "mount": false,
+    "proof": false,
+    "download": false,
+    "production_edit": false
+  }
+}

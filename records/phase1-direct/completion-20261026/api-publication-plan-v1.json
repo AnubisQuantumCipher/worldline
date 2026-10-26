@@ -1,0 +1,684 @@
+{
+  "parent": "08e95150aa3e5c747821c6865534ff326a93a38a",
+  "base_tree": "8ee66e58d837f52c5f6529afc054f5ae93e078fd",
+  "branch": "codex/phase1-direct-20261019",
+  "source_checkpoint_unchanged": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "phase_acceptance": false,
+  "local_git_writes": "none; tree/commit/ref via GitHub connector",
+  "preserve_base_tree": true,
+  "entries": [
+    {
+      "path": "docs/decisions.md",
+      "bytes": 512146,
+      "sha256": "f9d0214a2c7014aa7623b87ee73c48dec8d387d8ffed6f48aa4fd2a5b9d5100a",
+      "mode": "100644"
+    },
+    {
+      "path": "docs/phase1-acceptance-report.md",
+      "bytes": 57135,
+      "sha256": "69c2572f4a34d2233823112150e13777f43c47f0ca0132c3d1e2b37c069f6051",
+      "mode": "100644"
+    },
+    {
+      "path": "docs/phase1-progress.md",
+      "bytes": 110695,
+      "sha256": "fd5c23869d66b7524d15f3e460e8ae7ce36c50ec906edabe92e19dfd698b44c3",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/REPRESENTATION.md",
+      "bytes": 9177,
+      "sha256": "9aafc70664c7608d59707c80409f86b68b0779ffabe772fa3813862a17078979",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/full_domain_columns.adb",
+      "bytes": 2505,
+      "sha256": "5aa454c060ee1d84cac25d5ad97e2c6631f57bffe8f063c828a828c01a085024",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/full_domain_columns.ads",
+      "bytes": 4172,
+      "sha256": "a84702c57b46c8e02e8f182a709856a1aeb1cf2764eaf4a748d662dbe5400430",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/private-tmpfs-execution-review.json",
+      "bytes": 5492,
+      "sha256": "c3c52524279bdb092aae39e56428d88ef4634887ba3ffbcef7cabba57c960a90",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/private-tmpfs-retention-correction.json",
+      "bytes": 3156,
+      "sha256": "541360fcf724bf130c0ca3c616a17ac97ba8624378419f66825763bd2849d270",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/source-lineage-review.json",
+      "bytes": 5552,
+      "sha256": "04e717e6ccf1dc8ab667351c72d331550d0409c34ab0bc1e3ab0f87668b1b3ca",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/source-manifest.json",
+      "bytes": 6371,
+      "sha256": "2b5444061701d586b22be9567bb3d65ee05462da9278263d607783fb816f5f89",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bounded-continuation-readback-v1.json",
+      "bytes": 3004,
+      "sha256": "b3a12421d87e6633e4d58f4694d2e1b5f5cb03c1288ef4d9648582fe57fb7ff9",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/admission.jsonl",
+      "bytes": 169,
+      "sha256": "92fa2698b1b51b12fad4a1e2e3fd40a480d1be7f54f581f703eed9f471f6972a",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/admitted.json",
+      "bytes": 18,
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/cgroup.jsonl",
+      "bytes": 1209,
+      "sha256": "afd97ba47612b2ba154fbe19a9353e108032d72654d8efa2d22485ca9c963d6f",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/launch.jsonl",
+      "bytes": 379,
+      "sha256": "4871902cae8fabe7b65fb7349c52c407f1a9ea0cbcd2bda4ec60fe4f59895db8",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/launcher.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/result.jsonl",
+      "bytes": 60,
+      "sha256": "bce6e0e09bdc469b58b6c93f57f0473a80106e79e3c66ab506ebdaf4adb8cd36",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/rusage.json",
+      "bytes": 160,
+      "sha256": "4ac5e9242ddd218b4cfe5174ba3ec0e268bbcf0785fa138773f4fef3ec88b033",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/scope-journal.txt",
+      "bytes": 392,
+      "sha256": "94869d045f8c07b8c9efc3d0b15d9837ea5ede70b0c3f30bb91286fbe6563996",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/scope.jsonl",
+      "bytes": 104,
+      "sha256": "697c1fe536d6f37191c28a6f84535f0a397ad2bcbbf66cde55110f74aa66cb39",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/supervisor.jsonl",
+      "bytes": 1184,
+      "sha256": "8f5352f9b72f62f8f7f589eff31f2c0d1bc727eb87d053ac2f69b6b952172f33",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/terminal-scope.jsonl",
+      "bytes": 276,
+      "sha256": "ca0d15084358f6b3339b949effe3155fd6713985e66e2ab51db34231443b75bb",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/tracked.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/worker-result.json",
+      "bytes": 59,
+      "sha256": "78ebb9c2a3bd5f51796cc2c7b90b3192c210f343bc70f6ed604a9127fc1bcb77",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-v1/inside-result.json",
+      "bytes": 5031,
+      "sha256": "4a1aeed9ad84b037d32df4cc00cf677d822a92ad58ed17cfca7a480af72ad432",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-v1/parent-before.json",
+      "bytes": 1449,
+      "sha256": "88367adb35f59e17a1f36850837b2e6c476c8b9c3bbcb8ddef071a02d5a91db7",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-v1/result.json",
+      "bytes": 421,
+      "sha256": "d9045c2c1d9de9480c2ef8856431a55993022a8b40877bae811adf3e9ae64bf0",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/admission.jsonl",
+      "bytes": 169,
+      "sha256": "cbcb96625ec9960270c0a43f643cd45952f80ad8d253155cd3496963ca87893e",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/admitted.json",
+      "bytes": 18,
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/cgroup.jsonl",
+      "bytes": 2011,
+      "sha256": "8b7dbf891e3e36fc829b9ac78dc862c00ab6e105c2192fc7c9a5829f34e6f97d",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/launch.jsonl",
+      "bytes": 390,
+      "sha256": "8eaa4f296941e56b7908f36042d2ffa4bbd537ed3ef00610795869b9d80181c4",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/launcher.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/result.jsonl",
+      "bytes": 60,
+      "sha256": "cb89b8f41a1310a34e8479ac2e0629544562d79c27afb5133b324f539e60e087",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/rusage.json",
+      "bytes": 160,
+      "sha256": "337167f67ac463ebadb202322c63a582c69b74d22d84c1eb303b621810c8631f",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/scope-journal.txt",
+      "bytes": 565,
+      "sha256": "cb2bc2633f9feb7955aae2efd7fda9a23bc1267f1ef2dcb63ead2a38180d80f7",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/scope.jsonl",
+      "bytes": 104,
+      "sha256": "990e2cc9be63278e0739f71d2a4024cc13faf4840fb18610f48753e05830e3d9",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/supervisor.jsonl",
+      "bytes": 2315,
+      "sha256": "798b73af99e33c8cfaebb0c3f29eb49fdfc46c9dad8d58574818b6303398b6e7",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/terminal-scope.jsonl",
+      "bytes": 276,
+      "sha256": "bbedfefbf54cb90a813b18b60d529d8fdc014bd1dc366d38511814a22d98a8bb",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/tracked.diff",
+      "bytes": 3548,
+      "sha256": "a2cf67dba9c5584a4de098757aebe174c0575a87b51c01ec70670d4ab9f28128",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/worker-result.json",
+      "bytes": 59,
+      "sha256": "391ebc8ace2d487c50f04b7023250be5c3af4155570d6347736cdca2244e84f9",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/inside-result.json",
+      "bytes": 100800,
+      "sha256": "a80ad667d914ffbb052e4cd5b65cb6516fbfbfa5ba2c1aff85cd302758d7b79c",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/launch.json",
+      "bytes": 514,
+      "sha256": "7c573208ad3aff58086c82a0a6cb23283f505c72d6ce4fcab413d005601cadf2",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/output-inventory.json",
+      "bytes": 89438,
+      "sha256": "b5cd413c90501332746ca1d8aef2788f141378926d65e6a599eaf3c298bb83e4",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/result.json",
+      "bytes": 2459,
+      "sha256": "442bb6754a32697b9ca95ee7bc90a50c36db804665fe148ad2d937960394f193",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/source-before.json",
+      "bytes": 128499,
+      "sha256": "3d8f724192a7cc199d8c816fc3347fcfdb502ba2f383061f40e0c3f5bcbe4ecc",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/tool.stderr.txt",
+      "bytes": 372,
+      "sha256": "50d4ace0f2510f7033112baf5f0574e045a01cafa0e6dc65d7c45e61a9efb6fc",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/tool.stdout.txt",
+      "bytes": 412,
+      "sha256": "a2fa9e5edcf9a15ed822076035aa5ae3b0f29bae6c2f26785eaf44887ce10be3",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/admission.jsonl",
+      "bytes": 169,
+      "sha256": "38c622509092eca3abf6e4cfe711bf362804fce746b31098d357380c04f51e5f",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/admitted.json",
+      "bytes": 18,
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/cgroup.jsonl",
+      "bytes": 1209,
+      "sha256": "f6e876e81e0a04d7757f1782597b9d99638eb48d9289868c2d0636481868f13d",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/launch.jsonl",
+      "bytes": 390,
+      "sha256": "b00808d218e2266bd2a88223f284aa87bc17f88049c6943fee898659307f22e0",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/launcher.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/result.jsonl",
+      "bytes": 60,
+      "sha256": "2639abe57700c3c7896c74af3616460e928323285bfa9f51c00aedc80d454a05",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/rusage.json",
+      "bytes": 160,
+      "sha256": "adbb17db4b929d7fba7d992c24ed61f1933119b24203d0cc37997771dc386f4a",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/scope-journal.txt",
+      "bytes": 407,
+      "sha256": "c1f4b38a7f451ab2d834fd3bc34babc426247d97a3b314dd59488b5587ad82e3",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/scope.jsonl",
+      "bytes": 104,
+      "sha256": "058c6071d1e721f6f86ab1ee70b3253b9d493ff7cb6e46de1dfbf7dde164c5b7",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/supervisor.jsonl",
+      "bytes": 1192,
+      "sha256": "71cb78f58db4843990441b424c709d3393b6195ce7b6b30910dd21cab50aa49a",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/terminal-scope.jsonl",
+      "bytes": 276,
+      "sha256": "4d230984af979934eada04cec029b74faa1d1f64a9eb62651089586d4e69d854",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/tracked.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/worker-result.json",
+      "bytes": 59,
+      "sha256": "eaf1b048374f2c6547aac09e4463827ba3266798ad3eb1367cec8ec261e715af",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/admission.jsonl",
+      "bytes": 169,
+      "sha256": "04286770e1ae2dec8b23ec5b6c895111c01ddd8020e5ffd273c41e466860aef5",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/admitted.json",
+      "bytes": 18,
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/cgroup.jsonl",
+      "bytes": 1209,
+      "sha256": "3af9ced3e945dc248258eaeba3ce4edb4ddb9db7b5928a95f023afa2a05d1f38",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/launch.jsonl",
+      "bytes": 390,
+      "sha256": "f3c4f69ebc11fab8a8416d98e2f97030e6f4edeec205d356124aa72fb613cddd",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/launcher.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/result.jsonl",
+      "bytes": 60,
+      "sha256": "2a8065ef30ab7431b6d4280760b29b49b3716e86e56b605a92bdb3ac908b49ca",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/rusage.json",
+      "bytes": 160,
+      "sha256": "0f34eef6b10d34944022fbf212d4024abc06c9b6c5eada5e6549c494b3233c39",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/scope-journal.txt",
+      "bytes": 407,
+      "sha256": "eae5faf0425886d32511f5964daa3845500894ddb1b0a79d9c113438ae905bb4",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/scope.jsonl",
+      "bytes": 104,
+      "sha256": "657b2a695fc1694628131466fb872ef364afe365ef51cde71fb1225af9bad867",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/stderr",
+      "bytes": 534,
+      "sha256": "1343b3e5e1c22c96718ac101dd240077c37442a37ee50a417fe99d5ca2f4a9a9",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/supervisor.jsonl",
+      "bytes": 1192,
+      "sha256": "059c1fd26585f2dede0622fcafa263dd34472ffac144cccd668ce479c92a230b",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/terminal-scope.jsonl",
+      "bytes": 276,
+      "sha256": "3e5608122e1d6e1ed0cd00d0b06fb401e2a589c0b30d793e5047c7f19d3572a5",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/tracked.diff",
+      "bytes": 3548,
+      "sha256": "a2cf67dba9c5584a4de098757aebe174c0575a87b51c01ec70670d4ab9f28128",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/worker-result.json",
+      "bytes": 59,
+      "sha256": "4b8af63215be54ccd9055637780ae41656b4cfb0315942a7e338b40f1a169ab6",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/inside-result.json",
+      "bytes": 5607,
+      "sha256": "a1a46abdbb11504090e65c53434c50ad4ee2ddb0a13b66f3188c2e43c1814168",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/launch.json",
+      "bytes": 514,
+      "sha256": "e0bce95f72335ba08c6492176b3f1be158fa256316796b6921a2d9ab0e25e31d",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/output-inventory.json",
+      "bytes": 928,
+      "sha256": "949cc718e6e7836869490603c182414bd61f6a23b06e9bf286ef975ee31885db",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/result.json",
+      "bytes": 2043,
+      "sha256": "e05c5bbaa360effaa56c93fc699c03b19b98845371b672b43fd1f2c9f1fd8916",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/source-before.json",
+      "bytes": 83,
+      "sha256": "82cf1b456a3bcc334b5b2c077563afecf6f3e67bcd272dd1e5c930dd27210d0d",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-source-review-v1.json",
+      "bytes": 8198,
+      "sha256": "17fef029df8801b6c6a1d3406431f5dbc2c995ce8eae67f08fb29705314d8b5b",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-source-review-v2.json",
+      "bytes": 3879,
+      "sha256": "eacfd0b7716235806d7ef5e9dc4aca8e60c7298a8a5242dea0ff88c5d8694bdb",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_output_probe_v1.py",
+      "bytes": 5519,
+      "sha256": "44d333a350531ab64d773c292a1a84ad36e8914dc401e50e196e497a1aee1036",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v1.py",
+      "bytes": 13235,
+      "sha256": "f5eacc2bfb904ab541b55f21fc44a4430ca763d19a0da50f489d07be55d4ff74",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+      "bytes": 13703,
+      "sha256": "b7aa45ec2a8aa3e0262d9a4c051ba5887912afc7f11abc8a9718e6935b60ccad",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/design.md",
+      "bytes": 5520,
+      "sha256": "97ed10b1c6a71966bd77aab9b859005244b03ac02294543abe2c44b221c77c0a",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/manifest.json",
+      "bytes": 3516,
+      "sha256": "feb020f130d72f5f0664ccc746e1b6dccf2e7593ac70ca6199393b957d64441b",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/reconciled-gone.patch",
+      "bytes": 553,
+      "sha256": "0304f341930946f5aa4f344233a4eeb2ed08995996afd15e13385bfc814e089b",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/worldline-ordinary_reservation_replay.adb",
+      "bytes": 10825,
+      "sha256": "35cb6eadd1f6726e730431dd56bd18242acd7be0b72b06c5310b01b1e196915f",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/worldline-ordinary_reservation_replay.ads",
+      "bytes": 840,
+      "sha256": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/README.md",
+      "bytes": 3365,
+      "sha256": "484efc59ce48b855db0b8eee4ea79f3e4db6768ebca27378eb199cba0b6d29aa",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/recipe.json",
+      "bytes": 7236,
+      "sha256": "f06b5288ca2cc7afe70bfe0e24ec6a360299d213889ed7feb1e8e5ebbfad8e57",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/reservation_replay_legality.gpr",
+      "bytes": 1163,
+      "sha256": "b069a116e4eb9e4944f3789145b376f4ab164436abf61e7c960aac0b11a88efa",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-review-v1/independent-review.json",
+      "bytes": 12957,
+      "sha256": "5e0c64f65638b905f1dd1d3130633ca9eae2fcc472d1184d3ce7b30915eacf77",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/change-proof-argument.md",
+      "bytes": 3493,
+      "sha256": "b0ec4dd3c11a70eeae073110287e2706a386c14b0dc3ee12fcaa95384843e127",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/coordinator-source-v2.json",
+      "bytes": 8481,
+      "sha256": "8eb1a4b27fb249c1a7a4531e358bcc42569871df10a1e8651deed0be351bd518",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/decomposition.patch",
+      "bytes": 15152,
+      "sha256": "897cbe06d1f5a1dba83f76a1aec948933de483a7cc7f7ffac3695c4669abfb7a",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/root-team-review.json",
+      "bytes": 9574,
+      "sha256": "0d7f3006272b77372a07b5ff8855578c02254fe2cb26547f35d0208ef841c4ed",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_proposal.adb",
+      "bytes": 10069,
+      "sha256": "64e46add64614f0c4c83facf81a4bc515e56cd0a36d8ecdb506f48fa5af0c427",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_proposal.ads",
+      "bytes": 502,
+      "sha256": "8f83eee4352c211f3577eea4a4fccd46f405097eed51c6dcd274c34a8a8c8183",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_qualification.gpr",
+      "bytes": 1770,
+      "sha256": "1287469c44fdcacc8e064f655f4f17f7a93b40e2478d341c943266523e24a666",
+      "mode": "100644"
+    },
+    {
+      "path": "records/phase1-direct/direct-continuation.json",
+      "bytes": 10414,
+      "sha256": "ca96a03e27fedd11d39a7788d9fa3c2ae15d1faaf05dd6b698e57dc19cc6ebce",
+      "mode": "100644"
+    }
+  ],
+  "exclusions": "Existing old source/cache/temp/publication plans and binary archives; new archive hashes/full inventories retained in selected text. The archives remain local. New unfinished RAM-legality driver excluded at this cut."
+}

@@ -1,0 +1,44 @@
+with "/home/sicarii/Work/worldline-phase1-direct-20261019/scratch/phase1-direct/private-sparklib/lib/gnat/sparklib.gpr";
+with "/home/sicarii/Work/worldline-phase1-direct-20261019/core/attest_sha256.gpr";
+
+project UTF8_Coordinator_Qualification is
+   for Languages use ("Ada");
+   for Source_Dirs use ("/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2", "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/qualification-v2", "/home/sicarii/Work/worldline-phase1-direct-20261019/core");
+   for Source_Files use
+     ("utf8_coordinator_proposal.ads",
+      "utf8_coordinator_proposal.adb",
+      "worldline-producer_bytes.ads",
+      "worldline-producer_bytes.adb",
+      "utf8_chunk_proposal.ads",
+      "utf8_chunk_proposal.adb",
+      "decimal_binary64.ads",
+      "decimal_binary64.adb",
+      "evaluation_epoch.ads",
+      "evaluation_epoch.adb",
+      "evaluation_pending.ads",
+      "evaluation_pending.adb",
+      "exact_decimal.ads",
+      "exact_decimal.adb",
+      "resource_quantities.ads",
+      "resource_quantities.adb",
+      "worldline.ads",
+      "worldline-generic_json_syntax.ads",
+      "worldline-generic_json_syntax.adb",
+      "worldline-json_syntax_types.ads",
+      "worldline-producer_render.ads",
+      "worldline-producer_render.adb",
+      "worldline-producer_unicode.ads",
+      "worldline-producer_values.ads",
+      "worldline-producer_values.adb");
+   for Object_Dir use "object-mounts/utf8";
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-fPIC", "-fno-var-tracking-assignments", "-gnata");
+   end Compiler;
+   package Builder is
+      for Switches ("Ada") use ("-j2");
+   end Builder;
+   package Prove is
+      for Proof_Switches ("Ada") use ("--level=3", "--report=all", "-j2");
+   end Prove;
+end UTF8_Coordinator_Qualification;

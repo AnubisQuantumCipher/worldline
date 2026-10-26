@@ -1,0 +1,12 @@
+{
+  "archive_capacity_rule": "Compression may exceed ceiling: retain partial archive/inventory, fail closed; no success credit",
+  "archive_reserved_bytes": 8388608,
+  "entries_each": 1024,
+  "failure_rule": "LOST_EPHEMERAL_OUTPUTS if no complete verified inside-result",
+  "mode": "chunk",
+  "other_receipt_budget": 4194304,
+  "parent_mount_namespace": "mnt:[4026531832]",
+  "phase_acceptance": false,
+  "ram_bytes_each": 25165824,
+  "source": "f5eacc2bfb904ab541b55f21fc44a4430ca763d19a0da50f489d07be55d4ff74"
+}

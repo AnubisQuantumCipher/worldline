@@ -1,0 +1,12 @@
+--- a/core/worldline-ordinary_reservation_lifecycle.adb
++++ b/core/worldline-ordinary_reservation_lifecycle.adb
+@@ -6,6 +6,9 @@
+    use type Interfaces.Unsigned_32;
+    use type Worldline.Resources.Byte;
+    package Existing renames Resource_Reservation_Lifecycle;
++   function Reconciled_Gone (Observed_False : Boolean) return Boolean
++     with Global => null,
++       Post => Reconciled_Gone'Result = Observed_False;
+    function Reconciled_Gone (Observed_False : Boolean) return Boolean is
+      (Existing.Remove_Row
+        (Data => (1 .. 0 => 0),

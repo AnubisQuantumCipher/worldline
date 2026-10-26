@@ -1,0 +1,120 @@
+{
+  "created_utc": "2026-10-26T16:18:50.065330+00:00",
+  "status": "PREPARED_SOURCE_ONLY_COMPILER_LEGALITY_UNRUN",
+  "owner": "/root/source_lineage proposal; root alone allocates/runs/integrates",
+  "model": {
+    "requested": "gpt-6.1-sol",
+    "selected": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "provenance": "Root-provided dispatch; no independent serving attestation."
+  },
+  "project": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/reservation_replay_legality.gpr",
+  "project_sha256": "b069a116e4eb9e4944f3789145b376f4ab164436abf61e7c960aac0b11a88efa",
+  "readme_sha256": "484efc59ce48b855db0b8eee4ea79f3e4db6768ebca27378eb199cba0b6d29aa",
+  "cwd": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "argv": [
+    "gprbuild",
+    "-c",
+    "-u",
+    "-j1",
+    "-v",
+    "-P",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/reservation_replay_legality.gpr",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True",
+    "worldline-ordinary_reservation_replay.adb",
+    "-cargs",
+    "-gnatc"
+  ],
+  "source_identities": {
+    "core/worldline.ads": "5de5de4e53892749843b38a2a68634628b87e72d73d65060c0488849d3bed820",
+    "core/worldline-resources.ads": "dfd11d9310275350a0beec6e6fe3813432d440a84a34bc7d98ab48a92de2b0df",
+    "core/worldline-ordinary_reservation_lifecycle.ads": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27",
+    "core/worldline-producer_values.ads": "779e30714a2eafc6f1fcbbcf149d4331eaf15e6927403c430eed9803f184f690",
+    "core/worldline-manager_resource_lifecycle.ads": "1ec835d4f585505993c5b22d17aed308a86ed7ed1d8b22b6e6f6bf24097c801a",
+    "core/worldline_core_sources.gpr": "c551271db906bcaa767d5b65c8c70cca7da94a781518d2f9bb9193d6b203b686",
+    "core/attest_sha256.gpr": "943ed08328649443a03a4efbb32964f4243f2e42e7aeb0f051f2da5769bf83c2",
+    "core/attest/attest.ads": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+    "core/attest/attest-sha256.ads": "487139a65ee5684145bcdf67c88f99b41e96eb222219c515ae924f8168b348aa",
+    "core/attest/attest-sha256.adb": "0e83fb5f0c0488c66601b72e6e2e837e98777338c8f9250b4d5005cb9f48a118",
+    "core/attest/attest-custody_sha256.ads": "5841d66715d95c1ee7b972852342e8cc1db48e8c3241d9c7f6061e55f4eaa914",
+    "core/attest/attest-custody_sha256.adb": "1f186c6777620b82b96445044a6e236977db2c65ef3859cb08158b83fa6026f6",
+    "scratch/phase1-direct/private-sparklib/lib/gnat/sparklib.gpr": "ffdf9e235830799c45759540dbfff3a24da164bce9272ad9eb63e7be9935569d",
+    "scratch/phase1-direct/private-sparklib/lib/gnat/sparklib_common.gpr": "78873f695fa193ef0587051044d2cc3511dc637ec455a249b6696b842a1806ba",
+    "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/worldline-ordinary_reservation_replay.ads": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+    "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/worldline-ordinary_reservation_replay.adb": "35cb6eadd1f6726e730431dd56bd18242acd7be0b72b06c5310b01b1e196915f"
+  },
+  "private_dependency_manifest": {
+    "path": "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/private-dependency-sources.json",
+    "sha256": "3204b2c4c26a292bdf843aa67ac0084e1b28741a8c1dce998135dc30857374b5",
+    "file_count": 134,
+    "all_current_hashes_match": true
+  },
+  "environment": {
+    "source": "/home/sicarii/opt/gnat/env.sh",
+    "WORLDLINE_PRIVATE_SPARKLIB_PREBUILT": "True",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "GPR_PROJECT_PATH": "The exact private lib/gnat directory may be prepended as in previous jobs; both direct imported projects use absolute paths. Do not select alternate dependencies.",
+    "TMPDIR": "Existing heavy worker chooses owned out/tmp. No RAM redirection is included/qualified here."
+  },
+  "strict_ada_switches": [
+    "-gnat2022",
+    "-gnatwa",
+    "-gnatwe",
+    "-gnatVa",
+    "-gnatf",
+    "-O2",
+    "-g",
+    "-fPIC",
+    "-fno-var-tracking-assignments",
+    "-gnata",
+    "-gnatc"
+  ],
+  "static_help_readback": {
+    "executed": "Installed gprbuild --help only; no target processing",
+    "-c": "Compile only",
+    "-u": "Unique compilation, only compile the given files",
+    "-p": "Create missing obj, lib and exec dirs; intentionally omitted",
+    "-U": "Not used; this is not whole-source build/proof coverage"
+  },
+  "owned_output": {
+    "object_dir": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/obj",
+    "currently_exists": false,
+    "creation": "Root may create this exact new directory only after resource admission; do not run -p or create/alter imported output directories.",
+    "expected_target_compiler_invocations": 1,
+    "expected_classes": [
+      "One target semantic-check metadata/possible ALI",
+      "GPR switch/configuration/temporary metadata",
+      "Actual compiler stdout/stderr and wrapper/source/terminal receipts"
+    ],
+    "native_object_executable_intended": false,
+    "measured_output_bytes": null,
+    "enforced_total_output_bound": false,
+    "budget_boundary": "No empirical or enforced byte ceiling is established by this recipe. Source-unit selection bounds intended scope, not disk consumption. Root must allocate real scratch/receipt capacity before launch; existing reserve+60MB admission is unchanged."
+  },
+  "preflight": [
+    "Root resource window and existing heavy lock; actual8GiB/swap0 scope; unchanged reserve/admission and original deadline requirements.",
+    "Recheck project and all listed actual source/import hashes plus all134 private manifest rows before invoking the compiler.",
+    "Record installed compiler/GPR tool identities and runtime source binding; source-only recipe does not independently qualify installed runtime specs.",
+    "Confirm new object/output paths; no overlapping lane or automatic dependency rebuild.",
+    "Do not launch under a sampled50MB margin by bypassing the existing60MB admission guard."
+  ],
+  "readback_requirements": [
+    "Exact command/target and strict compiler switches includinggnatc/gnatwe/gnata retained.",
+    "Actual exit0 and zero warnings/errors required for target compiler legality; retain every nonzero/partial outcome.",
+    "Before/after actual source and project hashes match.",
+    "Retain compiler diagnostics, output inventory, cgroup limits/peaks/events, result and inactive/unpopulated owned terminal-scope receipt.",
+    "Inspect imported project/output identities for unexpected writes; no whole dependency build is authorized."
+  ],
+  "nonclaims": [
+    "No build/proof/test/target job run.",
+    "No compiled legality inferred from source preparation.",
+    "No replay equivalence or productionPlan-to-Conforms bridge.",
+    "No production source, existing object, contract-pin, toolchain or assertion-policy change.",
+    "No F2/C1-C4/O1/integration/runtime or PhaseOne acceptance claim."
+  ]
+}

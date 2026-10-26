@@ -646,3 +646,18 @@ processes were removed. The five missing FSF interface files were retrieved with
 a bounded 507,029-byte source budget; checked-call, ownership-enrollment and Old
 postcheck integration still prevent a sound translator patch. All helper work is
 settled; no heavy job remains active.
+
+D142 adds a tested private-RAM/read-only-input diagnostic wrapper. The SIGKILL
+probe retains and fully restores its output, but the actual corrected Chunk proof
+stops before proof on /dev/null and imported Attest output permissions. Its complete
+archive is retained and source/old objects remain unchanged. A mapping correction
+is source-only: the next probe is refused before launch as Linux reaches the unchanged
+10 GB reserve. No current corrected-Chunk proof pass is added. All these job scopes
+are terminal. Additional Linux capacity is required before admitted verification.
+
+D143 retains independently source-reviewed reservation replay and decomposed UTF8
+coordinator successors, plus an uncompiled exact-column/run arithmetic scaffold.
+Production stays at published engineering source 1d14882 (documentary HEAD08e9515).
+No proposal is a full-domain/runtime/Old repair or a passed Phase One gate. The next
+sound step is resource admission, corrected wrapper probe, then strict single-unit
+legality/proof and original checked controls before production integration.

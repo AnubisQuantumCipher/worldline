@@ -1,0 +1,56 @@
+{
+  "schema": "worldline.full-domain-columns.internal-source-review.v1",
+  "utc": "2026-10-26T16:38:06.359348+00:00",
+  "reviewer": {
+    "agent": "/root/source_lineage",
+    "model_requested": "gpt-6.1-sol",
+    "model_selected": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "provenance": "Root-provided dispatch; no independent serving attestation."
+  },
+  "verdict": "SOURCE_APPROVAL_FOR_FUTURE_NARROW_LEGALITY_AND_KERNEL_QUALIFICATION_ONLY",
+  "reviewed_sha256": {
+    "full_domain_columns.ads": "a84702c57b46c8e02e8f182a709856a1aeb1cf2764eaf4a748d662dbe5400430",
+    "full_domain_columns.adb": "5aa454c060ee1d84cac25d5ad97e2c6631f57bffe8f063c828a828c01a085024",
+    "REPRESENTATION.md": "9aafc70664c7608d59707c80409f86b68b0779ffabe772fa3813862a17078979"
+  },
+  "concrete_scalar_counterexample_found": false,
+  "source_reasoning": [
+    "Add_Column: total lies0..511. Positive modulus gives digit0..255; carry iff total>=256 gives digit+256*carry=total. All intermediate values fit even the minimum Ada Integer range.",
+    "Subtract_Column: total lies-256..255. Ada mod with positive256 yields nonnegative remainder; borrow iff total<0 gives total=digit-256*borrow. Using mod rather than rem is essential.",
+    "Add_Uniform: write s=Left+Right. For s<=254 carry transition is constantlyFalse; s=255 preserves incoming carry; s>=256 transition is constantlyTrue. Therefore the carry after the first column is a fixed point, exactly as the assertion requires.",
+    "Subtract_Uniform: write d=Left-Right. For d<0 borrow transition is constantlyTrue; d=0 preserves incoming borrow; d>0 transition is constantlyFalse. The second borrow equals the first, so a single first digit plus uniform steady suffix is source-consistent.",
+    "Uniform Length0 returns two absent runs and unchanged incoming carry/borrow. First/Steady are still computed, but only bounded scalar arithmetic occurs. Length-1 is evaluated only for nonzeroLength, avoiding unsigned underflow.",
+    "Subtract_Three: total lies-768..255. For negative total, -total+255 lies256..1023, whose integer quotient by256 is1..3. Together with total mod256 this is the Euclidean relation total=digit-256*borrow. At total-768 the result is digit0/borrow3; outgoing0..3 closes the original triple-borrow range.",
+    "Power exponent0 gives zero-length zero run then digit1; PowerMinusOne exponent0 has no digits and denotes zero under the stated empty-run semantics. At original signed64 maximumN=2^63-1, N converts exactly to Unsigned64; Power256 total logical digit countN+1=2^63 fits Unsigned64. Neither constructor evaluates N+1 in signed Source_Count.",
+    "Both constructors return fixed records without expanding exponent-sized storage. Uniform Length may span the full U64 range: returned first+rest lengths remainLength, but a future materialized width including a final carry can beLength+1 and overflowU64 at its maximum. These functions do not compute that sum; general backend code must not assume it fits."
+  ],
+  "findings": [
+    {
+      "severity": "OPEN_SEMANTIC_BRIDGE",
+      "detail": "Uniform Post contracts specify local column outputs and run lengths, not an interpreted full run value. The representation/value-concatenation bridge is explicitly UNPROVEN. Subtraction's Carry means borrow and must enter a full-value relation with a negative high term, not addition's positive carry term."
+    },
+    {
+      "severity": "OPEN_GENERAL_REPRESENTATION",
+      "detail": "Coverage of original signed64 Power exponents does not establish that U64 offsets/lengths cover arbitrary combinations of standard Big_Integer operations. Future concatenation, shifts, carries, page indices and allocation/owner counts need independent nonwrapping bounds or a wider representation; do not add an input cap."
+    },
+    {
+      "severity": "NONBLOCKING_DOCUMENTATION_CLARITY",
+      "detail": "REPRESENTATION.md calls33,554,429 an offset after stating33,554,428 bytes. Specify one-based byte position versus zero-based offset when presenting the first header-overflow witness; the next one-based byte is33,554,429, zero-based offset33,554,428. No such threshold experiment was run by this reviewer."
+    }
+  ],
+  "qualification_required": [
+    "Compile actual spec/body with strict warnings/checks, then whole-unit GNATprove over all7functions and their assertions/contracts; zero unproved/justified/Assume.",
+    "Checked scalar boundaries and independent negative carry/borrow mutant; include0-length, length1, signed64 maximumexponent without expansion, carrythrough255, borrowthrough0, three-debit total-768.",
+    "Prove interpreted run value/concatenation and recurrence bridges before treating the constructors as the public mathematical evaluator.",
+    "Review actual installed Source_Count/Long_Long_Integer bounds, ABI/lowering and complete caller/domain/resource obligations; no compiler or proof was run here."
+  ],
+  "nonclaims": [
+    "No standard runtime, normalization, packed-header, ownership or Big_Integer API repair.",
+    "No allocation/copy/cleanup qualification, implicitOld/O1 closure, full-domain application acceptance or F7.",
+    "805byte runtime/header observations are retained author/parent evidence; this review did not rerun or independently inspect installed runtime thresholds.",
+    "No jobs, proof, build, test, download, copy, production edit, storage/device action or other file write; only this review receipt."
+  ],
+  "evidence_class": "FINITE_MATHEMATICAL_SOURCE_REVIEW_UNMECHANIZED_NOT_FORMAL_PROOF",
+  "phase_acceptance": false
+}

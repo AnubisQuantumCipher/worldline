@@ -1,0 +1,170 @@
+{
+  "schema": "worldline.independent-linear-reservation-replay-review.v1",
+  "created_utc": "2026-10-26T16:21:18.707258+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model_requested": "gpt-6.1-sol",
+    "effort_requested": "high",
+    "serving_attestation": "UNAVAILABLE",
+    "independent_of_author": true
+  },
+  "verdict": "SOURCE_LEVEL_APPROVAL_FOR_CONTROLLED_STRICT_LEGALITY_AND_PROOF_ONLY",
+  "blocking_concrete_counterexamples_found": [],
+  "pins": {
+    "candidate_manifest": "feb020f130d72f5f0664ccc746e1b6dccf2e7593ac70ca6199393b957d64441b",
+    "candidate_spec": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+    "candidate_body": "35cb6eadd1f6726e730431dd56bd18242acd7be0b72b06c5310b01b1e196915f",
+    "candidate_design": "97ed10b1c6a71966bd77aab9b859005244b03ac02294543abe2c44b221c77c0a",
+    "bridge_patch": "0304f341930946f5aa4f344233a4eeb2ed08995996afd15e13385bfc814e089b",
+    "previous_declarative_patch": "e6bedb4ebedd570e41e0626fe2709beea99c69f1befae9be7a7a99c51a426336",
+    "previous_checked_cost_rejection": "1c51b57a12a126ff0725cde060daf3629529d50b1a509f2c8499976bd01b978b"
+  },
+  "product_preimages_checked": {
+    "core/worldline-ordinary_reservation_lifecycle.ads": {
+      "expected": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27",
+      "actual": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27",
+      "matches": true
+    },
+    "core/worldline-ordinary_reservation_lifecycle.adb": {
+      "expected": "87aa67b6034e884abb5581ca92c5162056f5d8c57dc5b18b8ca64abd0ff403bf",
+      "actual": "87aa67b6034e884abb5581ca92c5162056f5d8c57dc5b18b8ca64abd0ff403bf",
+      "matches": true
+    },
+    "core/resource_reservation_lifecycle.ads": {
+      "expected": "12a88a7153fde38ece9e0551c67d442066c6c092b4055d5d4bcfeadd14388b4f",
+      "actual": "12a88a7153fde38ece9e0551c67d442066c6c092b4055d5d4bcfeadd14388b4f",
+      "matches": true
+    },
+    "core/resource_reservation_lifecycle.adb": {
+      "expected": "e8019d148f4883b4742f3f69429d42b20b67f02743d60a906769de8515b10e8f",
+      "actual": "e8019d148f4883b4742f3f69429d42b20b67f02743d60a906769de8515b10e8f",
+      "matches": true
+    }
+  },
+  "candidate_artifacts_checked": {
+    "reconciled-gone.patch": {
+      "expected": "0304f341930946f5aa4f344233a4eeb2ed08995996afd15e13385bfc814e089b",
+      "actual": "0304f341930946f5aa4f344233a4eeb2ed08995996afd15e13385bfc814e089b",
+      "matches": true
+    },
+    "worldline-ordinary_reservation_replay.ads": {
+      "expected": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+      "actual": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+      "matches": true
+    },
+    "worldline-ordinary_reservation_replay.adb": {
+      "expected": "35cb6eadd1f6726e730431dd56bd18242acd7be0b72b06c5310b01b1e196915f",
+      "actual": "35cb6eadd1f6726e730431dd56bd18242acd7be0b72b06c5310b01b1e196915f",
+      "matches": true
+    },
+    "design.md": {
+      "expected": "97ed10b1c6a71966bd77aab9b859005244b03ac02294543abe2c44b221c77c0a",
+      "actual": "97ed10b1c6a71966bd77aab9b859005244b03ac02294543abe2c44b221c77c0a",
+      "matches": true
+    }
+  },
+  "source_evidence": [
+    {
+      "candidate": "worldline-ordinary_reservation_replay.adb:72-89,240-255",
+      "production": "core/worldline-ordinary_reservation_lifecycle.adb:18-61",
+      "finding": "Root/Rows/Op cached exactly once in Conforms; schema/profile/row-count checks retain original domain. Optional flags enabled only IsTrue, builtin pass before uniqueness. Capture refusal requires zero mask/code0/position0. Nonboolean/missing optional flags remain disabled rather than newly malformed."
+    },
+    {
+      "candidate": "worldline-ordinary_reservation_replay.adb:32-70",
+      "production": "core/worldline-ordinary_reservation_lifecycle.adb:33-61",
+      "finding": "Builtin requires literal booleantrue builtinString and string hex. Unique pass ignores missing/nonstring payloads, compares decoded Equal on each original pair exactly once; no raw spelling/digest substitute, identity normalization or new row cap."
+    },
+    {
+      "candidate": "worldline-ordinary_reservation_replay.adb:162-183",
+      "production": "core/worldline-ordinary_reservation_lifecycle.adb:121-136",
+      "finding": "Row objects and nonreconcile left/right/operatorResult object requirements match. Release uses ne Boolean and IsFalse, not negatedeq. Reconcile requires literalFalse Boolean/originalobject and selects literalTrue field; original helper bridge follows exact RemoveRow ReconcileObserved = ObservedGone."
+    },
+    {
+      "candidate": "worldline-ordinary_reservation_replay.adb:147-160,212-225",
+      "production": "core/worldline-ordinary_reservation_lifecycle.adb:138-146",
+      "finding": "Matched attach with malformed/missing unitEq returns Invalid selection1, so replay increments Matches/lastordinal before Failed; direct Plan likewise writes mask1/PositionK before malformed return. Unmatched attach accepts explicit JSONnull unitEq only; missing/non-null remains malformed. Other equality operations ignore unitEq and use each independently captured roweq."
+    },
+    {
+      "candidate": "worldline-ordinary_reservation_replay.adb:196-238",
+      "production": "core/worldline-ordinary_reservation_lifecycle.adb:27,114-156",
+      "finding": "Before first malformed row, Expected comes only from immutable Data+Op; mask read only compares. After Failed, no later row inspected and Expected0 suffix matches Plan initialization/earlyreturn. FailedCode stays0 and equalitypartiallastordinal survives; complete identitymatch requires exactly1selection; all completed other rowops resetPosition0. No position from mask lowerbound or supplied-mask selection."
+    },
+    {
+      "candidate": "worldline-ordinary_reservation_replay.adb:91-145,185-194",
+      "production": "core/worldline-ordinary_reservation_lifecycle.adb:62-110",
+      "finding": "Control branches require zeromask/position0. gate/probe literalboolean; failure objectshape withouttruthcoercion; guardrelease validates bothbooleans beforetruthdecision; identityunit uses capturedne. Guardsettled validates all four shape requirements before any truthshortcircuit, then ignores manager unless alltrue. null manager=>2, nonobject/missing=>0, objectdelegation exact same Decide(Slice)/accepted extraction."
+    },
+    {
+      "candidate": "reconciled-gone.patch:6-11",
+      "production": "core/worldline-ordinary_reservation_lifecycle.adb:9-14;core/resource_reservation_lifecycle.ads:60-68",
+      "finding": "Only new private declaration/Post Result=ObservedFalse. Existing Mode fixedReconcileObserved; ObservedGone iffBooleantrue, Unknownotherwise. Exact expression entails identity for both booleanvalues, independent empty Data/Requested. No importedtheorem/body replacement/publicdomain change; actualformaldischarge UNRUN."
+    }
+  ],
+  "malformed_partial_output_cases_source_derived_unrun": [
+    {
+      "case": "attach rows firsteqtrue/unitEqtrue then eqtrue/unitEqmissing then anythirdrow, all requiredrowobjects present",
+      "expected": "Code0, Mask[2,1,0], Position2; thirdrowuninspected. Same directPlan/replay source trace, not executed."
+    },
+    {
+      "case": "attach eqfalse and missingunitEq versus explicitnull",
+      "expected": "Missing=>Code0 Mask[0] Position0; null=>Code1 Mask[0] Position0. Missing is not silently treated asnull."
+    },
+    {
+      "case": "identitymatch firsteqtrue then malformed nonobjectrow",
+      "expected": "Code0 Mask[1,0], Position1; complete2eqtrue rows insteadCode1 Mask[1,1] Position0."
+    },
+    {
+      "case": "identityupdate2eqtrue rows, or release nefalse with contradictoryeqfalse",
+      "expected": "CompleteupdateCode2 Mask[1,1] Position0. Release selection follows nefalse regardlesseq, Code2 Mask[1] Position0."
+    },
+    {
+      "case": "reconcile literalFalsefalse/true with eachoriginalobject",
+      "expected": "Code2 Mask[0,1] Position0; no truth conversion of capturedoriginal value."
+    },
+    {
+      "case": "guardsettled uniteqfalse/codeeqnonboolean versus uniteqfalse/codeeqboolean and malformedmanager",
+      "expected": "Malformedcodeeq=>Code0 beforetruthshortcircuit; allshapesvalid+uniteqfalse=>Code1 ignoring malformedmanager. If alltrue, missing/nonobjectmanager=>Code0 and explicitnull=>Code2."
+    },
+    {
+      "case": "wrong schema/profile, rowscount versusmasklength mismatch, optionalbuiltin/uniqueness rejection",
+      "expected": "Code0 allmaskzero Position0; candidate controls expectedcode independently of suppliedmask."
+    },
+    {
+      "case": "rowoperation with zero-lengthmask/emptyrows and arbitrary admittednullbounds",
+      "expected": "Code1 Position0 with no index arithmetic/maskread. Controlcode may differ byoperation; zero mask remains vacuous. Source review includes nullboundsoutsidePositive indexsubtype because noelement exists."
+    }
+  ],
+  "bounds_argument": {
+    "nonempty_mask_index": "For K in1..MaskLength and validnonempty Mask,0<=K-1<=MaskLength-1=MaskLast-MaskFirst, so MaskFirst+(K-1) liesactualrange and<=PositiveLast; no extra Pre or assumed1lowerbound. MaskLength0 executes no indexing even ifnull bounds outsidePositive.",
+    "counters": "Loop invariants Matches<=K-1 and LastMatch<=K-1; at mostone increment perrow =>Matches<=K<=MaskLength<=NaturalLast, assignment LastMatch=K valid. Failed suffix performs neither increment norrowinspect. K-1 and Jloop upperK-1 safe because loopenteredonlyK>=1. ActualGNAT bounds/INIT/PRESERVE/termination proofs UNRUN.",
+    "position": "Position is rowordinalK, notMaskIndex; final<=length earlyrejection and exactExpectedLast ordinal preserve fullIndexdomain."
+  },
+  "checked_complexity_review": {
+    "no_quartic_prefix_recurrence_in_candidate": true,
+    "reason": "Conforms calls CaptureReady once before either ZeroResult or ReplayRows. UniqueReady one optional nestedpair pass, BuiltinReady oneoptionalrowpass. ReplayRows scalarinvariants only, InspectRow atmostonceperrow untilfailure; exactlyoneMask comparison perrow. No Prefix, CaptureReady or uniqueness call inside ReplayRows/rowhelper; no newrecursion.",
+    "opaque64_source_case": "For retained requireUnique true opaque64release rows with missinghex, candidate performs choose64,2=2016pairiterations plus64decisions and64maskcomparisons. Earlier rejected patchadds2031120prefixpairqueries beforeotherwork. These are exact source loop counts, not runtime measurements.",
+    "remaining_costs": "Element still rescans arrayprefix and Field/Equal/Text/Parse/manager allocations and existingrecursion remain. Not totalO(n), constantphysicalmemory or proved8GiB/deadline admissibility. Adding checked Conforms duplicates a constantnumber of originalpasses, not accepteduntilactualcontrols.",
+    "bridge_hold": "No PlanPost link or incremental proofbridge exists inthiscandidate. Future Plan->Conforms integration must not reintroduce repeatedchecked prefix scans; original declarativeequivalence must still beproved, not dropped to retaincost."
+  },
+  "legality_and_proof_limits": [
+    "Ghost package and subtype ranges appear source-legitimate; actualAda legality/warnings/importclosure and all-unit proof UNRUN. No illegal functionAlwaysTerminates aspect added.",
+    "No productionPlan call or changedpublicPost; helperPost patch isunapplied. Current public rangecontract remains unchanged.",
+    "Source reasoning is not proof Conforms equivalent to earlier declarativePlanConforms or productionPlan establishesConforms. Both mandatoryseparate obligations remain.",
+    "Current scalar loopinvariants boundcounter/indexsafety only; they do notstate or prove fullfunctional prefixinduction.",
+    "Fullmalformeddomain/partialAdaoutputs preserved by sourcecaseanalysis; ABI Code0 nonpublication behavior is separate and must retainoriginal native/alias/fault controls.",
+    "No proof of producer/parser/decodedEqual/manager dependencies or actual memory/termination/deadlines claimed. No assertion policychange/cap/exclusion/Assume introduced.",
+    "Original C1-C4/F0-F7/O1 genuine significantnumeric full-domain failure and all same-source wholeproject acceptance gates remainopen."
+  ],
+  "smallest_next_step": "Root may choose a bounded source-bound isolated strict legality/all-routine proof of new replaypackage and private ReconciledGone Post in ownedcandidate, retainingevery product publiccontract and original fullsemantics. Beforeproduction integration require actual declarativeequivalence and Planestablishment proofs without executableprefix recurrence, original runtime/negative/opaque64cost controls and independent same-source evidence. Reviewer launchednojob.",
+  "actions": {
+    "source_edit": false,
+    "production_edit": false,
+    "build": false,
+    "proof": false,
+    "tests": false,
+    "download": false,
+    "storage_or_device_work": false,
+    "review_json_only": true
+  },
+  "phase_acceptance": false
+}

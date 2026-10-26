@@ -1,0 +1,39 @@
+{
+  "schema": "worldline.private-tmpfs-execution-review.v1",
+  "utc": "2026-10-26T16:11:55.062263+00:00",
+  "reviewer": "/root/acceptance_map GPT6.1Sol high requested",
+  "verdict": "CONDITIONALLY_SOUND_FOR_BOUNDED2MIB_FILESYSTEM_PROBE_ONLY_NO_PROOF_JOB_APPROVAL_YET",
+  "basis": "Parent proposal only; reviewer executed no namespace/mount/job. Unshare success and MemAvailable25.8GiB are parent observations, not memory admission proof.",
+  "policy": "WORKTREE and sources remain on real disk. Overlay only newly owned empty unique output directories under real worktree in a private user+mount namespace. This does not retire/delete existing disk data or use iPad/external storage. No original8GiB process/resource/receipt/acceptance requirement is weakened.",
+  "probe_preconditions": [
+    "Parent/child mount namespaces must differ; explicitly make mount propagation private, then verify mountinfo. Mount only normalized no-symlink paths beneath the new owned output root, after same-owner empty-directory/inode/device checks. Never overlay existing output/source directories.",
+    "2MiB tmpfs must also bound inode count and controlled path/file count. Filesystem size alone does not give an archive metadata/inode bound. Fixed probe files/path lengths should make worst-case uncompressed tar plus compression overhead demonstrably below20MB.",
+    "All namespace/tool/tmpfs/restore work stays within the original8GiB cgroup and swap0. tmpfs size is a maximum, not a reservation; charge RAM output, toolRSS, page/cache overhead, compressor and independent restore buffers together.",
+    "Bound all real-disk stdout/stderr/manifests/archive growth before admission using actual free-minus10GB reserve, including atomic partial archive, not just final compressed size. Keep original real-disk guard active. Other writers can still remove headroom; record stop/failure exactly.",
+    "Keep collector alive outside the killable tool child. A supervisor timeout/OOM that destroys the mount namespace before archive completion loses final evidence. Ensure stop ordering terminates tool, collects/archives/verifies outputs, then exits/unmounts; whole-scopekill must report evidence loss and cannot yield accepted success.",
+    "Archive complete final output trees, including complete proof sessions/reports/JSON and relevant cache outputs. Only a dedicated explicitly classified compiler TMPDIR may be excluded. Do not use broad filename/extension exclusions that erase negative/final evidence.",
+    "Before archive creation freeze final outputs and snapshot file identity/content/metadata. Reject unsupported links, special files, path traversal or output paths escaping the namespace. Do not follow source symlinks into unrelated host data.",
+    "Write one bounded partial compressed archive on real disk, fsync archive/receipt as appropriate, extract independently into separately bounded RAM restore area, verify complete inventory + per-file hashes + chosen metadata + link targets, then atomically publish archive. Record namespace UID mapping for metadata comparison.",
+    "If archive cap/restore/source/output identity check fails, mark job failed and do not silently discard final RAM evidence to manufacture a receipt. The probe size/inode bounds should make cap failure impossible under intended output. A real proof job needs the same provable envelope or a pre-authorized retention fallback before launch."
+  ],
+  "proof_job_extra_gates": [
+    "Derive all actual GNAT root/Attest/private-library output and cache/config paths from exact project topology with a unique --subdirs name. No source/cache output elsewhere may escape to real disk unexpectedly. TMPDIR/XDGcache redirects alone are not an exhaustive write-path proof.",
+    "Qualify tool-memory plus tmpfs-output plus collection/restore peak; MemAvailable25.8GiB does not extend the8GiB cgroup. A bounded child subbudget can reserve collector headroom, but exact limits/failures must be reported and stricter failure is not failure of the original8GiB target.",
+    "Choose tmpfs size/inodes/path limits and archive byte bound such that complete worst-case archive fits20MB, not merely expected compression. Output ENOSPC or inode exhaustion is a failed/unproved probe, not grounds to exclude evidence.",
+    "Read back actual bounded parallelism and original proof/check/assertion flags. Filesystem isolation cannot authorize new unbounded-j0 defaults or change source/ghost policy.",
+    "After namespace exit, mountpoint report paths are empty. Durable archive/index/restore receipt must be named explicitly. Do not claim those original paths still contain reports or update acceptance readers that require materialized files without an approved exact-source restoration path.",
+    "A proof exit0 is insufficient absent complete current-source coverage/report and successful retention validation. Keep original F7/O1/full-domain gates open."
+  ],
+  "risks_not_eliminated": [
+    "Host crash/power loss before archive publication can lose RAM-only outputs. Report incomplete execution rather than claiming retained evidence.",
+    "OOM/timeout scope-kill cleanup order is a concrete retention risk, not solved by archiving only on normal return.",
+    "Changing filesystem/output paths may alter cache reuse and timings; fresh exact-source proof/readback remains mandatory."
+  ],
+  "actions": {
+    "job": false,
+    "mount": false,
+    "proof": false,
+    "download": false,
+    "production_edit": false
+  }
+}

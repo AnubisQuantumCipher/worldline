@@ -1,0 +1,111 @@
+{
+  "schema": "worldline.utf8.coordinator-v2.root-team-review.v1",
+  "reviewer": {
+    "agent": "/root/source_lineage",
+    "model_requested": "gpt-6.1-sol",
+    "model_selected": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "independent_of_author": true,
+    "provenance": "Root-provided successful dispatch; no independent serving attestation."
+  },
+  "verdict": "SOURCE_APPROVAL_FOR_NARROW_TARGET_ONLY_COMPILER_LEGALITY_CHECK",
+  "production_adoption": false,
+  "blocking_logical_counterexamples_found": [],
+  "review_scope": "Fullv2 body/spec/GPR/manifest/change-proof-argument and decompositionpatch; fullv1 body/spec/priorreview; actual original core UTF8/Step and Producer_Bytes.Decoded; actual current Chunk spec/body. Not a complete transitive whole-project audit.",
+  "pins": {
+    "utf8_coordinator_proposal.ads": "8f83eee4352c211f3577eea4a4fccd46f405097eed51c6dcd274c34a8a8c8183",
+    "utf8_coordinator_proposal.adb": "64e46add64614f0c4c83facf81a4bc515e56cd0a36d8ecdb506f48fa5af0c427",
+    "utf8_coordinator_qualification.gpr": "1287469c44fdcacc8e064f655f4f17f7a93b40e2478d341c943266523e24a666",
+    "coordinator-source-v2.json": "8eb1a4b27fb249c1a7a4531e358bcc42569871df10a1e8651deed0be351bd518",
+    "decomposition.patch": "897cbe06d1f5a1dba83f76a1aec948933de483a7cc7f7ffac3695c4669abfb7a",
+    "change-proof-argument.md": "b0ec4dd3c11a70eeae073110287e2706a386c14b0dc3ee12fcaa95384843e127",
+    "v1_body": "775473d57f7aabd4938f6610e2161806e47d22dc063877846ced6e2d63c93b94",
+    "chunk_spec": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+    "chunk_body": "8bd72b87296fa3fb180ef875a947df6ec35ffd568206ba0588a5911b0fc09afc",
+    "original_core_body": "501c858e9faf6bfabbf28d5b79dfec62127136370f4ee33ed80fba2ab08f9a32",
+    "producer_bytes_spec": "6b64c3643869d09d876166c8ddc0a08f7473859d6e069586aa2770badf638988"
+  },
+  "all_eight_manifest_source_hashes_match": true,
+  "patch_and_argument_hashes_match": true,
+  "source_findings": [
+    {
+      "status": "SOURCE_CONSISTENT_NOT_PROVED",
+      "topic": "Domain and checkpoint count",
+      "detail": "Public spec and local checkpoint predicate are unchanged fromv1. No publicPre/newinputcap/capacity-refusal added. Quota chooses max4096,ceil(N/64); Count<64 is derived via (N-1)/Quota<64 and nonfinal Count<=Position/Quota. Full-domain arithmetic/progress/termination VCs remain mandatory; assertion is not permission to reject valid longer input."
+    },
+    {
+      "status": "SOURCE_CONSISTENT_NOT_PROVED",
+      "topic": "Sizing and saved metadata",
+      "detail": "Prefix_Valid is the exact earlier scalar endpoint/presence/progress/extent/output-adjacency conjunction, capturing immutable input context and Saved without a String or checkpoint-array formal. Size alone mutates Saved after initialization. Complete exports full consumption; refusal exports the actual failing same-Chunk summary and original refusal disjunction. Merging the two original refusal branches retains False/empty result semantics."
+    },
+    {
+      "status": "REQUIRED_CALLER_PROOF_OPEN",
+      "topic": "Predicate and replay congruence",
+      "detail": "PresentTrue predicate still states Saved.Item=Decode_Chunk(Bytes,Saved.Start,Quota,ReplaceErrors).Item. Replay repeats exactly that input tuple. Assert equality and Validate_Replay Pre require actual pure-function congruence and unchanged captured metadata. Generated predicate and every callsite Pre VC must discharge. A green Validate_Replay body under its strong Pre cannot discharge these caller obligations."
+    },
+    {
+      "status": "SOURCE_CONSISTENT_NOT_PROVED",
+      "topic": "Render/write frame",
+      "detail": "One public extended return object is created after successful Size. Render is a procedure over that object; Write_Prefix receives the exact next output slice and precomputed Chunk. It writes the original scratchprefix and its Post states initialization/byte equality. Render still must prove slice bounds, preservation of prior initialized prefix, final extent and full initialization. No new input/output Old snapshot is present."
+    },
+    {
+      "status": "NO_COPYFREE_CLAIM",
+      "topic": "Compiler-dependent copies",
+      "detail": "No explicit full Bytes copy or extra Decoded-returning function layer is added. Nevertheless Render outDecoded may use a whole-output temporary/copyback; Write_Prefix outStringslice, Block inChunk and the equality Post may create slice/chunk temporaries or copies. Lexical environment/predicate checks/initialization attributes also require generated-code inspection. Source review cannot exclude hidden full-output copying or bound process memory."
+    },
+    {
+      "status": "BOUNDED_METADATA_ONLY_AT_SOURCE",
+      "topic": "Checked work",
+      "detail": "At most64 checkpoint entries bound the two scalar metadata scans; the author's4160-loop-visit and256-post/pre-visit upper estimates are conservative source counts, not compiled measurement. No explicit decoder call occurs inside Prefix_Valid or its scalar quantifiers. Default PresentFalse short-circuits the predicate. Implicit predicate replay/copy behavior remains unqualified."
+    },
+    {
+      "status": "ADDITIONAL_CHECKED_WORK_EXPLICIT",
+      "topic": "Postconditions",
+      "detail": "A Size refusal explicitly recomputes only that failing chunk once; it does not rescan the completed prefix. Write_Prefix equality adds comparison of alreadycomputed output bytes, linear in copied output across chunks. These observations do not bound hidden copies, predicate evaluation, allocation or deadlines."
+    },
+    {
+      "status": "ORIGINAL_RESOURCE_GAP_OPEN",
+      "topic": "Early invalid and overflow",
+      "detail": "Original strict-invalid path can refuse before output allocation; Chunk still allocates/zeroes scratch before detecting invalid input, and failure Post can repeat that work. Chunk-level overflow refusal may occur after different work than original per-step sizing. Same logical False/empty outcome is not proven equivalence of Storage_Error/time/8GiB behavior."
+    },
+    {
+      "status": "FUNCTIONAL_EQUIVALENCE_OPEN",
+      "topic": "Byte contract",
+      "detail": "Public spec constrains validity/empty extent, not complete output-byte equality to original UTF8. Chunk Post primarily states progress/capacity; Write_Prefix proves only copying its supplied block. Unchanged Step and chunk-boundary composition are source arguments, not a completed full-domain byte-equivalence proof. Independent original controls and required functional proof remain."
+    },
+    {
+      "status": "STRUCTURAL_ISSUE_EXPLICIT",
+      "topic": "Routine size",
+      "detail": "Nested definitions with contracts are19/48/38/10/43lines; UTF8 owns47 excluding them but spans205 lexically. Reporting this decomposition is honest. This review does not certify the entire205-line routine as meeting a60-line metric or grant a policy waiver."
+    }
+  ],
+  "guard_mapping": {
+    "one": "Validate_Replay lines120-124 retains v1 nonprogress/sourceextent/strict-validity guard. Negation must follow from exact saved summary, source adjacency and Chunk contract; caller Pre/equality assertion remain open.",
+    "two": "Lines126-129 retain v1 total remaining output and scratch capacity guard. Saved After<=total, Before=Used, output length=After-Before and Chunk bounds must establish it. Original valid-source copy bounds must also remain discharged inside Chunk.",
+    "three": "Lines132-135 retain v1 generalized source/output saved-interval guard. It is not text-identical to original per-replacement space guard; original replacement-space obligation is covered jointly by guard2 and Chunk local replacement bounds. All of these remain proof obligations.",
+    "four": "Render lines188-190 retains final Used=Result.Length guard. Count endpoint from successful sizing plus adjacency and loop carry must prove it; source guard preservation alone is insufficient."
+  },
+  "legality_constraints": [
+    "Use only an explicitly allocated target-only compile/check command with actual strict warning/error/check flags and source hashes; this review ran no compiler.",
+    "Builder/Prove defaults now-j2 instead of-j0, but an admitted command and original8GiB/swap0/deadline/reserve constraints remain required.",
+    "GPR reuses existing qualification-v2/qualification-obj; sole owner must serialize and retain existing evidence, verify actual target/output roster and avoid a competing or whole dependency build.",
+    "No current corrected Chunk proof result or coordinator proof/runtime result is inferred from earlier155-check source or toy predicate probes."
+  ],
+  "before_any_adoption": [
+    "Fresh strict whole-unit proof of generated predicate, all helper contracts, every callerPre, all4raises, output frame/init, bounds/count/termination; zero warnings/unproved/justified/Assume.",
+    "Actual lowering/allocation/copyback/predicate/frame readback under original resource constraints.",
+    "Full original byte/domain/strict-invalid/overflow/replacement positives and changed-start/quota/summary/interval negatives; untouched accepted cases.",
+    "Complete touched-module/caller proof floors, same-source integration/runtime and independent acceptance remain separate gates."
+  ],
+  "execution": {
+    "jobs": false,
+    "compile": false,
+    "proof": false,
+    "tests": false,
+    "production_edit": false,
+    "other_source_edit": false,
+    "review_artifact_only": true
+  },
+  "evidence_class": "INTERNAL_FINITE_SOURCE_REVIEW_NOT_FORMAL_PROOF_NOT_F7",
+  "phase_acceptance": false
+}

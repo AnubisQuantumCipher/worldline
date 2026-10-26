@@ -1,0 +1,95 @@
+{
+  "schema": "worldline.utf8.coordinator-decomposition-source.v2",
+  "utc": "2026-10-26T16:14:11.133507+00:00",
+  "author": "GPT-6.1-Sol high /root/proof_blocker",
+  "status": "SOURCE_ONLY_UNCOMPILED_UNPROVED_UNRUN",
+  "source_sha256": {
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_proposal.ads": "8f83eee4352c211f3577eea4a4fccd46f405097eed51c6dcd274c34a8a8c8183",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_proposal.adb": "64e46add64614f0c4c83facf81a4bc515e56cd0a36d8ecdb506f48fa5af0c427",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_qualification.gpr": "1287469c44fdcacc8e064f655f4f17f7a93b40e2478d341c943266523e24a666",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/utf8_coordinator_proposal.adb": "775473d57f7aabd4938f6610e2161806e47d22dc063877846ced6e2d63c93b94",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/qualification-v2/utf8_chunk_proposal.ads": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/qualification-v2/utf8_chunk_proposal.adb": "8bd72b87296fa3fb180ef875a947df6ec35ffd568206ba0588a5911b0fc09afc",
+    "core/worldline-evaluation_agent_native.adb": "501c858e9faf6bfabbf28d5b79dfec62127136370f4ee33ed80fba2ab08f9a32",
+    "core/worldline-producer_bytes.ads": "6b64c3643869d09d876166c8ddc0a08f7473859d6e069586aa2770badf638988"
+  },
+  "patch_sha256": "897cbe06d1f5a1dba83f76a1aec948933de483a7cc7f7ffac3695c4669abfb7a",
+  "routine_sizes": {
+    "Size": {
+      "start": 51,
+      "end": 98,
+      "physical_lines_with_contract": 48
+    },
+    "Validate_Replay": {
+      "start": 100,
+      "end": 137,
+      "physical_lines_with_contract": 38
+    },
+    "Write_Prefix": {
+      "start": 139,
+      "end": 148,
+      "physical_lines_with_contract": 10
+    },
+    "Render": {
+      "start": 150,
+      "end": 192,
+      "physical_lines_with_contract": 43
+    },
+    "Prefix_Valid": {
+      "start": 30,
+      "end": 48,
+      "physical_lines_with_contract": 19
+    },
+    "UTF8": {
+      "start": 8,
+      "end": 212,
+      "full_lexical_span_including_nested_definitions": 205,
+      "own_lines_excluding_nested_definitions": 47
+    }
+  },
+  "checked_source_facts": {
+    "public_ads_byte_identical": true,
+    "local_checkpoint_predicate_type_and_bound_byte_identical": true,
+    "explicit_Program_Error_sites": 4,
+    "no_public_precondition_added": true,
+    "no_input_or_output_Old_snapshot_added": true
+  },
+  "helper_contracts": {
+    "Prefix_Valid": "Exact v1 scalar endpoints, presence/validity/progress/bounds, outputlength and source/output adjacency over captured fixed64metadata. No Chunk/byte scan or metadata/String parameter.",
+    "Size": "No Pre; always exports Prefix_Valid for produced checkpointprefix. Complete implies full consumption; refusal exports exact failed sameChunk summary and original invalid/nonprogress/extent/overflow condition. Count must prove division bound, never new64capacityrefusal. Only Size mutates Saved.",
+    "Validate_Replay": "Caller Pre requires actual sameSummary, scalar interval/source adjacency, priorUsed/totalbounds and scratch bound. Existing three guards remain. Post exports safe progress/copy/interval facts; caller Pre VCs are the original hard replay obligations, not waived by a helper-only proof.",
+    "Write_Prefix": "Only an out slice is written; exact targetlength/scratch bound Pre and fullinit+exact alreadycomputed Block prefix bytes Post. No Chunk call or oldprefix snapshot. Caller out-slice frame must preserve prior initialized output prefix.",
+    "Render": "Complete Prefix_Valid Pre; initialized existing output object/ValidTrue Post; used-prefix invariant/final fourthraise retained. Procedure writes original public extended-return object; no added B.Decoded-returningfunction layer.",
+    "UTF8": "Same public Globalnull/full noPre domain/spec. Empty trueempty; checked original sizingrefusal falseempty; success original exact allocation after sizing."
+  },
+  "source_semantics_argument": [
+    "Original Chunk firstphase Bytes/Position/Quota/Replace args and replay Bytes/SavedStart/Quota/Replace args unchanged. CompleteStep boundaries/replacement bytes still actual same Chunk; immutable inputs/predicate bound byte-identical.",
+    "Size combines original strictinvalid and originalextent/overflow refusals into one disjunction with same falseempty publicresult. Failure witness makes refusal explicit rather than an unconstrained authorization Boolean.",
+    "First3guard expressions are moved with scalar renaming; guard4 stays finalUsed vsResultLength. Guard3 remains independently reviewed v1 generalizedsavedinterval guard, not a new claim originalperreplacement guard text-identical.",
+    "WritePrefix body is the original scratchprefix assignment into the exact originalUsed interval; its explicit post states written-byte equality. Actual slice parameter gives frame without output/input Old snapshot.",
+    "Whole UTF8 remains Globalnull. Local helpers have inferred flow for lexical Saved/immutable Bytes/Quota/Replace; source ownership explicit Saved only Size writes. Fresh whole-unit flow must check, no imported/inferred-effect success presumed."
+  ],
+  "proof_obligations": [
+    "PrefixValid INIT/PRESERVE and Size fullsuccess/failure post, private ChunkPre, termination and Count<64 for entire public String domain.",
+    "Render completeprefix Pre, exact sameChunk congruence and each ValidateReplay callerPre; proving helperbody underPre alone is insufficient.",
+    "All4raise-unreachability checks, every WritePrefix callerPre/frame/init, final ResultInitialized/validity and every helpercontract.",
+    "Generated local checkpointpredicate plus5new nestedhelpers and public UTF8 all covered by fresh strict report; zero warnings/unproved/Assume/justified.",
+    "Original API/full byte semantics/adversarial controls, privateimports/sourcepins, original F2roster/floors and F7/O1/resource constraints unchanged."
+  ],
+  "checked_cost_delta": {
+    "metadata": "Same64 initialized defaultPresentFalse records; no Bytes/String input/context copy, pointer, global mutable storage or generic instantiation introduced. Prefix checker captures metadata; no array parameter copying in that checker.",
+    "scalar_work": "Two scalar quantifiers <=4160entryvisits across64sizingiterations, plus SizePost and RenderPre at most256entries total. No explicit Chunkcall in any LoopInvariant/PrefixValid. Actual implicit predicate checks still compilerqualification.",
+    "failure_post": "One additional Chunk call in SizePost on a refusal only, on that single failedchunk; no completed prefix replay. Caller refusalassertion scalar only.",
+    "copy_post": "WritePrefix post compares alreadycomputed Block prefix to written slice once; extra linear outputbyte comparison, no Chunkcall perbyte.",
+    "ABI": "One public extendedreturn object retained. Render outDecoded, WritePrefix outStringslice, and Block inrecord may still introduce compiler-dependent temporaries/copyback. Actual lowering must bound these; no zero-copy or existing8GiB claim.",
+    "holds": "Original earlystrictinvalid now allocates/zeros scratch first; unchanged unresolved resource-domain/deadline difference. Predicate recomputation/storage/defaultinitialization and checked cost all must qualify.",
+    "jobs": "None run. No newcache/output directory, disk/device/offload work or production mutation."
+  },
+  "project": "Same complete sourceclosure/privateimports/existing qualification-v2 objectdirectory. Only new GPR defaults Builder/Prove j0->j2 boundedfallback; no active proofcontrol or product change. Separately allocated strict command still required.",
+  "line_metric": "All nested phase definitions including contracts below60 physical lines. UTF8 owns47 lines excluding separately counted nested definitions; its complete lexical span remains205 and is explicitly reported. No claim full nested text fits60, no policywaiver. Root must approve decomposition convention before adoption.",
+  "production_modified": false,
+  "compile_build_proof": false,
+  "ipad_storage_work": false,
+  "phase_acceptance": false,
+  "change_argument_sha256": "b0ec4dd3c11a70eeae073110287e2706a386c14b0dc3ee12fcaa95384843e127"
+}

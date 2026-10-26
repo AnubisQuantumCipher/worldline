@@ -2355,3 +2355,86 @@ integration still require coherent implementation. No guessed API or unsound pat
 is adopted. Raw third-party files stay local; public checkpoint metadata supplies
 their original exact references and hashes. Coordinator reviewafe19a7a approves only
 controlled future verification, retaining its structural and resource obligations.
+
+## D142 — Bound new diagnostic compiler output in private RAM
+
+Options were to continue disk-backed compilation without enough output capacity,
+resume the iPad work the user stopped, or qualify a bounded RAM output path.
+Choose the third for diagnostic component qualification only. The real source
+worktree, old objects, installed tools, original 10 GB reserve, shared heavy lock,
+14 GiB admission, 8 GiB scope and zero swap remain. No existing artifact is retired.
+This does not qualify authentic protected execution or any final acceptance gate.
+
+The initial 2 MiB tmpfs probe enforces ENOSPC, charges 2 MiB then 4 MiB including
+restore to the original cgroup, and restores the complete two-file archive with
+matching hashes/metadata. Its post-write archive-size check is insufficient as a
+hard disk bound, and it tests no failure-path retention. Preserve those limits.
+Evidence: completion-20261026/ram-output-probe-v1 and its terminal job receipts.
+
+The successor driver f5eacc2b uses a private user/mount namespace and Bubblewrap
+read-only disk inputs, with only declared compiler outputs writable in a 24 MiB,
+1024-inode tmpfs. A second 24 MiB tmpfs is the complete restore target. New archive
+writes have an enforced 8 MiB ceiling, preallocated before execution; 4 MiB is
+reserved in admission for separate bounded receipts. Unwritten preallocation is
+released only after archive completion. USTAR entry/path/logical-size checks reject
+unsupported output, and the complete manifest restores nanosecond mtimes. Compression
+is not guaranteed to fit: a ceiling failure retains its partial archive and prior
+inventory and is incomplete, never a proof pass. A whole-scope kill may lose new
+ephemeral output; durable launch/cgroup evidence must state that loss. It does not
+authorize deletion of historical output. The reviewer confirms that preserving every
+failed ephemeral cache through all OOM is not a binding guarantee; preserving failure
+history and rejecting missing evidence is binding.
+
+The successor probe actually attempts a forbidden disk write, observes EROFS, writes
+a known RAM witness, then dies by SIGKILL (exit 137 through Bubblewrap). Root readback
+confirms exact stdout/witness hashes, a 252-byte fully restored archive, unchanged
+source, empty parent mountpoints, peak 37,543,936 bytes, zero OOM events and a terminal
+unpopulated scope. The archive-ceiling negative control rejects byte 1025 before it
+reaches its 1024-byte output. This is TESTED process-failure retention, not an OOM
+survival claim. The helper's initial source review found a false-pass path for an
+unexpected child exit; root corrected it before this probe. Both review revisions
+and all probe results remain under completion-20261026. Compiler qualification must
+add exact source and original-object readback, actual tool outcome and a fresh report;
+the probe alone provides none of that proof credit. Reversal is to stop using the new
+driver and preserve its evidence; production source and underlying objects are intact.
+
+The actual Chunk diagnostic then exits 1 during dependency setup, before a fresh
+proof result: the read-only device bind denies the launcher's /dev/null access and
+the imported Attest proof-object directory is not writable. This is a sandbox
+configuration failure, not a source proof verdict. The complete 1,339,778-byte
+archive cf969247300043c48589d0888658353d0fbb963fccaaf22e5169088d8598ae48
+passes full restore comparison; source and underlying root objects are unchanged,
+peak memory is 267,812,864 bytes, OOM counters are zero and the scope is terminal.
+The separate v2 driver proposes a remounted-read-only private device directory and
+RAM copies of all three declared object trees under a 32 MiB output cap. Its probe
+is REFUSED by disk admission before namespace/tool execution. The v2 mapping is
+therefore unqualified. Preserve both drivers and failures; do not infer a fix from
+the source change. Linux free space subsequently reaches the 10 GB reserve. The
+whole /dev/vda device hosts ext4 with no additional unallocated partition exposed.
+No further build/proof is admitted. No reserve or acceptance policy is weakened.
+
+## D143 — Retain reviewed source successors without production promotion
+
+The new reservation replay candidate caches parsed root/rows/operation, performs
+optional original uniqueness once, and compares each mask byte once. Review
+5e0c64f6 finds no concrete malformed/partial-output/index counterexample and no
+quartic prefix recurrence. It does not establish total linear cost: original
+Element scans, pairwise uniqueness and manager capture remain. The constant
+Reconciled_Gone identity postcondition is a separate unapplied patch. Actual Ada
+legality, Conforms equivalence and production Plan-to-Conforms proof remain UNRUN.
+Choose controlled qualification next, not integration or a weakened public Post.
+
+UTF8 coordinator v2 decomposes its phases into contracted nested helpers. Review
+0d7f3006 finds the exact checkpoint predicate/public domain/four guards preserved.
+The helper Preconditions relocate the obligations to real callers; proving a helper
+alone cannot close those calls. Nested lexical length, out-parameter copyback,
+chunk/slice temporaries, the failed-chunk postcondition replay and early-invalid
+allocation remain explicit obligations. No compilation/proof/runtime pass is claimed.
+
+The full-domain column/run arithmetic scaffold is allocation- and recursion-free
+source with seven bounded scalar routines. It is not a standard Big_Integer backend,
+and it does not repair checked recursive prefix evaluation, wide storage, independent
+copy ownership, implicit Old retirement or the original 805-byte counterexample.
+Keep those obligations open. All proposals are outside production and reversible by
+leaving them unapplied; exact source hashes, implementation arguments and reviews are
+under completion-20261026. The root remains the sole production integrator.

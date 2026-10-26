@@ -1,0 +1,54 @@
+{
+  "status": "SOURCE_PROPOSAL_ONLY_UNINTEGRATED_UNCOMPILED_UNPROVED",
+  "owner": "/root/source_lineage; root retains integration ownership",
+  "model": {
+    "requested": "gpt-6.1-sol",
+    "selected": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "provenance": "Root-provided successful dispatch; no independent serving attestation."
+  },
+  "source_preimages": {
+    "core/worldline-ordinary_reservation_lifecycle.ads": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27",
+    "core/worldline-ordinary_reservation_lifecycle.adb": "87aa67b6034e884abb5581ca92c5162056f5d8c57dc5b18b8ca64abd0ff403bf",
+    "core/resource_reservation_lifecycle.ads": "12a88a7153fde38ece9e0551c67d442066c6c092b4055d5d4bcfeadd14388b4f",
+    "core/resource_reservation_lifecycle.adb": "e8019d148f4883b4742f3f69429d42b20b67f02743d60a906769de8515b10e8f"
+  },
+  "artifacts": {
+    "reconciled-gone.patch": "0304f341930946f5aa4f344233a4eeb2ed08995996afd15e13385bfc814e089b",
+    "worldline-ordinary_reservation_replay.ads": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+    "worldline-ordinary_reservation_replay.adb": "35cb6eadd1f6726e730431dd56bd18242acd7be0b72b06c5310b01b1e196915f",
+    "design.md": "97ed10b1c6a71966bd77aab9b859005244b03ac02294543abe2c44b221c77c0a"
+  },
+  "static_source_checks": {
+    "bridge_patch_git_apply_check": "exit0; read-only; production unchanged",
+    "nonexpression_function_max_lines": 43,
+    "production_ads_adb_hashes_unchanged": true,
+    "replay_input_root_parse_count": "One Parse(Data); guard manager output separately parsed once when delegated.",
+    "optional_uniqueness_passes_per_replay": 1,
+    "mask_element_comparisons_per_replay": "Exactly one per element on the selected Zero_Result or Replay_Rows path; malformed Code/Position may returnFalse before mask inspection.",
+    "new_prefix_quantifier_scans": 0,
+    "new_recursion": false,
+    "new_input_caps_or_public_preconditions": false,
+    "assertion_suppression_or_Assume": false
+  },
+  "actual_contract_delta": "Only unapplied private Reconciled_Gone declaration/Post; body and all existing public contracts unchanged. Existing Remove_Row exact reconciliation definition entails the Boolean Post by source inspection; formal discharge UNRUN.",
+  "replay_delta": "New unintegrated Ghost predicate over complete captured input and supplied result. Expected decisions depend on input/scalar state only, not supplied Mask. The original Plan is not called or altered.",
+  "checked_complexity_target": "Preserve original pairwise/selector/decoder comparison complexity up to a constant number of full passes; linear number of mask comparisons. Not total linear time or proven memory/deadline admissibility.",
+  "open": [
+    "Ada legality and strict all-unit proof are UNRUN.",
+    "Conforms equivalence to declarative Plan_Conforms is UNPROVEN.",
+    "Production Plan establishes Conforms with bounded checked induction: UNPROVEN; no new Post linking them is included.",
+    "Existing parser/Equal/manager recursion, allocation, original domain, resource and deadline obligations remain controlling.",
+    "Original runtime/native/alias/fault suite plus independent comparison and cost controls UNRUN.",
+    "Whole C1-C4/F0-F7/O1 and genuine numeric full-domain obligations remain OPEN."
+  ],
+  "execution": {
+    "build": "UNRUN",
+    "proof": "UNRUN",
+    "tests": "UNRUN",
+    "production_edits": false,
+    "jobs": false,
+    "downloads": false,
+    "device_or_storage_operations": false
+  }
+}

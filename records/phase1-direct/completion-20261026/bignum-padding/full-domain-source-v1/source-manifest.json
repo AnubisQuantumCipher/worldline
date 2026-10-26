@@ -1,0 +1,133 @@
+{
+  "schema": "worldline.full-domain-arithmetic-source-proposal.v1",
+  "date": "2026-10-26",
+  "author": "/root/acceptance_map GPT-6.1-Sol high requested",
+  "classification": "UNBUILT_SOURCE_PROPOSAL_AND_LIVE_SOURCE_INSPECTION; no compile/proof/test by author",
+  "scope": "Seven allocation-free scalar/run functions; not a drop-in Big_Integer runtime, not integrated, no original source/domain/contract/gate edits",
+  "inputs": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/AGENTS.md",
+      "sha256": "8abc7d3d8b9ee9c3df60bb961acb68879f862a184c052f1f3fa66ed4ce95006a",
+      "bytes": 1113
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/core/resource_quantities.ads",
+      "sha256": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+      "bytes": 6041
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/core/resource_quantities.adb",
+      "sha256": "de0a209345ee6b98528c6c803ccd594258e6d74da1b67b18d4298982d01682fb",
+      "bytes": 24879
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/core/spark-big_integers.ads",
+      "sha256": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52",
+      "bytes": 251
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-shabig.ads",
+      "sha256": "344bcca75e082c901321e9a8e7a2b115c7c8fd08773f6047092b9a94e5139069",
+      "bytes": 3944
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.ads",
+      "sha256": "c9ecde76575f7c7ae279da0c8f9a9fc930e85a2d3faf4df7907c3ce16d700177",
+      "bytes": 8399
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.adb",
+      "sha256": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+      "bytes": 42968
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.ads",
+      "sha256": "be5a0604cbbde4b12d15ffd1ce665238b6581d8ec534dd6b3e8e8dfc4f40607a",
+      "bytes": 6423
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb",
+      "sha256": "64872fd0039a97b22885320c559de9c4f13ac18c775d306b5690863ca6852d73",
+      "bytes": 17818
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/bignum-padding/significant-counterexample/significant_magnitude_counterexample.adb",
+      "sha256": "191ece9a6ae16e7c1dfc5b14737beeed7fff79c1db9f2a6853127e840d0f4a2a",
+      "bytes": 1092
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/bignum-padding/significant-counterexample/observed-result-v1.json",
+      "sha256": "9c7ab7e7a2f58e740833bb0b4d6a98ce9e64ca1efdba7f589478e46f3ecc8958",
+      "bytes": 1500
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/bignum-padding/full-domain-runtime-route-observed-addendum-v1.json",
+      "sha256": "ae75251dc5b49583c8be0c625c40fe22e05b4968158e2feb3e02ea1fd517b302",
+      "bytes": 1662
+    }
+  ],
+  "outputs": [
+    {
+      "path": "full_domain_columns.ads",
+      "sha256": "a84702c57b46c8e02e8f182a709856a1aeb1cf2764eaf4a748d662dbe5400430",
+      "bytes": 4172
+    },
+    {
+      "path": "full_domain_columns.adb",
+      "sha256": "5aa454c060ee1d84cac25d5ad97e2c6631f57bffe8f063c828a828c01a085024",
+      "bytes": 2505
+    },
+    {
+      "path": "REPRESENTATION.md",
+      "sha256": "9aafc70664c7608d59707c80409f86b68b0779ffabe772fa3813862a17078979",
+      "bytes": 9177
+    },
+    {
+      "path": "private-tmpfs-retention-correction.json",
+      "sha256": "541360fcf724bf130c0ca3c616a17ac97ba8624378419f66825763bd2849d270",
+      "bytes": 3156
+    },
+    {
+      "path": "private-tmpfs-execution-review.json",
+      "sha256": "c3c52524279bdb092aae39e56428d88ef4634887ba3ffbcef7cabba57c960a90",
+      "bytes": 5492
+    }
+  ],
+  "retained_counterexample": "Parent-executed exact 805-byte value 256^804 failed installed Normalize with STORAGE_ERROR. Current source pins above are a later inspection, not a claim the prior binary was built from this later source.",
+  "source_derived_finite_bounds": {
+    "normalize_guard": 200,
+    "maximum_significant_32bit_limbs_allowed_by_guard": 201,
+    "805_byte_counterexample_required_limbs": 202,
+    "shared_length_last": 8388607,
+    "maximum_dense_bytes_from_shared_length": 33554428,
+    "first_significant_byte_requiring_more_limbs": 33554429,
+    "status": "Arithmetic/source-derived bounds; second threshold not executed; neither is a proof of complete runtime behavior"
+  },
+  "implemented_functions": [
+    "Add_Column",
+    "Subtract_Column",
+    "Add_Uniform",
+    "Subtract_Uniform",
+    "Power_256_Runs",
+    "Power_Minus_One_Runs",
+    "Subtract_Three"
+  ],
+  "contracts": "Exact scalar carry/borrow equations; exact structural run fields; original exponent range preserved by Source_Count. Fixed-point assertions remain actual proof obligations. No imported assumptions, disabled checks, allocator or runtime Ghost Off in the supplied kernel.",
+  "unproved": [
+    "Ada syntax/type/warning checks and all kernel VCs unrun.",
+    "Independent mathematical interpretation/induction of run concatenation not proved.",
+    "Immutable dense-page storage/ownership, counted sharing, Adjust/Finalize/Old, exception cleanup and full standard API not implemented.",
+    "Checked Power/Prefix and helper-lemma recursion/repeated rescans not repaired.",
+    "No complete 8GiB live-memory/stack/time envelope established for original accepted inputs.",
+    "O1, full Phase One and independent F7 acceptance remain open."
+  ],
+  "smallest_next_experiment": "Root may commission bounded isolated strict compile/proof of all seven functions after resource admission, checked edge vectors and deliberate carry/borrow mutant. No such job was run or launched by this author.",
+  "actions": {
+    "build": false,
+    "proof": false,
+    "runtime_test": false,
+    "download": false,
+    "install": false,
+    "production_edit": false
+  }
+}

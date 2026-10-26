@@ -1,0 +1,77 @@
+{
+  "schema": "worldline.api-checkpoint-internal-review.v1",
+  "date": "2026-10-26",
+  "reviewer": "/root/acceptance_map",
+  "scope": "Internal nonfinal source/claim/publication-method review only; no F7 acceptance and no new build/proof/runtime job",
+  "verdict": "CONCUR_WITH_NONFINAL_API_CHECKPOINT_METHOD_SUBJECT_TO_EXACT_NEW_MANIFEST_AND_REMOTE_READBACK",
+  "local_head_observed": "08e95150aa3e5c747821c6865534ff326a93a38a",
+  "local_tree_observed": "8ee66e58d837f52c5f6529afc054f5ae93e078fd",
+  "remote_identity": "Parent reports exact matching remote ref/base verified; reviewer did not independently requery GitHub in this review.",
+  "tracked_diff_observed": [
+    "docs/decisions.md",
+    "docs/phase1-acceptance-report.md",
+    "docs/phase1-progress.md",
+    "records/phase1-direct/direct-continuation.json"
+  ],
+  "document_pins_at_review": [
+    {
+      "path": "docs/decisions.md",
+      "sha256": "f9d0214a2c7014aa7623b87ee73c48dec8d387d8ffed6f48aa4fd2a5b9d5100a",
+      "bytes": 512146
+    },
+    {
+      "path": "docs/phase1-progress.md",
+      "sha256": "fd5c23869d66b7524d15f3e460e8ae7ce36c50ec906edabe92e19dfd698b44c3",
+      "bytes": 110695
+    },
+    {
+      "path": "docs/phase1-acceptance-report.md",
+      "sha256": "69c2572f4a34d2233823112150e13777f43c47f0ca0132c3d1e2b37c069f6051",
+      "bytes": 57135
+    },
+    {
+      "path": "records/phase1-direct/direct-continuation.json",
+      "sha256": "ca96a03e27fedd11d39a7788d9fa3c2ae15d1faaf05dd6b698e57dc19cc6ebce",
+      "bytes": 10414
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/bounded-continuation-readback-v1.json",
+      "sha256": "b3a12421d87e6633e4d58f4694d2e1b5f5cb03c1288ef4d9648582fe57fb7ff9",
+      "bytes": 3004
+    }
+  ],
+  "claim_review": "D142 correctly separates tested SIGKILL/filesystem retention from failed compiler dependency setup and refused v2 probe. D143 accurately leaves new replay/coordinator/arithmetic successors source-only and uncompiled. The significant805-byte failure, same-source integrated proof/runtime, O1 and independent F7 remain open. Root remains sole production integrator.",
+  "evidence_readback": {
+    "chunk_archive_sha256_verified_from_local_bytes": "cf969247300043c48589d0888658353d0fbb963fccaaf22e5169088d8598ae48",
+    "chunk_archive_bytes": 1339778,
+    "chunk_inventory_entries": 352,
+    "chunk_tool_exit": 1,
+    "chunk_stderr_read_from_archive": "/dev/null Permission denied and imported Attest gnatprove object directory not writable; error during Global-contract generation",
+    "chunk_peak_bytes_recorded": 267812864,
+    "chunk_oom_counters": "zero",
+    "chunk_full_restore": "Parent-executed full comparison recorded true; reviewer reread compressed archive hash and exact archived stderr/stdout without extraction.",
+    "v2_probe": "Exact worker exit1 and stderr insufficient bounded qualification disk budget; namespace/tool did not run. Terminal scope inactive/unpopulated.",
+    "free_bytes_in_as_of_cut_receipt": 9998684160,
+    "unchanged_reserve_bytes": 10000000000
+  },
+  "mandatory_publication_controls": [
+    "Root alone creates one new commit on the existing owned branch, parent exactly08e95150, base tree exactly8ee66e58. No merge/new competing integration owner or production source change.",
+    "Generate a NEW exact named path/byte/hash allowlist from file bytes. Existing publication-plan-v2.json belongs to the prior9MB checkpoint and contains core/runtime paths; it is not the continuation allowlist.",
+    "Include complete proposal source/spec and its review/recipe/identity dependencies plus exact selected new job receipts. Exclude old caches/temp, compiled artifacts, fetched raw third-party source and raw archives. Existing archives stay local with explicit SHA/inventory/local-only availability; do not imply GitHub retains their content.",
+    "Create tree from the pinned base, create commit with pinned parent and nonfinal message, and update the existing ref with expected_sha08e95150 and force=false. On a lease mismatch stop, inspect and reconcile; do not retry against an invented head.",
+    "Read back actual new commit parent/tree, full changed-path set and each published blob content/hash against the new manifest. No successful publication claim until exact ref/content readback.",
+    "Add a new receipt/handoff with remote new commit, local HEAD still08e95150, active source1d148820 and no new proof/acceptance. Explicitly forbid ordinary local-HEAD push until capacity permits fetch/reconciliation. Do not silently rewrite the old as-of-cut local-pending receipt.",
+    "Retain negative history and omitted-artifact availability boundaries. No gate promotion, F7 review, production qualification or complete restore/reproducibility claim is inferred from this documentary checkpoint."
+  ],
+  "skill_boundary": "Shipping skill favors fresh identity, explicit paths, immutable history and exact readback. Root current proposal avoids prohibited disk/index growth using the connected Git Data API; existing managed owner/worktree is retained. No new permission is inferred beyond the user-authorized checkpoint scope.",
+  "smallest_next_step": "Root derives the new API publication allowlist and performs leased update plus exact remote readback, then records explicit local/remote divergence. No further engineering job is required or admitted.",
+  "actions": {
+    "build": false,
+    "proof": false,
+    "runtime_job": false,
+    "download": false,
+    "git_write": false,
+    "production_edit": false,
+    "remote_write": false
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema": "worldline.ram-qualification-source-review.v1",
+  "date": "2026-10-26",
+  "reviewer": "/root/acceptance_map",
+  "source": "ram_qualification_v1.py",
+  "source_sha256": "c3add121357c05deebbf496bf0e1c4fbb122c5d96df9b2e62ccc0025657b1111",
+  "classification": "READ_ONLY_SOURCE_REVIEW_NO_EXECUTION",
+  "verdict": "FIX_PROBE_SUCCESS_CHECK_BEFORE_PROBE; CHUNK_MODE_NOT_QUALIFIED",
+  "binding_boundary": "New ephemeral failed tool outputs may be lost on whole-scope death if durable available evidence explicitly reports the loss and no successful/accepted result is claimed. Complete verified archival is mandatory for any claimed successful result. This does not retire existing data or weaken original proof/resource gates.",
+  "blocking_probe_issue": {
+    "lines": "201-208, 244-250",
+    "issue": "inside() always returns zero after retention, regardless of sandbox exit code. Thus bwrap startup failure, read-only assertion failure, or failure before writing before-kill.txt can still produce complete inside-result and parent exit zero.",
+    "required_fix": "Before declaring probe qualified, require expected intentional SIGKILL outcome, exact retained tmp/before-kill.txt bytes, exact success marker on tool.stdout, no unexpected tool.stderr, and absence of forbidden-write on the real disk. Explicitly distinguish wrapper startup failure from the expected killed child. Record these probe assertions in the inside receipt. Retaining a failed probe's files is useful but must not turn that failure into qualification."
+  },
+  "other_concrete_controls": [
+    {
+      "lines": "244-250",
+      "issue": "Outer subprocess.TimeoutExpired bypasses result.json; subprocess.run kills only its direct child and no group cleanup is explicit.",
+      "repair": "Catch outer timeout, terminate the owned namespace process tree with bounded waits, record observed termination and FAILED/LOST_EPHEMERAL_OUTPUTS. Do not claim complete cleanup unless observed. A launch-only record remains incomplete evidence, not a completed qualification."
+    },
+    {
+      "lines": "120-122",
+      "issue": "bwrap --dev /dev introduces writable tmpfs files/inodes outside the capped retained ram tree. A compiler/child could write /dev/shm or regular files beneath /dev, and these are neither inventoried nor charged against the proposed 24MiB output ceiling (although cgroup memory still bounds them).",
+      "repair": "For actual compiler mode, close or separately cap, inventory and retain these writable locations; alternatively make the device directory immutable while retaining required device I/O. Read-only-root alone does not establish the asserted exhaustive writable-output topology. This does not block the exact narrow probe if its only writes are the known TMPDIR file and RAM stdio."
+    },
+    {
+      "lines": "37-64, 92-115",
+      "issue": "Inventory accepts hard-linked regular files; gettarinfo may encode later instances as hardlinks. Chosen inventory metadata omits link count/identity.",
+      "repair": "Reject regular entries with st_nlink != 1 for the simplest no-alias policy, or explicitly preserve/compare hardlink identity. Keep the final source/restore hash comparison. Rejecting hardlinks is a job refusal, not proof of a product input restriction."
+    },
+    {
+      "lines": "45-47",
+      "issue": "Total path length <=240 and basename<=100 does not ensure a USTAR split with prefix<=155 and suffix<=100; a long leading component can still be unencodable.",
+      "repair": "Validate the actual USTAR split or retain fail-closed gettarinfo rejection. The latter is safe but must be reported as retention failure, never complete retention."
+    },
+    {
+      "lines": "227-249",
+      "issue": "The 4MiB other-receipt budget is a free-space admission allowance, not an allocated reservation. Only archive bytes are physically preallocated. External writers can consume remaining headroom.",
+      "repair": "Keep the original disk guard and fail closed on receipt ENOSPC. If the stated policy requires physically reserved receipt bytes, allocate bounded receipt slots too. Do not describe the current allowance as a reservation."
+    },
+    {
+      "lines": "204-206, 237-249",
+      "issue": "Inside namespace identity is recorded but parent does not compare it to its own; empty outer mountpoints alone are a weaker observation.",
+      "repair": "Read the bounded inside receipt and require different mount namespace IDs plus matching source/mode. Root is already adding exact compiler/source pins; review those separately before chunk execution."
+    }
+  ],
+  "resource_assessment": {
+    "output_tmpfs_bytes_each": 25165824,
+    "restore_is_separate_additional_cap_bytes": 25165824,
+    "archive_cap_bytes": 29360128,
+    "other_disk_allowance_bytes": 4194304,
+    "archive_entries_max": 1023,
+    "ustar_bound": "For <=1023 entries and <=24MiB logical regular data, 512-byte entry headers and <512-byte per-file padding use <1MiB additional bytes, plus bounded tar end/record padding. USTAR excludes PAX extensions; gzip overhead must stay within the remaining roughly 3MiB. LimitedWriter enforces the actual 28MiB ceiling before every write even if this expectation fails.",
+    "memory": "Both tmpfs instances, Python/compressor/restore memory and archive page cache remain inside the original checked 8GiB/swap0 cgroup. Their caps are maxima, not reservations or an argument from MemAvailable. No full proof/compiler peak was measured here."
+  },
+  "sound_parts": [
+    "Unique exist_ok=False root and empty nonsymlink mountpoints; unshare explicitly uses private propagation.",
+    "LimitedWriter rejects overflow before write; negative_writer checks 1024+1 refusal and exact final length.",
+    "Complete source and restored inventories compare content hashes, modes, namespace uid/gid and nanosecond mtime; source is checked again after archival.",
+    "Archive is fsynced and only unwritten preallocation is truncated. Unsupported entries and cap/restore errors raise rather than yield accepted evidence.",
+    "No proof/Phase One acceptance claim is made. Expected failed-tool cache loss remains explicitly distinct from complete verified retention."
+  ],
+  "smallest_next_step": "Fix the probe false-success path and terminal timeout reporting, then root may execute only the bounded filesystem/read-only/SIGKILL retention probe under the existing guard. Actual chunk mode needs independent source-pin, writable-path, tool-result and coverage validation.",
+  "actions": {
+    "job": false,
+    "mount": false,
+    "proof": false,
+    "download": false,
+    "production_edit": false
+  },
+  "later_readback": {
+    "source_sha256": "b94b243aeb1f9f75f0dc930d82c864c81d1b963443b2de98066c26d9f3b0d58f",
+    "scope": "SOURCE_READBACK_NO_EXECUTION; exact probe only; no compiler qualification",
+    "observed_repairs": "Source now checks intentional SIGKILL exit, before-kill file hash, read-only stdout marker and absent disk forbidden file; records output-inventory before retention; catches collector timeout; pins driver and chunk sources/original objects before/after.",
+    "capacity_policy": "24MiB RAM with strict 16MiB archive cap is a failure-capable bounded trial. Archive cap failure and loss of new ephemeral failed output are permissible only with explicit FAILED/incomplete evidence, preserved available inventory/partial archive and no successful or accepted result. Guaranteed compression/success is not a binding requirement.",
+    "probe_assessment": "Original false-success issue is repaired at this cut for the intended exact known probe. The extra /dev writable filesystem does not extend that probe's known writes; exhaustive compiler-write topology remains open.",
+    "remaining": "check_retained/source_state exceptions can still bypass terminal result receipt; launch remains incomplete evidence in that case. Current 4MiB receipt value is an admission allowance rather than physical reservation. Chunk success needs exact current coverage and writable-path qualification, not merely retained exit zero.",
+    "actions": {
+      "job": false,
+      "mount": false,
+      "proof": false,
+      "production_edit": false
+    }
+  }
+}
