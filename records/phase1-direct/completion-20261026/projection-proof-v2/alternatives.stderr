@@ -1,0 +1,87 @@
+ info: aspect Always_Terminates on "Project_Alternatives" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.adb:570:14
+
+ info: initialization of "Rows" proved
+--> worldline-custody_v2_load_input.adb:571:40
+
+ info: data dependencies proved
+--> worldline-custody_v2_load_input.adb:573:11
+
+ medium: postcondition might fail, cannot prove not Good
+--> worldline-custody_v2_load_input.adb:577:38
+  577 |           Post => (if not Good'Old then not Good)
+      |                                         ^~~~~~~~
+      + possible fix: loop at line 580 should mention Good in a loop invariant
+  580 |          for I in Rows'Range loop
+      |                              ^
+      + provers reached time limit before completing the proof
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:580:27
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:585:39
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:585:42
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:586:42
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:586:45
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:587:46
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:587:49
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:588:39
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:588:42
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:589:42
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:589:45
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:590:46
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:590:49
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:591:55
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:591:58
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:592:43
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:592:46
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:593:41
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:593:44
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:593:81
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:593:84
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:594:62
+
+ info: index check proved
+--> worldline-custody_v2_load_input.adb:594:65
+gnatprove: unproved check messages considered as errors

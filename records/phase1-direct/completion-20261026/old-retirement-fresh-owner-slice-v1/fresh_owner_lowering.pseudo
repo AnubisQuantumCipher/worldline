@@ -1,0 +1,119 @@
+STATUS: NONEXECUTABLE IMPLEMENTATION PSEUDOCODE. NOT AN ADA PATCH.
+BASE: spark2014 b9410c6ed36d4e69a6c4d31e152fa8facaf0235c.
+Only fresh function results; ordinary Adjust/copy remains unsupported.
+
+interface Plan_Fresh_Region(Prefix_Node, Scope_Node, Exact_Type):
+    require Prefix_Node is the exact evaluated allocating function result
+    require Exact_Type is strict Finalizable (Relaxed_Finalization=False)
+    require full type and actual Finalize entity are visible in SPARK
+    require Finalize's real body/effects, termination and safety are covered
+    require generated normal-compiler schedule needs no unmodelled Adjust
+    reject dispatch, unknown finalizers or unsupported nested ownership
+    return Region {
+        creation_node, region_end, type, finalize_entity,
+        physical_owner_reference, logical_complete_value_identifier,
+        exact_cleanup_edges, original_leak_sites
+    }
+No type-name-only exemption. This object is translator state, not runtime
+metadata, a cleanup theorem, a proved Boolean, or application authority.
+
+interface Bind_Fresh_Region(Region, Initializer_Program, Continuation):
+    # All Initializer_Program preconditions/RTE/effects remain.
+    let physical_value = Initializer_Program in
+    let physical_owner_reference = own_ref(physical_value) in
+    let logical_complete_value_identifier = complete_value(physical_value) in
+    try
+        Continuation
+    finally
+        invoke_real_proved_Finalize(physical_owner_reference)
+        emit_original_No_Memory_Leaks_VC(physical_owner_reference)
+        emit_each_deferred_original_call_leak_VC_at_its_original_location
+    end
+The initializer is outside its own try/finally. Failure before it returns
+creates no completed caller owner and must not finalize an uninitialized
+object. The already enclosing region still performs its cleanup.
+own_ref and complete_value denote existing concrete Why typed-ref/value
+builders after exact APIs are inspected; neither is a new trusted function.
+The complete value is not a hash, pointer equality, alias to a mutable native
+head, manual snapshot-death protocol or substitute scalar contract.
+
+Example two fresh Old captures A then B:
+    let owner_A = Capture(A_args) in
+    try
+        let owner_B = Capture(B_args) in
+        try
+            original_body_and_all_postchecks(original_full_Old_A,
+                                              original_full_Old_B)
+        finally
+            actual_Finalize(owner_B);
+            original_leak_VCs_for_B
+        end
+    finally
+        actual_Finalize(owner_A);
+        original_leak_VCs_for_A
+    end
+B initializer failure finalizes A, not uninitialized B. A postcheck failure
+finalizes B then A. Successful return does the same cleanup after checks.
+Variable-free Capture("x")'Old still receives a physical region even if the
+existing logical Transform_Attribute_Old optimization ignores Old.
+
+The existing mapping overload2742..2773 iterates a Node_Sets.Set and nests
+bindings around its continuation. Its iteration/nesting order is not an
+attestation of actual native prefix creation/finalization order. Obtain the
+actual prefix elaboration plan, or prove that disjoint no-raise cleanup
+commutes and covers every permitted order. Do not merge equal call owners.
+The smallest first implementation may support exactly one fresh prefix per
+translated region, keeping multiple-prefix refusal until that proof exists.
+
+At exact FSF Bind_From_Mapping_In_Expr (gnat2why-expr.adb2537..2740):
+    if Domain is executable-program and this exact prefix has a valid
+       fresh-region plan and no unsupported invalid-value/condition form:
+        translate prefix with Region's exact-node obligation context
+        build complete existing logical Old binding
+        return Bind_Fresh_Region(Region, translated_initializer,
+                                original_continuation)
+    else:
+        use byte-unchanged original binding translation
+        retain original static refusal for unsupported allocating contexts
+The first slice may leave conditional Old unsupported; it must not transform
+it to unconditional evaluation. Final full O1 still requires conditional
+forms, ordinary copies, exceptions and all original contracts.
+
+At exact FSF Transform_Function_Call static leak branch24008..24030:
+    if original_static_leak_condition:
+        if exact Expr_Node has fresh-region context AND the generated program
+           is structurally enclosed by that region:
+            record one deferred VC_Resource_Leak with original location/kind
+            verify/enforce that region finalization closes this obligation
+        else:
+            emit byte-unchanged static false VC_Resource_Leak
+The resource obligation is moved to actual cleanup completion, not deleted.
+A later lowering failure, missing closure, unsupported hook or omitted exit
+must fail translation or keep an unproved/static-false result. Never replace
+False with True, suppress assertions, or equate Finalizable with no leak.
+
+Local fresh declarations:
+    choose declaration + enclosing lexical continuation as a region
+    use existing scoped variable and call-argument machinery
+    attach actual Finalize before the original end-of-scope leak check
+    use the same nested-initialization and exceptional-edge discipline
+    preserve existing borrow restorations, finally blocks and CFG transfer
+Do not duplicate finalization through both an existing finally section and
+new scope cleanup. One owner/one retirement action on any realized exit path.
+
+Region closure audit (compiler-state validation, not semantic proof):
+    every deferred leak site belongs to exactly one exact-node region
+    every region has all actual completion/raise/early-return exits covered
+    no region begins before successful value initialization
+    no owner is both transferred and finalized on the same path
+    logical Old map remains complete and available through postchecks
+Semantic validity of Finalize and absence of live referents are generated
+proof obligations in addition to this structural audit.
+
+Prohibited shortcuts:
+    no blanket Finalizable exemption; no allocator call marked nonallocating
+    no normal compiler/runtime expansion globally enabled in GNATprove mode
+    no unproved new callee contracts, imported cleanup axiom or Assume
+    no free of a copied source view; no default permission change for Adjust
+    no missing source unit or incompatible historical-master implementation
+

@@ -1,0 +1,6 @@
+{
+  "status": "PROPOSAL_ONLY",
+  "candidate_sha256": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+  "delta": "Only remove two illegal explicit Always_Terminates aspects; pure SPARK functions retain implicit termination; no Side_Effects added",
+  "basis": "Installed gnatprove --explain=E0016 exit0"
+}

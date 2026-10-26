@@ -1,0 +1,40 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+----------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total       Flow                                          Provers   Justified   Unproved
+----------------------------------------------------------------------------------------------------------------------
+Data Dependencies                 2          2                                                .           .          .
+Flow Dependencies                 .          .                                                .           .          .
+Initialization                    .          .                                                .           .          .
+Non-Aliasing                      .          .                                                .           .          .
+Run-time Checks                  19          .    15 (CVC5 57%, Trivial 7%, Z3 33%, altergo 3%)           .          4
+Assertions                       10          .                            10 (CVC5 10%, Z3 90%)           .          .
+Functional Contracts              2          .                             2 (CVC5 80%, Z3 20%)           .          .
+LSP Verification                  .          .                                                .           .          .
+Termination                       4          3                                           1 (Z3)           .          .
+Concurrency                       .          .                                                .           .          .
+----------------------------------------------------------------------------------------------------------------------
+Total                            37    5 (14%)                                         28 (76%)           .    4 (11%)
+
+
+max steps used for successful proof: 447
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 3 units
+in unit resource_quantities, 1 subprograms and packages out of 1 analyzed
+  Resource_Quantities.Prefix_Value at resource_quantities.ads:79 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+in unit resource_reservation_transition, 1 subprograms and packages out of 1 analyzed
+  Resource_Reservation_Transition.Equal_Prefix_Values at resource_reservation_transition.adb:572 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)
+in unit worldline-custody_v2_load_input, 1 subprograms and packages out of 1 analyzed
+  Worldline.Custody_V2_Load_Input.Digest at worldline-custody_v2_load_input.adb:479 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 8 proved

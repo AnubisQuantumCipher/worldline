@@ -1,0 +1,52 @@
+{
+  "kind": "independent-source-correction-review",
+  "utc": "2026-10-26T14:48:26.891328+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "parent allocation; no independent runtime attestation"
+  },
+  "verdict": "APPROVE_NARROW_CORRECTION_FOR_ROOT_ADOPTION_AND_FRESH_VERIFICATION",
+  "preimage_illegal_sha256": "700b44c40695e840020b33ece639f5d6db74ee51449be570a80c514a8d7caab2",
+  "original_zero-product_spec_sha256": "603a4bc3e1c26a6f96807ca3243de1fbe2c7ca43a6cf27f0170a0cdcfe1c9e39",
+  "candidate_sha256": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+  "patch_sha256": "6dd89b0e55b66d255b3f20b36fc6d593f20e12ff66a5903d9e49f3319ca25fab",
+  "failure_evidence": {
+    "path": "records/phase1-direct/completion-20261026/projection-proof-v3/project_events.stderr",
+    "sha256": "e5f21f9791db5e042d6c9b6a53503c3421afd29ccbbc2b730fe1cf839d7b519a",
+    "classification": "FUNCTION_ASPECT_LEGALITY_FAILURE_BEFORE_PROOF; all attempted projectionv3 targets lack fresh proof summary; no target verdict inferred"
+  },
+  "prior_error": "Reviewer incorrectly recommended Always_Terminates on ordinary pure functions. Installed GNATprove E0016 rejects this; previous proposal/review/failure retained and superseded only for this aspect decision.",
+  "installed_guidance": {
+    "command": "gnatprove --explain=E0016 after sourcing installed GNAT environment",
+    "exit": 0,
+    "meaning": "Pure SPARK functions must already terminate for every input satisfying their precondition. Always_Terminates aspect is rejected on them. Adding Side_Effects is not an acceptable correction for these pure ghost expression wrappers and is not proposed."
+  },
+  "exact_delta": "Remove only the two illegal Always_Terminates aspect lines from current700b spec. Relative to original603a spec, remove only the two unused wrapper Subprogram_Variant aspects. No other bytes, contracts, expressions, ghost effects, type domains or recursive reference variants change.",
+  "termination_argument": {
+    "Radix_Power": "Pure nonrecursive wrapper calls Power_Reference, whose strictly decreasing Exponent variant and complete proof obligations remain. Ordinary function implicit termination remains required.",
+    "Prefix_Value": "Pure nonrecursive wrapper calls Prefix_Reference, whose Count variant remains and whose recursive branches strictly decrease Count. Its Power_Reference/Digit dependencies have no path back into Prefix_Value. Implicit function termination remains required.",
+    "no_weakened_guarantee": "The wrappers have no recursive call for the removed vacuous measure to constrain. Implicit pure-function termination obligation remains; no warning/ghost/proof suppression or Side_Effects aspect added. Stack/heap adequacy remains a separate original obligation."
+  },
+  "preserved": [
+    "All original full public Posts and independent recurrence equalities",
+    "Recursive Power_Reference and Prefix_Reference variants",
+    "Entire resource_quantities.adb and transition body",
+    "Pure Ghost/Globalnull declarations",
+    "Full admitted invalid/empty/padded/count/significant domain",
+    "Every original proof gate, coverage requirement and runtime limit"
+  ],
+  "required_next": [
+    "Root applies exact candidate to restore legal source",
+    "Fresh checked build or analysis front-end confirms legality",
+    "Fresh strict proof of BOTH wrapper entities with implicit termination and unchanged full Posts; retain recursive reference proof obligations",
+    "Repair and freshly verify guarded Digest; no shared-cache failures reclassified as successful commands",
+    "Original full-source/runtime/O1/F7 gates remain open"
+  ],
+  "production_edited": false,
+  "heavy_job_run": false,
+  "proof_run": false,
+  "compiler_probe_run": false,
+  "acceptance": false
+}

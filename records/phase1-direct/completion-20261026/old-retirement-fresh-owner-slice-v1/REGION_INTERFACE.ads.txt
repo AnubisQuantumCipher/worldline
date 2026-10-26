@@ -1,0 +1,52 @@
+STATUS: INTERFACE / PROOF-OBLIGATION SKETCH; NOT COMPILABLE ADA.
+No code in this file grants a proof or changes installed tools.
+
+Fresh_Region_Key:
+    Exact_Ada_Prefix_Node + physical_elaboration_site + lexical_region
+    # Logical equality of two calls is insufficient owner identity.
+
+Fresh_Region_State:
+    Planned -> Initializer_Translated -> Owner_Bound -> Cleanup_Enclosed
+    -> Obligations_Emitted -> Translation_Validated
+    # A state transition is never interpreted as semantic reclamation proof.
+
+Physical_Owner:
+    exact Ada type, Why mutable value/reference, deep move/ownership tree,
+    actual strict Finalize entity and effects
+Logical_Old:
+    existing Name_For_Old / Map_For_Old complete-value binding
+    # Kept distinct from mutating/freeing Physical_Owner.
+
+Functions to implement after reading exact interfaces:
+    Analyze_Strict_Fresh_Prefix(Node, Type, Scope) -> supported plan or refusal
+    Transform_Initializer_In_Region(Plan, Params) -> existing checked program
+    Build_Finalizer_Call(Owner, Hook, Params) -> checked ordinary call program
+    Wrap_With_Owner_Cleanup(Owner, Continuation, Cleanup) -> existing Why try
+    Emit_Deferred_Leak_Checks(Owner, Sites) -> existing VC kinds and locations
+    Validate_Region_Coverage(Plan, Emitted_IR) -> reject on mismatch
+
+Required generated proofs:
+    initializer preconditions/RTE and original result postconditions
+    source/fresh owner cannot alias another live owner under current model
+    Finalize preconditions, frame, termination and all body checks
+    owner deep allocated parts are moved/null after actual Finalize
+    all normal and modelled exceptional exits contain the same cleanup
+    all original allocating-call resource sites receive a real obligation
+    Old equality/First/Last and all original full-value postconditions survive
+    no claim ordinary independent copies until Adjust permission is extended
+
+First-slice non-goals (remain blockers):
+    ordinary B:=A and destination overwrite; Adjust copy-origin semantics
+    self-assignment, destination-dependent RHS and partial Adjust failure
+    unknown/dispatching hooks; conditional forms not precisely lowered
+    complete unbounded sequence clone/finalize and original full O1 acceptance
+
+Qualification controls:
+    omitted cleanup must fail original leak VC
+    cleanup before postcheck must fail valid Old/source-read proof or runtime
+    finalize uninitialized B on failing B capture must be rejected
+    duplicate-finalize and source-finalize mutants must fail
+    variable-free freshOld and repeated equal freshOld need correct owner count
+    one later capture failure must reclaim prior initialized owners
+    baseline D47 Adjust failure must remain visible until copy support exists
+

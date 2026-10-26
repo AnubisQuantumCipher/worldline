@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-26T14:09:59.830580+00:00",
+  "status": "NOT_APPLIED_UNRUN_AWAIT_FRESH_DIAGNOSTIC",
+  "frozen_source_sha256": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+  "candidate_sha256": "80bd4546ba02bf9cdcb1213a72c58d421dfe7630ebea2a329ff2d46be84173c0",
+  "scope": "Only private Digest; no production edits",
+  "behavior": "For a valid64-byte hexadecimal text operand, pairwise decoding computes the identical32 bytes. Any invalid pair returns the original all-zero rejection, including when earlier pairs succeeded. The arena remains input-only. Invalid64-byte spans return zeros rather than raising on indexing; full Decode_Into final Parsed_Spans_Valid still rejects invalid SQL spans. No public input restrictions or weakened postconditions. This is a deliberate safe-failure change requiring root review, not an exactly mechanical extraction.",
+  "reason": "If confirmed by fresh helper proof, isolates byte validity and nibble arithmetic locally instead of requiring a quantified completed scan fact.",
+  "formal_proof": "UNRUN",
+  "runtime_tests": "UNRUN",
+  "apply_condition": "Only after original helper verdict confirms relevant obligation and root allocates source mutation after current proof terminal."
+}

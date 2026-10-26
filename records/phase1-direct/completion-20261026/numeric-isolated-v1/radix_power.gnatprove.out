@@ -1,0 +1,36 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+--------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total       Flow                      Provers   Justified   Unproved
+--------------------------------------------------------------------------------------------------
+Data Dependencies                 1          1                            .           .          .
+Flow Dependencies                 .          .                            .           .          .
+Initialization                    .          .                            .           .          .
+Non-Aliasing                      .          .                            .           .          .
+Run-time Checks                   3          .    3 (CVC5 50%, Trivial 50%)           .          .
+Assertions                        .          .                            .           .          .
+Functional Contracts              1          .                     1 (CVC5)           .          .
+LSP Verification                  .          .                            .           .          .
+Termination                       1          1                            .           .          .
+Concurrency                       .          .                            .           .          .
+--------------------------------------------------------------------------------------------------
+Total                             6    2 (33%)                      4 (67%)           .          .
+
+
+max steps used for successful proof: 2
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit resource_quantities, 1 subprograms and packages out of 1 analyzed
+  Resource_Quantities.Radix_Power at resource_quantities.ads:69 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (4 checks)

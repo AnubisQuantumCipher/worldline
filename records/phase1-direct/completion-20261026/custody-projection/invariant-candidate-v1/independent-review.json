@@ -1,0 +1,86 @@
+{
+  "schema": "worldline.internal-source-review.v1",
+  "utc": "2026-10-26T14:29:57.429136+00:00",
+  "reviewer": {
+    "agent": "/root/source_lineage",
+    "selected_model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "Root reports successful explicit helper dispatch with these settings; no independent serving attestation.",
+    "independent_of_author": true
+  },
+  "verdict": "APPROVE_SOURCE_FOR_CONTROLLED_VERIFICATION",
+  "blocking_findings": [],
+  "evidence_class": "INTERNAL_SOURCE_REVIEW_NOT_PROOF",
+  "source_root": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "candidate_source_sha256": {
+    "before.adb": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+    "worldline-custody_v2_load_input.adb": "9f9be1529839304ee02cbc10e0f0ad8bf8e4892bd03769e9aa9cb5f429c577a2",
+    "invariants.patch": "2ac2eac64125359092969daf0f57a3441c27813f312ce5a84d4bd1a65aaabc7d",
+    "source.json": "0c528fbc26054d92295a07b560d7e5abcd36832b7135631e6ef0bc1c3878c7b8"
+  },
+  "unchanged_public_spec_sha256": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+  "prior_complete_module_review": {
+    "path": "records/phase1-direct/completion-20261026/custody-projection/independent-review.json",
+    "sha256": "057767043c95e387a5ffdcc4b18af0795b5dea7e320a32bf1bd7b4279388a3c1",
+    "base_body": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+    "reuse_boundary": "Complete prior loader body/spec/imports/caller review plus exact byte comparison proves current proposal differs only by these three reviewed invariant pragmas. Previous proof/runtime/copy residuals remain open."
+  },
+  "observed_original_failures": {
+    "roots": {
+      "path": "records/phase1-direct/completion-20261026/projection-proof-v2/roots.stderr",
+      "sha256": "241113189215dd950c1f69f6951e79f99745c856c39175fd3de457822cfbd425"
+    },
+    "subjects": {
+      "path": "records/phase1-direct/completion-20261026/projection-proof-v2/subjects.stderr",
+      "sha256": "a5574041b130447d09e1d52c129fbf40d64d99d8924aace8c9c7bb695303c592"
+    },
+    "alternatives": {
+      "path": "records/phase1-direct/completion-20261026/projection-proof-v2/alternatives.stderr",
+      "sha256": "a558450579f284e9323ca686712edc00ac4b009e61656a934db9f274c7f293f2"
+    }
+  },
+  "failure_scope": "Original retained strict outputs report roots/subjects all-Present postconditions unproved with limits reached and no loop unrolling; alternatives sticky-Good postcondition unproved with explicit missing Good invariant advice. Reported initialization/index/termination checks are not whole-helper proof.",
+  "delta_validation": {
+    "roots_present_invariants": 2,
+    "alternatives_sticky_invariant": 1,
+    "removing_exact_three_added_pragmas_recovers_preimage_bytes": true,
+    "public_or_private_contracts_changed": false,
+    "original_statements_or_helper_calls_changed": false,
+    "reviewer_executed_build_proof_or_runtime": false
+  },
+  "reasoning": [
+    {
+      "scope": "Project_Roots and Project_Subjects",
+      "initialization": "Invariant occurs after whole current row is assigned Present=True. First prefix includes only the initialized current row; no uninitialized later row is read.",
+      "preservation": "Each subsequent assignment touches only Rows(I); all prior prefix rows remain unchanged. Index I lies in Rows Range; bound Rows First..I contains exactly initialized rows.",
+      "exit": "On nonempty completion, final I is Rows Last, so inclusive prefix gives unchanged all-row Present postcondition. For a null row range, no invariant is evaluated and original universal postcondition is vacuously satisfied.",
+      "domain": "No new domain assumption, cap or precondition; original row/SQL geometry remains sufficient."
+    },
+    {
+      "scope": "Project_Alternatives",
+      "initialization": "Good is initialized in-out Boolean. LoopEntry captures loop-entry scalar Good once; no owner/arena/row snapshot is requested.",
+      "preservation": "Body only assigns Good=False, and no helper receives Good. An initially false Good remains false across every completed iteration. An initially true value may stay true or become false; the invariant adds no acceptance condition.",
+      "exit": "Invariant exactly supplies original if not Good Old then not Good postcondition after nonempty loop; empty loop leaves Good unchanged.",
+      "frame": "No field mapping, enum/default, Digest call, row order, arena read or final status branch changes."
+    }
+  ],
+  "resource_and_runtime_residuals": [
+    "The root/subject processed-prefix quantifiers add work growing quadratically with row count in the checked profile. No runtime/deadline adequacy follows from source review; retain original limits and complete original runtime workload.",
+    "Alternative LoopEntry is one Boolean; no new full-value Old snapshot is introduced. Existing whole-value retirement obligations remain unaffected and open.",
+    "Fresh compilation and strict proof must establish invariant INIT/PRESERVE, postconditions and original body obligations on exact candidate bytes. Existing unrelated/Digest/whole-module checks are not inferred from these assertions.",
+    "Previously noted Digest modular span/nibble and generated array-copy/resource issues remain separate; this proposal does not repair or waive them."
+  ],
+  "contract_pin_update": {
+    "eligible_for_source_only_refresh_after_root_adoption": true,
+    "scope": "Exact reviewed loader body only through existing mechanical pin process. Unchanged spec needs no refresh. New source bytes invalidate old execution/proof correspondence; all new validation remains required.",
+    "reviewer_modified_pins": false
+  },
+  "required_next": "Root explicitly adopts after freeze/preimage check; checked build; fresh strict roots/subjects/alternatives proofs and Digest/main coverage; unchanged original Ada/fuzz/custody and whole-system gates under original limits.",
+  "nonclaims": [
+    "No candidate compiler/prover/runtime success claimed.",
+    "No proof of total full module or whole system.",
+    "No source policy deviation or new domain assumption approved.",
+    "No generated-code/no-copy guarantee.",
+    "No O1 retirement, protected/actor or independent F7 acceptance."
+  ]
+}

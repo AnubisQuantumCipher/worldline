@@ -1,0 +1,231 @@
+test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) ... wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='0+1', zeros=4096, capacity=0) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='0+1', zeros=4096, capacity=1) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='0+1', zeros=4096, capacity=4) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=0) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=1) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=2) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=5) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=0) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=2) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=3) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=6) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=0) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=32) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=33) ... FAIL
+wl_custody_successor_le_v2: raised STORAGE_ERROR : Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded
+
+  test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=36) ... FAIL
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='0+1', zeros=4096, capacity=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='0+1', zeros=4096, capacity=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='0+1', zeros=4096, capacity=4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 3
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='255+1', zeros=4096, capacity=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 3
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='65535+1', zeros=4096, capacity=6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 3
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=33)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+======================================================================
+FAIL: test_exact_oracles_sizing_truncation_padding_and_owned_bounds (test_custody_successor_encoding.CustodySuccessorEncoding.test_exact_oracles_sizing_truncation_padding_and_owned_bounds) (expression='2^256-1+1', zeros=4096, capacity=36)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 38, in test_exact_oracles_sizing_truncation_padding_and_owned_bounds
+    self.check_call(raw, expected, capacity)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/tests/test_custody_successor_encoding.py", line 47, in check_call
+    self.assertEqual(code, 3 if 0 < capacity < len(expected) else 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 98.200s
+
+FAILED (failures=15)

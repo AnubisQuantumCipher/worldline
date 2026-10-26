@@ -1,0 +1,40 @@
+{
+  "created_utc": "2026-10-26T15:17:47.624520+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "verdict": "APPROVE_PROJECT_SOURCE_FOR_CONTROLLED_NUMERIC_QUALIFICATION",
+  "project_sha256": "3bd830fd3f00ec6b6a5212b689771f852226501bdbaffcbc41a7b5f20bd7ce47",
+  "recipe_sha256": "1c6298ecb45c3158ce6d959e59ee8c3396b4cf1b45213e71e8c4b6937f501b46",
+  "private_manifest_sha256": "3204b2c4c26a292bdf843aa67ac0084e1b28741a8c1dce998135dc30857374b5",
+  "actual_metadata_only_command": [
+    "gprls",
+    "-P",
+    "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-s",
+    "-U"
+  ],
+  "actual_metadata_exit_code": 0,
+  "metadata_stdout_sha256": "abb182284d17d8d8552552f77e55b71f8d268c1a418eef5f1b9938c66401143f",
+  "metadata_stderr_sha256": "677f23a284ff5f62a76ca5fa31eb52bd8e37fe091f26ddd974f67d7678f3754f",
+  "metadata_root_units": [
+    "Can't find ALI file for /home/sicarii/Work/worldline-phase1-direct-20261019/core/resource_quantities.adb",
+    "Can't find ALI file for /home/sicarii/Work/worldline-phase1-direct-20261019/core/resource_reservation_transition.adb"
+  ],
+  "metadata_private_unit_count": 70,
+  "missing_root_ali_interpretation": "Expected fresh candidate directory has no root ALI yet. gprls output says missing ALI for exact two core body paths; import source selection resolves private full SPARK.Big_Integers and private SPARK root. This is metadata parsing only, not compile/proof success.",
+  "checked_switches_text_equal": true,
+  "assertion_switch_same": "Common & (\"-gnata\") present in both",
+  "source_scope": "Exact four Source_Files are full product quantities and transition specs/bodies. No per-function source elimination, caps, assumptions, warning control weakening, source mutation, shims or code copies. limit-subp scopes named verification only. Public API/contracts/body are unchanged and hash-bound in recipe.",
+  "private_binding": "Direct absolute with resolves exact same private-sparklib/lib/gnat/sparklib.gpr; its full-mode SPARK.Big_Integers and SPARK root paths confirmed by actual gprls. Imported source manifest134files includes both existing modes without editing/selectively replacing any. GPR_TOOL=gnatprove retains existing Externally_Built True.",
+  "not_acceptance": [
+    "No compile or GNATprove command run by reviewer.",
+    "Actual generated cswi and phase metadata still need compare to expected switches in allocated job.",
+    "All prior full-project roster/floors/pins and F2 remain binding; fresh focused report cannot replace whole-U.",
+    "Observed significant805byte runtime failure, O1/F7 and checked runtime costs remain unresolved."
+  ],
+  "capacity": "50MB allowance is empirical versus22.16MB comparable cache. Recheck live free >=10GB+50MB after competing writer check. Preserve all outputs; owner monitors actual disk and stops if reserve threatened. No fresh164-unit/global-main batch."
+}

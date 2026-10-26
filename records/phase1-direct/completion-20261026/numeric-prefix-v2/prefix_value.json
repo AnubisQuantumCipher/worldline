@@ -1,0 +1,50 @@
+{
+  "name": "prefix_value",
+  "argv": [
+    "gnatprove",
+    "-P",
+    "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=5",
+    "-j2",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-u",
+    "resource_quantities.adb",
+    "--limit-subp=resource_quantities.ads:78"
+  ],
+  "start": "2026-10-26T15:27:55.199943+00:00",
+  "disk_samples": [
+    {
+      "utc": "2026-10-26T15:27:55.201273+00:00",
+      "free_bytes": 10091859968
+    },
+    {
+      "utc": "2026-10-26T15:27:56.202846+00:00",
+      "free_bytes": 10091163648
+    },
+    {
+      "utc": "2026-10-26T15:27:57.203411+00:00",
+      "free_bytes": 10098135040
+    },
+    {
+      "utc": "2026-10-26T15:27:58.203834+00:00",
+      "free_bytes": 10098159616
+    }
+  ],
+  "phase_acceptance": false,
+  "end": "2026-10-26T15:27:58.206786+00:00",
+  "exit_code": 0,
+  "stop": null,
+  "fresh_report": true
+}

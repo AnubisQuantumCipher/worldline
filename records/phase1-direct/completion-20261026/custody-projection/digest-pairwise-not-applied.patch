@@ -1,0 +1,42 @@
+--- frozen/core/worldline-custody_v2_load_input.adb
++++ candidate/core/worldline-custody_v2_load_input.adb
+@@ -477,20 +477,29 @@
+       end case;
+    end Identity;
+    function Digest (Arena : E.Bytes; Cell : S.SQL_Cell) return M.Digest is
+-      function Nibble (B : Q.Byte) return Q.Byte is
+-        (if B in 48 .. 57 then B - 48 else B - 97 + 10);
++      function Nibble (B : Q.Byte) return Q.Byte
++        with Pre => B in 48 .. 57 | 97 .. 102,
++          Post => Nibble'Result <= 15
++      is (if B in 48 .. 57 then B - 48 else B - 97 + 10);
+       Span : constant E.Span := Raw_Span (Cell, S.SQL_Text);
+       Result : M.Digest := [others => 0];
+    begin
+-      if Span.Length /= 64 then return Result; end if;
+-      for B in E.Count range 0 .. Span.Length - 1 loop
+-         if Arena (Span.First + B) not in 48 .. 57 | 97 .. 102 then
+-            return Result;
+-         end if;
+-      end loop;
++      if Span.Length /= 64 or else not E.C.P.Valid (Arena, Span) then
++         return Result;
++      end if;
+       for I in Result'Range loop
+-         Result (I) := Nibble (Arena (Span.First + E.Count (I - Result'First) * 2)) * 16 +
+-           Nibble (Arena (Span.First + E.Count (I - Result'First) * 2 + 1));
++         declare
++            Offset : constant E.Count := E.Count (I - Result'First) * 2;
++            High : constant Q.Byte := Arena (Span.First + Offset);
++            Low : constant Q.Byte := Arena (Span.First + Offset + 1);
++         begin
++            if High not in 48 .. 57 | 97 .. 102 or else
++              Low not in 48 .. 57 | 97 .. 102
++            then
++               return [others => 0];
++            end if;
++            Result (I) := Nibble (High) * 16 + Nibble (Low);
++         end;
+       end loop;
+       return Result;
+    end Digest;

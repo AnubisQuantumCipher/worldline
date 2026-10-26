@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-26T14:27:54.883577+00:00",
+  "status": "UNAPPLIED_UNCOMPILED_UNPROVED_UNRUN",
+  "preimage_sha256": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+  "candidate_sha256": "9f9be1529839304ee02cbc10e0f0ad8bf8e4892bd03769e9aa9cb5f429c577a2",
+  "public_spec_sha256": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+  "patch_sha256": "2ac2eac64125359092969daf0f57a3441c27813f312ce5a84d4bd1a65aaabc7d",
+  "source_failures": {
+    "roots": {
+      "path": "records/phase1-direct/completion-20261026/projection-proof-v2/roots.stderr",
+      "sha256": "241113189215dd950c1f69f6951e79f99745c856c39175fd3de457822cfbd425"
+    },
+    "subjects": {
+      "path": "records/phase1-direct/completion-20261026/projection-proof-v2/subjects.stderr",
+      "sha256": "a5574041b130447d09e1d52c129fbf40d64d99d8924aace8c9c7bb695303c592"
+    },
+    "alternatives": {
+      "path": "records/phase1-direct/completion-20261026/projection-proof-v2/alternatives.stderr",
+      "sha256": "a558450579f284e9323ca686712edc00ac4b009e61656a934db9f274c7f293f2"
+    }
+  },
+  "preserved": "No original executable statements, private or public contracts, admitted inputs, bytes, mappings, calls or proof controls changed. Only three loop invariant pragmas added. Digest candidate remains unapplied; no Digest verdict inferred.",
+  "proof_design": {
+    "roots": "At end of each iteration, every row in processed inclusive prefix Rows First..I is Present. Initialization uses current assignment; preservation uses earlier prefix and untouched preceding rows; exit gives public/private all-row claim. Null range performs no reads and satisfies original quantified Post.",
+    "subjects": "Same processed-prefix induction over subject rows.",
+    "alternatives": "LoopEntry records one Boolean, the initial Good value. Body can only assignFalse, so an initialFalse remainsFalse through each completed iteration; exit establishes unchanged sticky failure Post. No array snapshot."
+  },
+  "checked_cost": {
+    "roots": "For n rows, additional inclusive-prefix predicate evaluations total n*(n+1)/2; each reads one Present field. No new dynamic allocation; quantified iterator has finite bounds. Quadratic checked overhead must pass original runtime deadlines.",
+    "subjects": "For m rows, additional predicate evaluations total m*(m+1)/2; same resource qualification required.",
+    "alternatives": "One Boolean implication evaluation per row; LoopEntry retains one Boolean. Linear additional work, constant additional scalar storage."
+  },
+  "required_next": [
+    "Independent exact-source review by source_lineage",
+    "Root decides/apply after source freeze ends",
+    "Checked build",
+    "Fresh strict roots/subjects/alternatives proofs with original flags and new invariant INIT/PRESERVE plus Post obligations",
+    "Finish original Digest target with actual report",
+    "Actual main decoder proof followed by original custody/runtime gates"
+  ],
+  "whole_phase_acceptance": false,
+  "production_edited": false
+}

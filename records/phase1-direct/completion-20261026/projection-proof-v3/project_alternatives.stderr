@@ -1,0 +1,12 @@
+ error: aspect "Always_Terminates" cannot apply to function [E0016]
+--> resource_quantities.ads:72:06
+   72 |         Always_Terminates,
+      |         ^~~~~~~~~~~~~~~~~
+      + launch "gnatprove --explain=E0016" for more information
+
+ error: aspect "Always_Terminates" cannot apply to function [E0016]
+--> resource_quantities.ads:84:06
+   84 |         Always_Terminates,
+      |         ^~~~~~~~~~~~~~~~~
+      + launch "gnatprove --explain=E0016" for more information
+gnatprove: error during generation of Global contracts

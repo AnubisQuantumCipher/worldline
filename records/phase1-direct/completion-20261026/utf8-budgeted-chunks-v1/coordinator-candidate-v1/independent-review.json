@@ -1,0 +1,62 @@
+{
+  "schema": "worldline.internal-source-review.v1",
+  "utc": "2026-10-26T15:48:00.540864+00:00",
+  "reviewer": {
+    "agent": "/root/acceptance_map",
+    "model_requested": "gpt-6.1-sol",
+    "effort_requested": "high",
+    "independent_of_author": true,
+    "serving_attestation": "UNAVAILABLE"
+  },
+  "verdict": "QUALIFIED_SOURCE_APPROVAL_FOR_CONTROLLED_VERIFICATION_ONLY",
+  "blocking_semantic_findings": [],
+  "production_ready": false,
+  "source_root": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "pins": {
+    "utf8_coordinator_proposal.ads": "8f83eee4352c211f3577eea4a4fccd46f405097eed51c6dcd274c34a8a8c8183",
+    "utf8_coordinator_proposal.adb": "775473d57f7aabd4938f6610e2161806e47d22dc063877846ced6e2d63c93b94",
+    "utf8_coordinator_qualification.gpr": "485b7b7afa3d721f7035a27c3bc22f674acce495b015fbe7277ee3bcaa532f18",
+    "coordinator-source.json": "84429eff3f301bbeeec49ecb590ca0d82c376e6d92369f927c2d35be9c33e8b8"
+  },
+  "all_author_manifest_source_hashes_rechecked": true,
+  "original_UTF8_fragment_sha256": "a5a4a7afe83ab6442934c173f50720294c19c906e55a20ff2faf0357644e5346",
+  "chunk_v2": {
+    "spec": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+    "body": "8bd72b87296fa3fb180ef875a947df6ec35ffd568206ba0588a5911b0fc09afc",
+    "original_Step_body_normalized_exact_except_added_extent_invariant": true,
+    "fresh_exact_source_proof": "NOT_CONFIRMED; parent reports v2 job stopped by diskguard with no fresh report."
+  },
+  "source_reasoning": [
+    "No public Pre/input cap was added. N=0 returns original ValidTrue empty output. A valid chunk consumes at least min(Quota,remaining)>0, so first-stage nonprogress/extent refusals are infeasible under the retained Chunk contract; these must be proved, not accepted as new input restrictions.",
+    "Quota=max4096,ceil(N/64) implies (N-1)/Quota<64 for N>0. While Position<N, Count<=Position/Quota therefore gives Count<64. Every nonfinal valid chunk consumes at least Quota; a shorter remaining extent must finish at N. Division avoids Count*Quota overflow.",
+    "First phase stores exact Start/Next and output Before/After links, with checked Natural overflow refusal before additions. Chunk pauses only after a complete original Step; original invalid-prefix grouping, strict failure and EF BF BD replacement logic are unchanged. Per-chunk versus per-step overflow checks produce the same False/empty outcome, with different possible work before refusal.",
+    "Saved array has exactly64 records. Defaults are PresentFalse and skip Chunk in explicit predicate short circuit. Completed records are written once. Bytes, Quota and ReplaceErrors remain immutable; no pointer or mutable global alias is introduced. The checked predicate binds stored Summary to the same pure DecodeChunk call used during replay.",
+    "Both sizing prefix quantifiers read scalar metadata by index only. They contain no explicit decoder/model call. The bound64 yields at most4160 metadata visits total for the two clauses. Actual implicit predicate calls/copies are compiler questions, so linear byte work is not yet an observed lowering guarantee.",
+    "Replay starts from the saved exact source position and requires identical Summary by predicate/congruence. Scalar adjacency links establish contiguous nonoverlapping output intervals, complete source coverage and final output length. It copies only initialized Chunk prefix bytes. Existing RelaxedInitialization is limited to the public result with the used-prefix invariant and final Initialized assertion.",
+    "The actual byte semantics follow by concatenating the unchanged Step outputs across complete-step chunk boundaries. This is source reasoning; the current coordinator contract does not itself state full output-byte equivalence, and no integrated equivalence proof/test is claimed."
+  ],
+  "guard_mapping": {
+    "approval": "Semantically acceptable refactoring subject to fresh full primitive+coordinator proof; preserving four textual sites alone is not evidence.",
+    "one": "Nonprogress/source extent/strict-invalid mismatch is contradicted by saved valid Summary, exact Start adjacency and Chunk progress/extent post.",
+    "two": "Saved After<=total Length, Before=Used and Summary.Length=After-Before imply public remaining capacity; Chunk post gives scratch capacity. This covers replacement-containing chunks too.",
+    "three": "The generalized saved source/output-interval mismatch guard is meaningful: detects holes, overlap or wrong source replay. It replaces the original per-replacement public-space guard; that original obligation is covered jointly by guard2 plus Chunk local replacement bounds. This is not a claim the predicates are text-identical.",
+    "four": "Last saved After=first-phase Length plus replay Used=previous saved After establishes final exact Used=Result.Length."
+  },
+  "holds_before_any_production_acceptance": [
+    "Actual qualification GPR has Builder and Prove defaults -j0. Do not run defaults. Require explicit admitted bounded job arguments with verified precedence, or a separately pinned recipe successor using -j2. This reviewer ran no job.",
+    "Wrapper spans roughly140lines and exceeds the roughly60line single-purpose preference. Keep this explicit structural issue open; factor in-scope phases with equally strong contracts before production selection. No policy waiver is granted by this review.",
+    "Exact-source strict proof must cover generated checkpoint predicate, all sizing/writing arithmetic/index/init/termination obligations and all four raises, with zero unproved/warnings/Assume/justified. Toy predicate proof or earlier Chunk versions cannot substitute.",
+    "Compiler readback must bound implicit predicate replay count, ordinary field-read behavior, metadata layout, stack/secondary-stack/heap, return temporaries and scratch copies. Conditional two-payload192MiB+18B is not a proven process bound.",
+    "Original strict invalid input can fail before allocating output. This proposal allocates/zeroes chunk scratch first and may scan farther before global overflow refusal. Preserve original8GiB/time/error acceptance; no resource-domain equivalence claimed yet.",
+    "Original UTF8 normal/adversarial/full-domain cases, changed-start/quota/length/index negative controls, complete touched-module/whole-system proof floors and separate F7 remain required."
+  ],
+  "actions": {
+    "build": false,
+    "proof": false,
+    "runtime": false,
+    "source_edit": false,
+    "production_edit": false,
+    "review_artifact_only": true
+  },
+  "evidence_class": "INTERNAL_SOURCE_REVIEW_NOT_PROOF_NOT_RUNTIME_NOT_ACCEPTANCE"
+}

@@ -1,0 +1,115 @@
+package body Projection_Aggregate_Probe with SPARK_Mode is
+   procedure Root_Loop (SQL : L.SQL_Rows; Rows : out S.Root_Rows) is
+   begin
+      for I in Rows'Range loop
+         Rows (I) := (Present => True, Columns =>
+           (Generation => SQL (I, 1),
+            Operation => SQL (I, 2),
+            Phase => SQL (I, 3),
+            Before_Unknown => SQL (I, 4),
+            Owners_Open => SQL (I, 5),
+            Abort_Kind => SQL (I, 6),
+            Launched => SQL (I, 7),
+            Closure_NS => SQL (I, 8),
+            Closure_Outer => SQL (I, 9),
+            Closure_Raw => SQL (I, 10),
+            Witness => SQL (I, 11),
+            Settled => SQL (I, 12),
+            Released_Unlaunched => SQL (I, 13),
+            Unknown_Cause => SQL (I, 14),
+            Reattach_Epoch => SQL (I, 15),
+            Head_Event => SQL (I, 16)));
+      end loop;
+   end Root_Loop;
+   procedure Root_Aggregate (SQL : L.SQL_Rows; Rows : out S.Root_Rows) is
+   begin
+      Rows := [for I in Rows'Range => (Present => True, Columns =>
+           (Generation => SQL (I, 1),
+            Operation => SQL (I, 2),
+            Phase => SQL (I, 3),
+            Before_Unknown => SQL (I, 4),
+            Owners_Open => SQL (I, 5),
+            Abort_Kind => SQL (I, 6),
+            Launched => SQL (I, 7),
+            Closure_NS => SQL (I, 8),
+            Closure_Outer => SQL (I, 9),
+            Closure_Raw => SQL (I, 10),
+            Witness => SQL (I, 11),
+            Settled => SQL (I, 12),
+            Released_Unlaunched => SQL (I, 13),
+            Unknown_Cause => SQL (I, 14),
+            Reattach_Epoch => SQL (I, 15),
+            Head_Event => SQL (I, 16)));
+      end loop];
+   end Root_Aggregate;
+   procedure Subject_Loop (SQL : L.SQL_Rows; Rows : out S.Subject_Rows) is
+   begin
+      for I in Rows'Range loop
+         Rows (I) := (Present => True, Columns =>
+           (Generation => SQL (I, 1),
+            Kind_Of_Subject => SQL (I, 2),
+            Subject => SQL (I, 3),
+            Subgeneration => SQL (I, 4),
+            Phase => SQL (I, 5),
+            Mode => SQL (I, 6),
+            Position => SQL (I, 7),
+            Carried_From => SQL (I, 8),
+            Head_Event => SQL (I, 9)));
+      end loop;
+   end Subject_Loop;
+   procedure Subject_Aggregate (SQL : L.SQL_Rows; Rows : out S.Subject_Rows) is
+   begin
+      Rows := [for I in Rows'Range => (Present => True, Columns =>
+           (Generation => SQL (I, 1),
+            Kind_Of_Subject => SQL (I, 2),
+            Subject => SQL (I, 3),
+            Subgeneration => SQL (I, 4),
+            Phase => SQL (I, 5),
+            Mode => SQL (I, 6),
+            Position => SQL (I, 7),
+            Carried_From => SQL (I, 8),
+            Head_Event => SQL (I, 9)));
+      end loop];
+   end Subject_Aggregate;
+   procedure Root_Initialized (SQL : L.SQL_Rows; Rows : out S.Root_Rows) is
+   begin
+      Rows := [others => (Present => True,
+         Columns => (others => (Kind => S.SQL_Null)))];
+      for I in Rows'Range loop
+         Rows (I).Columns :=
+           (Generation => SQL (I, 1),
+            Operation => SQL (I, 2),
+            Phase => SQL (I, 3),
+            Before_Unknown => SQL (I, 4),
+            Owners_Open => SQL (I, 5),
+            Abort_Kind => SQL (I, 6),
+            Launched => SQL (I, 7),
+            Closure_NS => SQL (I, 8),
+            Closure_Outer => SQL (I, 9),
+            Closure_Raw => SQL (I, 10),
+            Witness => SQL (I, 11),
+            Settled => SQL (I, 12),
+            Released_Unlaunched => SQL (I, 13),
+            Unknown_Cause => SQL (I, 14),
+            Reattach_Epoch => SQL (I, 15),
+            Head_Event => SQL (I, 16));
+      end loop;
+   end Root_Initialized;
+   procedure Subject_Initialized (SQL : L.SQL_Rows; Rows : out S.Subject_Rows) is
+   begin
+      Rows := [others => (Present => True,
+         Columns => (others => (Kind => S.SQL_Null)))];
+      for I in Rows'Range loop
+         Rows (I).Columns :=
+           (Generation => SQL (I, 1),
+            Kind_Of_Subject => SQL (I, 2),
+            Subject => SQL (I, 3),
+            Subgeneration => SQL (I, 4),
+            Phase => SQL (I, 5),
+            Mode => SQL (I, 6),
+            Position => SQL (I, 7),
+            Carried_From => SQL (I, 8),
+            Head_Event => SQL (I, 9));
+      end loop;
+   end Subject_Initialized;
+end Projection_Aggregate_Probe;

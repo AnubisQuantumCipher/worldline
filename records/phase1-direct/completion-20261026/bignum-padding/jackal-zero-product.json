@@ -1,0 +1,28 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"assurance\":\"decidable polynomial identity over Q[x]\",\"engine_output\":\"status=exact equal=true\\nexact-cert={\\\"claim\\\":{\\\"equal\\\":true,\\\"lhs\\\":\\\"0*x\\\",\\\"rhs\\\":\\\"0\\\"},\\\"kind\\\":\\\"poly-eq\\\",\\\"schema\\\":\\\"jackal-exact-cert-v1\\\",\\\"witness\\\":{\\\"lhs_coeffs\\\":[\\\"0\\\"],\\\"rhs_coeffs\\\":[\\\"0\\\"]}}\",\"fields\":{\"equal\":\"true\",\"exact_cert\":\"{\\\"claim\\\":{\\\"equal\\\":true,\\\"lhs\\\":\\\"0*x\\\",\\\"rhs\\\":\\\"0\\\"},\\\"kind\\\":\\\"poly-eq\\\",\\\"schema\\\":\\\"jackal-exact-cert-v1\\\",\\\"witness\\\":{\\\"lhs_coeffs\\\":[\\\"0\\\"],\\\"rhs_coeffs\\\":[\\\"0\\\"]}}\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"poly-eq\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"decidable polynomial identity over Q[x]\"],\"status\":\"exact\"}"
+    }
+  ],
+  "structuredContent": {
+    "assurance": "decidable polynomial identity over Q[x]",
+    "engine_output": "status=exact equal=true\nexact-cert={\"claim\":{\"equal\":true,\"lhs\":\"0*x\",\"rhs\":\"0\"},\"kind\":\"poly-eq\",\"schema\":\"jackal-exact-cert-v1\",\"witness\":{\"lhs_coeffs\":[\"0\"],\"rhs_coeffs\":[\"0\"]}}",
+    "fields": {
+      "equal": "true",
+      "exact_cert": "{\"claim\":{\"equal\":true,\"lhs\":\"0*x\",\"rhs\":\"0\"},\"kind\":\"poly-eq\",\"schema\":\"jackal-exact-cert-v1\",\"witness\":{\"lhs_coeffs\":[\"0\"],\"rhs_coeffs\":[\"0\"]}}",
+      "status": "exact"
+    },
+    "formal": false,
+    "identities": {
+      "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+    },
+    "lane": "poly-eq",
+    "non_claims": [
+      "NOT formal-bounded: this lane carries no Lean-checked certificate",
+      "The epistemic class above is the STRONGEST claim this result supports",
+      "decidable polynomial identity over Q[x]"
+    ],
+    "status": "exact"
+  }
+}

@@ -1,0 +1,13 @@
+Setup
+   [mkdir]        object directory for project Significant_Counterexample
+   [mkdir]        exec directory for project Significant_Counterexample
+Compile
+   [Ada]          significant_magnitude_counterexample.adb
+   [Ada]          resource_quantities.adb
+   [Ada]          spark.ads
+   [Ada]          spark-big_integers.ads
+Bind
+   [gprbind]      significant_magnitude_counterexample.bexch
+   [Ada]          significant_magnitude_counterexample.ali
+Link
+   [link]         significant_magnitude_counterexample.adb

@@ -1,0 +1,17 @@
+{
+  "created_utc": "2026-10-26T15:09:42.180158+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "status": "OBSERVED_DIAGNOSTIC_FAILURE_IN_PARENT_EXECUTED_JOB",
+  "prior_review_sha256": "78fd89b75ee95c887942f974ca402d17ec2a90816eb7b33780fb945b543af98a",
+  "observed_receipt_sha256": "9c7ab7e7a2f58e740833bb0b4d6a98ce9e64ca1efdba7f589478e46f3ecc8958",
+  "diagnostic_source_sha256": "191ece9a6ae16e7c1dfc5b14737beeed7fff79c1db9f2a6853127e840d0f4a2a",
+  "linked_binary_sha256": "b6f854455e7180e3d1cf72ddc7e542ebe249c02dea5b9fa00a6a336f46997d71",
+  "stderr_sha256": "9d796385cf6ca946b68c5f0fee05e19017bd872a2bffe9d007e4454db4f86744",
+  "worker_result": {
+    "exit_code": 1,
+    "utc": "2026-10-26T15:03:07.879526+00:00"
+  },
+  "observation": "Parent job compiled, bound, linked diagnostic and executed it; stderr contains raised STORAGE_ERROR in Ada.Numerics.Big_Numbers.Big_Integers.Bignums.Normalize: big integer limit exceeded. The significant805byte operand has final byte1 and other804bytes0. This verifies the predicted installed runtime magnitude ceiling on an admitted span, independently of redundant padding.",
+  "classification_limits": "This is a tested counterexample on exact binary/toolchain/source, not proof every long operand fails or acceptance of any repair. Original full-domain contracts and O1/F7 remain binding. No runtime patch, cap increase, assertion disable, or caller-domain narrowing is justified.",
+  "next_step": "Retain failed receipt; qualify full-domain private runtime representation/ownership route against original O1 before any production replacement. Loader focused cache continuation has independent scope."
+}

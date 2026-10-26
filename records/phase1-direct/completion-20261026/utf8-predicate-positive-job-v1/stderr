@@ -1,0 +1,111 @@
+ info: implicit aspect Always_Terminates on "Chunk" has been proved, subprogram will terminate
+--> chunk_predicate_probe.adb:11:13
+
+ info: data dependencies proved
+--> chunk_predicate_probe.adb:12:11
+
+ info: range check proved
+--> chunk_predicate_probe.adb:12:48
+
+ info: postcondition proved
+--> chunk_predicate_probe.adb:13:16
+
+ info: range check proved
+--> chunk_predicate_probe.adb:14:50
+
+ info: initialization of "Add" proved
+--> chunk_predicate_probe.adb:19:07
+
+ info: range check proved
+--> chunk_predicate_probe.adb:21:46
+
+ info: loop invariant initialization proved
+--> chunk_predicate_probe.adb:22:33
+
+ info: loop invariant preservation proved
+--> chunk_predicate_probe.adb:22:33
+
+ info: loop invariant initialization proved
+--> chunk_predicate_probe.adb:24:13
+
+ info: loop invariant preservation proved
+--> chunk_predicate_probe.adb:24:13
+
+ info: range check proved
+--> chunk_predicate_probe.adb:25:47
+
+ info: loop invariant initialization proved
+--> chunk_predicate_probe.adb:26:33
+
+ info: loop invariant preservation proved
+--> chunk_predicate_probe.adb:26:33
+
+ info: overflow check proved
+--> chunk_predicate_probe.adb:26:64
+
+ info: loop variant proved
+--> chunk_predicate_probe.adb:27:31
+
+ info: overflow check proved
+--> chunk_predicate_probe.adb:29:32
+
+ info: index check proved
+--> chunk_predicate_probe.adb:29:32
+
+ info: division check proved
+--> chunk_predicate_probe.adb:29:62
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> chunk_predicate_probe.adb:30:28
+
+ info: overflow check proved
+--> chunk_predicate_probe.adb:31:52
+
+ info: index check proved
+--> chunk_predicate_probe.adb:31:52
+
+ info: overflow check proved
+--> chunk_predicate_probe.adb:32:34
+
+ info: index check proved
+--> chunk_predicate_probe.adb:32:34
+
+ info: overflow check proved
+--> chunk_predicate_probe.adb:34:65
+
+ info: overflow check proved
+--> chunk_predicate_probe.adb:35:65
+
+ info: overflow check proved
+--> chunk_predicate_probe.adb:36:25
+
+ info: range check proved
+--> chunk_predicate_probe.adb:49:38
+
+ info: precondition proved
+--> chunk_predicate_probe.adb:50:32
+
+ info: initialization of "Saved" proved
+--> chunk_predicate_probe.adb:51:07
+
+ info: predicate check proved on default value
+--> chunk_predicate_probe.adb:51:07
+      + in default value at chunk_predicate_probe.adb:51
+
+ info: precondition proved
+--> chunk_predicate_probe.adb:56:43
+
+ info: predicate check proved
+--> chunk_predicate_probe.adb:58:19
+
+ info: precondition proved
+--> chunk_predicate_probe.adb:61:44
+
+ info: assertion proved
+--> chunk_predicate_probe.adb:63:25
+
+ info: assertion proved
+--> chunk_predicate_probe.adb:64:25
+
+ info: initialization of "Output_Length" proved
+--> chunk_predicate_probe.ads:4:38

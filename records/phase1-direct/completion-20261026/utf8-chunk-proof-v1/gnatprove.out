@@ -1,0 +1,43 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+-----------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total        Flow                                          Provers   Justified   Unproved
+-----------------------------------------------------------------------------------------------------------------------
+Data Dependencies                 7           7                                                .           .          .
+Flow Dependencies                 .           .                                                .           .          .
+Initialization                    9           9                                                .           .          .
+Non-Aliasing                      .           .                                                .           .          .
+Run-time Checks                 123           .               123 (CVC5 17%, Z3 76%, altergo 7%)           .          .
+Assertions                       18           .                                          18 (Z3)           .          .
+Functional Contracts             12           .    12 (CVC5 16%, Trivial 9%, Z3 72%, altergo 3%)           .          .
+LSP Verification                  .           .                                                .           .          .
+Termination                       9           7                                           2 (Z3)           .          .
+Concurrency                       .           .                                                .           .          .
+-----------------------------------------------------------------------------------------------------------------------
+Total                           178    23 (13%)                                        155 (87%)           .          .
+
+
+max steps used for successful proof: 147
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit utf8_chunk_proposal, 8 subprograms and packages out of 8 analyzed
+  UTF8_Chunk_Proposal at utf8_chunk_proposal.ads:3 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (1 checks)
+  UTF8_Chunk_Proposal.Buffer_Capacity at utf8_chunk_proposal.ads:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  UTF8_Chunk_Proposal.Character_At at utf8_chunk_proposal.adb:6 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (5 checks)
+  UTF8_Chunk_Proposal.Code at utf8_chunk_proposal.adb:24 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (33 checks)
+  UTF8_Chunk_Proposal.Decode_Chunk at utf8_chunk_proposal.ads:30 flow analyzed (0 errors, 0 checks, 1 warnings and 0 pragma Assume statements) and proved (75 checks)
+  UTF8_Chunk_Proposal.Quota_For at utf8_chunk_proposal.ads:16 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (8 checks)
+  UTF8_Chunk_Proposal.Step at utf8_chunk_proposal.adb:48 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (21 checks)
+  UTF8_Chunk_Proposal.Text_Slice at utf8_chunk_proposal.adb:14 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)

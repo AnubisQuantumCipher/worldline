@@ -1,0 +1,28 @@
+--- a/core/worldline-custody_v2_load_input.adb
++++ b/core/worldline-custody_v2_load_input.adb
+@@ -544,6 +544,8 @@
+             Unknown_Cause => SQL (I, 14),
+             Reattach_Epoch => SQL (I, 15),
+             Head_Event => SQL (I, 16)));
++         pragma Loop_Invariant
++           (for all K in Rows'First .. I => Rows (K).Present);
+       end loop;
+    end Project_Roots;
+    procedure Project_Subjects (SQL : SQL_Rows; Rows : out S.Subject_Rows)
+@@ -565,6 +567,8 @@
+             Position => SQL (I, 7),
+             Carried_From => SQL (I, 8),
+             Head_Event => SQL (I, 9)));
++         pragma Loop_Invariant
++           (for all K in Rows'First .. I => Rows (K).Present);
+       end loop;
+    end Project_Subjects;
+    procedure Project_Alternatives
+@@ -593,6 +597,7 @@
+               Subject => Identity (SQL (I, 4)), Subgeneration => Quantity (SQL (I, 5)),
+               Set => Family, Event_Id => Digest (Arena, SQL (I, 7)));
+          end;
++         pragma Loop_Invariant (if not Good'Loop_Entry then not Good);
+       end loop;
+    end Project_Alternatives;
+    procedure Initialize_Input (Data : E.Bytes; Value : out Parsed_Input)

@@ -1,0 +1,51 @@
+{
+  "utc": "2026-10-26T14:08:24.955626+00:00",
+  "status": "SOURCE_ONLY_REUSABLE_EXACT_CURRENT_PREIMAGES_NOT_APPLIED",
+  "source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+  "proposal": "/home/sicarii/Work/worldline-phase1-codex-takeover-20261012/proposals/ordinary-reservation-lifecycle-v1/revision-2",
+  "proposal_manifest_sha256": "218b54219d8ffbb690c9c3905d0416cc1e6a1ba33b3546a20484897f34297a2a",
+  "historical_review_sha256": "be20f60b7d2174b984a34c77cb51e21dd43cdf3f4672dba40b92f660173090ca",
+  "patch_path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/reservation-plan/current-preimage.patch",
+  "patch_sha256": "e6bedb4ebedd570e41e0626fe2709beea99c69f1befae9be7a7a99c51a426336",
+  "files": [
+    {
+      "path": "core/worldline-ordinary_reservation_lifecycle.ads",
+      "preimage_sha256": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27",
+      "postimage_sha256": "22e2f57f5177c0f1e0c4f40f97a44bbdef450a3cae250e0a2a8e5580260cd5bd",
+      "matches_reviewed_proposal_preimage": true
+    },
+    {
+      "path": "core/worldline-ordinary_reservation_lifecycle.adb",
+      "preimage_sha256": "87aa67b6034e884abb5581ca92c5162056f5d8c57dc5b18b8ca64abd0ff403bf",
+      "postimage_sha256": "f48c136eec9f5ed10bfbd2927749e41bbcc72af12483db964662a92ba02305a7",
+      "matches_reviewed_proposal_preimage": true
+    },
+    {
+      "path": "tests/test_ordinary_reservation_lifecycle_v35.py",
+      "preimage_sha256": "d2b098e66d48e93b2c1a584b4f171661e7d3375e89585ce1799218f77ce3513a",
+      "postimage_sha256": "53ab5bbd0ff3c046d6c4b393994c001ad4eb89b78b32eeb019cc90ec04810ccb",
+      "matches_reviewed_proposal_preimage": true
+    }
+  ],
+  "static_git_apply_check": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "scope": [
+    "Complete captured-protocol mask/code/position postcondition replaces range-only Plan postcondition.",
+    "Malformed partial Ada outputs and C nonpublication semantics preserved.",
+    "No public Pre, input cap, authority branch, data transformation or nonassertion operational behavior changed.",
+    "Original test methods retained; proposed additional native ABI controls are copied only inside this unapplied patch."
+  ],
+  "open": [
+    "Ada legality and strict proof are UNRUN.",
+    "All original and added native controls are UNRUN.",
+    "Checked Ghost contract/invariant cost and memory/deadline admissibility are UNMEASURED; repeated Parse/prefix/uniqueness queries may increase cost materially.",
+    "Resource arithmetic/conservation, authenticated observations, parent-child reservations, at-most-once release, lifetime/Old, protected execution and F7 remain OPEN.",
+    "Proof/export/contract pins must be deliberately regenerated after root chooses an integrated source; no pin edit is included."
+  ],
+  "production_files_modified": false,
+  "tests_executed": false,
+  "proof_executed": false
+}

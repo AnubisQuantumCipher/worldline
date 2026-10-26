@@ -1,0 +1,83 @@
+{
+  "schema": "worldline.o1.exact-ref-bounded-source-fetch.v1",
+  "utc": "2026-10-26T15:47:06.274212+00:00",
+  "owner": "GPT-6.1-Sol high /root/proof_blocker",
+  "source_ref": "AdaCore/spark2014 b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+  "source_closure_sha256": "a73303586b530cc6b0da5173b1df651eb17762391993d5d515ea17fe68b570fc",
+  "aggregate_limit_bytes": 2000000,
+  "per_request_deadline_seconds": 30,
+  "admission_free_bytes": 10020000000,
+  "sources": [
+    {
+      "path": "src/why/gnat2why-expr.ads",
+      "free_before_bytes": 10072444928,
+      "requested_ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-expr.ads",
+      "resolved_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-expr.ads",
+      "http_status": 200,
+      "status": "FETCHED_EXACT_REF",
+      "bytes": 51226,
+      "sha256": "957ac9f65d2ee60dd23f293ecf45013a34a69b7dc4f1620319442323aebbec6a",
+      "git_blob_sha1": "1291a54eb20deb49728278fadaa52f3a2910e94a",
+      "elapsed_seconds": 0.467
+    },
+    {
+      "path": "src/why/gnat2why-subprograms.ads",
+      "free_before_bytes": 10072379392,
+      "requested_ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.ads",
+      "resolved_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.ads",
+      "http_status": 200,
+      "status": "FETCHED_EXACT_REF",
+      "bytes": 16222,
+      "sha256": "fd8109ceccf6646185d76e2313356da130a0bb31bcd7dd0bdd4f42d65fb2ea4b",
+      "git_blob_sha1": "bc879b43f562b1f5456559e782c5741f19358687",
+      "elapsed_seconds": 0.244
+    },
+    {
+      "path": "src/why/gnat2why-subprograms.adb",
+      "free_before_bytes": 10072363008,
+      "requested_ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.adb",
+      "resolved_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.adb",
+      "http_status": 200,
+      "status": "FETCHED_EXACT_REF",
+      "bytes": 417892,
+      "sha256": "5b10f31416b3ce9fc3cbbf38271a5f8ca693f8d28d408879e03668d769cd2433",
+      "git_blob_sha1": "0e11a456a82e56be86c29dfa8a83b38fa80e4dac",
+      "elapsed_seconds": 0.558
+    },
+    {
+      "path": "src/why/why-gen-progs.ads",
+      "free_before_bytes": 10071937024,
+      "requested_ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.ads",
+      "resolved_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.ads",
+      "http_status": 200,
+      "status": "FETCHED_EXACT_REF",
+      "bytes": 9656,
+      "sha256": "61b34d637d964d996dced2357f5dfb5ef10fb204f9a20d514b4c51da9f26d072",
+      "git_blob_sha1": "049317038fb0c8cc346914b8550a5fde266f08ea",
+      "elapsed_seconds": 0.22
+    },
+    {
+      "path": "src/why/why-gen-progs.adb",
+      "free_before_bytes": 10071924736,
+      "requested_ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.adb",
+      "resolved_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.adb",
+      "http_status": 200,
+      "status": "FETCHED_EXACT_REF",
+      "bytes": 12033,
+      "sha256": "f83f1cbe8c49b3d97dc13df3e61aa77f6a2ea1020bae8b4cb2322820d39720f3",
+      "git_blob_sha1": "dd3430c643e8ac25c5ad5f16893c1376a74657ad",
+      "elapsed_seconds": 0.378
+    }
+  ],
+  "production_modified": false,
+  "build_proof_install_clone": false,
+  "ipad_work": false,
+  "initial_free_bytes": 10072444928,
+  "aggregate_bytes": 507029,
+  "status": "ALL_FIVE_FETCHED_WITHIN_CAP"
+}

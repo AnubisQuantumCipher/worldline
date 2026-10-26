@@ -1,0 +1,154 @@
+{
+  "schema": "worldline.o1.minimal-lowering-route.v2",
+  "utc": "2026-10-26T15:34:11.817908+00:00",
+  "status": "IMPLEMENTATION_DESIGN_UNPROVEN_NO_BUILD_NO_SOURCE_PATCH_SELECTED",
+  "binding_gate_unchanged": true,
+  "scope": "Automatic complete-value ownership and literal implicitOld cleanup, preserving original O1 conjunction. Supplement prior route; no universal infeasibility claim.",
+  "evidence": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-expr.adb",
+      "sha256": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+      "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "lines": "2884-2930;9651-9853;9904-10007;16602-16634;16872-16957;24008-24030",
+      "purpose": "Existing leak/finalization/assignment/Old expression primitives; static failure."
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-borrow_checker.adb",
+      "sha256": "925e3a58f0d3f18ee75d48725d9a7df12691fdf1854886ab6379727b01020a53",
+      "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "lines": "1400 onward;2099 onward;6250 onward",
+      "purpose": "Assignment/anonymous-object/path permission enforcement extension seam."
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_attr.adb",
+      "sha256": "2186f019b336c853f7e3f5ae3a40fd91514ba188694c4fd592282c7ce63185d0",
+      "source_commit": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+      "lines": "5762-5795",
+      "purpose": "GNATprove mode skips Old expansion; keep normal compiler/prover tree distinction."
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_ch13.adb",
+      "sha256": "570d8a1cc74520fd95a12a9921bfe0893da7857517b4a2910da2bf65c880fd96",
+      "source_commit": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+      "lines": "19219-19282",
+      "purpose": "Finalizable hook binding, strict runtime availability, relaxed default."
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_attr.adb",
+      "sha256": "0d89c4982b0c5ae4430dae91539301c0adde232f1cc1f8ab4b8a32dfe9621f4b",
+      "source_commit": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+      "lines": "5724-5902",
+      "purpose": "Normal compiler physical Old temporaries, conditional evaluation, StoresAttributeOldPrefix."
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch7.adb",
+      "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+      "source_commit": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+      "lines": "77-121;1102-1107;3142-3152;6486-6535",
+      "purpose": "Existing normal compiler hook timing, reverse master order, prover-mode skipped expansion; Adjust exception orchestration."
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch3.adb",
+      "sha256": "559f0f1fae1c1f0783b4169c707c131d4e0420e988254617b57954b01d475f6e",
+      "source_commit": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+      "lines": "7150-7235",
+      "purpose": "Function-result copy elision/BIR and strict finalization allocator branches."
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/master-gnat2why-subprograms.adb",
+      "sha256": "ebf54d9e63f5d33a323a59016fd540df6c7f7a19ac4a9d9488d64b83aec399aa",
+      "source_commit": "03075d376653e022ceb3b7e303fc368fb0d28fc4",
+      "lines": "5730-5790;6628 onward",
+      "purpose": "Historical MASTER orientation ONLY for DeclareOldVariables/exit integration. NOT the FSF baseline; same-ref counterpart still must be inspected."
+    }
+  ],
+  "route_decision": {
+    "runtime_only": "No closure for the retained failure mechanism: changing runtime/application reclamation alone cannot alter the translator static VCResourceLeak=False branch or its ownership/copy analysis. A runtime change could still fix a demonstrated physical bug, but no such bug has yet been established; do not install an unneeded runtime replacement.",
+    "translator_only_candidate": "Concrete smallest candidate is GNAT2Why source + its embedded matching GNAT frontend build, reusing existing normal compiler/runtime, driver, Why3 schema/theories and solvers only after correspondence/compatibility qualification. This is not patching an installed ELF, a runtime-only workaround or a proved working build.",
+    "compiler_normal_patch": "Not presently required by evidence. Existing retained normal compiler implements strict Finalizable and actual Old temporaries. Add/rebuild normal compiler only if generated-runtime correspondence or qualification controls reveal a genuine missing normal-path action.",
+    "not_complete": "Strict ownership semantics must change in both generated VCs and borrow checking/flow; replacing static False with True or type-name exemption is unsound."
+  },
+  "new_discriminators": [
+    "TransformAttributeOld16884-16894 deliberately drops logicalOld when its prefix has no proof variables. Physical capture/cleanup must not use that shortcut: Capture(\"x\")Old can still allocate. Logical state-independence is not allocation-freedom.",
+    "Normal exp_attr5724 creates a distinct physical Old temporary marked StoresAttributeOldPrefix, including conditional/indirect forms. Repeated equal prefixes may share a logical term but cannot have physical owner counts merged unless actual compiler coalescing is established.",
+    "Current FinalizationActions has a real finally-section translation arm and otherwise borrow restoration/leak checks; new cleanup should be lowered through these existing constructs, not a new trusted cleanup axiom.",
+    "Current assignment inserts deep moves before leak checking; strict nonlimited copy must not move its source. Deep-copy semantics require a different branch before this operation, plus hook-body permission proof.",
+    "Direct application calls to a designated Adjust procedure are ordinary calls. They cannot be granted compiler-copy privilege merely by procedure name or type aspect; otherwise existing live ownership could be overwritten/leaked with a green report.",
+    "Adjustment/allocation failure can leave a mixture of source views and newly owned parts. Never call a generic finalizer over a source alias merely to clear a leak VC. Exact compiler enrollment/exception scheduling and hook-owned partial cleanup are required.",
+    "Fresh function-result capture can avoid an extra Adjust/Finalize pair through compiler BIR/elision. It is a useful first cleanup slice, but does not qualify ordinary B:=A, overwrite or independent-value semantics."
+  ],
+  "minimal_lowering": [
+    {
+      "stage": "A strict fresh-owner cleanup",
+      "changes": "Recognize only strict Finalizable types whose hook entities are visible/provable. Register fresh function-result owners in declaration/full-expression/Old regions. Generate normal/early-return/raise cleanup calls through existing Why program call/try/finalization nodes, then retain existing CheckNoMemoryLeaks. Replace static assertion refusal only for expressions already assigned a complete proved cleanup region.",
+      "first_discriminator": "Unchanged fresh Capture(Text)Old D47 allocation checks and normal locals are translated to actual Finalize calls; omitted-finalizer mutant fails. This stage is deliberately partial and cannot be called O1 complete."
+    },
+    {
+      "stage": "B actual independent copies",
+      "changes": "Add compiler-created CopyOrigin permission class for incoming shallow copied deep fields in implicit Adjust. Reading referents is allowed; freeing/moving/escaping the original referents is denied. Destination header overwrite detaches a view rather than freeing an owner; newly allocated parts become owned. Source owner permissions remain live and unchanged. Prove the actual Adjust body with this entry mode, and require generated calls to satisfy it. Ordinary explicit Adjust calls retain ordinary proof requirements.",
+      "first_discriminator": "B:=A and overwrite B, destroy A/native source first, then read/destroy B. Source-freeing, source-moving, shallow-copy-only and double-finalization mutants must fail both proof and exact runtime controls."
+    },
+    {
+      "stage": "C literal fullOld integration",
+      "changes": "Keep original complete logicalOld values/maps for contract semantics. Add distinct physical owner references and initialized/enrolled flags per actual prefix elaboration; these remain live until postcheck finishes. Integrate conditional Old evaluation, multiple prefixes, failure during a later capture, postcondition failure and body exceptions. Track actual compiler creation/finalization order.",
+      "first_discriminator": "Fresh/ordinary completeOld normal and exceptional paths, conditional skipped capture, repeated equal captures and allocation failure after one successful capture; no source-value destruction, leak or premature retirement."
+    },
+    {
+      "stage": "D sequence representation",
+      "changes": "Use strict Finalizable nonlimited private heap-linked complete Strings with iterative deep-copy/finalize. Clone observes the incoming source chain and owns only newly allocated nodes; every partial allocation failure cleans only that newly owned chain. Original native Push one text allocation/O1 linking and TakeAll pointer-only transfer remain separate runtime constraints.",
+      "first_discriminator": "All original O1 domain/cost/lifetime/implicitOld gates and whole-source proof floors on exact adopted product/tool identity. Finite single-String cases are not the sequence theorem."
+    }
+  ],
+  "hook_implementation_shape": {
+    "single_string": "For a copy-origin hook, conceptually observe incoming Data, detach Object.Data to null WITHOUT freeing that view, then clone the full original String including exact bounds into fresh owned storage. This is not permitted for an arbitrary ordinary live-owner call. The existing D47 naive overwrite cannot be treated as ordinary ownership transfer.",
+    "sequence": "Keep an immutable source observer outside the owned destination prefix. Detach destination view before building. Iteratively append freshly owned complete nodes. If any allocation fails, reclaim only the already built destination prefix and propagate original failure. No recursion, cap, global registry or custom pool is proposed.",
+    "exceptions": "Do not assume failed Adjust is registered or finalized the same way as a completed object. Read actual compiler AST/expanded output when later authorized; model normal/failed initialization explicitly. Prove finalizer itself cannot raise on the supported product representation, or model actual strict exception sequencing without suppressing it.",
+    "not_a_new_public_precondition": "Copy-origin is a verifier-only compiler event, not a new caller obligation to manage snapshot death or a narrower accepted input domain."
+  },
+  "existing_why3_reuse": {
+    "intended": "Reuse generated call/effect contracts, mutable physical refs, immutable complete-value bindings, conditional/try/finalization sequencing, and original leak VC kinds. No new solver theorem or imported axiom is assumed.",
+    "must_prove": "Hook body framing/source preservation, freshness/independence, no origin escape/free, complete initialized-owner enrollment, and cleanup on each real exit edge. Logical value equality cannot stand in for physical reclamation.",
+    "protocol_condition": "If new lifetime evidence requires changing generated why-tree schema or driver protocol, record and build that actual closure. Do not assume installed Why3/driver reuse from matching version labels."
+  },
+  "immutable_minimum": {
+    "spark_source": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c candidate; not attested installed correspondence.",
+    "gcc_ada_frontend": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea candidate GCC16.1 release; embed exact Ada source and producer comperr patch/content lock in translator build.",
+    "gnatcoll": "1d4374ae9187fd14d42ca99a3deb0ab2ff1ebc55 core+minimal, actual project graph recorded in translator-build-closure; unit/API compatibility not proved.",
+    "reuse": "Installed exact-hash normal compiler/runtime, driver, gnatwhy3, configuration/theories and solvers are candidates for unchanged reuse; original source-to-installed-binary relationship remains UNKNOWN and may not be silently claimed.",
+    "avoided_if_compatible": [
+      "Full normal GCC bootstrap",
+      "Full GNATprove driver/GPR2/Libadalang/VSS/SARIF/ada_toml SDK build",
+      "OCaml/Why3 rebuild"
+    ],
+    "remaining_source_gap": "Existing local complete FSF expr/borrow-checker/spark-definition files do not constitute a complete pinned translator checkout. Local subprograms source is historical master03075d, so no patch against it is proposed for FSFb941. Obtain the missing exact-ref source as a later authorized small-input step; no download in this turn.",
+    "capacity": "No large build admitted. xgen literal-j0 and GNATcoll defaults must be bounded in recorded recipe. Actual complete source+objects+temporaries peak remains unmeasured; existing user tools and product remain untouched."
+  },
+  "work_now_without_job": [
+    "Review this source-level operational lowering and its per-edge obligation table with an independent engineer; no proof credit.",
+    "Create a complete exact-ref source inventory from retained small files/readbacks, preserving the explicit missing units instead of mixing branches.",
+    "Prepare source-only positive/negative qualification programs for normal locals, freshOld, B:=A, overwrite, conditional/repeatedOld and allocation failure; do not run while source/build scope is frozen.",
+    "Prepare a standalone operational ownership model with explicit origin-view/fresh-owner/retired states and complete String values. Its eventual proof would qualify the model only, not the source translator or native compiler."
+  ],
+  "next_selected_by_root_not_executed": "Smallest engineering experiment after source/capacity admission: build an unmodified translator-only baseline in an isolated prefix and reproduce the original static and solver failure classes; then stageA fresh-owner cleanup. Do not start a full toolchain rebuild absent an actual dependency/correspondence failure.",
+  "acceptance_required": [
+    "Exact source/tool/flags identities and full touched-unit/caller/negative roster.",
+    "Proof of all generated lifetime/alias/freshness/normal+exception VCs, with static refusals retained for unsupported cases.",
+    "Actual compiler cleanup schedule and physical allocation/free controls on exact native ELF.",
+    "Ordinary copy and complete-value independence after source/native release; all original O1 cases/costs.",
+    "Whole-system mandatory gates and independentF7 remain separate."
+  ],
+  "actions": {
+    "download": false,
+    "clone": false,
+    "build": false,
+    "job": false,
+    "install": false,
+    "production_edit": false,
+    "ipad_work": false
+  },
+  "evidence_classes": {
+    "observed": "Readback of the retained exact local sources and D47 artifacts.",
+    "proposed": "Operational lowering and translator-only candidate.",
+    "unproven": "Implementation, matching source/binary tuple, tool compatibility, complete cleanup/independence and resource acceptance."
+  }
+}

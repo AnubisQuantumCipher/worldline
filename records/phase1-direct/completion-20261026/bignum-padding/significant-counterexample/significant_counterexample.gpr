@@ -1,0 +1,12 @@
+project Significant_Counterexample is
+   for Languages use ("Ada");
+   for Source_Dirs use
+     (".", "/home/sicarii/Work/worldline-phase1-direct-20261019/core");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("significant_magnitude_counterexample.adb");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnata", "-gnatwa", "-gnatVa", "-gnatf", "-O0", "-g");
+   end Compiler;
+end Significant_Counterexample;

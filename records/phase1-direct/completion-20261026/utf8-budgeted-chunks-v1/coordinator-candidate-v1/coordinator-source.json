@@ -1,0 +1,55 @@
+{
+  "created_utc": "2026-10-26T15:43:31.150226+00:00",
+  "author": "GPT-6.1-Sol high /root/proof_blocker",
+  "status": "OUTSIDE_PRODUCTION_SOURCE_PROPOSAL_UNCOMPILED_UNPROVED_UNRUN",
+  "source_sha256": {
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/utf8_coordinator_proposal.ads": "8f83eee4352c211f3577eea4a4fccd46f405097eed51c6dcd274c34a8a8c8183",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/utf8_coordinator_proposal.adb": "775473d57f7aabd4938f6610e2161806e47d22dc063877846ced6e2d63c93b94",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/utf8_coordinator_qualification.gpr": "485b7b7afa3d721f7035a27c3bc22f674acce495b015fbe7277ee3bcaa532f18",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/qualification-v2/utf8_chunk_proposal.ads": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/qualification-v2/utf8_chunk_proposal.adb": "8bd72b87296fa3fb180ef875a947df6ec35ffd568206ba0588a5911b0fc09afc",
+    "core/worldline-evaluation_agent_native.adb": "501c858e9faf6bfabbf28d5b79dfec62127136370f4ee33ed80fba2ab08f9a32",
+    "core/worldline-producer_bytes.ads": "6b64c3643869d09d876166c8ddc0a08f7473859d6e069586aa2770badf638988",
+    "core/worldline-producer_bytes.adb": "c4353ffc4b482fe426377b6cfbb9535ac50246973a768140ca33a6796964ee23"
+  },
+  "dependency_recipe": "Keep complete previous11coremodule closure and unchanged privateSPARKlib/Attest imports; add complete Worldline.Producer_Bytes spec/body for exact existing Decoded result type. Direct source binding, no stubs/product source copies. Reuses existing qualification-v2 object path if owner later allocates job; no cache/source copy created.",
+  "public_domain": "No public Pre. Empty input returns ValidTrue/empty; strict invalid or total Natural outputoverflow returns original ValidFalse/empty; no failure solely dueCount64 is allowed. Count bound is a checked assertion to prove, not refusal or new input limit. Replacement output uses actual unchanged Chunk EF BF BD logic, wholeStep quota boundaries preserved.",
+  "mechanism": {
+    "metadata": "64 Checkpoints with Present,Start,BeforeOutput,AfterOutput and exact Chunk Summary; all fields default fully initialized. Present defaultsFalse, predicate short circuit skips Chunk on all64defaults. Written checkpoints immutable thereafter.",
+    "predicate": "Only Present checkpoints call actual Chunk(Bytes,Checkpoint.Start,constantQuota,immutableReplaceErrors).Item; equality and valid/lengthscalar properties checked. No GhostOff, model-only helper, imported assertion, hash or caller boolean authorizes replay equality.",
+    "sizing": "Each successful Chunk advances by>=min(Quota,remaining), processes whole steps, contributes exact Chunk outputlength; checked Natural overflow refusal before addition/publicoutput allocation. Stores one checked aggregate into next checkpoint.",
+    "bound": "Quota>=ceil(N/64). Initial arithmetic assertion (N-1)/Quota<64 forN>0 plus loop Count<=Position/Quota whilePosition<N proves Count<64; avoids Count*Quota/largeinteger overflow. No recursion/dynamic allocation/pointers in source.",
+    "invariants": "Two checked forall processed-prefix clauses mention only scalar fields/presence/adjacency. No explicit Chunk/UTF8prefix/fold call in any Loop_Invariant. At most64metadata entries. Compiler must confirm no hidden predicate call emitted per ordinary field read.",
+    "replay": "Second same Chunk call uses Saved(I).Start/sameBytes/Quota/Replace; checked predicate+purecall congruence must prove exact Summary equality. Copy initialized scratch prefix into scalar savedinterval; zero-lengthprefix handled without invalid1..0slice writes. FinalpublicResult uses original RelaxedInitialization, initialized usedprefix invariant and ResultInitializedassert."
+  },
+  "four_original_failure_sites": {
+    "count": 4,
+    "first": "Sourceprogress/strictvalidity mismatch guard remains Program_Error.",
+    "second": "Public remaining output/scratchcopy extent mismatch guard remains Program_Error.",
+    "third": "Original Width0replacement-space failure site retained as generalized saved output-interval/source replay mismatch guard. Not text-identical; Chunk already proves replacement scratchbound, and public bound guard2 covers every replacement-containing chunkcopy. New third guard must be proved impossible from scalar adjacency/equalSummary. This mapping needs independent approval before any productionintegration.",
+    "fourth": "Original finalUsed/=Result.Length Program_Error remains.",
+    "deletion_policy": "No raise deleted or claimed impossible yet; fresh actual coordinator proof must discharge each. Primitive155checks do not establish these coordinator obligations."
+  },
+  "resource_analysis": {
+    "payload_capacity": "C=3*(min(Quota,remaining)+3); at mostQuota+3 sourceadvance, up to3outputbytes peradvance. One Chunk initializes allCbytes even on early strictinvalid.",
+    "metadata_bytes": "Exactly64records, each2Boolean+5Natural scalar fields; conditional expected1792bytes for 32bitNatural/8bitBoolean/alignment4. Actual representation/stackframe not observed.",
+    "initialization_work": "ForKsuccessfulchunks, sum min(Quota,remaining)<=N because actualprogress>=min and disjoint; fullzero stores per mainphase<=3*N+9*K. Additional Presentpredicate Chunk calls add entirechunk construction cost.",
+    "checked_metadata_work": "Two scalar quantifiers across<=64sizingiterations visit at most4160records total; this source count excludes implicit predicate checks/copies, which need compiler evidence. No defaultrecord should call Chunk.",
+    "traversals_and_copies": "Main phases call Chunk<=2Ktimes; checkpoint assignment may call predicate once or more per actual subtypecheck. No exactthreepass claim until lowering inspection. Replay scratchtofinal copy adds exactly resultlengthbytes. Functionreturn/slice/recordassignment ABI may introduce other buffers/copies.",
+    "peak": "At least input, exact publicresult, fixed64metadata and replayChunk scratch; sizing may coexist currentChunk plus predicate recomputationChunk. Conditional B64 max onepayload100663305bytes atNaturalLast2147483647, twopayload201326610bytes. Temporary return buffers/object lifetime may add more; original8GiB/deadlines remain UNPROVEN.",
+    "early_failure_difference": "Originalstrictsizing can refuse firstbadbyte without outputallocation; proposal allocates/zeros chunkbeforefailure, and may decode farther withinchunk beforeglobaloverflowrefusal. Values/errors remainintendedsame; resource/domainequivalence not accepted.",
+    "capacity_status": "Root actualChunkv2 run was terminated by diskguard withno fresh report; wholefilesystemfell below10GBreserve. No jobs may start now. Sourcefiles/JSONonly; no cachecreated."
+  },
+  "proof_work_next_when_owner_admits": [
+    "Metadata/source legality must be checked, including local predicate and arrayaggregate defaults, exact product/privateimport hashes.",
+    "Whole coordinator unit strict proof with all helpers, no source exclusions; require named predicatefunction/UTF8 rows plus initializedoutput, all4raises unreachable, Count/progress/overflow/termination and zero warnings/unproved/Assume/justified.",
+    "Negative mutations: secondcallStart+1, changeQuotaorReplace, SavedAfter+1, finaloutputLength-1, Countindexoffby1 must fail relevant proof/check; not yet prepared/executed.",
+    "Compilerlowering probe for default64predicatebranches, assignmentpredicatecallcount, forallordinaryreads, stack/secondary-stack/heap/returntemporaries and slice copy.",
+    "Original normal/full-domain/empty/ASCII/allleadclasses/surrogates/truncated/strictfirstbad/replacementboundary/Stringlowerbound/overflow cases, full8GiB/timecontrols and independentreview remain binding.",
+    "OriginalwholeprojectF2/roster/floors/pins/checkedruntime/F7/O1 unaltered. No integration or manifest refresh basedonthisproposal."
+  ],
+  "source_structure_open": "Wrapper function spans roughly140lines because local typepredicate must captureimmutableBytes/Quota/Replace without pointer/copy tricks. This exceeds roughly60linePowerofTenpreference; not accepted or waived. Before production, factor in-scope helper phases with equallystrong checkedcontracts or demonstrate/source-review a shortroutine decomposition. Current two loops are singlepurpose but no policycompliance claim.",
+  "production_modified": false,
+  "jobs_run": false,
+  "phase_acceptance": false
+}

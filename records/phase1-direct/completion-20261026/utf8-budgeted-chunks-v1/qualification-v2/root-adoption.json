@@ -1,0 +1,14 @@
+{
+  "scope": "Outside production diagnostic candidate only",
+  "original": {
+    "utf8_chunk_proposal.ads": "92747f5e4b54a3c0dc8d3d126fdbbef4a2ac4310aecb94564d4234aadbdf8fc2",
+    "utf8_chunk_proposal.adb": "c50677c3a3ddc3a411be022cbffed3f346b18281562ab2448ea4ff513687f162"
+  },
+  "current": {
+    "utf8_chunk_proposal.ads": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+    "utf8_chunk_proposal.adb": "c50677c3a3ddc3a411be022cbffed3f346b18281562ab2448ea4ff513687f162"
+  },
+  "change": "Remove only forbidden pure-function Always_Terminates; implicit termination and all bounds/contracts remain",
+  "reason": "installed E0016 previously reproduced; independent source review proof_blocker",
+  "phase_acceptance": false
+}

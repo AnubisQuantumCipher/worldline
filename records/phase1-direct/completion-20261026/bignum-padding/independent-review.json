@@ -1,0 +1,141 @@
+{
+  "kind": "independent-internal-complete-module-source-review",
+  "utc": "2026-10-26T14:04:10.658132+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "parent task allocation; no independent runtime model attestation"
+  },
+  "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+  "source_identities": {
+    "core/resource_quantities.ads": {
+      "sha256": "603a4bc3e1c26a6f96807ca3243de1fbe2c7ca43a6cf27f0170a0cdcfe1c9e39",
+      "bytes": 6142
+    },
+    "core/resource_quantities.adb": {
+      "sha256": "de0a209345ee6b98528c6c803ccd594258e6d74da1b67b18d4298982d01682fb",
+      "bytes": 24879
+    },
+    "core/worldline-custody_v2_mutation_decision.adb": {
+      "sha256": "7880a2cdce0902f1806673be83d5280042a4687e1be16db84414682361b82b1c",
+      "bytes": 74178
+    },
+    "core/worldline_core_sources.gpr": {
+      "sha256": "c551271db906bcaa767d5b65c8c70cca7da94a781518d2f9bb9193d6b203b686",
+      "bytes": 1090
+    },
+    "core/spark-big_integers.ads": {
+      "sha256": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52",
+      "bytes": 251
+    },
+    "refresh_contract_pins.py": {
+      "sha256": "d7eddaaf35c67391b805000e8a7767d12b10225c6c9b73acaff9d0cf796d70d8",
+      "bytes": 9271
+    },
+    "runtime/worldline/proof_manifest.py": {
+      "sha256": "2e19633002858122b05a250498a811995762e64d28b7166e1e91b638a89fd8f3",
+      "bytes": 273635
+    }
+  },
+  "preimage_spec_sha256": "4aad7ee70f29e5b21ec2d3e709d5dc456390aa9aaefeca1a3aed097573f7ebe7",
+  "review_scope": {
+    "complete_units": [
+      "core/resource_quantities.ads",
+      "core/resource_quantities.adb"
+    ],
+    "context": [
+      "core/worldline-custody_v2_mutation_decision.adb:81-160",
+      "core/worldline_core_sources.gpr",
+      "core/spark-big_integers.ads",
+      "refresh_contract_pins.py",
+      "runtime/worldline/proof_manifest.py:762-786"
+    ],
+    "all_resource_quantity_bodies_read": true,
+    "production_files_edited_by_reviewer": false,
+    "body_byte_identical_to_HEAD": true,
+    "exact_diff_is_only_guarded_zero_contribution": true
+  },
+  "verdict": "ELIGIBLE_FOR_SOURCE_CONTRACT_PIN_REFRESH_ONLY",
+  "mathematical_equivalence": {
+    "status": "REVIEWED_BY_CASE_ANALYSIS_NOT_MACHINE_PROVED",
+    "domain": "All type-admitted Byte_Array, Quantity and Byte_Count operands; no new span, length, sign or size precondition",
+    "cases": [
+      {
+        "case": "Count = 0",
+        "argument": "Both contracts select the unchanged zero-base branch; Count-1 is not evaluated."
+      },
+      {
+        "case": "Count > 0 and Digit(Data,Q,Count-1) = 0",
+        "argument": "Original contribution is the mathematical integer0 times256^(Count-1), equal0; conditional contribution is0. Prefix predecessor, nonnegativity and full reference equality are unchanged."
+      },
+      {
+        "case": "Count > 0 and Digit(Data,Q,Count-1) /= 0",
+        "argument": "The original multiplication expression and predecessor remain exactly unchanged."
+      },
+      {
+        "case": "Invalid span, including nonempty data mismatch",
+        "argument": "Digit returns0 and Prefix_Reference returns0. Both recurrence sides denote0; changed evaluation avoids an irrelevant power even for large Count."
+      },
+      {
+        "case": "Count > Q.Length",
+        "argument": "Digit at Count-1 is0. Prefix_Reference clamps to Q.Length. If Count=Q.Length+1 the predecessor is exactly the clamped value; larger Count has the same clamp. No lost length premise."
+      },
+      {
+        "case": "Q.Length=0, empty arrays and negative zero",
+        "argument": "Digit returns0 for every offset; Prefix_Reference denotes0. Negative field does not affect Prefix_Value and existing Value/Is_Negative definitions retain zero behavior."
+      },
+      {
+        "case": "Count=Byte_Count Last",
+        "argument": "When positive, Count-1 is representable. The mathematical equivalence still applies; no runtime stack/memory sufficiency is inferred."
+      }
+    ]
+  },
+  "checked_execution": {
+    "status": "INTENTIONAL_RESOURCE_BEHAVIOR_CHANGE_UNTESTED_BY_REVIEWER",
+    "effect": "Ada conditional evaluates only the selected contribution branch. Zero digits therefore skip Power_Reference and its recursive big-integer construction. This can turn a previous resource exception into successful evaluation; exception behavior is deliberately not claimed equivalent.",
+    "nonzero_branch": "Digit is side-effect-free with bounded return0..255; it is evaluated again in the nonzero branch, while the original product is retained.",
+    "assertions_retained": true,
+    "ghost_policy_changed": false,
+    "proof_controls_changed": false,
+    "authority_or_permission_changed": false
+  },
+  "complete_module_observations": [
+    "Digit rejects invalid/out-of-range accesses with0; Span_Valid still accepts every zero-length span.",
+    "Magnitude, Value, Is_Zero, Is_Negative, Compare and Capacity_Fits executable bodies and all contracts remain unchanged.",
+    "Radix and prefix worker/recurrence/checked bridges, Prefix_Bounds/Monotone/Padding, scale/order/borrow lemmas, all assertions and termination variants remain unchanged and in proof scope.",
+    "Compare and Capacity_Fits still perform actual invalid-span rejection before mathematical comparison; this change grants no authority to malformed data.",
+    "No imported lemma, assumption, suppression, cap, new precondition, exception swallowing or acceptance substitution is introduced."
+  ],
+  "pin_update_boundary": {
+    "eligible": true,
+    "justification": "The exact spec change preserves all mathematical obligations and is independently reviewed with the complete unchanged body. Existing source-derived digest literals may be regenerated through refresh_contract_pins.py while all policy and coverage requirements remain.",
+    "reviewer_updated_pins": false,
+    "not_authorized_by_this_review": [
+      "proof manifest success claim",
+      "release acceptance",
+      "whole-system proof claim",
+      "O1 closure",
+      "F7 closure"
+    ],
+    "required_followup": "Root must preserve fresh exact-source identities and pin readback; a pin is source identity rather than evidence that the source meets its obligations."
+  },
+  "residuals_open": [
+    "No build, GNATprove or runtime test was run by this reviewer.",
+    "Resource_Quantities Power_Reference and private workers/lemmas still construct large powers in other checked paths; recursive stack, finite GNAT bignum representation and significant magnitudes remain unresolved.",
+    "The successor retained Is_Successor relation and loop invariants may independently evaluate Radix_Power at padded offsets; this edit does not close the original successor regression.",
+    "O1/full-domain source proof, original whole-runtime roster, unbounded full-value retirement conjunction, authentic actor/protected witnesses and independent F7 acceptance remain open."
+  ],
+  "smallest_sound_next_step": "Root-serialized checked build and unchanged original successor exact-oracle regression, followed by fresh strict whole-resource-quantities proof with complete coverage and independent readback; diagnose remaining exact failure rather than relaxing the domain.",
+  "acceptance_evidence_required": [
+    "fresh exact-source checked build/library identity",
+    "unchanged successor padding/capacity/owned-bound controls",
+    "original Ada tests and fuzz",
+    "fresh strict complete-unit proof with zero unproved/justified/Assume and coverage reconciliation",
+    "all original PhaseOne acceptance gates"
+  ],
+  "formal_proof_run": false,
+  "tests_run": false,
+  "whole_system_acceptance": false
+}

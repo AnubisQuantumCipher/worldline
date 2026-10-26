@@ -1,0 +1,3 @@
+This error is issued on functions with an `Always_Terminates` aspect or pragma.
+Functions should be free of side-effects in SPARK, which includes that they
+should always terminate on any input that satisfies their precondition.

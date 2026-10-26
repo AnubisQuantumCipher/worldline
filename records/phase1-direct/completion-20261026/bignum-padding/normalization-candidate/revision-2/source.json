@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-26T14:28:08.281383+00:00",
+  "status": "PROPOSAL_ONLY_UNCOMPILED_UNPROVED_UNRUN",
+  "production_modified": false,
+  "production_preimage_sha256": "323a8673c5e88e01ce465430fe4d2daf5c4f1efde2ef9861e62afe129cd032f7",
+  "v1_candidate_sha256": "d2756b20d9302888e1c69e4d24982de06469cd9275a39d55e7bef7e5ff905515",
+  "v2_candidate_sha256": "c0749aa889ffb6c20645c96b4746b94fe0e1b5c4f24d2b36ded1cb0e3abbf484",
+  "public_spec_sha256": "41b59719e2395be43f6a5181f5eb5d28e1d5ec57bbb25b803feffdba7e7ed55f",
+  "patch_sha256": "a084e74517a54904d3898a974ac6ac662afd0c5faaf63a32cfe9f3e959873e17",
+  "delta_sha256": "5c6ce2404cdf62da86e62ef2564b427b60cf67ad1999c578aec2e6d92f26aac4",
+  "delta_scope": "Only replace newly introduced Trimmed_View Prefix_Padding call by existing independent-reference clamp, public Prefix_Value equality and Magnitude assertions. All inherited Successor_Columns body and helper calls unchanged.",
+  "removed_recursion": "No newly added zero-suffix Prefix_Padding recursion; original helper definition/calls remain. Existing Prefix_Reference recursion and possible quadratic checked evaluation remain open.",
+  "original_v1_preserved": true
+}

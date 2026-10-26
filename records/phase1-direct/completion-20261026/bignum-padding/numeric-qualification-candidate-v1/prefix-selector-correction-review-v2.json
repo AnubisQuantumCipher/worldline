@@ -1,0 +1,11 @@
+{
+  "created_utc": "2026-10-26T15:29:20.218992+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "source_sha256": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+  "verdict": "APPROVE_SELECTOR_ONLY_CORRECTION_FOR_CONTROLLED_RERUN",
+  "old_selector": "resource_quantities.ads:79",
+  "corrected_selector": "resource_quantities.ads:78",
+  "cause": "Current7463 spec function Prefix_Value declaration begins78;79 is formal parameter line. Reviewer recipe retained old603 declaration selector after removal of preceding Radix_Power vacuous variant. Root observed zero matching targets/no checks, actual exit1.",
+  "required": "Retain failed v1 output; rerun only Prefix_Value at78 in existing tiny project under allocated heavy scope/diskmonitor. Other five green target reports remain exact prior evidence, no rerun. Require exit0 fresh named Prefix_Value row and actual checks. This correction does not change source, contracts, warnings or whole-project gates.",
+  "no_job_run_by_reviewer": true
+}

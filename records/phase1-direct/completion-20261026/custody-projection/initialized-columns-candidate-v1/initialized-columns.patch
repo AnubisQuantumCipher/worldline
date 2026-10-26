@@ -1,0 +1,44 @@
+--- a/core/worldline-custody_v2_load_input.adb
++++ b/core/worldline-custody_v2_load_input.adb
+@@ -526,8 +526,10 @@
+        Post => (for all Row of Rows => Row.Present)
+    is
+    begin
++      Rows := [others => (Present => True,
++         Columns => (others => (Kind => S.SQL_Null)))];
+       for I in Rows'Range loop
+-         Rows (I) := (Present => True, Columns =>
++         Rows (I).Columns :=
+            (Generation => SQL (I, 1),
+             Operation => SQL (I, 2),
+             Phase => SQL (I, 3),
+@@ -543,7 +545,7 @@
+             Released_Unlaunched => SQL (I, 13),
+             Unknown_Cause => SQL (I, 14),
+             Reattach_Epoch => SQL (I, 15),
+-            Head_Event => SQL (I, 16)));
++            Head_Event => SQL (I, 16));
+       end loop;
+    end Project_Roots;
+    procedure Project_Subjects (SQL : SQL_Rows; Rows : out S.Subject_Rows)
+@@ -554,8 +556,10 @@
+        Post => (for all Row of Rows => Row.Present)
+    is
+    begin
++      Rows := [others => (Present => True,
++         Columns => (others => (Kind => S.SQL_Null)))];
+       for I in Rows'Range loop
+-         Rows (I) := (Present => True, Columns =>
++         Rows (I).Columns :=
+            (Generation => SQL (I, 1),
+             Kind_Of_Subject => SQL (I, 2),
+             Subject => SQL (I, 3),
+@@ -564,7 +568,7 @@
+             Mode => SQL (I, 6),
+             Position => SQL (I, 7),
+             Carried_From => SQL (I, 8),
+-            Head_Event => SQL (I, 9)));
++            Head_Event => SQL (I, 9));
+       end loop;
+    end Project_Subjects;
+    procedure Project_Alternatives

@@ -1,0 +1,32 @@
+ info: implicit aspect Always_Terminates on "Prefix_Value" has been proved, subprogram will terminate
+--> resource_quantities.ads:79:13
+
+ info: data dependencies proved
+--> resource_quantities.ads:83:16
+
+ warning: no recursive call visible [variant-no-recursion]
+--> resource_quantities.ads:84:06
+   84 |         Subprogram_Variant => (Decreases => Count),
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ info: postcondition proved
+--> resource_quantities.ads:85:14
+
+ info: predicate check proved
+--> resource_quantities.ads:85:37
+
+ info: predicate check proved
+--> resource_quantities.ads:86:49
+
+ info: range check proved
+--> resource_quantities.ads:87:69
+
+ info: range check proved
+--> resource_quantities.ads:88:37
+
+ info: range check proved
+--> resource_quantities.ads:89:55
+
+ info: range check proved
+--> resource_quantities.ads:90:37
+gnatprove: unproved check messages considered as errors

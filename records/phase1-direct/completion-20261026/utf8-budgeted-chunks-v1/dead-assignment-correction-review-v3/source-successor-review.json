@@ -1,0 +1,47 @@
+{
+  "created_utc": "2026-10-26T15:34:06.738239+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "verdict": "APPROVE_EXACT_DEAD_ASSIGNMENT_REMOVAL_FOR_FRESH_STRICT_WHOLE_UNIT_VERIFICATION",
+  "preimage_body_sha256": "c50677c3a3ddc3a411be022cbffed3f346b18281562ab2448ea4ff513687f162",
+  "successor_body_expected_sha256": "8bd72b87296fa3fb180ef875a947df6ec35ffd568206ba0588a5911b0fc09afc",
+  "unchanged_spec_sha256": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+  "unchanged_project_sha256": "db9c3bffc2e3ed44dfee844231f2e854c2af9a5d2bf346710086d6b2010faa08",
+  "patch_sha256": "dfb1f5cd81dcabce7cd851cfb90fa537525ee31ae37368fba9746fc74e2bff1e",
+  "preimage_file_sha256": "c50677c3a3ddc3a411be022cbffed3f346b18281562ab2448ea4ff513687f162",
+  "scope": "Remove only unused initial Result.Item aggregate assignment. Root owns actual proposal source change; production untouched by reviewer. Reuse same qualification-v2/qualification-obj; do not duplicate cache.",
+  "soundness": {
+    "dominance": "Every normal completion of extended return passes final Result.Item := (Position,Used,Valid), including empty-input/Start=end zero iterations and strict-invalid loop exit. No early return exists within extended return.",
+    "no_reads": "Loop and checked invariants access scalar Position/Used/Valid and Result.Data, never Result.Item. Discriminant Capacity initialized by object constraint; plain Summary record has no predicates/default effects, no controlled components or callbacks expose initial scalar state.",
+    "exceptions": "Exceptional paths abandon extended return; they do not publish partially initialized returned object. Removing a constant aggregate of Natural/Boolean introduces no missing side effect.",
+    "preserved": "Full Data zero-init, every byte write, final Item aggregate, contracts, loopvariants/invariants/assertions, signature and quota/full-domain guarantees unchanged. No relaxation/suppression."
+  },
+  "actual_prior_run": {
+    "result_sha256": "0897a14ec92c2821a23c609627cf039e46d9a526566e79507fc84e1df55fc60f",
+    "report_sha256": "bed1074455339758759eea77e92026950f62fbf2e6bd85c498a29af608658699",
+    "stderr_sha256": "a37f494d9e3ab46f2e355c12ff2d56e3e25f51db257b57c770863e06850163e3",
+    "exit_code": 1,
+    "fresh_report": true,
+    "source_unchanged": true,
+    "proof_checks": 155,
+    "flow_checks": 23,
+    "entities": "8/8",
+    "unproved": 0,
+    "pragma_assume": 0,
+    "justified": 0,
+    "warning": "Decode_Chunk unused assignment utf8_chunk_proposal.adb100; actual strict exit1 retained, not accepted."
+  },
+  "successor_recipe": [
+    "Root preserves existing strict-failed v1 report and applies exact one-line patch to qualification-v2/utf8_chunk_proposal.adb.",
+    "Before launch read back actual body expected SHA and unchanged spec/project/dependency hashes, store small receipt. Do not copy/rename object cache.",
+    "Re-run whole unit with exact prior argv/flags/private deps and originalheavylock8G/no-swap/admission plus diskreserve monitor, only when allocated.",
+    "Require actual exit0, fresh report, all8entities, every initialization/extent/post/termination check proved, zero warnings/unproved/Assume/justified. Changed check count must be derived from actual fresh report, not assumed155.",
+    "No production integration, manifest acceptance or UTF8/coordinator/resource-equivalence claim from primitive proof."
+  ],
+  "source_readback_at_review": {
+    "body_sha256": "8bd72b87296fa3fb180ef875a947df6ec35ffd568206ba0588a5911b0fc09afc",
+    "matches_preimage": false,
+    "matches_expected_successor": true
+  },
+  "no_jobs_run_by_reviewer": true,
+  "phase_acceptance": false
+}

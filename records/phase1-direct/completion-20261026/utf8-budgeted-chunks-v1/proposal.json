@@ -1,0 +1,117 @@
+{
+  "schema": "worldline.utf8.budgeted-chunk-proof-proposal.v1",
+  "utc": "2026-10-26T15:04:06.686852+00:00",
+  "status": "SOURCE_DESIGN_ONLY_NOT_IMPLEMENTED_NOT_COMPILED_NOT_PROVED_NOT_ADMITTED",
+  "source_root": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "source": {
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/core/worldline-evaluation_agent_native.adb",
+    "sha256": "501c858e9faf6bfabbf28d5b79dfec62127136370f4ee33ed80fba2ab08f9a32",
+    "scope": "UTF8 lines191-282; original Step and AddFor byte semantics retained"
+  },
+  "existing_evidence": {
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/proof-utf8-summary.json",
+    "sha256": "1ba3c79ed19540059cf1dc9a8be9dfe69746001da6c707abe667a48afc00031f",
+    "status": "Original55/59 checks; four runtimeexception obligations unproved; no counterexample established."
+  },
+  "target": "Retain first-phase strict validation/exact sizing/overflow False outcome; second-phase exact byte construction on same immutable input; original full String domain, replacement grouping and empty output. No suppression, GhostOff, imported assumption, new input cap or input-sized unbudgeted trace.",
+  "mechanism": [
+    "One pure Chunk(Bytes,Start) function returns a fixed-capacity data record and scalar Summary(Next,Length,Valid). It implements the original Step transitions until end-of-input or at least Quota source bytes have been consumed; stopping occurs only after a complete Step.",
+    "Chunk writes into a buffer bounded by source progress, independent of exact global result length: Used<=3*(Position-Start), Position-Start<=Quota+3, therefore Used<=Capacity=3*(min(Quota,N)+3). This is a single-pass local bound with scalar checked invariants.",
+    "First phase calls Chunk, rejects original strict-invalid and total Natural overflow outcomes, records at most B summaries plus starting input/output positions, and sums exact lengths. It does not retain chunk bytes after each iteration.",
+    "A local checkpoint subtype Dynamic_Predicate binds every Present entry summary to Chunk(Bytes,Start).Summary. Whole-record assignment is used; entries are immutable thereafter. Congruence of identical pure function calls establishes second Chunk summary equality, not a hash, scalar assertion of equivalence, or imported fact.",
+    "Checkpoints array has statically fixed B entries, initially PresentFalse, so default predicate checks do not scan input. Predicates are checked and proved; none are disabled. First-phase loop invariants quantify only the at-most-B scalar checkpoint records for processed Present flags, input/output adjacency and cumulative output bounds. They do not invoke Chunk or a prefix decoder.",
+    "Second phase replays Chunk from each stored exact Start, then copies its initialized prefix into the stored output interval. Immutable checkpoint predicates and pure-call congruence give exact length/Valid; scalar checkpoint bounds give result-slice safety, adjacency and final used length. No step-by-step cross-pass fold model is evaluated.",
+    "The original decoder still has a sizing/validation phase before allocating its exact public result and a writing phase. Internal mechanics change: sizing now computes/discards bounded chunk bytes, and checked predicates may replay chunks. This is not literally two total byte traversals. If exactly two traversals is binding, this alternative is ineligible until that discrepancy is resolved; no silent restatement is proposed."
+  ],
+  "smallest_local_step_strengthening": {
+    "post": "Advance in1..4 and Advance<=BytesLength-Position and Width<=BytesLength-Position and Width<=4 and (if Width>0 then Advance=Width)",
+    "implementation": "Original body retained. Invalid branch loop also preserves Advance<=BytesLength-Position; increment occurs only under Advance<remaining. Existing V.UTF8_Width post already gives valid Width extent.",
+    "limit": "This strengthening alone does not prove global replay length; no claim it closes all four raises."
+  },
+  "fixed_budget": {
+    "candidate_B": 64,
+    "quota": "max(4096, ceil(N/B)); compute ceil by N/B plus conditional N mod B, avoiding N+B-1 overflow.",
+    "capacity": "3*(min(Quota,N)+3), using proved intermediate bounds; N=0 returns original empty result before any chunk object is needed.",
+    "metadata": "Exactly B checkpoint records, no per-byte or per-Step metadata. Exact record size/alignment remains a compiler readback requirement.",
+    "termination": "Every nonfinal successful chunk consumes at least Quota input bytes; ceil(N/Quota)<=B. Use bounded Long_Long_Integer scalar arithmetic or division to state progress without overflowing Count*Quota. Neither introduces a public input limit.",
+    "illustrative_numeric_basis": "The following table is exact integer calculation conditional on NaturalLast=2147483647; target value must be read back from the actual Ada build before numerical admission.",
+    "tradeoff_table": [
+      {
+        "checkpoint_bound": 16,
+        "quota_at_assumed_natural_last": 134217728,
+        "one_chunk_payload_bound_bytes": 402653193,
+        "two_simultaneous_payloads_bytes": 805306386,
+        "max_scalar_prefix_predicate_evaluations_per_quantifier": 136
+      },
+      {
+        "checkpoint_bound": 64,
+        "quota_at_assumed_natural_last": 33554432,
+        "one_chunk_payload_bound_bytes": 100663305,
+        "two_simultaneous_payloads_bytes": 201326610,
+        "max_scalar_prefix_predicate_evaluations_per_quantifier": 2080
+      },
+      {
+        "checkpoint_bound": 256,
+        "quota_at_assumed_natural_last": 8388608,
+        "one_chunk_payload_bound_bytes": 25165833,
+        "two_simultaneous_payloads_bytes": 50331666,
+        "max_scalar_prefix_predicate_evaluations_per_quantifier": 32896
+      }
+    ],
+    "peak": "Budget two simultaneous fixed-capacity Chunk payloads in first phase: current result plus predicate recomputation result. Second phase also has exact final result plus chunk scratch. Function return temporaries and ABI copies may exceed this source-level envelope; compiler evidence is mandatory.",
+    "eight_gib_status": "UNPROVEN. B64 gives conditional two-payload192MiB+18B, plus existing caller/input/result and all process memory. No evidence yet establishes original workload peak plus this scratch fits8GiB. Original input/resource domain is not accepted preserved until actual lowering and end-to-end admission establish it.",
+    "not_a_cap": "B limits checkpoint count, not input bytes. Quota grows with N. If B cannot be met because implementation fails to consume full chunks, that is a bug/proof failure, not an allowed False return."
+  },
+  "checked_cost": {
+    "byte_work": "Chunk main calls scan at most N source bytes in each phase; a predicate check can add one replay per stored checkpoint. A direct whole-record checkpoint assignment gives at most one such recomputation if expression is written as one Summary equality. Budget three full decode traversals, plus any additional object-boundary predicate checks actually emitted. All such checks remain enabled.",
+    "initialization": "A fully initialized fixed-capacity buffer simplifies initialization proof but adds bounded full-buffer stores per Chunk call, including early invalid inputs. RelaxedInitialization is optional only after separate proof of initialized prefix/nonexposure; do not assume it is free or already supported.",
+    "metadata_work": "For fixed B64, a processed-prefix scalar invariant has at most2080 record predicate evaluations per quantifier over the sizing loop. This is constant in N once B is fixed, with no Bytes prefix scan inside it. Several separate quantifiers multiply this finite constant; preserve actual time limits.",
+    "copy_work": "Second phase copies each exact output byte from chunk scratch once to final result; original direct writer did not need this additional copy. Actual caller deadlines remain binding.",
+    "not_claimed": "No measured speed, stack budget, zero-copy result or accepted resource envelope."
+  },
+  "proof_obligation_split": [
+    "Step original exact invalid-prefix grouping, bounded Advance and Width, deterministic source reads.",
+    "Chunk scalar termination/extent and initialized-prefix checks; valid Width copies unchanged bytes, Width0 emits EF BF BD; strict Width0 produces Invalid before any checkpoint publication.",
+    "Checkpoint predicate compatibility: local type may depend on immutable Bytes and pure Chunk result; GNATprove must preserve/read component predicates without evaluating Chunk inside quantified invariants. If unsupported, stop this route rather than insert assumptions.",
+    "First phase checkpoint count<=B, exact source/output adjacency, all stored valid, cumulative output<=NaturalLast and final entry outputEnd=Length. Checked invariants quantify scalar fields only.",
+    "Second phase identical Chunk arguments and quota; predicate plus congruence yields Valid, Next and Length. Copy slice upper bound derives from first-phase scalar records. Final used=Length derives from last entry/adjacency.",
+    "First-phase chunk concatenation uses exactly original Step path; first invalid or output overflow preserves original False outcome, successful bytes and length are identical. Grouping at chunk edges never truncates a scalar/error prefix.",
+    "Actual compiler/proof flags, touched function/module coverage, metadata/payload/temp lowering and original runtime gates remain unchanged."
+  ],
+  "smallest_validating_experiment_not_run": [
+    "First prepare an isolated toy pure function returning a bounded record with Summary; prove checkpoint Dynamic_Predicate construction and a second identical call using its Summary. Include one mutated Start/Length negative. No large arrays or UTF8 integration needed for this first tool-support discriminator.",
+    "If that succeeds, implement one real Chunk around original Step and prove its scalar buffer bound/initialized-prefix post, preserving all original bad-prefix branches. Keep it outside production.",
+    "Then prove the fixed-B coordinator with original four raises retained as guards until proved unreachable; inspect full GNATprove checks, not only successful subset.",
+    "Before production selection inspect actual compiled stack/secondary-stack/heap/copy lowering and measured process envelope in existing admitted wrapper; require original8GiB reserve/time limits and original cases.",
+    "If resource/domain or exactly-two-traversal requirement fails, retain UTF8 blocker and this failed alternative. Do not waive gates."
+  ],
+  "negative_controls": [
+    "Stored summary Length+1 or altered Start must fail predicate/copy proof.",
+    "Second call uses different input/quota/start: congruence must not authorize equality.",
+    "Strict-invalid summary cannot be PresentTrue; default/unwritten entries cannot be copied via Count off-by-one.",
+    "Result length reduced by1 must leave a failing extent obligation.",
+    "Chunk boundary before a four-byte valid scalar or invalid maximal subpart must preserve complete original Step grouping.",
+    "Empty input, ASCII, every lead class/continuation constraint, surrogates, truncated prefixes, repeated replacement, output Natural overflow, and arbitrary String lower bound retain original semantics.",
+    "New false return solely because metadata Count=B is forbidden; progress proof must show end reached."
+  ],
+  "claims": {
+    "proved": false,
+    "tested": false,
+    "observed": "Current source/retained failure report and exact conditional integer budget calculations only.",
+    "assumed": "No semantic assumptions authorized. Numerical sample NaturalLast is explicitly conditional.",
+    "unproven": "Tool acceptance, exact final correctness, physical8GiB/deadline/domain preservation, strict two-traversal compatibility.",
+    "production_modified": false,
+    "heavy_jobs_run": false
+  },
+  "toy_discriminator": {
+    "status": "UNCOMPILED_UNPROVED_UNRUN; source-only qualification input",
+    "files": {
+      "chunk_predicate_probe.ads": "851481d0e34a401d2641729bdefa11b5e878058a22ec8d83620c05599bd3d93e",
+      "chunk_predicate_probe.adb": "5b10123acda9d297200e71014d0258ca9ce4d70716e6d65bcf494f6329933649",
+      "different-start-negative.patch": "b42d8e3f24f799c2f74d8bc9c3947971d2ce5ad1194998e66ae2c7df9e905d24"
+    },
+    "positive": "Pure bounded record-return function called twice with identical String/Start; local checkpoint Dynamic_Predicate binds stored scalar summary to that function. Assert replay summary equality. No UTF8 correctness claim.",
+    "negative": "Second call Start+1. Saved.Start=0 and nonempty input make Pre valid. For one-byte input, first Next1/Length1..4 versus second Next1/Length0; equality is mathematically false. Prover must not prove final equality. No negative run claimed.",
+    "selection": "Root may run an admitted bounded isolated probe only when chosen. No project, pins, assertion policy or production changed."
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "schema": "worldline.o1.fresh-owner-source-slice.v1",
+  "utc": "2026-10-26T15:44:18.351782+00:00",
+  "status": "CONCRETE_PSEUDOCODE_AND_INTERFACES_ONLY_EXACT_PATCH_DEFERRED_FOR_MISSING_SOURCE_CLOSURE",
+  "source_ref": "AdaCore/spark2014 b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+  "why_no_applyable_patch": "Complete exact FSF expr and borrow-checker bodies are available, but the required public interfaces/call effects/Old outer wrapper and Why program constructors are not present in the bounded retained source inventory. A guessed call builder or mixed-branch subprograms change could skip callee checks or mishandle exceptional cleanup. Parent explicitly permits pseudocode/interfaces in this case. No patch deleting or weakening leak VCs was produced.",
+  "available_exact_sources": {
+    "fsf-gnat2why-expr.adb": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+    "fsf-gnat2why-borrow_checker.adb": "925e3a58f0d3f18ee75d48725d9a7df12691fdf1854886ab6379727b01020a53",
+    "fsf-spark_definition.adb": "8610753d8e78c8195ef3d00b75980448d957617c2227cd47e4c84acc19e89a3d"
+  },
+  "proposal_files": {
+    "fresh_owner_lowering.pseudo": "fe55249097f3dd042ce46ec1e041d239f7306879bb56b31a7377bed56e864fb9",
+    "REGION_INTERFACE.ads.txt": "922c499d7a67d879a591992b7c660e2fcdf57d36afaf102c0f3f66c80b43a4f3"
+  },
+  "exact_existing_insertion_points": [
+    {
+      "file": "src/why/gnat2why-expr.adb",
+      "lines": "2537-2740",
+      "routine": "Bind_From_Mapping_In_Expr single-node overload",
+      "work": "Wrap executable supported fresh prefix binding plus original continuation in an owned region, keeping original complete logical Name binding distinct from physical cleanup ref."
+    },
+    {
+      "file": "src/why/gnat2why-expr.adb",
+      "lines": "2742-2773",
+      "routine": "Bind_From_Mapping_In_Expr map overload",
+      "work": "Do not infer native creation order from Node_Sets.Set iteration/logical binding nesting. One fresh prefix first, then exact ordering or commutative disjoint-cleanup proof."
+    },
+    {
+      "file": "src/why/gnat2why-expr.adb",
+      "lines": "9651-9853;9904-10007",
+      "routine": "Finalization_Actions / Finalization_Actions_On_Raise",
+      "work": "Reuse existing finally translation, borrow restoration, leak checking and exiting-scope CFG. Add real finalizer before original leak check; no double finalization across the two paths."
+    },
+    {
+      "file": "src/why/gnat2why-expr.adb",
+      "lines": "16872-16957",
+      "routine": "Transform_Attribute_Old",
+      "work": "Keep original logical Old semantics. Physical enrollment must not disappear when Get_Variables_For_Proof is empty."
+    },
+    {
+      "file": "src/why/gnat2why-expr.adb",
+      "lines": "18370-18734",
+      "routine": "Transform_Call_With_Side_Effects",
+      "work": "Finalizer invocation must reuse full checked call construction/effects, not a bare Why call with assumed postcondition."
+    },
+    {
+      "file": "src/why/gnat2why-expr.adb",
+      "lines": "24008-24030",
+      "routine": "Transform_Function_Call static leaking-assertion check",
+      "work": "Only an exact-node structurally cleanup-enclosed region may defer this obligation to original VCResourceLeak at cleanup exit. All other cases retain static False."
+    }
+  ],
+  "few_required_source_locators_not_fetched": [
+    {
+      "path": "src/why/gnat2why-expr.ads",
+      "reason": "Existing exported binding interface and Transformation_Params/Why ref context types.",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-expr.ads",
+      "git_blob_sha": "UNKNOWN_NOT_FETCHED"
+    },
+    {
+      "path": "src/why/gnat2why-subprograms.ads",
+      "reason": "Proved call/effect construction interface; do not bypass finalizer preconditions/flow/move flags.",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.ads",
+      "git_blob_sha": "UNKNOWN_NOT_FETCHED"
+    },
+    {
+      "path": "src/why/gnat2why-subprograms.adb",
+      "reason": "Exact-ref Declare_Old_Variables, outer body/postcheck/exit lifecycle. Retained local historicalMASTER is not a substitute.",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.adb",
+      "git_blob_sha": "UNKNOWN_NOT_FETCHED"
+    },
+    {
+      "path": "src/why/why-gen-progs.ads",
+      "reason": "Exact existing typed-ref/try/binding constructor signatures; no invented compile API.",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.ads",
+      "git_blob_sha": "UNKNOWN_NOT_FETCHED"
+    },
+    {
+      "path": "src/why/why-gen-progs.adb",
+      "reason": "Exact try/finalization/normal+exception edge semantics and callable cleanup representation.",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.adb",
+      "git_blob_sha": "UNKNOWN_NOT_FETCHED"
+    }
+  ],
+  "compiler_metadata_followup": "Exact GCC16.1 aspects.ads/semantic declarations may additionally be needed for the existing strict Finalizable hook lookup API. Retained sem_ch13.adb17842-17869 and12133-12172 show strictness and resolved hook associations, but do not establish all exported lookup signatures. No global normal expander enabling proposed.",
+  "smallest_real_change": "Single fresh owned local or unconditional freshOld prefix whose actual native function-result schedule has no unmodelled Adjust; real finalizer, original leak VC, complete checked initializer and normal/exception edge coverage. Ordinary copy still fails until its separate support exists.",
+  "partial_evidence_expectation": "D47 currently has3 static allocatingOld leaks,2 local-scope leaks and1 Adjust overwrite leak. A complete multiple-prefix fresh-owner stage could address the first5 while retaining the Adjust blocker. A one-prefix initial slice is narrower. An all-green report lacking Adjust/source coverage would be a rejection, not O1 completion.",
+  "gate_boundary": "Original O1 full value/ordinary copies/implicitOld/allString/FIFO/no cumulative cap/normal+exception retirement/native Push+TakeAll costs remain open. This source proposal earns no acceptance credit.",
+  "disk_and_actions": {
+    "current_disk": "Parent reports9.980GB; no measurement/job initiated by helper.",
+    "download": false,
+    "build": false,
+    "job": false,
+    "install": false,
+    "production_edit": false,
+    "ipad_work": false
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "kind": "independent-internal-complete-module-normalization-review",
+  "utc": "2026-10-26T14:19:08.359325+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "parent task allocation; no independent runtime identity attestation"
+  },
+  "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+  "source_identities": {
+    "core/resource_reservation_transition.adb": {
+      "sha256": "323a8673c5e88e01ce465430fe4d2daf5c4f1efde2ef9861e62afe129cd032f7",
+      "bytes": 34895
+    },
+    "core/resource_reservation_transition.ads": {
+      "sha256": "41b59719e2395be43f6a5181f5eb5d28e1d5ec57bbb25b803feffdba7e7ed55f",
+      "bytes": 21204
+    },
+    "records/phase1-direct/completion-20261026/bignum-padding/normalization-candidate/resource_reservation_transition.adb": {
+      "sha256": "d2756b20d9302888e1c69e4d24982de06469cd9275a39d55e7bef7e5ff905515",
+      "bytes": 40279
+    },
+    "records/phase1-direct/completion-20261026/bignum-padding/normalization-candidate/resource_reservation_transition.ads": {
+      "sha256": "41b59719e2395be43f6a5181f5eb5d28e1d5ec57bbb25b803feffdba7e7ed55f",
+      "bytes": 21204
+    },
+    "core/resource_quantities.ads": {
+      "sha256": "603a4bc3e1c26a6f96807ca3243de1fbe2c7ca43a6cf27f0170a0cdcfe1c9e39",
+      "bytes": 6142
+    },
+    "core/resource_quantities.adb": {
+      "sha256": "de0a209345ee6b98528c6c803ccd594258e6d74da1b67b18d4298982d01682fb",
+      "bytes": 24879
+    }
+  },
+  "verdict": "ELIGIBLE_FOR_CONTROLLED_CANDIDATE_VERIFICATION_WITH_RESOURCE_RISKS_OPEN",
+  "scope": "Complete transition .ads and .adb, complete resource quantities dependency reviewed earlier; exact proposed delta and original caller guards inspected. No production edits, build, proof or runtime execution by reviewer.",
+  "static_checks": {
+    "candidate_matches_requested_sha": true,
+    "public_spec_byte_identical": true,
+    "preimage_matches_frozen_production": true,
+    "original_successor_executable_body_exactly_preserved_as_Successor_Columns": true,
+    "all_other_original_body_bytes_preserved": true,
+    "new_self_recursion": false
+  },
+  "semantic_analysis": {
+    "classification": "REVIEWED_CASE_ANALYSIS_NOT_MACHINE_PROOF",
+    "public_guarantee": "Original full biconditional Is_Successor result equals valid nonnegative operands with AfterValue=BeforeValue+1. No public Pre, cap, truncation, assumption or suppression added.",
+    "invalid_spans": "Original Nonnegative_Valid guards remain in wrapper before normalization and in original worker; malformed nonempty spans returnFalse. Trimmed_View private validity premise is established by original guard, not imposed on public callers.",
+    "empty_and_negative_zero": "Length0 spans remain valid regardless of First. Trim keeps First and Negative unchanged. All-zero negative views become length0 with NegativeTrue and Value0; original nonnegative semantics admit them. Zero-to-one true, zero-to-zero false are retained by unchanged worker.",
+    "negative_nonzero": "Original sign guard rejects before normalization; no negative nonzero magnitude is reclassified as nonnegative.",
+    "extent_and_aliasing": "Data is input-only. Quantities are copied descriptors; only Length decreases after an observed high zero. No array, identity, First, byte or source ownership changes. Overlapping Before/After views have no mutable alias hazard.",
+    "genuine_significant_domain": "Trim stops at first nonzero most-significant digit. No significant byte is removed and no significant length is bounded. Nonzero large magnitudes retain prior finite runtime bignum/stack limitations.",
+    "counterexamples_considered": [
+      "invalid nonempty span with in-range First and oversized Length",
+      "invalid First with nonzero Length",
+      "empty array and arbitrary legal First with Length0",
+      "all-zero negative Quantity",
+      "negative nonzero Quantity",
+      "different offsets sharing one Data array",
+      "overlapping views",
+      "Before=255/65535/allFF with carry extension",
+      "mismatched After and high-zero-padded equal values",
+      "Byte_Count Last loop counters at arithmetic boundaries"
+    ],
+    "bounds": "Result.Length-1 is guarded by positiveLength. Done<Count<=Last establishes Done+1 representable. Trimming preserves validity because same First and shorterLength; padding caller has Result.Length<=Original.Length. No loop can mathematically stall: Length decreases or Done increases under a finite bound.",
+    "bridge_nonvacuity": "Equal_Prefix_Values premise is equal digit streams on an explicit finite prefix, feasible for original and trimmed views. Its loop derives equality from original public Prefix_Value recurrence and independent Prefix_Reference equality. Trimmed_View proves the premise from unchanged low bytes and removed zero suffix, then calls the existing Prefix_Padding bridge. No desired Is_Successor result is a premise; all new bodies/assertions/caller premises require proof."
+  },
+  "original_obligations": {
+    "retained": true,
+    "details": "All old helpers/bodies/contracts/variants remain byte-identical. Original Is_Successor body is exactly Successor_Columns with the original full biconditional added privately. The wrapper still uses original operands for guard/sign bridges and public Post. Calls to Nonnegative_Magnitude, Zero_Prefix, Addition_Step, Addition_Mismatch, Addition_Finish, Prefix_Step and Prefix_Padding are retained.",
+    "scope_requirement": "Full-unit verification must include original standalone helper domains and Successor_Columns for arbitrary type-admitted operands. Proof only on trimmed runtime paths would not satisfy these obligations.",
+    "not_closed": [
+      "O1 original all-source/full-domain proof",
+      "original whole-runtime acceptance",
+      "unbounded full-value retirement",
+      "authentic protected and actor witnesses",
+      "independent F7 acceptance"
+    ]
+  },
+  "resource_findings": [
+    {
+      "severity": "MATERIAL_UNVERIFIED_COST",
+      "location": "Equal_Prefix_Values lines584-612",
+      "finding": "The n-iteration ghost loop calls Prefix_Value four times each iteration. For a valid n-byte all-zero original operand, the two original-view calls alone execute at least n squared recursive Prefix_Reference frames across the loop, before checked Post/Assert costs. At n4096 this exceeds16million frames per trimming operation. This is a source-derived operation-count lower bound, not a measured runtime."
+    },
+    {
+      "severity": "MATERIAL_UNVERIFIED_COST",
+      "location": "Trimmed_View loop invariant lines638-641",
+      "finding": "Checked removed-suffix quantification scans an increasing suffix at each trim step, introducing quadratic byte checks in padding length."
+    },
+    {
+      "severity": "STACK_DEPTH_UNPROVED",
+      "location": "Trimmed_View Prefix_Padding call line651",
+      "finding": "The existing recursive Prefix_Padding helper now receives Count=originalLength and Quantity.Length=trimmedLength, inducing recursion depth equal to removed padding. Existing recursive Prefix_Reference is also invoked on original-length views. No new recursive definition is added, but this new call path retains a substantial stack obligation."
+    },
+    {
+      "severity": "DOMAIN_RESOURCE_LIMIT_REMAINS",
+      "location": "Equal_Prefix_Values nonzero branch and unchanged Successor_Columns",
+      "finding": "True significant high bytes still construct full powers and values. Existing mathematical arbitrary-precision contracts remain larger than the finite runtime representation. No zero-padding success may be used as evidence of genuinely unbounded significant arithmetic."
+    }
+  ],
+  "acceptance_boundary": {
+    "may_apply_as_candidate_after_current_freeze_ends": true,
+    "ready_or_proved": false,
+    "production_edited": false,
+    "pins_refreshed": false,
+    "build_run": false,
+    "proof_run": false,
+    "runtime_test_run": false,
+    "reject_if": "Any precondition/cap/ghost suppression, reduced original deadline, skipped helper, weakened recurrence or unchecked fallback is used to accommodate the candidate. Preserve the old failure and any new cost/stack failure.",
+    "required_next": "Root may adopt this exact candidate after frozen job completion, then run checked build and unchanged original4096-padding/capacity/ownership regression under original limits. Fresh strict proof must include all three new helpers, public wrapper, original worker and every old helper. If runtime costs fail, restructure the mathematical bridge with direct bounded induction rather than relaxing input or acceptance limits."
+  }
+}

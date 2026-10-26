@@ -567,8 +567,113 @@ package body Resource_Reservation_Transition with SPARK_Mode is
       end if;
    end Signed_Sum_Equals;
 
-   function Is_Successor
+   -- Exact prefix extensionality over the original caller-owned bytes.
+   -- The zero branch retains the full equation without constructing 0 * 256**N.
+   procedure Equal_Prefix_Values
+     (Data : Byte_Array; Left, Right : Quantity; Count : Byte_Count)
+   with Ghost, Global => null, Always_Terminates,
+     Pre => Span_Valid (Data, Left) and then Span_Valid (Data, Right) and then
+       (if Count > 0 then
+          (for all Offset in Byte_Count range 0 .. Count - 1 =>
+             Digit (Data, Left, Offset) = Digit (Data, Right, Offset))),
+     Post => Prefix_Reference (Data, Left, Count) =
+       Prefix_Reference (Data, Right, Count)
+   is
+      Done : Byte_Count := 0;
+   begin
+      while Done < Count loop
+         pragma Loop_Invariant (Done <= Count);
+         pragma Loop_Invariant
+           (Prefix_Reference (Data, Left, Done) =
+              Prefix_Reference (Data, Right, Done));
+         pragma Loop_Variant (Decreases => Count - Done);
+         declare
+            L : constant Valid_Big_Integer := Prefix_Value (Data, Left, Done);
+            R : constant Valid_Big_Integer := Prefix_Value (Data, Right, Done);
+            LN : constant Valid_Big_Integer := Prefix_Value (Data, Left, Done + 1);
+            RN : constant Valid_Big_Integer := Prefix_Value (Data, Right, Done + 1);
+         begin
+            pragma Assert (Digit (Data, Left, Done) = Digit (Data, Right, Done));
+            if Digit (Data, Left, Done) = 0 then
+               pragma Assert (LN = L);
+               pragma Assert (RN = R);
+            else
+               declare
+                  Place : constant Valid_Big_Integer := Power_Reference (Done);
+               begin
+                  pragma Assert (LN = L +
+                    To_Big_Integer (Digit (Data, Left, Done)) * Place);
+                  pragma Assert (RN = R +
+                    To_Big_Integer (Digit (Data, Right, Done)) * Place);
+               end;
+            end if;
+            pragma Assert (LN = RN);
+         end;
+         Done := Done + 1;
+      end loop;
+   end Equal_Prefix_Values;
+
+   -- A view only: retain original bytes, offset and sign, including negative zero.
+   function Trimmed_View (Data : Byte_Array; Original : Quantity) return Quantity
+   with Global => null,
+     Pre => Span_Valid (Data, Original),
+     Post => Span_Valid (Data, Trimmed_View'Result) and then
+       Trimmed_View'Result.First = Original.First and then
+       Trimmed_View'Result.Negative = Original.Negative and then
+       Trimmed_View'Result.Length <= Original.Length and then
+       (if Original.Length > 0 then
+          (for all Offset in Byte_Count range 0 .. Original.Length - 1 =>
+             Digit (Data, Original, Offset) =
+               Digit (Data, Trimmed_View'Result, Offset))) and then
+       Value (Data, Trimmed_View'Result) = Value (Data, Original)
+   is
+      Result : Quantity := Original;
+   begin
+      while Result.Length > 0 and then
+        Digit (Data, Original, Result.Length - 1) = 0
+      loop
+         pragma Loop_Invariant (Result.First = Original.First);
+         pragma Loop_Invariant (Result.Negative = Original.Negative);
+         pragma Loop_Invariant (Result.Length <= Original.Length);
+         pragma Loop_Invariant
+           (if Result.Length < Original.Length then
+              (for all Offset in Byte_Count range Result.Length .. Original.Length - 1 =>
+                 Digit (Data, Original, Offset) = 0));
+         pragma Loop_Variant (Decreases => Result.Length);
+         Result.Length := Result.Length - 1;
+      end loop;
+      pragma Assert (Span_Valid (Data, Result));
+      pragma Assert
+        (if Original.Length > 0 then
+           (for all Offset in Byte_Count range 0 .. Original.Length - 1 =>
+              Digit (Data, Original, Offset) = Digit (Data, Result, Offset)));
+      Equal_Prefix_Values (Data, Original, Result, Original.Length);
+      -- The independent reference already clamps Count beyond the view length.
+      -- This introduces no recursive padding call over the trimmed zero suffix.
+      pragma Assert
+        (Prefix_Reference (Data, Result, Original.Length) =
+           Prefix_Reference (Data, Result, Result.Length));
+      pragma Assert
+        (Prefix_Value (Data, Result, Result.Length) =
+           Prefix_Reference (Data, Result, Result.Length));
+      pragma Assert
+        (Magnitude (Data, Result) = Prefix_Value (Data, Result, Result.Length));
+      pragma Assert
+        (Magnitude (Data, Original) = Prefix_Reference (Data, Original, Original.Length));
+      pragma Assert
+        (Magnitude (Data, Result) = Prefix_Reference (Data, Result, Original.Length));
+      pragma Assert (Magnitude (Data, Result) = Magnitude (Data, Original));
+      pragma Assert (Value (Data, Result) = Value (Data, Original));
+      return Result;
+   end Trimmed_View;
+
+   function Successor_Columns
      (Data : Byte_Array; Before, After : Quantity) return Boolean
+   with Global => null,
+     Post => Successor_Columns'Result =
+       (Span_Valid (Data, Before) and then Span_Valid (Data, After) and then
+        Value (Data, Before) >= 0 and then Value (Data, After) >= 0 and then
+        Value (Data, After) = Value (Data, Before) + 1)
    is
       Count : constant Byte_Count := Byte_Count'Max (Before.Length, After.Length);
       Offset : Byte_Count := 0;
@@ -603,6 +708,27 @@ package body Resource_Reservation_Transition with SPARK_Mode is
       Zero_Prefix (Data, Count);
       Addition_Finish (Data, Before, Zero_Quantity, After, Count, Carry, 1);
       return Carry = 0;
+   end Successor_Columns;
+
+   function Is_Successor
+     (Data : Byte_Array; Before, After : Quantity) return Boolean
+   is
+   begin
+      -- Preserve the original checks and checked sign bridges on original views.
+      if not Nonnegative_Valid (Data, Before) or else
+        not Nonnegative_Valid (Data, After) then
+         return False;
+      end if;
+      Nonnegative_Magnitude (Data, Before);
+      Nonnegative_Magnitude (Data, After);
+      declare
+         B : constant Quantity := Trimmed_View (Data, Before);
+         A : constant Quantity := Trimmed_View (Data, After);
+      begin
+         pragma Assert (Value (Data, B) = Value (Data, Before));
+         pragma Assert (Value (Data, A) = Value (Data, After));
+         return Successor_Columns (Data, B, A);
+      end;
    end Is_Successor;
 
    function Conserved (Data : Byte_Array; S : Ledger_State) return Boolean is

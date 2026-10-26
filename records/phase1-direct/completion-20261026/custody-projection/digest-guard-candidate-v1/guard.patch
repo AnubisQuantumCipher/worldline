@@ -1,0 +1,13 @@
+--- a/core/worldline-custody_v2_load_input.adb
++++ b/core/worldline-custody_v2_load_input.adb
+@@ -482,7 +482,9 @@
+       Span : constant E.Span := Raw_Span (Cell, S.SQL_Text);
+       Result : M.Digest := [others => 0];
+    begin
+-      if Span.Length /= 64 then return Result; end if;
++      if Span.Length /= 64 or else not E.C.P.Valid (Arena, Span) then
++         return Result;
++      end if;
+       for B in E.Count range 0 .. Span.Length - 1 loop
+          if Arena (Span.First + B) not in 48 .. 57 | 97 .. 102 then
+             return Result;

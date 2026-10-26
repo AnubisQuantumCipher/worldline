@@ -1,0 +1,86 @@
+{
+  "schema": "worldline.internal-source-review.v1",
+  "utc": "2026-10-26T14:04:55.995752+00:00",
+  "reviewer": {
+    "agent": "/root/source_lineage",
+    "selected_model": "gpt-6.1-sol",
+    "requested_model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "dispatch_provenance": "Root reports successful collaboration.spawn_agent(fork_turns=none, model=gpt-6.1-sol, reasoning_effort=high, task_name=source_lineage), tool result /root/source_lineage.",
+    "independent_serving_attestation": false,
+    "independent_of_patch_author": true
+  },
+  "source_root": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "base_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+  "source_sha256": {
+    "core/worldline-custody_v2_load_input.adb": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+    "core/worldline-custody_v2_load_input.ads": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4"
+  },
+  "preimage_body_sha256": "058e4592946c1a8771b381340780c44b3d403c70250b7191b256d6d92757a325",
+  "verdict": "APPROVE_SOURCE_FOR_QUALIFICATION",
+  "evidence_class": "INTERNAL_SOURCE_REVIEW",
+  "blocking_findings": [],
+  "review_scope": {
+    "complete_touched_module": "All 795 lines of candidate body and all 115 lines of public spec read, including initialization, sizing, SQL decoding, extra materialization, projection, wrappers and final status decision. Full source diff inspected independently of author token-equivalence result.",
+    "imports_and_type_semantics": "Custody_V2_Values spec/body, Custody_V2_Raw_Next spec/body, SQL cell/root/subject variant declarations and Text_Is implementation, archive-chain event/head declarations, Root_Custody_Abandon alternative declarations and relation interfaces, Scoped_Archive/Archive_Envelope interfaces and relevant parser return behavior inspected. This is not a complete transitive dependency audit.",
+    "callers": "Decode/Decode_Grown allocation and use inspected in C_API load/operation calls, Mutation_Decision grown calls, Typed_Step.Fold_From_S0, Closed_State.Native_Snapshot, Journal_Witness.Decide and Startup_Admission_Owned. Existing decoder Ada tests inspected for rebased/maximum-index inputs, empty tables, spare grown slot and storage refusal; not executed."
+  },
+  "analysis": [
+    {
+      "topic": "domain and private preconditions",
+      "conclusion": "No new public premise or numerical, nesting, table or byte cap. Project_Events dimensions follow Parsed_Input Event_SQL/Events discriminants: both start at 1 and have identical Event_Count extents, second dimension is 1..13, and preflight establishes Size.Events <= Event_Count. Grown admits exactly one spare slot. Root/Subject/Alternative SQL and destination first/last bounds follow their shared discriminants, including null ranges; widths stay 16/9/7. These premises do not restrict an originally admitted call."
+    },
+    {
+      "topic": "field semantics",
+      "conclusion": "All event fields preserve exact source columns 2..13. Root and subject projections retain every original column, including historical/inactive values. Alternative defaults Root/Ack_Set, REQUEST/DESCRIPTOR and REQUEST/DRAIN/ACK recognition, sticky Good refusal, quantity/identity mappings and zero Digest fallback are unchanged. No row filtering, shape-based authority, sign conversion, canonicalization or malformed-value admission was added."
+    },
+    {
+      "topic": "frame and ownership",
+      "conclusion": "Helpers receive distinct SQL/destination components; Project_Alternatives receives Arena input-only and Good as the only scalar in-out state. Digest replaces a captured Value.Arena read with the exact same explicit arena argument. No pointer, global write, escaping view or whole Parsed_Input owner copy was introduced in source. Project_Events remains in-out and iterates only Size.Events, preserving the already initialized grown event slot in actual execution. Root/Subject out formals are fully assigned over their existing bounds. The only new Old reference is scalar Good, not the arena/owner."
+    },
+    {
+      "topic": "error and authority boundaries",
+      "conclusion": "Initialization, counts/status checks, append order, Good propagation, event extras, symbol interning and final Parsed_Spans_Valid/N.Valid guard remain in the same order. Failed SQL cells retain their existing initialized forms. Parsed remains decoding only: actual fold, row/schema checks, source/owner custody and operation authority remain in unchanged downstream callers. Private helpers cannot be invoked by external clients."
+    },
+    {
+      "topic": "private contracts",
+      "conclusion": "Global=null and finite loops are consistent with bodies. Present postconditions for roots/subjects reflect unconditional row assignment; Good postcondition accurately preserves false. No assumption, imported theorem, exception suppression, source/proof scope reduction or public contract weakening appears. Project_Events has no formal frame/functional postcondition; its exact bounded assignments were reviewed, and complete semantic equivalence is not claimed as a formal theorem."
+    }
+  ],
+  "finite_residuals": [
+    {
+      "id": "R1",
+      "status": "UNPROVEN",
+      "detail": "Fresh GNATprove must establish all four helper premises at callers, all new helper bodies and Decode_Into on these exact bytes; old selected reports and author token checks do not establish them."
+    },
+    {
+      "id": "R2",
+      "status": "UNPROVEN",
+      "detail": "Digest has no explicit valid-span precondition. Its actual call receives append-derived cells from Alternative_SQL; no new reachable invalid span was found. The extracted modular boundary may require a derived caller/callee span contract and nibble facts. Do not add a premise without proving its callers, or label existing proof progress as Digest proof."
+    },
+    {
+      "id": "R3",
+      "status": "UNVERIFIED",
+      "detail": "Ada source parameter modes alone do not establish GNAT generated no array copies or extra stack use. Components are plain composite types; verify generated code/resource behavior under the original budget before making borrowing/no-copy claims. No O1 retirement or bounded-RSS guarantee is established by this review."
+    },
+    {
+      "id": "R4",
+      "status": "UNRUN_BY_REVIEWER",
+      "detail": "Reviewer ran no compiler, prover, runtime or heavy job; root runs remain separate and must bind exact source/library bytes. Empty/malformed, rebased/maximum-index, grown-spare-slot, full-field alternatives/digests and original custody tests remain required."
+    }
+  ],
+  "contract_pin_update": {
+    "eligible": true,
+    "scope": "Only mechanical recording of this exact reviewed loader body identity and any existing normalized loader contract pin changed by extraction. Public spec is unchanged. Use existing normalizer, preserve old/new digests and this receipt. Do not modify unrelated source pins or claim proof/runtime acceptance.",
+    "condition": "Eligibility is source-review-only; if body/spec bytes change, this review is stale and a fresh delta/source review is required. New helper proof coverage must be retained explicitly in the fresh exact-source report.",
+    "pins_modified_by_reviewer": false
+  },
+  "nonclaims": [
+    "Not F7 or independent Phase One acceptance.",
+    "No whole-unit/all-source formal proof or absence-of-runtime-error claim.",
+    "No checked build, runtime, fuzz, resource or installed-system success claimed.",
+    "No complete transitive dependency audit or assurance-policy deviation approved.",
+    "No automatic full-value Old retirement, authentic protected/actor witness, publication or release acceptance."
+  ],
+  "required_next_step": "Root completes serialized checked build and fresh helper/main strict proofs, reconciles exact coverage and original warnings/failures, then runs unchanged original Ada/fuzz/custody and assurance/release regressions on the same library/source."
+}

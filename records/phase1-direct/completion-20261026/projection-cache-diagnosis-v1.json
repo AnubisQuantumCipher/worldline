@@ -1,0 +1,3071 @@
+{
+  "created_utc": "2026-10-26T15:09:07.172287+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "status": "READ_ONLY_DIAGNOSIS_NO_JOB_LAUNCHED",
+  "source_sha256": {
+    "core/resource_quantities.ads": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+    "core/worldline-custody_v2_load_input.adb": "fbf8962f74eb923bd67e9fb94f9e2cd17309ccf83cb1d61ed0822937d0f1f9e4"
+  },
+  "cache": "obj/core/completion-20261026-projection-v1/gnatprove",
+  "cause": "Changed resource_quantities.ads timestamp/checksum invalidated 131 transitive dependents. v4 completed part of data representation; v5 reused those artifacts, finished all 131, and updated 27 of 131 phase1 ALIs before timeout. This is compilation progress, not unchanged solver retry.",
+  "stage_counts": {
+    "data_representation": {
+      "total_ali": 164,
+      "resource_quantities_dependents": 131,
+      "current": 131,
+      "old": 0
+    },
+    "phase1": {
+      "total_ali": 164,
+      "resource_quantities_dependents": 131,
+      "current": 27,
+      "old": 104
+    },
+    "proof": {
+      "total_ali": 164,
+      "resource_quantities_dependents": 131,
+      "current": 0,
+      "old": 131
+    }
+  },
+  "dependency_bindings": {
+    "data_representation": [
+      {
+        "name": "canonical_artifacts.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 10777,
+        "mtime_utc": "2026-10-26T14:49:54.104205+00:00"
+      },
+      {
+        "name": "decimal_binary64.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 8221,
+        "mtime_utc": "2026-10-26T14:50:14.916957+00:00"
+      },
+      {
+        "name": "evaluation_completion.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 17841,
+        "mtime_utc": "2026-10-26T14:57:23.047537+00:00"
+      },
+      {
+        "name": "evaluation_completion_roster.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 10836,
+        "mtime_utc": "2026-10-26T14:58:11.845680+00:00"
+      },
+      {
+        "name": "evaluation_epoch.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 8825,
+        "mtime_utc": "2026-10-26T14:55:30.455075+00:00"
+      },
+      {
+        "name": "evaluation_finalization.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 24673,
+        "mtime_utc": "2026-10-26T14:57:44.759139+00:00"
+      },
+      {
+        "name": "evaluation_history.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6767,
+        "mtime_utc": "2026-10-26T14:57:05.367882+00:00"
+      },
+      {
+        "name": "evaluation_pending.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5096,
+        "mtime_utc": "2026-10-26T14:50:17.171825+00:00"
+      },
+      {
+        "name": "evaluation_pending_v2.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5391,
+        "mtime_utc": "2026-10-26T14:57:45.101133+00:00"
+      },
+      {
+        "name": "evaluation_raw_roster.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 17573,
+        "mtime_utc": "2026-10-26T14:57:46.271113+00:00"
+      },
+      {
+        "name": "exact_decimal.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5661,
+        "mtime_utc": "2026-10-26T14:50:16.435868+00:00"
+      },
+      {
+        "name": "resource_actor_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 12135,
+        "mtime_utc": "2026-10-26T14:57:18.499624+00:00"
+      },
+      {
+        "name": "resource_actor_admission_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6820,
+        "mtime_utc": "2026-10-26T14:55:38.133564+00:00"
+      },
+      {
+        "name": "resource_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6822,
+        "mtime_utc": "2026-10-26T14:57:15.446683+00:00"
+      },
+      {
+        "name": "resource_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 20074,
+        "mtime_utc": "2026-10-26T14:55:33.420997+00:00"
+      },
+      {
+        "name": "resource_observation_classification.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 13802,
+        "mtime_utc": "2026-10-26T14:56:42.141363+00:00"
+      },
+      {
+        "name": "resource_observation_classification_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 15121,
+        "mtime_utc": "2026-10-26T14:55:38.708305+00:00"
+      },
+      {
+        "name": "resource_quantities.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5507,
+        "mtime_utc": "2026-10-26T14:50:20.046658+00:00"
+      },
+      {
+        "name": "resource_reservation_transition.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 19353,
+        "mtime_utc": "2026-10-26T14:56:47.893241+00:00"
+      },
+      {
+        "name": "resource_run_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 18408,
+        "mtime_utc": "2026-10-26T14:52:55.796134+00:00"
+      },
+      {
+        "name": "resource_run_ledger_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5768,
+        "mtime_utc": "2026-10-26T14:55:42.011029+00:00"
+      },
+      {
+        "name": "resource_scoped_run_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 46017,
+        "mtime_utc": "2026-10-26T14:52:55.832133+00:00"
+      },
+      {
+        "name": "resource_scoped_run_ledger_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 26604,
+        "mtime_utc": "2026-10-26T14:55:43.936726+00:00"
+      },
+      {
+        "name": "worldline-actor_archive_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 71804,
+        "mtime_utc": "2026-10-26T14:55:22.917276+00:00"
+      },
+      {
+        "name": "worldline-archive_base64.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 3957,
+        "mtime_utc": "2026-10-26T14:49:55.423124+00:00"
+      },
+      {
+        "name": "worldline-archive_envelope.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5952,
+        "mtime_utc": "2026-10-26T14:49:49.940462+00:00"
+      },
+      {
+        "name": "worldline-archive_text.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 3882,
+        "mtime_utc": "2026-10-26T14:49:55.550116+00:00"
+      },
+      {
+        "name": "worldline-canonical_exchange.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 10402,
+        "mtime_utc": "2026-10-26T14:54:29.104839+00:00"
+      },
+      {
+        "name": "worldline-canonical_exchange_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 7751,
+        "mtime_utc": "2026-10-26T14:56:26.588252+00:00"
+      },
+      {
+        "name": "worldline-canonical_operation.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 8299,
+        "mtime_utc": "2026-10-26T14:56:46.896262+00:00"
+      },
+      {
+        "name": "worldline-canonical_operation_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6412,
+        "mtime_utc": "2026-10-26T14:56:27.691022+00:00"
+      },
+      {
+        "name": "worldline-canonical_owner_completion.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9413,
+        "mtime_utc": "2026-10-26T14:54:30.123807+00:00"
+      },
+      {
+        "name": "worldline-canonical_owner_completion_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6467,
+        "mtime_utc": "2026-10-26T14:56:28.141670+00:00"
+      },
+      {
+        "name": "worldline-chain_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9705,
+        "mtime_utc": "2026-10-26T14:55:25.516775+00:00"
+      },
+      {
+        "name": "worldline-chain_authority_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 4757,
+        "mtime_utc": "2026-10-26T14:56:28.841655+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_archive_chain.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 10193,
+        "mtime_utc": "2026-10-26T14:49:50.683416+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_archive_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5825,
+        "mtime_utc": "2026-10-26T14:50:43.975312+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_closed_state.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 28138,
+        "mtime_utc": "2026-10-26T14:50:56.269650+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_closed_v1.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 15180,
+        "mtime_utc": "2026-10-26T14:55:32.846128+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_delta_encoding.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 12383,
+        "mtime_utc": "2026-10-26T14:55:34.911958+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_delta_grammar.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 4405,
+        "mtime_utc": "2026-10-26T14:55:34.731963+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_domain_hmac.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6551,
+        "mtime_utc": "2026-10-26T14:50:56.823620+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_empty_seed.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 8173,
+        "mtime_utc": "2026-10-26T14:49:55.762103+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_event_joins.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9307,
+        "mtime_utc": "2026-10-26T14:50:08.335345+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_fold_engine.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 20940,
+        "mtime_utc": "2026-10-26T14:49:51.092391+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_fold_rows.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6599,
+        "mtime_utc": "2026-10-26T14:49:51.439369+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_history.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6745,
+        "mtime_utc": "2026-10-26T14:50:08.935309+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_k4_resource_ack.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 108098,
+        "mtime_utc": "2026-10-26T14:55:26.167189+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_load_input.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 23496,
+        "mtime_utc": "2026-10-26T14:49:44.408807+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_machine_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9276,
+        "mtime_utc": "2026-10-26T14:50:56.966613+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_mutation_decision.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 19807,
+        "mtime_utc": "2026-10-26T14:50:57.734572+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_operation_journal.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 124350,
+        "mtime_utc": "2026-10-26T14:50:10.112240+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_owner_canonical.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 76586,
+        "mtime_utc": "2026-10-26T14:55:27.376156+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_owner_correspondence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 16019,
+        "mtime_utc": "2026-10-26T14:49:56.171078+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_prepared.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6827,
+        "mtime_utc": "2026-10-26T14:51:00.232440+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_raw_next.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9202,
+        "mtime_utc": "2026-10-26T14:49:48.296564+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_requester_join.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 19701,
+        "mtime_utc": "2026-10-26T14:50:49.930989+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_root_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 151094,
+        "mtime_utc": "2026-10-26T14:49:57.104021+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_root_values.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 14836,
+        "mtime_utc": "2026-10-26T14:51:00.442429+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_schema_correspondence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9370,
+        "mtime_utc": "2026-10-26T14:50:44.207299+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_subject_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 58182,
+        "mtime_utc": "2026-10-26T14:49:57.376005+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_typed_step.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 10905,
+        "mtime_utc": "2026-10-26T14:49:49.016519+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_values.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 14354,
+        "mtime_utc": "2026-10-26T14:49:48.202570+00:00"
+      },
+      {
+        "name": "worldline-emitter_channel_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 91118,
+        "mtime_utc": "2026-10-26T14:57:16.218668+00:00"
+      },
+      {
+        "name": "worldline-emitter_ordinal.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5720,
+        "mtime_utc": "2026-10-26T14:57:18.164630+00:00"
+      },
+      {
+        "name": "worldline-evaluation_agent_native.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 18797,
+        "mtime_utc": "2026-10-26T14:58:12.530669+00:00"
+      },
+      {
+        "name": "worldline-evaluation_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 13951,
+        "mtime_utc": "2026-10-26T14:57:58.402903+00:00"
+      },
+      {
+        "name": "worldline-evaluation_policy.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 25820,
+        "mtime_utc": "2026-10-26T14:58:09.111725+00:00"
+      },
+      {
+        "name": "worldline-evaluation_producer.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 20920,
+        "mtime_utc": "2026-10-26T14:58:10.155708+00:00"
+      },
+      {
+        "name": "worldline-evaluation_role_native.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 14856,
+        "mtime_utc": "2026-10-26T14:58:16.356420+00:00"
+      },
+      {
+        "name": "worldline-generic_json_syntax.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 3515,
+        "mtime_utc": "2026-10-26T14:57:22.515547+00:00"
+      },
+      {
+        "name": "worldline-json_syntax_types.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 3254,
+        "mtime_utc": "2026-10-26T14:57:22.618545+00:00"
+      },
+      {
+        "name": "worldline-native_execution_views.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 37822,
+        "mtime_utc": "2026-10-26T14:54:31.561762+00:00"
+      },
+      {
+        "name": "worldline-operation_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9672,
+        "mtime_utc": "2026-10-26T14:49:49.255505+00:00"
+      },
+      {
+        "name": "worldline-operation_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 18869,
+        "mtime_utc": "2026-10-26T14:54:38.788540+00:00"
+      },
+      {
+        "name": "worldline-operation_authority_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9760,
+        "mtime_utc": "2026-10-26T14:56:29.085649+00:00"
+      },
+      {
+        "name": "worldline-operation_result_relations.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 53302,
+        "mtime_utc": "2026-10-26T14:57:01.056968+00:00"
+      },
+      {
+        "name": "worldline-ordinary_receipt_policy.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 33505,
+        "mtime_utc": "2026-10-26T14:57:18.702287+00:00"
+      },
+      {
+        "name": "worldline-owner_conjunction.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 13363,
+        "mtime_utc": "2026-10-26T14:57:08.345822+00:00"
+      },
+      {
+        "name": "worldline-owner_retry_audit.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 11051,
+        "mtime_utc": "2026-10-26T14:57:08.941810+00:00"
+      },
+      {
+        "name": "worldline-owner_subject_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6669,
+        "mtime_utc": "2026-10-26T14:57:22.775542+00:00"
+      },
+      {
+        "name": "worldline-owner_transitions.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 13482,
+        "mtime_utc": "2026-10-26T14:57:10.521779+00:00"
+      },
+      {
+        "name": "worldline-policy_source.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 12836,
+        "mtime_utc": "2026-10-26T14:58:10.218707+00:00"
+      },
+      {
+        "name": "worldline-producer_values.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 12008,
+        "mtime_utc": "2026-10-26T14:57:03.606917+00:00"
+      },
+      {
+        "name": "worldline-raw_json.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 41372,
+        "mtime_utc": "2026-10-26T14:55:31.234982+00:00"
+      },
+      {
+        "name": "worldline-recovery_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 39521,
+        "mtime_utc": "2026-10-26T14:51:08.283020+00:00"
+      },
+      {
+        "name": "worldline-recovery_authorization_v3.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6454,
+        "mtime_utc": "2026-10-26T14:57:02.419941+00:00"
+      },
+      {
+        "name": "worldline-recovery_authorization_v3_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 8630,
+        "mtime_utc": "2026-10-26T14:56:29.732635+00:00"
+      },
+      {
+        "name": "worldline-recovery_material_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 183716,
+        "mtime_utc": "2026-10-26T14:57:11.738755+00:00"
+      },
+      {
+        "name": "worldline-recovery_owner_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 20453,
+        "mtime_utc": "2026-10-26T14:57:14.185707+00:00"
+      },
+      {
+        "name": "worldline-recovery_packet.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 22071,
+        "mtime_utc": "2026-10-26T14:58:11.049366+00:00"
+      },
+      {
+        "name": "worldline-recovery_syntax.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 7587,
+        "mtime_utc": "2026-10-26T14:57:15.279171+00:00"
+      },
+      {
+        "name": "worldline-report_parser.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 8041,
+        "mtime_utc": "2026-10-26T14:58:16.807601+00:00"
+      },
+      {
+        "name": "worldline-resource_actor_execution.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 14175,
+        "mtime_utc": "2026-10-26T14:57:03.383921+00:00"
+      },
+      {
+        "name": "worldline-resource_actor_execution_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 7267,
+        "mtime_utc": "2026-10-26T14:56:38.280447+00:00"
+      },
+      {
+        "name": "worldline-resource_child_execution.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 36718,
+        "mtime_utc": "2026-10-26T14:54:41.844448+00:00"
+      },
+      {
+        "name": "worldline-resource_child_execution_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 12525,
+        "mtime_utc": "2026-10-26T14:56:38.791435+00:00"
+      },
+      {
+        "name": "worldline-resource_ledger_c_api.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6024,
+        "mtime_utc": "2026-10-26T14:55:34.495146+00:00"
+      },
+      {
+        "name": "worldline-resource_policy_c_api.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5697,
+        "mtime_utc": "2026-10-26T14:55:34.607966+00:00"
+      },
+      {
+        "name": "worldline-retained_custody_chain.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 7079,
+        "mtime_utc": "2026-10-26T14:50:21.810556+00:00"
+      },
+      {
+        "name": "worldline-retained_evidence_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 352177,
+        "mtime_utc": "2026-10-26T14:50:04.415579+00:00"
+      },
+      {
+        "name": "worldline-retained_raw_decode.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 16475,
+        "mtime_utc": "2026-10-26T14:51:09.798942+00:00"
+      },
+      {
+        "name": "worldline-retained_source_layout.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 10264,
+        "mtime_utc": "2026-10-26T14:51:13.076775+00:00"
+      },
+      {
+        "name": "worldline-root_custody_abandon.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 11994,
+        "mtime_utc": "2026-10-26T14:50:18.558744+00:00"
+      },
+      {
+        "name": "worldline-root_custody_archive_join.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 4510,
+        "mtime_utc": "2026-10-26T14:57:05.225884+00:00"
+      },
+      {
+        "name": "worldline-root_custody_context.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 7256,
+        "mtime_utc": "2026-10-26T14:55:37.603888+00:00"
+      },
+      {
+        "name": "worldline-root_custody_model.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6289,
+        "mtime_utc": "2026-10-26T14:50:22.112539+00:00"
+      },
+      {
+        "name": "worldline-root_custody_phase_values.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 9451,
+        "mtime_utc": "2026-10-26T14:51:02.978296+00:00"
+      },
+      {
+        "name": "worldline-root_custody_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6277,
+        "mtime_utc": "2026-10-26T14:55:29.838091+00:00"
+      },
+      {
+        "name": "worldline-root_custody_request_abandon.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 12854,
+        "mtime_utc": "2026-10-26T14:49:53.240258+00:00"
+      },
+      {
+        "name": "worldline-root_custody_row_schema.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 10344,
+        "mtime_utc": "2026-10-26T14:49:55.889096+00:00"
+      },
+      {
+        "name": "worldline-root_custody_row_views.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 13869,
+        "mtime_utc": "2026-10-26T14:50:04.857553+00:00"
+      },
+      {
+        "name": "worldline-root_output_sequence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 29375,
+        "mtime_utc": "2026-10-26T14:55:35.891946+00:00"
+      },
+      {
+        "name": "worldline-runner_lifecycle.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 6280,
+        "mtime_utc": "2026-10-26T14:51:00.669417+00:00"
+      },
+      {
+        "name": "worldline-runner_lifecycle_bytes.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 37866,
+        "mtime_utc": "2026-10-26T14:55:37.099901+00:00"
+      },
+      {
+        "name": "worldline-runner_outcome.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 4069,
+        "mtime_utc": "2026-10-26T14:58:21.204385+00:00"
+      },
+      {
+        "name": "worldline-runner_outcome_bytes.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 5878,
+        "mtime_utc": "2026-10-26T14:58:21.311529+00:00"
+      },
+      {
+        "name": "worldline-scoped_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 11071,
+        "mtime_utc": "2026-10-26T14:49:48.611545+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_evolution_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 43811,
+        "mtime_utc": "2026-10-26T14:50:51.028930+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_history_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 58298,
+        "mtime_utc": "2026-10-26T14:55:32.484021+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_namespace_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 30318,
+        "mtime_utc": "2026-10-26T14:51:01.050397+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_owner_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 15300,
+        "mtime_utc": "2026-10-26T14:50:45.108250+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 82285,
+        "mtime_utc": "2026-10-26T14:50:47.270133+00:00"
+      },
+      {
+        "name": "worldline-scoped_record_source.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 13486,
+        "mtime_utc": "2026-10-26T14:55:32.568019+00:00"
+      },
+      {
+        "name": "worldline-sqlite_parameter_source.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 17414,
+        "mtime_utc": "2026-10-26T14:55:30.807065+00:00"
+      },
+      {
+        "name": "worldline-startup_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 85083,
+        "mtime_utc": "2026-10-26T14:50:06.470456+00:00"
+      },
+      {
+        "name": "worldline-startup_installation.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 49630,
+        "mtime_utc": "2026-10-26T14:51:03.393275+00:00"
+      },
+      {
+        "name": "worldline-startup_issuer_source.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 24767,
+        "mtime_utc": "2026-10-26T14:51:04.899196+00:00"
+      },
+      {
+        "name": "worldline-startup_source_custody.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 34021,
+        "mtime_utc": "2026-10-26T14:51:06.762099+00:00"
+      },
+      {
+        "name": "worldline-transaction_archive_json.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 11584,
+        "mtime_utc": "2026-10-26T14:58:11.551015+00:00"
+      },
+      {
+        "name": "worldline-transaction_relations.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 73745,
+        "mtime_utc": "2026-10-26T14:57:20.147592+00:00"
+      }
+    ],
+    "phase1": [
+      {
+        "name": "canonical_artifacts.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 99752,
+        "mtime_utc": "2026-10-26T14:58:23.301501+00:00"
+      },
+      {
+        "name": "decimal_binary64.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 78202,
+        "mtime_utc": "2026-10-26T14:58:23.645493+00:00"
+      },
+      {
+        "name": "evaluation_completion.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 71503,
+        "mtime_utc": "2026-10-26T14:19:31.810063+00:00"
+      },
+      {
+        "name": "evaluation_completion_roster.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 48616,
+        "mtime_utc": "2026-10-26T14:19:32.214073+00:00"
+      },
+      {
+        "name": "evaluation_epoch.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 63332,
+        "mtime_utc": "2026-10-26T14:19:25.845908+00:00"
+      },
+      {
+        "name": "evaluation_finalization.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 107172,
+        "mtime_utc": "2026-10-26T14:19:31.960067+00:00"
+      },
+      {
+        "name": "evaluation_history.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 45821,
+        "mtime_utc": "2026-10-26T14:19:29.317998+00:00"
+      },
+      {
+        "name": "evaluation_pending.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 33835,
+        "mtime_utc": "2026-10-26T14:58:23.748705+00:00"
+      },
+      {
+        "name": "evaluation_pending_v2.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 31195,
+        "mtime_utc": "2026-10-26T14:19:31.883065+00:00"
+      },
+      {
+        "name": "evaluation_raw_roster.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 63012,
+        "mtime_utc": "2026-10-26T14:19:31.942066+00:00"
+      },
+      {
+        "name": "exact_decimal.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 54409,
+        "mtime_utc": "2026-10-26T14:58:23.739491+00:00"
+      },
+      {
+        "name": "resource_actor_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 75727,
+        "mtime_utc": "2026-10-26T14:19:31.857064+00:00"
+      },
+      {
+        "name": "resource_actor_admission_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 62747,
+        "mtime_utc": "2026-10-26T14:19:30.215022+00:00"
+      },
+      {
+        "name": "resource_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 40212,
+        "mtime_utc": "2026-10-26T14:19:31.264049+00:00"
+      },
+      {
+        "name": "resource_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 136289,
+        "mtime_utc": "2026-10-26T14:19:28.828986+00:00"
+      },
+      {
+        "name": "resource_observation_classification.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 48729,
+        "mtime_utc": "2026-10-26T14:19:31.105045+00:00"
+      },
+      {
+        "name": "resource_observation_classification_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 51333,
+        "mtime_utc": "2026-10-26T14:19:30.359025+00:00"
+      },
+      {
+        "name": "resource_quantities.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 58195,
+        "mtime_utc": "2026-10-26T14:58:23.598494+00:00"
+      },
+      {
+        "name": "resource_reservation_transition.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 109991,
+        "mtime_utc": "2026-10-26T14:38:35.575821+00:00"
+      },
+      {
+        "name": "resource_run_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 76933,
+        "mtime_utc": "2026-10-26T14:19:24.169865+00:00"
+      },
+      {
+        "name": "resource_run_ledger_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 59454,
+        "mtime_utc": "2026-10-26T14:19:30.094018+00:00"
+      },
+      {
+        "name": "resource_scoped_run_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 104136,
+        "mtime_utc": "2026-10-26T14:19:27.838960+00:00"
+      },
+      {
+        "name": "resource_scoped_run_ledger_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 83510,
+        "mtime_utc": "2026-10-26T14:19:30.533030+00:00"
+      },
+      {
+        "name": "worldline-actor_archive_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 218942,
+        "mtime_utc": "2026-10-26T14:19:25.551901+00:00"
+      },
+      {
+        "name": "worldline-archive_base64.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 29232,
+        "mtime_utc": "2026-10-26T14:58:23.146501+00:00"
+      },
+      {
+        "name": "worldline-archive_envelope.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 47997,
+        "mtime_utc": "2026-10-26T14:58:23.092502+00:00"
+      },
+      {
+        "name": "worldline-archive_text.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 27887,
+        "mtime_utc": "2026-10-26T14:58:23.188500+00:00"
+      },
+      {
+        "name": "worldline-canonical_exchange.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 72989,
+        "mtime_utc": "2026-10-26T14:19:27.845960+00:00"
+      },
+      {
+        "name": "worldline-canonical_exchange_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 67634,
+        "mtime_utc": "2026-10-26T14:19:30.518029+00:00"
+      },
+      {
+        "name": "worldline-canonical_operation.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 59846,
+        "mtime_utc": "2026-10-26T14:19:31.127045+00:00"
+      },
+      {
+        "name": "worldline-canonical_operation_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 62358,
+        "mtime_utc": "2026-10-26T14:19:30.592031+00:00"
+      },
+      {
+        "name": "worldline-canonical_owner_completion.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 65145,
+        "mtime_utc": "2026-10-26T14:19:27.977964+00:00"
+      },
+      {
+        "name": "worldline-canonical_owner_completion_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 65434,
+        "mtime_utc": "2026-10-26T14:19:30.650033+00:00"
+      },
+      {
+        "name": "worldline-chain_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 61457,
+        "mtime_utc": "2026-10-26T14:19:25.502900+00:00"
+      },
+      {
+        "name": "worldline-chain_authority_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 37053,
+        "mtime_utc": "2026-10-26T14:19:30.618032+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_archive_chain.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 63187,
+        "mtime_utc": "2026-10-26T14:58:23.404497+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_archive_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 51234,
+        "mtime_utc": "2026-10-26T14:19:24.216866+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_closed_state.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 182679,
+        "mtime_utc": "2026-10-26T14:19:24.882884+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_closed_v1.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 97069,
+        "mtime_utc": "2026-10-26T14:19:28.798985+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_delta_encoding.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 104878,
+        "mtime_utc": "2026-10-26T14:19:28.964989+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_delta_grammar.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 39354,
+        "mtime_utc": "2026-10-26T14:19:28.930988+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_domain_hmac.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 52982,
+        "mtime_utc": "2026-10-26T14:19:24.835882+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_empty_seed.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 42440,
+        "mtime_utc": "2026-10-26T14:58:23.809490+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_event_joins.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 78804,
+        "mtime_utc": "2026-10-26T14:19:22.970834+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_fold_engine.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 205069,
+        "mtime_utc": "2026-10-26T14:58:23.678492+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_fold_rows.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 44637,
+        "mtime_utc": "2026-10-26T14:58:23.476496+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_history.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 69578,
+        "mtime_utc": "2026-10-26T14:19:23.022835+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_k4_resource_ack.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 286022,
+        "mtime_utc": "2026-10-26T14:19:25.783907+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_load_input.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 156650,
+        "mtime_utc": "2026-10-26T14:58:22.701508+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_machine_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 81476,
+        "mtime_utc": "2026-10-26T14:19:24.899884+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_mutation_decision.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 288982,
+        "mtime_utc": "2026-10-26T14:19:25.232893+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_operation_journal.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 409412,
+        "mtime_utc": "2026-10-26T14:19:23.387845+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_owner_canonical.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 287002,
+        "mtime_utc": "2026-10-26T14:19:25.771907+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_owner_correspondence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 187680,
+        "mtime_utc": "2026-10-26T14:58:24.113486+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_prepared.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 79152,
+        "mtime_utc": "2026-10-26T14:19:24.959886+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_raw_next.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 81900,
+        "mtime_utc": "2026-10-26T14:58:22.904505+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_requester_join.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 87649,
+        "mtime_utc": "2026-10-26T14:19:24.573876+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_root_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 431962,
+        "mtime_utc": "2026-10-26T14:58:25.625462+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_root_values.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 60626,
+        "mtime_utc": "2026-10-26T14:19:24.994886+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_schema_correspondence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 59615,
+        "mtime_utc": "2026-10-26T14:19:24.263868+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_subject_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 370009,
+        "mtime_utc": "2026-10-26T14:58:25.317467+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_typed_step.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 152112,
+        "mtime_utc": "2026-10-26T14:58:23.108501+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_values.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 52287,
+        "mtime_utc": "2026-10-26T14:58:22.760507+00:00"
+      },
+      {
+        "name": "worldline-emitter_channel_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 278268,
+        "mtime_utc": "2026-10-26T14:19:31.657059+00:00"
+      },
+      {
+        "name": "worldline-emitter_ordinal.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 34883,
+        "mtime_utc": "2026-10-26T14:19:31.404052+00:00"
+      },
+      {
+        "name": "worldline-evaluation_agent_native.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 263387,
+        "mtime_utc": "2026-10-26T14:19:32.375078+00:00"
+      },
+      {
+        "name": "worldline-evaluation_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 89969,
+        "mtime_utc": "2026-10-26T14:19:32.025069+00:00"
+      },
+      {
+        "name": "worldline-evaluation_policy.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 74525,
+        "mtime_utc": "2026-10-26T14:19:31.991068+00:00"
+      },
+      {
+        "name": "worldline-evaluation_producer.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 112181,
+        "mtime_utc": "2026-10-26T14:19:32.068070+00:00"
+      },
+      {
+        "name": "worldline-evaluation_role_native.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 222035,
+        "mtime_utc": "2026-10-26T14:19:32.433079+00:00"
+      },
+      {
+        "name": "worldline-generic_json_syntax.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 10661,
+        "mtime_utc": "2026-10-26T14:19:31.429053+00:00"
+      },
+      {
+        "name": "worldline-json_syntax_types.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 21378,
+        "mtime_utc": "2026-10-26T14:19:31.450054+00:00"
+      },
+      {
+        "name": "worldline-native_execution_views.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 135438,
+        "mtime_utc": "2026-10-26T14:19:28.649981+00:00"
+      },
+      {
+        "name": "worldline-operation_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 61474,
+        "mtime_utc": "2026-10-26T14:58:23.015503+00:00"
+      },
+      {
+        "name": "worldline-operation_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 83414,
+        "mtime_utc": "2026-10-26T14:19:28.106967+00:00"
+      },
+      {
+        "name": "worldline-operation_authority_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 69241,
+        "mtime_utc": "2026-10-26T14:19:30.797037+00:00"
+      },
+      {
+        "name": "worldline-operation_result_relations.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 180068,
+        "mtime_utc": "2026-10-26T14:19:31.363051+00:00"
+      },
+      {
+        "name": "worldline-ordinary_receipt_policy.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 123478,
+        "mtime_utc": "2026-10-26T14:19:32.154072+00:00"
+      },
+      {
+        "name": "worldline-owner_conjunction.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 54932,
+        "mtime_utc": "2026-10-26T14:19:29.473002+00:00"
+      },
+      {
+        "name": "worldline-owner_retry_audit.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 44870,
+        "mtime_utc": "2026-10-26T14:19:29.584005+00:00"
+      },
+      {
+        "name": "worldline-owner_subject_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 37124,
+        "mtime_utc": "2026-10-26T14:19:31.694060+00:00"
+      },
+      {
+        "name": "worldline-owner_transitions.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 48099,
+        "mtime_utc": "2026-10-26T14:19:29.683008+00:00"
+      },
+      {
+        "name": "worldline-policy_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 50779,
+        "mtime_utc": "2026-10-26T14:19:32.055069+00:00"
+      },
+      {
+        "name": "worldline-producer_values.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 119423,
+        "mtime_utc": "2026-10-26T14:19:29.176995+00:00"
+      },
+      {
+        "name": "worldline-raw_json.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 98976,
+        "mtime_utc": "2026-10-26T14:19:28.622980+00:00"
+      },
+      {
+        "name": "worldline-recovery_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 120786,
+        "mtime_utc": "2026-10-26T14:19:26.094915+00:00"
+      },
+      {
+        "name": "worldline-recovery_authorization_v3.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 40721,
+        "mtime_utc": "2026-10-26T14:19:29.256997+00:00"
+      },
+      {
+        "name": "worldline-recovery_authorization_v3_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 54451,
+        "mtime_utc": "2026-10-26T14:19:30.760036+00:00"
+      },
+      {
+        "name": "worldline-recovery_material_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 547508,
+        "mtime_utc": "2026-10-26T14:19:29.984016+00:00"
+      },
+      {
+        "name": "worldline-recovery_owner_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 158060,
+        "mtime_utc": "2026-10-26T14:19:29.894013+00:00"
+      },
+      {
+        "name": "worldline-recovery_packet.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 149182,
+        "mtime_utc": "2026-10-26T14:19:32.659085+00:00"
+      },
+      {
+        "name": "worldline-recovery_syntax.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 42234,
+        "mtime_utc": "2026-10-26T14:19:29.924014+00:00"
+      },
+      {
+        "name": "worldline-report_parser.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 127220,
+        "mtime_utc": "2026-10-26T14:19:32.537082+00:00"
+      },
+      {
+        "name": "worldline-resource_actor_execution.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 91559,
+        "mtime_utc": "2026-10-26T14:19:29.404001+00:00"
+      },
+      {
+        "name": "worldline-resource_actor_execution_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 74857,
+        "mtime_utc": "2026-10-26T14:19:30.880039+00:00"
+      },
+      {
+        "name": "worldline-resource_child_execution.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 112694,
+        "mtime_utc": "2026-10-26T14:19:28.540978+00:00"
+      },
+      {
+        "name": "worldline-resource_child_execution_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 102142,
+        "mtime_utc": "2026-10-26T14:19:31.037043+00:00"
+      },
+      {
+        "name": "worldline-resource_ledger_c_api.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 44344,
+        "mtime_utc": "2026-10-26T14:19:28.829986+00:00"
+      },
+      {
+        "name": "worldline-resource_policy_c_api.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 40807,
+        "mtime_utc": "2026-10-26T14:19:28.871987+00:00"
+      },
+      {
+        "name": "worldline-retained_custody_chain.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 45611,
+        "mtime_utc": "2026-10-26T14:19:21.288790+00:00"
+      },
+      {
+        "name": "worldline-retained_evidence_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 271281,
+        "mtime_utc": "2026-10-26T14:58:25.772460+00:00"
+      },
+      {
+        "name": "worldline-retained_raw_decode.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 326442,
+        "mtime_utc": "2026-10-26T14:19:27.389949+00:00"
+      },
+      {
+        "name": "worldline-retained_source_layout.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 177283,
+        "mtime_utc": "2026-10-26T14:19:27.136942+00:00"
+      },
+      {
+        "name": "worldline-root_custody_abandon.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 58980,
+        "mtime_utc": "2026-10-26T14:58:23.874489+00:00"
+      },
+      {
+        "name": "worldline-root_custody_archive_join.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 31360,
+        "mtime_utc": "2026-10-26T14:19:23.779855+00:00"
+      },
+      {
+        "name": "worldline-root_custody_context.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 41479,
+        "mtime_utc": "2026-10-26T14:19:28.906988+00:00"
+      },
+      {
+        "name": "worldline-root_custody_model.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 38191,
+        "mtime_utc": "2026-10-26T14:19:23.517848+00:00"
+      },
+      {
+        "name": "worldline-root_custody_phase_values.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 79002,
+        "mtime_utc": "2026-10-26T14:19:25.232893+00:00"
+      },
+      {
+        "name": "worldline-root_custody_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 46348,
+        "mtime_utc": "2026-10-26T14:19:23.419846+00:00"
+      },
+      {
+        "name": "worldline-root_custody_request_abandon.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 63323,
+        "mtime_utc": "2026-10-26T14:58:23.552494+00:00"
+      },
+      {
+        "name": "worldline-root_custody_row_schema.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 77964,
+        "mtime_utc": "2026-10-26T14:58:23.902489+00:00"
+      },
+      {
+        "name": "worldline-root_custody_row_views.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 56078,
+        "mtime_utc": "2026-10-26T14:58:25.811459+00:00"
+      },
+      {
+        "name": "worldline-root_output_sequence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 236866,
+        "mtime_utc": "2026-10-26T14:19:29.101993+00:00"
+      },
+      {
+        "name": "worldline-runner_lifecycle.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 43453,
+        "mtime_utc": "2026-10-26T14:19:25.033887+00:00"
+      },
+      {
+        "name": "worldline-runner_lifecycle_bytes.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 101971,
+        "mtime_utc": "2026-10-26T14:19:28.909988+00:00"
+      },
+      {
+        "name": "worldline-runner_outcome.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 29224,
+        "mtime_utc": "2026-10-26T14:19:32.670085+00:00"
+      },
+      {
+        "name": "worldline-runner_outcome_bytes.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 64362,
+        "mtime_utc": "2026-10-26T14:19:32.736087+00:00"
+      },
+      {
+        "name": "worldline-scoped_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 56234,
+        "mtime_utc": "2026-10-26T14:58:22.896505+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_evolution_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 263167,
+        "mtime_utc": "2026-10-26T14:19:24.795881+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_history_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 205557,
+        "mtime_utc": "2026-10-26T14:19:28.755984+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_namespace_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 165916,
+        "mtime_utc": "2026-10-26T14:19:25.149890+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_owner_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 266903,
+        "mtime_utc": "2026-10-26T14:19:24.464873+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 277910,
+        "mtime_utc": "2026-10-26T14:19:24.698879+00:00"
+      },
+      {
+        "name": "worldline-scoped_record_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 120335,
+        "mtime_utc": "2026-10-26T14:19:28.743984+00:00"
+      },
+      {
+        "name": "worldline-sqlite_parameter_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 139301,
+        "mtime_utc": "2026-10-26T14:19:26.235919+00:00"
+      },
+      {
+        "name": "worldline-startup_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026144935 c1f4ca7a resource_quantities%s",
+        "bytes": 220029,
+        "mtime_utc": "2026-10-26T14:58:26.111455+00:00"
+      },
+      {
+        "name": "worldline-startup_installation.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 166036,
+        "mtime_utc": "2026-10-26T14:19:25.382896+00:00"
+      },
+      {
+        "name": "worldline-startup_issuer_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 143275,
+        "mtime_utc": "2026-10-26T14:19:25.343895+00:00"
+      },
+      {
+        "name": "worldline-startup_source_custody.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 202859,
+        "mtime_utc": "2026-10-26T14:19:25.469899+00:00"
+      },
+      {
+        "name": "worldline-transaction_archive_json.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 64146,
+        "mtime_utc": "2026-10-26T14:19:32.623084+00:00"
+      },
+      {
+        "name": "worldline-transaction_relations.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 208475,
+        "mtime_utc": "2026-10-26T14:19:32.260143+00:00"
+      }
+    ],
+    "proof": [
+      {
+        "name": "canonical_artifacts.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 99752,
+        "mtime_utc": "2026-10-26T14:19:21.282790+00:00"
+      },
+      {
+        "name": "decimal_binary64.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 78202,
+        "mtime_utc": "2026-10-26T14:19:23.604851+00:00"
+      },
+      {
+        "name": "evaluation_completion.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 71503,
+        "mtime_utc": "2026-10-26T14:19:31.810063+00:00"
+      },
+      {
+        "name": "evaluation_completion_roster.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 48616,
+        "mtime_utc": "2026-10-26T14:19:32.214073+00:00"
+      },
+      {
+        "name": "evaluation_epoch.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 63332,
+        "mtime_utc": "2026-10-26T14:19:25.845908+00:00"
+      },
+      {
+        "name": "evaluation_finalization.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 107172,
+        "mtime_utc": "2026-10-26T14:19:31.960067+00:00"
+      },
+      {
+        "name": "evaluation_history.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 45821,
+        "mtime_utc": "2026-10-26T14:19:29.317998+00:00"
+      },
+      {
+        "name": "evaluation_pending.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 33835,
+        "mtime_utc": "2026-10-26T14:19:23.691853+00:00"
+      },
+      {
+        "name": "evaluation_pending_v2.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 31195,
+        "mtime_utc": "2026-10-26T14:19:31.883065+00:00"
+      },
+      {
+        "name": "evaluation_raw_roster.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 63012,
+        "mtime_utc": "2026-10-26T14:19:31.942066+00:00"
+      },
+      {
+        "name": "exact_decimal.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 54409,
+        "mtime_utc": "2026-10-26T14:19:23.642851+00:00"
+      },
+      {
+        "name": "resource_actor_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 75727,
+        "mtime_utc": "2026-10-26T14:19:31.857064+00:00"
+      },
+      {
+        "name": "resource_actor_admission_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 62747,
+        "mtime_utc": "2026-10-26T14:19:30.215022+00:00"
+      },
+      {
+        "name": "resource_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 40212,
+        "mtime_utc": "2026-10-26T14:19:31.264049+00:00"
+      },
+      {
+        "name": "resource_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 136289,
+        "mtime_utc": "2026-10-26T14:19:28.828986+00:00"
+      },
+      {
+        "name": "resource_observation_classification.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 48729,
+        "mtime_utc": "2026-10-26T14:19:31.105045+00:00"
+      },
+      {
+        "name": "resource_observation_classification_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 51333,
+        "mtime_utc": "2026-10-26T14:19:30.359025+00:00"
+      },
+      {
+        "name": "resource_quantities.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 58213,
+        "mtime_utc": "2026-10-26T14:19:23.556849+00:00"
+      },
+      {
+        "name": "resource_reservation_transition.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 109991,
+        "mtime_utc": "2026-10-26T14:38:35.575821+00:00"
+      },
+      {
+        "name": "resource_run_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 76933,
+        "mtime_utc": "2026-10-26T14:19:24.169865+00:00"
+      },
+      {
+        "name": "resource_run_ledger_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 59454,
+        "mtime_utc": "2026-10-26T14:19:30.094018+00:00"
+      },
+      {
+        "name": "resource_scoped_run_ledger.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 104136,
+        "mtime_utc": "2026-10-26T14:19:27.838960+00:00"
+      },
+      {
+        "name": "resource_scoped_run_ledger_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 83510,
+        "mtime_utc": "2026-10-26T14:19:30.533030+00:00"
+      },
+      {
+        "name": "worldline-actor_archive_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 218942,
+        "mtime_utc": "2026-10-26T14:19:25.551901+00:00"
+      },
+      {
+        "name": "worldline-archive_base64.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 29232,
+        "mtime_utc": "2026-10-26T14:19:21.228789+00:00"
+      },
+      {
+        "name": "worldline-archive_envelope.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 47997,
+        "mtime_utc": "2026-10-26T14:19:20.978782+00:00"
+      },
+      {
+        "name": "worldline-archive_text.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 27887,
+        "mtime_utc": "2026-10-26T14:19:21.257790+00:00"
+      },
+      {
+        "name": "worldline-canonical_exchange.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 72989,
+        "mtime_utc": "2026-10-26T14:19:27.845960+00:00"
+      },
+      {
+        "name": "worldline-canonical_exchange_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 67634,
+        "mtime_utc": "2026-10-26T14:19:30.518029+00:00"
+      },
+      {
+        "name": "worldline-canonical_operation.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 59846,
+        "mtime_utc": "2026-10-26T14:19:31.127045+00:00"
+      },
+      {
+        "name": "worldline-canonical_operation_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 62358,
+        "mtime_utc": "2026-10-26T14:19:30.592031+00:00"
+      },
+      {
+        "name": "worldline-canonical_owner_completion.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 65145,
+        "mtime_utc": "2026-10-26T14:19:27.977964+00:00"
+      },
+      {
+        "name": "worldline-canonical_owner_completion_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 65434,
+        "mtime_utc": "2026-10-26T14:19:30.650033+00:00"
+      },
+      {
+        "name": "worldline-chain_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 61457,
+        "mtime_utc": "2026-10-26T14:19:25.502900+00:00"
+      },
+      {
+        "name": "worldline-chain_authority_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 37053,
+        "mtime_utc": "2026-10-26T14:19:30.618032+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_archive_chain.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 63187,
+        "mtime_utc": "2026-10-26T14:19:20.592772+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_archive_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 51234,
+        "mtime_utc": "2026-10-26T14:19:24.216866+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_closed_state.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 182679,
+        "mtime_utc": "2026-10-26T14:19:24.882884+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_closed_v1.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 97069,
+        "mtime_utc": "2026-10-26T14:19:28.798985+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_delta_encoding.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 104878,
+        "mtime_utc": "2026-10-26T14:19:28.964989+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_delta_grammar.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 39354,
+        "mtime_utc": "2026-10-26T14:19:28.930988+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_domain_hmac.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 52982,
+        "mtime_utc": "2026-10-26T14:19:24.835882+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_empty_seed.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 42440,
+        "mtime_utc": "2026-10-26T14:19:21.036784+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_event_joins.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 78804,
+        "mtime_utc": "2026-10-26T14:19:22.970834+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_fold_engine.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 205069,
+        "mtime_utc": "2026-10-26T14:19:21.039672+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_fold_rows.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 44637,
+        "mtime_utc": "2026-10-26T14:19:20.691775+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_history.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 69578,
+        "mtime_utc": "2026-10-26T14:19:23.022835+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_k4_resource_ack.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 286022,
+        "mtime_utc": "2026-10-26T14:19:25.783907+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_load_input.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 156468,
+        "mtime_utc": "2026-10-26T14:19:20.177762+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_machine_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 81476,
+        "mtime_utc": "2026-10-26T14:19:24.899884+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_mutation_decision.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 288982,
+        "mtime_utc": "2026-10-26T14:19:25.232893+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_operation_journal.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 409412,
+        "mtime_utc": "2026-10-26T14:19:23.387845+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_owner_canonical.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 287002,
+        "mtime_utc": "2026-10-26T14:19:25.771907+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_owner_correspondence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 187680,
+        "mtime_utc": "2026-10-26T14:19:21.527797+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_prepared.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 79152,
+        "mtime_utc": "2026-10-26T14:19:24.959886+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_raw_next.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 81900,
+        "mtime_utc": "2026-10-26T14:19:20.344021+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_requester_join.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 87649,
+        "mtime_utc": "2026-10-26T14:19:24.573876+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_root_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 431962,
+        "mtime_utc": "2026-10-26T14:19:22.602824+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_root_values.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 60626,
+        "mtime_utc": "2026-10-26T14:19:24.994886+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_schema_correspondence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 59615,
+        "mtime_utc": "2026-10-26T14:19:24.263868+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_subject_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 370009,
+        "mtime_utc": "2026-10-26T14:19:22.323817+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_typed_step.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 152112,
+        "mtime_utc": "2026-10-26T14:19:20.482770+00:00"
+      },
+      {
+        "name": "worldline-custody_v2_values.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 52287,
+        "mtime_utc": "2026-10-26T14:19:20.251764+00:00"
+      },
+      {
+        "name": "worldline-emitter_channel_evidence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 278268,
+        "mtime_utc": "2026-10-26T14:19:31.657059+00:00"
+      },
+      {
+        "name": "worldline-emitter_ordinal.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 34883,
+        "mtime_utc": "2026-10-26T14:19:31.404052+00:00"
+      },
+      {
+        "name": "worldline-evaluation_agent_native.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 263387,
+        "mtime_utc": "2026-10-26T14:19:32.375078+00:00"
+      },
+      {
+        "name": "worldline-evaluation_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 89969,
+        "mtime_utc": "2026-10-26T14:19:32.025069+00:00"
+      },
+      {
+        "name": "worldline-evaluation_policy.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 74525,
+        "mtime_utc": "2026-10-26T14:19:31.991068+00:00"
+      },
+      {
+        "name": "worldline-evaluation_producer.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 112181,
+        "mtime_utc": "2026-10-26T14:19:32.068070+00:00"
+      },
+      {
+        "name": "worldline-evaluation_role_native.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 222035,
+        "mtime_utc": "2026-10-26T14:19:32.433079+00:00"
+      },
+      {
+        "name": "worldline-generic_json_syntax.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 10661,
+        "mtime_utc": "2026-10-26T14:19:31.429053+00:00"
+      },
+      {
+        "name": "worldline-json_syntax_types.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 21378,
+        "mtime_utc": "2026-10-26T14:19:31.450054+00:00"
+      },
+      {
+        "name": "worldline-native_execution_views.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 135438,
+        "mtime_utc": "2026-10-26T14:19:28.649981+00:00"
+      },
+      {
+        "name": "worldline-operation_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 61474,
+        "mtime_utc": "2026-10-26T14:19:20.504770+00:00"
+      },
+      {
+        "name": "worldline-operation_authority.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 83414,
+        "mtime_utc": "2026-10-26T14:19:28.106967+00:00"
+      },
+      {
+        "name": "worldline-operation_authority_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 69241,
+        "mtime_utc": "2026-10-26T14:19:30.797037+00:00"
+      },
+      {
+        "name": "worldline-operation_result_relations.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 180068,
+        "mtime_utc": "2026-10-26T14:19:31.363051+00:00"
+      },
+      {
+        "name": "worldline-ordinary_receipt_policy.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 123478,
+        "mtime_utc": "2026-10-26T14:19:32.154072+00:00"
+      },
+      {
+        "name": "worldline-owner_conjunction.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 54932,
+        "mtime_utc": "2026-10-26T14:19:29.473002+00:00"
+      },
+      {
+        "name": "worldline-owner_retry_audit.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 44870,
+        "mtime_utc": "2026-10-26T14:19:29.584005+00:00"
+      },
+      {
+        "name": "worldline-owner_subject_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 37124,
+        "mtime_utc": "2026-10-26T14:19:31.694060+00:00"
+      },
+      {
+        "name": "worldline-owner_transitions.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 48099,
+        "mtime_utc": "2026-10-26T14:19:29.683008+00:00"
+      },
+      {
+        "name": "worldline-policy_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 50779,
+        "mtime_utc": "2026-10-26T14:19:32.055069+00:00"
+      },
+      {
+        "name": "worldline-producer_values.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 119423,
+        "mtime_utc": "2026-10-26T14:19:29.176995+00:00"
+      },
+      {
+        "name": "worldline-raw_json.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 98976,
+        "mtime_utc": "2026-10-26T14:19:28.622980+00:00"
+      },
+      {
+        "name": "worldline-recovery_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 120786,
+        "mtime_utc": "2026-10-26T14:19:26.094915+00:00"
+      },
+      {
+        "name": "worldline-recovery_authorization_v3.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 40721,
+        "mtime_utc": "2026-10-26T14:19:29.256997+00:00"
+      },
+      {
+        "name": "worldline-recovery_authorization_v3_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 54451,
+        "mtime_utc": "2026-10-26T14:19:30.760036+00:00"
+      },
+      {
+        "name": "worldline-recovery_material_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 547508,
+        "mtime_utc": "2026-10-26T14:19:29.984016+00:00"
+      },
+      {
+        "name": "worldline-recovery_owner_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 158060,
+        "mtime_utc": "2026-10-26T14:19:29.894013+00:00"
+      },
+      {
+        "name": "worldline-recovery_packet.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 149182,
+        "mtime_utc": "2026-10-26T14:19:32.659085+00:00"
+      },
+      {
+        "name": "worldline-recovery_syntax.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 42234,
+        "mtime_utc": "2026-10-26T14:19:29.924014+00:00"
+      },
+      {
+        "name": "worldline-report_parser.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 127220,
+        "mtime_utc": "2026-10-26T14:19:32.537082+00:00"
+      },
+      {
+        "name": "worldline-resource_actor_execution.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 91559,
+        "mtime_utc": "2026-10-26T14:19:29.404001+00:00"
+      },
+      {
+        "name": "worldline-resource_actor_execution_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 74857,
+        "mtime_utc": "2026-10-26T14:19:30.880039+00:00"
+      },
+      {
+        "name": "worldline-resource_child_execution.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 112694,
+        "mtime_utc": "2026-10-26T14:19:28.540978+00:00"
+      },
+      {
+        "name": "worldline-resource_child_execution_wire.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 102142,
+        "mtime_utc": "2026-10-26T14:19:31.037043+00:00"
+      },
+      {
+        "name": "worldline-resource_ledger_c_api.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 44344,
+        "mtime_utc": "2026-10-26T14:19:28.829986+00:00"
+      },
+      {
+        "name": "worldline-resource_policy_c_api.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 40807,
+        "mtime_utc": "2026-10-26T14:19:28.871987+00:00"
+      },
+      {
+        "name": "worldline-retained_custody_chain.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 45611,
+        "mtime_utc": "2026-10-26T14:19:21.288790+00:00"
+      },
+      {
+        "name": "worldline-retained_evidence_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 605288,
+        "mtime_utc": "2026-10-26T14:19:24.500874+00:00"
+      },
+      {
+        "name": "worldline-retained_raw_decode.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 326442,
+        "mtime_utc": "2026-10-26T14:19:27.389949+00:00"
+      },
+      {
+        "name": "worldline-retained_source_layout.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 177283,
+        "mtime_utc": "2026-10-26T14:19:27.136942+00:00"
+      },
+      {
+        "name": "worldline-root_custody_abandon.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 58980,
+        "mtime_utc": "2026-10-26T14:19:21.128786+00:00"
+      },
+      {
+        "name": "worldline-root_custody_archive_join.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 31360,
+        "mtime_utc": "2026-10-26T14:19:23.779855+00:00"
+      },
+      {
+        "name": "worldline-root_custody_context.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 41479,
+        "mtime_utc": "2026-10-26T14:19:28.906988+00:00"
+      },
+      {
+        "name": "worldline-root_custody_model.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 38191,
+        "mtime_utc": "2026-10-26T14:19:23.517848+00:00"
+      },
+      {
+        "name": "worldline-root_custody_phase_values.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 79002,
+        "mtime_utc": "2026-10-26T14:19:25.232893+00:00"
+      },
+      {
+        "name": "worldline-root_custody_replay.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 46348,
+        "mtime_utc": "2026-10-26T14:19:23.419846+00:00"
+      },
+      {
+        "name": "worldline-root_custody_request_abandon.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 63323,
+        "mtime_utc": "2026-10-26T14:19:20.798778+00:00"
+      },
+      {
+        "name": "worldline-root_custody_row_schema.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 77964,
+        "mtime_utc": "2026-10-26T14:19:21.199788+00:00"
+      },
+      {
+        "name": "worldline-root_custody_row_views.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 56078,
+        "mtime_utc": "2026-10-26T14:19:22.744828+00:00"
+      },
+      {
+        "name": "worldline-root_output_sequence.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 236866,
+        "mtime_utc": "2026-10-26T14:19:29.101993+00:00"
+      },
+      {
+        "name": "worldline-runner_lifecycle.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 43453,
+        "mtime_utc": "2026-10-26T14:19:25.033887+00:00"
+      },
+      {
+        "name": "worldline-runner_lifecycle_bytes.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 101971,
+        "mtime_utc": "2026-10-26T14:19:28.909988+00:00"
+      },
+      {
+        "name": "worldline-runner_outcome.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 29224,
+        "mtime_utc": "2026-10-26T14:19:32.670085+00:00"
+      },
+      {
+        "name": "worldline-runner_outcome_bytes.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 64362,
+        "mtime_utc": "2026-10-26T14:19:32.736087+00:00"
+      },
+      {
+        "name": "worldline-scoped_archive.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 56234,
+        "mtime_utc": "2026-10-26T14:19:20.433768+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_evolution_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 263167,
+        "mtime_utc": "2026-10-26T14:19:24.795881+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_history_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 205557,
+        "mtime_utc": "2026-10-26T14:19:28.755984+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_namespace_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 165916,
+        "mtime_utc": "2026-10-26T14:19:25.149890+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_owner_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 266903,
+        "mtime_utc": "2026-10-26T14:19:24.464873+00:00"
+      },
+      {
+        "name": "worldline-scoped_capture_projection.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 277910,
+        "mtime_utc": "2026-10-26T14:19:24.698879+00:00"
+      },
+      {
+        "name": "worldline-scoped_record_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 120335,
+        "mtime_utc": "2026-10-26T14:19:28.743984+00:00"
+      },
+      {
+        "name": "worldline-sqlite_parameter_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 139301,
+        "mtime_utc": "2026-10-26T14:19:26.235919+00:00"
+      },
+      {
+        "name": "worldline-startup_admission.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 220029,
+        "mtime_utc": "2026-10-26T14:19:22.926833+00:00"
+      },
+      {
+        "name": "worldline-startup_installation.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 166036,
+        "mtime_utc": "2026-10-26T14:19:25.382896+00:00"
+      },
+      {
+        "name": "worldline-startup_issuer_source.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 143275,
+        "mtime_utc": "2026-10-26T14:19:25.343895+00:00"
+      },
+      {
+        "name": "worldline-startup_source_custody.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 202859,
+        "mtime_utc": "2026-10-26T14:19:25.469899+00:00"
+      },
+      {
+        "name": "worldline-transaction_archive_json.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 64146,
+        "mtime_utc": "2026-10-26T14:19:32.623084+00:00"
+      },
+      {
+        "name": "worldline-transaction_relations.ali",
+        "dependency": "D resource_quantities.ads  20261026140005 9dd2de6e resource_quantities%s",
+        "bytes": 208475,
+        "mtime_utc": "2026-10-26T14:19:32.260143+00:00"
+      }
+    ]
+  },
+  "footprints": {
+    "data_representation": {
+      ".cswi": {
+        "count": 164,
+        "bytes": 24764
+      },
+      ".ali": {
+        "count": 164,
+        "bytes": 3363513
+      },
+      ".s": {
+        "count": 164,
+        "bytes": 503681428
+      },
+      ".stdout": {
+        "count": 164,
+        "bytes": 0
+      },
+      ".stderr": {
+        "count": 164,
+        "bytes": 0
+      },
+      ".json": {
+        "count": 319,
+        "bytes": 1527401
+      }
+    },
+    "phase1": {
+      ".cswi": {
+        "count": 162,
+        "bytes": 41472
+      },
+      ".ali": {
+        "count": 164,
+        "bytes": 15660498
+      },
+      ".stdout": {
+        "count": 164,
+        "bytes": 0
+      },
+      ".stderr": {
+        "count": 164,
+        "bytes": 0
+      }
+    },
+    "proof": {
+      ".ali": {
+        "count": 164,
+        "bytes": 15994341
+      },
+      ".gnat-json": {
+        "count": 10,
+        "bytes": 9245832
+      },
+      ".stderr": {
+        "count": 3,
+        "bytes": 4123
+      },
+      ".spark": {
+        "count": 3,
+        "bytes": 73201
+      },
+      "": {
+        "count": 2,
+        "bytes": 0
+      },
+      ".tmp": {
+        "count": 2,
+        "bytes": 1257573
+      },
+      ".cswi": {
+        "count": 2,
+        "bytes": 496
+      },
+      ".stdout": {
+        "count": 3,
+        "bytes": 0
+      },
+      ".conf": {
+        "count": 1,
+        "bytes": 1946
+      },
+      ".log": {
+        "count": 1,
+        "bytes": 0
+      },
+      ".out": {
+        "count": 1,
+        "bytes": 2961
+      },
+      ".sarif": {
+        "count": 1,
+        "bytes": 49690
+      }
+    }
+  },
+  "pending_phase1_comparisons": [
+    {
+      "name": "evaluation_completion.ali",
+      "current_bytes": 71503,
+      "prior_complete_bytes": 71503
+    },
+    {
+      "name": "evaluation_completion_roster.ali",
+      "current_bytes": 48616,
+      "prior_complete_bytes": 48616
+    },
+    {
+      "name": "evaluation_epoch.ali",
+      "current_bytes": 63332,
+      "prior_complete_bytes": 63331
+    },
+    {
+      "name": "evaluation_finalization.ali",
+      "current_bytes": 107172,
+      "prior_complete_bytes": 107172
+    },
+    {
+      "name": "evaluation_history.ali",
+      "current_bytes": 45821,
+      "prior_complete_bytes": 45821
+    },
+    {
+      "name": "evaluation_pending_v2.ali",
+      "current_bytes": 31195,
+      "prior_complete_bytes": 31195
+    },
+    {
+      "name": "evaluation_raw_roster.ali",
+      "current_bytes": 63012,
+      "prior_complete_bytes": 63012
+    },
+    {
+      "name": "resource_actor_admission.ali",
+      "current_bytes": 75727,
+      "prior_complete_bytes": 75727
+    },
+    {
+      "name": "resource_actor_admission_wire.ali",
+      "current_bytes": 62747,
+      "prior_complete_bytes": 62747
+    },
+    {
+      "name": "resource_admission.ali",
+      "current_bytes": 40212,
+      "prior_complete_bytes": 40211
+    },
+    {
+      "name": "resource_ledger.ali",
+      "current_bytes": 136289,
+      "prior_complete_bytes": 136288
+    },
+    {
+      "name": "resource_observation_classification.ali",
+      "current_bytes": 48729,
+      "prior_complete_bytes": 48728
+    },
+    {
+      "name": "resource_observation_classification_wire.ali",
+      "current_bytes": 51333,
+      "prior_complete_bytes": 51333
+    },
+    {
+      "name": "resource_reservation_transition.ali",
+      "current_bytes": 109991,
+      "prior_complete_bytes": 103442
+    },
+    {
+      "name": "resource_run_ledger.ali",
+      "current_bytes": 76933,
+      "prior_complete_bytes": 76932
+    },
+    {
+      "name": "resource_run_ledger_wire.ali",
+      "current_bytes": 59454,
+      "prior_complete_bytes": 59454
+    },
+    {
+      "name": "resource_scoped_run_ledger.ali",
+      "current_bytes": 104136,
+      "prior_complete_bytes": 104135
+    },
+    {
+      "name": "resource_scoped_run_ledger_wire.ali",
+      "current_bytes": 83510,
+      "prior_complete_bytes": 83510
+    },
+    {
+      "name": "worldline-actor_archive_replay.ali",
+      "current_bytes": 218942,
+      "prior_complete_bytes": 218942
+    },
+    {
+      "name": "worldline-canonical_exchange.ali",
+      "current_bytes": 72989,
+      "prior_complete_bytes": 72989
+    },
+    {
+      "name": "worldline-canonical_exchange_wire.ali",
+      "current_bytes": 67634,
+      "prior_complete_bytes": 67634
+    },
+    {
+      "name": "worldline-canonical_operation.ali",
+      "current_bytes": 59846,
+      "prior_complete_bytes": 59846
+    },
+    {
+      "name": "worldline-canonical_operation_wire.ali",
+      "current_bytes": 62358,
+      "prior_complete_bytes": 62358
+    },
+    {
+      "name": "worldline-canonical_owner_completion.ali",
+      "current_bytes": 65145,
+      "prior_complete_bytes": 65145
+    },
+    {
+      "name": "worldline-canonical_owner_completion_wire.ali",
+      "current_bytes": 65434,
+      "prior_complete_bytes": 65434
+    },
+    {
+      "name": "worldline-chain_authority.ali",
+      "current_bytes": 61457,
+      "prior_complete_bytes": 61457
+    },
+    {
+      "name": "worldline-chain_authority_wire.ali",
+      "current_bytes": 37053,
+      "prior_complete_bytes": 37053
+    },
+    {
+      "name": "worldline-custody_v2_archive_projection.ali",
+      "current_bytes": 51234,
+      "prior_complete_bytes": 51234
+    },
+    {
+      "name": "worldline-custody_v2_closed_state.ali",
+      "current_bytes": 182679,
+      "prior_complete_bytes": 182679
+    },
+    {
+      "name": "worldline-custody_v2_closed_v1.ali",
+      "current_bytes": 97069,
+      "prior_complete_bytes": 97069
+    },
+    {
+      "name": "worldline-custody_v2_delta_encoding.ali",
+      "current_bytes": 104878,
+      "prior_complete_bytes": 104878
+    },
+    {
+      "name": "worldline-custody_v2_delta_grammar.ali",
+      "current_bytes": 39354,
+      "prior_complete_bytes": 39354
+    },
+    {
+      "name": "worldline-custody_v2_domain_hmac.ali",
+      "current_bytes": 52982,
+      "prior_complete_bytes": 52982
+    },
+    {
+      "name": "worldline-custody_v2_event_joins.ali",
+      "current_bytes": 78804,
+      "prior_complete_bytes": 78804
+    },
+    {
+      "name": "worldline-custody_v2_history.ali",
+      "current_bytes": 69578,
+      "prior_complete_bytes": 69578
+    },
+    {
+      "name": "worldline-custody_v2_k4_resource_ack.ali",
+      "current_bytes": 286022,
+      "prior_complete_bytes": 286022
+    },
+    {
+      "name": "worldline-custody_v2_machine_evidence.ali",
+      "current_bytes": 81476,
+      "prior_complete_bytes": 81476
+    },
+    {
+      "name": "worldline-custody_v2_mutation_decision.ali",
+      "current_bytes": 288982,
+      "prior_complete_bytes": 288982
+    },
+    {
+      "name": "worldline-custody_v2_operation_journal.ali",
+      "current_bytes": 409412,
+      "prior_complete_bytes": 409412
+    },
+    {
+      "name": "worldline-custody_v2_owner_canonical.ali",
+      "current_bytes": 287002,
+      "prior_complete_bytes": 287002
+    },
+    {
+      "name": "worldline-custody_v2_prepared.ali",
+      "current_bytes": 79152,
+      "prior_complete_bytes": 79152
+    },
+    {
+      "name": "worldline-custody_v2_requester_join.ali",
+      "current_bytes": 87649,
+      "prior_complete_bytes": 87649
+    },
+    {
+      "name": "worldline-custody_v2_root_values.ali",
+      "current_bytes": 60626,
+      "prior_complete_bytes": 60626
+    },
+    {
+      "name": "worldline-custody_v2_schema_correspondence.ali",
+      "current_bytes": 59615,
+      "prior_complete_bytes": 59615
+    },
+    {
+      "name": "worldline-emitter_channel_evidence.ali",
+      "current_bytes": 278268,
+      "prior_complete_bytes": 278268
+    },
+    {
+      "name": "worldline-emitter_ordinal.ali",
+      "current_bytes": 34883,
+      "prior_complete_bytes": 34882
+    },
+    {
+      "name": "worldline-evaluation_agent_native.ali",
+      "current_bytes": 263387,
+      "prior_complete_bytes": 263387
+    },
+    {
+      "name": "worldline-evaluation_authority.ali",
+      "current_bytes": 89969,
+      "prior_complete_bytes": 89969
+    },
+    {
+      "name": "worldline-evaluation_policy.ali",
+      "current_bytes": 74525,
+      "prior_complete_bytes": 74525
+    },
+    {
+      "name": "worldline-evaluation_producer.ali",
+      "current_bytes": 112181,
+      "prior_complete_bytes": 112181
+    },
+    {
+      "name": "worldline-evaluation_role_native.ali",
+      "current_bytes": 222035,
+      "prior_complete_bytes": 222035
+    },
+    {
+      "name": "worldline-generic_json_syntax.ali",
+      "current_bytes": 10661,
+      "prior_complete_bytes": 10661
+    },
+    {
+      "name": "worldline-json_syntax_types.ali",
+      "current_bytes": 21378,
+      "prior_complete_bytes": 21378
+    },
+    {
+      "name": "worldline-native_execution_views.ali",
+      "current_bytes": 135438,
+      "prior_complete_bytes": 135438
+    },
+    {
+      "name": "worldline-operation_authority.ali",
+      "current_bytes": 83414,
+      "prior_complete_bytes": 83414
+    },
+    {
+      "name": "worldline-operation_authority_wire.ali",
+      "current_bytes": 69241,
+      "prior_complete_bytes": 69241
+    },
+    {
+      "name": "worldline-operation_result_relations.ali",
+      "current_bytes": 180068,
+      "prior_complete_bytes": 180068
+    },
+    {
+      "name": "worldline-ordinary_receipt_policy.ali",
+      "current_bytes": 123478,
+      "prior_complete_bytes": 123478
+    },
+    {
+      "name": "worldline-owner_conjunction.ali",
+      "current_bytes": 54932,
+      "prior_complete_bytes": 54932
+    },
+    {
+      "name": "worldline-owner_retry_audit.ali",
+      "current_bytes": 44870,
+      "prior_complete_bytes": 44870
+    },
+    {
+      "name": "worldline-owner_subject_projection.ali",
+      "current_bytes": 37124,
+      "prior_complete_bytes": 37124
+    },
+    {
+      "name": "worldline-owner_transitions.ali",
+      "current_bytes": 48099,
+      "prior_complete_bytes": 48099
+    },
+    {
+      "name": "worldline-policy_source.ali",
+      "current_bytes": 50779,
+      "prior_complete_bytes": 50779
+    },
+    {
+      "name": "worldline-producer_values.ali",
+      "current_bytes": 119423,
+      "prior_complete_bytes": 119423
+    },
+    {
+      "name": "worldline-raw_json.ali",
+      "current_bytes": 98976,
+      "prior_complete_bytes": 98976
+    },
+    {
+      "name": "worldline-recovery_archive.ali",
+      "current_bytes": 120786,
+      "prior_complete_bytes": 120786
+    },
+    {
+      "name": "worldline-recovery_authorization_v3.ali",
+      "current_bytes": 40721,
+      "prior_complete_bytes": 40720
+    },
+    {
+      "name": "worldline-recovery_authorization_v3_wire.ali",
+      "current_bytes": 54451,
+      "prior_complete_bytes": 54450
+    },
+    {
+      "name": "worldline-recovery_material_replay.ali",
+      "current_bytes": 547508,
+      "prior_complete_bytes": 547508
+    },
+    {
+      "name": "worldline-recovery_owner_replay.ali",
+      "current_bytes": 158060,
+      "prior_complete_bytes": 158060
+    },
+    {
+      "name": "worldline-recovery_packet.ali",
+      "current_bytes": 149182,
+      "prior_complete_bytes": 149182
+    },
+    {
+      "name": "worldline-recovery_syntax.ali",
+      "current_bytes": 42234,
+      "prior_complete_bytes": 42234
+    },
+    {
+      "name": "worldline-report_parser.ali",
+      "current_bytes": 127220,
+      "prior_complete_bytes": 127220
+    },
+    {
+      "name": "worldline-resource_actor_execution.ali",
+      "current_bytes": 91559,
+      "prior_complete_bytes": 91559
+    },
+    {
+      "name": "worldline-resource_actor_execution_wire.ali",
+      "current_bytes": 74857,
+      "prior_complete_bytes": 74857
+    },
+    {
+      "name": "worldline-resource_child_execution.ali",
+      "current_bytes": 112694,
+      "prior_complete_bytes": 112694
+    },
+    {
+      "name": "worldline-resource_child_execution_wire.ali",
+      "current_bytes": 102142,
+      "prior_complete_bytes": 102142
+    },
+    {
+      "name": "worldline-resource_ledger_c_api.ali",
+      "current_bytes": 44344,
+      "prior_complete_bytes": 44344
+    },
+    {
+      "name": "worldline-resource_policy_c_api.ali",
+      "current_bytes": 40807,
+      "prior_complete_bytes": 40807
+    },
+    {
+      "name": "worldline-retained_custody_chain.ali",
+      "current_bytes": 45611,
+      "prior_complete_bytes": 45611
+    },
+    {
+      "name": "worldline-retained_raw_decode.ali",
+      "current_bytes": 326442,
+      "prior_complete_bytes": 326442
+    },
+    {
+      "name": "worldline-retained_source_layout.ali",
+      "current_bytes": 177283,
+      "prior_complete_bytes": 177283
+    },
+    {
+      "name": "worldline-root_custody_archive_join.ali",
+      "current_bytes": 31360,
+      "prior_complete_bytes": 31360
+    },
+    {
+      "name": "worldline-root_custody_context.ali",
+      "current_bytes": 41479,
+      "prior_complete_bytes": 41479
+    },
+    {
+      "name": "worldline-root_custody_model.ali",
+      "current_bytes": 38191,
+      "prior_complete_bytes": 38191
+    },
+    {
+      "name": "worldline-root_custody_phase_values.ali",
+      "current_bytes": 79002,
+      "prior_complete_bytes": 79002
+    },
+    {
+      "name": "worldline-root_custody_replay.ali",
+      "current_bytes": 46348,
+      "prior_complete_bytes": 46348
+    },
+    {
+      "name": "worldline-root_output_sequence.ali",
+      "current_bytes": 236866,
+      "prior_complete_bytes": 236866
+    },
+    {
+      "name": "worldline-runner_lifecycle.ali",
+      "current_bytes": 43453,
+      "prior_complete_bytes": 43453
+    },
+    {
+      "name": "worldline-runner_lifecycle_bytes.ali",
+      "current_bytes": 101971,
+      "prior_complete_bytes": 101971
+    },
+    {
+      "name": "worldline-runner_outcome.ali",
+      "current_bytes": 29224,
+      "prior_complete_bytes": 29224
+    },
+    {
+      "name": "worldline-runner_outcome_bytes.ali",
+      "current_bytes": 64362,
+      "prior_complete_bytes": 64362
+    },
+    {
+      "name": "worldline-scoped_capture_evolution_projection.ali",
+      "current_bytes": 263167,
+      "prior_complete_bytes": 263167
+    },
+    {
+      "name": "worldline-scoped_capture_history_projection.ali",
+      "current_bytes": 205557,
+      "prior_complete_bytes": 205557
+    },
+    {
+      "name": "worldline-scoped_capture_namespace_projection.ali",
+      "current_bytes": 165916,
+      "prior_complete_bytes": 165916
+    },
+    {
+      "name": "worldline-scoped_capture_owner_projection.ali",
+      "current_bytes": 266903,
+      "prior_complete_bytes": 266903
+    },
+    {
+      "name": "worldline-scoped_capture_projection.ali",
+      "current_bytes": 277910,
+      "prior_complete_bytes": 277910
+    },
+    {
+      "name": "worldline-scoped_record_source.ali",
+      "current_bytes": 120335,
+      "prior_complete_bytes": 120335
+    },
+    {
+      "name": "worldline-sqlite_parameter_source.ali",
+      "current_bytes": 139301,
+      "prior_complete_bytes": 139301
+    },
+    {
+      "name": "worldline-startup_installation.ali",
+      "current_bytes": 166036,
+      "prior_complete_bytes": 166036
+    },
+    {
+      "name": "worldline-startup_issuer_source.ali",
+      "current_bytes": 143275,
+      "prior_complete_bytes": 143275
+    },
+    {
+      "name": "worldline-startup_source_custody.ali",
+      "current_bytes": 202859,
+      "prior_complete_bytes": 202859
+    },
+    {
+      "name": "worldline-transaction_archive_json.ali",
+      "current_bytes": 64146,
+      "prior_complete_bytes": 64146
+    },
+    {
+      "name": "worldline-transaction_relations.ali",
+      "current_bytes": 208475,
+      "prior_complete_bytes": 208475
+    }
+  ],
+  "growth_budget": {
+    "pending_phase1_count": 104,
+    "pending_current_bytes": 11652250,
+    "pending_prior_complete_bytes": 11645692,
+    "sum_positive_prior_minus_current": 0,
+    "largest_observed_phase1_ali": 547508,
+    "existing_datarep_assembly_bytes": 503681428,
+    "existing_proof_ali_bytes": 15994341,
+    "free_bytes_at_receipt": 10199105536,
+    "margin_over_decimal_10GB": 199105536,
+    "empirical_increment_planning_allowance_bytes": 80000000,
+    "rationale": "All 104 pending phase1 ALIs already exist and their prior-complete sum is 6558 bytes smaller. All 503681428 bytes of datarep assembly already exist. Allow 104 simultaneous maximum-size observed phase1 ALI replacements (56940832 bytes) plus about23MB for target models/temp/logs. Prior focused v2 wholejob retained1.107MB and current Event model0.779MB/session0.098MB. This allowance is empirical, not a proved hard upper bound. No full main or five-target batch is justified by it.",
+    "conditions": [
+      "Parent resolves competing writer and rechecks free space/admission before launch.",
+      "Reuse existing subdir; no new cache copy and no TMPDIR change.",
+      "Only Project_Events target under inner330/outer360, same flags/source; preserve wrapper8G/heavy lock.",
+      "Observe disk during run and stop via owner if original reserve threatened; never relabel resource-aborted run as proof failure or acceptance."
+    ]
+  },
+  "naming_config_hashes": {
+    "records/phase1-direct/completion-20261026/projection-proof-job-v4/tmp/GPR.2987888/GNAT-TEMP-000002.TMP": {
+      "bytes": 244,
+      "sha256": "3d84ea27f99f81f20bd402e0c255538ad3d04c82d26e10ee32ea68c9fd4b1574"
+    },
+    "records/phase1-direct/completion-20261026/projection-proof-job-v5/tmp/GPR.3026785/GNAT-TEMP-000002.TMP": {
+      "bytes": 244,
+      "sha256": "3d84ea27f99f81f20bd402e0c255538ad3d04c82d26e10ee32ea68c9fd4b1574"
+    }
+  },
+  "switches": "datarep .cswi has stable compiler flags without job TMPDIR; phase1 .cswi points stable cache/5a91e47b.tmp. Different main9bc08b65.tmp is proof mode vs global_gen phase, not job temp invalidation.",
+  "next_command_argv": [
+    "gnatprove",
+    "-P",
+    "core/worldline_core_sources.gpr",
+    "-u",
+    "worldline-custody_v2_load_input.adb",
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=5",
+    "-j2",
+    "--subdirs=completion-20261026-projection-v1",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "--limit-subp=worldline-custody_v2_load_input.adb:499"
+  ],
+  "execution": "Parent-owned existing env/private sparklib setup, original heavy wrapper; process330s timeout inside360s outer. No command executed by reviewer.",
+  "acceptance": false
+}

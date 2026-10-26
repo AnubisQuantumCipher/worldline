@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-26T15:32:00.898965+00:00",
+  "class": "TESTED_TINY_POSITIVE_AND_NEGATIVE_CONTROL",
+  "job": "records/phase1-direct/completion-20261026/utf8-predicate-runtime-job-v2",
+  "overall_exit": 1,
+  "positive": "build+run proceeded and printed2; shell set-e would stop before negative build on failure",
+  "negative": "build succeeded; changed Start+1 raises actual Assertion_Error at equality line64",
+  "raw_sha256": {
+    "launch.jsonl": "cbee525144e8d08bb77c8f1898605e0bd18cc55ad146ebd97cc16ae13eb72cde",
+    "stdout": "15ba70accaff3b79c44d563f42cc97cbc73c63fbcacce9148545a13ac634b9f1",
+    "stderr": "996f98848a7d200b05d79e9ec7460629db06e721f76bdb957de333c03babff28",
+    "worker-result.json": "cb64c45c05acda2b19d4679d0f943491bb494abc154757aa2950c2b1776132d1",
+    "terminal-scope.jsonl": "70954937bcb8f90d297ac4a7a0d80a14c17de6b3c4045b39cdfd3bb983b027ad"
+  },
+  "initial_failed_project_job_retained": "utf8-predicate-runtime-job-v1",
+  "scope": "Toy predicate replay mechanism only, not production UTF8",
+  "phase_acceptance": false
+}

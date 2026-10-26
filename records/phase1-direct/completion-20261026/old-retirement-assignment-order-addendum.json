@@ -1,0 +1,40 @@
+{
+  "schema": "worldline.o1.assignment-order-addendum.v1",
+  "status": "SOURCE_DESIGN_ONLY_NO_EXECUTION",
+  "base": {
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/old-retirement-minimal-lowering-route-v2.json",
+    "sha256": "c4d13d667f4774c90f5cba12c0edd5d0d4e64917a96fa2b4d452714099d06dfb"
+  },
+  "critical_requirement": "Do not implement strict assignment as Finalize(destination); evaluate RHS; Adjust(destination). RHS must be evaluated exactly once in the original language/compiler order, and must remain readable if it refers to the destination or its enclosing object. A shallow temporary is not sufficient when freeing the destination would free the temporary source referent.",
+  "cases": [
+    {
+      "case": "B:=A, distinct independent objects",
+      "obligation": "RHS A remains live and unchanged. Prior B allocation is finalized once; copied B owns independent full content. No move of A."
+    },
+    {
+      "case": "A:=A",
+      "obligation": "Self-assignment is safe. Do not free the source referent before preserving value or recognizing the actual compiler self-assignment path."
+    },
+    {
+      "case": "A:=F(A)",
+      "obligation": "Evaluate F with original A readable. If RHS evaluation raises, cleanup of already-created temporaries must match actual compiler and must not prematurely finalize A. Value/result construction and later target cleanup must preserve language ordering."
+    },
+    {
+      "case": "Target/source overlapping subobjects",
+      "obligation": "Copy/cleanup order must be qualified against actual compiler; reject unsupported alias schedules rather than granting blanket strict-copy permission. This cannot silently remove an original required use."
+    },
+    {
+      "case": "Adjust allocation failure",
+      "obligation": "Source ownership survives. Whether destination is registered/finalized depends on real compiler initialization/assignment schedule. Partial newly owned parts are reclaimed; shallow source views are not freed."
+    }
+  ],
+  "smallest_source_gap": "Retained exp_ch7 describes hook scheduling generically, and exp_ch3 gives function-return elision, but exact relevant normal compiler assignment-expansion path has not been read from a matching pinned exp_ch5 source. No exp_ch5 download or invented ordering correspondence here.",
+  "next_before_patch": "Inspect exact-ref assignment expansion plus selected actual native expanded schedule when later authorized; add self-assignment, destination-dependent RHS, RHS exception and partial Adjust-failure mutants to the minimal vertical slice.",
+  "acceptance_boundary": "No new public precondition, cap, explicit snapshot-death rule, suppression or assertion-policy change. This is a soundness obligation on the verifier extension, not an acceptance waiver.",
+  "actions": {
+    "job": false,
+    "download": false,
+    "build": false,
+    "production_edit": false
+  }
+}

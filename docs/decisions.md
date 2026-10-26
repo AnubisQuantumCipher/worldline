@@ -2081,3 +2081,277 @@ against the identical library and unchanged product sources. The initial
 60-case run remains FAILED, not relabeled as a successful single suite.
 `recovery-overlap-fixture-v1/reuse-and-justification.json` binds the continuation
 and verifies that all other methods in that test module are unchanged.
+
+## D133 — Resume the sole direct completion source and qualify bounded repairs
+
+On 2026-10-26 the user renewed the completion goal and required GPT-6.1-Sol
+helpers at high effort. The three helper dispatches use those explicit settings;
+dispatch configuration is not independent serving-model attestation. The
+coordinator continues the existing c6c0674 direct worktree. Live remote readback
+matches that checkpoint. The separate OMP workflow remains stopped. The inherited
+claim of a live decoder proof is stale: its retained worker receipt is exit 124.
+The inherited handoff is preserved under completion-20261026 before correction.
+
+Options were another unchanged whole decoder run, component extraction preserving
+the public contract, or a weaker domain/contract. Select extraction: private
+projection helpers receive only the components they use; the public specification
+is byte-identical. A different helper reviewed the complete candidate and callers
+and approved source qualification only. For zero-padded quantities, preserve all
+three mathematical Prefix_Value relations while avoiding zero times an enormous
+radix power. The separate review approves source-contract pin refresh only.
+Neither review establishes runtime, full proof or F7 acceptance. The coordinator
+refreshed seven exact-source hash literals only after both reviews. All policy AST
+and public contracts are retained. The first disjoint candidate edits were made
+by helpers in the coordinator's worktree; this did not satisfy the retained
+proposal-only helper rule. Subsequent helper changes are proposals outside product
+source, independently reviewed and applied only by the coordinator.
+
+The checked aggregate rebuild succeeds with retained warnings. The unchanged
+successor regression still fails fifteen padding subcases, so the prefix change
+alone is insufficient. The first focused projection attempt spends its 120-second
+inner deadline in dependency preparation and proves nothing. The second uses a
+330-second inner budget within the unchanged 360-second outer diagnostic bound,
+reusing only source-matched compiler setup. It proves 27 event checks; roots,
+subjects and alternatives each retain one unproved postcondition. Digest remains
+interrupted without a fresh verdict when the outer deadline expires. Preserve
+all attempts. Next, supply the actual missing loop invariants, diagnose Digest
+separately, and review normalization before execution. No acceptance deadline,
+resource cap, numeric range or assertion policy changes.
+
+Evidence: records/phase1-direct/completion-20261026/resumption.json,
+custody-projection/independent-review.json, bignum-padding/independent-review.json,
+pins-before.json, pins-after.json, checked-build-summary-v1.json,
+successor-runtime-summary-v1.json and projection-proof-v2/*.gnatprove.out.
+Reverse by restoring the exact candidate preimages and corresponding pre-refresh
+pin file preserved there; keep failed receipts and this decision. The new helper
+invariants and numeric normalization are separate candidates, not yet adopted.
+The 10 GB configured storage reserve remains binding; toolchain builds await a
+measured sufficient workspace. O1, all original qualification gates and F7 remain
+open. Current-source official toolchain research is retained as bounded evidence,
+not a universal infeasibility claim or an accepted restatement.
+
+## D134 — Qualify a value-preserving successor view without a padding recursion
+
+The prefix-only successor regression fails fifteen unchanged subcases. Options
+were trimming the input domain, suppressing checked mathematical contracts, or
+proving equality of an internal byte view that omits only high zero digits. Select
+the view with the complete public biconditional and all inherited helper calls
+retained. The revised candidate c0749aa8 replaces only its newly proposed padding
+lemma call with the existing independent-reference clamp law. Different-agent
+source review a9fc9540 confirms exact preservation of the original worker,
+public specification, invalid-span handling, original sign bridges and negative
+zero. This is internal review for controlled verification, not proof or F7.
+
+The coordinator applies the reviewed candidate and refreshes its reviewed
+source identity. Checked ghost prefix evaluation, suffix invariants and original
+recursive reference evaluation still impose quadratic work/linear stack depth.
+Those are unresolved runtime risks; the original deadlines remain. Truly large
+significant values retain the installed big-number ceiling and remain an open
+full-domain obligation. Checked rebuild, unchanged successor regression and fresh
+strict proof must qualify this source; no result is assumed in advance.
+
+Evidence and exact rollback preimage are under
+records/phase1-direct/completion-20261026/bignum-padding/normalization-candidate/.
+To reverse, restore before.adb and the corresponding exact source-pin literals;
+retain both failed attempts and candidate/review/adoption receipts. The retained
+candidate is not a policy deviation accepting unchecked dynamic allocation,
+unproved termination or a smaller numeric domain.
+
+## D135 — Establish projection invariants with linear checked work
+
+Fresh helper proof exposes three postconditions and four Digest span-bound
+checks. Options: per-iteration prefix quantifiers, iterated row aggregates, or
+one initialization followed by column-only writes. Reject prefix quantifiers
+because they add quadratic checked scans. The bounded compiler probe rejects
+iterated aggregates because generated code allocates whole dynamic row arrays
+and copies them. Select uniform Present=True initialization and unchanged column
+mapping: checked O2 actual-type probes use static frames and no dynamic array
+temporary. Extra initialization writes remain linear; fixed cell copies remain.
+The failed first probe syntax attempt and corrected successful attempt are kept.
+
+Keep the scalar sticky-Good invariant. Guard Digest's existing hexadecimal loop
+with the existing span-validity predicate; no caller precondition is added. Invalid
+spans remain in SQL, and the unchanged final Cells check prevents Parsed status.
+Original valid bytes and hexadecimal conversion are unchanged. Independent
+composition review cf52a472 covers exact fbf8962f and public .ads equality. The
+coordinator adopts that candidate for fresh proof, integrated compiler inspection
+and original runtime qualification. Those checks are pending at this decision.
+Evidence and reverse preimage: completion-20261026/custody-projection under
+records/phase1-direct. Restoring preimage 318a9033 and its pin reverses this change;
+retain all attempt and review artifacts.
+
+## D136 — State termination on nonrecursive wrappers without a vacuous variant
+
+Fresh selected numeric checks prove 7/17/26/23/10 checks for Prefix_Value,
+Equal_Prefix_Values, Trimmed_View, Successor_Columns and Is_Successor respectively.
+Every command still exits 1: the shared aggregate report contains the prior four
+Digest failures, and Prefix_Value emits a no-recursive-call-visible warning.
+Do not describe these command results as successful proof runs. Preserve raw
+reports and distinguish each fresh target from unrelated cached totals.
+
+Options: suppress the warning, retain a vacuous annotation, or specify the actual
+nonrecursive termination obligation. Choose explicit Always_Terminates for the
+two expression wrappers Radix_Power and Prefix_Value, replacing only their unused
+variants. The actually recursive reference definitions keep their decreasing
+variants; all public mathematical postconditions and implementations are identical.
+Independent source review 48a7451d approves exact .ads700b44c4 for qualification.
+No termination requirement or check is waived. Fresh warning-strict proof remains
+required. Candidate/preimage/review are retained under
+completion-20261026/bignum-padding/termination-wrapper-candidate-v1; restoring the
+preimage and its source pins reverses the change without deleting failures.
+
+The D136 first candidate fails compilation: installed GNATprove E0016 forbids
+Always_Terminates on pure functions because their termination is already implicit.
+All projection-v3 commands therefore have no fresh proof summary. Retain this
+review/implementation error and each command result. The narrow correction removes
+only those two illegal aspects, with no Side_Effects or other substitute aspect.
+Installed `gnatprove --explain=E0016` confirms the preserved obligation. Different
+agent review 206d576b approves corrected .ads7463adf3 for new verification. No
+successful source proof is inferred from the failed annotation candidate.
+
+## D137 — Enroll every extracted completion helper in required proof coverage
+
+Independent coverage review finds 1,650 current required names, including the 27
+Producer additions after the historical 1,623 roster. Preserve that exact original
+prefix and the separate MINIMUM_CHECKS=251 floor; append 15 numeric/projection and
+loader-entry helper names. Do not omit the prior whole-unit body/flow/termination
+requirements. The parser continues rejecting flow-only rows, unknown rows and
+incomplete units. It already accepts an actual proved zero-check row, but no
+positive count or proof row may be invented. Fresh full-mode reports must confirm
+source-predicted helper names before a final manifest can pass. Focused reports
+remain diagnostics only. Evidence: proof-coverage-proposal-review.json and
+proof-coverage-adoption.json in completion-20261026. The change strengthens policy;
+reversal would remove only this appended list and restore the prior exact source,
+but would not authorize omitting any required helper from complete Phase One proof.
+
+## D138 — Retain full numeric-domain failure after the padding repair
+
+Execute the prepared 805-byte significant-value diagnostic under the existing
+8G/zero-swap wrapper and a 60-second bound. It builds and links, then returns 1
+with GNAT Normalize's Storage_Error, "big integer limit exceeded". The operand
+has a significant high byte and is not redundant zero padding. Source inspection
+identifies the 200 comparison in Normalize, allowing 201 significant limbs;
+the JACKAL exact arithmetic and actual runtime counterexample are separate evidence.
+The successful padding regression therefore does not close the declared full
+numeric domain. No installed runtime patch, smaller admitted domain or suppressed
+mathematical contract is accepted. A separately qualified arithmetic/ownership
+implementation remains coupled to O1. Source, binary hash, command and exception
+are retained in completion-20261026/bignum-padding/significant-counterexample/
+observed-result-v1.json and significant-counterexample-job-v1. This diagnostic
+changes no product behavior; keep its negative evidence on any later repair.
+
+The corrected wrapper source also invalidates 131 dependent compilation units.
+Projection-v4 stops in data representation at its 120-second inner deadline;
+v5 preserves that completed work, finishes representation and enters global
+generation before its 330-second inner deadline. Neither has a proof report.
+The source/cache review finds genuine dependency rebuilding, not a proven TMPDIR
+cache defect. Do not repeat a blind proof attempt or claim the current source
+qualified. Complete source-matched setup only after safe storage admission.
+
+The user confirms physical connection, then unlocks the iPad and accepts Trust.
+The configured bridge still returns an empty USB/network device list. Listener
+registration succeeds, but no attachment is observed in its bounded window.
+This does not establish physical disconnection or the current Mac's identity.
+No unverified host key, guessed remote command interface, blanket cleanup or
+other owner's process termination is used. Read-only Mac diagnostics and a
+small inactive compiler-output reclamation proposal are retained. Exact backup,
+full restore comparison, ownership and storage reserve gates remain required.
+
+## D139 — Qualify current numeric helpers with an isolated, source-identical project
+
+Options were another whole-project setup, reusing aggregate reports containing
+unrelated stale failures, or a small project referencing the unchanged actual
+numeric source files and private SPARKlib. Choose the last for diagnostic proof
+only; original full F2 projects, dependency requirements and coverage remain.
+The project has independent source review, pins all four product files and the
+134 private dependency files, and retains the same checked compiler switches.
+The root driver checks those identities before and after each command, uses the
+original heavy lock/8G/zero-swap scope, and monitors the unchanged disk reserve.
+
+Five selected commands exit zero. The initial Prefix_Value selector names line 79,
+which became a formal-parameter line after D136; its command exits 1 with no checks.
+Keep that failure and correct only the selector to declaration78. That command
+then exits 0. Six distinct selected routine rows prove 4/7/17/26/23/10 checks,
+87 total, with zero warnings, unproved checks, justified checks or Assume in those
+rows. Aggregate cached rows are not counted twice. Independent readback review
+1e44f252 matches raw reports, receipts and commands. Exact evidence is
+completion-20261026/numeric-isolated-readback-v1.json under records/phase1-direct.
+This does not repair the significant-value runtime failure or establish full F2.
+Reversal requires no product change: leave this diagnostic project unused and
+retain every source, failed selector and successful report.
+
+## D140 — Qualify a bounded UTF8 replay mechanism before changing production
+
+Options were repeated whole-prefix checked invariants, silently suppressing the
+four original mismatch obligations, or a bounded checkpoint/chunk mechanism.
+Choose the latter for an outside-production experiment. The tiny pure-function
+predicate probe proves 31 proof and 5 flow checks. A negative control changing only
+the replay start leaves the intended equality unproved; checked execution of the
+positive prints 2, and the negative raises Assertion_Error at that equality.
+The first runtime project fails duplicate source ownership; move only the new
+runtime main into its own directory and preserve that failed attempt. Internal
+readback 1e44f252 confirms the raw positive and negative evidence. Production UTF8
+and its four original raises are unchanged.
+
+The actual Chunk proposal preserves the original byte transitions and strengthens
+extent contracts. Independent review fb26b425 identifies the same illegal pure
+function Always_Terminates aspect; remove only that aspect. A strict whole-unit
+run proves 155 proof checks plus 23 flow checks over 8/8 entities, but exits 1 on a
+dead initial Result.Item assignment. Keep the warning/failure. Review 83fb03a4
+confirms that the final assignment dominates every normal return; remove only
+the dead assignment, retaining its exact preimage. Early-invalid allocation,
+compiler copies, checkpoint coordinator, resource bounds and full byte equivalence
+remain unqualified. No new public input cap or weaker assertion is adopted.
+
+The corrected-source rerun is interrupted by the disk monitor after 6 seconds.
+Recorded free space falls from 10,078,572,544 to 10,000,093,184 bytes; the stop
+threshold is reserve + 30 MB. The owned scope is then inactive and unpopulated.
+Subsequent filesystem free space is below the 10 GB reserve. No fresh summary or
+proof pass exists for this revision. The sampled guard is not a hard filesystem
+quota and cannot guarantee reserve preservation. The cause of the abrupt whole
+filesystem change is not established; free space later partially rebounds.
+Do not launch further heavy jobs until adequate capacity is established. Exact
+outputs remain in utf8-chunk-proof-job-v1/v2 and utf8-chunk-proof-v1/v2. Reversal
+restores only the saved candidate preimage; no production rollback is needed.
+
+The user explicitly says "forget the ipad". End device/bridge/offload work and
+leave services, pins and mounts unchanged. This does not authorize manual removal
+of protected evidence or lowering the reserve. Continue bounded source work and
+review; retain all original Phase One requirements and the actual storage stop.
+
+## D141 — Preserve source-only proposals without accepting their open obligations
+
+The reservation contract patch e6bedb4e remains unapplied. Internal source review
+finds that its repeated Unique_Prefix invariants add quartic identity comparisons
+for admitted opaque rows: 2,031,120 at 64 rows and 33,028,128 at 128. Root independently
+checks the exact integer sums; these are source cost counts, not measured runtime
+failures or formal timing proofs. Additional full-mask and capture scans remain.
+Reject adoption as written. Prefer a single independent result-replay pass with
+cached parsed input and scalar state, preserving original comparison semantics;
+disabling checks or weakening the contract is not selected. The evidence is
+reservation-plan/checked-cost-rejection-v1.json. Reversal is simply leaving the
+unapplied proposal in place; all three production preimages remain unchanged.
+
+The UTF8 coordinator proposal and fresh-owner translator slice are likewise
+outside production, uncompiled and unproved. The coordinator retains four guarded
+failure sites with an explicit changed mapping for replacement bounds, fixed 64
+checkpoint metadata and no new public precondition. Predicate execution costs,
+memory/copy behavior, full equivalence and its oversized routine remain open.
+The retirement route reuses real cleanup calls and existing leak obligations;
+it does not replace a failing ownership VC with an axiom or unconditional success.
+Missing same-revision interfaces prevent an honest applicable translator patch at
+this cut. The available pseudocode/interface inventory is implementation work,
+not achieved O1. Retain original full-value, implicit Old and exceptional-retirement
+requirements. Restoring these unexecuted candidate files is the complete reversal;
+no installed compiler or production source has been changed by these proposals.
+
+Subsequent bounded retrieval obtains the five exact FSF-revision interfaces
+(507,029 bytes total), with immutable URL/hash receipts and no build or install.
+Review0bf6a05c establishes a more precise integration gap: existing local cleanup
+runs before postchecks, so it cannot alone retire implicit Old values; real checked
+calls require Ada call nodes and ownership enrollment, not only generic call effects.
+Generated Why builders, strict Finalize entity lookup and synthetic-owner permission
+integration still require coherent implementation. No guessed API or unsound patch
+is adopted. Raw third-party files stay local; public checkpoint metadata supplies
+their original exact references and hashes. Coordinator reviewafe19a7a approves only
+controlled future verification, retaining its structural and resource obligations.

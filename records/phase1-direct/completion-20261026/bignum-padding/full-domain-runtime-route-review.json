@@ -1,0 +1,149 @@
+{
+  "kind": "independent-source-only-full-domain-bignum-repair-route",
+  "utc": "2026-10-26T14:58:14.142596+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "parent allocation; no independent runtime model attestation"
+  },
+  "status": "PROPOSAL_UNIMPLEMENTED_UNPROVEN_UNRUN",
+  "evidence": {
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.adb": {
+      "sha256": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+      "bytes": 42968
+    },
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.ads": {
+      "sha256": "c9ecde76575f7c7ae279da0c8f9a9fc930e85a2d3faf4df7907c3ce16d700177",
+      "bytes": 8399
+    },
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-shabig.ads": {
+      "sha256": "344bcca75e082c901321e9a8e7a2b115c7c8fd08773f6047092b9a94e5139069",
+      "bytes": 3944
+    },
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.ads": {
+      "sha256": "be5a0604cbbde4b12d15ffd1ce665238b6581d8ec534dd6b3e8e8dfc4f40607a",
+      "bytes": 6423
+    },
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb": {
+      "sha256": "64872fd0039a97b22885320c559de9c4f13ac18c775d306b5690863ca6852d73",
+      "bytes": 17818
+    },
+    "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.adb": {
+      "sha256": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+      "bytes": 42968
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/bignum-padding/significant-counterexample/significant_magnitude_counterexample.adb": {
+      "sha256": "191ece9a6ae16e7c1dfc5b14737beeed7fff79c1db9f2a6853127e840d0f4a2a",
+      "bytes": 1092
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/core/resource_quantities.ads": {
+      "sha256": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+      "bytes": 6041
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/core/resource_quantities.adb": {
+      "sha256": "de0a209345ee6b98528c6c803ccd594258e6d74da1b67b18d4298982d01682fb",
+      "bytes": 24879
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/phase1-acceptance.md": {
+      "sha256": "17d20c7f9c0f81d1377cd10adce609492268e18d165a40c47e4e89bba864a6f3",
+      "bytes": 11255
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/old-retirement-analysis.md": {
+      "sha256": "28515c049de9683d1956d6b4a51728e6fa03b920521d5677ba8a119dd97724b4",
+      "bytes": 24687
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/phase1-agent-rules.md": {
+      "sha256": "18ce46c5a9196484a29d21f9534a80e8daee728d69e8aef2ef675d5551c5c526",
+      "bytes": 15219
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/old-retirement-support-route.json": {
+      "sha256": "e0221e988cb3be5c371bb4478813e0419a2e5c5e7ec59e0e89dd606ad56f1e90",
+      "bytes": 10070
+    },
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/old-retirement-bounded-proposal.json": {
+      "sha256": "aedc819351df0442a39c3d6d63917fa166faa9a2ac0506859404db27764a203a",
+      "bytes": 30500
+    }
+  },
+  "installed_source_finding": {
+    "locations": [
+      "s-shabig.ads:46-73",
+      "s-genbig.adb:1176-1194",
+      "a-nbnbin.ads:169-180",
+      "a-nbnbin.adb:49-71,604-621"
+    ],
+    "facts": [
+      "Base2^32 digits, most-significant first. Normalize strips leading zero words, then rejects XLast-J>200 before allocation. This permits201 significant words,804 bytes, rather than a simple200-word maximum.",
+      "805-byte little-endian input with only byte805=1 denotes256^804=2^6432, needing202 base2^32 words, so arithmetic construction is predicted to hit Normalize refusal. The prepared reproducer remains UNRUN; no actual exception/stacktrace or exit is claimed.",
+      "Shared_Bignums Length0..2^23-1 is a separate representation bound. Raising/removing only BignumLimit200 would not establish the original unbounded numerical target.",
+      "Public SPARK.Big_Integers aliases Ada.Numerics.Big_Numbers.Big_Integers. Installed private representation uses Controlled_Bignum with Address handle, heap allocation/deallocation, deep-copy Adjust and Finalize. Source observation is not proof of runtime body/ELF correspondence or complete cleanup."
+    ]
+  },
+  "binding_requirements": {
+    "authorities": [
+      "docs/phase1-acceptance.md O1/O2,F0/F2/F3/F7 and dependency rules",
+      "docs/old-retirement-analysis.md exact original claim and toolchain/matching support",
+      "docs/phase1-agent-rules.md Step2/Step3",
+      "retained D114 and current old-retirement support/build proposals"
+    ],
+    "retained": "Full admitted numeric and diagnostic value domains; nonlimited independent values; compiler-created implicitOld retirement including exceptional postchecks; no cumulative bound, applicationControlled/Off/custompool/manual snapshot-death boundary, ignoredGhost or unchecked assumption. Full relevant bodies/callers and original runtime limits remain.",
+    "toolchain_route": "Historical records permit read-only matching compiler/verifier support investigation and a separately reviewed isolated successor design. They do not authorize a global install, a private unchecked runtime boundary, new exclusions or acceptance from patched green output. No installedruntime patch is proposed.",
+    "decision_integrity": "A new representation relying on retirement requires updated O2 design/dependency review; original O1 remains open until actual matching support and production qualification satisfy the complete conjunction. No universal impossibility follows from inspected mechanisms or finite failure."
+  },
+  "answer_to_caller_owned_route": {
+    "verdict": "VIABLE_RESEARCH_DIRECTION_WITH_EXPLICIT_O1_DEPENDENCY_NOT_A_DROPIN_REPAIR",
+    "independent_part": "A pureSPARK limb kernel can use caller-owned bounded output/workspace arrays with bounds derived from each finite input operation. It can prove exact arithmetic and no aliasing/allocation/overflow at that boundary without first solving implicitOld ownership.",
+    "coupled_part": "The existing BigInteger value-return API has no arena parameter and permits ordinary copies, escaping values and implicitOld snapshots. Returning borrowed slices of a short-lived arena, a hidden mutable global arena, manually freed handles or a fixed total pool would violate original independence/purity/retirement/domain requirements. Preserving that API requires compiler/runtime-managed destination ownership and exact cleanup, with matching verifier support; this is the same O1 ownership problem.",
+    "candidate_representation": "Investigate immutable segmented limbs with fixed-size local chunks and checked per-operation storage derivations, or compiler-managed destination regions. Neither introduces a fixed significant-bit ceiling. Distinct live values must remain semantically independent; sharing requires proved immutable ownership/refcounts, while deep copies require proved copy and exception cleanup. Bounded workspace is an operation budget, never a new cumulative value-domain cap."
+  },
+  "minimal_sound_route": [
+    {
+      "stage": "1 source-bound discriminator",
+      "deliverable": "Root-serialize the unchanged805-significant-byte reproducer with exact library/tool/scenario identity; preserve outcome and originalpadding passes separately. No runtime patch or extra numeric cap."
+    },
+    {
+      "stage": "2 exact bounded arithmetic core",
+      "deliverable": "Specify representation valuation, canonicalzero/sign, exact ops and storage/alias contracts for actual required operators. Derive add length max(L,R)+1 and multiply L+R with checked extent arithmetic. Iterative loops bound by materialized input/output extents; prove functional refinement and fail-safe resource-error propagation without converting shortage into authorizationFalse/True."
+    },
+    {
+      "stage": "3 matching value/lifetime support",
+      "deliverable": "Use the existing source-locked O1 compiler/verifier qualification route: explicit destination/temporary/implicitOld owner regions, ordinarycopy/overwrite and exceptional cleanup semantics. Retain all unsupported-case rejections; no Assume/imported proof, hidden cleanup exemption or appControlled/Off/custompool workaround."
+    },
+    {
+      "stage": "4 private configured runtime qualification",
+      "deliverable": "Only after design review, build an isolated reproducible matching runtime/compiler/prover prefix, preserve system installation, bind all source-to-binary/ABI/model identities and prove complete relevant backend bodies. Full mathematicalAPI cannot be claimed from a small operator subset."
+    },
+    {
+      "stage": "5 original whole-product acceptance",
+      "deliverable": "Rerun full source/proof/checkedruntime/retirement gates at one frozen source and qualified tools, including authentic protected/actor witnesses and independentF7. Local arithmetic or lifetime slice is component evidence only."
+    }
+  ],
+  "critical_proof_scope": [
+    "Valuation and full arithmeticAPI agreement with verifier mathematical integers; no circular reliance on the same unproved backend contract.",
+    "Every operation bound/index/carry/normalization/size computation, zero/negative/padding/invalid extent and overlapping-view case.",
+    "Runtime-model purity and alias/owner transitions for copies, temporaries, return values and implicitOld; physical cleanup on normal, earlyreturn, assertionfailure, allocationfailure and exception paths.",
+    "Matching front-end lowering/runtime finalization/verifier assumptions and imported-source coverage; changing runtime without matching proof semantics does not qualify.",
+    "Original String/FIFO/empty/duplicate/allCharacter diagnostic snapshots and nativePush/TakeAll costs remain required for O1 beyond numerical values."
+  ],
+  "resource_caveat": "Removing an artificial numerical cutoff is distinct from proving finite physical storage/stack/time adequacy. No new numerical/cumulative cap or caller premise may be substituted. Large exponent/materialization and live-value resource costs must be represented and qualified; allocation refusal remains failure evidence, never a completed full-domain arithmetic claim.",
+  "smallest_sound_next_step": "Execute the already-prepared significant-magnitude discriminator through root bounded admission when capacity allows, then write the arithmetic-core/storage and owner-lifetime refinement contracts before implementation or toolchain builds.",
+  "negative_controls_required": [
+    "dropped high significant limb",
+    "paddedzero falsely treated as nonzero",
+    "carry truncation/allFF",
+    "invalid/negative/aliased source corruption",
+    "premature arena reset while copy or implicitOld live",
+    "missing exceptional cleanup",
+    "double-free/source-owner theft",
+    "suppressed or bypassed checked postcondition"
+  ],
+  "actions_taken": {
+    "installed_runtime_changed": false,
+    "production_source_changed": false,
+    "build_or_prover_run": false,
+    "reproducer_run": false,
+    "toolchain_download_or_install": false
+  },
+  "acceptance": "O1/O2/F2/F3/F7 and original full-domain requirements remain binding and unclosed by this proposal."
+}

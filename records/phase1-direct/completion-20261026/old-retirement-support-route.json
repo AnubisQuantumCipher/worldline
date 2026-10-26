@@ -1,0 +1,141 @@
+{
+  "schema": "worldline-old-retirement-support-route-v1",
+  "utc": "2026-10-26T14:13:26.376637+00:00",
+  "status": "READ_ONLY_DESIGN_UNPROVEN_NO_PRODUCTION_CHANGE",
+  "binding_gate_unchanged": true,
+  "evidence": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/lifetime.ads",
+      "sha256": "510527c6a171125ea141895e11bb386f49a2763b5521ec95c67c0274287656a1",
+      "bytes": 1179,
+      "use": "D47 strict Finalizable full-value and fresh Old contract"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/lifetime.adb",
+      "sha256": "2f5efa1b80fab7667473973159084127283104b738024ab93a63221585570a35",
+      "bytes": 726,
+      "use": "D47 deep-copy Adjust and deallocation body; six reclamation checks remain open"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/results/proof.stderr",
+      "sha256": "4c4e983d76528fac79ad48af3045f831e532c1cd9dc914709124d218440a54d6",
+      "bytes": 2916,
+      "use": "Actual retained failing proof diagnostics"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-expr.adb",
+      "sha256": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+      "bytes": 1115765,
+      "use": "Pinned translator b9410c6ed36d4e69a6c4d31e152fa8facaf0235c; lines9651-9853 cleanup,16602-16634 assignment,24008-24030 static allocation-in-assertion leak VC"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_attr.adb",
+      "sha256": "2186f019b336c853f7e3f5ae3a40fd91514ba188694c4fd592282c7ce63185d0",
+      "bytes": 481322,
+      "use": "GCC6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea lines5762-5795 skip inspected Old expansion in GNATprove mode"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/exp_ch7.adb",
+      "sha256": "590aeb1807f35622c08285e619951c0b7970d48d8b5c2135561956e1b17e7598",
+      "bytes": 349081,
+      "use": "Same GCC snapshot lines1102-1107 and3142-3152 skip finalization collections/Build_Finalizer in GNATprove mode"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/finalizable-frontend-research-v1/raw/sem_ch13.adb",
+      "sha256": "570d8a1cc74520fd95a12a9921bfe0893da7857517b4a2910da2bf65c880fd96",
+      "bytes": 743731,
+      "use": "Same GCC snapshot lines19219-19282 strict Finalizable validation; default relaxed must not be selected"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-release-provenance-v1/raw/spark-recipe.txt",
+      "sha256": "be63c40fa19b2db8d4a5e18ae39315b0b5edbe72245fa0300fd246470e11e1aa",
+      "bytes": 9025,
+      "use": "Producer0334dd54a2c479faa3dfad47a911373581b11739 recipe; moving sources are not immutable inputs"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/reviewer2/resume-20261015-v1/old-installed-source-correspondence-v1/finding.json",
+      "sha256": "a22f91d1a40868c4ca2921976e460b5a56ed1e852efb08f44482dead4b18c009",
+      "bytes": 5655,
+      "use": "Retained limits of source-to-installed correspondence"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-release-provenance-v1/finding.json",
+      "sha256": "d88b35422c69cd3602287d316156593b83d63fa94bc832aa5099e18ef0c8b072",
+      "bytes": 21814,
+      "use": "Retained producer/archive/source/extraction gaps"
+    }
+  ],
+  "installed_ELF_hashes_observed_20261026": {
+    "standalone_gnat1": "9beaee9b842077d866803310be0984b88881068309e734b46cad87518b3b0bff",
+    "bundled_prover_gnat1": "cac3d273a6c6237d59407b8770197c1b0404b831b636de57213eac1f6d990fcb",
+    "gnat2why": "375d0100954a66c78bace00d2229c9b96a30b6cf28845e00c4db220ba1efddb5",
+    "gnatprove": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9"
+  },
+  "verified_facts": [
+    "D47 finite build/runtime0 and proof1 are retained observations, not physical-retirement or ordinary-copy qualification.",
+    "Inspected pinned translator emits static failing allocation-in-executable-assertion leak condition.",
+    "Inspected cleanup path otherwise restores borrows and checks leaks; no positive hidden strict-Finalizable lifetime model established.",
+    "Fetched source correspondence to installed tool binaries remains UNVERIFIED."
+  ],
+  "proposed_extension_unproven": [
+    "Before any custom verifier extension, prefer a complete compatible official implementation if it satisfies the unchanged probes/gates. Current bounded primary-source check did not identify one; newer official auto-reclaimed packages are not silently adopted across their Off/relaxed/imported boundaries.",
+    "Introduce explicit verifier owner regions for local, temporary and implicit Old values and initialization states.",
+    "Generate and verify actual Finalize obligations on normal, early return, assertion-failure, allocation-failure and other exceptional edges in runtime order.",
+    "Distinguish shallow copy-origin read-only authority from independent destination owner during Adjust; never free original source to silence overwrite leak VC.",
+    "Replace static allocation refusal only where owner enrollment and complete cleanup are proved; retain all unsupported-case refusals and negative controls.",
+    "Extend caller/flow/effect model to implicit hooks, without blindly enabling frontend runtime expansion.",
+    "Qualify translation/runtime correspondence and soundness as part of toolchain trusted base; patched green reports alone are insufficient."
+  ],
+  "representation_after_support_unproven": "Nonlimited strict-Finalizable heap-linked complete-string values with iterative deep-copy/retirement, preserving original FIFO/empty/duplicate/all-Character/full-value domain and native Push/Take_All costs; no new cumulative cap, application Controlled/Off/custom pool or explicit caller snapshot-death protocol.",
+  "smallest_validating_experiment_not_run": [
+    "Build complete immutable source-locked isolated toolchain successor.",
+    "One strict-Finalizable access-String vertical slice: B:=A, destination overwrite, fresh allocating Old, normal/postcheck-exception/allocation-failure cleanup.",
+    "Retain complete strict proof coverage, generated runtime cleanup and translated ownership transitions.",
+    "Measure physical allocations/frees and preserve mutants omitting cleanup, freeing source alias or double-freeing.",
+    "Only after this finite result extend to sequences and all original O1/full-source gates."
+  ],
+  "build_route": {
+    "status": "SOURCE_RESEARCH_ONLY_NOT_A_COMPLETE_QUALIFIED_BUILD_LOCK",
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/old-retirement-build-inputs.json",
+    "sha256": "4db4fd13dcb1f9fefa0786b978677a8610a66e093df3557a07aecb58124b1105",
+    "official_support_recheck": "No existing complete compatible officially shipped toolchain satisfying original O1 has been identified by this bounded source/release inspection; prefer one if subsequently identified, do not assume impossibility.",
+    "candidate_spark2014": {
+      "repository": "AdaCore/spark2014",
+      "sha": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "observed_ref": "fsf",
+      "commit_utc": "2026-06-29T23:32:18Z"
+    },
+    "candidate_why3": {
+      "repository": "AdaCore/why3",
+      "sha": "120ec564d7b465507b2652251999a01045c9323a",
+      "basis": "Exact gitlink displayed by pinned spark2014 tree; not arbitrary newest Why3."
+    },
+    "disk_admission": "NOT QUALIFIED: package/source archives, clone, install and build remain unselected until exact working-set capacity is established. Installed/package sizes cannot establish source-build peak.",
+    "remaining_hard_dependencies": [
+      "Identify supported official strict-lifetime toolchain or qualify explicit verifier extension; no universal absence conclusion.",
+      "Resolve remaining transitive source/archive/patch/config locks including generated GPR2 parser and exact OCaml/Why3 dependency graph.",
+      "Demonstrate source/compiler compatibility for the selected fsf tuple before production adoption.",
+      "Measure or obtain a trustworthy complete build working-set envelope and retain root runtime/proof reserve.",
+      "Qualify ownership copy-origin, implicit Old and exceptional physical retirement; no gate weakening."
+    ]
+  },
+  "F7": {
+    "status": "NOT_PERFORMED",
+    "available_code_review_tool": "pull_requests_checks reads CI only; no acceptance commissioning API discovered",
+    "route": "After every engineering gate passes, genuinely separate commissioned evaluator over immutable source/evidence with exact-source all-gate verdict; internal helpers and source reviews cannot satisfy F7."
+  },
+  "execution": {
+    "builds": false,
+    "proofs": false,
+    "tests": false,
+    "installs": false,
+    "outreach": false
+  },
+  "updated_utc": "2026-10-26T14:39:18.282093+00:00",
+  "bounded_implementation_proposal": {
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/old-retirement-bounded-proposal.json",
+    "sha256": "aedc819351df0442a39c3d6d63917fa166faa9a2ac0506859404db27764a203a",
+    "status": "DESIGN_ONLY_UNPROVEN_UNIMPLEMENTED_NO_BUILD",
+    "claim": "Owner-region/copy-origin/implicit Old cleanup source-change map and positive/negative qualification controls; no implementation or run."
+  }
+}

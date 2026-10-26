@@ -1,0 +1,49 @@
+ info: implicit aspect Always_Terminates on "Digest" has been proved, subprogram will terminate
+--> worldline-custody_v2_load_input.adb:479:13
+
+ info: range check proved
+--> worldline-custody_v2_load_input.adb:486:11
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:486:51
+
+ medium: overflow check might fail, cannot prove upper bound for Span.First + B
+--> worldline-custody_v2_load_input.adb:487:31
+  487 |             if Arena (Span.First + B) not in 48 .. 57 | 97 .. 102 then
+      |                       ~~~~~~~~~~~^~~
+      + reason for check: result of addition must fit in a 64-bits machine integer
+      + provers reached time limit before completing the proof
+
+ medium: array index check might fail
+--> worldline-custody_v2_load_input.adb:487:31
+  487 |             if Arena (Span.First + B) not in 48 .. 57 | 97 .. 102 then
+      |                       ~~~~~~~~~~~^~~
+      + reason for check: result of addition must be a valid index into the array
+      + provers reached time limit before completing the proof
+
+ info: cannot unroll loop (too many loop iterations) [info-unrolling-inlining]
+--> worldline-custody_v2_load_input.adb:491:29
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:492:50
+
+ medium: array index check might fail
+--> worldline-custody_v2_load_input.adb:492:50
+  492 |             Result (I) := Nibble (Arena (Span.First + E.Count (I - Result'First) * 2)) * 16 +
+      |                                          ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      + reason for check: result of addition must be a valid index into the array
+      + provers reached time limit before completing the proof
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:493:38
+
+ info: overflow check proved
+--> worldline-custody_v2_load_input.adb:493:71
+
+ medium: array index check might fail
+--> worldline-custody_v2_load_input.adb:493:71
+  493 |               Nibble (Arena (Span.First + E.Count (I - Result'First) * 2 + 1));
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+      + reason for check: result of addition must be a valid index into the array
+      + provers reached time limit before completing the proof
+gnatprove: unproved check messages considered as errors

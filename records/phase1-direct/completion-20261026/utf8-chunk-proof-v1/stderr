@@ -1,0 +1,527 @@
+ info: implicit aspect Always_Terminates on "Character_At" has been proved, subprogram will terminate
+--> utf8_chunk_proposal.adb:6:13
+
+ info: data dependencies proved
+--> utf8_chunk_proposal.adb:7:11
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:7:47
+
+ info: assertion proved
+--> utf8_chunk_proposal.adb:10:22
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:10:42
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:11:31
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:11:31
+
+ info: implicit aspect Always_Terminates on "Text_Slice" has been proved, subprogram will terminate
+--> utf8_chunk_proposal.adb:14:13
+
+ info: data dependencies proved
+--> utf8_chunk_proposal.adb:15:11
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:16:52
+
+ info: postcondition proved
+--> utf8_chunk_proposal.adb:17:16
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:17:33
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:17:49
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:21:14
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:21:31
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:21:53
+
+ info: implicit aspect Always_Terminates on "Code" has been proved, subprogram will terminate
+--> utf8_chunk_proposal.adb:24:13
+
+ info: data dependencies proved
+--> utf8_chunk_proposal.adb:26:11
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:26:67
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:27:30
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:27:38
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:29:43
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:29:66
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:29:66
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:34:26
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:35:49
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:35:58
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:35:58
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:35:64
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:37:27
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:38:49
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:38:58
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:38:58
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:38:64
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:39:49
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:39:58
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:39:58
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:39:64
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:41:28
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:42:49
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:42:58
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:42:58
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:42:64
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:43:49
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:43:58
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:43:58
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:43:64
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:44:49
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:44:58
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:44:58
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:44:64
+
+ info: aspect Always_Terminates on "Step" has been proved, subprogram will terminate
+--> utf8_chunk_proposal.adb:48:14
+
+ info: initialization of "Advance" proved
+--> utf8_chunk_proposal.adb:49:43
+
+ info: initialization of "Width" proved
+--> utf8_chunk_proposal.adb:49:52
+
+ info: data dependencies proved
+--> utf8_chunk_proposal.adb:50:11
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:51:31
+
+ info: postcondition proved
+--> utf8_chunk_proposal.adb:52:16
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:53:26
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:53:34
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:54:24
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:54:32
+
+ info: initialization of "Lead" proved
+--> utf8_chunk_proposal.adb:57:07
+
+ info: initialization of "Next" proved
+--> utf8_chunk_proposal.adb:57:13
+
+ info: initialization of "Wanted" proved
+--> utf8_chunk_proposal.adb:57:19
+
+ info: precondition proved
+--> utf8_chunk_proposal.adb:60:29
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:60:52
+
+ info: precondition proved
+--> utf8_chunk_proposal.adb:64:30
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:67:54
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:67:62
+
+ info: loop invariant initialization proved
+--> utf8_chunk_proposal.adb:68:33
+
+ info: loop invariant preservation proved
+--> utf8_chunk_proposal.adb:68:33
+
+ info: loop invariant initialization proved
+--> utf8_chunk_proposal.adb:69:33
+
+ info: loop invariant preservation proved
+--> utf8_chunk_proposal.adb:69:33
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:69:49
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:69:57
+
+ info: loop variant proved
+--> utf8_chunk_proposal.adb:70:31
+
+ info: precondition proved
+--> utf8_chunk_proposal.adb:71:33
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:71:63
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:77:29
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:82:14
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:82:48
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:82:67
+
+ info: division check proved
+--> utf8_chunk_proposal.adb:83:25
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:86:29
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:86:63
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:92:42
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:92:60
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:92:68
+
+ info: precondition proved
+--> utf8_chunk_proposal.adb:93:39
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:93:61
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:93:69
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:93:69
+
+ info: initialization of "Advance" proved
+--> utf8_chunk_proposal.adb:96:07
+
+ info: initialization of "Width" proved
+--> utf8_chunk_proposal.adb:96:16
+
+ info: initialization of "Added" proved
+--> utf8_chunk_proposal.adb:96:23
+
+ info: initialization of "Result" proved
+--> utf8_chunk_proposal.adb:99:14
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:99:37
+
+ warning: unused assignment
+--> utf8_chunk_proposal.adb:100:22
+  100 |             Result.Item := (Start, 0, True);
+      |             ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+
+ info: length check proved
+--> utf8_chunk_proposal.adb:101:22
+
+ info: length check proved
+--> utf8_chunk_proposal.adb:101:25
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:102:32
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:102:58
+
+ info: loop invariant preservation proved
+--> utf8_chunk_proposal.adb:103:36
+
+ info: loop invariant initialization proved
+--> utf8_chunk_proposal.adb:103:36
+
+ info: loop invariant preservation proved
+--> utf8_chunk_proposal.adb:104:36
+
+ info: loop invariant initialization proved
+--> utf8_chunk_proposal.adb:104:36
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:104:80
+
+ info: loop invariant preservation proved
+--> utf8_chunk_proposal.adb:105:36
+
+ info: loop invariant initialization proved
+--> utf8_chunk_proposal.adb:105:36
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:105:45
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:105:62
+
+ info: loop invariant preservation proved
+--> utf8_chunk_proposal.adb:106:36
+
+ info: loop invariant initialization proved
+--> utf8_chunk_proposal.adb:106:36
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:106:46
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:106:58
+
+ info: loop invariant preservation proved
+--> utf8_chunk_proposal.adb:107:36
+
+ info: loop invariant initialization proved
+--> utf8_chunk_proposal.adb:107:36
+
+ info: loop variant proved
+--> utf8_chunk_proposal.adb:108:34
+
+ info: precondition proved
+--> utf8_chunk_proposal.adb:109:13
+
+ info: assertion proved
+--> utf8_chunk_proposal.adb:114:28
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:114:39
+
+ info: assertion proved
+--> utf8_chunk_proposal.adb:115:28
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:115:37
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:115:45
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:115:64
+
+ info: assertion proved
+--> utf8_chunk_proposal.adb:116:28
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:116:33
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:118:22
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:118:34
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:118:34
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:118:46
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:118:46
+
+ info: length check proved
+--> utf8_chunk_proposal.adb:118:55
+
+ info: precondition proved
+--> utf8_chunk_proposal.adb:119:18
+
+ info: length check proved
+--> utf8_chunk_proposal.adb:119:18
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:119:56
+
+ info: range check proved
+--> utf8_chunk_proposal.adb:121:22
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:121:34
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:121:34
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:121:46
+
+ info: index check proved
+--> utf8_chunk_proposal.adb:121:46
+
+ info: length check proved
+--> utf8_chunk_proposal.adb:121:51
+
+ info: length check proved
+--> utf8_chunk_proposal.adb:122:66
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:124:26
+
+ info: overflow check proved
+--> utf8_chunk_proposal.adb:125:34
+
+ info: range check proved
+--> utf8_chunk_proposal.ads:13:07
+
+ info: implicit aspect Always_Terminates on "Quota_For" has been proved, subprogram will terminate
+--> utf8_chunk_proposal.ads:16:13
+
+ info: data dependencies proved
+--> utf8_chunk_proposal.ads:17:11
+
+ info: postcondition proved
+--> utf8_chunk_proposal.ads:18:16
+
+ info: division check proved
+--> utf8_chunk_proposal.ads:21:53
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:21:72
+
+ info: division check proved
+--> utf8_chunk_proposal.ads:22:31
+
+ info: implicit aspect Always_Terminates on "Buffer_Capacity" has been proved, subprogram will terminate
+--> utf8_chunk_proposal.ads:24:13
+
+ info: data dependencies proved
+--> utf8_chunk_proposal.ads:26:11
+
+ info: postcondition proved
+--> utf8_chunk_proposal.ads:27:16
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:28:12
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:28:46
+
+ info: implicit aspect Always_Terminates on "Decode_Chunk" has been proved, subprogram will terminate
+--> utf8_chunk_proposal.ads:30:13
+
+ info: data dependencies proved
+--> utf8_chunk_proposal.ads:33:11
+
+ info: range check proved
+--> utf8_chunk_proposal.ads:34:29
+
+ info: postcondition proved
+--> utf8_chunk_proposal.ads:35:16
+
+ info: precondition proved
+--> utf8_chunk_proposal.ads:36:12
+
+ info: range check proved
+--> utf8_chunk_proposal.ads:36:34
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:36:42
+
+ info: range check proved
+--> utf8_chunk_proposal.ads:36:42
+
+ info: range check proved
+--> utf8_chunk_proposal.ads:38:57
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:39:49
+
+ info: range check proved
+--> utf8_chunk_proposal.ads:40:37
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:40:45
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:40:54
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:44:14
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:44:56
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:47:52
+
+ info: range check proved
+--> utf8_chunk_proposal.ads:48:40
+
+ info: overflow check proved
+--> utf8_chunk_proposal.ads:48:48
+gnatprove: error during flow analysis and proof

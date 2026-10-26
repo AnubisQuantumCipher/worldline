@@ -1,0 +1,36 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+--------------------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total      Flow                                         Provers   Justified   Unproved
+--------------------------------------------------------------------------------------------------------------------
+Data Dependencies                 1         1                                               .           .          .
+Flow Dependencies                 .         .                                               .           .          .
+Initialization                    1         1                                               .           .          .
+Non-Aliasing                      .         .                                               .           .          .
+Run-time Checks                  33         .    33 (CVC5 9%, Trivial 2%, Z3 86%, altergo 3%)           .          .
+Assertions                        .         .                                               .           .          .
+Functional Contracts              1         .                                               .           .          1
+LSP Verification                  .         .                                               .           .          .
+Termination                       1         1                                               .           .          .
+Concurrency                       .         .                                               .           .          .
+--------------------------------------------------------------------------------------------------------------------
+Total                            37    3 (8%)                                        33 (89%)           .     1 (3%)
+
+
+max steps used for successful proof: 25
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 1 unit
+in unit worldline-custody_v2_load_input, 1 subprograms and packages out of 1 analyzed
+  Worldline.Custody_V2_Load_Input.Project_Roots at worldline-custody_v2_load_input.adb:521 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 33 checks out of 34 proved

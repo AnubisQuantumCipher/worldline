@@ -1,0 +1,34 @@
+{
+  "schema": "worldline.utf8.positive-discriminator-readback.v1",
+  "utc": "2026-10-26T15:19:29.830256+00:00",
+  "status": "PROVED_TINY_PURE_FUNCTION_PREDICATE_DISCRIMINATOR_ONLY",
+  "source": {
+    "chunk_predicate_probe.ads": "851481d0e34a401d2641729bdefa11b5e878058a22ec8d83620c05599bd3d93e",
+    "chunk_predicate_probe.adb": "5b10123acda9d297200e71014d0258ca9ce4d70716e6d65bcf494f6329933649",
+    "chunk_predicate_probe.gpr": "5d92ebe5b07d357cb693cf060e78845fe5abeccc4148fe67739c9c0db13e82e5"
+  },
+  "evidence": {
+    "records/phase1-direct/completion-20261026/utf8-predicate-positive-job-v1/worker-result.json": "e1abab092275f5c8a6aeacb0050faa3481b0e8d370909d12a7978521a61d6e65",
+    "records/phase1-direct/completion-20261026/utf8-predicate-positive-job-v1/launch.jsonl": "d6a4cf1c27030eddc822447e8d1a8c44e5e41cc6f7d33fda558bbc61ae3a8850",
+    "records/phase1-direct/completion-20261026/utf8-predicate-positive-job-v1/stdout": "21093333c7520a7e7a742c83e1402a932b61e98b16c34eb9b7aa50732a60e339",
+    "records/phase1-direct/completion-20261026/utf8-predicate-positive-job-v1/stderr": "19f7a62ef9caf3383fb958ab5994082dfa0393de90cd349efe4e6a4739925510",
+    "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/obj/gnatprove/gnatprove.out": "a20c6c29f7515f403ccf8e7db810386b45e27884b544e56493d492d3c0e0d645"
+  },
+  "worker_exit": 0,
+  "exact_coverage": {
+    "units_analyzed": 1,
+    "subprograms_and_packages_analyzed": 4,
+    "subprograms_and_packages_total": 4,
+    "proof_checks": 31,
+    "flow_checks": 5,
+    "unproved": 0,
+    "justified": 0,
+    "assume": 0,
+    "chunk_checks": 23,
+    "replay_checks": 6,
+    "generated_predicate_checks": 2
+  },
+  "flags": "-U --mode=all --level=3 --report=all --checks-as-errors=on --proof-warnings=on --warnings=error --memlimit=512 --timeout=5 -j2 --no-inlining",
+  "claim_boundary": "This qualifies identical pure Chunk record summary calls through a local checked Dynamic_Predicate in the toy source. No real UTF8, full-domain, byte semantics, resource, deadline or integrated proof credit. Root executed job; reviewer read artifacts only.",
+  "negative_status": "Root reports terminalexit1 on only changed-start equality; actual mutant execution planned. No completed-runtime claim here."
+}

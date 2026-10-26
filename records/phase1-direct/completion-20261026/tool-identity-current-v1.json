@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-26T15:49:39.717327+00:00",
+  "classification": "CURRENT_TOOL_READBACK_AFTER_DIAGNOSTICS_NOT_RECONSTRUCTED_START_RECEIPT",
+  "env_script_sha256": "155536a81f8d2be134c6e5cacc0c0bf9b57c94ee33659d2b19ea23c2d6ded388",
+  "tools": [
+    {
+      "invocation": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "resolved": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9",
+      "version_exit": 0,
+      "version_first_lines": [
+        "FSF 16.1.0",
+        "Why3 for gnatprove version 1.8.2+git",
+        "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/alt-ergo: Alt-Ergo version 2.6.1"
+      ]
+    },
+    {
+      "invocation": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "resolved": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+      "sha256": "fcf2bab30eff76c521a4800a7ead41615bf36b678851fb0268f6a930b6cfc0fb",
+      "version_exit": 0,
+      "version_first_lines": [
+        "GPRBUILD 26.0.0 (2026-04-15) (aarch64-linux-gnu)",
+        "Copyright (C) 2004-2026, AdaCore",
+        "This is free software; see the source for copying conditions."
+      ]
+    },
+    {
+      "invocation": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnat",
+      "resolved": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnat",
+      "sha256": "4f9e401fcee0f1eff05bca6df940fe6ca67e1d8e0a42bf168de6e1d790bea00f",
+      "version_exit": 0,
+      "version_first_lines": [
+        "GNAT 16.1.0",
+        "Copyright (C) 1996-2025, Free Software Foundation, Inc.",
+        "This is free software; see the source for copying conditions.  There is NO"
+      ]
+    },
+    {
+      "invocation": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "resolved": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "sha256": "ef4d2c23a77857bed0b8f86b7878451da2be9023988d5f5358d37f04fa3ec0fe",
+      "version_exit": 0,
+      "version_first_lines": [
+        "gcc (GNAT-FSF-builds) 16.1.0",
+        "Copyright (C) 2026 Free Software Foundation, Inc.",
+        "This is free software; see the source for copying conditions.  There is NO"
+      ]
+    }
+  ],
+  "all_jobs_terminal": true,
+  "limits": "These current identities do not replace missing contemporaneous original job metadata. Job launch receipts record actual environment setup argv."
+}

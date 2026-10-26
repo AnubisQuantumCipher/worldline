@@ -1,0 +1,87 @@
+{
+  "schema": "worldline.source-proposal.v1",
+  "utc": "2026-10-26T14:13:01.429740+00:00",
+  "status": "PROPOSAL_ONLY_UNCOMPILED_UNPROVED_UNRUN",
+  "author": {
+    "agent": "/root/source_lineage",
+    "selected_model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "provenance": "Root-provided successful helper dispatch, no independent serving attestation"
+  },
+  "source_root": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "base_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+  "source_sha256": {
+    "core/resource_reservation_transition.adb": "323a8673c5e88e01ce465430fe4d2daf5c4f1efde2ef9861e62afe129cd032f7",
+    "core/resource_reservation_transition.ads": "41b59719e2395be43f6a5181f5eb5d28e1d5ec57bbb25b803feffdba7e7ed55f",
+    "core/resource_quantities.ads": "603a4bc3e1c26a6f96807ca3243de1fbe2c7ca43a6cf27f0170a0cdcfe1c9e39",
+    "core/worldline-custody_v2_mutation_decision.adb": "7880a2cdce0902f1806673be83d5280042a4687e1be16db84414682361b82b1c",
+    "core/spark-big_integers.ads": "fe80da029611497ba25aca43d5599a220f2be41f33010f6b04d42febc2bfec52"
+  },
+  "installed_runtime_source_sha256": {
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-shabig.ads": "344bcca75e082c901321e9a8e7a2b115c7c8fd08773f6047092b9a94e5139069",
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/s-genbig.adb": "898241306e8d321750851a99cb7efc05064192f56b521de1fdbb2afb7b524991",
+    "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/lib/gcc/aarch64-linux-gnu/16.1.0/adainclude/a-nbnbin.adb": "64872fd0039a97b22885320c559de9c4f13ac18c775d306b5690863ca6852d73"
+  },
+  "proposed_production_edits": [
+    "core/resource_reservation_transition.adb"
+  ],
+  "unchanged_interfaces": [
+    "core/resource_reservation_transition.ads",
+    "core/worldline-custody_v2_mutation_decision.adb",
+    "All public Is_Successor domain and Value-equation postconditions"
+  ],
+  "premise": "Existing algebraically equivalent zero-digit Prefix_Value postcondition repair in resource_quantities.ads is prerequisite; genuinely significant operands are not removed from the domain.",
+  "algorithm": [
+    "Add private Trimmed_View(Data, Original) returning a Quantity view of the same original array. Keep First and Negative; decrease Length only across verified zero suffix bytes. Never rewrite, canonicalize or recopy original input storage.",
+    "Bounded reverse scan establishes Length<=Original.Length and zero suffix via structural invariant. The result has the same Digit at every offset below Original.Length; beyond that both Digit functions already return zero.",
+    "Add checked iterative Prefix_Extensionality(Data, Left, Right, Count). Loop from 0 to Count with equality of independent prefix references as invariant. At each equal zero digit use the zero recurrence without Power_Reference; at nonzero digits use the unchanged full recurrence. No recursion or imported theorem is added.",
+    "Use the existing checked Prefix_Padding(Data, trimmed, Original.Length) plus prefix extensionality to prove Magnitude equality, then Value equality with sign preserved. All these are checked body obligations, not externally trusted claims.",
+    "Extract current Is_Successor column algorithm without deleting any checks/lemmas into private Successor_Columns with the literal original value-equation contract on its supplied arguments. A new public wrapper preserves original validity/sign check order and Nonnegative_Magnitude checks on original operands, obtains checked trimmed views and returns Successor_Columns on them.",
+    "All existing Prefix_Step, Zero_Prefix, Addition_Step, Addition_Mismatch, Addition_Finish, Nonnegative_Magnitude and their bodies/contracts remain in source and full proof scope. Only their successor call operands change to equivalent shorter views. Other clients such as Magnitude_Sum_Equals are unchanged."
+  ],
+  "proposed_contracts": {
+    "Trimmed_View": "Pre => Span_Valid(Data, Original); Post => Span_Valid(Data, Result) and then Result.First = Original.First and then Result.Negative = Original.Negative and then Result.Length <= Original.Length and then (if Original.Length > 0 then (for all Offset in Byte_Count range 0 .. Original.Length - 1 => Digit(Data, Original, Offset) = Digit(Data, Result, Offset))) and then Value(Data, Result) = Value(Data, Original)",
+    "Prefix_Extensionality": "Ghost, Global => null, Always_Terminates; Pre => Span_Valid(Data, Left) and then Span_Valid(Data, Right) and then (if Count > 0 then (for all Offset in Byte_Count range 0 .. Count - 1 => Digit(Data, Left, Offset) = Digit(Data, Right, Offset))); Post => Prefix_Reference(Data, Left, Count) = Prefix_Reference(Data, Right, Count)",
+    "Successor_Columns": "Global => null; Post => Result = (Span_Valid(Data, Before) and then Span_Valid(Data, After) and then Value(Data, Before) >= 0 and then Value(Data, After) >= 0 and then Value(Data, After) = Value(Data, Before) + 1)",
+    "public_Is_Successor": "Literal existing public specification remains unchanged on the original Before and After quantities."
+  },
+  "obligations": [
+    "Prove scan indexes, decreasing Length and zero-suffix invariant without assumptions or an input cap.",
+    "Prove new private Pre conditions at every call, including empty inputs, negative zero, nonzero negative refusal and invalid span refusal.",
+    "Prove prefix extensionality using the actual independent reference definitions; zero branch must not eagerly bind any radix power.",
+    "Prove trim Value equality before successor decision; formal wrapper contract must still mention original operands.",
+    "Prove extracted original column body and all inherited lemmas, not only new wrapper.",
+    "Measure checked-model recursion already present in Prefix_Reference and possible quadratic prefix evaluation; retain original time/memory/swap limits and failures.",
+    "Independently source-review exact resulting patch and whole touched semantic module before mechanical pin updates."
+  ],
+  "threshold_arithmetic": {
+    "receipts": "jackal-threshold-arithmetic.json",
+    "status": "exact",
+    "formal": false,
+    "boundaries": "JACKAL establishes arithmetic identities only, not Ada layout/source-to-binary refinement or runtime failure.",
+    "source_predicate": "System.Generic_Bignums.Normalize raises Storage_Error when X.Last - J > 200 after locating the first nonzero word. System.Shared_Bignums digits have radix 2^32.",
+    "derivation": "At most 201 significant radix-2^32 words pass this predicate. Smallest magnitude requiring word202 is 2^(201*32)=2^6432=256^804. Its minimal LE byte image is 804 zero bytes followed by 01, total805 bytes; it is not zero padding. The 804-byte all-FF input has successor 256^804.",
+    "runtime_correspondence": "Installed runtime source read and hashed; exact statically linked library-to-runtime-source correspondence is not independently established by this proposal."
+  },
+  "full_domain_boundary": {
+    "status": "SOURCE_DERIVED_CONFLICT_RUNTIME_REPRODUCTION_PENDING",
+    "claim": "Normalization cannot make the original checked Value/Magnitude model represent 2^6432 using this unchanged Normalize implementation, even though the byte-oriented public domain admits it.",
+    "not_claimed": "No universal Ada/SPARK impossibility, no accepted narrowed guarantee, no toolchain change, no raised cap, no assertion-policy change and no successful production/full-domain proof.",
+    "needed": "Root-serialized direct checked-model counterexample and independent review, followed by a compatible full-domain checked representation design if confirmed. Original full-domain target stays open."
+  },
+  "prepared_counterexample": {
+    "directory": "significant-counterexample",
+    "command_after_root_admission": "gprbuild -p -P significant-counterexample/significant_counterexample.gpr followed by significant-counterexample/bin/significant_magnitude_counterexample",
+    "executed": false,
+    "daemon_access": false,
+    "input": "805-byte LE magnitude: bytes1..804=0, byte805=1. Magnitude is actually significant at byte805.",
+    "success_criterion": "Checked Magnitude assertion returns normally for this admitted quantity; any Storage_Error/other exception remains failure, never a PASS."
+  },
+  "nonclaims": [
+    "No production source modified for this proposal.",
+    "No compiler/prover/runtime/heavy job executed.",
+    "No finite padding repair closes truly significant full-domain model limitation.",
+    "No checked lemma removed, existing source assumptions accepted or assurance gate weakened.",
+    "Not independent F7 or whole-system acceptance."
+  ]
+}

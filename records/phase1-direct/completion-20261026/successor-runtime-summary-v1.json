@@ -1,0 +1,17 @@
+{
+  "class": "FAILED_RUNTIME_REGRESSION",
+  "utc": "2026-10-26T14:14:27.497343+00:00",
+  "test_file_sha256": "3ed12721172d145cb5bc8ae5c4aa55d504ecc067a5c4266cfbf7ea2b80d2aa58",
+  "fixture_sha256": "07f1586bb6fffd1e9f04750d84883cd1fb7376e4ec113250bef7dc42f29cbbbb",
+  "native_sha256": "e7f9f8ce624f7a522801a89355cab81f27e3d32fae03d006b4513ffe9babd4e9",
+  "source_context": "verification-source-v1.json",
+  "result": {
+    "exit_code": 1,
+    "utc": "2026-10-26T14:12:51.021848+00:00"
+  },
+  "reported_failure_count": 15,
+  "reported_tests_run": 1,
+  "stderr_sha256": "364fd1c7548fe7da367c99d08f17100184599c7df32dcc77a981681bd879e79d",
+  "remaining_failure": "4096 padding subcases return Error_Internal with GNAT Bignums.Normalize Storage_Error",
+  "phase_acceptance": false
+}

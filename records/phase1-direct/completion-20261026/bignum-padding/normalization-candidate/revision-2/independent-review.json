@@ -1,0 +1,53 @@
+{
+  "kind": "independent-internal-revision2-normalization-source-review",
+  "utc": "2026-10-26T14:29:11.339218+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "parent allocation; no independent runtime model attestation"
+  },
+  "candidate_sha256": "c0749aa889ffb6c20645c96b4746b94fe0e1b5c4f24d2b36ded1cb0e3abbf484",
+  "production_preimage_sha256": "323a8673c5e88e01ce465430fe4d2daf5c4f1efde2ef9861e62afe129cd032f7",
+  "public_spec_sha256": "41b59719e2395be43f6a5181f5eb5d28e1d5ec57bbb25b803feffdba7e7ed55f",
+  "resource_quantities_spec_sha256": "603a4bc3e1c26a6f96807ca3243de1fbe2c7ca43a6cf27f0170a0cdcfe1c9e39",
+  "prior_review": {
+    "path": "records/phase1-direct/completion-20261026/bignum-padding/normalization-candidate/independent-review.json",
+    "sha256": "98d1377ea3da8765886d28e87eef86b111c71f677980c92d13d72a5c3714d0da",
+    "reviewed_v1_candidate_sha256": "d2756b20d9302888e1c69e4d24982de06469cd9275a39d55e7bef7e5ff905515"
+  },
+  "exact_delta_verified": true,
+  "public_spec_unchanged": true,
+  "original_successor_worker_exactly_preserved": true,
+  "all_other_original_code_preserved": true,
+  "verdict": "ELIGIBLE_FOR_CONTROLLED_CANDIDATE_VERIFICATION_WITH_REMAINING_QUADRATIC_PREFIX_COST",
+  "delta_analysis": {
+    "replaced_only": "The newly introduced Trimmed_View Prefix_Padding call is replaced by three assertions. No inherited helper definition or original caller is removed.",
+    "clamp_argument": "Result is asserted span-valid and Result.Length<=Original.Length. If lengths are equal, both Prefix_Reference arguments are identical. If Original.Length>Result.Length, existing Prefix_Reference directly clamps Count toQ.Length. For Original.Length0 both references select the base0 branch. No extra precondition, imported theorem or desired successor result is assumed.",
+    "remaining_bridge": "The unchanged Equal_Prefix_Values still proves original/trimmed prefix equality, and public Prefix_Value/Magnitude equalities connect the clamped reference to the actual mathematical value. Sign remains preserved so Value equality follows without excluding negativezero.",
+    "removed_cost": "The newly added padding lemma recursion depth originalLength-trimmedLength is eliminated. Only original inherited padding calls remain.",
+    "changed_checked_cost": "Three extra checked assertions now evaluate the existing references directly; no additional loop or self-recursion is introduced. Existing reference recursion on original operands remains."
+  },
+  "domain_verdict": "No new domain restriction or numerical truncation; all v1 invalid/empty/negative/extent/overlap cases remain sound by source analysis. Full admitted-domain equivalence is reviewed reasoning, not a machine proof.",
+  "remaining_risks": [
+    "Equal_Prefix_Values still performs at least quadratic recursive prefix-frame work on a large allzero original view; at4096 bytes more than16million frames before checked postcondition overhead.",
+    "Checked suffix-quantifier invariants remain quadratic in removed padding.",
+    "Prefix_Reference still has recursion depth proportional to original padded length, and genuine large significant values still hit finite runtime big-number limits.",
+    "No checked runtime budget, stack qualification or fresh formal proof has been established by this review."
+  ],
+  "requirements_retained": [
+    "Public .ads byte-identical and Is_Successor full biconditional unchanged",
+    "Standalone Successor_Columns original full-domain body proof",
+    "All inherited helper, variant, assertion and caller-precondition obligations",
+    "Original regression deadlines and controls",
+    "O1 all-source/full-domain proof and all original runtime gates",
+    "Unbounded full-value retirement and authentic actor/protected evidence",
+    "Independent F7 acceptance"
+  ],
+  "production_modified": false,
+  "build_run": false,
+  "proof_run": false,
+  "tests_run": false,
+  "acceptance": false,
+  "next": "Root may adopt exact revised candidate after current source freeze ends, then checked build, unchanged4096-padding/capacity/owned-bound regression under original limits, and strict proofs of new bridge/helper/public wrapper plus all inherited helper domains. Preserve and repair any cost/stack/proof failure without relaxing accepted requirements."
+}

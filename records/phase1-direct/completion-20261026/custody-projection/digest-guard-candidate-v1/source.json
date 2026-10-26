@@ -1,0 +1,11 @@
+{
+  "status": "UNAPPLIED_UNRUN",
+  "preimage_sha256": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+  "candidate_sha256": "6051de86262f4142c2c2be91703cb2210f92749973ef0bc85eaafe8e34dcbf2e",
+  "public_spec_sha256": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+  "patch_sha256": "9e4eb42f7cf96b02e59583b783884522d18188036f046b586f7f74f34d9ecffe",
+  "diagnostic": "digest-proof-v1/digest.stderr has4 actual unproved span bounds; no nibble failure",
+  "behavior": "Adds only internal span validation before original loops. Valid64-byte hex parsing and existing all-zero rejection of invalid digits remain exact. Invalid64-byte spans return zeros instead of an indexing exception; Decode_Into final Parsed_Spans_Valid still rejects invalid SQL spans. No public Pre or domain cap.",
+  "cost": "Constant number of scalar bound comparisons via existing E.C.P.Valid; no loops, allocation or snapshots added.",
+  "public_guarantee": "Unchanged; fresh Digest proof, caller integration and original malformed/end-point runtime controls required."
+}

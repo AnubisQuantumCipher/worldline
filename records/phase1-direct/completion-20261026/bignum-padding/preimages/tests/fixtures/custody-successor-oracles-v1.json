@@ -1,0 +1,137 @@
+{
+  "claim": "JACKAL exact arithmetic oracles; not formal-bounded and not code proof",
+  "cases": [
+    {
+      "input_hex": "",
+      "expression": "0+1",
+      "receipt": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=0+1 exact=1 approx=1\",\"fields\":{\"approx\":\"1\",\"exact\":\"1\",\"parsed\":\"0+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=0+1 exact=1 approx=1",
+          "fields": {
+            "approx": "1",
+            "exact": "1",
+            "parsed": "0+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "input_hex": "ff",
+      "expression": "255+1",
+      "receipt": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=255+1 exact=256 approx=256\",\"fields\":{\"approx\":\"256\",\"exact\":\"256\",\"parsed\":\"255+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=255+1 exact=256 approx=256",
+          "fields": {
+            "approx": "256",
+            "exact": "256",
+            "parsed": "255+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "input_hex": "ffff",
+      "expression": "65535+1",
+      "receipt": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=65535+1 exact=65536 approx=65536\",\"fields\":{\"approx\":\"65536\",\"exact\":\"65536\",\"parsed\":\"65535+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=65535+1 exact=65536 approx=65536",
+          "fields": {
+            "approx": "65536",
+            "exact": "65536",
+            "parsed": "65535+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    },
+    {
+      "input_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "expression": "2^256-1+1",
+      "receipt": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"assurance\":\"exact rational arithmetic (not yet checker-covered)\",\"engine_output\":\"status=exact parsed=2^256-1+1 exact=115792089237316195423570985008687907853269984665640564039457584007913129639936 approx=115792089237316200000000000000000000000000000000000000000000000000000000000000.0\",\"fields\":{\"approx\":\"115792089237316200000000000000000000000000000000000000000000000000000000000000.0\",\"exact\":\"115792089237316195423570985008687907853269984665640564039457584007913129639936\",\"parsed\":\"2^256-1+1\",\"status\":\"exact\"},\"formal\":false,\"identities\":{\"evaluator_sha256\":\"4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872\"},\"lane\":\"rat\",\"non_claims\":[\"NOT formal-bounded: this lane carries no Lean-checked certificate\",\"The epistemic class above is the STRONGEST claim this result supports\",\"exact rational arithmetic (not yet checker-covered)\"],\"status\":\"exact\"}"
+          }
+        ],
+        "structuredContent": {
+          "assurance": "exact rational arithmetic (not yet checker-covered)",
+          "engine_output": "status=exact parsed=2^256-1+1 exact=115792089237316195423570985008687907853269984665640564039457584007913129639936 approx=115792089237316200000000000000000000000000000000000000000000000000000000000000.0",
+          "fields": {
+            "approx": "115792089237316200000000000000000000000000000000000000000000000000000000000000.0",
+            "exact": "115792089237316195423570985008687907853269984665640564039457584007913129639936",
+            "parsed": "2^256-1+1",
+            "status": "exact"
+          },
+          "formal": false,
+          "identities": {
+            "evaluator_sha256": "4c0ae28d2f41353332dbb29f1b6084cd275d08bad73a84942fbe6f500255d872"
+          },
+          "lane": "rat",
+          "non_claims": [
+            "NOT formal-bounded: this lane carries no Lean-checked certificate",
+            "The epistemic class above is the STRONGEST claim this result supports",
+            "exact rational arithmetic (not yet checker-covered)"
+          ],
+          "status": "exact"
+        }
+      }
+    }
+  ]
+}

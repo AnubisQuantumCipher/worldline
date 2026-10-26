@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/projection_proof_v5.py", line 73, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/projection_proof_v5.py", line 68, in main
+    outcomes = [run_one(name, line) for name, line in TARGETS]
+                ~~~~~~~^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/projection_proof_v5.py", line 62, in run_one
+    raise TimeoutError("focused prover deadline; outer scope must clean up")
+TimeoutError: focused prover deadline; outer scope must clean up

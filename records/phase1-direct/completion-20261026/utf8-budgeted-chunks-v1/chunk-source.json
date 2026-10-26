@@ -1,0 +1,23 @@
+{
+  "schema": "worldline.utf8.chunk-source-proposal.v1",
+  "status": "UNCOMPILED_UNPROVED_UNRUN_OUTSIDE_PRODUCTION",
+  "source_root": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "original_body_sha256": "501c858e9faf6bfabbf28d5b79dfec62127136370f4ee33ed80fba2ab08f9a32",
+  "files": {
+    "utf8_chunk_proposal.ads": "92747f5e4b54a3c0dc8d3d126fdbbef4a2ac4310aecb94564d4234aadbdf8fc2",
+    "utf8_chunk_proposal.adb": "c50677c3a3ddc3a411be022cbffed3f346b18281562ab2448ea4ff513687f162"
+  },
+  "semantic_text_check": {
+    "original_Step_body_whitespace_normalized_identical_except_added_Advance_extent_invariant": true,
+    "original_Code_CharacterAt_TextSlice_executable_bodies_whitespace_normalized_identical": true,
+    "original_invalid_prefix_lead_ranges_continuation_restrictions_and_surrogate_rule_retained": true
+  },
+  "bounds": "Step bounds strengthen Advance and Width against remaining source; Width>0 implies Advance=Width. Chunk progress is at most Quota+3 source bytes, Added<=3*Advance, Used<=3*(Position-Start), fixedCapacity=3*(min(Quota,Remaining)+3). Strict Width0 exits invalid without checkpoint publication.",
+  "budget_layout": "B64; Quota=max4096,ceil(N/64) with overflow-safe division/remainder. Metadata coordinator intentionally not implemented. Chunk has a single Capacity-sized Data array plus scalar Summary; temporary/function-return copies and predicate extra buffer remain compiler qualification risks.",
+  "full_domain": "Helper Quota<=NaturalLast/3-3 is a private arithmetic precondition discharged by Quota_For for every Natural input length; it is not a new public input length cap. This is unproved until actual strict tool run.",
+  "cost": "Data is fully zero-initialized each Chunk call; no partially initialized return policy or hidden Ghost suppression. Buffer fills, first-phase unused bytes, predicate recomputation, return ABI copies, and second-phase scratch-to-result copy must all be measured. Exact8GiB admission remains open.",
+  "excluded": "No coordinator, product edit, contract-pin update, first-phase result allocation timing change or existing four-raise deletion. This primitive alone does not close original UTF8.",
+  "next": "Root selects isolated strict proof of all proposal routines, then compiler lowering/resource probe and independent source review. Keep failed results/coverage; no input cap or assertion change to force success.",
+  "reviewer_jobs_run": false,
+  "production_modified": false
+}

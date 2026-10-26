@@ -1,0 +1,64 @@
+{
+  "schema": "worldline.internal-source-review.v1",
+  "utc": "2026-10-26T14:43:31.430200+00:00",
+  "reviewer": {
+    "agent": "/root/acceptance_map",
+    "selected_model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "Requested explicit helper configuration; no independent serving attestation.",
+    "independent_of_author": true
+  },
+  "verdict": "APPROVE_SOURCE_FOR_CONTROLLED_VERIFICATION",
+  "evidence_class": "INTERNAL_SOURCE_REVIEW_NOT_PROOF",
+  "blocking_findings": [],
+  "source_root": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "preimage": {
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/core/worldline-custody_v2_load_input.adb",
+    "sha256": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608"
+  },
+  "unchanged_public_spec_sha256": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+  "public_or_private_contracts_weakened": false,
+  "reviewer_executed_build_proof_or_runtime": false,
+  "production_edited": false,
+  "acceptance_residuals": [
+    "Fresh checked integrated build on exact adopted source; inspect actual integrated lowering and original resource budget.",
+    "Strict GNATprove original private posts/body checks, scalar invariant INIT/PRESERVE, Digest bounds, main decoder and retained proof floors.",
+    "Original custody/fuzz/functional/full-domain/runtime workload under unchanged limits.",
+    "Whole Phase One and genuinely separate F7 acceptance remain open."
+  ],
+  "nonclaims": [
+    "Source review is not formal proof, runtime validation or F7 acceptance.",
+    "Isolated compiler strategy is not an integrated no-copy or whole-system stack guarantee.",
+    "No input cap, new precondition, suppression, assertion-policy change, or gate text modification authorized."
+  ],
+  "candidate_sha256": "d6ace3df6761dfbe93d132270cee64e71054adc324752b6c571fd06c996bc1ae",
+  "patch_sha256": "2b2621dc30d5390c5feadd3543165e14b29b3c2b2308d681a0d05a01a17b780a",
+  "delta_validation": "Replacing only the two uniform initializations/Columns-only assignments with original whole-row assignments recovers exact frozen production bytes.",
+  "semantic_reasoning": [
+    "For every index in unchanged Rows Range, initialization writes Present=True and well-typed SQL_Null columns; loop then writes every named field from the same original SQL(I,J) in the same row order. On normal return each complete row is value-identical to the original assignment.",
+    "Pre requires equal first/last row bounds and SQL columns 1..16 or 1..9. It already suffices for every original and replacement index. No new arithmetic, extent predicate, cap, text validation or SQL-cell restriction is added. Null ranges initialize/write zero elements and retain the universal post.",
+    "Columns selection is valid after Present=True initialization. Plain record copies have no controlled hooks, access values, type predicates or callbacks. Root/Subject SQL cells including arbitrary valid Null/Integer/Text/Blob/Real values and spans are copied unchanged; projection does not reinterpret them.",
+    "Only actual callers pass distinct Value.Root_SQL/Value.Roots or Subject_SQL/Subjects components. Types are value-only distinct array types with no access/address overlays here; output writes cannot alter SQL input. Helper has Global null and no callbacks, so additional intermediate null columns are not exposed to observers or authority decisions.",
+    "All typed assignments/indices have the same successful execution domain under original geometry. No new data-dependent exception is introduced by the fixed literal initialization; absence of runtime failure and automatic frame proof still require exact-candidate tool evidence.",
+    "Private all-Present posts and all public Decode/DecodeGrown posts are byte-unchanged. Logical preservation of Present through Columns-only updates is the intended modular proof fact, not a claim GNATprove has established it."
+  ],
+  "cost": {
+    "source": "Additional default writes are one linear pass over row count; unchanged checked post is linear. Columns record temporary is fixed per row. No quadratic checked prefix invariant, dynamic source allocation or input-sized ghost snapshot is added.",
+    "compiler_evidence": {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/findings.json",
+      "sha256": "456eec258a7651ada90679e4368f307907dd3975cf015318f85db2f249126be7",
+      "all_recorded_artifact_hashes_rechecked": true,
+      "profile": "gcc -S -gnat2022 -gnatwa -gnatVa -gnatf -O2 -g -fPIC -fno-var-tracking-assignments -gnata -fstack-usage -fdump-tree-original -fdump-tree-optimized; GNAT-FSF-builds16.1.0",
+      "initialized_root_static_stack_bytes": 784,
+      "initialized_subject_static_stack_bytes": 512,
+      "original_root_static_stack_bytes": 800,
+      "original_subject_static_stack_bytes": 528,
+      "initialized_sections_alloca_malloc_secondary_occurrences": 0,
+      "fixed_cell_memcpy_sites_root_subject": [
+        16,
+        9
+      ]
+    },
+    "limit": "This is reviewed OBSERVED isolated compiler output using actual types and checked posts. Whole-array iterated variant had dynamic temporary and is excluded. Integrated resource/deadline adequacy remains unproved."
+  }
+}

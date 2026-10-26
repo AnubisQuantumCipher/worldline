@@ -1,0 +1,47 @@
+{
+  "schema": "worldline-independent-digest-span-guard-review-v1",
+  "utc": "2026-10-26T14:35:41.521492+00:00",
+  "reviewer": "/root/acceptance_map",
+  "requested_model": "gpt-6.1-sol",
+  "requested_reasoning_effort": "high",
+  "verdict": "QUALIFIED_SOURCE_ONLY_FOR_ROOT_ADOPTION_AND_FRESH_VALIDATION",
+  "blocking_findings": [],
+  "candidate_sha256": "6051de86262f4142c2c2be91703cb2210f92749973ef0bc85eaafe8e34dcbf2e",
+  "preimage_sha256": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+  "public_spec_sha256": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+  "patch_sha256": "9e4eb42f7cf96b02e59583b783884522d18188036f046b586f7f74f34d9ecffe",
+  "exact_delta": "One extension of existing len64 guard with existing E.C.P.Valid; all remaining bytes identical. Public spec unchanged.",
+  "reasoning": {
+    "bounds": "For admitted nonempty64 span, Evaluation_Pending.Valid requires First in Arena range and Length-1<=Arena.Last-First. Every byte-scan offset and both original digest offsets are inside the same64-byte span; additions remain at most Arena.Last and hence Count.Last. No new precondition or caller cap.",
+    "existing_hex_semantics": "Original lowercase hex validation and Nibble conversion loops are byte-identical. Existing zero-result behavior for wrong length or invalid digits is unchanged.",
+    "invalid_span_no_authorization": "Only private Digest call is Project_Alternatives for SQL column7. Project_Alternatives does not modify SQL. Decode_Into leaves Status Malformed unless final Parsed_Spans_Valid holds; Cells validates every alternative SQL cell span with unchanged S.Span_Valid. Invalid nonempty64 SQL_Text span therefore cannot become Parsed merely because Digest returns zeros. Raw_Span wrong-kind empty handling is unchanged.",
+    "cost": "Existing Valid is an expression of scalar tests/subtractions; no new loops, allocations, copies, snapshots or rescans.",
+    "limits": "These are independently checked source implications, not a GNATprove or execution result. Fresh strict target/caller proof and original malformed/end-point/valid decoding controls remain required."
+  },
+  "numeric_offset_oracle": {
+    "class": "exact; not formal-bounded",
+    "parsed_expressions": [
+      "2*(32-1)+1",
+      "2*32"
+    ],
+    "results": [
+      "63",
+      "64"
+    ],
+    "scope": "Only constant offset arithmetic checked through JACKAL; not a code-correctness proof."
+  },
+  "evidence_paths": [
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/core/evaluation_pending.ads",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/core/resource_quantities.ads",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/core/worldline-root_custody_row_schema.ads",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/core/attest/attest-sha256.ads",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/digest-proof-v1/digest.stderr"
+  ],
+  "execution": {
+    "compiler": false,
+    "proof": false,
+    "tests": false,
+    "production_edits": false,
+    "F7_independent_acceptance": false
+  }
+}

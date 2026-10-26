@@ -1,0 +1,95 @@
+{
+  "kind": "independent-source-proposal-review-and-numeric-failure-classification",
+  "utc": "2026-10-26T14:43:13.329564+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "parent allocation; no independent runtime attestation"
+  },
+  "verdict": "APPROVE_SOURCE_PROPOSAL_FOR_ROOT_ADOPTION_AND_FRESH_PROOF",
+  "preimage_sha256": "603a4bc3e1c26a6f96807ca3243de1fbe2c7ca43a6cf27f0170a0cdcfe1c9e39",
+  "candidate_sha256": "700b44c40695e840020b33ece639f5d6db74ee51449be570a80c514a8d7caab2",
+  "patch_sha256": "1d7c6e53aca4ee2f14a7feede8fd2a54e7b652e93685cf526a17a26c89b1fbe1",
+  "body_sha256": "de0a209345ee6b98528c6c803ccd594258e6d74da1b67b18d4298982d01682fb",
+  "transition_body_sha256": "c0749aa889ffb6c20645c96b4746b94fe0e1b5c4f24d2b36ded1cb0e3abbf484",
+  "exact_delta": "Replace only nonrecursive Radix_Power and Prefix_Value wrapper Subprogram_Variant aspects with explicit Always_Terminates. Both recursive reference variants and all expression bodies/full Postconditions remain byte-identical.",
+  "call_graph": {
+    "Radix_Power": "Calls Power_Reference; no direct or indirect path returns to Radix_Power. Power_Reference recurses only on smallerExponent.",
+    "Prefix_Value": "Calls Prefix_Reference; no direct or indirect path returns to Prefix_Value. Prefix_Reference recurses only on smallerCount and calls Power_Reference and Digit; Digit does not call wrapper."
+  },
+  "assurance_preservation": "A recursive progress measure on a wrapper outside every recursive strongly connected component has no recursive call to constrain; GNATprove explicitly warns variant-no-recursion for Prefix_Value. Explicit Always_Terminates retains a termination obligation on the wrapper instead of suppressing the warning. Recursive reference proof and their decreasing measures remain mandatory. Invalid spans, Count>Length, negativezero, mathematical recurrences and admitted types are untouched. This changes proof annotation only; no executable arithmetic/control/memory/permission or ghost policy is changed.",
+  "warning_scope": "Observed Prefix_Value warning atads84. Equivalent unused Radix_Power wrapper measure identified by source callgraph; its fresh target proof must confirm zero warnings rather than assume it.",
+  "numeric_run_classification": {
+    "command_status": "FAILED exit1 for every command; retained. Do not report batch success.",
+    "target_results": {
+      "prefix_value": {
+        "target_row": "Resource_Quantities.Prefix_Value at resource_quantities.ads:79 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)",
+        "report_sha256": "9a93e4320e16d05aa4080e98534b95e5b9737df7d67a0c89692f33e9034367f0",
+        "command_exit": 1,
+        "fresh_summary": true,
+        "source_unchanged": true,
+        "shared_unresolved_row": "Worldline.Custody_V2_Load_Input.Digest at worldline-custody_v2_load_input.adb:479 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 8 proved"
+      },
+      "equal_prefix": {
+        "target_row": "Resource_Reservation_Transition.Equal_Prefix_Values at resource_reservation_transition.adb:572 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (17 checks)",
+        "report_sha256": "49f7e7e7b1535387b566dd72d3d13f0690a6edd83a3190708c704e8d8ee52762",
+        "command_exit": 1,
+        "fresh_summary": true,
+        "source_unchanged": true,
+        "shared_unresolved_row": "Worldline.Custody_V2_Load_Input.Digest at worldline-custody_v2_load_input.adb:479 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 8 proved"
+      },
+      "trimmed_view": {
+        "target_row": "Resource_Reservation_Transition.Trimmed_View at resource_reservation_transition.adb:617 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (26 checks)",
+        "report_sha256": "f83ba8b83bc7274bde3849ff001ab4856f4aa1d418e8d291496197a0a7e81036",
+        "command_exit": 1,
+        "fresh_summary": true,
+        "source_unchanged": true,
+        "shared_unresolved_row": "Worldline.Custody_V2_Load_Input.Digest at worldline-custody_v2_load_input.adb:479 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 8 proved"
+      },
+      "successor_columns": {
+        "target_row": "Resource_Reservation_Transition.Successor_Columns at resource_reservation_transition.adb:670 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (23 checks)",
+        "report_sha256": "b4d935fac9209a08b42cc0cb4fabc59c584aaa00d69e281fc1575a96fc765f90",
+        "command_exit": 1,
+        "fresh_summary": true,
+        "source_unchanged": true,
+        "shared_unresolved_row": "Worldline.Custody_V2_Load_Input.Digest at worldline-custody_v2_load_input.adb:479 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 8 proved"
+      },
+      "is_successor": {
+        "target_row": "Resource_Reservation_Transition.Is_Successor at resource_reservation_transition.ads:168 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)",
+        "report_sha256": "66678822c3d13a8cc1311ef12e416c846c3e664fbe80b69f293bf687267814d2",
+        "command_exit": 1,
+        "fresh_summary": true,
+        "source_unchanged": true,
+        "shared_unresolved_row": "Worldline.Custody_V2_Load_Input.Digest at worldline-custody_v2_load_input.adb:479 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and not proved, 4 checks out of 8 proved"
+      }
+    },
+    "explanation": "Fresh reports show every selected numeric target fully proved at exact pinned sources while the shared object/report directory still includes real unresolved Digest4 span-bound checks from prior selected unit. This is report-scope/cache carryover, not a numeric target counterexample, and does not discharge the genuine Digest obligations. Prefix_Value additionally emits the genuine unused-variant warning.",
+    "target_checks": [
+      7,
+      17,
+      26,
+      23,
+      10
+    ],
+    "claimed_whole_unit_proof": false,
+    "claimed_warning_free_batch": false
+  },
+  "required_next": [
+    "Root may adopt exact annotation candidate and refresh reviewed source identity pins without changing policy",
+    "Fresh strict separate scoped wrapper proofs for BOTH Radix_Power and Prefix_Value, including explicit termination and complete original Posts",
+    "Retain fresh strict proofs for recursive Power_Reference and Prefix_Reference with unchanged variants",
+    "Complete adopted guarded Digest proof in separate fresh scope; no stale shared failure bypass",
+    "Whole-unit/all-source inventory reconciliation and all original runtime/acceptance gates"
+  ],
+  "remaining_limits": [
+    "Always_Terminates is a formal model obligation, not stack/heap/scheduler sufficiency for arbitrary runtime resources.",
+    "True large significant magnitude runtime limit remains; original complete numeric domain is not narrowed.",
+    "Fresh independent scoped commands and proof coverage are still required; previous failed commands are not retroactively made successful.",
+    "O1/F7, original whole-runtime, retirement and authentic protected/actor evidence remain open."
+  ],
+  "production_edited": false,
+  "compiler_run": false,
+  "proof_run_by_reviewer": false,
+  "runtime_tests_run_by_reviewer": false
+}

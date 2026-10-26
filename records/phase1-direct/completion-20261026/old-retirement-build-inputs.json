@@ -1,0 +1,401 @@
+{
+  "schema": "worldline-old-retirement-build-inputs-v1",
+  "status": "SOURCE_RESEARCH_ONLY_NOT_A_COMPLETE_QUALIFIED_BUILD_LOCK",
+  "retrieved_utc": "2026-10-26 14:23:01 UTC",
+  "official_support_recheck": {
+    "master_sha": "76ba4f30b0b7146478cdcc4ea7f2e356bb330ecd",
+    "master_why3_submodule": "e8a19d2c821959079c8e24510bc607dd25a276fd",
+    "master_Readme_url": "https://github.com/AdaCore/spark2014/blob/76ba4f30b0b7146478cdcc4ea7f2e356bb330ecd/README.md",
+    "master_compiler_warning": "Official README says master tracks development GNAT and will probably not build with another compiler; public fsf/versioned branches are the buildable recommendation.",
+    "current_static_leak_condition": {
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/76ba4f30b0b7146478cdcc4ea7f2e356bb330ecd/src/why/gnat2why-expr.adb",
+      "git_blob_sha": "28ed6ddf1e8be0cbdee2504a8ab4d8e8187d7fc3",
+      "lines_1based": [
+        22257,
+        22277
+      ],
+      "observation": "Allocating function with allocated parts in statically leaking executable assertion context still emits VC_Resource_Leak False; no Finalizable exemption in this conditional. Bounded statement, not universal absence proof."
+    },
+    "newer_Auto_Reclaimed_Immutable": {
+      "repository": "AdaCore/SPARKlib",
+      "sha": "8e169e09a1a0d9507194d18cf840cae0b0c62d67",
+      "observation": "Official new immutable reference-counted pointer library exists and last-pointer reclamation is documented; actual implementation body and Ref_Counting are SPARK_Mode Off, Ref_Counting uses Relaxed_Finalization True and Natural reference counters; spec imports static logical equality. Does not supply original no-new-Off/strict-exception/full-domain O1 conjunction.",
+      "test_source_url": "https://github.com/AdaCore/spark2014/blob/76ba4f30b0b7146478cdcc4ea7f2e356bb330ecd/testsuite/gnatprove/tests/1448__pointers_handles/test_handles.adb",
+      "test_result_class": "Upstream retained expected output inspected; NOT executed locally."
+    },
+    "release_listing": {
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/releases",
+      "observation": "Bounded current page lists stable gnatprove-16.1.0-1 and older-version gnatprove16.0 snapshot; newer GNAT16.1.1 snapshot alone is not a matching newer proved toolchain.",
+      "limits": "No claim all commercial/private or every release is absent. Public AdaCore release-note pages attempted returned403; absence inferred from unavailable pages is forbidden."
+    },
+    "conclusion": "No existing complete compatible officially shipped toolchain satisfying original O1 has been identified by this bounded source/release inspection; prefer one if subsequently identified, do not assume impossibility."
+  },
+  "candidate_baseline": {
+    "spark2014": {
+      "repository": "AdaCore/spark2014",
+      "sha": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "observed_ref": "fsf",
+      "commit_utc": "2026-06-29T23:32:18Z"
+    },
+    "why3": {
+      "repository": "AdaCore/why3",
+      "sha": "120ec564d7b465507b2652251999a01045c9323a",
+      "basis": "Exact gitlink displayed by pinned spark2014 tree; not arbitrary newest Why3."
+    },
+    "gcc": {
+      "repository": "gcc-mirror/gcc",
+      "sha": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+      "basis": "Previously retained official GCC16.1 release-source commit; installed ELF correspondence remains unknown."
+    },
+    "other_public_branch": {
+      "name": "fsf-16",
+      "sha": "42554fc241fcd1fdf08d3a2feccb3f86912acbc0",
+      "commit_utc": "2026-01-05T09:55:05Z",
+      "basis": "Current connector branch resolution; do not assume branch name selects the same moving source as producer recipe."
+    },
+    "producer_recipe": {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "sha": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "source": "specs/spark2014.anod",
+      "limits": "Concrete reference recipe, not fully immutable build lock. Downloads moving fsf-16/sustained/main sources, patches comperr and copies GCC Ada frontend into gnat2why/gnat_src. Chosen fsf source must have exact dependency closure requalified."
+    }
+  },
+  "resolved_source_pins": [
+    {
+      "repository": "AdaCore/gnatcoll-core",
+      "selected_ref": "26-sustained",
+      "sha": "1d4374ae9187fd14d42ca99a3deb0ab2ff1ebc55",
+      "observed_commit_utc": "2026-05-29T13:36:11Z",
+      "url": "https://github.com/AdaCore/gnatcoll-core/commit/1d4374ae9187fd14d42ca99a3deb0ab2ff1ebc55"
+    },
+    {
+      "repository": "AdaCore/gpr",
+      "selected_ref": "26-sustained-stabilized",
+      "sha": "96e4283834e3c56d51f986c059770be48efaf22a",
+      "observed_commit_utc": "2026-01-20T15:49:44Z",
+      "url": "https://github.com/AdaCore/gpr/commit/96e4283834e3c56d51f986c059770be48efaf22a"
+    },
+    {
+      "repository": "AdaCore/vss-text",
+      "selected_ref": "v26.0.0",
+      "sha": "01c9adfef0efda9589fa544115628e28e26767b3",
+      "observed_commit_utc": "2025-09-01T11:30:30Z",
+      "url": "https://github.com/AdaCore/vss-text/commit/01c9adfef0efda9589fa544115628e28e26767b3"
+    },
+    {
+      "repository": "AdaCore/sarif-ada",
+      "selected_ref": "main",
+      "sha": "258121b48a737d7009ae76da835904852a120332",
+      "observed_commit_utc": "2026-08-20T07:50:51Z",
+      "url": "https://github.com/AdaCore/sarif-ada/commit/258121b48a737d7009ae76da835904852a120332"
+    },
+    {
+      "repository": "pmderodat/ada-toml",
+      "selected_ref": "v0.5",
+      "sha": "e760110ad2b5b776a44dace31b8421532e429fbb",
+      "observed_commit_utc": "2024-04-15T11:52:10Z",
+      "url": "https://github.com/pmderodat/ada-toml/commit/e760110ad2b5b776a44dace31b8421532e429fbb"
+    },
+    {
+      "repository": "AdaCore/langkit",
+      "selected_ref": "v26.0.0",
+      "sha": "a628a75d0d932fb8580493c81ad2c1c676557ffa",
+      "observed_commit_utc": "2025-09-19T07:31:11Z",
+      "url": "https://github.com/AdaCore/langkit/commit/a628a75d0d932fb8580493c81ad2c1c676557ffa"
+    },
+    {
+      "repository": "AdaCore/xmlada",
+      "selected_ref": "v26.0.0",
+      "sha": "5e5b761eb827f458efd2043a5e9ab03e1a614720",
+      "observed_commit_utc": "2025-02-18T11:41:15Z",
+      "url": "https://github.com/AdaCore/xmlada/commit/5e5b761eb827f458efd2043a5e9ab03e1a614720"
+    },
+    {
+      "repository": "AdaCore/gprbuild",
+      "selected_ref": "26.2",
+      "sha": "f5ba69349b7f6d2ef29207e72d7d8e74cad7e7ae",
+      "observed_commit_utc": "2025-11-06T11:08:15Z",
+      "url": "https://github.com/AdaCore/gprbuild/commit/f5ba69349b7f6d2ef29207e72d7d8e74cad7e7ae"
+    },
+    {
+      "repository": "AdaCore/gnatcoll-bindings",
+      "selected_ref": "v26.0.0",
+      "sha": "4d3761dd658759b06aea4fdf028ba5a4bdf89785",
+      "observed_commit_utc": "2025-02-19T06:20:35Z",
+      "url": "https://github.com/AdaCore/gnatcoll-bindings/commit/4d3761dd658759b06aea4fdf028ba5a4bdf89785"
+    },
+    {
+      "repository": "AdaCore/vss-extra",
+      "selected_ref": "v26.0.0",
+      "sha": "a9d466d7d75c555676654b71a0d92e946ea4688d",
+      "observed_commit_utc": "2025-09-01T13:39:24Z",
+      "url": "https://github.com/AdaCore/vss-extra/commit/a9d466d7d75c555676654b71a0d92e946ea4688d"
+    },
+    {
+      "repository": "AdaCore/gprconfig_kb",
+      "selected_ref": "v26.0.0",
+      "sha": "72c8aca4324a736a434d985ba1d02f5665e33355",
+      "observed_commit_utc": "2025-09-18T21:21:22Z",
+      "url": "https://github.com/AdaCore/gprconfig_kb/commit/72c8aca4324a736a434d985ba1d02f5665e33355"
+    }
+  ],
+  "build_requirements": {
+    "primary_prover_project_imports": [
+      "gnatcoll_core",
+      "gpr2",
+      "sarif_ada",
+      "vss_os",
+      "ada_toml"
+    ],
+    "translator_imports": [
+      "gnatcoll_core",
+      "matching GNAT Ada frontend via gnat2why/gnat_src"
+    ],
+    "producer_full_dependencies": [
+      "base_gcc",
+      "why3",
+      "alt-ergo",
+      "gmp",
+      "gmp shared_lib",
+      "gprbuild",
+      "gnatcoll",
+      "gnatcoll-bindings",
+      "xmlada",
+      "libgpr2 next",
+      "libgpr",
+      "langkit_support",
+      "adasat",
+      "libadalang",
+      "vss_text",
+      "vss_extra",
+      "sarif_ada"
+    ],
+    "additional_transitives_observed": [
+      "Langkit support adds prettier_ada and adasat; GPR2 parser generation uses Langkit Python sources; GNATcoll bindings use GMP/zlib; XMLAda/GPRbuild bootstrap dependencies and gprconfig_kb must be locked."
+    ],
+    "source_recipe_mismatch": "Current chosen b941 gnatprove.gpr imports ada_toml, but retained producer SPARK build_deps does not explicitly enumerate it. Treat full recipe/dependency compatibility as unresolved, not a ready build.",
+    "versions_measured_from_package_manager": {
+      "gmp": "6.3.0-3",
+      "zlib": "1:1.3.2-3",
+      "make": "4.4.1-3",
+      "autoconf": "2.73-1"
+    },
+    "missing_sdk_observation": "No matching gnatcoll_core/gpr2/sarif_ada/vss/ada_toml development .gpr files found in bounded opt/gnat,/usr/share/gpr,/usr/lib/gnat search. Not universal filesystem absence.",
+    "ocaml_observation": "pacman -Q reports ocaml and opam absent; command -v also found neither. Other private installations not excluded.",
+    "why3_docs": "https://github.com/AdaCore/why3/blob/120ec564d7b465507b2652251999a01045c9323a/INSTALL.md",
+    "unqualified_command_skeleton": [
+      "Use isolated prefix and explicit locked dependency environment; preserve installed tools.",
+      "For selected source, attach exact GCC Ada frontend as gnat2why/gnat_src; source-dependent generators run via gnat2why Makefile.",
+      "Build matching Why3 gitlink with its own dependency lock; selected source Makefile setup/configure then bounded make, then install-all within isolated checkout.",
+      "Override upstream unbounded concurrency: gnat2why PROCS=2 and gnatprove build command -j2 through existing admitted scope. Do not blindly invoke upstream -j0 Makefile.",
+      "Record complete input/patch/generated-source/tool/output identities; only then run unchanged D47 plus copy/failure/retirement negative controls."
+    ]
+  },
+  "disk_cost_evidence": {
+    "class": "MEASURED lower-level facts; NOT a build-space bound",
+    "observed_available_bytes": 11177242624,
+    "filesystem_use_percent": 99,
+    "installed_tree_bytes": {
+      "gnat": 1031216804,
+      "gnatprove": 1351016531,
+      "gprbuild": 275613433
+    },
+    "retained_release_archive_reported_bytes": {
+      "gnat": 397189145,
+      "gnatprove": 460666014
+    },
+    "gcc_official_source_directory": {
+      "url": "https://gcc.gnu.org/pub/gcc/releases/gcc-16.1.0/",
+      "reported_tar_xz_size": "98M",
+      "reported_tar_gz_size": "168M",
+      "classification": "Directory reported rounded sizes only; no exact byte conversion or archive download."
+    },
+    "unmeasured": [
+      "Expanded locked sources",
+      "All dependency build objects and static/shared variants",
+      "Full GCC build if new matching compiler required",
+      "OCaml/opam working set",
+      "Concurrent proof/runtime reserve"
+    ],
+    "admission": "NOT QUALIFIED: package/source archives, clone, install and build remain unselected until exact working-set capacity is established. Installed/package sizes cannot establish source-build peak."
+  },
+  "remaining_hard_dependencies": [
+    "Identify supported official strict-lifetime toolchain or qualify explicit verifier extension; no universal absence conclusion.",
+    "Resolve remaining transitive source/archive/patch/config locks including generated GPR2 parser and exact OCaml/Why3 dependency graph.",
+    "Demonstrate source/compiler compatibility for the selected fsf tuple before production adoption.",
+    "Measure or obtain a trustworthy complete build working-set envelope and retain root runtime/proof reserve.",
+    "Qualify ownership copy-origin, implicit Old and exceptional physical retirement; no gate weakening."
+  ],
+  "readbacks": [
+    {
+      "repository": "AdaCore/SPARKlib",
+      "ref": "8e169e09a1a0d9507194d18cf840cae0b0c62d67",
+      "path": "src/spark-pointers-auto_reclaimed-immutable.adb",
+      "start_line": 1,
+      "end_line": 35,
+      "git_blob_sha": "5ec7707e5a216e0ea15f4db1a9eca5c5753ab3ea",
+      "url": "https://github.com/AdaCore/SPARKlib/blob/8e169e09a1a0d9507194d18cf840cae0b0c62d67/src/spark-pointers-auto_reclaimed-immutable.adb",
+      "content": "--\n--  Copyright (C) 2026, AdaCore\n--\n--  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception\n--\n\nwith Ada.Unchecked_Conversion;\nwith Ada.Unchecked_Deallocation;\n\npackage body SPARK.Pointers.Auto_Reclaimed.Immutable\n  with SPARK_Mode => Off\nis\n\n   procedure Free is new Ada.Unchecked_Deallocation (Object, Object_Access);\n\n   ------------------------\n   -- Constant_Reference --\n   ------------------------\n\n   function Constant_Reference\n     (P : Pointer) return not null access constant Object\n   is (P.Data.Shared_Data.Data);\n\n   ---------------------\n   -- Copy_Operations --\n   ---------------------\n\n   package body Copy_Operations\n     with SPARK_Mode => Off\n   is\n\n      -----------------\n      -- Create_Copy --\n      -----------------\n"
+    },
+    {
+      "repository": "AdaCore/SPARKlib",
+      "ref": "8e169e09a1a0d9507194d18cf840cae0b0c62d67",
+      "path": "src/spark-pointers-auto_reclaimed-immutable.ads",
+      "start_line": 1,
+      "end_line": 170,
+      "git_blob_sha": "c1a9254405841c3af66aff109200e17cf148a61a",
+      "url": "https://github.com/AdaCore/SPARKlib/blob/8e169e09a1a0d9507194d18cf840cae0b0c62d67/src/spark-pointers-auto_reclaimed-immutable.ads",
+      "content": "--\n--  Copyright (C) 2026, AdaCore\n--\n--  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception\n--\n\n--  Auto_Reclaimed pointers to immutable data.\n--\n--  Values of type Pointer are not subject to ownership: they can be freely\n--  copied. The designated value is reference counted, and the cell holding it\n--  is reclaimed when the last pointer to it disappears.\n--\n--  A pointer is modelled by the value it designates rather than by the\n--  identity of its cell: two pointers to equal values are logically equal.\n\npragma Extensions_Allowed (On);\nwith SPARK.Big_Integers; use SPARK.Big_Integers;\nwith SPARK.Pointers.Handles.Auto_Reclaimed_Handles;\nwith SPARK.Pointers.Parameter_Checks;\nprivate with SPARK.Pointers.Ref_Counting;\n\ngeneric\n   type Object (<>) is private;\n   with procedure Reclaim (X : in out Object) is null;\n\npackage SPARK.Pointers.Auto_Reclaimed.Immutable with\n    SPARK_Mode,\n    Always_Terminates\nis\n\n   --  The Reclaim procedure shall reclaim a value of type Object\n\n   package Reclamation_Checks is new\n     Parameter_Checks.Reclamation_Checks (Object, Reclaim);\n\n   type Pointer is private\n   with\n     Default_Initial_Condition => (Static => Pointer = Null_Pointer),\n     Annotate                  =>\n       (GNATprove, Predefined_Equality, \"Only_Null\");\n\n   Null_Pointer : constant Pointer\n   with Annotate => (GNATprove, Predefined_Equality, \"Null_Value\");\n\n   function Object_Logic_Equal (Left, Right : Object) return Boolean\n   with\n     Import,\n     Ghost    => Static,\n     Global   => null,\n     Annotate => (GNATprove, Logical_Equal);\n   --  Logical equality on objects. It is marked as import as it cannot be\n   --  safely executed on most object types.\n\n   function Logical_Eq (X, Y : Pointer) return Boolean\n   with\n     Import,\n     Ghost    => Static,\n     Global   => null,\n     Annotate => (GNATprove, Logical_Equal);\n   --  Logical equality on shared pointers\n\n   function Constant_Reference\n     (P : Pointer) return not null access constant Object\n   with Global => null, Pre => (SPARKlib_Defensive => P /= Null_Pointer);\n\n   function Extensional_Eq (X, Y : Pointer) return Boolean\n   with\n     Import,\n     Ghost  => Static,\n     Global => null,\n     Post   =>\n       Extensional_Eq'Result\n       = ((X = Null_Pointer) = (Y = Null_Pointer)\n          and then\n            (if X /= Null_Pointer\n             then\n               Object_Logic_Equal\n                 (Constant_Reference (X).all, Constant_Reference (Y).all)))\n       and Extensional_Eq'Result = Logical_Eq (X, Y);\n   --  Extensional equality on shared pointers. It is also the logical\n   --  equality.\n\n   generic\n      with\n        function Copy (O : Object) return Object\n        is (O);\n      --  A copy of the designated value\n\n   package Copy_Operations with Always_Terminates\n   is\n\n      function Create_Copy (O : Object) return Pointer\n      with\n        Global => null,\n        Post   =>\n          (Static =>\n             Create_Copy'Result /= Null_Pointer\n             and then\n               Object_Logic_Equal\n                 (Constant_Reference (Create_Copy'Result).all, Copy (O)));\n\n      --  Deref will copy the designated value\n\n      function Deref (P : Pointer) return Object\n      with\n        Global   => null,\n        Post     =>\n          (Static =>\n             Object_Logic_Equal\n               (Deref'Result, Copy (Constant_Reference (P).all))),\n        Annotate => (GNATprove, Inline_For_Proof);\n\n   end Copy_Operations;\n\n   --  Construct a shared pointer\n\n   generic\n      type Input (<>) is private;\n      with function Create_Object (X : Input) return Object;\n   function Create (X : Input) return Pointer\n   with\n     Global => null,\n     Post   =>\n       (Static =>\n          Create'Result /= Null_Pointer\n          and then\n            Object_Logic_Equal\n              (Constant_Reference (Create'Result).all, Create_Object (X)));\n\n   --  Abstract handles can be used to create recursive data structure. As the\n   --  Pointer has automated reclamation, use handles with reclamation.\n   --  The handle package given as parameter should have the same\n   --  accessibility level as the generic instance.\n\n   generic\n      with package Auto_Reclaimed_Handles is new\n        SPARK.Pointers.Handles.Auto_Reclaimed_Handles.Without_Weak_Handles;\n   package Handle_Operations is\n\n      use Auto_Reclaimed_Handles;\n\n      function Valid_Handle (H : Handle) return Boolean\n      with Ghost => SPARKlib_Full, Global => null;\n\n      function To_Handle (P : Pointer) return Handle\n      with\n        Global => null,\n        Post   =>\n          (SPARKlib_Full => Valid_Handle (To_Handle'Result),\n           Static        => Logical_Eq (Of_Handle (To_Handle'Result), P));\n\n      function Of_Handle (H : Handle) return Pointer\n      with Global => null, Pre => (SPARKlib_Full => Valid_Handle (H));\n\n      function Null_Handle return Handle\n      with\n        Global   => null,\n        Post     =>\n          (Static =>\n             Logical_Eq (Null_Handle'Result, To_Handle (Null_Pointer))),\n        Annotate => (GNATprove, Inline_For_Proof);\n      --  A handle designating Null_Pointer\n\n      function Logical_Eq (X, Y : Handle) return Boolean\n      with\n        Import,\n        Ghost    => Static,\n        Global   => null,\n        Annotate => (GNATprove, Logical_Equal);\n"
+    },
+    {
+      "repository": "AdaCore/SPARKlib",
+      "ref": "8e169e09a1a0d9507194d18cf840cae0b0c62d67",
+      "path": "src/spark-pointers-ref_counting.ads",
+      "start_line": 1,
+      "end_line": 170,
+      "git_blob_sha": "b658e96f85a7abca1432077fc95dfe79ed51c14b",
+      "url": "https://github.com/AdaCore/SPARKlib/blob/8e169e09a1a0d9507194d18cf840cae0b0c62d67/src/spark-pointers-ref_counting.ads",
+      "content": "--\n--  Copyright (C) 2026, AdaCore\n--\n--  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception\n--\n\npragma Extensions_Allowed (On);\n\n--  This package is used both by automatically reclaimed pointers and by\n--  their handles. To break the cycle and allow recursive types to be defined,\n--  handles are instantiated with an empty placeholder instead of an actual\n--  element type. An extra field, stored just after the pointer, is used to\n--  store the reclamation procedure that will be used to reclaim the actual\n--  object. It will depend on the pointer instance that uses the handle.\n--  Automatically reclaimed handles and pointers are compatible in the sense\n--  that a pointer to a handle can safely be converted to a pointer to an\n--  object.\n\nprivate generic\n\n   type Element_Type is private;\n   --  Type designated by the pointer\n\n   type Extra_Data_Type is private;\n   --  Type of an additional object that is stored just after the pointer.\n   --  Automatically reclaimed handles use it to store an access to the\n   --  reclamation procedure that will reclaim the real object instead of the\n   --  placeholder.\n\n   with procedure Reclaim (E : in out Element_Type; D : Extra_Data_Type);\n   --  Procedure that reclaims the object E. It takes the extra data as a\n   --  parameter so the handles can use it to reclaim the real data.\n\npackage SPARK.Pointers.Ref_Counting with SPARK_Mode => Off\nis\n   type Single_Count_And_Data is record\n      Count : Natural := 0;\n      Data  : Element_Type;\n   end record;\n\n   type Single_Count_And_Data_Access is access Single_Count_And_Data;\n\n   type Shared_Ref is record\n      Shared_Data : Single_Count_And_Data_Access;\n      Extra_Data  : Extra_Data_Type;\n   end record\n   with\n     Finalizable =>\n       (Adjust => Adjust, Finalize => Finalize, Relaxed_Finalization => True);\n   pragma No_Component_Reordering (Shared_Ref);\n\n   procedure Adjust (P : in out Shared_Ref);\n   procedure Finalize (P : in out Shared_Ref);\n\n   type Dual_Count_And_Data is record\n      Strong_Count : Natural := 0;\n      Weak_Count   : Natural := 0;\n      Data         : Element_Type;\n   end record;\n\n   type Dual_Count_And_Data_Access is access Dual_Count_And_Data;\n\n   type Dual_Ref is record\n      Shared_Data : Dual_Count_And_Data_Access;\n      Extra_Data  : Extra_Data_Type;\n   end record;\n   pragma No_Component_Reordering (Dual_Ref);\n\n   type Strong_Ref is record\n      Counter : Dual_Ref;\n   end record\n   with\n     Finalizable =>\n       (Adjust => Adjust, Finalize => Finalize, Relaxed_Finalization => True);\n\n   procedure Adjust (P : in out Strong_Ref);\n   procedure Finalize (P : in out Strong_Ref);\n\n   type Weak_Ref is record\n      Counter : Dual_Ref;\n   end record\n   with\n     Finalizable =>\n       (Adjust => Adjust, Finalize => Finalize, Relaxed_Finalization => True);\n\n   procedure Adjust (P : in out Weak_Ref);\n   procedure Finalize (P : in out Weak_Ref);\n\n   --  Conversions between the two kinds of reference. They are operations\n   --  rather than reinterpretations of the same bits: going from one kind to\n   --  the other moves a different counter, so a copy would count the wrong\n   --  reference. Both expect a target that holds no reference yet.\n\n   procedure Downgrade (P : Strong_Ref; R : out Weak_Ref);\n   --  Make R a weak reference to the cell P designates\n\n   procedure Upgrade (P : Weak_Ref; R : out Strong_Ref; Success : out Boolean);\n   --  Make R a strong reference to the cell P designates, if that cell is\n   --  still alive. Otherwise R designates nothing and Success is False.\n\nend SPARK.Pointers.Ref_Counting;"
+    },
+    {
+      "repository": "AdaCore/spark2014",
+      "ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "path": "gnat2why/Makefile",
+      "start_line": 1,
+      "end_line": 160,
+      "git_blob_sha": "79ee48e0da968084e74edcf29ee206f612db430d",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/gnat2why/Makefile",
+      "content": "# Generic part of the backend Makefile.\n# This makefile assumes that it executed from the backend directory.\n\nGPRBUILD=gprbuild\n\n# number of processors\nPROCS=0\n\n# Set to 1 to enable automated (as opposed to manual) builds\nAUTOMATED=0\n\nRM=rm -rf\nMV=mv -f\n# adainclude and adalib are later used as input for sed, so we replace\n# backward slashes by forward slashes to avoid sed interpreting those\nadainclude:=$(subst \\,/,$(strip $(shell gnatls -v | grep adainclude)))\nadalib:=$(subst \\,/,$(strip $(shell gnatls -v | grep adalib)))\ngnat1dir:=$(shell echo $(adainclude) | sed -e 's^rts-.*^^' -e 's^adainclude^^')\n\nifeq ($(AUTOMATED),1)\n  GPRARGS=-XBuild=Production\n  prefix=$(shell echo $(adainclude) | sed -e 's!\\(.*\\)/lib/gcc/\\(.*\\)!\\1!')/\nelse\n  prefix:=@NOPREFIX@\nendif\n\n# symbolic linking of GNAT files is fast and that's how GNAT SAS is built too\nUSE_LN=true\nuname:=$(shell uname)\n\nifeq ($(filter-out CYGWIN%,$(uname)),)\n  LDFLAGS=-Wl,--stack=0x2000000\n  USE_LN=false\nendif\n\nGEN_IL_FILES = nmake.adb nmake.ads \\\n  seinfo.ads sinfo-nodes.ads sinfo-nodes.adb \\\n  einfo-entities.ads einfo-entities.adb\n\n.PHONY: setup force clean\n\nall: build\n\nsetup_precheck:\n\t@if [ ! -d gnat_src ]; \\\n\tthen \\\n\t  echo \"error: missing directory or link \\\"gnat_src\\\" to GNAT sources\"; \\\n\t  false; \\\n\tfi\n\nsetup: setup_precheck\n\t$(MAKE) -C ../src/why/xgen\n\tmkdir -p obj obj-gnat obj-gnat2why obj-tools ../install/bin\n\tsed -e \"s^@ADAINCLUDE@^$(adainclude)^\" \\\n\t    -e \"s^@ADALIB@^$(adalib)^\" \\\n\t    -e \"s^@PREFIX@^$(prefix)^\" \\\n\t    -e \"s^@GNAT1DIR@^$(gnat1dir)^\" \\\n\t    sdefault.adb.in > obj/sdefault.adb\n\tfor f in gnat1drv.adb ;\\\n\tdo \\\n\t  cp -pf gnat_src/$$f obj-gnat2why; \\\n\tdone\n\tcp -pf gnat_src/libgnat/s-rident.ads obj-gnat\n\tfor f in `cd gnat_src; ls gen_il*.ad? xutil.ad? *-tmpl xsnamest.adb`; \\\n\tdo \\\n\t  cp -p gnat_src/$$f obj-tools; \\\n\tdone\n\tcd obj-tools && $(GPRBUILD) -q xsnamest && ./xsnamest && \\\n\tmv snames.ns ../obj/snames.ads && mv snames.nb ../obj/snames.adb && \\\n\t$(GPRBUILD) -q -j$(PROCS) gen_il-main.adb -cargs -I../obj && ./gen_il-main && \\\n\tmv $(GEN_IL_FILES) ../obj\n\nbuild: setup force\n\t$(GPRBUILD) $(GPRARGS) $(COVERAGEARGS) -Pgnat2why -j$(PROCS) -cargs ${CFLAGS} -largs $(LDFLAGS)\n\n# Compilation and linking settings for coverage and profiling; for details see\n# \"Code Coverage and Profiling\" in GNAT User's Guide.\n#\n# Note: \"gnatcov instrument\" requires a full compilable closure, so\n# this target depends on \"setup\", which generates some required\n# source files.\n\nCOVERED_PROJECTS ?= gnat2why\n\ncovered-project-args := $(foreach proj,$(COVERED_PROJECTS),--projects=$(proj))\n\ncoverage-setup: setup force\n\tgnatcov instrument --no-subprojects -P gnat2why.gpr --level=stmt+atc --dump-trigger=atexit $(covered-project-args)\n\tmkdir -p obj_coverage\n\ncoverage: COVERAGEARGS=-XCoverage=yes --src-subdirs=gnatcov-instr --implicit-with=gnatcov_rts\ncoverage: coverage-setup build\n\nprofile: CFLAGS = -pg\nprofile: LDFLAGS += -pg\nprofile: build\n\ncodepeer-run: setup force\n\tgnatsas analyze -P gnat2why.gpr --no-gnat\n\ncodepeer:\n\t@gnatsas report text -P gnat2why.gpr --quiet\n\t@gnatsas report code-climate -P gnat2why.gpr --quiet -o obj/gnatsas/gnat2why.json --root=../\n\nforce:\n\nclean:\n\t$(MAKE) -C ../src/why/xgen clean\n\t-$(RM) obj obj-tools obj-gnat obj-gnat2why"
+    },
+    {
+      "repository": "AdaCore/spark2014",
+      "ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "path": "gnat2why/gnat2why.gpr",
+      "start_line": 1,
+      "end_line": 125,
+      "git_blob_sha": "6dc07130eeb94c44d03769bdc86247200b5b43a0",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/gnat2why/gnat2why.gpr",
+      "content": "with \"gnat2why_gnat\";\nwith \"gnat2why_c\";\nwith \"gnatcoll_core\";\n\nproject GNAT2Why is\n\n   for Object_Dir use \"obj\";\n   for Exec_Dir use \"../install/bin\";\n\n   for Source_Dirs use (\".\", \"..\", \"obj-gnat2why\",\n                        \"../src/why\", \"../src/spark\", \"../src/utils\",\n                        \"../src/flow\", \"../src/common\", \"../src/counterexamples\");\n\n   for Main use (\"gnat1drv.adb\");\n\n   package Compiler renames GNAT2Why_GNAT.Compiler;\n\n   package Builder renames GNAT2Why_GNAT.Builder;\n\n   package IDE is\n      for VCS_Kind use \"Auto\";\n   end IDE;\n\n   package Analyzer is\n\n      for Review_File use \"analyzer/gnat2why.sar\";\n\n      --  Relocate outputs outside of object directory because that one is\n      --  cached in CIs and we do not want to store baselines in the cache.\n      for Output_Dir use \"analyzer\";\n\n      for Switches (\"analyze\") use (\"-j0\", \"--incrementality-method=minimal\",\n         \"--no-gnatcheck\", \"--no-infer\");\n      for Switches (\"infer\") use (\"--disable-issue-type\", \"MEMORY_LEAK_ADA\");\n\n      Filter := \"--show=kind=check+warning-suspicious_constant_operation\";\n      for Switches (\"report text\") use (Filter, \"--show-backtraces\");\n      for Switches (\"report exit-code\") use (Filter);\n      for Switches (\"report code-climate\") use (Filter, \"--long-desc\");\n\n      for Excluded_Source_Dirs use (\"gnat_src\");\n\n      for Excluded_Source_Files use\n        (--  Exclude source files leading to false positives\n         \"assumptions.ads\",\n         \"assumptions.adb\",\n         \"flow.ads\",\n         \"flow-analysis.adb\",\n         \"flow-analysis-sanity.adb\",\n         \"flow-control_flow_graph.adb\",\n         \"flow-data_dependence_graph.adb\");\n\n   end Analyzer;\n\n   package Coverage is\n\n      for Excluded_Units use (--  Exclude files that cause errors\n                              \"ce_interval_sets\",\n                              \"ce_pretty_printing\",\n\n                              --  Exclude generated units intentionally not fully covered\n                              \"gnat1drv\",\n                              \"why.atree.accessors\",\n                              \"why.atree.builders\",\n                              \"why.atree.mutators\",\n                              \"why.atree.to_json\",\n                              \"why.atree.traversal\",\n                              \"why.atree.traversal_stub\",\n                              \"why.conversions\",\n\n                              --  Exclude units for debugging/assertions\n                              \"flow_debug\",\n                              \"spark_xrefs\",\n                              \"why.atree.treepr\",\n                              \"why.atree.validity\",\n                              \"why.images\",\n                              \"why.kind_validity\"\n                              );\n   end Coverage;\n\n   package Format is\n     for Ignore use \"gnat2why_ignore_format.txt\";\n   end Format;\n\nend GNAT2Why;"
+    },
+    {
+      "repository": "AdaCore/spark2014",
+      "ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "path": ".gitmodules",
+      "start_line": 1,
+      "end_line": 90,
+      "git_blob_sha": "2cc64843b052ae5e6fbcbc8368eb042435273339",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/.gitmodules",
+      "content": "[submodule \"why3\"]\n\tpath = why3\n\turl = ../why3.git\n\tignore = dirty"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "path": "specs/why3.anod",
+      "start_line": 1,
+      "end_line": 125,
+      "git_blob_sha": "9aa40bcca47079b131f6f733a164ab927958bff5",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/why3.anod",
+      "content": "from e3.anod.loader import spec\nfrom e3.fs import sync_tree\nfrom e3.anod.spec import Anod\nimport os\n\n\nclass Why3(spec(\"binary_install\")):\n    @property\n    def version(self):\n        return \"16.0.0\"\n\n    @property\n    def tarball(self):\n        if self.env.host.os.name == \"windows\":\n            return \"why3pack-windows-2025z.zip\"\n        if self.env.host.os.name == \"darwin\":\n            if self.env.host.cpu.name == \"x86_64\":\n                return \"why3pack-macos-15-intel.tar.gz\"\n            else:\n                return \"why3pack-macos-15.tar.gz\"\n        else:\n            if self.env.host.cpu.name == \"x86_64\":\n                return \"why3pack-ubuntu-24.04.tar.gz\"\n            else:\n                return \"why3pack-ubuntu-24.04-arm.tar.gz\"\n\n    @property\n    def url(self):\n        return f\"https://github.com/AdaCore/why3/releases/download/fsf-{self.version}/{self.tarball}\""
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "path": "specs/gnatcoll.anod",
+      "start_line": 1,
+      "end_line": 125,
+      "git_blob_sha": "5af91a123cd2ee59041aea1e28b940cadd3c8b34",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/gnatcoll.anod",
+      "content": "from e3.os.fs import unixpath\nfrom e3.anod.helper import Make\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\nimport os\n\n\nclass GNATcoll(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.0.0\"\n    \n    @property\n    def branch(self):\n        return \"26-sustained\"\n\n    @property\n    def tarball(self):\n        return \"gnatcoll-core-%s.zip\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/gnatcoll-core/archive/refs/heads/%s.zip\"\n                % self.branch,\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n            Anod.Dependency(\"xmlada\", track=True),\n            Anod.Dependency(\"libgpr\", track=True),\n        ]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        make = Make(self, makefile=os.path.join(self[\"SRC_DIR\"], \"Makefile\"), jobs=1)\n        make.set_var(\"PROCESSORS\", str(self.jobs))\n        make.set_var(\"prefix\", unixpath(self[\"INSTALL_DIR\"]))\n        make.set_var(\"ENABLE_SHARED\", \"yes\")\n        make.set_var(\"INTEGRATED\", \"no\")\n        make.set_var(\"BUILD\", \"PROD\")\n        make()\n        make(\"install\")\n\n        self.clean()"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "path": "specs/libgpr2.anod",
+      "start_line": 1,
+      "end_line": 125,
+      "git_blob_sha": "2f9a3cf93d835e09a9a81ac179ab92fb3d99354e",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/libgpr2.anod",
+      "content": "from e3.os.fs import touch\nfrom e3.anod.helper import Make, text_replace\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\nfrom e3.fs import cp, sync_tree\nfrom e3.diff import patch\nimport os\nfrom datetime import date\n\n\nclass LibGPR2(spec(\"common\")):\n    @property\n    def is_next(self):\n        return \"next\" in self.parsed_qualifier\n\n    @property\n    def version(self):\n        return \"26.2.0\"\n    \n    @property\n    def branch(self):\n        return \"26-sustained-stabilized\"\n\n    @property\n    def lk_version(self):\n        return \"26.0.0\"\n\n    @property\n    def tarball(self):\n        return \"gpr-%s.zip\" % self.version\n\n    @property\n    def lk_tarball(self):\n        return \"langkit-py-%s.tar.gz\" % self.lk_version\n\n    @property\n    def build_space_name(self):\n        if self.is_next:\n            return \"%s-next\" % (self.name)\n        else:\n            return self.name\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/gpr/archive/refs/heads/%s.zip\"\n                % self.branch,\n            ),\n            self.HTTPSSourceBuilder(\n                name=self.lk_tarball,\n                url=\"https://github.com/AdaCore/langkit/archive/v%s.tar.gz\"\n                % self.lk_version,\n            ),\n        ]\n\n    @property\n    def build_source_list(self):\n        return [\n            Anod.Source(name=self.tarball, publish=True, dest=\"\"),\n            Anod.Source(name=self.lk_tarball, publish=True, dest=\"langkit_src\"),\n            Anod.Source(name=self.deps[\"gprconfig_kb\"].tarball, publish=True,\n            dest=\"gprconfig_kb\",\n            ),\n        ]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n            Anod.Dependency(\"libgpr\", track=True),\n            Anod.Dependency(\"xmlada\", track=True),\n            Anod.Dependency(\"gnatcoll\", track=True),\n            Anod.Dependency(\"gnatcoll-bindings\", track=True),\n            Anod.Dependency(\"langkit_support\", track=True),\n            Anod.Dependency(\"gprconfig_kb\", require=\"source_pkg\", track=True),\n        ]\n\n    def update_version(self):\n        text_replace(\n            os.path.join(self[\"SRC_DIR\"], \"src\", \"lib\", \"gpr2-version.ads\"),\n            [\n                (\n                    \"Build_Type : constant GNAT_Build_Type.*\",\n                    \"Build_Type : constant GNAT_Build_Type := FSF;\",\n                ),\n                (\n                    \"Short_Value : constant String.*\",\n                    'Short_Value : constant String := \"%s\";' % self.version,\n                ),\n                (\n                    \"Date : constant String.*\",\n                    'Date : constant String := \"%s-gpr2\";' % str(date.today()),\n                ),\n                (\n                    \"Current_Year : constant String.*\",\n                    'Current_Year : constant String := \"%s\";' % str(date.today().year),\n                ),\n            ],\n        )\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            if m != \"gprconfig_kb\":\n                self.deps[m].setenv()\n\n        self.update_version()\n\n        # The SOURCE_DIR detection doesn't work on macOS, so we replace it with\n        # an absolute path.\n        print(os.path.join(self[\"SRC_DIR\"], \"Makefile\"))\n        text_replace(os.path.join(self[\"SRC_DIR\"], \"Makefile\"),\n                                  [(\"SOURCE_DIR *:= .*\",\n                                   \"SOURCE_DIR := \" + self[\"SRC_DIR\"])])\n\n        self.env.add_search_path(\"PYTHONPATH\", os.path.join(self[\"SRC_DIR\"], \"langkit_src\"))\n\n        make = Make(self,\n                    makefile=os.path.join(self[\"SRC_DIR\"], \"Makefile\"),\n                    exec_dir=self[\"BUILD_DIR\"],\n                    jobs=1)\n"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "path": "specs/vss_text.anod",
+      "start_line": 1,
+      "end_line": 125,
+      "git_blob_sha": "56a18e874e66a6cbc4f2aee5449969a279c85ef0",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/vss_text.anod",
+      "content": "from e3.anod.spec import Anod\nfrom e3.anod.loader import spec\nfrom e3.anod.helper import text_replace\n\nimport os\n\nclass VSS_Text(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.0.0\"\n\n    @property\n    def tarball(self):\n        return \"vss-text-%s.zip\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/vss-text/archive/refs/tags/v%s.zip\"\n                % self.version,\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n        ]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        text_replace(\n            os.path.join(\n                self[\"SRC_DIR\"],\n                \"source\",\n                \"text\",\n                \"implementation\",\n                \"vss-strings-cursors-iterators-characters.adb\",\n            ),\n            [\n                (\n                    \"package body VSS.Strings.Cursors.Iterators.Characters is\",\n                    \"pragma Ada_2022;\\npackage body VSS.Strings.Cursors.Iterators.Characters is\",\n                )\n            ],\n        )\n\n        build_profile = \"release\"\n        build_mode = \"prod\"\n        gpr_files = [\n            os.path.join(self[\"SRC_DIR\"], gpr)\n            for gpr in (\n                \"gnat/vss_gnat.gpr\",\n                \"gnat/vss_text.gpr\",\n            )\n        ]\n\n        for library_type in [\"static\"]:\n            for gpr in gpr_files:\n                self.shell(\n                    \"gprbuild\",\n                    \"-p\",\n                    \"-P\",\n                    gpr,\n                    \"-j\" + str(self.jobs),\n                    \"--relocate-build-tree=\" + library_type,\n                    \"-XLIBRARY_TYPE=\" + library_type,\n                    \"-XBUILD_PROFILE=\" + build_profile,\n                )\n\n            for gpr in gpr_files:\n                self.shell(\n                    \"gprinstall\",\n                    \"-f\",\n                    \"-p\",\n                    \"-P\",\n                    gpr,\n                    \"--relocate-build-tree=\" + library_type,\n                    \"--prefix=\" + self[\"INSTALL_DIR\"],\n                    \"-XBUILD_MODE=\" + build_mode,\n                    \"-XBUILD_PROFILE=\" + build_profile,\n                    \"-XLIBRARY_TYPE=\" + library_type,\n                    \"--build-var=LIBRARY_TYPE\",\n                    \"--build-name=\" + library_type,\n                )\n\n        self.clean()"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "path": "specs/sarif_ada.anod",
+      "start_line": 1,
+      "end_line": 125,
+      "git_blob_sha": "16cb75177ce8efe5b1d770d16284af655bfd26c8",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/sarif_ada.anod",
+      "content": "from e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\nimport os\n\n\nclass SarifAda(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.2\"\n\n    @property\n    def branch(self):\n        return \"main\"\n\n    @property\n    def tarball(self):\n        return \"sarif-ada-%s.zip\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/sarif-ada/archive/refs/heads/%s.zip\"\n                % self.branch,\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n            Anod.Dependency(\"vss_text\"),\n            Anod.Dependency(\"vss_extra\"),\n        ]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        gpr_file = os.path.join(self[\"SRC_DIR\"], \"sarif_ada.gpr\")\n        build_mode = \"release\"\n\n        for library_type in [\"static\"]:\n            self.shell(\n                \"gprbuild\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"-j\" + str(self.jobs),\n                \"--relocate-build-tree=\" + library_type,\n                \"-XBUILD_PROFILE=\" + build_mode,\n                \"-XLIBRARY_TYPE=\" + library_type,\n            )\n\n            self.shell(\n                \"gprinstall\",\n                \"-f\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"--relocate-build-tree=\" + library_type,\n                \"--prefix=\" + self[\"INSTALL_DIR\"],\n                \"-XBUILD_PROFILE=\" + build_mode,\n                \"-XLIBRARY_TYPE=\" + library_type,\n                \"--build-var=LIBRARY_TYPE\",\n                \"--build-name=\" + library_type,\n            )\n\n        self.clean()"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "path": "specs/ada_toml.anod",
+      "start_line": 1,
+      "end_line": 125,
+      "git_blob_sha": "e4ce23927814c9a8019dae972ca1a43cebfd867d",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/ada_toml.anod",
+      "content": "from e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\nimport os\n\nclass Ada_TOML(spec(\"common\")):\n    @property\n    def version(self):\n        return \"0.5\"\n\n    @property\n    def tarball(self):\n        return \"ada-toml-%s.tar.gz\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/pmderodat/ada-toml/archive/refs/tags/v%s.tar.gz\"\n                % self.version,\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n        ]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        build_profile = \"release\"\n        build_mode = \"prod\"\n        gpr_files = [\n            os.path.join(self[\"SRC_DIR\"], gpr)\n            for gpr in (\n                \"ada_toml.gpr\",\n            )\n        ]\n\n        for library_type in [\"static\"]:\n            for gpr in gpr_files:\n                self.shell(\n                    \"gprbuild\",\n                    \"-p\",\n                    \"-P\",\n                    gpr,\n                    \"-j\" + str(self.jobs),\n                    \"--relocate-build-tree=\" + library_type,\n                    \"-XLIBRARY_TYPE=\" + library_type,\n                    \"-XBUILD_PROFILE=\" + build_profile,\n                    \"-XADA_TOML_BUILD_MODE=\" + build_mode,\n                )\n\n            for gpr in gpr_files:\n                self.shell(\n                    \"gprinstall\",\n                    \"-f\",\n                    \"-p\",\n                    \"-P\",\n                    gpr,\n                    \"--relocate-build-tree=\" + library_type,\n                    \"--prefix=\" + self[\"INSTALL_DIR\"],\n                    \"-XBUILD_MODE=\" + build_mode,\n                    \"-XADA_TOML_BUILD_MODE=\" + build_mode,\n                    \"-XBUILD_PROFILE=\" + build_profile,\n                    \"-XLIBRARY_TYPE=\" + library_type,\n                    \"--build-var=LIBRARY_TYPE\",\n                    \"--build-name=\" + library_type,\n                )\n\n        self.clean()"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "git_blob_sha": "34ba96a521e2b9f843780b74cb9960de05bcf213",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/xmlada.anod",
+      "content": "from e3.os.fs import unixpath\nfrom e3.fs import sync_tree\nfrom e3.anod.helper import Configure, Make\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\n\nclass XMLAda(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.0.0\"\n\n    @property\n    def tarball(self):\n        return \"xmlada-%s.tar.gz\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/xmlada/archive/v%s/%s\"\n                % (self.version, self.tarball),\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [Anod.Dependency(\"gprbuild\", qualifier=\"bootstrap\"),\n                Anod.Dependency(\"base_gcc\")]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        configure = Configure(self, exec_dir=self[\"BUILD_DIR\"])\n        configure.add(\"--prefix=\" + unixpath(self[\"INSTALL_DIR\"]))\n\n        make = Make(self)\n        make.set_var(\"PROCESSORS\", str(self.jobs))\n\n        sync_tree(self[\"SRC_DIR\"], self[\"BUILD_DIR\"], delete=True)\n\n        configure()\n\n        make(\"all\")\n        make(\"install\", jobs=1)\n\n        self.clean()"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "git_blob_sha": "7c6fbdcd516a9491923866f0bfb4920cb8198651",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/libgpr.anod",
+      "content": "from e3.os.fs import touch\nfrom e3.anod.helper import Make, text_replace\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\nfrom e3.fs import cp\nfrom e3.diff import patch\nimport os\n\nclass LibGPR(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.2\"\n\n    @property\n    def tarball(self):\n        return \"libgpr-%s.zip\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/gprbuild/archive/refs/heads/%s.zip\"\n                % self.version,\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [\n            Anod.Source(name=self.tarball, publish=True, dest=\"\"),\n        ]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n            Anod.Dependency(\"xmlada\", track=True),\n        ]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        text_replace(\n            os.path.join(self[\"SRC_DIR\"], \"gpr\", \"src\", \"gpr-compilation-process.adb\"),\n            [\n                (\n                    r'\\(String, Env_Maps.Map, Env_Maps.\"<\", Env_Maps.\"=\"\\);',\n                    r'(String, Env_Maps.Map, \"=\" => Env_Maps.\"=\");',\n                )\n            ],\n        )\n\n        make = Make(self, exec_dir=self[\"SRC_DIR\"])\n        make(\"libgpr.build\")\n\n        make(\"libgpr.install\", \"prefix=\" + self[\"INSTALL_DIR\"])\n\n        self.clean()"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "git_blob_sha": "c7eb4bb075b217db701c1b74a6e280aec3dd62e2",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/gnatcoll-bindings.anod",
+      "content": "from e3.os.fs import cd\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\nimport os\n\n\nclass GNATcollBindings(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.0.0\"\n\n    @property\n    def tarball(self):\n        return \"gnatcoll-bindings-%s.tar.gz\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/gnatcoll-bindings/archive/refs/tags/v%s.tar.gz\"\n                % self.version,\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        deps = [\n            Anod.Dependency(\"base_gcc\"),\n            Anod.Dependency(\"gprbuild\"),\n            Anod.Dependency(\"gnatcoll\"),\n            Anod.Dependency(\"libgpr\"),\n            Anod.Dependency(\"xmlada\"),\n            Anod.Dependency(\"gmp\"),\n            Anod.Dependency(\"zlib\"),\n        ]\n        if self.env.target.os.name == \"windows\":\n            deps.append(Anod.Dependency(\"libiconv\"))\n        return deps\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        for comp in [\"gmp\", \"iconv\"]:\n            cd(os.path.join(self[\"SRC_DIR\"], comp))\n            self.shell(\n                \"python3\",\n                \"setup.py\",\n                \"build\",\n                \"--jobs=\" + str(self.jobs),\n                \"--reconfigure\",\n                \"--library-types\", \"static\",\n            )\n\n            self.shell(\n                \"python3\", \"setup.py\", \"install\", \"--prefix=\" + self[\"INSTALL_DIR\"]\n            )\n\n        self.clean()"
+    },
+    {
+      "repository": "alire-project/GNAT-FSF-builds",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "git_blob_sha": "2d19a9f66ab5653a542acef492c4a1830083940a",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/gprbuild.anod",
+      "content": "from e3.os.fs import unixpath, cd, touch\nfrom e3.fs import sync_tree, cp\nfrom e3.anod.helper import Make, text_replace\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\nfrom e3.diff import patch\nimport os\nfrom datetime import date\n\npatch_name = \"gprbuild-no-static.patch\"\n\nclass GPRbuild(spec(\"gh-artifact\")):\n    @property\n    def version(self):\n        return \"26.2\"\n\n    @property\n    def tarball(self):\n        return \"gprbuild-%s.zip\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/gprbuild/archive/refs/heads/%s.zip\"\n                % self.version,\n            ),\n            self.LocalSourceBuilder(name=patch_name),\n        ]\n\n    @property\n    def build_source_list(self):\n        if self.bootstrap:\n            return [\n                Anod.Source(name=self.tarball, publish=True, dest=\"\"),\n                Anod.Source(\n                    name=self.deps[\"gprconfig_kb\"].tarball,\n                    publish=True,\n                    dest=\"gprconfig_kb\",\n                ),\n                Anod.Source(\n                    name=self.deps[\"xmlada\"].tarball, publish=True, dest=\"xmlada\"\n                ),\n                Anod.Source(name=patch_name, publish=True, unpack_cmd=cp, dest=\"patches\"),\n            ]\n        else:\n            return [\n                Anod.Source(name=self.tarball, publish=True, dest=\"\"),\n                Anod.Source(\n                    name=self.deps[\"gprconfig_kb\"].tarball,\n                    publish=True,\n                    dest=\"gprconfig_kb\",\n                ),\n                Anod.Source(name=patch_name, publish=True, unpack_cmd=cp, dest=\"patches\"),"
+    },
+    {
+      "repository": "AdaCore/spark2014",
+      "ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "git_blob_sha": "dd625d51f297e2758906c0091e923ed9bae72427",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/gnatprove.gpr",
+      "content": "with \"gnatcoll_core\";\nwith \"gpr2\";\nwith \"sarif_ada\";\nwith \"vss_os\";\nwith \"ada_toml\";\n\nproject GNATprove is\n\n   for Object_Dir use \"obj\";\n   for Exec_Dir use \"install/bin\";\n\n   for Languages use (\"Ada\", \"C\");\n\n   type Build_Type is (\"Debug\", \"Production\", \"Coverage\");\n\n   Build : Build_Type := External (\"Build\", \"Debug\");\n\n   Tool := External (\"GPR_TOOL\", \"\");\n\n   Target := project'Target;\n   Sources := (\".\", \"src/gnatprove\", \"src/common\");\n\n   case Tool is\n      when \"gnatsas\" =>\n         Sources := Sources & (\"src/common/\" & Tool);\n      when others =>\n         Sources := Sources & (\"src/common/\" & Target);\n   end case;\n\n   for Source_Dirs use Sources;\n\n   for Main use (\"gnatprove.adb\",\n                 \"spark_data_rep_wrapper.adb\",\n                 \"spark_memcached_wrapper.adb\",\n                 \"spark_semaphore_wrapper.adb\");\n\n   Common_Switches := (\"-gnatyg\", \"-g\", \"-gnat2022\", \"-gnatX0\");\n\n   package Builder is\n      for Executable (\"gnatprove.adb\") use \"gnatprove\";\n      for Executable (\"spark_data_rep_wrapper.adb\") use \"spark_data_rep_wrapper\";\n      for Executable (\"spark_memcached_wrapper.adb\") use \"spark_memcached_wrapper\";\n      for Executable (\"spark_semaphore_wrapper.adb\") use \"spark_semaphore_wrapper\";\n\n      case Build is\n         when \"Debug\" =>\n            for Global_Configuration_Pragmas use \"gnatprove.adc\";\n         when \"Production\" =>\n            null;\n         when \"Coverage\" =>\n            --  We don't do coverage of gnatprove yet, only gnat2why\n            null;\n      end case;\n\n      for Switches (\"Ada\") use (\"-m\");\n\n      case Tool is\n         when \"gnatsas\" =>\n            --  Use -gnateb to ensure that pragma configuration files checksums are\n            --  correctly computed when running incremental analysis in CIs.\n            for Global_Compilation_Switches (\"Ada\") use (\"-gnateb\");\n         when Others =>\n            null;\n      end case;\n\n   end Builder;\n\n   Semaphore_C_File_Switches := ();\n\n   case Target is\n      when \"x86-linux\" | \"x86_64-linux\" | \"aarch64-linux\" =>\n         -- On Linux, we need pthread for semaphores\n         Semaphore_C_File_Switches := (\"-pthread\");\n      when others =>\n         null;\n   end case;\n\n   package Compiler is\n      case Build is\n         when \"Debug\" =>\n            for Default_Switches (\"Ada\") use\n               Common_Switches & (\"-O0\", \"-gnata\", \"-gnatwae\", \"-gnatVa\");"
+    },
+    {
+      "repository": "AdaCore/spark2014",
+      "ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "git_blob_sha": "4feb0984736d4bf5e5c2d0445f2e6a35d53996d7",
+      "url": "https://github.com/AdaCore/spark2014/blob/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/Makefile.gnatprove",
+      "content": "# need to define this variable here, to allow overriding it when calling the\n# Makefile\nPROD=\n\nall: build\n\nbuild:\n\tgprbuild -p -j0 -P gnatprove.gpr $(PROD)\n\ncodepeer-run:\n\tgnatsas analyze -P gnatprove.gpr --no-gnat\n\ncodepeer:\n\t@gnatsas report text -P gnatprove.gpr --quiet\n\t@gnatsas report code-climate -P gnatprove.gpr --quiet -o obj/gnatsas/gnatprove.json\n\nclean:\n\tgprclean -P gnatprove.gpr -r\n\trm -rf obj"
+    }
+  ],
+  "actions": {
+    "source_archives_downloaded": false,
+    "clones": false,
+    "builds": false,
+    "installs": false,
+    "production_edits": false,
+    "outreach": false
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "status": "UNAPPLIED_UNCOMPILED_UNPROVED_UNRUN",
+  "preimage_sha256": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+  "candidate_sha256": "fbf8962f74eb923bd67e9fb94f9e2cd17309ccf83cb1d61ed0822937d0f1f9e4",
+  "patch_sha256": "e79215bfc7f347b4d0df0012cd7598d39e2a1d4fbaa02a03fd9a86627a7ea006",
+  "public_spec_sha256": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+  "composition": [
+    "initialized-columns-candidate-v1 exact root/subject replacement",
+    "digest-guard-candidate-v1 exact internal guard",
+    "invariant-candidate-v1 alternatives scalar LoopEntry invariant only; quantified prefix pragmas excluded"
+  ],
+  "review_boundary": "Separate component source reviews plus aggregate-probe/findings.json bound compiler strategy. Combined production helper proofs/runtime and integrated compiler readback remain required. No production file edit by helper.",
+  "cost": "Linear row initialization/default writes and one scalar Boolean invariant per alternative; no extra whole-array temporary in isolated actual-type initialized probe. Digest guard constant scalar comparisons. No per-iteration prefix quantifiers or input cap."
+}

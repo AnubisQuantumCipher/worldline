@@ -1,0 +1,10 @@
+--- a/utf8_chunk_proposal.adb
++++ b/utf8_chunk_proposal.adb
+@@ -97,7 +97,6 @@
+       Valid : Boolean := True;
+    begin
+       return Result : Chunk_Result (Capacity) do
+-         Result.Item := (Start, 0, True);
+          Result.Data := [others => Character'Val (0)];
+          while Position < Bytes'Length and then Position - Start < Quota loop
+             pragma Loop_Invariant (Valid);

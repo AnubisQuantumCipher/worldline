@@ -1,0 +1,58 @@
+{
+  "name": "radix_power",
+  "argv": [
+    "gnatprove",
+    "-P",
+    "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=5",
+    "-j2",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-u",
+    "resource_quantities.adb",
+    "--limit-subp=resource_quantities.ads:69"
+  ],
+  "start": "2026-10-26T15:26:21.498559+00:00",
+  "disk_samples": [
+    {
+      "utc": "2026-10-26T15:26:21.505670+00:00",
+      "free_bytes": 10122903552
+    },
+    {
+      "utc": "2026-10-26T15:26:22.506069+00:00",
+      "free_bytes": 10122678272
+    },
+    {
+      "utc": "2026-10-26T15:26:23.506811+00:00",
+      "free_bytes": 10122121216
+    },
+    {
+      "utc": "2026-10-26T15:26:24.507026+00:00",
+      "free_bytes": 10121142272
+    },
+    {
+      "utc": "2026-10-26T15:26:25.507261+00:00",
+      "free_bytes": 10121191424
+    },
+    {
+      "utc": "2026-10-26T15:26:26.507770+00:00",
+      "free_bytes": 10110124032
+    }
+  ],
+  "phase_acceptance": false,
+  "end": "2026-10-26T15:26:26.512456+00:00",
+  "exit_code": 0,
+  "stop": null,
+  "fresh_report": true
+}

@@ -1,0 +1,66 @@
+{
+  "kind": "read-only-proof-coverage-policy-review",
+  "utc": "2026-10-26T14:46:54.225133+00:00",
+  "reviewer": {
+    "agent": "/root/proof_blocker",
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "identity_provenance": "parent allocation; no runtime identity attestation"
+  },
+  "manifest_source_sha256": "ea133082135b76105c9c9f367ac8a54c9196fe812eb7d0b23f22cd1b8e952da5",
+  "prove_script_sha256": "660b18df13147158b56bcc8bf7120ce599337bba07abe2b59aa7e604bbdd2841",
+  "current_required_count": 1650,
+  "current_unique_count": 1650,
+  "current_complete_roster_sha256": "9613e07fd8d1d597f66eddde1033a163534845f4dde7df502ed6a7161e6fbd9d",
+  "historical_first1623_roster_sha256": "f4cf13992fb078a91cfb96d626e16975c2a6627793ad514c93327e1e394cc570",
+  "current_later_required_count": 27,
+  "minimum_checks": 251,
+  "proposal": "Append all15 new entries only, preserving current full1650-entry sequence as literal prefix and preserving every original proof floor/policy/pin/source gate. Future1665 entries, not evidence of completed proof.",
+  "append_entries": [
+    "Resource_Reservation_Transition.Equal_Prefix_Values",
+    "Resource_Reservation_Transition.Trimmed_View",
+    "Resource_Reservation_Transition.Successor_Columns",
+    "Worldline.Custody_V2_Load_Input.Raw_Span",
+    "Worldline.Custody_V2_Load_Input.Optional",
+    "Worldline.Custody_V2_Load_Input.Quantity",
+    "Worldline.Custody_V2_Load_Input.Identity",
+    "Worldline.Custody_V2_Load_Input.Digest",
+    "Worldline.Custody_V2_Load_Input.Digest.Nibble",
+    "Worldline.Custody_V2_Load_Input.Project_Events",
+    "Worldline.Custody_V2_Load_Input.Project_Roots",
+    "Worldline.Custody_V2_Load_Input.Project_Subjects",
+    "Worldline.Custody_V2_Load_Input.Project_Alternatives",
+    "Worldline.Custody_V2_Load_Input.Initialize_Input",
+    "Worldline.Custody_V2_Load_Input.Decode_Into"
+  ],
+  "expected_after_count": 1665,
+  "names": {
+    "numeric3": "Exact names observed in fresh numeric-proof-v1 reports.",
+    "project4": "Exact names observed in projection-proof-v2 reports; Roots/Subjects/Alternatives currently have original failed postconditions before candidate adoption.",
+    "moved_private": "Source lexical qualification predicts Raw_Span,Optional,Quantity,Identity,Digest,Digest.Nibble. Confirm exact report names with fresh full-unit all-mode output before final policy adoption; do not fabricate missing report rows.",
+    "initialize_and_main": "Source declarations and earlier full-unit flow show Initialize_Input and Decode_Into; no main proof verdict exists.",
+    "old_qualified_private_names": "Original required roster does not contain Decode_Into.Raw_Span/etc, so no historical required entry is removed or renamed by these additions."
+  },
+  "zero_check_policy": {
+    "existing_parser": "_SUBPROGRAM accepts only flowanalyzed AND proved(Nchecks) rows, N may0; flow-only rows are rejected. parse_summary also reconciles every listed row with unit analyzed count. Manifest validation accepts nonnegative checks; do not silently require positive counts for every trivial helper.",
+    "must_preserve": "Do not accept bare flow rows, notproved rows, missing or source-mismatched rows, synthetic report edits, cached partial summaries as final proof, or numeric target subsets as full coverage.",
+    "legitimate_zero": "Pure modular/total expression helpers such as Digest.Nibble may have no generated runtime-check VC and can legitimately have0checks. A zero-check row proves no substantive theorem by itself. Retain actual verification scope/call graph/meaningful contracts rather than add vacuous assertions to inflate counts.",
+    "nontrivial_claims": "Initialize_Input,Decode_Into,projects and numeric bridges have meaningful Post/termination/assertion obligations. Require fresh actual discharge of these original properties and every introduced private premise. A prior flow-only or selected0check row cannot substitute for their proof.",
+    "invocation_boundary": "prove.sh original full-U --modeall strict command with successful exit, fresh summary, exact source/build/lib identities and perunit analyzed==available remains mandatory. Imported SPARKlib source requires separate original driver; -U does not erase that boundary.",
+    "no_parser_relaxation_required": true
+  },
+  "additional_existing_helper_observation": {
+    "names_not_explicit_current_roster": [
+      "Resource_Quantities.Radix_Power_Recurrence",
+      "Resource_Quantities.Radix_Power_Checked",
+      "Resource_Quantities.Prefix_Value_Recurrence",
+      "Resource_Quantities.Prefix_Value_Checked"
+    ],
+    "meaning": "Existing complete-unit analyzed==available gate still requires these bodies; additive explicit enrollment is permissible but not a substitute for complete-unit coverage. Do not exclude them when strengthening selected names."
+  },
+  "status": "APPROVE_ADDITIVE_REQUIREMENT_TIGHTENING_ONLY",
+  "production_edited": false,
+  "proof_or_test_run": false,
+  "success_manifest_created": false,
+  "whole_phase_acceptance": false
+}

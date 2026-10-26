@@ -1,0 +1,106 @@
+{
+  "name": "equal_prefix",
+  "argv": [
+    "gnatprove",
+    "-P",
+    "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=5",
+    "-j2",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-u",
+    "resource_reservation_transition.adb",
+    "--limit-subp=resource_reservation_transition.adb:572"
+  ],
+  "start": "2026-10-26T15:26:27.523565+00:00",
+  "disk_samples": [
+    {
+      "utc": "2026-10-26T15:26:27.524095+00:00",
+      "free_bytes": 10121007104
+    },
+    {
+      "utc": "2026-10-26T15:26:28.524313+00:00",
+      "free_bytes": 10120912896
+    },
+    {
+      "utc": "2026-10-26T15:26:29.524641+00:00",
+      "free_bytes": 10120417280
+    },
+    {
+      "utc": "2026-10-26T15:26:30.525005+00:00",
+      "free_bytes": 10119421952
+    },
+    {
+      "utc": "2026-10-26T15:26:31.525458+00:00",
+      "free_bytes": 10100637696
+    },
+    {
+      "utc": "2026-10-26T15:26:32.525773+00:00",
+      "free_bytes": 10099974144
+    },
+    {
+      "utc": "2026-10-26T15:26:33.526085+00:00",
+      "free_bytes": 10099974144
+    },
+    {
+      "utc": "2026-10-26T15:26:34.526930+00:00",
+      "free_bytes": 10116640768
+    },
+    {
+      "utc": "2026-10-26T15:26:35.527591+00:00",
+      "free_bytes": 10116153344
+    },
+    {
+      "utc": "2026-10-26T15:26:36.527907+00:00",
+      "free_bytes": 10116141056
+    },
+    {
+      "utc": "2026-10-26T15:26:37.528188+00:00",
+      "free_bytes": 10115043328
+    },
+    {
+      "utc": "2026-10-26T15:26:38.528433+00:00",
+      "free_bytes": 10115051520
+    },
+    {
+      "utc": "2026-10-26T15:26:39.528957+00:00",
+      "free_bytes": 10114326528
+    },
+    {
+      "utc": "2026-10-26T15:26:40.529191+00:00",
+      "free_bytes": 10103603200
+    },
+    {
+      "utc": "2026-10-26T15:26:41.529445+00:00",
+      "free_bytes": 10101608448
+    },
+    {
+      "utc": "2026-10-26T15:26:42.529905+00:00",
+      "free_bytes": 10101071872
+    },
+    {
+      "utc": "2026-10-26T15:26:43.530114+00:00",
+      "free_bytes": 10102870016
+    },
+    {
+      "utc": "2026-10-26T15:26:44.531967+00:00",
+      "free_bytes": 10092412928
+    }
+  ],
+  "phase_acceptance": false,
+  "end": "2026-10-26T15:26:44.539435+00:00",
+  "exit_code": 0,
+  "stop": null,
+  "fresh_report": true
+}

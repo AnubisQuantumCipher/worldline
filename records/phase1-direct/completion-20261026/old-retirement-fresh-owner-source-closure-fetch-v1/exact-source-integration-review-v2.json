@@ -1,0 +1,143 @@
+{
+  "schema": "worldline.o1.exact-source-closure-review.v2",
+  "utc": "2026-10-26T15:50:26.935108+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "verdict": "FIVE_EXACT_REF_SOURCES_ACQUIRED; NO_SOUND_COMPILE_SHAPED_SEMANTIC_PATCH_FROM_AVAILABLE_CLOSURE",
+  "source_ref": "AdaCore/spark2014 b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+  "prior_cut": "source-closure.json correctly recorded these5interfaces missing at its timestamp; immutable later fetch addendum, not rewrite of prior UNKNOWN state.",
+  "fetch_receipt_sha256": "90ea795a2358fd281ed0c7bfc18ec8ec5171f4d519e6d1d456d0c0bb7c330b44",
+  "fetched_sources": [
+    {
+      "path": "src/why/gnat2why-expr.ads",
+      "bytes": 51226,
+      "sha256": "957ac9f65d2ee60dd23f293ecf45013a34a69b7dc4f1620319442323aebbec6a",
+      "computed_git_blob_sha1": "1291a54eb20deb49728278fadaa52f3a2910e94a",
+      "official_immutable_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-expr.ads",
+      "local_sha256_match": true
+    },
+    {
+      "path": "src/why/gnat2why-subprograms.ads",
+      "bytes": 16222,
+      "sha256": "fd8109ceccf6646185d76e2313356da130a0bb31bcd7dd0bdd4f42d65fb2ea4b",
+      "computed_git_blob_sha1": "bc879b43f562b1f5456559e782c5741f19358687",
+      "official_immutable_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.ads",
+      "local_sha256_match": true
+    },
+    {
+      "path": "src/why/gnat2why-subprograms.adb",
+      "bytes": 417892,
+      "sha256": "5b10f31416b3ce9fc3cbbf38271a5f8ca693f8d28d408879e03668d769cd2433",
+      "computed_git_blob_sha1": "0e11a456a82e56be86c29dfa8a83b38fa80e4dac",
+      "official_immutable_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/gnat2why-subprograms.adb",
+      "local_sha256_match": true
+    },
+    {
+      "path": "src/why/why-gen-progs.ads",
+      "bytes": 9656,
+      "sha256": "61b34d637d964d996dced2357f5dfb5ef10fb204f9a20d514b4c51da9f26d072",
+      "computed_git_blob_sha1": "049317038fb0c8cc346914b8550a5fde266f08ea",
+      "official_immutable_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.ads",
+      "local_sha256_match": true
+    },
+    {
+      "path": "src/why/why-gen-progs.adb",
+      "bytes": 12033,
+      "sha256": "f83f1cbe8c49b3d97dc13df3e61aa77f6a2ea1020bae8b4cb2322820d39720f3",
+      "computed_git_blob_sha1": "dd3430c643e8ac25c5ad5f16893c1376a74657ad",
+      "official_immutable_url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/why/why-gen-progs.adb",
+      "local_sha256_match": true
+    }
+  ],
+  "previous_exact_source_coherence": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-expr.adb",
+      "expected_sha256": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+      "actual_sha256": "9a4b71c8d582ac513e8cd70dd7bf366812dad593086438b9420df574c7f39619",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-gnat2why-borrow_checker.adb",
+      "expected_sha256": "925e3a58f0d3f18ee75d48725d9a7df12691fdf1854886ab6379727b01020a53",
+      "actual_sha256": "925e3a58f0d3f18ee75d48725d9a7df12691fdf1854886ab6379727b01020a53",
+      "matches": true
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/scratch/final-gates/resume-20261015-v1/toolchain-support-source-research-v1/fsf-spark_definition.adb",
+      "expected_sha256": "8610753d8e78c8195ef3d00b75980448d957617c2227cd47e4c84acc19e89a3d",
+      "actual_sha256": "8610753d8e78c8195ef3d00b75980448d957617c2227cd47e4c84acc19e89a3d",
+      "matches": true
+    }
+  ],
+  "known_integration_now": [
+    {
+      "file": "gnat2why-expr.ads",
+      "lines": "983-1023",
+      "fact": "Exported Bind_From_Mapping_In_Prog and both Bind_From_Mapping_In_Expr overloads match retained exact FSF expression body. Executable Old_Prefixes permit conditional guards; complete value Name binding still separate from physical owner."
+    },
+    {
+      "file": "gnat2why-subprograms.adb",
+      "lines": "5604-5679",
+      "fact": "Exact Declare_Old_Variables wraps existing P using program-domain Post Old and separate contract-case logical/RTE guarded bindings. New cleanup must not unconditionalize conditionalOld or duplicate captures from its EW_Pterm/RTEignore split."
+    },
+    {
+      "file": "gnat2why-subprograms.adb",
+      "lines": "6453-6520;6750-6778;6854-6875",
+      "fact": "Regular body finalization precedes body Post pragmas/refinedpost/output invariants/contract+exit checks; outer Old binder wraps resulting Why_Body. FreshOld physical cleanup must enclose body and postchecks, not be injected only into original local Finalization_Actions that precede these reads. Ada/program-exit handlers add separate lifecycle paths."
+    },
+    {
+      "file": "why-gen-progs.ads/.adb",
+      "lines": "27-42;45-208",
+      "fact": "This unit supplies statement sequencing/assertion/any/assume/havoc helpers and imports Why.Atree.Builders, Why.Gen.Expr etc. It does not declare typedref/try/finally constructors. Acquiring it does not close those constructor interfaces."
+    },
+    {
+      "file": "retained fsf-gnat2why-expr.adb",
+      "lines": "18370-18734",
+      "fact": "Transform_Call_With_Side_Effects is private to expression body and accepts (Params, real Ada Call Node_Id), not a Whyowner+Finalizeentity. It derives callee, formalactual arguments, stores, visibility/refinement, preconditionVC, exceptionstores/reraise, invariant/tag/variant/termination checks. Bare New_Call or Compute_Call_Effects would omit required semantics."
+    }
+  ],
+  "precise_unresolved_integration": [
+    {
+      "gap": "Checked implicit finalizer invocation on a fresh physical owner",
+      "required": "Either a proven path that creates/resolves actual compiler-generated Ada call+owner entities and passes them through existing full checked call path, or a carefully factored common call-lowering API with identical argument/stores/invariant/variant/termination/exception semantics. No current exported API in acquired subprograms interface accepts Whyowner and hook with all these checks.",
+      "why_patch_would_be_unsound": "Invented W_Prog direct call can assume finalizer post/frame without discharging real formalactual/precondition/termination/exception obligations, and cannot synchronize synthetic owner with borrow permissions."
+    },
+    {
+      "gap": "Exact typed mutable owner and exception cleanup constructors",
+      "required": "Actual Why.Gen.Expr/Why.Gen.Binders exported typed-ref construction, generated Why.Atree.Builders Try/Handler signatures and Why AST schema/normal+exception propagation. These exact sources/generated interfaces not in bounded fivefile set. Transformation_Params/Ref_Context actual definitions/context extension sites likewise still need concrete ownershipstate integration.",
+      "why_patch_would_be_unsound": "A guessed own_ref or try finally function is not a compilable API; simulated cleanup without initialized-owner enrollment and all exit coverage could finalize uninitialized owner or skip real exit."
+    },
+    {
+      "gap": "Strict Finalizable hook entity lookup and type restrictions",
+      "required": "Exact matching frontend aspects/semantic exported lookup API for strictRelaxedFinalizationFalse, Finalize visibility/body/effects and fresh result scheduling/BIR/noAdjust. Existing semantic bodies identify strictness but not complete callable lookup signatures/ownership entity construction.",
+      "why_patch_would_be_unsound": "Type-name exemption or assuming every Finalizable type has valid visible no-raise hook weakens resource/leak gate."
+    },
+    {
+      "gap": "Physical owner enrollment independent of logicalOld map",
+      "required": "Fresh variable-free prefix must remain physically enrolled even when Transform_Attribute_Old skips proofvariablefree terms. Map iteration/nesting cannot attest native creation order. One-prefix first slice must explicitly validate supported exact-node region and normal/exception scope closure.",
+      "why_patch_would_be_unsound": "Changing only Bind_From_Mapping cannot reclaim an owner absent from logical map and may merge repeated logically equal captures, lose later-initializer failure cleanup or finalize before postreads."
+    },
+    {
+      "gap": "Borrowchecker and original leakVC connection",
+      "required": "Create owned physical reference in existing permissiontree/flow model and prove real Finalize moves/nulls all its allocatedparts before original leakVC. No original static False can be deferred unless exact created region has structural coverage and cleanup obligation attached.",
+      "why_patch_would_be_unsound": "Replacing staticFalse on allocation in assertion with True or suppressing VC preserves neither ownership nor reclamation proof. Merely calling a ghost/program finalizer in Why without matching permissions also cannot establish native retirement correspondence."
+    }
+  ],
+  "patch_decision": "No semantic patch generated:5files eliminate historical-master orientation and reveal precise integration seams, but missing constructor/frontend interfaces plus unresolved checked implicit-call/owner enrollment semantics prevent a sound compile-shaped implementation from this bounded source cut. Not a universal infeasibility claim. No empty stub/API or weakened resourceVC supplied.",
+  "smallest_next_source_task": "Separately authorized bounded exact-source closure for common full call lowering + generated Why constructors + frontend strictFinalizable hook lookup; design one unconditional freshowner region with successful-init enrollment, real checkedFinalizer, complete normal/exception/postcheck lifetime and unchanged original leakVC. Then source-review exact patch; only later build private toolchain and run unchanged D47+omittedcleanup/duplicate/sourcefree/variablefree/laterinitfailure controls. Ordinary Adjust independent-copy semantics remains separate and unclosed.",
+  "publication": {
+    "exclude_raw_subtree": "records/phase1-direct/completion-20261026/old-retirement-fresh-owner-source-closure-fetch-v1/src",
+    "raw_download_bytes": 507029,
+    "include_only": [
+      "fetch-receipt.json",
+      "exact-source-integration-review-v2.json",
+      "publication-exclusions.txt"
+    ],
+    "third_party_headers_preserved": true,
+    "no_patch_generated": true
+  },
+  "gate_boundary": "Original O1 full value/ordinarycopies/implicitOld/allString/FIFO/no cumulativecap/normal+exceptionretirement/nativePush+TakeAll costs remain open. No compiler/runtime install, build, proof, acceptance credit or product mutation.",
+  "production_modified": false,
+  "build_proof_install_clone": false,
+  "extra_downloads": false,
+  "ipad_work": false
+}

@@ -1,0 +1,35 @@
+{
+  "status": "PREPARED_NOT_RERUN_AFTER_PROBE_GENERATOR_FIX",
+  "production_changed": false,
+  "purpose": "Compare compiler lowering/temporary allocation of exact loop assignments and Ada2022 iterated array aggregates using real loader/row types. Compiler strategy evidence only, no proof/runtime/acceptance.",
+  "root_controls": "Run compile.sh only after root heavy slot granted, through same memory-constrained wrapper with30s total bound; no linking/program execution.",
+  "source_identities": {
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.ads": "aba89bd38ad2324a484258e4f79e08eeb780fb35210e034b486cc8fc95fc91e2",
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.adb": "087000fb28ea46c05f5c2c3cd73ff7a57d836cdef92de229bd8e5e471e48618b",
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/compile.sh": "34ec70b6dbd2c9377da91c429edd0d5b173d3bd2c7ae4cef050b5e7c861d839c",
+    "core/worldline-custody_v2_load_input.ads": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+    "core/worldline-root_custody_row_schema.ads": "b9f1ff02a0b75df53b8a76aff151637f96f5d8d999c33fd722b4caf3466d8fa7"
+  },
+  "inspect": [
+    "expanded/original tree for dynamic aggregate object and copies",
+    "optimized tree for alloca/secondary stack/memcpy and constructor target",
+    "assembly and stack-usage report including dynamic stack entries",
+    "compare root/subject loop vsaggregate under identical strict checked -O2 flags"
+  ],
+  "decision": "Reject aggregate as a memory improvement if a full additional row array or unbounded secondary-stack allocation remains. Successful compilation alone is insufficient; direct-target strategy must be visible and full helper proof/original runtime required.",
+  "unproved": [
+    "Whether GNATprove can discharge aggregate Present postcondition in full domain",
+    "Whether GNAT optimized construction uses caller output directly without full temporary",
+    "Checked-runtime and stack/memory acceptability at original bounds"
+  ],
+  "additional_alternative": "Uniform PresentTrue/NullColumns initialization followed by exact original Column-only assignments. O(n) extra default writes and no per-iteration quantified check. Public Post retained; automatic component-frame proof unverified.",
+  "probe_procedures": 6,
+  "checked_postconditions": "Same allRowsPresent Post on every loop/aggregate/initialized variant.",
+  "prior_attempt": {
+    "receipt": "records/phase1-direct/completion-20261026/aggregate-probe-job-v1",
+    "exit_code": 1,
+    "cause": "Probe generation included end-loop text in two aggregate elements; compiler syntax diagnostic, no semantic/memory conclusion.",
+    "failed_source_sha256": "065580716a46c12d5e61d4ab7dea692185db5822a0a57172ed675be70e537c80",
+    "corrected_source_sha256": "087000fb28ea46c05f5c2c3cd73ff7a57d836cdef92de229bd8e5e471e48618b"
+  }
+}

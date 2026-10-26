@@ -1,0 +1,6 @@
+{
+  "only_delta": "Second : constant Block_Result := Chunk (Input, Saved.Start); => Second : constant Block_Result := Chunk (Input, Saved.Start + 1);",
+  "expected": "Replay equality assert must not prove. A one-byte input gives distinct output lengths; no expected validity narrowing.",
+  "source_sha256": "0f802c8015ad0e22a58767fcee08366a1c345a55e25a24657b91bacaaae95c86",
+  "phase_acceptance": false
+}

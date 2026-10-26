@@ -1,0 +1,11 @@
+{
+  "class": "DIAGNOSTIC_DRIVER_CORRECTION",
+  "prior": "projection-proof-job-v1",
+  "observed": "120s child timeout during Phase1 data-representation generation; no solver verdict, no fresh report",
+  "correction": "Use 330s child watchdog inside unchanged 360s outer bound; reuse only compiler-generated representation artifacts for unchanged source with GNAT dependency validation. No source or proof obligation changed.",
+  "first_attempt_preserved": true,
+  "solver_timeout_seconds": 5,
+  "solver_memlimit_MB": 1024,
+  "jobs": 2,
+  "source_or_acceptance_pass": false
+}

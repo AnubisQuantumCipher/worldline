@@ -1,0 +1,20 @@
+--- revision-1/core/resource_reservation_transition.adb
++++ revision-2/core/resource_reservation_transition.adb
+@@ -648,7 +648,16 @@
+            (for all Offset in Byte_Count range 0 .. Original.Length - 1 =>
+               Digit (Data, Original, Offset) = Digit (Data, Result, Offset)));
+       Equal_Prefix_Values (Data, Original, Result, Original.Length);
+-      Prefix_Padding (Data, Result, Original.Length);
++      -- The independent reference already clamps Count beyond the view length.
++      -- This introduces no recursive padding call over the trimmed zero suffix.
++      pragma Assert
++        (Prefix_Reference (Data, Result, Original.Length) =
++           Prefix_Reference (Data, Result, Result.Length));
++      pragma Assert
++        (Prefix_Value (Data, Result, Result.Length) =
++           Prefix_Reference (Data, Result, Result.Length));
++      pragma Assert
++        (Magnitude (Data, Result) = Prefix_Value (Data, Result, Result.Length));
+       pragma Assert
+         (Magnitude (Data, Original) = Prefix_Reference (Data, Original, Original.Length));
+       pragma Assert

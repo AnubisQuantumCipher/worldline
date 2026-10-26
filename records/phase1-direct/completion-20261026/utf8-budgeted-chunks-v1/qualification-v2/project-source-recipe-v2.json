@@ -1,0 +1,45 @@
+{
+  "created_utc": "2026-10-26T15:29:45.525182+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "status": "PROJECT_PREPARED_FOR_ROOT_OWNED_SOURCE_SUCCESSOR; NO_BUILD_PROOF_RUN",
+  "prior_review_sha256": "fb26b42590de7b4ef69f33b757e8f79ff79ba4be4aef19800024fe0e60760db0",
+  "project_sha256": "db9c3bffc2e3ed44dfee844231f2e854c2af9a5d2bf346710086d6b2010faa08",
+  "project_directory": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/qualification-v2",
+  "root_source_expected_sha256": {
+    "utf8_chunk_proposal.ads": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+    "utf8_chunk_proposal.adb": "c50677c3a3ddc3a411be022cbffed3f346b18281562ab2448ea4ff513687f162"
+  },
+  "correction": "Root copies exact original proposal pair to this directory and removes only Decode_Chunk illegal Always_Terminates. Reviewer wrote no proposal source; body must remain byte-identical. Source hash check is required before each allocated target.",
+  "source_dirs": "Project dot resolves qualification-v2 plus exact selected core; Source_Files still proposal pair +19 complete core files; unchanged private SPARKlib and Attest imports. No stubs/copies/edits to product units.",
+  "targets": [
+    "utf8_chunk_proposal.adb:6",
+    "utf8_chunk_proposal.adb:14",
+    "utf8_chunk_proposal.adb:24",
+    "utf8_chunk_proposal.adb:48",
+    "utf8_chunk_proposal.adb:81",
+    "utf8_chunk_proposal.adb:85",
+    "utf8_chunk_proposal.adb:88"
+  ],
+  "target_names": [
+    "Character_At",
+    "Text_Slice",
+    "Code",
+    "Step",
+    "Quota_For",
+    "Buffer_Capacity",
+    "Decode_Chunk"
+  ],
+  "qualification_preconditions": [
+    "Root supplied corrected files exactly match expected hashes.",
+    "Current disk free >=original10GB reserve+30MB empirical allowance; owner monitors reserve and original heavy admission/8G/no swap lock preserved.",
+    "Metadata-only gprls may first need an empty qualification-obj directory. No unproved success inferred from metadata parsing.",
+    "Retain strict flags and record actual source/import/cswi binding and fresh named check rows."
+  ],
+  "all_original_unproved_obligations_from_prior_review_retained": true,
+  "phase_acceptance": false,
+  "actual_source_readback_sha256": {
+    "utf8_chunk_proposal.ads": "520c8b2c88826ca1c5b866503bb73972503ac221346bbbcf471ea521949bf480",
+    "utf8_chunk_proposal.adb": "c50677c3a3ddc3a411be022cbffed3f346b18281562ab2448ea4ff513687f162"
+  },
+  "actual_source_readback_matches": true
+}

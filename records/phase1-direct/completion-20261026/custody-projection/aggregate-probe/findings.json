@@ -1,0 +1,153 @@
+{
+  "kind": "OBSERVED_COMPILER_ONLY_STRATEGY_COMPARISON",
+  "utc": "2026-10-26T14:39:19.387351+00:00",
+  "terminal_exit_code": 0,
+  "elapsed_seconds": 1.0019728529732674,
+  "ru_maxrss_kib": 82012,
+  "cgroup_terminal": {
+    "event": "after",
+    "exit_code": 0,
+    "memory.current": "11681792",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "memory.max": "8589934592",
+    "memory.peak": "59351040",
+    "memory.swap.max": "0",
+    "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/wl-phase1-95f081a86ec742379e2374992bd212c9.scope",
+    "utc": "2026-10-26T14:37:28.382150+00:00"
+  },
+  "compiler_assembly_ident": [
+    "GCC: (GNAT-FSF-builds) 16.1.0"
+  ],
+  "command_script_sha256": "34ec70b6dbd2c9377da91c429edd0d5b173d3bd2c7ae4cef050b5e7c861d839c",
+  "artifacts": {
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.ads": {
+      "sha256": "aba89bd38ad2324a484258e4f79e08eeb780fb35210e034b486cc8fc95fc91e2",
+      "bytes": 978
+    },
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.adb": {
+      "sha256": "087000fb28ea46c05f5c2c3cd73ff7a57d836cdef92de229bd8e5e471e48618b",
+      "bytes": 4318
+    },
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/compile.sh": {
+      "sha256": "34ec70b6dbd2c9377da91c429edd0d5b173d3bd2c7ae4cef050b5e7c861d839c",
+      "bytes": 528
+    },
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.adb.006t.original": {
+      "sha256": "28b66db0328b29c3b4985d6c1d90850778ac8cb73d510a6a371408b7f0f5c767",
+      "bytes": 223068
+    },
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.adb.273t.optimized": {
+      "sha256": "e654f8f143ae7609ece346a25e7d8873120170ce5a76ad6da9c1b3330d1f34a2",
+      "bytes": 142664
+    },
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.s": {
+      "sha256": "bf1a341ae5707932543ba910412c3441791067bd953fd91b3e352fde4a2ec092",
+      "bytes": 172406
+    },
+    "records/phase1-direct/completion-20261026/custody-projection/aggregate-probe/projection_aggregate_probe.su": {
+      "sha256": "733272f588200ae5af5da67f1dec14b7dda4bcb7aa3704a75df9ce074cf3de77",
+      "bytes": 376
+    },
+    "records/phase1-direct/completion-20261026/aggregate-probe-job-v2/worker-result.json": {
+      "sha256": "7566d9f5c461d236bd0440a7008c17e3088c51eb3191d5b08a15d73110f25889",
+      "bytes": 59
+    },
+    "records/phase1-direct/completion-20261026/aggregate-probe-job-v2/result.jsonl": {
+      "sha256": "b46d53d82a7d47d8fa7938b0bf03c56a7fbb1e03e7049218fa82e71bcaba518f",
+      "bytes": 60
+    },
+    "records/phase1-direct/completion-20261026/aggregate-probe-job-v2/rusage.json": {
+      "sha256": "1671246839e9c94944c10bdf15a68b20d60ee98afcb6bbebaef3742a5912e55e",
+      "bytes": 160
+    },
+    "records/phase1-direct/completion-20261026/aggregate-probe-job-v2/stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "records/phase1-direct/completion-20261026/aggregate-probe-job-v2/launch.jsonl": {
+      "sha256": "0e926c99128da5cdbf32ea74865804c800ddb52e70b0e62159f893b5c20a1f26",
+      "bytes": 399
+    }
+  },
+  "same_types": "Actual Worldline.Custody_V2_Load_Input.SQL_Rows and Root_Custody_Row_Schema Root_Rows/Subject_Rows; same exact field mappings and allRowsPresent checked postcondition on all six procedures. No program linked or executed.",
+  "function_allocation_scan": {
+    "root_loop": {
+      "builtin_alloca_with_align_count": 0,
+      "heap_malloc_count": 0
+    },
+    "root_aggregate": {
+      "builtin_alloca_with_align_count": 1,
+      "heap_malloc_count": 0
+    },
+    "subject_loop": {
+      "builtin_alloca_with_align_count": 0,
+      "heap_malloc_count": 0
+    },
+    "subject_aggregate": {
+      "builtin_alloca_with_align_count": 1,
+      "heap_malloc_count": 0
+    },
+    "root_initialized": {
+      "builtin_alloca_with_align_count": 0,
+      "heap_malloc_count": 0
+    },
+    "subject_initialized": {
+      "builtin_alloca_with_align_count": 0,
+      "heap_malloc_count": 0
+    }
+  },
+  "stack_usage_raw": "projection_aggregate_probe.adb:2:4:Root_Loop\t800\tstatic\nprojection_aggregate_probe.adb:24:4:Root_Aggregate\t352\tdynamic\nprojection_aggregate_probe.adb:44:4:Subject_Loop\t528\tstatic\nprojection_aggregate_probe.adb:59:4:Subject_Aggregate\t288\tdynamic\nprojection_aggregate_probe.adb:72:4:Root_Initialized\t784\tstatic\nprojection_aggregate_probe.adb:96:4:Subject_Initialized\t512\tstatic\n",
+  "observed_stack": {
+    "Root_Loop": {
+      "bytes": 800,
+      "kind": "static"
+    },
+    "Root_Aggregate": {
+      "bytes": 352,
+      "kind": "dynamic_excludes_variable_array"
+    },
+    "Subject_Loop": {
+      "bytes": 528,
+      "kind": "static"
+    },
+    "Subject_Aggregate": {
+      "bytes": 288,
+      "kind": "dynamic_excludes_variable_array"
+    },
+    "Root_Initialized": {
+      "bytes": 784,
+      "kind": "static"
+    },
+    "Subject_Initialized": {
+      "bytes": 512,
+      "kind": "static"
+    }
+  },
+  "rejected_variant": {
+    "name": "iterated array aggregate",
+    "evidence": [
+      "optimized lines1193-1194 derive root temporary bytes=rowCount*520 then builtin_alloca_with_align",
+      "optimized line1904 copies complete temporary array to caller output",
+      "optimized lines2762-2763 derive subject temporary bytes=rowCount*296 then builtin_alloca_with_align",
+      "stack-usage explicitly classifies both dynamic"
+    ],
+    "reason": "Additional whole-output-sized dynamic stack arrays conflict with narrow ownership/resource goal; smaller static frame number is not evidence of smaller total stack."
+  },
+  "recommended_candidate": {
+    "path": "records/phase1-direct/completion-20261026/custody-projection/initialized-columns-candidate-v1",
+    "sha256": "d6ace3df6761dfbe93d132270cee64e71054adc324752b6c571fd06c996bc1ae",
+    "behavior": "One uniform PresentTrue/NullColumns initialization, then exact original per-row mappings into Columns only. Present discriminants never written inside loop.",
+    "observed_lowering": "No dynamic alloca/secondary-stack/heap allocation in optimized initialized procedure sections; uniform stores target caller output, per-row column record temporary is fixed-size. Fixed stack frames784/512 bytes in this compilation.",
+    "cost": "Additional row default stores linear in full row count; unchanged checked Post is one linear pass. No per-iteration quantified prefix check.",
+    "formal_status": "UNPROVEN automatic loop frame preservation; no production helper proof run for this candidate."
+  },
+  "limits": [
+    "Observed compiler strategy for this isolated exact probe/configuration; integrated helper lowering must be rechecked after adoption if source/project changes affect optimization.",
+    "This is not a proof of functional correctness, absence of runtime failures, whole-system stack budget or original regression success.",
+    "No input-size cap, assertion suppression, ghost-policy change or new private/public domain premise is proposed.",
+    "Original failed generator attempt v1 remains with receipts and failed-generation-v1.adb.txt; no memory/semantic conclusion was drawn from it."
+  ],
+  "production_modified": false,
+  "runtime_program_executed": false,
+  "gnatprove_executed": false
+}

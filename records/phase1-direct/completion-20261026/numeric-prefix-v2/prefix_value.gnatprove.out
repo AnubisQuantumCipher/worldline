@@ -1,0 +1,38 @@
+=========================
+Summary of SPARK analysis
+=========================
+
+----------------------------------------------------------------------------------------------------------
+SPARK Analysis results        Total       Flow                              Provers   Justified   Unproved
+----------------------------------------------------------------------------------------------------------
+Data Dependencies                 2          2                                    .           .          .
+Flow Dependencies                 .          .                                    .           .          .
+Initialization                    .          .                                    .           .          .
+Non-Aliasing                      .          .                                    .           .          .
+Run-time Checks                   9          .    9 (CVC5 31%, Trivial 38%, Z3 31%)           .          .
+Assertions                        2          .                               2 (Z3)           .          .
+Functional Contracts              6          .                 6 (CVC5 63%, Z3 38%)           .          .
+LSP Verification                  .          .                                    .           .          .
+Termination                       2          2                                    .           .          .
+Concurrency                       .          .                                    .           .          .
+----------------------------------------------------------------------------------------------------------
+Total                            21    4 (19%)                             17 (81%)           .          .
+
+
+max steps used for successful proof: 136
+
+============================
+Most difficult proved checks
+============================
+
+No check found with max time greater than 1 second
+
+========================
+Detailed analysis report
+========================
+
+Analyzed 2 units
+in unit resource_quantities, 1 subprograms and packages out of 1 analyzed
+  Resource_Quantities.Prefix_Value at resource_quantities.ads:78 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (7 checks)
+in unit resource_reservation_transition, 1 subprograms and packages out of 1 analyzed
+  Resource_Reservation_Transition.Is_Successor at resource_reservation_transition.ads:168 flow analyzed (0 errors, 0 checks, 0 warnings and 0 pragma Assume statements) and proved (10 checks)

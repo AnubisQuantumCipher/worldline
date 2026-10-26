@@ -69,7 +69,6 @@ package Resource_Quantities with SPARK_Mode is
    function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
      (Power_Reference (Exponent))
    with Ghost, Global => null,
-     Subprogram_Variant => (Decreases => Exponent),
      Post => Radix_Power'Result >= 1 and then
        (if Exponent = 0 then Radix_Power'Result = 1
         else Radix_Power'Result =
@@ -81,12 +80,12 @@ package Resource_Quantities with SPARK_Mode is
      return Valid_Big_Integer is
      (Prefix_Reference (Data, Q, Count))
    with Ghost, Global => null,
-     Subprogram_Variant => (Decreases => Count),
      Post => Prefix_Value'Result >= 0 and then
        (if Count = 0 then Prefix_Value'Result = 0
         else Prefix_Value'Result = Prefix_Reference (Data, Q, Count - 1) +
-          To_Big_Integer (Digit (Data, Q, Count - 1)) *
-          Power_Reference (Count - 1)) and then
+          (if Digit (Data, Q, Count - 1) = 0 then To_Big_Integer (0)
+           else To_Big_Integer (Digit (Data, Q, Count - 1)) *
+             Power_Reference (Count - 1))) and then
        Prefix_Value'Result = Prefix_Reference (Data, Q, Count);
 
    function Magnitude (Data : Byte_Array; Q : Quantity)

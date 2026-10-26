@@ -1,0 +1,18 @@
+--- a/core/resource_quantities.ads
++++ b/core/resource_quantities.ads
+@@ -69,7 +69,6 @@
+    function Radix_Power (Exponent : Byte_Count) return Valid_Big_Integer is
+      (Power_Reference (Exponent))
+    with Ghost, Global => null,
+-     Always_Terminates,
+      Post => Radix_Power'Result >= 1 and then
+        (if Exponent = 0 then Radix_Power'Result = 1
+         else Radix_Power'Result =
+@@ -81,7 +80,6 @@
+      return Valid_Big_Integer is
+      (Prefix_Reference (Data, Q, Count))
+    with Ghost, Global => null,
+-     Always_Terminates,
+      Post => Prefix_Value'Result >= 0 and then
+        (if Count = 0 then Prefix_Value'Result = 0
+         else Prefix_Value'Result = Prefix_Reference (Data, Q, Count - 1) +

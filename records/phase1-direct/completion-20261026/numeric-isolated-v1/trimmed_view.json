@@ -1,0 +1,70 @@
+{
+  "name": "trimmed_view",
+  "argv": [
+    "gnatprove",
+    "-P",
+    "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=5",
+    "-j2",
+    "-XWORLDLINE_BUILD=checks",
+    "-XSPARKLIB_MODE=full",
+    "-XSPARKLIB_BUILD=Production",
+    "-XSPARKLIB_LIBRARY_TYPE=static",
+    "-XSPARKLIB_INSTALLED=True",
+    "-u",
+    "resource_reservation_transition.adb",
+    "--limit-subp=resource_reservation_transition.adb:617"
+  ],
+  "start": "2026-10-26T15:26:44.543676+00:00",
+  "disk_samples": [
+    {
+      "utc": "2026-10-26T15:26:44.546077+00:00",
+      "free_bytes": 10091843584
+    },
+    {
+      "utc": "2026-10-26T15:26:45.547085+00:00",
+      "free_bytes": 10101805056
+    },
+    {
+      "utc": "2026-10-26T15:26:46.547881+00:00",
+      "free_bytes": 10090479616
+    },
+    {
+      "utc": "2026-10-26T15:26:47.548194+00:00",
+      "free_bytes": 10093682688
+    },
+    {
+      "utc": "2026-10-26T15:26:48.549602+00:00",
+      "free_bytes": 10094194688
+    },
+    {
+      "utc": "2026-10-26T15:26:49.550841+00:00",
+      "free_bytes": 10093547520
+    },
+    {
+      "utc": "2026-10-26T15:26:50.551112+00:00",
+      "free_bytes": 10088538112
+    },
+    {
+      "utc": "2026-10-26T15:26:51.551320+00:00",
+      "free_bytes": 10089152512
+    },
+    {
+      "utc": "2026-10-26T15:26:52.551542+00:00",
+      "free_bytes": 10101633024
+    }
+  ],
+  "phase_acceptance": false,
+  "end": "2026-10-26T15:26:52.556083+00:00",
+  "exit_code": 0,
+  "stop": null,
+  "fresh_report": true
+}

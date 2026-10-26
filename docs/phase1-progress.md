@@ -591,3 +591,58 @@ Each mutant produces one intended assertion failure and no test error; the
 production files and library are unchanged by that qualification. The two valid
 older-mode alias compiler cases now also pass the gate. This supersedes the
 pending corrected-control status above, not either failed fixture attempt.
+
+## Direct completion resumption — 2026-10-26
+
+The sole completion owner continues c6c0674 in worldline-phase1-direct-20261019.
+Three helpers were explicitly dispatched as GPT-6.1-Sol/high. The old live-proof
+handoff was corrected from the actual exit-124 receipt, preserving the inherited
+handoff. D133 and D134 record the new choices and their exact-source reviews.
+
+The first prefix repair and projection extraction rebuild successfully. Their
+unchanged successor test still fails fifteen padding subcases. A separately
+reviewed normalization revision preserves all original successor/helper contracts
+and input bytes and removes only redundant high zero digits from an internal
+view. The second checked build passes, and the unchanged successor module passes
+all subcases in 96.492 seconds under its unchanged 180-second bound. This is
+TESTED component evidence on dirty exact-hashed source, not a frozen release or
+proof. That runtime pass uses quantity603a4bc3/loader318a9033; the current
+quantity7463adf3/loaderfbf8962f integration still requires build/runtime
+requalification. Genuinely large significant values and whole-domain proof remain open.
+
+Fresh focused projection proof establishes 27 event checks. Roots, subjects and
+alternatives each retain one unproved postcondition. Digest's separate completed
+proof has four unproved span-bound checks. The failed setup-only first attempt,
+second outer timeout, and all fresh reports remain in
+records/phase1-direct/completion-20261026/. Linear checked implementations and a
+minimal internal Digest span guard were adopted after review. Current full
+loader qualification remains pending after the dependency setup deadlines and
+capacity stop; the earlier target results do not qualify the new loader.
+
+Current official-source retirement research does not supply a complete compatible
+qualified O1 toolchain. New official auto-reclaimed containers do not satisfy the
+retained conjunction because of their unproved bodies/relaxed finalization. This
+is bounded negative evidence, not an impossibility theorem or accepted narrower
+claim. Original full proof/build/runtime, acquisition, authority, authentic
+protected/actor runs and independent F7 remain required.
+
+D139 supplies clean current-source focused proofs for six numeric routines: 87
+selected proof checks, with original strict warning/check options. The stale-line
+zero-target attempt remains recorded. The 805-byte significant-value runtime
+counterexample remains failed; the padding regression does not close that domain.
+
+D140 qualifies the small checkpoint replay discriminator with 31 proof checks and
+a real failing changed-start control. The actual UTF8 Chunk prototype proves 155
+checks but fails strict mode on one redundant assignment warning. The corrected
+source rerun is stopped by the disk reserve guard before a new report. Production
+UTF8 remains unchanged; coordinator, resource and equivalence qualification remain.
+
+The user now says "forget the ipad". Device/bridge/offload work has stopped. Free
+space fell below the unchanged 10 GB reserve during the last bounded diagnostic;
+its owned scope is fully stopped and its incomplete result retained. Further
+heavy jobs require adequate capacity. Source-only O1 and coordinator proposals and the reservation cost review are
+retained for the next admitted verification. No protected files, pins or unrelated
+processes were removed. The five missing FSF interface files were retrieved within
+a bounded 507,029-byte source budget; checked-call, ownership-enrollment and Old
+postcheck integration still prevent a sound translator patch. All helper work is
+settled; no heavy job remains active.

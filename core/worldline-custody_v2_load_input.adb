@@ -452,6 +452,156 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
         Cells (Value.Root_SQL, Value.Root_Count) and then Cells (Value.Subject_SQL, Value.Subject_Count) and then
         Cells (Value.Alternative_SQL, Value.Alternative_Count) and then Cells (Value.Blob_SQL, Value.Blob_Count);
    end Parsed_Spans_Valid;
+   function Raw_Span (Cell : S.SQL_Cell; Kind : S.SQL_Class) return E.Span is
+   begin
+      if Cell.Kind /= Kind or else Kind not in S.SQL_Text | S.SQL_Blob | S.SQL_Real then
+         return (1, 0);
+      end if;
+      return (Cell.Bytes.First, Cell.Bytes.Length);
+   end Raw_Span;
+   function Optional (Cell : S.SQL_Cell) return C.Optional_Span is
+   begin
+      if Cell.Kind = S.SQL_Null then return (Present => False); end if;
+      return (Present => True, Value => Raw_Span (Cell, S.SQL_Text));
+   end Optional;
+   function Quantity (Cell : S.SQL_Cell) return Q.Quantity is
+      Span : constant E.Span := Raw_Span (Cell, S.SQL_Blob);
+   begin return (False, Span.First, Span.Length); end Quantity;
+   function Identity (Cell : S.SQL_Cell) return M.Identity is
+   begin
+      case Cell.Kind is
+         when S.SQL_Null => return (Present => False);
+         when S.SQL_Integer => return (Present => True, Value =>
+           (Cell.Integer_Value.First, Cell.Integer_Value.Length));
+         when others => return (Present => True, Value => (Cell.Bytes.First, Cell.Bytes.Length));
+      end case;
+   end Identity;
+   function Digest (Arena : E.Bytes; Cell : S.SQL_Cell) return M.Digest is
+      function Nibble (B : Q.Byte) return Q.Byte is
+        (if B in 48 .. 57 then B - 48 else B - 97 + 10);
+      Span : constant E.Span := Raw_Span (Cell, S.SQL_Text);
+      Result : M.Digest := [others => 0];
+   begin
+      if Span.Length /= 64 or else not E.C.P.Valid (Arena, Span) then
+         return Result;
+      end if;
+      for B in E.Count range 0 .. Span.Length - 1 loop
+         if Arena (Span.First + B) not in 48 .. 57 | 97 .. 102 then
+            return Result;
+         end if;
+      end loop;
+      for I in Result'Range loop
+         Result (I) := Nibble (Arena (Span.First + E.Count (I - Result'First) * 2)) * 16 +
+           Nibble (Arena (Span.First + E.Count (I - Result'First) * 2 + 1));
+      end loop;
+      return Result;
+   end Digest;
+   procedure Project_Events
+     (SQL : SQL_Rows; Rows : in out C.Event_Rows; Count : E.Count)
+     with Global => null, Always_Terminates,
+       Pre => Rows'First = 1 and then SQL'First (1) = 1 and then
+         SQL'Length (1) = Rows'Length and then Count <= Rows'Length and then
+         SQL'First (2) = 1 and then SQL'Last (2) = 13
+   is
+   begin
+      for I in E.Count range 1 .. Count loop
+         Rows (I) :=
+           (Event_Id => Raw_Span (SQL (I, 2), S.SQL_Text),
+            Previous => Raw_Span (SQL (I, 3), S.SQL_Text),
+            Generation => Raw_Span (SQL (I, 4), S.SQL_Blob),
+            Operation => Raw_Span (SQL (I, 5), S.SQL_Text),
+            Subject_Kind => Raw_Span (SQL (I, 6), S.SQL_Text),
+            Subject => Raw_Span (SQL (I, 7), S.SQL_Text),
+            Subgeneration => Raw_Span (SQL (I, 8), S.SQL_Blob),
+            Kind => Raw_Span (SQL (I, 9), S.SQL_Text),
+            Actor => Raw_Span (SQL (I, 10), S.SQL_Text),
+            Record_Archive => Raw_Span (SQL (I, 11), S.SQL_Blob),
+            Base_Archive => Raw_Span (SQL (I, 12), S.SQL_Blob),
+            Mac => Raw_Span (SQL (I, 13), S.SQL_Text));
+      end loop;
+   end Project_Events;
+   procedure Project_Roots (SQL : SQL_Rows; Rows : out S.Root_Rows)
+     with Global => null, Always_Terminates,
+       Pre => SQL'First (1) = Rows'First and then
+         SQL'Last (1) = Rows'Last and then
+         SQL'First (2) = 1 and then SQL'Last (2) = 16,
+       Post => (for all Row of Rows => Row.Present)
+   is
+   begin
+      Rows := [others => (Present => True,
+         Columns => (others => (Kind => S.SQL_Null)))];
+      for I in Rows'Range loop
+         Rows (I).Columns :=
+           (Generation => SQL (I, 1),
+            Operation => SQL (I, 2),
+            Phase => SQL (I, 3),
+            Before_Unknown => SQL (I, 4),
+            Owners_Open => SQL (I, 5),
+            Abort_Kind => SQL (I, 6),
+            Launched => SQL (I, 7),
+            Closure_NS => SQL (I, 8),
+            Closure_Outer => SQL (I, 9),
+            Closure_Raw => SQL (I, 10),
+            Witness => SQL (I, 11),
+            Settled => SQL (I, 12),
+            Released_Unlaunched => SQL (I, 13),
+            Unknown_Cause => SQL (I, 14),
+            Reattach_Epoch => SQL (I, 15),
+            Head_Event => SQL (I, 16));
+      end loop;
+   end Project_Roots;
+   procedure Project_Subjects (SQL : SQL_Rows; Rows : out S.Subject_Rows)
+     with Global => null, Always_Terminates,
+       Pre => SQL'First (1) = Rows'First and then
+         SQL'Last (1) = Rows'Last and then
+         SQL'First (2) = 1 and then SQL'Last (2) = 9,
+       Post => (for all Row of Rows => Row.Present)
+   is
+   begin
+      Rows := [others => (Present => True,
+         Columns => (others => (Kind => S.SQL_Null)))];
+      for I in Rows'Range loop
+         Rows (I).Columns :=
+           (Generation => SQL (I, 1),
+            Kind_Of_Subject => SQL (I, 2),
+            Subject => SQL (I, 3),
+            Subgeneration => SQL (I, 4),
+            Phase => SQL (I, 5),
+            Mode => SQL (I, 6),
+            Position => SQL (I, 7),
+            Carried_From => SQL (I, 8),
+            Head_Event => SQL (I, 9));
+      end loop;
+   end Project_Subjects;
+   procedure Project_Alternatives
+     (Arena : E.Bytes; SQL : SQL_Rows; Rows : out A.Alternative_Rows;
+      Good : in out Boolean)
+     with Global => null, Always_Terminates,
+       Pre => SQL'First (1) = Rows'First and then
+         SQL'Last (1) = Rows'Last and then
+         SQL'First (2) = 1 and then SQL'Last (2) = 7,
+       Post => (if not Good'Old then not Good)
+   is
+   begin
+      for I in Rows'Range loop
+         declare
+            Kind : M.Subject_Kind := M.Root;
+            Family : A.Alternative_Set := A.Ack_Set;
+         begin
+            if S.Text_Is (Arena, SQL (I, 3), "REQUEST") then Kind := M.Request;
+            elsif S.Text_Is (Arena, SQL (I, 3), "DESCRIPTOR") then Kind := M.Descriptor;
+            elsif not S.Text_Is (Arena, SQL (I, 3), "ROOT") then Good := False; end if;
+            if S.Text_Is (Arena, SQL (I, 6), "REQUEST") then Family := A.Request_Set;
+            elsif S.Text_Is (Arena, SQL (I, 6), "DRAIN") then Family := A.Drain_Set;
+            elsif not S.Text_Is (Arena, SQL (I, 6), "ACK") then Good := False; end if;
+            Rows (I) := (Generation => Quantity (SQL (I, 1)),
+              Operation => Identity (SQL (I, 2)), Kind_Of_Subject => Kind,
+              Subject => Identity (SQL (I, 4)), Subgeneration => Quantity (SQL (I, 5)),
+              Set => Family, Event_Id => Digest (Arena, SQL (I, 7)));
+         end;
+         pragma Loop_Invariant (if not Good'Loop_Entry then not Good);
+      end loop;
+   end Project_Alternatives;
    procedure Initialize_Input (Data : E.Bytes; Value : out Parsed_Input)
      with Post => Value.Status = Malformed and then
        Value.Decoded_Event_Count = 0 and then Value.Arena_Used = 0
@@ -507,8 +657,6 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Size : constant Sizes := Counts (Data, Envelope);
       Used : E.Count := Data'Length;
       Good : Boolean := True;
-      function Nibble (B : Q.Byte) return Q.Byte is
-        (if B in 48 .. 57 then B - 48 else B - 97 + 10);
       -- These helpers borrow only distinct components, never the whole owner.
       procedure Cell
         (Arena : in out E.Bytes; Encoded : E.Span; Result : out S.SQL_Cell) is
@@ -538,46 +686,6 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
             end loop;
          end loop;
       end Table;
-      function Raw_Span (Cell : S.SQL_Cell; Kind : S.SQL_Class) return E.Span is
-      begin
-         if Cell.Kind /= Kind or else Kind not in S.SQL_Text | S.SQL_Blob | S.SQL_Real then
-            return (1, 0);
-         end if;
-         return (Cell.Bytes.First, Cell.Bytes.Length);
-      end Raw_Span;
-      function Optional (Cell : S.SQL_Cell) return C.Optional_Span is
-      begin
-         if Cell.Kind = S.SQL_Null then return (Present => False); end if;
-         return (Present => True, Value => Raw_Span (Cell, S.SQL_Text));
-      end Optional;
-      function Quantity (Cell : S.SQL_Cell) return Q.Quantity is
-         Span : constant E.Span := Raw_Span (Cell, S.SQL_Blob);
-      begin return (False, Span.First, Span.Length); end Quantity;
-      function Identity (Cell : S.SQL_Cell) return M.Identity is
-      begin
-         case Cell.Kind is
-            when S.SQL_Null => return (Present => False);
-            when S.SQL_Integer => return (Present => True, Value =>
-              (Cell.Integer_Value.First, Cell.Integer_Value.Length));
-            when others => return (Present => True, Value => (Cell.Bytes.First, Cell.Bytes.Length));
-         end case;
-      end Identity;
-      function Digest (Cell : S.SQL_Cell) return M.Digest is
-         Span : constant E.Span := Raw_Span (Cell, S.SQL_Text);
-         Result : M.Digest := [others => 0];
-      begin
-         if Span.Length /= 64 then return Result; end if;
-         for B in E.Count range 0 .. Span.Length - 1 loop
-            if Value.Arena (Span.First + B) not in 48 .. 57 | 97 .. 102 then
-               return Result;
-            end if;
-         end loop;
-         for I in Result'Range loop
-            Result (I) := Nibble (Value.Arena (Span.First + E.Count (I - Result'First) * 2)) * 16 +
-              Nibble (Value.Arena (Span.First + E.Count (I - Result'First) * 2 + 1));
-         end loop;
-         return Result;
-      end Digest;
       procedure Intern
         (Arena : in out E.Bytes; Name : String; Result : out S.SQL_Cell) is
          Span : E.Span := (1, 0);
@@ -640,21 +748,7 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
       Table (Value.Arena, Value.Input, "subjects", Value.Subject_SQL, Value.Subject_Encoded, Size.Subjects);
       Table (Value.Arena, Value.Input, "alternatives", Value.Alternative_SQL, Value.Alternative_Encoded, Size.Alternatives);
       Table (Value.Arena, Value.Input, "blobs", Value.Blob_SQL, Value.Blob_Encoded, Size.Blobs);
-      for I in E.Count range 1 .. Size.Events loop
-         Value.Events (I) :=
-           (Event_Id => Raw_Span (Value.Event_SQL (I, 2), S.SQL_Text),
-            Previous => Raw_Span (Value.Event_SQL (I, 3), S.SQL_Text),
-            Generation => Raw_Span (Value.Event_SQL (I, 4), S.SQL_Blob),
-            Operation => Raw_Span (Value.Event_SQL (I, 5), S.SQL_Text),
-            Subject_Kind => Raw_Span (Value.Event_SQL (I, 6), S.SQL_Text),
-            Subject => Raw_Span (Value.Event_SQL (I, 7), S.SQL_Text),
-            Subgeneration => Raw_Span (Value.Event_SQL (I, 8), S.SQL_Blob),
-            Kind => Raw_Span (Value.Event_SQL (I, 9), S.SQL_Text),
-            Actor => Raw_Span (Value.Event_SQL (I, 10), S.SQL_Text),
-            Record_Archive => Raw_Span (Value.Event_SQL (I, 11), S.SQL_Blob),
-            Base_Archive => Raw_Span (Value.Event_SQL (I, 12), S.SQL_Blob),
-            Mac => Raw_Span (Value.Event_SQL (I, 13), S.SQL_Text));
-      end loop;
+      Project_Events (Value.Event_SQL, Value.Events, Size.Events);
       declare
          Messages : constant E.Span := T.Field (Value.Arena, Value.Owner_Roster, "custody_head_messages");
       begin
@@ -669,54 +763,9 @@ package body Worldline.Custody_V2_Load_Input with SPARK_Mode is
             end;
          end loop;
       end;
-      for I in Value.Roots'Range loop
-         Value.Roots (I) := (Present => True, Columns =>
-           (Generation => Value.Root_SQL (I, 1),
-            Operation => Value.Root_SQL (I, 2),
-            Phase => Value.Root_SQL (I, 3),
-            Before_Unknown => Value.Root_SQL (I, 4),
-            Owners_Open => Value.Root_SQL (I, 5),
-            Abort_Kind => Value.Root_SQL (I, 6),
-            Launched => Value.Root_SQL (I, 7),
-            Closure_NS => Value.Root_SQL (I, 8),
-            Closure_Outer => Value.Root_SQL (I, 9),
-            Closure_Raw => Value.Root_SQL (I, 10),
-            Witness => Value.Root_SQL (I, 11),
-            Settled => Value.Root_SQL (I, 12),
-            Released_Unlaunched => Value.Root_SQL (I, 13),
-            Unknown_Cause => Value.Root_SQL (I, 14),
-            Reattach_Epoch => Value.Root_SQL (I, 15),
-            Head_Event => Value.Root_SQL (I, 16)));
-      end loop;
-      for I in Value.Subjects'Range loop
-         Value.Subjects (I) := (Present => True, Columns =>
-           (Generation => Value.Subject_SQL (I, 1),
-            Kind_Of_Subject => Value.Subject_SQL (I, 2),
-            Subject => Value.Subject_SQL (I, 3),
-            Subgeneration => Value.Subject_SQL (I, 4),
-            Phase => Value.Subject_SQL (I, 5),
-            Mode => Value.Subject_SQL (I, 6),
-            Position => Value.Subject_SQL (I, 7),
-            Carried_From => Value.Subject_SQL (I, 8),
-            Head_Event => Value.Subject_SQL (I, 9)));
-      end loop;
-      for I in Value.Alternatives'Range loop
-         declare
-            Kind : M.Subject_Kind := M.Root;
-            Family : A.Alternative_Set := A.Ack_Set;
-         begin
-            if S.Text_Is (Value.Arena, Value.Alternative_SQL (I, 3), "REQUEST") then Kind := M.Request;
-            elsif S.Text_Is (Value.Arena, Value.Alternative_SQL (I, 3), "DESCRIPTOR") then Kind := M.Descriptor;
-            elsif not S.Text_Is (Value.Arena, Value.Alternative_SQL (I, 3), "ROOT") then Good := False; end if;
-            if S.Text_Is (Value.Arena, Value.Alternative_SQL (I, 6), "REQUEST") then Family := A.Request_Set;
-            elsif S.Text_Is (Value.Arena, Value.Alternative_SQL (I, 6), "DRAIN") then Family := A.Drain_Set;
-            elsif not S.Text_Is (Value.Arena, Value.Alternative_SQL (I, 6), "ACK") then Good := False; end if;
-            Value.Alternatives (I) := (Generation => Quantity (Value.Alternative_SQL (I, 1)),
-              Operation => Identity (Value.Alternative_SQL (I, 2)), Kind_Of_Subject => Kind,
-              Subject => Identity (Value.Alternative_SQL (I, 4)), Subgeneration => Quantity (Value.Alternative_SQL (I, 5)),
-              Set => Family, Event_Id => Digest (Value.Alternative_SQL (I, 7)));
-         end;
-      end loop;
+      Project_Roots (Value.Root_SQL, Value.Roots);
+      Project_Subjects (Value.Subject_SQL, Value.Subjects);
+      Project_Alternatives (Value.Arena, Value.Alternative_SQL, Value.Alternatives, Good);
       for I in E.Count range 1 .. Size.Events loop
          Event_Extras (Value.Arena, Value.Events (I).Record_Archive, Value.Extras (I));
       end loop;

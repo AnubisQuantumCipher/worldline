@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-26T14:15:00.003065+00:00",
+  "status": "SOURCE_PROPOSAL_ONLY_UNCOMPILED_UNPROVED_UNRUN",
+  "production_file_edited": false,
+  "preimage_sha256": "323a8673c5e88e01ce465430fe4d2daf5c4f1efde2ef9861e62afe129cd032f7",
+  "candidate_sha256": "d2756b20d9302888e1c69e4d24982de06469cd9275a39d55e7bef7e5ff905515",
+  "public_spec_sha256": "41b59719e2395be43f6a5181f5eb5d28e1d5ec57bbb25b803feffdba7e7ed55f",
+  "patch_sha256": "5bebd9c836ffcd8f3387a47415f93ea2f9666b0072cb2fe1573fb1f85a32ecab",
+  "original_successor_body_preserved_as_private_worker": true,
+  "new_recursion": false,
+  "retained_existing_checked_lemmas": [
+    "Nonnegative_Magnitude",
+    "Zero_Prefix",
+    "Addition_Step",
+    "Addition_Mismatch",
+    "Addition_Finish",
+    "Prefix_Step",
+    "Prefix_Padding"
+  ],
+  "runtime_cost_risk": "New checked prefix-extensionality loop and zero-suffix invariants can add quadratic work in raw padded length. Existing recursive Prefix_Reference and Prefix_Padding remain; no whole-domain termination/resource acceptance inferred.",
+  "required_before_application": [
+    "Independent exact-source/full-module review",
+    "Source-only proof design approval with no relaxed requirements",
+    "Root concludes frozen run and explicitly adopts proposal",
+    "Original source preimage match"
+  ],
+  "required_after_application": [
+    "Checked build",
+    "Fresh strict proof of Equal_Prefix_Values, Trimmed_View, Successor_Columns and original public Is_Successor; all existing helper coverage retained",
+    "Unchanged 4096-padding regression under original limits",
+    "Negative zero/invalid span/mismatch/all-FF carry controls",
+    "Direct significant magnitude counterexample remains tracked; no full-domain success claim"
+  ]
+}

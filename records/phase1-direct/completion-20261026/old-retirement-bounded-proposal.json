@@ -1,0 +1,347 @@
+{
+  "schema": "worldline-old-retirement-bounded-support-proposal-v1",
+  "utc": "2026-10-26 14:39:05 UTC",
+  "status": "DESIGN_ONLY_UNPROVEN_UNIMPLEMENTED_NO_BUILD",
+  "scope": "One finite translator ownership/cleanup vertical slice against unchanged strict Finalizable runtime semantics; original O1 conjunction remains binding.",
+  "source_refs": {
+    "fsf_translator": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+    "normal_compiler_source_candidate": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+    "normal_compiler_change_selected": false,
+    "gnatwhy3_binary_sha256": "4a3b9e6cd3dc542ddb72dc82cfddbaa8b5da075aa27eb11f6d6a3e57fb148368",
+    "correspondence": "Fetched source is not established as exact source of installed gnat2why. New deliberately locked successor must be qualified independently."
+  },
+  "finite_existing_evidence_discriminator": {
+    "path": "/home/sicarii/Work/worldline-phase1-blockers-20261013T165716Z/records/phase1-blockers/resume-20261015-v1/finalizable-fresh-v1/obj/gnatprove",
+    "observation": "check_fresh/why3session.xml marks submitted goals proved, while lifetime.spark retains static VC_RESOURCE_LEAK failures at lifetime.ads11/12/13 with empty check_tree, how_proved trivial, severity medium and unknown status. Adjust and Main-scope leak entries contain actual prover attempts/limits.",
+    "implication": "Session-only success cannot establish absence of static refusals. Editing/replaying Why3 tasks alone cannot close O1."
+  },
+  "minimal_representation": {
+    "public_value": "Nonlimited private strict-Finalizable snapshot; owning acyclic heap chain of complete original Strings, iterative deep clone and finalization.",
+    "semantic_requirements": [
+      "No new cumulative line/byte/count limit or fixed flattened aggregate.",
+      "Ordinary assignment produces logically independent values; releasing/mutating native source or another copy cannot change a live snapshot.",
+      "Literal original full-value Pending_Contents Old contracts remain; no scalar/hash/borrow/manual-prestate substitute.",
+      "No application Controlled/Off/custom pool, assumption, justified check, ignored original Ghost or new caller snapshot-death protocol.",
+      "Native Push retains one original-text allocation and constant link operations; Take_All remains pointer-only transfer.",
+      "Physical checked-model lifetime/cost remains part of acceptance; content proof alone is insufficient."
+    ],
+    "implementation_not_selected": "Production Sequence API/body replacement is not proposed for application yet; first qualify the one-record vertical slice. Existing new official refcount library is not adopted across its Off/relaxed/imported boundaries."
+  },
+  "ownership_model_to_implement": {
+    "states": [
+      "Uninitialized",
+      "Owned",
+      "Copy_Origin_View",
+      "Moved",
+      "Reclaimed"
+    ],
+    "metadata": "Verifier metadata keyed by syntactic owner/master and initialization state; no runtime registry, global lifetime counter or input-sized application Ghost trace.",
+    "rules": [
+      {
+        "id": "V1-ALLOC",
+        "transition": "Allocation result creates exactly one Owned token and complete content model; allocation failure publishes no owner.",
+        "required_obligations": [
+          "No retained alias to mutable source.",
+          "All partial new allocations on failure are reclaimed."
+        ]
+      },
+      {
+        "id": "V1-COPY",
+        "transition": "Compiler-mediated shallow destination is Copy_Origin_View of a still-Owned immutable source until Adjust succeeds; it has read authority and no free authority over source storage.",
+        "required_obligations": [
+          "Source token preserved.",
+          "Successful Adjust produces fresh destination ownership and equal full contents/bounds.",
+          "Failed Adjust preserves source and cleans partial destination.",
+          "Self-assignment and target-finalization order match actual compiler lowering."
+        ]
+      },
+      {
+        "id": "V1-HOOK",
+        "transition": "Adjust special entry state is granted only to actual compiler-generated copy-hook calls, never arbitrary application calls.",
+        "required_obligations": [
+          "An explicit Adjust call cannot obtain copy-origin privilege merely by naming the hook.",
+          "Finalizer has normal data/effect/termination proof; no opaque success exemption."
+        ]
+      },
+      {
+        "id": "V1-OLD",
+        "transition": "Each fresh allocating Old expression receives a distinct registered owner whose lifetime covers every needed postcheck; registration survives subsequent entry-evaluation failure.",
+        "required_obligations": [
+          "Do not merge three different allocating prefixes because their source Text is equal.",
+          "Release normal and exceptional paths after final required use.",
+          "An unsupported/unregistered allocating assertion still receives the original static refusal."
+        ]
+      },
+      {
+        "id": "V1-EXIT",
+        "transition": "Every initialized owner/master exit invokes the proved finalizer in compiler runtime order, then checks Reclaimed; moved/uninitialized owners owe no free.",
+        "required_obligations": [
+          "Normal return, early return, nested block, postcheck failure and allocation/other exception edges.",
+          "No use after cleanup, missing exit edge or source double-free.",
+          "Finalizer failure handling may not mask primary failures; unsupported hooks remain refused."
+        ]
+      }
+    ]
+  },
+  "exact_source_change_map": [
+    {
+      "path": "src/why/gnat2why-expr.adb",
+      "entry": "Transform_Attribute_Old and Old-prefix collection/Name_For_Old owner setup",
+      "change": "Retain logical Old mapping, add separate lifetime-registration metadata and cleanup obligations; no blind normal frontend expansion."
+    },
+    {
+      "path": "src/why/gnat2why-expr.adb",
+      "entry": "Transform assignment near16602 and Check_No_Memory_Leaks",
+      "change": "Distinguish compiler copy-origin view from discarded owned destination; prove Adjust transfer instead of treating all deep copy as move or exempting it."
+    },
+    {
+      "path": "src/why/gnat2why-expr.adb",
+      "entry": "Finalization_Actions near9651 and Finalization_Actions_On_Raise",
+      "change": "Emit proved strict-hook cleanup before existing leak check at each actual edge; keep borrow restoration and existing finally behavior."
+    },
+    {
+      "path": "src/why/gnat2why-expr.adb",
+      "entry": "Static allocating-assertion leak conditional near24008",
+      "change": "Replace unconditional failure only for supported region-enrolled strict-finalizable results with explicit cleanup VCs. All other original classifications retain refusal."
+    },
+    {
+      "path": "src/why/gnat2why-borrow_checker.adb",
+      "entry": "Check_Assignment near1400; Check_Anonymous_Object near2099; Process_Path near6250",
+      "change": "Track Copy_Origin_View permissions separately; no source move/free during clone; no escape of transient alias."
+    },
+    {
+      "path": "src/why/gnat2why-subprograms.adb plus flow/marking counterparts",
+      "entry": "Normal/exceptional exit and implicit-call effect integration",
+      "change": "Prove hook-body/caller/data-effect coverage and correct scheduling; identify exact additional source units from complete pinned checkout before editing."
+    }
+  ],
+  "smaller_build_candidate_not_qualified": {
+    "idea": "Potentially rebuild only gnat2why including its matching GNATprove frontend and reuse hash-pinned installed driver/wrappers/gnatwhy3/provers in a separate isolated runtime layout.",
+    "why_no_full_gcc_build_assumed": "D47 normal compiler already accepts strict Finalizable; no normal compiler defect established. Rebuild/compiler replacement requires separate evidence.",
+    "why_no_why3_build_assumed": "Proposed lifetime model can initially emit existing Why3 call/try/finalization AST constructors. Reuse is conditional on unchanged gnat-json/theory/option ABI and replay compatibility, not version-string equality.",
+    "mandatory_preconditions": [
+      "Verify no required AST-schema/xgen/protocol changes; compare exact generated ABI inputs and original baseline .gnat-json compatibility.",
+      "Close actual minimal gnat2why project dependency graph; gnatcoll_core import alone is not evidence all transitive units are present.",
+      "Record every unchanged reused ELF/theory/config/solver hash and supported target options.",
+      "Build only inside qualified resource scope/isolated prefix after capacity admission; installed package remains unchanged.",
+      "Complete unchanged full gate runs on adopted product/tool identity after vertical-slice qualification."
+    ],
+    "not_selected": "No rebuild, prefix creation, archive acquisition or copying installed toolchain selected in this proposal."
+  },
+  "work_without_toolchain_build": [
+    {
+      "action": "Finish source/configuration lock from existing recipe and small official metadata.",
+      "deliverable": "Exact commit/blob/archive/hash/patch/config manifest with explicit unresolved inputs; never mark it complete from moving refs."
+    },
+    {
+      "action": "Extract exact original static and solver-generated failure classes from retained D47 .spark/session/source artifacts.",
+      "deliverable": "Source-bound negative report fixture showing session-only green does not waive static leaks; no runtime result claimed."
+    },
+    {
+      "action": "Specify owner-state transfer semantics and each normal/exception edge in a small independently reviewable WhyML model using existing supported primitives.",
+      "deliverable": "Model/proof obligations plus mutants; no toolchain patch success or program proof is inferred from model alone. Authoring/proving model is a separately selected next action, not executed here."
+    },
+    {
+      "action": "Form exact successor patch against complete pinned translator source only after source and operation-model review.",
+      "deliverable": "Outside-production patch, before/after hashes, full touched-unit/caller roster, no source omission."
+    }
+  ],
+  "qualification_controls_not_run": [
+    {
+      "id": "POS-FRESH-OLD",
+      "requirement": "Unchanged D47 fresh allocating Old content/bounds + actual physical cleanup on successful postchecks."
+    },
+    {
+      "id": "POS-COPY",
+      "requirement": "B:=A then source/native release or mutation; B and A independent live values; destination overwrite and self-assignment."
+    },
+    {
+      "id": "POS-EXCEPTION",
+      "requirement": "Raise from body, later Old capture, allocation in Adjust, nested expression and postcheck; initialized snapshots physically retired without masking primary outcome."
+    },
+    {
+      "id": "POS-DOMAIN",
+      "requirement": "Original empty/duplicate/FIFO/full String/all Character cases and complete queue; no new cap accepted."
+    },
+    {
+      "id": "NEG-NO-FINALIZER",
+      "requirement": "Unsupported or absent finalizer must retain leak refusal, not turn green from type name."
+    },
+    {
+      "id": "NEG-FINALIZER-NO-FREE",
+      "requirement": "Finalizer that only nulls pointer cannot establish reclamation."
+    },
+    {
+      "id": "NEG-FREE-SOURCE",
+      "requirement": "Adjust that frees incoming shallow source alias must fail ownership/source-independence validation."
+    },
+    {
+      "id": "NEG-MISSING-EDGE",
+      "requirement": "Remove one exceptional cleanup edge: corresponding leak proof/control must fail."
+    },
+    {
+      "id": "NEG-ESCAPE",
+      "requirement": "Escaping copy-origin view or accessing reclaimed owner is rejected."
+    },
+    {
+      "id": "NEG-EXPLICIT-HOOK",
+      "requirement": "Explicit application Adjust call cannot acquire compiler-only copy-origin permission."
+    },
+    {
+      "id": "NEG-SKIP-STATIC",
+      "requirement": "All session goals proved with medium static .spark leak failure still rejects complete proof."
+    },
+    {
+      "id": "NEG-COUNTERFEIT",
+      "requirement": "Missing/mixed-source/zero-work/changed hooks and physical-leak witness mismatches reject qualification."
+    }
+  ],
+  "closure_readbacks": [
+    {
+      "component": "adasat",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/adasat.anod",
+      "git_blob_sha": "b47967dd035b871a4b43288ad69c8dafbe5cc46b",
+      "content": "from e3.anod.spec import Anod\nfrom e3.anod.loader import spec\nfrom e3.anod.helper import text_replace\nfrom e3.fs import sync_tree\n\nimport os\n\n\nclass AdaSAT(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.0.0\"\n\n    @property\n    def tarball(self):\n        return \"adasat-%s.tar.gz\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/AdaSAT/archive/v%s.tar.gz\"\n                % self.version,\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n        ]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        sync_tree(self[\"SRC_DIR\"], self[\"BUILD_DIR\"])\n        text_replace(\"adasat.gpr\", [\n            (\n                r', \"-flto\"\\)',\n                ')',\n            )\n        ])\n\n        gpr_file = os.path.join(self[\"BUILD_DIR\"], \"adasat.gpr\")\n        build_mode = \"prod\"\n\n        for library_type in [\"static\"]:\n            self.shell(\n                \"gprbuild\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"-j\" + str(self.jobs),\n                \"--relocate-build-tree=\" + library_type,\n                \"-XADASAT_BUILD_MODE=\" + build_mode,\n                \"-XADASAT_LIBRARY_TYPE=\" + library_type,\n            )\n\n            self.shell(\n                \"gprinstall\",\n                \"-f\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"--relocate-build-tree=\" + library_type,\n                \"--prefix=\" + self[\"INSTALL_DIR\"],\n                \"-XADASAT_BUILD_MODE=\" + build_mode,\n                \"-XADASAT_LIBRARY_TYPE=\" + library_type,\n                \"--build-var=LIBRARY_TYPE\",\n                \"--build-name=\" + library_type,\n            )\n\n        self.clean()"
+    },
+    {
+      "component": "prettier_ada",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/prettier_ada.anod",
+      "git_blob_sha": "a01e126f2ad130ee3c2951687b077a0182328da7",
+      "content": "from e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\nimport os\n\nclass PrettierAda(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.0.0\"\n\n    @property\n    def tarball(self):\n        return \"prettier_ada-%s.zip\" % self.version\n    \n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/prettier-ada/archive/refs/tags/v%s.zip\"\n                % self.version\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n            Anod.Dependency(\"gnatcoll\", track=True),\n            Anod.Dependency(\"vss_text\", track=True),\n        ]\n    \n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        gpr_file = os.path.join(self[\"SRC_DIR\"], \"prettier_ada.gpr\")\n        build_mode = \"prod\"\n\n        for library_type in [\"static\"]:\n            self.shell(\n                \"gprbuild\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"-j\" + str(self.jobs),\n                \"--relocate-build-tree=\" + library_type,\n                \"-XBUILD_MODE=\" + build_mode,\n                \"-XLIBRARY_TYPE=\" + library_type,\n            )\n\n            self.shell(\n                \"gprinstall\",\n                \"-f\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"--relocate-build-tree=\" + library_type,\n                \"--prefix=\" + self[\"INSTALL_DIR\"],\n                \"-XBUILD_MODE=\" + build_mode,\n                \"-XLIBRARY_TYPE=\" + library_type,\n                \"--build-var=LIBRARY_TYPE\",\n                \"--build-name=\" + library_type,\n            )\n\n        self.clean()\n"
+    },
+    {
+      "component": "libadalang",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/libadalang.anod",
+      "git_blob_sha": "b0fb695f50db58b14d5b75fc4edcfede8dd2f7e3",
+      "content": "from e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\nimport os\n\n\nclass Libadalang(spec(\"common\")):\n    @property\n    def version(self):\n        return \"26.0.0\"\n\n    @property\n    def tarball(self):\n        return \"libadalang-%s.tar.gz\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/AdaCore/libadalang/releases/download/v%s/libadalang-%s.tar.gz\"\n                % (self.version, self.version),\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_deps(self):\n        return [\n            Anod.Dependency(\"base_gcc\", track=True),\n            Anod.Dependency(\"gprbuild\", track=True),\n            Anod.Dependency(\"libgpr\", track=True),\n            Anod.Dependency(\"adasat\", track=True),\n            Anod.Dependency(\"libgpr2\", track=True),\n            Anod.Dependency(\"gnatcoll\", track=True),\n            Anod.Dependency(\"gnatcoll-bindings\", track=True),\n            Anod.Dependency(\"langkit_support\", track=True),\n            Anod.Dependency(\"xmlada\", track=True),\n            Anod.Dependency(\"prettier_ada\", track=True),\n            Anod.Dependency(\"vss_text\", track=True),\n            Anod.Dependency(\"vss_extra\", track=True),\n        ]\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        gpr_file = os.path.join(self[\"SRC_DIR\"], \"libadalang.gpr\")\n        build_mode = \"prod\"\n\n        for library_type in [\"static\"]:\n            self.shell(\n                \"gprbuild\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"-j\" + str(self.jobs),\n                \"--relocate-build-tree=\" + library_type,\n                \"-XBUILD_MODE=\" + build_mode,\n                \"-XLIBRARY_TYPE=\" + library_type,\n            )\n\n            self.shell(\n                \"gprinstall\",\n                \"-f\",\n                \"-p\",\n                \"-P\",\n                gpr_file,\n                \"--relocate-build-tree=\" + library_type,\n                \"--prefix=\" + self[\"INSTALL_DIR\"],\n                \"-XBUILD_MODE=\" + build_mode,\n                \"-XLIBRARY_TYPE=\" + library_type,\n                \"--build-var=LIBRARY_TYPE\",\n                \"--build-name=\" + library_type,\n            )\n\n        self.clean()"
+    },
+    {
+      "component": "gmp",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/gmp.anod",
+      "git_blob_sha": "66d66d3624da065fc16105f13a39d304891f91fc",
+      "content": "from e3.os.fs import cd, unixpath\nfrom e3.anod.helper import Configure, Make\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\n\n\nclass GMP(spec(\"gnu\")):\n    @property\n    def version(self):\n        return \"6.3.0\"\n\n    @property\n    def tarball(self):\n        return \"gmp-%s.tar.bz2\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball, url=\"https://gcc.gnu.org/pub/gcc/infrastructure/\" + self.tarball\n            )\n        ]\n\n    @property\n    def build_source_list(self):\n        return [Anod.Source(name=self.tarball, publish=True, dest=\"\")]\n\n    @property\n    def build_space_name(self):\n        if \"shared_lib\" in self.parsed_qualifier:\n            return \"%s-shared\" % (self.name)\n        else:\n            return self.name\n\n    @property\n    def build_deps(self):\n        return self.compiler_deps()\n\n    def pre_build(self):\n        if self.env.host.os.name == \"darwin\" and self.env.host.cpu.name == \"x86_64\":\n            # Regenerate configure to avoid flat namespace linking\n            # Reported by email: https://gmplib.org/list-archives/gmp-bugs/2023-July/thread.html\n            # Remove in next version\n            cd(self[\"SRC_DIR\"])\n            self.shell(\"autoreconf\", \"-i\", \"-s\")\n\n    def setup(self):\n        configure = Configure(self)\n        configure.add(\"--prefix=%s\" % unixpath(self[\"INSTALL_DIR\"]))\n        if \"shared_lib\" in self.parsed_qualifier:\n            configure.add(\"--enable-shared\")\n            configure.add(\"--disable-static\")\n        else:\n            configure.add(\"--disable-shared\")\n            configure.add(\"--enable-static\")\n        configure.add(\"--enable-cxx\")\n\n        if self.env.host.os.name == \"darwin\":\n            # Enable --with-pic to avoid linking issues with the static library\n            # https://github.com/Homebrew/homebrew-core/blob/98064198c7e5464124f53bbdb47bec3e03f1a0cd/Formula/gmp.rb#L28\n            configure.add(\"--with-pic\")\n\n        configure.add(\"CFLAGS=-std=gnu17\")  # fix for new defaults in gcc 15.1.0\n        make = Make(self)\n\n        return {\"configure\": configure, \"make\": make}"
+    },
+    {
+      "component": "zlib",
+      "ref": "0334dd54a2c479faa3dfad47a911373581b11739",
+      "url": "https://github.com/alire-project/GNAT-FSF-builds/blob/0334dd54a2c479faa3dfad47a911373581b11739/specs/zlib.anod",
+      "git_blob_sha": "684ae6d34bfa0ebe15a45824afe924456ab0ec2b",
+      "content": "from e3.os.fs import touch, unixpath, cd\nfrom e3.fs import cp, sync_tree\nfrom e3.anod.helper import Configure, Make\nfrom e3.anod.spec import Anod\nfrom e3.anod.loader import spec\nfrom e3.diff import patch\n\nimport os\n\nclass ZLib(spec(\"common\")):\n    @property\n    def version(self):\n        return \"1.3.2\"\n\n    @property\n    def tarball(self):\n        return \"zlib-%s.tar.gz\" % self.version\n\n    @property\n    def source_pkg_build(self):\n        return [\n            self.HTTPSSourceBuilder(\n                name=self.tarball,\n                url=\"https://github.com/madler/zlib/releases/download/v%s/zlib-%s.tar.gz\"\n                % (self.version, self.version),\n            ),\n        ]\n\n    @property\n    def build_source_list(self):\n        return [\n            Anod.Source(name=self.tarball, publish=True, dest=\"\"),\n        ]\n\n    @property\n    def build_deps(self):\n        return [Anod.Dependency(\"base_gcc\")]\n\n    def setenv(self):\n        self.env.add_search_path(\n            \"C_INCLUDE_PATH\", os.path.join(self[\"INSTALL_DIR\"], \"include\")\n        )\n        self.env.add_search_path(\n            \"LIBRARY_PATH\", os.path.join(self[\"INSTALL_DIR\"], \"lib\")\n        )\n\n    @Anod.primitive()\n    def build(self):\n        for m in self.deps:\n            self.deps[m].setenv()\n\n        sync_tree(self[\"SRC_DIR\"], self[\"BUILD_DIR\"])\n        cd(self[\"BUILD_DIR\"])\n\n        configure = Configure(self, exec_dir=self[\"BUILD_DIR\"], auto_target=False)\n        configure.add(\"--prefix=%s\" % unixpath(self[\"INSTALL_DIR\"]))\n        configure.add(\"--static\")\n        configure()\n\n        make = Make(self, exec_dir=self[\"BUILD_DIR\"])\n        make(jobs=self.jobs)\n        make(\"install\", jobs=1)\n\n        self.clean()"
+    }
+  ],
+  "additional_source_pins": [
+    {
+      "repository": "AdaCore/AdaSAT",
+      "selected_ref": "v26.0.0",
+      "sha": "01e9a19b61ba785878862b8bce5ae8145018ef01",
+      "observed_commit_utc": "2024-01-03T17:00:52Z",
+      "url": "https://github.com/AdaCore/AdaSAT/commit/01e9a19b61ba785878862b8bce5ae8145018ef01"
+    },
+    {
+      "repository": "AdaCore/prettier-ada",
+      "selected_ref": "v26.0.0",
+      "sha": "2299fce43c74e7e1dea4ecdef7bc7bcd6ffc8b94",
+      "observed_commit_utc": "2025-09-03T10:28:47Z",
+      "url": "https://github.com/AdaCore/prettier-ada/commit/2299fce43c74e7e1dea4ecdef7bc7bcd6ffc8b94"
+    },
+    {
+      "repository": "AdaCore/libadalang",
+      "selected_ref": "v26.0.0",
+      "sha": "977da176280e2ffcc118d618a49d707b8bb46753",
+      "observed_commit_utc": "2025-09-17T15:28:14Z",
+      "url": "https://github.com/AdaCore/libadalang/commit/977da176280e2ffcc118d618a49d707b8bb46753"
+    },
+    {
+      "repository": "madler/zlib",
+      "selected_ref": "v1.3.2",
+      "sha": "da607da739fa6047df13e66a2af6b8bec7c2a498",
+      "observed_commit_utc": "2026-02-17T13:01:19Z",
+      "url": "https://github.com/madler/zlib/commit/da607da739fa6047df13e66a2af6b8bec7c2a498"
+    }
+  ],
+  "generated_asset_metadata": [
+    {
+      "url": "https://api.github.com/repos/AdaCore/libadalang/releases/tags/v26.0.0",
+      "http_status": 200,
+      "release": {
+        "actual_release_tag": "v26.0.0",
+        "target_commitish": "master",
+        "assets": [
+          {
+            "name": "libadalang-26.0.0.tar.gz",
+            "size": 2843789,
+            "digest": "sha256:c12f228f6500a87272cf34367d72c6f8e10bc19618dcc2ab91478e84463f2972",
+            "browser_download_url": "https://github.com/AdaCore/libadalang/releases/download/v26.0.0/libadalang-26.0.0.tar.gz"
+          }
+        ]
+      },
+      "scrape_id": "01a1789f-5dcb-756c-8cdb-94ea0f811430",
+      "claim_class": "OBSERVED official metadata via structured extractor; archive bytes not acquired or hash-verified"
+    },
+    {
+      "url": "https://api.github.com/repos/AdaCore/why3/releases/tags/fsf-16.0.0",
+      "http_status": 200,
+      "release": {
+        "actual_release_tag": "fsf-16.0.0",
+        "target_commitish": "master",
+        "assets": [
+          {
+            "name": "why3pack-macos-15-intel.tar.gz",
+            "size": 11680645,
+            "digest": "sha256:351a2b62a66f977754577954ed0d4da52137665e36df7e359fd22a144f1e8091",
+            "browser_download_url": "https://github.com/AdaCore/why3/releases/download/fsf-16.0.0/why3pack-macos-15-intel.tar.gz"
+          },
+          {
+            "name": "why3pack-macos-15.tar.gz",
+            "size": 13175356,
+            "digest": "sha256:88d486737431dd08d9f39ba57b25c54b9d3a7613b23a48b76ca04a8380bcc320",
+            "browser_download_url": "https://github.com/AdaCore/why3/releases/download/fsf-16.0.0/why3pack-macos-15.tar.gz"
+          },
+          {
+            "name": "why3pack-ubuntu-24.04-arm.tar.gz",
+            "size": 20467661,
+            "digest": "sha256:7b9aabe3125719ce05d674746cc73a60b86d505b40efd90676341b99d5cc0cf1",
+            "browser_download_url": "https://github.com/AdaCore/why3/releases/download/fsf-16.0.0/why3pack-ubuntu-24.04-arm.tar.gz"
+          },
+          {
+            "name": "why3pack-ubuntu-24.04.tar.gz",
+            "size": 17496589,
+            "digest": "sha256:718e5ba7bb6d0a0b8511eae2a2664a0778fe75bd84af0334f816f3e263e59c48",
+            "browser_download_url": "https://github.com/AdaCore/why3/releases/download/fsf-16.0.0/why3pack-ubuntu-24.04.tar.gz"
+          },
+          {
+            "name": "why3pack-windows-2025z.zip",
+            "size": 17211841,
+            "digest": "sha256:4e8b4bcfbb8def169c36fc99fb5669ef0cb9bfae9c942c9066b680909c099c8c",
+            "browser_download_url": "https://github.com/AdaCore/why3/releases/download/fsf-16.0.0/why3pack-windows-2025z.zip"
+          }
+        ]
+      },
+      "scrape_id": "01a1789f-5d8d-741d-a107-44aa8c4a6b99",
+      "claim_class": "OBSERVED official metadata via structured extractor; archive bytes not acquired or hash-verified"
+    }
+  ],
+  "configuration_closure": {
+    "resolved": "Reference recipe itself is pinned. Existing prior record has11 source pins; this supplement resolves AdaSAT, prettier-ada, Libadalang and zlib refs and official generated Libadalang/Why3 asset metadata.",
+    "unresolved": [
+      "GMP archive digest/signature and exact transitive source/archive hashes.",
+      "Reference recipe patches/generated parser artifacts, Python generator and e3-core22.10.0/stevedore dependency closure are not all content-locked.",
+      "Current source additional ada_toml dependency and exact minimal translator graph must be reconciled.",
+      "Official binary Why3pack source-to-binary correspondence and replay compatibility are not established by metadata digest.",
+      "Complete working-set envelope and reserve admission."
+    ],
+    "important_distinction": "Libadalang generated release asset is not interchangeable with a repository commit archive; both its metadata digest and source pin are recorded without asserting byte equivalence."
+  },
+  "disk_policy": "Root reports10.724GB free against10GB reserve. No build/install/clone/archive download and no numeric build-space estimate are authorized or claimed by this record.",
+  "claims": {
+    "O1": "OPEN",
+    "formal_proof": "UNRUN",
+    "physical_retirement": "UNMEASURED",
+    "independent_F7_acceptance": "NOT_PERFORMED",
+    "source_correspondence_to_installed": "UNVERIFIED"
+  }
+}

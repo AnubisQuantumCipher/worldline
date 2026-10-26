@@ -1,0 +1,11 @@
+--- a/chunk_predicate_probe.adb
++++ b/chunk_predicate_probe.adb
+@@ -58,7 +58,7 @@
+          Saved := (Present => True, Start => 0, Item => First.Item);
+       end;
+       declare
+-         Second : constant Block_Result := Chunk (Input, Saved.Start);
++         Second : constant Block_Result := Chunk (Input, Saved.Start + 1);
+       begin
+          pragma Assert (Saved.Present);
+          pragma Assert (Second.Item = Saved.Item);

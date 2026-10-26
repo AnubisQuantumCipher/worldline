@@ -1,0 +1,230 @@
+{
+  "created_utc": "2026-10-26T15:16:12.850735+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "status": "PREPARED_SOURCE_REVIEW_ONLY_UNRUN",
+  "project_sha256": "3bd830fd3f00ec6b6a5212b689771f852226501bdbaffcbc41a7b5f20bd7ce47",
+  "core_project_sha256": "c551271db906bcaa767d5b65c8c70cca7da94a781518d2f9bb9193d6b203b686",
+  "product_sources_sha256": {
+    "core/resource_quantities.ads": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+    "core/resource_quantities.adb": "de0a209345ee6b98528c6c803ccd594258e6d74da1b67b18d4298982d01682fb",
+    "core/resource_reservation_transition.ads": "41b59719e2395be43f6a5181f5eb5d28e1d5ec57bbb25b803feffdba7e7ed55f",
+    "core/resource_reservation_transition.adb": "c0749aa889ffb6c20645c96b4746b94fe0e1b5c4f24d2b36ded1cb0e3abbf484"
+  },
+  "private_import_absolute": "/home/sicarii/Work/worldline-phase1-direct-20261019/scratch/phase1-direct/private-sparklib/lib/gnat/sparklib.gpr",
+  "private_import_sha256": "ffdf9e235830799c45759540dbfff3a24da164bce9272ad9eb63e7be9935569d",
+  "private_dependency_manifest_sha256": "3204b2c4c26a292bdf843aa67ac0084e1b28741a8c1dce998135dc30857374b5",
+  "private_dependency_manifest_files": 134,
+  "source_binding": "Only four root Source_Files, all direct core directory paths; no source copies, product edits, exclusions or per-unit pruning. Private SPARKlib exact same unchanged imported project used by core; no local spark.ads shims. C attest_sha256 import omitted because neither root unit has any C/attestation dependency.",
+  "switch_equivalence": {
+    "Ada_checks": [
+      "-gnat2022",
+      "-gnatwa",
+      "-gnatVa",
+      "-gnatf",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fno-var-tracking-assignments",
+      "-gnata"
+    ],
+    "same_as_core": true,
+    "Prove": [
+      "--level=3",
+      "--report=all",
+      "-j0"
+    ],
+    "Builder": [
+      "-j0"
+    ],
+    "command_j2_overrides_project_j0": "Same precedence and command as prior numeric-proof-v1; actual run must retain argv and generated cswi for confirmation."
+  },
+  "environment": [
+    "source /home/sicarii/opt/gnat/env.sh",
+    "GPR_PROJECT_PATH must prepend exact existing private lib/gnat directory as prior core jobs",
+    "WORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True"
+  ],
+  "targets": [
+    {
+      "name": "radix_power",
+      "argv": [
+        "gnatprove",
+        "-P",
+        "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+        "--no-inlining",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "--warnings=error",
+        "--memlimit=1024",
+        "--timeout=5",
+        "-j2",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-u",
+        "resource_quantities.adb",
+        "--limit-subp=resource_quantities.ads:69"
+      ]
+    },
+    {
+      "name": "prefix_value",
+      "argv": [
+        "gnatprove",
+        "-P",
+        "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+        "--no-inlining",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "--warnings=error",
+        "--memlimit=1024",
+        "--timeout=5",
+        "-j2",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-u",
+        "resource_quantities.adb",
+        "--limit-subp=resource_quantities.ads:79"
+      ]
+    },
+    {
+      "name": "equal_prefix",
+      "argv": [
+        "gnatprove",
+        "-P",
+        "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+        "--no-inlining",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "--warnings=error",
+        "--memlimit=1024",
+        "--timeout=5",
+        "-j2",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-u",
+        "resource_reservation_transition.adb",
+        "--limit-subp=resource_reservation_transition.adb:572"
+      ]
+    },
+    {
+      "name": "trimmed_view",
+      "argv": [
+        "gnatprove",
+        "-P",
+        "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+        "--no-inlining",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "--warnings=error",
+        "--memlimit=1024",
+        "--timeout=5",
+        "-j2",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-u",
+        "resource_reservation_transition.adb",
+        "--limit-subp=resource_reservation_transition.adb:617"
+      ]
+    },
+    {
+      "name": "successor_columns",
+      "argv": [
+        "gnatprove",
+        "-P",
+        "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+        "--no-inlining",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "--warnings=error",
+        "--memlimit=1024",
+        "--timeout=5",
+        "-j2",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-u",
+        "resource_reservation_transition.adb",
+        "--limit-subp=resource_reservation_transition.adb:670"
+      ]
+    },
+    {
+      "name": "is_successor",
+      "argv": [
+        "gnatprove",
+        "-P",
+        "records/phase1-direct/completion-20261026/bignum-padding/numeric-qualification-candidate-v1/numeric_qualification.gpr",
+        "--no-inlining",
+        "--mode=all",
+        "--level=3",
+        "--report=all",
+        "--checks-as-errors=on",
+        "--proof-warnings=on",
+        "--warnings=error",
+        "--memlimit=1024",
+        "--timeout=5",
+        "-j2",
+        "-XWORLDLINE_BUILD=checks",
+        "-XSPARKLIB_MODE=full",
+        "-XSPARKLIB_BUILD=Production",
+        "-XSPARKLIB_LIBRARY_TYPE=static",
+        "-XSPARKLIB_INSTALLED=True",
+        "-u",
+        "resource_reservation_transition.adb",
+        "--limit-subp=resource_reservation_transition.adb:713"
+      ]
+    }
+  ],
+  "qualification_recipe": [
+    "Verify all4 product source hashes and private dependency manifest before each target and after terminal run.",
+    "Use original phase1_heavy.py lock/systemd8G/no swap admission. Parent chooses allocated bounded outer window.",
+    "Run targets serially in same fresh candidate project/object directory. First target may set up only two root units plus unchanged imported library metadata. No whole-164-unit cache reuse or stale unrelated loader report.",
+    "Require each actual exit0, fresh Summary logged marker and copied fresh report; check exact named proof row and strict warnings. A zero-check row is accepted only if actual report states proved(0checks), never fabricated.",
+    "Retain original failed numeric cached-Digest commands and illegal Always_Terminates failure. Do not update final manifest or infer whole F2.",
+    "Before source acceptance retain GPR configuration/source enumeration and .cswi proving actual binding/switches. Fresh project may report old complete numeric unit issues outside target; preserve/classify rather than suppress."
+  ],
+  "capacity": {
+    "free_bytes_at_prepare": 10164486144,
+    "reserve_bytes": 10000000000,
+    "margin_bytes": 164486144,
+    "estimated_increment_planning_bytes": 50000000,
+    "measured_two_unit_datarep_bytes": 17874301,
+    "measured_two_unit_phase1_bytes": 168698,
+    "measured_two_unit_proof_files_bytes": 3901012,
+    "measured_prior_numeric_wrapper_job_bytes": 216130,
+    "interpretation": "Existing comparable artifacts total22.16MB;50MB planning allowance exceeds2x measured total. This is empirical, not hard upper bound; admit only after competing writer clears and live free exceeds reserve+allowance. Owner monitors reserve; abort scoped job if reserve threatened. Candidate source/manifest files small; no compiler/prover run yet."
+  },
+  "phase_acceptance": false,
+  "whole_project_gates_unchanged": true,
+  "metadata_preflight_failure": {
+    "command": "gprls -P numeric_qualification.gpr -s (original strict external variables)",
+    "exit_code": 7,
+    "diagnostic": "object directory obj not found; created only candidate-owned empty directory before retry; no compile launched"
+  }
+}

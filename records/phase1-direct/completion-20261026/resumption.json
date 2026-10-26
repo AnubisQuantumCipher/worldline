@@ -1,0 +1,46 @@
+{
+  "schema": "worldline-phase1-resumption-v1",
+  "utc": "2026-10-26T13:59:46.950905+00:00",
+  "owner_thread": "01a1787b-9465-7363-96e3-47c837eec185",
+  "source": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "base_commit": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+  "base_tree": "3cd4954c9a71c520203a59826f7a1874dc76eb62",
+  "inherited_record_sha256": "055f0b697d1af21fb6dc25dfe1171fb61f51502f236c5eff80f7b2da9374a824",
+  "prior_main_proof_terminal": {
+    "exit_code": 124,
+    "utc": "2026-10-19T21:57:02.373859+00:00"
+  },
+  "phase_acceptance": false,
+  "models": {
+    "helpers": "gpt-6.1-sol",
+    "reasoning_effort": "high"
+  },
+  "write_assignments": {
+    "proof_blocker": [
+      "core/worldline-custody_v2_load_input.adb"
+    ],
+    "source_lineage": [
+      "core/resource_quantities.ads"
+    ],
+    "root": [
+      "records/phase1-direct/completion-20261026",
+      "records/phase1-direct/direct-continuation.json"
+    ],
+    "acceptance_map": "read-only ownership/toolchain analysis"
+  },
+  "constraints": [
+    "One existing direct candidate; leave stopped OMP workflow untouched",
+    "Shared heavy lock, 8G memory cap, swap0, unchanged deadlines",
+    "Preserve all acceptance gates and failed evidence",
+    "Focused proof and tests remain non-final",
+    "Do not revise source during verification"
+  ],
+  "original_open": [
+    "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
+    "Successor full-domain runtime FAILED on 4096 zero padding: GNAT System.Generic_Bignums.Normalize fixed Bignum_Limit; guard now preserves process but does not repair math result.",
+    "UTF8 four exception obligations",
+    "full all-source strict proof and original runtime roster",
+    "unbounded full-value implicit Old retirement conjunction",
+    "protected/actor witnesses and independent F7 acceptance"
+  ]
+}

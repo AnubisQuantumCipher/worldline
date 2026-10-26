@@ -1,0 +1,20 @@
+Compile
+   [Ada]          predicate_runtime_check.adb
+   [Ada]          chunk_predicate_probe.adb
+Bind
+   [gprbind]      predicate_runtime_check.bexch
+   [Ada]          predicate_runtime_check.ali
+Link
+   [link]         predicate_runtime_check.adb
+ 2
+Setup
+   [mkdir]        object directory for project Predicate_Runtime_Check
+   [mkdir]        exec directory for project Predicate_Runtime_Check
+Compile
+   [Ada]          predicate_runtime_check.adb
+   [Ada]          chunk_predicate_probe.adb
+Bind
+   [gprbind]      predicate_runtime_check.bexch
+   [Ada]          predicate_runtime_check.ali
+Link
+   [link]         predicate_runtime_check.adb

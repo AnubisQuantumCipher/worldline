@@ -1,0 +1,74 @@
+{
+  "schema": "worldline-nonfinal-checkpoint-readonly-review-v1",
+  "reviewer": "/root/source_lineage",
+  "model": {
+    "requested": "gpt-6.1-sol",
+    "selected": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "provenance": "Root-provided successful spawn dispatch. No independent serving attestation."
+  },
+  "verdict": "APPROVE_NONFINAL_CHECKPOINT_ONLY",
+  "conditions_before_publication": [
+    "Refresh the three known changed documentation identity entries in the successor publication plan; current v1 plan is not an exact final manifest.",
+    "Read back the final selected file list and hashes after any additional agent proposals/review receipts settle; newly added or changed content is outside this exact634-file scan.",
+    "Keep all Phase One gates open; publish only the selected textual checkpoint and retain exclusions locally. No claim that all raw evidence or complete local state is published."
+  ],
+  "reviewed_documents": {
+    "docs/decisions.md": "39a079b2a181730e40c7d275926336c266e50ead9cdce9930f61a9b072216db7",
+    "docs/phase1-progress.md": "0e455912e81fc8bd5ce2e901df1e4b770a873fbc8b4b77c5fff8268d36420fef",
+    "docs/phase1-acceptance-report.md": "d7df1b22341dd939aeb8a1cc16815a538f3ca5bba9883da16af8529541226a83",
+    "records/phase1-direct/direct-continuation.json": "461ec4e9a25e365df9c2575b9e59009c491741493a4a774674cc484fc0986023"
+  },
+  "product_hashes_observed": {
+    "core/resource_quantities.ads": "7463adf3658848c85798ebfb847786d0a204c22f124683f4d2f2cc80924ca497",
+    "core/resource_reservation_transition.adb": "c0749aa889ffb6c20645c96b4746b94fe0e1b5c4f24d2b36ded1cb0e3abbf484",
+    "core/worldline-custody_v2_load_input.adb": "fbf8962f74eb923bd67e9fb94f9e2cd17309ccf83cb1d61ed0822937d0f1f9e4"
+  },
+  "claim_checks": {
+    "numeric": "Independently read all6 selected raw receipt/report pairs. Hashes match readback; exact named rows present; each actual exit0; checks4+7+17+26+23+10=87. Current4numeric source hashes match. Whole-unit/fullF2/full-domain/runtime are not inferred.",
+    "prior_runtime": "Padding regression exit0/96.492seconds belongs to earlier quantity603a4bc3 and loader318a9033 build, with c074 transition. Corrected acceptance/progress/handoff explicitly distinguish current7463/fbf integrated build/runtime still UNRUN.",
+    "independent_review": "1e44f252c97fae2bf207545c0396a29644459930e826be8bb9685921b26218bf confirms limited numeric and toy predicate evidence, not acceptance.",
+    "utf8_v1": "Raw summary178 total=155proved+23flow,8/8entities; Decode_Chunk has1warning. Actual exit1/fresh_reporttrue/source_unchangedtrue. Strict unused-assignment warning remains a failure.",
+    "utf8_v2": "Corrected-source receipt exit_codenull, fresh_reportfalse, safety stop after6samples; free10078572544 ->10000093184. No fresh proof result. Owned-scope stop and global subsequent reserve violation remain distinct.",
+    "predicate": "Tiny replay positive/changed-start negative evidence is clearly outside-production; original runtime project failure retained. No production UTF8 or coordinator equivalence/resource closure.",
+    "pins": "Report statuspins-current/effectivePinCount464/changed[]/proofRunfalse/proofPolicyUnchangedtrue. Its3 product identities match observed hashes. Manifest hash3971b660099f933df771ca9a4013f272498f3fb37fe6d1039bc4e5ea58a2f754 matches current proof_manifest.py. Report is source-pin evidence only; reviewer did not rerun pin script.",
+    "open": "Significant805byte Storage_Error, current loader qualification, automatic full-value/implicitOld retirement, productionUTF8/fullcampaigns/authenticprotected/actor/F7 remain open. No narrower claim selected."
+  },
+  "selection_and_privacy": {
+    "plan_path": "records/phase1-direct/completion-20261026/publication-plan-v1.json",
+    "plan_sha256": "e419cdb70d2775bb5704f1785f0f8f56355bb4958e1df6f75b9ef2d0a08071ba",
+    "actual_selected_count": 634,
+    "planned_bytes": 9125263,
+    "current_reviewed_bytes": 9125838,
+    "known_identity_mismatches": [
+      "docs/phase1-acceptance-report.md",
+      "docs/phase1-progress.md",
+      "records/phase1-direct/direct-continuation.json"
+    ],
+    "all_other_selected_hashes_match": true,
+    "excluded_class_paths_selected": 0,
+    "binary_or_NUL_selected_files": 0,
+    "device_or_credential_pattern_matches": 0,
+    "patterns": "Apple deviceidentifier shape; private-key PEM; GitHub/OpenAI/Slack token shapes; literal password assignment. No matched values printed or retained.",
+    "boundary": "Bounded pattern scan and exact content/hash review of selected634 existing textfiles, not a universal secret-absence proof. Earlier638/~8.14MB estimate is superseded by actual plan634/~9.13MB.",
+    "retention": "ALL storage-recovery device/transport/writer records, compiledobjects, tmp, cache and binaries remain LOCAL, not deleted. These are excluded from publication. Current completion objectcache, original phase1compiler slice, sharedlibrary, UTF8 obj and v2tmp were observed still present.",
+    "reviewed_raw_receipts_selected": true
+  },
+  "execution": {
+    "jobs": false,
+    "build": false,
+    "proof": false,
+    "tests": false,
+    "publication": false,
+    "production_edits": false,
+    "deletion": false,
+    "pin_or_service_changes": false
+  },
+  "nonclaims": [
+    "No gate pass, full F2, complete runtime, frozen-source acceptance or F7.",
+    "No successful current integrated build/runtime from prior source tests.",
+    "No proof result for capacity-stopped UTF8 revision.",
+    "No entire local evidence publication, complete backup, archive or reclaimed capacity.",
+    "Internal checkpoint review only."
+  ]
+}

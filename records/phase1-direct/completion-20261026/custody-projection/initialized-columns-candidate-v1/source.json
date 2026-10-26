@@ -1,0 +1,10 @@
+{
+  "status": "UNAPPLIED_UNCOMPILED_UNPROVED_UNRUN",
+  "preimage_sha256": "318a9033ee0e0a7ebcbc082ddc50530c45044461b65d015ddb2d753e20cfa608",
+  "candidate_sha256": "d6ace3df6761dfbe93d132270cee64e71054adc324752b6c571fd06c996bc1ae",
+  "patch_sha256": "2b2621dc30d5390c5feadd3543165e14b29b3c2b2308d681a0d05a01a17b780a",
+  "public_spec_sha256": "5dc1233cfb1964117adc250bd18607bc73858148d31f9010a446b741a3a62ac4",
+  "meaning": "Set all output row discriminants PresentTrue once with allNull placeholder columns; then original ordered field mapping writes only Columns. Final field values and row extents identical; rows are out and do not expose intermediate values to any callback. Data read-only, no external authority change. Private PostPresent unchanged. No field-wide snapshot or new input cap.",
+  "checked_cost": "O(n) extra default writes, no quantified invariant inside loop. Must verify compiler avoids full array temporary and GNATprove preserves discriminator frame; neither established.",
+  "acceptance": "Not selected or applied. Compare compiler-only variants under rootwrapper30s, then focused proof/checked original runtime. Does not address separate Goodsticky or Digest bounds actual failures."
+}

@@ -1,0 +1,32 @@
+with "/home/sicarii/Work/worldline-phase1-direct-20261019/scratch/phase1-direct/private-sparklib/lib/gnat/sparklib.gpr";
+
+-- Focused diagnostic project. Product units are referenced in place.
+-- Whole-project F2 coverage, original floors and pins remain binding.
+project Numeric_Qualification is
+   for Languages use ("Ada");
+   for Source_Dirs use ("/home/sicarii/Work/worldline-phase1-direct-20261019/core");
+   for Source_Files use
+     ("resource_quantities.ads", "resource_quantities.adb",
+      "resource_reservation_transition.ads", "resource_reservation_transition.adb");
+   for Object_Dir use "obj";
+
+   type Build_Kind is ("checks", "release");
+   Build : Build_Kind := external ("WORLDLINE_BUILD", "checks");
+   Common :=
+     ("-gnat2022", "-gnatwa", "-gnatVa", "-gnatf", "-O2", "-g", "-fPIC", "-fno-var-tracking-assignments");
+   package Compiler is
+      case Build is
+         when "checks" =>
+            for Default_Switches ("Ada") use Common & ("-gnata");
+         when "release" =>
+            for Default_Switches ("Ada") use Common;
+      end case;
+   end Compiler;
+   package Builder is
+      for Switches ("Ada") use ("-j0");
+   end Builder;
+   package Prove is
+      for Proof_Switches ("Ada") use
+        ("--level=3", "--report=all", "-j0");
+   end Prove;
+end Numeric_Qualification;

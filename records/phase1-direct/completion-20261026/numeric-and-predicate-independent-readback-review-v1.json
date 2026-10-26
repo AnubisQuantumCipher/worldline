@@ -1,0 +1,111 @@
+{
+  "created_utc": "2026-10-26T15:34:06.740019+00:00",
+  "reviewer": "GPT-6.1-Sol high /root/proof_blocker",
+  "verdict": "CONFIRMED_SCOPED_NUMERIC_PROOF_AND_TOY_RUNTIME_CONTROL_RECEIPTS",
+  "numeric": {
+    "readback_sha256": "b4d0a3b16b8eac269430b537e1ad477035f082f7d905ddfeac7e338427b112c4",
+    "source_hashes_match_now": {
+      "core/resource_quantities.ads": true,
+      "core/resource_quantities.adb": true,
+      "core/resource_reservation_transition.ads": true,
+      "core/resource_reservation_transition.adb": true
+    },
+    "selected_checks_sum": 87,
+    "selected_routines": [
+      {
+        "routine": "Resource_Quantities.Radix_Power",
+        "proof_checks": 4,
+        "receipt_sha_match": true,
+        "report_sha_match": true,
+        "exact_named_row_present": true,
+        "actual_exit_code": 0,
+        "fresh_summary": true,
+        "source_unchanged": null,
+        "strict_argv_match": true
+      },
+      {
+        "routine": "Resource_Quantities.Prefix_Value",
+        "proof_checks": 7,
+        "receipt_sha_match": true,
+        "report_sha_match": true,
+        "exact_named_row_present": true,
+        "actual_exit_code": 0,
+        "fresh_summary": true,
+        "source_unchanged": null,
+        "strict_argv_match": true
+      },
+      {
+        "routine": "Resource_Reservation_Transition.Equal_Prefix_Values",
+        "proof_checks": 17,
+        "receipt_sha_match": true,
+        "report_sha_match": true,
+        "exact_named_row_present": true,
+        "actual_exit_code": 0,
+        "fresh_summary": true,
+        "source_unchanged": null,
+        "strict_argv_match": true
+      },
+      {
+        "routine": "Resource_Reservation_Transition.Trimmed_View",
+        "proof_checks": 26,
+        "receipt_sha_match": true,
+        "report_sha_match": true,
+        "exact_named_row_present": true,
+        "actual_exit_code": 0,
+        "fresh_summary": true,
+        "source_unchanged": null,
+        "strict_argv_match": true
+      },
+      {
+        "routine": "Resource_Reservation_Transition.Successor_Columns",
+        "proof_checks": 23,
+        "receipt_sha_match": true,
+        "report_sha_match": true,
+        "exact_named_row_present": true,
+        "actual_exit_code": 0,
+        "fresh_summary": true,
+        "source_unchanged": null,
+        "strict_argv_match": true
+      },
+      {
+        "routine": "Resource_Reservation_Transition.Is_Successor",
+        "proof_checks": 10,
+        "receipt_sha_match": true,
+        "report_sha_match": true,
+        "exact_named_row_present": true,
+        "actual_exit_code": 0,
+        "fresh_summary": true,
+        "source_unchanged": null,
+        "strict_argv_match": true
+      }
+    ],
+    "classification": "87 selected checks from6 exact named fresh target reports. Actual initial job exit1/stale Prefix79 selector preserved; only corrected Prefix78 run supplies7checks. This does not assert whole-unit numeric/F2 or full-domain runtime; observed805byte failure remains open.",
+    "source_binding_detail": "Per-target raw records do not contain source_unchanged field (null above is absence, not failure or success). Actual driver numeric_isolated_v1.py target validates all139 source/import pins and project hash before invoke and again before writing terminal record; numeric_prefix_v2 delegates to that same target method. Current4product hashes also match readback. Preserve this concrete basis rather than invent per-target field.",
+    "driver_sha256": {
+      "numeric_isolated_v1.py": "6575e64a81131cd999f480d94d9a73d2f18413b67bb16a35ec090685e4b34318",
+      "numeric_prefix_v2.py": "fbc377083a01794a570b77e3bb1bc1342d3a3224dc1a26f5371a1e61dce3a7ad"
+    }
+  },
+  "predicate_runtime": {
+    "readback_sha256": "9ca2656c4ec1aa5689191e7eea856d4e731a9cd9ac6e1f62ea3667dd7a4d1a33",
+    "raw_hashes_match": {
+      "launch.jsonl": true,
+      "stdout": true,
+      "stderr": true,
+      "worker-result.json": true,
+      "terminal-scope.jsonl": true
+    },
+    "positive_print2": true,
+    "negative_assertion_actual": true,
+    "negative_only_semantic_delta_Start_plus_1": true,
+    "checked_flags": "gnata present in actual main and imported probe GPR; no assertion suppression.",
+    "actual_shell_sequence": [
+      "bash",
+      "-c",
+      "set -e; source /home/sicarii/opt/gnat/env.sh; cd records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1; gprbuild -p -j2 -P predicate_runtime_check.gpr; ./runtime-bin/predicate_runtime_check; gprbuild -p -j2 -P different-start-negative-v1/predicate_runtime_check.gpr; ./different-start-negative-v1/runtime-bin/predicate_runtime_check"
+    ],
+    "interpretation": "set-e positive build/run completed before negative build; positive prints2, negative executable linked then assertion equality fails. Overall exit1 is expected negative-control outcome, not green job. Toy pure replay mechanism only; no production UTF8 semantic/resource acceptance. Initial duplicateownership runtime jobv1 retained."
+  },
+  "no_jobs_run_by_reviewer": true,
+  "phase_acceptance": false
+}
