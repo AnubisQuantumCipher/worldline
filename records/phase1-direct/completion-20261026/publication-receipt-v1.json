@@ -1,0 +1,29 @@
+{
+  "start_utc": "2026-10-26T15:54:32.921220+00:00",
+  "end_utc": "2026-10-26T15:54:36.988443+00:00",
+  "argv": [
+    "git",
+    "-c",
+    "gc.auto=0",
+    "push",
+    "--porcelain",
+    "origin",
+    "HEAD:refs/heads/codex/phase1-direct-20261019"
+  ],
+  "cwd": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "commit": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "tree": "c441801dd9e77afa908243badb363189b50337f6",
+  "branch": "codex/phase1-direct-20261019",
+  "push_exit": 0,
+  "readback_exit": 0,
+  "readback_matches": true,
+  "classification": "PUBLISHED_NONFINAL_CHECKPOINT",
+  "phase_acceptance": false,
+  "evidence_sha256": {
+    "publication-push.stdout": "833b0825a4e2b43ebc35d884770e061ec40fb6bd6452de840a194b54bb598c81",
+    "publication-push.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "publication-readback.stdout": "9d302a212fd1243ab2f4eabbb07a7743b7a192cc6cba481d103b3d51c9589d69",
+    "publication-readback.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "publication-plan-v2.json": "446e051b9b9eb67dd474fcba074524ed7cd53cbc2ac788a4a6bcd8565edb5d15"
+  }
+}
