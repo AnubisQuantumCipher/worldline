@@ -1,0 +1,49 @@
+with "/home/sicarii/Work/worldline-phase1-direct-20261019/scratch/phase1-direct/private-sparklib/lib/gnat/sparklib.gpr";
+with "worldline_attest_sha256.gpr";
+
+project Replay_Whole_Unit_Proof is
+   for Languages use ("Ada");
+   for Source_Dirs use ("source");
+   for Source_Files use
+     ("decimal_binary64.adb",
+      "decimal_binary64.ads",
+      "evaluation_epoch.adb",
+      "evaluation_epoch.ads",
+      "evaluation_pending.adb",
+      "evaluation_pending.ads",
+      "exact_decimal.adb",
+      "exact_decimal.ads",
+      "resource_quantities.adb",
+      "resource_quantities.ads",
+      "resource_reservation_lifecycle.adb",
+      "resource_reservation_lifecycle.ads",
+      "worldline-generic_json_syntax.adb",
+      "worldline-generic_json_syntax.ads",
+      "worldline-json_syntax_types.ads",
+      "worldline-manager_resource_lifecycle.adb",
+      "worldline-manager_resource_lifecycle.ads",
+      "worldline-ordinary_reservation_lifecycle.adb",
+      "worldline-ordinary_reservation_lifecycle.ads",
+      "worldline-ordinary_reservation_replay.adb",
+      "worldline-ordinary_reservation_replay.ads",
+      "worldline-producer_render.adb",
+      "worldline-producer_render.ads",
+      "worldline-producer_unicode.ads",
+      "worldline-producer_values.adb",
+      "worldline-producer_values.ads",
+      "worldline-resources.adb",
+      "worldline-resources.ads",
+      "worldline.ads");
+   for Object_Dir use external ("REPLAY_PROOF_OBJECT_DIR", "object-mounts/replay");
+   package Compiler is
+      for Default_Switches ("Ada") use
+        ("-gnat2022", "-gnatwa", "-gnatwe", "-gnatVa", "-gnatf",
+         "-O2", "-g", "-fPIC", "-fno-var-tracking-assignments", "-gnata");
+   end Compiler;
+   package Builder is
+      for Switches ("Ada") use ("-j2");
+   end Builder;
+   package Prove is
+      for Proof_Switches ("Ada") use ("--level=3", "--report=all", "-j2");
+   end Prove;
+end Replay_Whole_Unit_Proof;

@@ -1,0 +1,65 @@
+{
+  "utc": "2026-11-01T08:23:22.935435+00:00",
+  "guard_sha256": "1fa3686c3fdd51f969854de5757274c6344cee62c1a1bfa0de7ab777e6d4e42a",
+  "function_max_lines": 27,
+  "tests": [
+    {
+      "case": "initial_receipt_failure",
+      "exit": 125,
+      "cleanup_called": true
+    },
+    {
+      "case": "monitor_failure",
+      "exit": 125,
+      "cleanup_called": true
+    },
+    {
+      "case": "memory_refusal",
+      "exit": 125,
+      "cleanup_called": true
+    },
+    {
+      "case": "normal_failure",
+      "exit": 1,
+      "cleanup_called": false
+    },
+    {
+      "case": "normal_success",
+      "exit": 0,
+      "cleanup_called": false
+    },
+    {
+      "case": "cancel_error",
+      "exact_scope_attempts": 1,
+      "terminal": false
+    },
+    {
+      "case": "cancel_exception",
+      "exact_scope_attempts": 1,
+      "terminal": false
+    },
+    {
+      "case": "confirmed_cancel",
+      "exact_scope_attempts": 1,
+      "terminal": true
+    },
+    {
+      "case": "missing_terminal",
+      "settled": false
+    },
+    {
+      "case": "active_scope",
+      "settled": false
+    },
+    {
+      "case": "terminal_ok",
+      "settled": true
+    },
+    {
+      "case": "observed_outer_exit_requires_terminal",
+      "verified": true
+    }
+  ],
+  "boundary": "in-memory substituted processes/systemctl only; no real job/process/mount; orchestration tested, not formally proved",
+  "phase_acceptance": false
+}

@@ -1,0 +1,16 @@
+{
+  "utc": "2026-11-01T08:23:56.453238+00:00",
+  "reviewer": "/root/probe_result_review, fresh Sol/high source review",
+  "target": "chunk_capacity_guard_v2.py",
+  "sha256": "ec6b7a93422526d06a1ca5bcfb236a3bb51a44c8c4e16f0c6ded27995d3613bf",
+  "verdict": "HOLD_NO_LAUNCH",
+  "findings": [
+    "Every outer exit yielded normal=True, skipping cleanup even if wrapper failed while its scope remained populated. Require fresh exact terminal receipt and live scope/cgroup readback.",
+    "Unconfirmed group cancellation could still report terminal on pre-registration not-found scope. Require confirmed launcher quiescence and exact terminal scope jointly.",
+    "Unexpected cancellation exception occurred outside cleanup try, skipping exact-scope attempt. Isolate attempts."
+  ],
+  "v3": "Root intermediate repairs latter two; preserved unrun.",
+  "v4": "Root also requires wrapper_terminal before accepting any normal wrapper exit; fresh review pending.",
+  "actual_job_count": 0,
+  "phase_acceptance": false
+}

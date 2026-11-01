@@ -1,0 +1,70 @@
+{
+  "utc": "2026-11-01T08:44:48.949763+00:00",
+  "full_check_exit": 2,
+  "literal_patch_context": [
+    {
+      "line": 30,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 31,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 100,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 101,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 135,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 136,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 159,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 160,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 178,
+      "kind": "trailing whitespace.",
+      "exact_bytes_hex": "20"
+    },
+    {
+      "line": 178,
+      "kind": "new blank line at EOF.",
+      "exact_bytes_hex": "20"
+    }
+  ],
+  "reason": "Each finding is the mandatory single-space marker of an empty unified-diff context line. Preserve raw patch bytes, including final context line; not source trailing whitespace.",
+  "scoped_argv": [
+    "git",
+    "diff",
+    "--cached",
+    "--check",
+    "--",
+    ".",
+    ":(exclude)records/phase1-direct/factory-20261101/replay-proof-proposal-v1/driver-adapter.patch"
+  ],
+  "scoped_exit": 0,
+  "stdout": "",
+  "stderr": "",
+  "full_check_claimed_pass": false
+}

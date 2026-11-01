@@ -1,0 +1,139 @@
+{
+  "schema": "worldline.phase1.private-ipc-policy-review.v1",
+  "reviewer": "/root/closure_reconcile",
+  "scope": "Read-only independent source/policy review plus this new receipt only. No compiler/prover, mount, IPC probe, heavy job, installation or product edit performed.",
+  "question": "May a successor diagnostic bind only an existing capped private ram/ipc directory onto its private /dev/shm and add --unshare-ipc without waiving a binding user requirement?",
+  "verdict": "SOURCE_DESIGN_ELIGIBLE_ONLY_NEW_MECHANISM_QUALIFICATION_REQUIRED",
+  "launch_authorized": false,
+  "phase_acceptance": false,
+  "model_provenance": {
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "high",
+    "runtime_reported_model": "gpt-6.1-sol",
+    "runtime_reported_effort": "high",
+    "provider_serving_attestation": "UNAVAILABLE",
+    "boundary": "Parent previously recorded runtime settings; this is not provider backend attestation."
+  },
+  "explicit_policy": [
+    {
+      "source": "User-supplied universal AGENTS.md instructions in this session",
+      "requirement": "No silent weakening of security, safety or trust-chain gates; deviations require written justification, risk assessment and explicit user approval before accepting them as policy."
+    },
+    {
+      "source": "docs/phase1-agent-rules.md:38-56",
+      "requirement": "Mandatory isolated real-disk worktree; do not modify outside it or kill foreign processes; shared heavy lock, post-lock admission and explicit bounded own scope."
+    },
+    {
+      "source": "docs/phase1-agent-rules.md:79-101",
+      "requirement": "Recorded engineering decisions and reviewer verdict/reversal; gates never removed or weakened; no deleting/skipping tests to resolve a blocker; independent acceptance not self-approved."
+    },
+    {
+      "source": "AGENTS.md:1-19",
+      "requirement": "Strengthen implementation to meet fixed guarantees; preserve or strengthen accepted cases, negative history, principal boundaries, coverage and proof floors."
+    },
+    {
+      "source": "/home/sicarii/Documents/WORLDLINE-Phase-One-Factory/WORLDLINE-PHASE1-MASTER-PROMPT.md:108-126",
+      "requirement": "Exact decision inputs, positive discriminator, negative control, resources, stopping conditions and independent review. Preserve original fixtures and expected outcomes; inconsistent-oracle correction requires independent intended-requirement evidence and reviewed correction."
+    },
+    {
+      "source": "/home/sicarii/Documents/WORLDLINE-Phase-One-Factory/WORLDLINE-PHASE1-MASTER-PROMPT.md:132-160",
+      "requirement": "Routine local bounded engineering proceeds autonomously inside authorized isolation; no new sudo/security-setting/production authority; unchanged reserve, scope, swap, admission, deadlines and memory/archive budgets; RAM path must be qualified before use."
+    },
+    {
+      "source": "docs/phase1-acceptance.md:3-4,16-28,34-52,59-61",
+      "requirement": "Binding original gate roster and evidence requirements remain. Do not remove cases or infer pass from missing evidence."
+    }
+  ],
+  "exact_mechanism_boundary": [
+    {
+      "source": "records/phase1-direct/completion-20261026/ram_qualification_v2.py:130-145",
+      "finding": "Current bwrap uses --unshare-pid and --unshare-net, --ro-bind / /, --dev /dev, --remount-ro /dev, then declared writable binds. It does not request --unshare-ipc."
+    },
+    {
+      "source": "records/phase1-direct/completion-20261026/ram_qualification_v2.py:158-176",
+      "finding": "The probe explicitly attempts writes at PROBE_READONLY/forbidden-write, /dev/forbidden-write and /dev/shm/forbidden-write. Every write must raise EROFS or ENOENT; a successful write rejects the probe. /dev/null write and RAM witness are positives."
+    },
+    {
+      "source": "records/phase1-direct/completion-20261026/ram_qualification_v2.py:179-217,251-266",
+      "finding": "Output and restore are separately capped tmpfs; TMPDIR/cache/object outputs are declared writable. Archive/full restore and exact intentional-kill evidence are checked."
+    },
+    {
+      "source": "records/phase1-direct/completion-20261026/ram_qualification_v3.py:233-248,261-279,282-323",
+      "finding": "V3 preserves these sandbox/probe/mount predicates; it persists tool-result before inventory."
+    },
+    {
+      "source": "records/phase1-direct/factory-20261101/probe-work-package.json:24-26",
+      "finding": "Negative explicitly says forbidden disk/device/shm writes refused. Acceptance is limited to mechanism."
+    },
+    {
+      "source": "docs/decisions.md:2473-2495 (D145)",
+      "finding": "One exact corrected mechanism probe approval, original fixed caps, forbidden-write refusals, full archive comparison and terminal cleanup. No compiler/Chunk/product/F7 credit."
+    },
+    {
+      "source": "records/phase1-direct/factory-20261101/probe-result-independent-review.json:2,19-44",
+      "finding": "APPROVE_EXACT_COMPLETED_MECHANISM_PROBE_ONLY; three forbidden-write controls and unchanged helper/wrapper were reviewed."
+    },
+    {
+      "source": "docs/decisions.md:2680-2705 (D149)",
+      "finding": "Instrumented retry retained exact read-only bindings, probe/writer controls and rejection. It did not approve an IPC topology change."
+    }
+  ],
+  "interpretation": {
+    "status": "REVIEWER_INTERPRETATION_NOT_NEW_USER_POLICY",
+    "conclusion": "No inspected original user/master/binding gate states that every diagnostic must forever deny writes to the pathname /dev/shm irrespective of what private object is mounted there. The exact literal denial is a binding predicate for the currently qualified RAMv2/v3 mechanism, not a general prohibition on declared private RAM output.",
+    "permissible_design_lane": "A NEW immutable diagnostic profile may be considered under routine isolated-engineering authority if its only new writable mapping is an alias of an existing capped private output directory, host data/principals remain protected, all resource/evidence gates remain, and independently fixed successor controls prove that boundary. This is a new qualification subject, not a passing re-run of the old predicate.",
+    "original_fixture_rule": "Preserve old v2/v3 sources, fixtures, expected outcomes, failures and exact approval under their original topology. Do not edit their /dev/shm assertion, relabel a writable result as the old forbidden-write pass, or claim AST-identical/unchanged-mechanism inheritance.",
+    "approval_boundary": "A user waiver is not established as necessary solely from a demonstrably private capped alias. If the actual proposal drops a binding negative control without equivalent boundary evidence, allows host writes, skips accepted cases, raises a cap or weakens retention/rejection, it is a deviation: explicit user approval is required by the user's universal instructions. Reviewer concurrence cannot grant that waiver.",
+    "current_disposition": "Source preparation and independent review are eligible; no current approval transfers to a launch. No claim that a concrete successor already preserves all guarantees is made.",
+    "d32_scope": "docs/decisions.md:329-339 rejects widening writes and symlink substitution for a different original acquisition namespace premise. That decision is not permission to weaken that original qualifier and is not, by itself, an explicit user ban on all future declared private RAM aliases."
+  },
+  "observed_v3_result": {
+    "status": "OBSERVED_RETAINED_ARTIFACTS",
+    "tool_receipt": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/tool-result.json",
+    "tool_exit": 1,
+    "tool_stop": null,
+    "stderr_path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/failure-tool.stderr",
+    "stderr": "failed to create semaphore: Read-only file system\n",
+    "entry_receipt": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/failure-entry.json",
+    "rejected_path": "tmp/why3server_2.sock",
+    "cached_and_followup_type": 49152,
+    "retention": "LOST_EPHEMERAL_OUTPUTS",
+    "proof_credit": false,
+    "boundary": "Actual error text establishes semaphore creation failed on a read-only filesystem, but does not by itself record the attempted semaphore pathname or API. The socket was actually retained in entry metadata. Mapping /dev/shm alone does not establish socket cleanup or complete archive retention."
+  },
+  "technical_assessment": {
+    "status": "SOURCE_DESIGN_REASONING_RUNTIME_UNVERIFIED",
+    "source": "/usr/share/man/man1/bwrap.1.gz (--bind, --ro-bind, --unshare-ipc documentation)",
+    "alias_budget": "Binding a subdirectory of the already capped output tmpfs can reuse its existing aggregate byte/inode ceiling instead of adding another filesystem allowance. Verify the actual filesystem identity and limits; a bind alone supplies no size cap.",
+    "isolation": "Add --unshare-ipc as an independently checked namespace boundary. Do not treat it as a substitute for a private /dev/shm mount, a filesystem pathname-socket boundary or a resource cap.",
+    "caveat": "New IPC namespaces do not establish a whole-system noninterference proof. Namespace-owned resources outside the bound filesystem still require the existing cgroup boundary and a precise claim; do not claim every possible IPC allocation is capped by the tmpfs byte limit.",
+    "retention": "Keep unsupported-entry rejection and full archive/restore requirements. If a socket survives tool termination, report incomplete retention; do not skip, unlink for cosmetic success, archive it as a regular file or infer proof credit."
+  },
+  "smallest_sound_next_step": {
+    "action": "Prepare a bounded successor design and immutable helper/control patch for independent source review. Record exact changed topology and control correspondence in the existing decisions ledger. Do not launch during the external storage owner's window.",
+    "required_discriminators": [
+      "Positive: create/use/close/unlink the actual required named-semaphore mechanism entirely in the private IPC directory, with exact API/path evidence where available; exercise the intended IPC namespace independently.",
+      "Positive: prove by observed mount identity and a private witness that sandbox /dev/shm aliases only the newly declared ram/ipc, not host /dev/shm. Parent mountpoint and host target readback remain unchanged.",
+      "Negative: original host-workspace and device-directory writes remain refused. Preserve the historical old-profile /dev/shm-denial fixture separately; successor's private /dev/shm write is explicitly a positive, never the old negative result.",
+      "Negative: verify aggregate existing output filesystem byte/inode limits and pre-write archive ceiling remain enforced, with no new uncapped tmpfs, broad writable /dev, host IPC bind or changed memory/swap/reserve.",
+      "Failure: exact bounded timeout/kill behavior, terminal own-scope cleanup, retained tool status and logs, namespace teardown, no leaked host IPC and complete archive/restore or explicit failure.",
+      "Archive: any leftover Why3 socket continues to reject. A successful semaphore discriminator alone cannot qualify Chunk retention or proof."
+    ],
+    "acceptance_evidence": "Fresh exact source/control review, admitted mechanism-only probe with all stated outcomes, independent raw-result and terminal-scope review. Only after that may a separately admitted compiler diagnostic be considered.",
+    "scope_limits": "No product integration, original acceptance gate closure, blanket privilege change or F7 acceptance."
+  },
+  "sha256": {
+    "AGENTS.md": "8abc7d3d8b9ee9c3df60bb961acb68879f862a184c052f1f3fa66ed4ce95006a",
+    "docs/phase1-agent-rules.md": "18ce46c5a9196484a29d21f9534a80e8daee728d69e8aef2ef675d5551c5c526",
+    "docs/phase1-acceptance.md": "17d20c7f9c0f81d1377cd10adce609492268e18d165a40c47e4e89bba864a6f3",
+    "docs/decisions.md": "6daf61cc266d93fddf0d8233dc65231ee6058408fa160ef416a24ba0f7bfdf2e",
+    "records/phase1-direct/completion-20261026/ram_qualification_v2.py": "b7aa45ec2a8aa3e0262d9a4c051ba5887912afc7f11abc8a9718e6935b60ccad",
+    "records/phase1-direct/completion-20261026/ram_qualification_v3.py": "6d65314d267d8845357487d931bb6c1819b3d81b2a9646ffefd9d19fab722095",
+    "records/phase1-direct/factory-20261101/probe-work-package.json": "b4ee05bf35e7a0536abe63b63366d2eb4dcd53ed098fc84197559e92accfb03c",
+    "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/tool-result.json": "fd385507cfa82c56237dc40131e6b7ee75ac3900fb48f8ef69dd8d52813b0d5a",
+    "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/failure-entry.json": "f8361d3ffddc9e83e2b9f32667ca0dce8235a38e594ddad28203ca9a2d967ed8",
+    "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/failure-tool.stderr": "515c30c9fbb08fac86ee426e558226d96258884b13ec9114d7626d348b991e3e",
+    "/home/sicarii/Documents/WORLDLINE-Phase-One-Factory/WORLDLINE-PHASE1-MASTER-PROMPT.md": "a475e8dca17c280ab8da2e25849234ff3b59195fa3d9588a193742b110e4cb6e",
+    "/usr/share/man/man1/bwrap.1.gz": "243c3b0e3fd7847f91cb2ad3186ed6ff22ab1765befac41f366cf0b8817b42fa"
+  }
+}

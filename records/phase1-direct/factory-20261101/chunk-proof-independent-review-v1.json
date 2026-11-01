@@ -1,0 +1,35 @@
+{
+  "utc": "2026-11-01T08:27:35.488220+00:00",
+  "reviewer": "/root/probe_result_review; internal Sol/high result review",
+  "verdict": "FAILED_LOST_EPHEMERAL_OUTPUTS_NO_PROOF_CREDIT",
+  "actual_tool_exit": "UNKNOWN",
+  "offending_entry_type": "UNKNOWN",
+  "offending_entry_path": "UNKNOWN",
+  "tool_stdout_stderr": "NOT_RETAINED",
+  "reserved_archive": {
+    "bytes": 8388608,
+    "all_zero": true,
+    "meaning": "Untouched reservation, not a complete or partial proof archive"
+  },
+  "outer_worker_collector_exit": 1,
+  "source_pins": 168,
+  "tool_hashes": 16,
+  "runtime_hashes": 1573,
+  "original_object_and_library_entries": 1055,
+  "all_source_content_and_metadata_matches": true,
+  "scope": "wl-phase1-7b029c44e2e24057a82c1619fe81dc72.scope",
+  "actual_memory_max": 8589934592,
+  "actual_swap_max": 0,
+  "memory_peak": 72245248,
+  "recorded_oom": 0,
+  "minimum_sampled_free_bytes": 11086553088,
+  "terminal_scope_unpopulated_and_currently_absent": true,
+  "outer_mount_tmp_cache_empty": true,
+  "smallest_repair": "Persist sandbox result before inventory; bounded nofollow/lstat failure metadata; reject same unsupported entries with unchanged limits; keep all unknown/truncated/lost evidence explicit.",
+  "prohibited_inferences": [
+    "do not infer actual toolstatus or entrytype from generic error",
+    "no whitelist/skip/permissions change",
+    "no subset-complete archive claim"
+  ],
+  "phase_acceptance": false
+}

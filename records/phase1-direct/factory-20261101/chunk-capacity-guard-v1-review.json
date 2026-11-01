@@ -1,0 +1,60 @@
+{
+  "schema": "worldline.chunk-capacity-guard-source-review.v1",
+  "reviewed_path": "records/phase1-direct/factory-20261101/chunk_capacity_guard_v1.py",
+  "reviewed_sha256": "39185138ca62baefe1b564e9b27723e1280c80f69bb0b79e2c0131364cb272d3",
+  "verdict": "HOLD_DO_NOT_LAUNCH_V1",
+  "review_scope": "Read-only source prelaunch review; no target execution or acceptance",
+  "model_provenance": {
+    "requested": "gpt-6.1-sol",
+    "requested_effort": "high",
+    "runtime_report": "Parent reports retained turn_context gpt-6.1-sol/high",
+    "provider_serving_attestation": "UNAVAILABLE"
+  },
+  "findings": [
+    {
+      "id": "G1",
+      "lines": [88, 90],
+      "severity": "BLOCKING",
+      "finding": "Popen succeeds before the initial receipt write and before cleanup protection begins. A logging exception leaves the owned child running.",
+      "required_repair": "Protect every operation after Popen with unconditional owned cleanup."
+    },
+    {
+      "id": "G2",
+      "lines": [110, 113],
+      "severity": "BLOCKING",
+      "finding": "The exception handler writes another receipt before stopping the child. Receipt-budget, device-full, or write failures can bypass cancellation again.",
+      "required_repair": "Cleanup must never depend on successful logging; failure recording must be best effort."
+    },
+    {
+      "id": "G3",
+      "lines": [52, 74],
+      "severity": "BLOCKING",
+      "finding": "Partial scope receipts or a valid receipt written before systemd scope registration can make stop_owned raise while the live launch group subsequently starts the worker. The heavy wrapper closes its scope receipt before launching systemd-run at scripts/phase1_heavy.py:88-94.",
+      "required_repair": "Cancel the owned launcher process group before settling the final scope receipt, then stop only its valid generated unit and retain bounded terminal readback. Incomplete evidence remains UNVERIFIED."
+    },
+    {
+      "id": "G4",
+      "lines": [63, 70, 115, 119],
+      "severity": "BLOCKING",
+      "finding": "A stop request and outer process exit are not a terminal, unpopulated scope observation.",
+      "required_repair": "Read the exact owned unit and cgroup state under an explicit finite cleanup bound; never mark uncertain cleanup complete."
+    }
+  ],
+  "preserved_requirements": [
+    "10GB reserve, 60MB startup margin, 30MB stop margin",
+    "Existing heavy wrapper 8GiB cap, zero swap, post-lock memory admission and 240s deadline unchanged",
+    "Unchanged RAMv2 Chunk command and inner 180s tool deadline",
+    "One scheduling attempt; first memory refusal must cancel before the heavy wrapper's 300s retry",
+    "At most 270 monitor samples and 4MiB sampled outer metadata",
+    "No unrelated process or unit cancellation"
+  ],
+  "successor": "records/phase1-direct/factory-20261101/chunk_capacity_guard_v2.py",
+  "successor_state": "SOURCE_ONLY_NOT_LAUNCH_APPROVED; requires root and fresh independent source review",
+  "limitations": [
+    "Sampling is not a hard filesystem quota and cannot guarantee reserve preservation against external writers.",
+    "Metadata/stat filesystem operations can delay a nominal one-second sampling interval.",
+    "Unknown cleanup prevents successor admission and requires separate readback.",
+    "No build, proof, target, cleanup exercise, service action or fault injection was run."
+  ],
+  "phase_acceptance": false
+}

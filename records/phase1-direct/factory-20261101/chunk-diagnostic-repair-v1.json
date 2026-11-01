@@ -1,0 +1,90 @@
+{
+  "actual_prior_failure": {
+    "classification": "Inventory rejection after sandbox; actual tool status/stdout/stderr/offending path were not retained. No proof credit.",
+    "path": "records/phase1-direct/factory-20261101/chunk-proof-root-readback-v1.json",
+    "sha256": "60f0298614e124976788df140cbf31cba7de6017ecc92db835bc33ea765d15d2",
+    "socket_diagnosis": "UNOBSERVED; not asserted. Initial lstat regular followed by disappearance or replacement remains possible."
+  },
+  "created_utc": "2026-11-01T08:29:11.450471+00:00",
+  "exact_changes": [
+    "Only new v3 output directories; v2 file/artifacts preserved.",
+    "Save actual sandbox tool argv/exit/stop immediately to tool-result.json before post-tool inventory.",
+    "Keep exact existing inventory reject condition. Its exception now carries initial lstat snapshot plus separate no-follow follow-up lstat/readlink/errno; it makes no inferred type diagnosis.",
+    "Catch inside failure and first save bounded failure-entry.json; then retain bounded exact regular stdout/stderr or an explicitly marked prefix/absence/change/error, followed by failure.json.",
+    "Failure log opens use O_NOFOLLOW|O_NONBLOCK and fstat regular-file check. No special/link target is read; only symlink text may be obtained by readlink.",
+    "Failure metadata uses64KiB per receipt; payload capacity respects4MiB aggregate direct-receipt ceiling while reserving64KiB final metadata and512KiB original parent result.",
+    "Parent includes retained actual tool result on incomplete archive, but original complete/code/unchanged/private conjunction still rejects success."
+  ],
+  "execution": {
+    "adapter_imported_or_executed": false,
+    "compiler": false,
+    "mount": false,
+    "only_two_assigned_new_files_written": true,
+    "proof": false,
+    "runtime_job": false
+  },
+  "phase_acceptance": false,
+  "preimage": {
+    "path": "records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+    "sha256": "b7aa45ec2a8aa3e0262d9a4c051ba5887912afc7f11abc8a9718e6935b60ccad"
+  },
+  "remaining_limits": [
+    "Source/static verification only; no filesystem/probe/compiler/proof job validates the new failure path.",
+    "Whole-scope kill, ENOSPC, receipt write failure or OOM can still prevent diagnostic retention. Available outer failure evidence must record incomplete/lost outputs.",
+    "Failure logs are complete exact bytes only when marked EXACT_BYTES and stable size/mtime; prefixes, absent files and error cases explicitly earn no full-log claim.",
+    "Initial and follow-up metadata are distinct observations, not atomic filesystem state; readlink can race and records errno or explicit truncation.",
+    "Full RAM tree remains rejected and unarchived on unsupported entry. No unsupported entry is deleted, dereferenced or newly allowed.",
+    "No proof pass, full archive, runtime/domain/resource equivalence, O1 or Phase One acceptance follows from partial diagnostics.",
+    "Original success receipts retain their existing per-receipt limits; new failure accounting does not make4MiB an allocated reservation or guarantee a hard disk floor."
+  ],
+  "review_acceptance": [
+    "Fresh exact-source/delta review before any launch",
+    "Later separately admitted failure-path controls must check exact offending metadata, tool exit, full/prefix/absent log markers, no following/type allowance, receipt ceiling and terminal owned cleanup."
+  ],
+  "schema": "worldline.chunk-diagnostic-retention-repair.v1",
+  "static_checks": {
+    "ast_parse": "PASS",
+    "caps_ast_comparison": "PASS",
+    "diagnostic_lstat_readlink_no_stat_follow": "PASS",
+    "inventory_only_exception_delta": "PASS",
+    "new_function_max_lines": 40,
+    "protected_function_ast_comparison": "PASS",
+    "regular_log_open_nofollow_nonblock": "PASS",
+    "tool_run_saved_before_inventory": "PASS"
+  },
+  "status": "SOURCE_ONLY_UNRUN_PENDING_ROOT_AND_FRESH_INDEPENDENT_REVIEW",
+  "successor": {
+    "bytes": 19090,
+    "path": "records/phase1-direct/completion-20261026/ram_qualification_v3.py",
+    "sha256": "6d65314d267d8845357487d931bb6c1819b3d81b2a9646ffefd9d19fab722095"
+  },
+  "unchanged": {
+    "archive_type_allowance_added": false,
+    "caps": [
+      "32MiB output",
+      "32MiB separate restore",
+      "1024inodes each",
+      "8MiB archive",
+      "4MiB receipts",
+      "10GB reserve",
+      "8GiB scope",
+      "zero swap"
+    ],
+    "deadlines": "180s sandbox/220s collector/240s existing outer envelope",
+    "inventory_reject_condition_identical": true,
+    "production_or_original_objects_modified": false,
+    "protected_functions_ast_identical": [
+      "digest",
+      "save",
+      "cgroup",
+      "retain",
+      "sandbox",
+      "chunk_command",
+      "probe_command",
+      "mount_ram",
+      "negative_writer",
+      "source_state",
+      "check_retained"
+    ]
+  }
+}

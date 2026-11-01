@@ -1,0 +1,6 @@
+{
+  "cause": "Formation checker allowlist omitted Attest.SHA256 supplied by the explicitly imported real Attest project. No source/runtime or compiler failure.",
+  "correction": "Classify Attest.SHA256 as a resolved imported project unit and retain its actual body/spec source pins.",
+  "reason": "RuntimeError: unresolved product import ['ada.numerics.big_numbers.big_integers', 'attest.sha256', 'interfaces', 'spark.big_integers']",
+  "status": "STATIC_FORMATION_CHECK_FAILED_NO_JOB"
+}

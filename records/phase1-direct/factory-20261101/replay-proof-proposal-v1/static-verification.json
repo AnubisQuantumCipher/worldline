@@ -1,0 +1,29 @@
+{
+  "compiler_proof_runtime_job_run": false,
+  "driver_imported_or_executed": false,
+  "function_lines": {
+    "command": 14,
+    "config": 13,
+    "inside": 33,
+    "main": 15,
+    "parent": 37,
+    "receipt": 13,
+    "retained_result": 23,
+    "source_state": 24,
+    "tool_evidence": 26
+  },
+  "mountpoints_created": false,
+  "no_product_imports_unresolved": true,
+  "non_primary_context_imports": [
+    "ada.numerics.big_numbers.big_integers",
+    "attest.sha256",
+    "interfaces",
+    "spark.big_integers"
+  ],
+  "owned_bytes_before_this_receipt": 394546,
+  "phase_acceptance": false,
+  "prior_static_checker_failure": "formation-check-failure-v1.json",
+  "proposal_sha256": "3901b6d28997f72ae547c99f2f16987995fa36cee1b4d4fcea5dabfc13323e3c",
+  "snapshot_files": 29,
+  "status": "STATIC_SOURCE_FORMATION_CHECKS_PASSED_NOT_COMPILED_OR_RUN"
+}

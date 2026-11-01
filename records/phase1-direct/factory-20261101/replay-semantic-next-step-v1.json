@@ -1,0 +1,192 @@
+{
+  "checked_cost_acceptance": {
+    "current_gap": "The current scalar bounds do not encode the full semantic induction. A checked-cost-preserving implementation of that induction remains unresolved. Do not claim the parent predicate or pointwise contracts close it.",
+    "fixed_boundary": "Keep original optional pairwise comparison semantics and selector costs up to a bounded constant number of original passes. Do not silently weaken the reviewed linear mask-comparison target or the original input domain.",
+    "forbidden_regression": "Do not paste the retained Capture_Ready/Valid_Prefix/Unique_Prefix/whole-mask prefix expressions into checked inner-loop invariants. They are mathematical obligations here, not approved executable annotation text.",
+    "no_suppression": "No assertion disabling, lemma assumptions, justified checks, hidden imported proof boundary or reduced test roster is an allowed cost fix.",
+    "required_evidence": "Source call-count review plus actual assertion-enabled opaque64-row cost witness, stack/allocation/copy readback, unchanged original8GiB/swap0/deadline controls, all malformed/null-index positives and mutants, and complete body/caller proof on exact integrated source."
+  },
+  "claim_class": "SOURCE_DERIVED_DESIGN_AND_OPEN_PROOF_OBLIGATIONS_NOT_PROVED",
+  "counterexample_and_domain_acceptance": [
+    "Matched attach eq=true with missing/nonboolean unitEq writes mask1, increments Matches and sets Position=K BEFORE Code0 return. Replay invalid result must therefore be (Valid=False,Selection=1), not (False,0).",
+    "Unmatched attach eq=false accepts explicit JSONnull unitEq; missing/non-null remains malformed. eq and ne are separate captured observations.",
+    "A first malformed row leaves the suffix untouched and forbids inspection or selection of later otherwise-valid rows.",
+    "Identity-match: zero/one/multiple selections; partial malformed selection; Position is captured row ordinal, not actual array index.",
+    "Every nonempty positive Mask lower bound, maximal positional arithmetic consistent with actual array bounds, and null arrays including unusual null bounds remain admitted. No index or K-1 operation executes on an empty loop.",
+    "Capture flags absent/false/nonboolean versus literaltrue, decoded escaped-string uniqueness, missing/nonstring identity payloads and duplicate-key last-value semantics remain unchanged.",
+    "Guard-settled validates all required shapes before truth short-circuit; malformed/null/object manager capture distinctions and exact complete manager delegation remain.",
+    "Native Code0 still publishes no partial Ada outputs. Input/output alias, output overlap, alignment and exception containment remain independent original ABI controls.",
+    "Negative checker controls must reject each mutated mask byte, Code, Position, malformed prefix boundary and changed identity/count outcome, not only accept expected positives."
+  ],
+  "created_utc": "2026-11-01T08:20:08.771658+00:00",
+  "execution": {
+    "compiler": false,
+    "heavy_job": false,
+    "mount": false,
+    "only_this_new_design_receipt_written": true,
+    "product_or_proof_package_edited": false,
+    "proof": false,
+    "runtime": false,
+    "source_models_implemented": false
+  },
+  "full_value_O1": "OPEN; this design does not establish automatic retirement, whole-value independence or matching installed toolchain support.",
+  "future_parent_predicate_body_graph": {
+    "dependency_graph": [
+      "Ordinary_Reservation_Lifecycle body -> Ordinary_Reservation_Replay specification",
+      "Ordinary_Reservation_Replay specification -> Ordinary_Reservation_Lifecycle specification",
+      "Ordinary_Reservation_Lifecycle specification -> existing Interfaces/Resources dependencies"
+    ],
+    "design": "Declare a Ghost Global-null Plan_Conforms predicate in the parent specification using its existing Mask_Array. Complete that predicate in the parent body as delegation to Replay.Conforms. Only the parent body withs Replay; the parent spec does not.",
+    "limitations": "An acyclic source dependency graph is not compiler/elaboration/binder acceptance. A wrapper delegation does not prove Plan establishes the predicate. Actual body/caller proof, visibility and generated-code qualification remain required.",
+    "public_post_proposal": "Keep Code<=2, Position<=MaskLength and every mask byte<=2 as an explicit conjunction, then add parent Plan_Conforms(Data,Mask,Code,Position) in the shadow semantic successor. Do not replace the existing range guarantee with an opaque Boolean alone.",
+    "pure_function_termination": "Do not add the already rejected Always_Terminates aspect to an ordinary pure function. Preserve implicit pure-function termination and prove actual bodies.",
+    "why_no_spec_cycle": "The parent specification needs neither the replay specification nor replay body. Replay refers to the existing parent Mask_Array and calls neither parent Plan nor parent Plan_Conforms."
+  },
+  "independent_acceptance": "NOT_PERFORMED",
+  "owner": "root retains implementation, launch and integration decisions",
+  "phase_acceptance": false,
+  "remaining_distinct_semantic_obligations": [
+    {
+      "claim": "Capture_Ready equals original schema/profile/row-count validation followed by optional builtin pass and optional decoded-value uniqueness, preserving literal-true flag semantics and last-key-wins JSON. Reject at the same original stage and preserve zero outputs.",
+      "cost_condition": "Cache Root/Rows/Op; original optional passes at most once per complete replay. Never invoke Capture_Ready or Unique_Prefix from the row/inner uniqueness induction.",
+      "name": "Capture readiness"
+    },
+    {
+      "claim": "Pointwise model equality covers structural shape, ne independently of eq, literalFalse independently of original truth, and every attach partial-write case.",
+      "cost_condition": "Node/Op parameters avoid reparsing or reselecting the input prefix.",
+      "name": "Row readiness and selection"
+    },
+    {
+      "claim": "At each processed ordinal, Failed corresponds exactly to encountering the first invalid row. That first row may already have selection1. After it, expected suffix is zero and later rows are not inspected. Preserve the production early return and its initialized-zero suffix.",
+      "name": "Malformed prefix"
+    },
+    {
+      "claim": "Matches counts nonzero expected selections including the first invalid matched-attach row. During equality operations Last_Match/Position is the last selected row ordinal. On complete non-identity-match operations position resets to0; complete identity-match retains its ordinal exactly when there is one selection. Malformed equality exits retain their last partial ordinal.",
+      "name": "Count and position"
+    },
+    {
+      "claim": "For every processed row, actual byte equals the expected selection; both directions are required. No selected/released/retained byte may be spuriously added, and no expected selection may be omitted. Untouched suffix is zero. Selection2 retains current identity only in the original true unitEq attach case. Same must be equivalent to all comparisons succeeding, not merely imply a subset of them.",
+      "name": "Bidirectional mask relation"
+    },
+    {
+      "claim": "Replay.Conforms is equivalent, in both directions, to the complete retained declarative Plan_Conforms over every original input/mask/code/position. This is distinct from safety, local row-model equality and production establishment. Preserve malformed partial outputs, expected codes and last/only-selected constraints.",
+      "cost_condition": "A separate proof/reference package may retain the declarative definition; its expensive queries must not become repeated production checked-prefix invariants. No Assume/imported axiom or unchecked theorem call substitutes for proof.",
+      "name": "Complete independent declarative equivalence"
+    },
+    {
+      "claim": "Every actual Plan return establishes the parent semantic predicate plus the original range conjunction, including capture refusal, controls, malformed early returns and successful row completion. External callers must receive the proved public guarantee; internal replay helper success alone does not supply it.",
+      "name": "Production body and caller establishment"
+    }
+  ],
+  "schema": "worldline.replay-smallest-semantic-next-step.v1",
+  "smallest_executable_source_increment": {
+    "acceptance": "Fresh complete whole-unit proof must discharge both new model bodies, exact Posts, all callers and original safety/flow/termination obligations with zero warnings/unproved/justified/Assume. Actual checked cost and lowering remain separate evidence.",
+    "change": "Add total pure cached-node Equality_Model and Row_Model expression functions, then exact result-equality Posts on Equality_Row and Inspect_Row. Preserve existing branch bodies, original domain and original Postconditions.",
+    "functional_claims": [
+      "Equality_Row'Result = Equality_Model (Data, Row, Op)",
+      "Inspect_Row'Result = Row_Model (Data, Row, Op)"
+    ],
+    "model_separation": "Models are declarative cached-node definitions; existing branch bodies remain independently checked against them. Do not define a model merely as a call to the function being specified.",
+    "not_yet_supplied": "This pointwise increment alone does not establish folded mask/cardinality/position semantics, declarative equivalence or production Plan-to-Conforms.",
+    "proposed_signatures": [
+      "function Equality_Model (Data : String; Row : Node; Op : String) return Row_Result with Ghost, Global => null;",
+      "function Row_Model (Data : String; Row : Node; Op : String) return Row_Result with Ghost, Global => null;"
+    ],
+    "scope": "Fresh shadow semantic successor after separately reviewed safety/local-lemma evidence. Do not modify production or silently update the current proof package.",
+    "totality": "Models must cover every Node/Op admitted by current helpers. No new public Pre, row/input cap, false-to-error conversion or missing-to-null substitution. If a private restriction is proposed instead, every original public caller must establish it and the original full domain must remain.",
+    "work_bound_at_source": "Each row model performs a fixed number of existing Field/Is_True/Is_False queries over the already selected Row and existing Op. No Parse, Element, prefix traversal, uniqueness pass, mask traversal, variable-size result or new recursion belongs in this increment. It adds constant-factor original per-row selector work, not a proven ABI/allocation/deadline bound."
+  },
+  "source_references": [
+    {
+      "lines": [
+        146,
+        182
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb",
+      "purpose": "Pointwise Equality_Row and Inspect_Row contract sites",
+      "sha256": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949"
+    },
+    {
+      "lines": [
+        121,
+        147
+      ],
+      "path": "core/worldline-ordinary_reservation_lifecycle.adb",
+      "purpose": "Concrete production row validation, writes, match count and position transitions",
+      "sha256": "87aa67b6034e884abb5581ca92c5162056f5d8c57dc5b18b8ca64abd0ff403bf"
+    },
+    {
+      "lines": [
+        31,
+        88
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb",
+      "purpose": "Builtin/uniqueness/capture readiness contracts remain missing",
+      "sha256": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949"
+    },
+    {
+      "lines": [
+        90,
+        144
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb",
+      "purpose": "Exact control codes and manager delegation",
+      "sha256": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949"
+    },
+    {
+      "lines": [
+        184,
+        255
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb",
+      "purpose": "Zero-result, fold state, terminal codes and top-level Conforms",
+      "sha256": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949"
+    },
+    {
+      "lines": [
+        6,
+        14
+      ],
+      "path": "core/worldline-ordinary_reservation_lifecycle.ads",
+      "purpose": "Parent Mask_Array and unchanged original range Post",
+      "sha256": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27"
+    },
+    {
+      "lines": [
+        1,
+        16
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.ads",
+      "purpose": "Current replay depends on parent type and exports no functional Post",
+      "sha256": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1"
+    },
+    {
+      "lines": [
+        81,
+        125
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/current-preimage.patch",
+      "purpose": "Retained declarative row assignability/validity/selection definitions; unapplied",
+      "sha256": "e6bedb4ebedd570e41e0626fe2709beea99c69f1befae9be7a7a99c51a426336"
+    },
+    {
+      "lines": [
+        178,
+        218
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/current-preimage.patch",
+      "purpose": "Retained independent expected code/mask/position conjunction; unapplied",
+      "sha256": "e6bedb4ebedd570e41e0626fe2709beea99c69f1befae9be7a7a99c51a426336"
+    },
+    {
+      "lines": [
+        1,
+        34
+      ],
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/checked-cost-rejection-v1.json",
+      "purpose": "Original repeated-prefix checked-work rejection remains binding",
+      "sha256": "1c51b57a12a126ff0725cde060daf3629529d50b1a509f2c8499976bd01b978b"
+    }
+  ],
+  "status": "READ_ONLY_SOURCE_DESIGN_NO_MODEL_IMPLEMENTATION_NO_JOB"
+}

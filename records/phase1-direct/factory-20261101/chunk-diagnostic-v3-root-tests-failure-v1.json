@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-01T08:33:13.765088+00:00",
+  "attempt": 1,
+  "result": "FAILED_TEST_FIXTURE",
+  "primary": "AF_UNIX path too long at bind; no socket created",
+  "secondary": "cleanup unlink raised FileNotFoundError",
+  "source_change": false,
+  "repair": "Bind fixture with a short relative pathname within its owned directory; no production path/cap change",
+  "proof_or_heavy_job": false
+}

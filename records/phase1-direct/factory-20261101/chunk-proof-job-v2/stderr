@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v2.py", line 308, in <module>
+    sys.exit(inside(Path(sys.argv[3]), sys.argv[2]))
+             ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v2.py", line 210, in inside
+    files = inventory(ram)
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v2.py", line 61, in inventory
+    raise RuntimeError("unsupported archive entry")
+RuntimeError: unsupported archive entry

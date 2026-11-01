@@ -1,11 +1,16 @@
 # Phase 1 acceptance report
 
-Current continuation (2026-11-01): exact documentary successor `d34c9b9b369f33829e737175d9deaa9f241856fd`
-is reconciled locally without product changes. The corrected RAM v2 mechanism probe is
+Current continuation (2026-11-01): published documentary successor `5911f83cc790dbc2b2090110e9594d2b41c6eb65`
+is the base for the current diagnostic checkpoint, without product changes. The corrected RAM v2 mechanism probe is
 TESTED with actual 8 GiB/zero-swap controls, retained killed-child output and fresh internal
 review. This repairs the verification-path prerequisite only. No compiler or product gate
 is promoted. Reservation replay v2 passes strict target-only Ada legality after its preserved
 warning failure; it remains outside production without semantic/proof/integration credit.
+Actual Chunk diagnostics failed: v2 lost post-tool outputs after inventory rejection;
+instrumented v3 retained a read-only semaphore error and rejected Why3 socket, with tool1.
+Both archives are unused zero reservations; no fresh proof or complete retention is claimed.
+Terminal cleanup and unchanged original inputs are independently checked. Private IPC
+qualification and the reviewed-but-unrun replay proof proposal remain next work packages.
 The 219-ID classification retains every row and now flags seven unresolved applicability
 decisions; none is excluded from acceptance. Current source-bound
 full proof, full-value/implicit Old retirement, original campaigns, protected/actor evidence

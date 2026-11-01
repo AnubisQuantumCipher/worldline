@@ -1,0 +1,68 @@
+{
+  "utc": "2026-11-01T08:33:13.822276+00:00",
+  "helper_sha256": "6d65314d267d8845357487d931bb6c1819b3d81b2a9646ffefd9d19fab722095",
+  "guard_sha256": "f5850499903a25985f477ba3b593b452bae8223bae5c970da2a515f9d6bfda18",
+  "tests": [
+    {
+      "case": "socket_rejected_with_type",
+      "type": 49152
+    },
+    {
+      "case": "symlink_not_followed",
+      "status": "NOT_FULLY_RETAINED",
+      "errno": 40
+    },
+    {
+      "case": "fifo_not_read",
+      "status": "NONREGULAR_NOT_READ"
+    },
+    {
+      "case": "exact_regular_log",
+      "bytes": 20
+    },
+    {
+      "case": "bounded_prefix_explicit",
+      "bytes": 5
+    },
+    {
+      "case": "absent_log_explicit",
+      "status": "ABSENT"
+    },
+    {
+      "case": "destination_write_failure",
+      "status": "ABSENT",
+      "errno": 2
+    },
+    {
+      "case": "disappearing_regular_lstat",
+      "errno": 2
+    },
+    {
+      "case": "aggregate_receipt_budget_refused",
+      "pass": true
+    },
+    {
+      "case": "tool_result_precedes_rejected_inventory",
+      "tool_exit": 7,
+      "stage": "post-tool inventory",
+      "complete_archive": false
+    }
+  ],
+  "unchanged_critical_helpers_AST": [
+    "digest",
+    "save",
+    "cgroup",
+    "retain",
+    "sandbox",
+    "chunk_command",
+    "probe_command",
+    "mount_ram",
+    "negative_writer",
+    "source_state",
+    "check_retained"
+  ],
+  "guard_four_string_delta_only": true,
+  "max_top_function_lines": 40,
+  "boundary": "Owned small disposable file/socket/FIFO fixtures and synthetic sandbox; no compiler/proof/mount/systemd job. No whole-system proof.",
+  "phase_acceptance": false
+}

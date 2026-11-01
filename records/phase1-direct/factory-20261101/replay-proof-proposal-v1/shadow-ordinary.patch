@@ -1,0 +1,14 @@
+--- core/worldline-ordinary_reservation_lifecycle.adb
++++ records/phase1-direct/factory-20261101/replay-proof-proposal-v1/source/worldline-ordinary_reservation_lifecycle.adb
+@@ -4,8 +4,10 @@
+ package body Worldline.Ordinary_Reservation_Lifecycle with SPARK_Mode is
+    use Worldline.Producer_Values;
+    use type Interfaces.Unsigned_32;
+-   use type Worldline.Resources.Byte;
+    package Existing renames Resource_Reservation_Lifecycle;
++   function Reconciled_Gone (Observed_False : Boolean) return Boolean
++     with Global => null,
++       Post => Reconciled_Gone'Result = Observed_False;
+    function Reconciled_Gone (Observed_False : Boolean) return Boolean is
+      (Existing.Remove_Row
+        (Data => (1 .. 0 => 0),

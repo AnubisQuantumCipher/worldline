@@ -1,0 +1,56 @@
+{
+  "utc": "2026-11-01T08:25:03.530458+00:00",
+  "scope": "wl-phase1-7b029c44e2e24057a82c1619fe81dc72.scope",
+  "systemctl_exit": 0,
+  "scope_state": {
+    "LoadState": "not-found",
+    "ActiveState": "inactive",
+    "SubState": "dead",
+    "ControlGroup": ""
+  },
+  "heavy_lock": "free",
+  "parent_mountpoints_empty": {
+    "ram": true,
+    "restore": true
+  },
+  "guard_normal_terminal_readback": true,
+  "outer_exit": 1,
+  "failure": "inventory after sandbox rejected unsupported archive entry; exact offending entry and actual tool exit not retained",
+  "retention": {
+    "argv": [
+      "unshare",
+      "--user",
+      "--map-root-user",
+      "--mount",
+      "--propagation",
+      "private",
+      "/usr/bin/python3",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+      "--inside",
+      "chunk",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-chunk-v2"
+    ],
+    "child_exit": 1,
+    "phase_acceptance": false,
+    "private_mounts": true,
+    "retention": "LOST_EPHEMERAL_OUTPUTS",
+    "sources_and_original_objects_unchanged": true,
+    "stop": null,
+    "tool": null
+  },
+  "source_pins_verified": 168,
+  "tools_verified": 16,
+  "runtime_verified": 1573,
+  "original_object_trees_and_library_unchanged": true,
+  "memory_caps": [
+    "8589934592"
+  ],
+  "swap_caps": [
+    "0"
+  ],
+  "peak_bytes": 72245248,
+  "last_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+  "minimum_sampled_free_bytes": 11086553088,
+  "fresh_proof_credit": false,
+  "phase_acceptance": false
+}

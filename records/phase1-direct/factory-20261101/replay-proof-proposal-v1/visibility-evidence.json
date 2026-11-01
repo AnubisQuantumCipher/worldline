@@ -1,0 +1,26 @@
+{
+  "chain": [
+    {
+      "path": "core/worldline.ads",
+      "sha256": "5de5de4e53892749843b38a2a68634628b87e72d73d65060c0488849d3bed820",
+      "text": "use type Attest.Byte;"
+    },
+    {
+      "path": "core/attest/attest.ads",
+      "sha256": "22ec0f88432ad888fcc4bb0337b278bead4eabbbede152e71ce56a54b58eecf3",
+      "text": "subtype Byte is Interfaces.Unsigned_8;"
+    },
+    {
+      "path": "core/worldline-resources.ads",
+      "sha256": "dfd11d9310275350a0beec6e6fe3813432d440a84a34bc7d98ab48a92de2b0df",
+      "text": "subtype Byte is Interfaces.Unsigned_8;"
+    }
+  ],
+  "historical_diagnostic_archive": {
+    "path": "records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/run-reservation-root-v1/complete-output.tar.gz",
+    "sha256": "0efa800bd62d676401afec2ad79bd0f728c4a01a9675d02fbb89e4f14b156373"
+  },
+  "rationale": "Same Interfaces.Unsigned_8 base type as already inherited ancestor use-type visibility. The exact replay redundant-clause warning was observed in retained v1 archive; no compiler suppression is added.",
+  "shadow_removed_exact_line": "   use type Worldline.Resources.Byte;",
+  "status": "SOURCE_CHAIN_OBSERVED_NO_NEW_COMPILER_RUN"
+}

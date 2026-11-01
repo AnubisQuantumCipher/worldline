@@ -1,0 +1,60 @@
+{
+  "utc": "2026-11-01T08:21:08.939989+00:00",
+  "guard_sha256": "ec6b7a93422526d06a1ca5bcfb236a3bb51a44c8c4e16f0c6ded27995d3613bf",
+  "function_lines": {
+    "record": 8,
+    "best_effort_record": 7,
+    "read_small": 12,
+    "metadata_bytes": 22,
+    "command_limits": 2,
+    "systemctl": 17,
+    "cancel_launch_group": 24,
+    "owned_scope": 13,
+    "scope_observation": 18,
+    "stop_scope": 21,
+    "cleanup_owned": 19,
+    "preflight": 11,
+    "monitor": 22,
+    "run": 24
+  },
+  "tests": [
+    {
+      "case": "initial_receipt_failure",
+      "exit": 125,
+      "cleanup_calls": [
+        424242
+      ]
+    },
+    {
+      "case": "monitor_failure",
+      "exit": 125,
+      "cleanup_calls": [
+        424242
+      ]
+    },
+    {
+      "case": "memory_refusal",
+      "exit": 125,
+      "cleanup_calls": [
+        424242
+      ]
+    },
+    {
+      "case": "normal_failure",
+      "exit": 1,
+      "cleanup_calls": []
+    },
+    {
+      "case": "normal_success",
+      "exit": 0,
+      "cleanup_calls": []
+    },
+    {
+      "case": "invalid_scope_and_failed_logging",
+      "terminal": false
+    }
+  ],
+  "test_boundary": "in-memory substituted subprocess/cleanup only; no real process, systemctl, compiler, proof, mount or heavy job",
+  "no_formal_proof": true,
+  "phase_acceptance": false
+}

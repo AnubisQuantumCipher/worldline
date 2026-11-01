@@ -1,0 +1,180 @@
+{
+  "schema": "worldline.phase1.chunk-entry-diagnosis.v1",
+  "recorded_utc": "2026-11-01T08:28:52Z",
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "scope": "Bounded source/artifact diagnosis. This reviewer launched no target job. This receipt authorizes no launch, scan, exclusion or rejection-policy change.",
+  "phase_acceptance": false,
+  "actual_entry_path": "UNKNOWN",
+  "actual_entry_type": "UNKNOWN",
+  "actual_tool_exit_status": "UNKNOWN",
+  "proof_result": "UNKNOWN",
+  "observed_inputs": [
+    {
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+      "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9"
+    },
+    {
+      "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3server",
+      "sha256": "c778280b8b4303e99344d0ff969b589a2e0e4df9a78aab27464a7177c830ae6e"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+      "sha256": "b7aa45ec2a8aa3e0262d9a4c051ba5887912afc7f11abc8a9718e6935b60ccad"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/chunk-proof-job-v2/stderr",
+      "sha256": "39a2713bcce1cd5fde1aeea1bbe6ba2995b03000daf53d1cee18c398239f9b29"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v2/result.json",
+      "sha256": "97f7dacb007eea9fd7b576787e97f2ee1fcc156486ca937e15f690aa57fe4e0a"
+    }
+  ],
+  "retained_run_observations": {
+    "status": "OBSERVED",
+    "worker_result_path": "records/phase1-direct/factory-20261101/chunk-proof-job-v2/worker-result.json",
+    "worker_result": {
+      "exit_code": 1,
+      "utc": "2026-11-01T08:24:18.879606+00:00"
+    },
+    "traceback_frames": [
+      "ram_qualification_v2.py:308 sys.exit(inside(Path(sys.argv[3]), sys.argv[2]))",
+      "ram_qualification_v2.py:210 files = inventory(ram)",
+      "ram_qualification_v2.py:61 raise RuntimeError(\"unsupported archive entry\")",
+      "RuntimeError: unsupported archive entry"
+    ],
+    "wrapper_result_fields": {
+      "child_exit": 1,
+      "phase_acceptance": false,
+      "private_mounts": true,
+      "retention": "LOST_EPHEMERAL_OUTPUTS",
+      "sources_and_original_objects_unchanged": true,
+      "stop": null,
+      "tool": null
+    },
+    "boundary": "This establishes post-sandbox inventory rejection, not the rejected path/type or sandboxed tool result. Wrapper child_exit 1 is not a GNATprove exit status."
+  },
+  "source_evidence": [
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+      "lines": "53-61",
+      "finding": "inventory sorts base.rglob('*'), enforces ENTRY_LIMIT, caches path.lstat(), then rejects path.is_symlink() or not(path.is_file() or path.is_dir()). Classification does not use the cached lstat mode.",
+      "implication": "Fresh path observations can disagree with lstat if an entry disappears or changes; this error alone does not prove a nonregular entry existed."
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+      "lines": "187-215 (inside; failure at 210)",
+      "finding": "inside mounts private RAM/restore trees, creates tmp/cache, binds RAM tmp/cache onto TMPDIR/XDG_CACHE_HOME, copies chunk object directories, inventories seeds, calls sandbox(), then inventories RAM before saving output-inventory/inside-result.",
+      "implication": "Seed inventory passed and sandbox() returned before rejection. Returned status was not persisted because the later inventory raised."
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+      "location": "sandbox",
+      "finding": "bwrap uses --die-with-parent, --unshare-pid, --unshare-net, read-only root bind, proc/dev setup and RAM binds. stdout/stderr are in RAM. The subprocess starts a new session and has a 180-second wait bound with own-group kill on timeout.",
+      "implication": "Source permits completion or timeout. Retained evidence does not establish which occurred."
+    }
+  ],
+  "installed_artifact_evidence": {
+    "status": "OBSERVED",
+    "evidence_kind": "Executable format and embedded strings; not recovered source or proof of runtime invocation",
+    "format": "gnatprove, spark_semaphore_wrapper and spark_memcached_wrapper: ELF 64-bit LSB PIE ARM aarch64, dynamically linked, with debug_info, not stripped.",
+    "gnatprove_strings": [
+      "--socket",
+      "why3server",
+      "GNATPROVE_SOCKET",
+      "GNATPROVE_SEMAPHORE",
+      "--debug-no-semaphore",
+      "why3server_",
+      ".sock",
+      "$TMPDIR",
+      "TMPDIR",
+      "gnatprove__spawn_vc_server_and_semaphore",
+      "configuration__compute_socket_dir__exists_and_is_writable",
+      "configuration__compute_socket_dir",
+      "configuration__socket_name"
+    ],
+    "gnatprove_debug_source_paths": [
+      "/home/runner/work/GNAT-FSF-builds/GNAT-FSF-builds/sbx/aarch64-linux/spark2014/src/src/gnatprove/gnatprove.adb",
+      "configuration.adb (embedded source filename)"
+    ],
+    "why3server_strings": [
+      "unlink",
+      "socket",
+      "need to specify a socket name using --socket",
+      "error when switching to socket directory",
+      "error deleting socket",
+      "error binding socket",
+      "error listening on socket"
+    ],
+    "why3server_debug_source_paths": [
+      "src/server/server-unix.c",
+      "proc.c",
+      "options.c"
+    ],
+    "boundary": "These establish available mechanisms only. Selected socket directory, GNATPROVE_SOCKET value and actual socket creation were not captured."
+  },
+  "hypotheses": [
+    {
+      "id": "H1_GENERATED_UNIX_SOCKET",
+      "status": "UNPROVEN",
+      "proposition": "A generated Why3 Unix-domain socket could have been present under the mapped RAM inventory tree.",
+      "support": "Installed strings expose socket naming, directory selection, bind/listen and unlink mechanisms. The wrapper maps RAM tmp onto TMPDIR.",
+      "conditional_path": "If the selected socket directory was TMPDIR or another bound RAM directory, the generated socket would fall within inventory(ram).",
+      "missing_evidence": "Actual rejected path, cached lstat mode, selected socket directory and runtime socket creation/removal.",
+      "nonclaim": "No actual socket, default socket location, symlink, FIFO or other nonregular entry was observed in the failed run."
+    },
+    {
+      "id": "H2_INVENTORY_TOCTOU",
+      "status": "UNPROVEN",
+      "proposition": "An entry could have been regular at lstat and disappeared before fresh is_file/is_dir checks, producing the same rejection.",
+      "support": "Source caches lstat but classifies using subsequent queries, which can return false after disappearance.",
+      "missing_evidence": "Cached lstat identity/type and later observation values/errors for the actual rejected path.",
+      "nonclaim": "No actual disappearance, race, cleanup actor or Why3 cleanup involvement was observed."
+    }
+  ],
+  "historical_scoped_observations": {
+    "status": "OBSERVED",
+    "method": "Prior read-only Python traversal of three explicit roots only; at most 2048 rglob entries per root; lstat and stat.S_ISREG/stat.S_ISDIR classification.",
+    "roots": [
+      {
+        "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/qualification-v2/qualification-obj",
+        "entries": 348,
+        "nonregular_observed": 0
+      },
+      {
+        "path": "records/phase1-direct/completion-20261026/utf8-chunk-proof-job-v1/tmp",
+        "entries": 0,
+        "nonregular_observed": 0
+      },
+      {
+        "path": "records/phase1-direct/completion-20261026/utf8-chunk-proof-job-v2/tmp",
+        "entries": 179,
+        "nonregular_observed": 0
+      }
+    ],
+    "boundary": "Historical roots are not the failed run's ephemeral RAM tree. Their negative observations cannot identify or exclude the actual rejected entry."
+  },
+  "evidence_commands": {
+    "cwd": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+    "representation": "Known tool arguments rendered as single-line shell commands with installed paths expanded. These are evidence/replay descriptions, not additional executions authorized by this receipt.",
+    "commands": [
+      "sha256sum /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3server records/phase1-direct/completion-20261026/ram_qualification_v2.py records/phase1-direct/factory-20261101/chunk-proof-job-v2/stderr records/phase1-direct/completion-20261026/ram-qualification-chunk-v2/result.json",
+      "file /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/spark_semaphore_wrapper /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/spark_memcached_wrapper",
+      "strings /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove | rg -i 'why3server|socket|mkfifo|symlink|\\.sock|semaphore|TMPDIR|named.pipe' | head -55",
+      "strings /home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3server | rg -i 'socket|\\.sock|TMPDIR|tmp|unlink|remove' | head -50"
+    ],
+    "historical_traversal_command": "Exact prior Python command text is not retained here. Method, explicit roots, bound and observations are preserved above; no command text is invented."
+  },
+  "smallest_sound_next_step": {
+    "kind": "Parent-owned source-only instrumentation preparation; launch requires separate admission",
+    "targets": [
+      "Persist sandbox return status immediately before post-run inventory.",
+      "On rejection capture bounded relative path, cached lstat mode/type/dev/ino/nlink/size and subsequent observation flags/errors/errno.",
+      "Classify from cached lstat and record later races separately while preserving unsupported-entry rejection.",
+      "Capture bounded stdout/stderr before namespace teardown even when inventory/archive retention fails.",
+      "Capture selected TMPDIR and GNATPROVE_SOCKET path metadata."
+    ],
+    "acceptance_evidence": "Separately admitted diagnostic retains actual rejected entry identity/type or observation error, tool status and bounded logs. Until then actual entry and tool result remain UNKNOWN.",
+    "prohibited_inference": "Do not skip unsupported entries, weaken archive rejection, infer proof success or treat either hypothesis as an actual-run result."
+  }
+}

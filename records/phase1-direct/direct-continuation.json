@@ -1,9 +1,9 @@
 {
-  "utc": "2026-11-01T08:03:10.909343+00:00",
+  "utc": "2026-11-01T08:41:30.051059+00:00",
   "owner": "Codex Astra coordinator 01a19606-239f-7b43-8c88-4fc902372e80; sole WORLDLINE Phase One integrator",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "7a8f6c4d3c1da00f13b9f82e94057a6f50cffae7",
-  "published_readback": "7a8f6c4d3c1da00f13b9f82e94057a6f50cffae7",
+  "head": "5911f83cc790dbc2b2090110e9594d2b41c6eb65",
+  "published_readback": "5911f83cc790dbc2b2090110e9594d2b41c6eb65",
   "active_jobs": [],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
@@ -21,9 +21,12 @@
     "D131 published d6bd982: strict custody flow47/47, four helper proofs,6 direct controls, overflow reproducer, Ada/fuzz,43 custody regressions and47 assurance/release tests. Whole numeric unit and original Phase One gates remain open.",
     "D132 published c6c0674, remote readback verified: initialization extraction and scalar append/cause bounds; strict custody flow48/48 and focused Extra12, AppendEventExtras38, InitializeInput49 proofs; original Ada/fuzz,43 custody regressions,47 assurance/release tests and endpoint controls passed. See custody-load-next-verification-summary.json.",
     "D144 exact carrier reconciliation preserves working bytes. D145 corrected RAM mechanism probe tested; fresh Sol result review approved after contemporaneous PYTHONOPTIMIZE=0 launch evidence. No compiler/proof/product credit.",
-    "D146 private reservation replay v2 strict target Ada legality passes after retained v1warning failure: one compiler,zero warnings/errors,fullretention and fresh independent readback. No semantic/proof/integration credit."
+    "D146 private reservation replay v2 strict target Ada legality passes after retained v1warning failure: one compiler,zero warnings/errors,fullretention and fresh independent readback. No semantic/proof/integration credit.",
+    "D148 actual bounded Chunk diagnostic failed after unsupported-entry rejection; exact cleanup/source/input readbacks retained. No proof credit.",
+    "D149 instrumented collector retains actual semaphore ROFS error and Why3 socket; synthetic failure controls and independent review pass, diagnostic still LOST_EPHEMERAL_OUTPUTS.",
+    "Replay source-only whole-unit package independently reviewed; semantic next-step design recorded; no target proof/job run."
   ],
-  "next": "Qualify corrected UTF8 Chunk whole-unit strict proof using tested RAMv2 after freshsource/resource admission; originalsread-only and freshall-entity report required. Separately implement/review reservation semantic contracts and Plan-to-Conforms bridge, and resolve seven external obligationbindings. No whole-gate credit from targetlegality.",
+  "next": "Prepare and independently review a new bounded private IPC mechanism; retain oldprobeunchanged, qualify newcontrols/hostreadonly/samecaps/fullretention before anyproofretry. NounchangedChunkretry. Coordinate freshwindow with externalstorageowner. ThenwholeunitChunk/replay safety/locallemma; semanticPlan-to-Conforms andoriginalO1/fullgates remainopen.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -126,7 +129,18 @@
     "factory-20261101/reservation-legality-root-readback-v2.json",
     "factory-20261101/reservation-legality-independent-review-v2.json",
     "factory-20261101/obligation-serialization-review.json",
-    "factory-20261101/obligation-classification-v3-overlay.json"
+    "factory-20261101/obligation-classification-v3-overlay.json",
+    "factory-20261101/chunk-proof-root-readback-v1.json",
+    "factory-20261101/chunk-proof-independent-review-v1.json",
+    "factory-20261101/chunk-diagnostic-v3-root-tests-v2.json",
+    "factory-20261101/chunk-diagnostic-v3-root-readback.json",
+    "factory-20261101/chunk-diagnostic-v3-independent-review.json",
+    "factory-20261101/replay-proof-source-review-v1.json",
+    "factory-20261101/replay-semantic-next-step-v1.json",
+    "factory-20261101/obligation-remaining-bindings-review-v1.json",
+    "factory-20261101/private-ipc-policy-review-v1.json",
+    "factory-20261101/historical-raw-output-eligibility-v1.json",
+    "factory-20261101/private-ipc-next-package-v1.json"
   ],
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
@@ -189,5 +203,7 @@
     "current_resumed_run_consecutive_impasse_turns": 0,
     "current_state": "Meaningful progress: remote reconciliation, storage recovery, actual corrected probe, original219ID classification. No blocked status."
   },
-  "previous_factory_continuation": "records/phase1-direct/factory-20261101/pre-reconciliation/records/phase1-direct/direct-continuation.json"
+  "previous_factory_continuation": "records/phase1-direct/factory-20261101/pre-reconciliation/records/phase1-direct/direct-continuation.json",
+  "current_factory_checkpoint": "factory-20261101/checkpoint-v2.json",
+  "storage_coordination": "Root has released bothactualdiagnosticwindows after terminalreadbacks. Externalstorageowner hasnextguardedoffloadwindow; rootnoheavyjobqueued. NoWORLDLINEpinrelease established."
 }

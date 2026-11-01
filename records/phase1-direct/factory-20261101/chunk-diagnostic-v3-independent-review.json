@@ -1,0 +1,54 @@
+{
+  "utc": "2026-11-01T08:37:41.953708+00:00",
+  "reviewer": "/root/probe_result_review; fresh internal Sol/high",
+  "verdict": "FAILED_LOST_EPHEMERAL_OUTPUTS_NO_PROOF_CREDIT",
+  "diagnostic_retention": "TESTED bounded failure diagnostics retained",
+  "tool_exit": 1,
+  "collector_worker_outer_exit": 1,
+  "tool_stop": null,
+  "stderr": {
+    "bytes": 50,
+    "text": "failed to create semaphore: Read-only file system\n",
+    "sha256": "515c30c9fbb08fac86ee426e558226d96258884b13ec9114d7626d348b991e3e"
+  },
+  "stdout": {
+    "bytes": 155,
+    "meaning": "three phase headers only, not proof results",
+    "sha256": "69a3389efb77199c9dd6f5aaf376dbcced2e7ef1d4edbca98643c88cb7d3578d"
+  },
+  "observed_entry": {
+    "relative_path": "tmp/why3server_2.sock",
+    "initial_and_followup_type": "S_IFSOCK",
+    "device": 90,
+    "inode": 999,
+    "metadata_identical": true,
+    "target_followed": false
+  },
+  "archive": "8MiB all-zero untouched reservation",
+  "diagnostic_receipt_bytes": 335175,
+  "identity_readback": {
+    "helper_sources": 161,
+    "prior_external_pins": 168,
+    "tools": 16,
+    "runtime_sources": 1573,
+    "original_object_library_entries": 1055,
+    "new_helper_and_guard": true,
+    "all_match": true
+  },
+  "actual_memory_max": 8589934592,
+  "actual_swap_max": 0,
+  "memory_peak": 107233280,
+  "recorded_oom": 0,
+  "minimum_sampled_free_bytes": 11055566848,
+  "scope": "wl-phase1-a56658f68f154a0f9cdecd9c8cb2ab44.scope",
+  "terminal_unpopulated_currently_absent": true,
+  "parent_directories_empty": true,
+  "unproved": [
+    "Exact semaphore syscall/path",
+    "Causal relationship between semaphore failure and socket leftover",
+    "Inode exhaustion; inode999 alone is not exhaustion",
+    "Any fresh proof results/fullarchive"
+  ],
+  "next": "Inspect pinned semaphore/IPC implementation; source-only bounded private IPC and lifecycle design; preserve hostreadonly, limits and unsupported-entry rejection. No unchanged retry.",
+  "phase_acceptance": false
+}

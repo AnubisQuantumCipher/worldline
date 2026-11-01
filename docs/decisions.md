@@ -2595,3 +2595,152 @@ crash window, protected evidence and inherited lease. Twelve more rows become to
 dependencies: 68 direct, 76 prerequisites, 46 touched, seven unresolved and 22 future or
 separately owned. OB-065/066/069/185/186/187/217 remain unresolved pending exact selected
 external installation and campaign binding. None is excluded; all original targets remain.
+
+## D148 — One unchanged RAM-v2 Chunk diagnostic with active capacity monitoring
+
+Options: reuse the qualified mechanism for the actual corrected Chunk target; wait for
+the separately prepared replay proof project; or remain source-only. Choose one Chunk
+diagnostic after the complete source/tool/runtime/seed preflight and storage owner's
+cooperative window. The transient low-space observation coincided with the identified SIA
+continuity worker; that service later reported success and its PID was absent. No process
+was stopped and causation is not proved. Fresh root capacity is above the original reserve.
+
+The exact unchanged helper b7aa45ec retains the original strict level3 whole-unit command,
+8GiB/zero-swap scope,14GiB post-lock admission,180/220/240s tool/collector/outer deadlines,
+32MiB/1024-inode output and restore mounts,8MiB archive and4MiB driver receipt budget.
+The 989 seeded entries plus two tool logs leave only32 further retained entries. Exhaustion
+is an explicit possible failure, not authority to raise caps or discard failed evidence.
+
+Fresh output paths are completion-20261026/ram-qualification-chunk-v2 and
+factory-20261101/chunk-proof-job-v1. The root-authored one-off capacity monitor registers
+its own source and bounded receipt under factory-20261101, polls root capacity and outer
+metadata each second, stops only this fresh owned scope on the30MB stop margin or4MiB
+outer metadata ceiling, and aborts the first memory refusal before an automatic retry.
+The original10GB reserve and60MB startup margin remain. This is a finite invocation of
+the existing wrapper, not a replacement scheduler or authorization core.
+
+Sol probe_result_review conditionally approves only this unchanged bounded diagnostic,
+requiring the complete preflight, active capacity guard and independent fresh-output
+review. The guard also receives separate source review before launch. A successful helper
+exit cannot establish proof: require actual fresh work, post-seed gnatprove.out and .spark,
+all seven Chunk subprograms and package, zero warnings/unproved/justified/Assume, all source,
+runtime,tool and original-output hashes unchanged, full restored archive, and terminal
+empty scope/mountpoints. Dependency entities do not substitute for target coverage.
+Even a clean result proves only the written selected-unit obligations; coordinator semantics,
+production equivalence, full acquisition and every integrated acceptance gate remain open.
+Reversal: cease using the proposal and retain all outputs and failures; no product integration.
+
+D148 guard prelaunch review: HOLD. The first root-authored monitor has cleanup paths that
+can be skipped if a receipt write fails, and can raise while an owned scope is still being
+registered. No job launched. Preserve that source and review; require a new version whose
+cleanup does not depend on receipt success, cancels only its owned launch group, and checks
+its exact scope within finite bounds. This does not change the admitted workload or caps.
+
+D148 guard successor: closure_reconcile authored v2 ec6b7a93422526d06a1ca5bcfb236a3bb51a44c8c4e16f0c6ded27995d3613bf.
+Its fresh outer output is chunk-proof-job-v2 (v1 was never created); the unchanged inner
+output remains ram-qualification-chunk-v2. Root read the entire monitor and performed six
+in-memory error/return-path checks, including initial receipt failure, monitor failure,
+memory refusal and incomplete scope receipt plus failed logging. Expected cleanup calls
+and conservative UNVERIFIED outcomes were observed. No real subprocess ran in these tests.
+All monitor functions are24lines or shorter. This is tested orchestration behavior, not a
+formal proof or a filesystem quota; fresh nonauthor review and terminal root readback remain.
+
+D148 second guard review also HOLD: v2 could skip scope cleanup after any outer exit, and
+could report terminal while launcher cancellation was unconfirmed; a cancellation exception
+could skip the scope attempt. Root preserved v2 and an intermediate v3, then formed v4
+1fa3686c3fdd51f969854de5757274c6344cee62c1a1bfa0de7ab777e6d4e42a.
+V4 requires the fresh wrapper terminal receipt plus an actual exact-scope/cgroup readback
+on every normal exit. Failure attempts cleanup. Cancellation failure cannot skip an exact
+scope attempt or establish terminal status. Twelve injected in-memory checks passed,
+including all three new failure paths; maximum function length is27lines. No job launched
+before fresh nonauthor review of v4. Original limits and fresh chunk-proof-job-v2 path remain.
+
+D148 final prelaunch: fresh nonauthor Sol review APPROVE exact v4 source; all twelve root
+injected checks pass. Fresh complete pins/runtime/tool/output and capacity readback recorded
+in chunk-proof-final-admission-v4.json. Admit only the one fixed unchanged Chunk diagnostic.
+
+D148 actual diagnostic result: FAILED, LOST_EPHEMERAL_OUTPUTS. Outer/worker/collector1;
+post-sandbox inventory rejected an unsupported entry. The offending path/type, tool exit
+and tool streams were not retained and remain UNKNOWN. The8MiB archive is all-zero unused
+reservation, not a complete or partial proof archive. No fresh proof credit. Root and fresh
+Sol reviewer independently verified168sources,16tools,1573runtime files and1055original
+object/library entries unchanged; actual8GiB/zero-swap, peak72245248, no recorded OOM.
+Minimum sampled root free11086553088. Fresh exact-scope readback is not-found/inactive,
+unpopulated; parent RAM/restore/tmp/cache empty and shared lock free. Storage owner received
+terminal release only after root readback. Retain all failures and the unused reservation.
+
+Next experiment must materially improve failure evidence: immediately persist tool result
+before inventory and bounded nofollow/lstat metadata for the rejected entry, with explicitly
+bounded diagnostic streams. Keep the same entry rejection, archive rules, caps and deadlines.
+No unknown entry may be whitelisted or skipped to manufacture complete retention. A source-only
+v3 successor is assigned for independent review; no retry is yet authorized by this paragraph.
+
+## D149 — One instrumented retry to identify the rejected post-tool entry
+
+Choose a new immutable collector v3 that persists the actual tool result before inventory,
+captures saved/follow-up lstat metadata and bounded no-follow regular tool logs on failure.
+Alternatives were guessing a socket, whitelisting unknown entries, or abandoning useful
+diagnosis. Neither inferred entry type nor incomplete logs can satisfy archive/proof gates.
+The exact original inventory rejection, tool command, read-only bindings, archive/restoration
+helpers, source checks, probe/writer controls, deadlines and resource caps remain unchanged.
+
+Fresh Sol nonauthor source review conditionally APPROVES helper6d65314d and guardf5850499
+after root failure-path tests and fresh admission. No repeated mechanism probe is required:
+its relevant helpers are AST-identical to the tested v2 mechanism. The guard differs from
+reviewed v4 only in four fixed output/helper strings. Root retained an initial synthetic
+AF_UNIX path-too-long failure and secondary cleanup error, then used relative fixture paths.
+Ten meaningful synthetic checks pass: socket/link refusal, no-follow/FIFO non-read, exact
+and truncated regular logs, missing/write-failed logs, disappearing file metadata, receipt
+budget refusal and tool status persisted before rejected inventory. No real compiler or
+scope ran in these tests. A write destination ENOENT is conservatively labelled ABSENT with
+the exact destination error and truncated=true; no full log claim follows from that label.
+
+After a new storage-coordination window and complete fresh admission, authorize one fixed
+chunk-proof-job-v3 / ram-qualification-chunk-v3 diagnostic only. Retain all prior failures.
+This materially changes observability, not the repeated workload's policy or expected result.
+Any incomplete archive remains LOST_EPHEMERAL_OUTPUTS with no proof credit, even if the
+newly retained tool exit is0. Root and fresh reviewer must assess exact output and terminal
+cleanup. Reversal is ceasing use of v3, preserving every source/receipt; no product integration.
+
+D149 actual result: diagnostic retention TESTED, strict proof FAILED/UNQUALIFIED. Tool,
+collector, worker and outer exit1. Exact50-byte stderr reports semaphore creation refused
+by read-only filesystem;155-byte stdout contains only the three phase headers. Post-tool
+inventory observes tmp/why3server_2.sock as S_IFSOCK in both lstat snapshots. The archive
+remains an8MiB zero reservation;335175bytes of bounded diagnostic receipts remain, without
+full-archive or proof credit. The exact semaphore syscall/path and connection between the
+two failures remain unproved; inode999 is not evidence of inode exhaustion.
+
+Root and fresh Sol review verify all source/tool/runtime/original-output identities and
+separate namespace cleanup. Actual8GiB/zero-swap peak107233280, zero recorded OOM; minimum
+sampled root free11055566848. Exact scopea56658f68f154a0f9cdecd9c8cb2ab44 is absent/inactive,
+unpopulated; outer directories empty and lock free at root readback. The external storage
+owner received terminal release and now owns the next coordinated offload window. No further
+root heavy job is queued. Next is source-only bounded private IPC/lifecycle review; no writable
+host shm, silent socket omission, cap increase, original-control waiver or unchanged retry.
+
+## D150 — Prepare a separately qualified private IPC profile, preserving old controls
+
+The observed tool imports named-semaphore operations, while v3 reports read-only semaphore
+creation failure. Exact syscall/path causation remains unproved. Options are a private alias
+of the existing capped RAM output, namespace isolation alone, a broad writable host path,
+or provider changes. Only the first is eligible for the next source package; namespace
+isolation alone does not establish private filesystem-backed semaphore storage. No implementation
+or launch is authorized by a claimed successful old probe.
+
+Source design and independent policy review distinguish the old exact /dev/shm-denial test
+from the intrinsic host-write prohibition. The old source/assertion/pass receipt remain
+unchanged and valid only for that old read-only layout. A new explicitly named profile must
+demonstrate a private writable alias within the SAME32MiB/1024-inode output filesystem,
+host shm absence/unchanged state, root/device write refusal, actual bounded semaphore lifecycle,
+IPC/mount identities and original8GiB/zero-swap/reserve/deadline/archive controls. It must not
+call a private successful write the old negative test passing. Root concurs with the fresh
+reviewer's source-grounded interpretation that preparing this new profile is not itself a
+policy waiver. Any actual guarantee/control weakening still requires the user's explicit
+written deviation approval; none is selected or inferred here.
+
+References: private-ipc-next-package-v1.json and private-ipc-policy-review-v1.json. Next is
+an immutable helper/control patch and fresh exact-source review, then a separately admitted
+mechanism-only qualification and independent raw-result review. No proof retry before those
+prerequisites. Retained sockets still reject; normal provider unlink is unproved and no silent
+cleanup/type omission is allowed. The external storage owner has the next coordinated window.
+Reversal: abandon the unintegrated new profile and preserve all historical source/evidence.

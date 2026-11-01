@@ -1,0 +1,235 @@
+{
+  "actual_evidence": {
+    "causal_limit": "The exact semaphore name/path and syscall failure were not traced. A filesystem-backed named semaphore failure under the read-only /dev/shm layout is a source/binary/documentation-supported inference, not a complete causal trace.",
+    "installed_binary_readback": {
+      "consequence": "Imports/strings support investigation paths but do not establish when or whether normal shutdown unlinks sockets. No source-to-installed cleanup proof is inferred.",
+      "gnatprove_imports": [
+        "sem_open",
+        "sem_close",
+        "sem_wait",
+        "sem_post",
+        "sem_unlink"
+      ],
+      "method": "readelf --dyn-syms --wide and bounded strings reads, never execute target binary",
+      "why3server_imports": [
+        "socket",
+        "bind",
+        "listen",
+        "unlink",
+        "exit",
+        "sigaction"
+      ],
+      "why3server_strings": [
+        "error deleting socket",
+        "error binding socket",
+        "error listening on socket"
+      ]
+    },
+    "observed": "V3 actual tool exit1, stdout155bytes reaches proof phase, stderr50bytes says failed to create semaphore: Read-only file system. Inventory observes tmp/why3server_2.sock with initial/followup S_IFSOCK. Complete archive is absent; root confirmed terminal cleanup and unchanged original identities. No proof credit.",
+    "pins": [
+      {
+        "path": "records/phase1-direct/completion-20261026/ram_qualification_v3.py",
+        "sha256": "6d65314d267d8845357487d931bb6c1819b3d81b2a9646ffefd9d19fab722095"
+      },
+      {
+        "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/tool-result.json",
+        "sha256": "fd385507cfa82c56237dc40131e6b7ee75ac3900fb48f8ef69dd8d52813b0d5a"
+      },
+      {
+        "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v3/failure.json",
+        "sha256": "969da2610c254a31f0a05622d9ebe2aa75c1b59f6ad777ba642da8b53cf5c99c"
+      },
+      {
+        "path": "records/phase1-direct/factory-20261101/chunk-diagnostic-v3-root-readback.json",
+        "sha256": "abb06755d4caa9781643626ffd81d85c51191cc1e3a663bf9a8009fa91b9db9e"
+      },
+      {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+        "sha256": "11db5cc1032d51474c2b84cc8567095c4ec4f5ae4428ff525b7bac92e7d86bc9"
+      },
+      {
+        "path": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/libexec/spark/bin/why3server",
+        "sha256": "c778280b8b4303e99344d0ff969b589a2e0e4df9a78aab27464a7177c830ae6e"
+      },
+      {
+        "path": "/usr/share/man/man1/bwrap.1.gz",
+        "sha256": "243c3b0e3fd7847f91cb2ad3186ed6ff22ab1765befac41f366cf0b8817b42fa"
+      }
+    ]
+  },
+  "alternatives": [
+    {
+      "assessment": "Preserves old probe semantics and all isolation rules; cannot overcome the present GNATprove semaphore failure and supplies no proof pass. Sound fallback while review/capacity/cleanup remain unresolved.",
+      "option": "Keep v3 read-only layout and continue source-only or already-qualified legality work"
+    },
+    {
+      "assessment": "Insufficient for ordinary filesystem-backed named semaphores; read-only /dev/shm remains. Not selected as a claimed repair.",
+      "option": "Only add --unshare-ipc"
+    },
+    {
+      "assessment": "Rejected: violates host isolation, resource accounting or complete-archive rules. This receipt does not authorize those policy exceptions.",
+      "option": "Bind host /dev/shm writable, replace its host symlink, add an unbudgeted /dev/shm tmpfs, suppress prover error or skip socket archival"
+    },
+    {
+      "assessment": "Could be considered only with exact installed support/source evidence and retained strict proof semantics. No supported alternative knob or functioning normal-cleanup route was established here; do not guess or change j2/solver/proof flags as a fallback.",
+      "option": "A documented pinned tool-supported IPC backend/normal-cleanup configuration"
+    }
+  ],
+  "bounded_probe_plan": [
+    {
+      "actions": "Record outer/inner mount and ipc namespace IDs, real/effective UID maps, actual cgroup limits, tmpfs statvfs, lstat and mountinfo. Require different namespaces and exact dev/ino identity between private /dev/shm and ram/ipc. Require /dev parent read-only and /dev/shm writable on the same existing capped tmpfs.",
+      "name": "Private-mount and IPC identity",
+      "reject": "Wrong backing, host alias, unexpected symlink, new filesystem, changed quota or unsupported namespace."
+    },
+    {
+      "actions": "Require one fresh basename absent in host /dev/shm before launch, without writing there. Create a bounded known regular witness through private /dev/shm; verify exact bytes via ram/ipc and retain it. Outer host basename must remain absent after termination. Keep original forbidden root/dev-root write tests and /dev/null device I/O test.",
+      "name": "Private write and host absence",
+      "reject": "Any host occurrence, host/source mutation, wrong device/inode mapping, wrong witness or successful undeclared write. Concurrent unrelated host changes are not attributed to this probe; ambiguous evidence rejects isolation credit."
+    },
+    {
+      "actions": "Use a separately reviewed small probe with explicit libc prototypes/error handling, one fresh O_CREAT|O_EXCL name, restrictive mode, bounded nonblocking operations, checked close and normal unlink of only the semaphore this probe actually created. Confirm its backing is under private ram/ipc; no host semaphore name is created. The probe may leave a regular ownership/result witness for archive comparison.",
+      "name": "One bounded named semaphore",
+      "reject": "Name collision, API/error uncertainty, blocked wait, foreign/host name or cleanup failure. Do not unlink a preexisting or unowned name. This normal owned-probe cleanup grants no permission to remove Why3 artifacts."
+    },
+    {
+      "actions": "Exercise byte/inode exhaustion only in the declared private output filesystem under a separately bounded fixture; retain exact failure evidence. Keep archive hard-limit and v3 metadata/log-loss tests. A deliberate owned socket path left after close must still trigger the identical rejection and NO_COMPLETE_ARCHIVE classification.",
+      "name": "Shared-cap and retained failure controls",
+      "reject": "A skipped socket, new type allowance, missing exact failure metadata, unmarked truncation, receipt overflow or manufactured full-archive result."
+    },
+    {
+      "actions": "Require no OOM, actual terminal unpopulated owned scope and empty outer mountpoints. Successful regular-output probe requires complete verified archive plus full restoration/content/metadata comparison of ram including ipc. Preserve every failed-control classification separately.",
+      "name": "Terminal and archive readback",
+      "reject": "Unknown descendants, live IPC, namespace leak, mismatched archive or incomplete restore."
+    }
+  ],
+  "bounds_and_accounting": {
+    "archive_disk_bytes": 8388608,
+    "budget_rule": "IPC directory/files consume the existing output quota and inodes, not an independent reserve or allowance. The existing recreated /dev mount remains; only its nested shm bind changes. No new memory filesystem is introduced.",
+    "collector_seconds": 220,
+    "limits": "Tmpfs limits do not prove every possible kernel IPC allocation is charged identically. Record namespace-local limits, cgroup peak/events and owned process cleanup. No sysctl/kernel limit changes or universal kernel-resource proof is authorized.",
+    "memory_cgroup_bytes": 8589934592,
+    "outer_seconds": 240,
+    "output_inode_ceiling": 1024,
+    "output_tmpfs_bytes": 33554432,
+    "receipt_allowance_bytes": 4194304,
+    "reserve_bytes": 10000000000,
+    "restore_inode_ceiling": 1024,
+    "restore_tmpfs_bytes": 33554432,
+    "swap_bytes": 0,
+    "tool_seconds": 180,
+    "unchanged_admission": "Existing shared heavy lock, post-lock14GiB memory admission, fresh storage guard and agreed60MB startup/30MB observations, core0, operation ownership and terminal cleanup remain."
+  },
+  "created_utc": "2026-11-01T08:42:10.466109+00:00",
+  "execution": {
+    "compiler": false,
+    "implementation": false,
+    "mount": false,
+    "only_this_receipt_written": true,
+    "probe": false,
+    "proof": false,
+    "read_only_binary_and_documentation_inspection": true,
+    "runtime_job": false,
+    "source_edit": false,
+    "target_binaries_executed": false
+  },
+  "old_probe_guarantee_assessment": {
+    "approval_boundary": "If authoritative instructions/review determine that /dev/shm pathname immutability itself is a fixed target or that this replacement drops a mandatory control, leave the proposal unexecuted and obtain the user-required written deviation/risk approval. Do not infer exception authority from technical feasibility.",
+    "decision_required": "Before implementation or launch, root plus a fresh independent reviewer must explicitly reconcile the old layout-specific check with the unchanged host-isolation guarantee and all binding instructions in a new recorded diagnostic decision. This design receipt alone grants no test replacement or exception.",
+    "intrinsic_requirements_retained": "No host /dev/shm write or foreign IPC interference; no undeclared writable output filesystem; every declared output remains bounded and fully inventoried; original negative history and accepted cases remain intact.",
+    "non_silent_conflict": "The old exact test would FAIL in the proposed new private writable shm layout. Do not run it there and label it passed, delete it, quietly change its expected outcome or claim it still observes the same premise.",
+    "old_observation": "The exact old probe required writes to /dev/shm/forbidden-write to fail because that helper layout made all of /dev read-only. D145 approved that particular no-production probe, explicitly not compiler qualification. It did not establish a universal product requirement forbidding a separately declared private RAM-backed shm path.",
+    "preservation_plan": "Keep the old source/test and its actual pass receipt bound to the old layout. A new named private-IPC probe adds private writable-positive and host-write-negative controls. If root chooses a fresh legacy control, it runs the verbatim old test under the original read-only layout in a separate bounded namespace. Distinguish results and contexts explicitly.",
+    "source_and_decision_refs": [
+      "ram_qualification_v2.py::probe_command and ram_qualification_v3.py::probe_command",
+      "docs/decisions.md D142,D145,D149",
+      "factory-20261101/probe-source-review.json"
+    ]
+  },
+  "phase_acceptance": false,
+  "preferred_minimal_arrangement": {
+    "candidate_argv_fragment": [
+      "--unshare-ipc",
+      "--ro-bind",
+      "/",
+      "/",
+      "--proc",
+      "/proc",
+      "--dev",
+      "/dev",
+      "--dir",
+      "/dev/shm",
+      "--bind",
+      "<owned-ram>/ipc",
+      "/dev/shm",
+      "--remount-ro",
+      "/dev"
+    ],
+    "change_1": "Create exactly one empty nonsymlink ram/ipc directory with0700 mode inside the already mounted32MiB/1024-inode output tmpfs. It shares that filesystem budget with tmp/cache/object copies/stdout/stderr. Do not add a tmpfs mount.",
+    "change_2": "Add mandatory --unshare-ipc to the existing Bubblewrap argv. Refuse unsupported setup; do not use a try/fallback option or change UID/capability policy.",
+    "change_3": "Use the existing recreated /dev, prepare a real /dev/shm directory there, bind ram/ipc onto /dev/shm, then remount the /dev parent read-only. The source root and all other undeclared host locations remain read-only.",
+    "change_4": "Inventory all of ram including ipc. Keep v3 immediate tool status and bounded failure retention. Keep identical socket/link/FIFO rejection. Do not omit ipc from the archive or reclassify unsupported entries.",
+    "change_5": "Fresh output/helper/probe labels and prospective source/tool pins; preserve every v1/v2/v3 source, failed run, probe and readback.",
+    "not_changed": [
+      "Actual strict Chunk proof argv and source scope",
+      "Installed tools/solvers and original sources",
+      "Archive format/type policy and full restore comparison",
+      "Original protected/actor/principal controls",
+      "Original full project proof/runtime and O1/F7 gates"
+    ],
+    "setup_requirements": "The destination must resolve to the intended real private mount, not a host directory or symlink alias. Exact pinned bwrap behavior, mount ordering, lstat and mountinfo must be tested before relying on this candidate fragment. Unexpected target construction fails; do not modify the host /dev/shm or replace a host symlink."
+  },
+  "primary_documentation": [
+    {
+      "design_consequence": "Add an IPC namespace for those resources, but do not treat that flag as isolating filesystem-backed semaphore names.",
+      "fact": "IPC namespaces isolate System V IPC and POSIX message queues, rather than all pathname-named IPC. Namespace destruction clears its namespace-scoped objects.",
+      "url": "https://man7.org/linux/man-pages/man7/ipc_namespaces.7.html"
+    },
+    {
+      "design_consequence": "Private filesystem backing is needed as well as namespace isolation; process exit alone does not establish name removal.",
+      "fact": "Linux POSIX named semaphores normally have filesystem names under /dev/shm; applications close them and unlink their names.",
+      "url": "https://man7.org/linux/man-pages/man7/sem_overview.7.html"
+    },
+    {
+      "design_consequence": "Create and bind the private shm directory before making the recreated /dev mount read-only, and verify both mount permissions at runtime.",
+      "fact": "--unshare-ipc creates a new IPC namespace. --remount-ro changes only the specified mount point and does not change nested mount points.",
+      "local": "/usr/share/man/man1/bwrap.1.gz"
+    }
+  ],
+  "remaining_reviews_and_gates": [
+    "Root decision and fresh independent review of exact proposed source/argv/mount ordering, old-probe reconciliation and bounded probe fixtures before implementation or launch.",
+    "Explicit user deviation approval if any fixed target/control is found to be weakened; otherwise preserve it and refuse the conflicting arrangement.",
+    "Storage-owner terminal handoff, adequate original reserve, fresh exact identities/admission and unique output paths.",
+    "Mechanism probe evidence is not compiler qualification. Real tool cleanup, full archive, strict fresh report and whole-unit coverage remain separate.",
+    "Original full build/proof/runtime/protected/actor, full-value/O1 and independent F7 acceptance stay open."
+  ],
+  "scheduling": "External storage owner reserved next offload window. Root checkpointing. No heavy job, namespace, probe or mount is selected by this receipt.",
+  "schema": "worldline.private-ipc-next-package-design.v1",
+  "status": "SOURCE_ONLY_DESIGN_UNIMPLEMENTED_UNRUN_NO_POLICY_EXCEPTION_AUTHORITY",
+  "threat_model": {
+    "adversarial_controls": [
+      "Attempt host-root/dev writes",
+      "Attempt to escape the declared private shm mapping",
+      "Unexpected symlinks/sockets/FIFOs or leftover objects",
+      "Capacity/inode exhaustion",
+      "Wrong namespace/mount identity or missing cleanup evidence"
+    ],
+    "assets": [
+      "Host filesystem and host /dev/shm contents",
+      "Foreign SysV IPC/message queues/processes",
+      "Exact original source/object/tool/runtime identities",
+      "Original memory/storage/deadline gates",
+      "Failure history and honest complete-archive/proof classification"
+    ],
+    "authority": "No Python diagnostic Boolean grants product authorization or phase acceptance. Missing/mismatched evidence rejects credit.",
+    "workload": "Pinned compiler/provers may need ordinary IPC and may fail, crash, time out or leave entries. This is diagnostic isolation, not an asserted general hostile-code container proof."
+  },
+  "why3_socket_and_normal_cleanup": {
+    "explicit_cleanup_boundary": "Do not unlink sockets, hide/exclude the tmp/ipc tree, serialize only socket metadata as if it restored the socket, or kill processes by name to manufacture archive completeness. A future documented tool-native normal shutdown route requires exact source/API evidence, ownership/timeout review and its own controls; no ad hoc cleanup is approved here.",
+    "leftover_branch": "If any live or dead socket remains, retain lstat/known-owner observations, actual exit, exact/prefix log status and failure history. The unchanged inventory must reject it. A completed diagnostic report can describe this failure, but cannot be called a complete archive or accepted proof.",
+    "namespace_exit_is_not_archive": "Destroying a namespace or tmpfs may reclaim resources, but does not restore lost socket state or satisfy the existing pre-destruction full-archive condition.",
+    "normal_cleanup_investigation": "Installed why3server imports unlink and contains deletion-error strings. Those may refer to startup stale-path handling or shutdown; neither normal unlink timing nor binary/source correspondence is proved. An attempted read of upstream1.8.2 server source was unavailable, so no cleanup implementation claim is made.",
+    "observed": "The current tool failure left an actual S_IFSOCK inode at tmp/why3server_2.sock. Its live/dead owner state was not established. File type alone does not establish whether a server still listens.",
+    "smallest_next_sequence": "First qualify the private IPC mechanism without a compiler. Only after exact source review and fresh independent resource window/admission select one unchanged strict tool diagnostic. Retain actual exit, known-owned process lifecycle and complete post-tool inventory before any archival decision.",
+    "success_branch": "If the unchanged tool naturally removes its owned socket/semaphore names on successful bounded exit, record the observed cleanup and archive every remaining allowed entry. This branch still needs fresh complete proof summary/coverage and independent readback for any selected-unit proof credit."
+  }
+}

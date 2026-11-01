@@ -1,0 +1,178 @@
+--- records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v2/ram_legality_driver.py
++++ records/phase1-direct/factory-20261101/replay-proof-proposal-v1/ram_proof_driver.py
+@@ -1,9 +1,8 @@
+-"""SOURCE-ONLY proposal. One target semantic check, never proof/acceptance."""
++"""SOURCE-ONLY adapter. One strict whole-unit diagnostic; no semantic bridge credit."""
+ from pathlib import Path
+ import json
+ import os
+ import re
+-import shlex
+ import shutil
+ import subprocess
+ import sys
+@@ -21,7 +20,7 @@
+         raise RuntimeError("reviewed configuration identity mismatch")
+     value = json.loads(CONFIG.read_text())
+     helper = Path(retained.__file__).resolve()
+-    if helper != HERE.parent / "ram_qualification_v2.py":
++    if helper != ROOT / "records/phase1-direct/completion-20261026/ram_qualification_v2.py":
+         raise RuntimeError("unexpected retained helper module")
+     if retained.digest(helper) != value["helper_sha256"]:
+         raise RuntimeError("retained v2 helper changed")
+@@ -68,7 +67,8 @@
+         raise RuntimeError("source mismatch or root-prepared empty object mountpoint absent")
+     return {"sources": actual, "configuration": retained.digest(CONFIG),
+             "object_mountpoint": str(mount), "host_object_mountpoint_empty": valid_mount,
+-            "read_only_imported_outputs": value["read_only_imported_outputs"]}
++            "original_object_trees": {name: retained.inventory(ROOT / name)
++                                      for name in value["read_only_imported_outputs"]}}
+ 
+ 
+ def command(target):
+@@ -76,36 +76,43 @@
+             "TEMP=" + os.environ["TMPDIR"], "TEMPDIR=" + os.environ["TMPDIR"],
+             "GNAT_TMPDIR=" + os.environ["TMPDIR"],
+             "PYTHONDONTWRITEBYTECODE=1", "WORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True",
+-            "gprbuild", "-c", "-u", "-j1", "-v", "-P", str(HERE / target["project"]),
++            "gnatprove", "-P", str(HERE / target["project"]),
++            "--no-inlining", "--mode=all", "--level=3", "--report=all",
++            "--checks-as-errors=on", "--proof-warnings=on", "--warnings=error",
++            "--memlimit=1024", "--timeout=5", "-j2",
+             "-XWORLDLINE_BUILD=checks", "-XSPARKLIB_MODE=full",
+             "-XSPARKLIB_BUILD=Production", "-XSPARKLIB_LIBRARY_TYPE=static",
+             "-XSPARKLIB_INSTALLED=True", "-XWORLDLINE_PRIVATE_SPARKLIB_PREBUILT=True",
+-            target["unit"], "-cargs", "-gnatc", "-gnatwe"]
+-
+-
+-def tool_evidence(stdout, stderr, target, run):
+-    commands = []
+-    for line in (stdout + "\n" + stderr).splitlines():
+-        if " -c " not in " " + line + " " or ".ad" not in line:
+-            continue
+-        try:
+-            words = shlex.split(line)
+-        except ValueError:
+-            continue
+-        if words and (Path(words[0]).name.endswith("gcc") or
+-                      Path(words[0]).name.endswith("gnatgcc")):
+-            commands.append(words)
+-    required = {"-gnat2022", "-gnatwa", "-gnatwe", "-gnatVa", "-gnatf",
+-                "-gnata", "-gnatc", "-O2", "-g", "-fPIC"}
+-    exact = len(commands) == 1 and required.issubset(commands[0])
+-    if exact:
+-        units = [Path(w).name for w in commands[0] if w.endswith((".ads", ".adb"))]
+-        exact = units == [target["unit"]] and "-gnatp" not in commands[0]
++            "-XREPLAY_PROOF_OBJECT_DIR=" + str(HERE / target["object_mountpoint"]),
++            "-u", target["unit"]]
++
++
++def tool_evidence(stdout, stderr, report, target, run):
++    # New primary output starts empty; no primary proof report/cache is seeded.
++    rows = re.findall(r"^Total\s+(.+)$", report, re.M)
++    cells = re.sub(r"\([^)]*\)", "", rows[0]).split() if len(rows) == 1 else []
++    clean_total = (len(cells) == 5 and cells[0].isdigit() and int(cells[0]) > 0
++                   and cells[-2] in (".", "0") and cells[-1] in (".", "0"))
++    header = re.findall(r"^in unit " + re.escape(target["unit"][:-4]) +
++                        r", (\d+) subprograms and packages out of (\d+) analyzed$",
++                        report, re.M | re.I)
++    coverage = (len(header) == 1 and int(header[0][0]) > 0
++                and header[0][0] == header[0][1])
++    missing = [name for name in target["required_entities"]
++               if re.search(r"^  " + re.escape(name) + r" at ", report, re.M | re.I) is None]
++    flows = re.findall(r"flow analyzed \((\d+) errors, \d+ checks, (\d+) warnings"
++                       r" and (\d+) pragma Assume statements\)", report)
++    clean_flows = bool(flows) and all(a == b == c == "0" for a, b, c in flows)
+     warning = bool(re.search(r"\b(?:warning|error):", stdout + stderr, re.I))
+-    passed = run["exit_code"] == 0 and run["stop"] is None and exact and not warning
+-    return {"compiler_commands": commands[:8], "exactly_one_strict_target": exact,
+-            "diagnostic_warning_or_error": warning, "legality_only_pass": passed,
+-            "unrecognized_or_response_file_command_is_not_pass": True}
++    completed = (run["exit_code"] == 0 and run["stop"] is None and clean_total
++                 and coverage and not missing and clean_flows and not warning)
++    return {"strict_diagnostic_candidate": completed, "total_row_cells": cells,
++            "unit_coverage": header, "missing_required_entities": missing,
++            "detail_flow_errors_warnings_assume_zero": clean_flows,
++            "diagnostic_warning_or_error": warning,
++            "report_sha256": retained.hashlib.sha256(report.encode()).hexdigest(),
++            "semantic_plan_to_conforms_proved": False,
++            "independent_report_and_source_readback_still_required": True}
+ 
+ 
+ def inside(base, selected, expected):
+@@ -123,10 +130,16 @@
+     mounts = [(ram / "tmp", Path(os.environ["TMPDIR"])),
+               (ram / "cache", Path(os.environ["XDG_CACHE_HOME"])),
+               (ram / "objects", HERE / target["object_mountpoint"])]
++    for name, original in value["writable_imported_object_copies"].items():
++        shutil.copytree(ROOT / original, ram / name)
++        mounts.append((ram / name, ROOT / original))
++    retained.inventory(ram)
+     run = retained.sandbox(command(target), ram, mounts)
+     receipt(base, "tool-result.json", run)
++    report_path = ram / "objects/gnatprove/gnatprove.out"
++    report = report_path.read_text() if report_path.is_file() else ""
+     evidence = tool_evidence((ram / "tool.stdout").read_text(),
+-                             (ram / "tool.stderr").read_text(), target, run)
++                             (ram / "tool.stderr").read_text(), report, target, run)
+     files = retained.inventory(ram)
+     receipt(base, "output-inventory.json", files)
+     archive = retained.retain(base, ram, restore, files)
+@@ -152,9 +165,13 @@
+         if any(stream is None for stream in streams):
+             raise RuntimeError("actual tool output missing")
+         stdout, stderr = [stream.read(retained.RAM_LIMIT + 1).decode() for stream in streams]
+-    evidence = tool_evidence(stdout, stderr, target, result["tool"])
++        member = tar.getmember("objects/gnatprove/gnatprove.out") if any(
++            item.name == "objects/gnatprove/gnatprove.out" for item in tar.getmembers()) else None
++        stream = tar.extractfile(member) if member is not None else None
++        report = stream.read(retained.RAM_LIMIT + 1).decode() if stream is not None else ""
++    evidence = tool_evidence(stdout, stderr, report, target, result["tool"])
+     if evidence != result["evidence"]:
+-        raise RuntimeError("actual archived compiler evidence mismatch")
++        raise RuntimeError("actual archived proof evidence mismatch")
+     return result
+ 
+ 
+@@ -177,7 +194,8 @@
+     receipt(base, "launch.json", {"argv": argv, "tool_argv": command(target),
+         "compiler_ram_bytes": retained.RAM_LIMIT, "restore_ram_bytes": retained.RAM_LIMIT,
+         "archive_limit_bytes": retained.ARCHIVE_LIMIT, "receipt_limit_bytes": retained.RECEIPT_BUDGET,
+-        "original_imports_readonly": True, "phase_acceptance": False})
++        "original_imports_readonly": True, "primary_object_seeds": False,
++        "imported_object_copies": value["writable_imported_object_copies"], "phase_acceptance": False})
+     try:
+         code = subprocess.run(argv, check=False, timeout=220).returncode
+         stop = None
+@@ -188,11 +206,11 @@
+     result = retained_result(base, target)
+     private = not list((base / "ram").iterdir()) and not list((base / "restore").iterdir())
+     passed = (code == 0 and stop is None and private and before == after and
+-              result is not None and result["evidence"]["legality_only_pass"])
++              result is not None and result["evidence"]["strict_diagnostic_candidate"])
+     receipt(base, "result.json", {"child_exit": code, "stop": stop,
+         "private_mountpoints_empty": private, "sources_unchanged": before == after,
+         "retention": "COMPLETE_VERIFIED" if result else "LOST_EPHEMERAL_OUTPUTS",
+-        "legality_only_pass": passed, "phase_acceptance": False})
++        "strict_diagnostic_candidate": passed, "phase_acceptance": False})
+     return 0 if passed else 1
+ 
+ 
+@@ -200,7 +218,7 @@
+     args = sys.argv[1:]
+     if len(args) == 4 and args[0] == "--inside":
+         base = Path(args[2]).resolve()
+-        if not base.is_relative_to(HERE) or args[1] not in ("reservation", "utf8"):
++        if not base.is_relative_to(HERE) or args[1] not in ("replay", "ordinary"):
+             raise RuntimeError("unexpected child ownership/target")
+         try:
+             return inside(base, args[1], args[3])
+@@ -208,7 +226,7 @@
+             receipt(base, "inside-failure.json", {"error": repr(error)[:2048],
+                 "classification": "FAILED_OR_LOST_EPHEMERAL_OUTPUTS", "phase_acceptance": False})
+             return 1
+-    if len(args) == 3 and args[0] in ("reservation", "utf8") and re.fullmatch(r"[a-z0-9-]{1,24}", args[1]):
++    if len(args) == 3 and args[0] in ("replay", "ordinary") and re.fullmatch(r"[a-z0-9-]{1,24}", args[1]):
+         return parent(*args)
+     raise RuntimeError("expected target, new run label, reviewed proposal SHA256")
+ 

@@ -25,8 +25,21 @@ output and source/tool/runtime/imported-output readbacks pass; the scope is term
 internal review confirms TESTED target Ada legality only. Semantic replay/Plan-to-Conforms,
 checked cost, production proof and original O1 remain unproved. No proposal is integrated.
 
-Next is corrected UTF8 Chunk whole-unit proof qualification after fresh source and resource
-admission. All-source campaigns and independently commissioned F7 remain binding and open.
+Two newly admitted Chunk diagnostics remain FAILED with no proof credit. The unchanged v2
+collector rejected an unsupported entry after the tool returned and lost the ephemeral
+outputs. A reviewed v3 adds bounded failure capture while preserving rejection, resource
+limits and critical mechanism helpers. Actual v3 retains tool exit1, a read-only-filesystem
+semaphore error and the rejected Why3 Unix-domain socket. Both unused archive reservations
+and all failures remain. Source/tool/runtime/original-output equality and terminal cleanup
+are independently checked; no OOM occurred. See D148-D149 and exact factory readbacks.
+
+The replay whole-unit proof proposal now has complete real primary/dependency snapshots
+and fresh source review; no compiler or proof ran for that proposal. Its local lemma and
+safety target do not supply the separately documented semantic Plan-to-Conforms induction.
+
+Next is bounded private IPC/lifecycle qualification under unchanged host isolation and
+resource limits. The storage owner has the next coordinated offload window; root has no
+active heavy job. All-source campaigns and independently commissioned F7 remain binding/open.
 
 Current engineering checkpoint (2026-10-15): source commits c8a73cd (ordinary recovery context) and df0bcaf (shared String parser with additive proof obligations) are published on the isolated branch. The tested release source remains ef7b7e3. D109's complete additive resolver controls passed; complete production build/proof/runtime on the new source is pending. D106 isolated whole Producer_Values proof is retained without transfer to production. D107 Wide and D108 renderer proofs remain incomplete at their deadlines. The main/roadmap audit confirms PR #5 result-file isolation is merged. Acquisition classification, automatic full-value Old retirement, complete authority joins and authentic final gates remain open. Independent acceptance remains NOT PERFORMED; no gate requirement is weakened.
 
