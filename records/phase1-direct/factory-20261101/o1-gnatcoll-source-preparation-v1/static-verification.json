@@ -1,0 +1,33 @@
+{
+  "schema": "worldline.source-only-static-checks.v1",
+  "command": "python3 static_checks.py (in owned source root)",
+  "scope": "hash/roster, exact patch, finite literal arithmetic and AST only",
+  "native_fixture_validator_controls": "NOT_RUN_FORBIDDEN",
+  "prior_preparatory_command_wall_reservation_seconds": 2.0,
+  "script_time_stop_seconds": 7.5,
+  "aggregate_registered_ceiling_seconds": 10,
+  "input_readback": {
+    "immutable_references_matched": 66,
+    "source_pins_matched": 342
+  },
+  "patch": {
+    "three_sites_forward_reverse_exact": true,
+    "unchanged_patch_exact": true
+  },
+  "arithmetic_and_literal_protocol": {
+    "cases_recomputed": 11,
+    "consumer_lengths": [
+      47,
+      23
+    ],
+    "canonical_records": 25,
+    "canonical_bytes": 779
+  },
+  "AST": {
+    "python_files_AST_parsed": 3,
+    "short_python_routines": 15,
+    "validator_or_controls_executed_or_imported": false
+  },
+  "state": "PASSED_LISTED_STATIC_CHECKS_ONLY",
+  "measured_script_seconds": 0.137048
+}

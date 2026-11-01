@@ -3615,3 +3615,96 @@ later configuration review, without silently substituting paths or pin identitie
 Root is sole writer; all dossier/review workers have released. Native jobs none.
 Phase One ACTIVE/INCOMPLETE; generator FAILED/UNQUALIFIED; F7 NOT PERFORMED.
 Storage reclamation remains human-paused. No merge, tag, release or acceptance.
+
+
+### Checkpoint v6 published; D161 bounded source preparation registered
+
+Non-final commit e311b8c3945a54444a39af9806cadf10b984ce19 was pushed to the
+authorized Phase One branch. Remote commit and tree21fb2c5479aefe7e8121caf96b96a1d94a71e86e
+and eight selected raw artifacts matched. Readback receipt
+1719e1c8c973d8df1fa7060f10a77cc89c7c46eba76576b53d147e169f53d11b
+preserves exact publication scope and v5 navigation ambiguity at commit time.
+Working continuation now points explicitly to v6. Generic whitespace checking
+reported four required blank-context prefixes in immutable unified-diff artifacts;
+all other staged paths passed. Exact diagnostics and independent coherence
+classification remain in the checkpoint. No reviewed artifact was normalized.
+
+D161 registers actual derivative/fixture SOURCE preparation under approved D160,
+not an execution or a proposal-budget reset. Registration
+75a9aef3871edbf199988a2e9e494cd825bb93d68ed96f963b790aa9d20dd974
+permits only o1-gnatcoll-source-preparation-v1:2MiB payload,2MiB full recovery,
+64 descendants,10 seconds aggregate static-only checks. Separately registered
+review metadata is2MiB plus2MiB recovery; combined additive future reservation
+is8MiB. All earlier caps, retained evidence and recovery margins remain.
+
+The exact original/three-site derivative, finite combined Ada fixture, bounded
+result validator and negative-control source are to be authored. Strict checks
+and independent oracle requirements remain; actual runtime, semantic equivalence,
+allocator release and whole-executable fit remain unproved. No compiler, fixture
+or validator-control execution, configuration generation, wrapper, integration,
+network, service or storage action is authorized by this source registration.
+Fresh source/composition review is required before later admission. The new
+actual artifact review has an initial round plus one evidenced revision; D160,
+D158 and D159 remain exhausted and their guarantees are unchanged.
+
+Root leases only the new source root to a fresh Sol/high author and relinquishes
+all carrier writing until seal/release. Preserve failed W and source cuts.
+Reverse by withholding source integration/execution and retaining the authored
+package and evidence. Phase One active/incomplete; F7 NOT PERFORMED.
+
+
+### D161 actual source sealed; initial independent pair dispatched
+
+The author explicitly released the sole writer lease after sealing source manifest
+36c202deeae26da9dcf458717546454992f905438224fb2f9d55eae29e2b17b1.
+Root readback matched all 34 payload entries, 66 immutable inputs and 342 original
+source pins; the package is 104200 bytes, 30 files and 35 descendants. The exact
+three-site derivative forward/reverse correspondence matched. No compiler,
+fixture, validator or negative control was executed. Static source checks do not
+establish legality, runtime equivalence, canonical Post execution or release.
+
+The initial pair receives the same immutable packet
+810f743b2d6c7b6238cbce4a15ac8641aaffb839ffba3cc178357de75a462fd5:
+fresh Astra/medium independent and Sol/high adversary, without current verdict
+sharing. The separate judge remains pending. D161 retains one evidenced revision;
+D160/D158/D159 remain at zero. Root is sole writer; all reviewers/planner are
+read-only. No native job is active. Preparation remains reversible by withholding
+composition/execution and retaining this sealed package and its review history.
+
+Root's preliminary read-only roster inspection failed on a schema assumption;
+its exact error is retained. A subsequently written placeholder evidence pointer
+was explicitly corrected against the native session in a separate immutable
+correction receipt; both original and correction remain. The unsent preparation
+packet is retained and superseded by v1a before reviewer dispatch.
+
+Read-only contingency mapping found no independent native job demonstrated
+launch-ready. D152 source preparation remains a fallback, with its exhausted
+private-IPC prerequisite preserved. The next separate prerequisite is an exact
+configuration-only package; embedded binary help resolves grammar only. Native
+configuration, compiler/runtime matching, intrinsic lowering and allocator path
+remain unqualified. Seven authority streams and every acceptance gate remain.
+Phase One ACTIVE/INCOMPLETE; F7 NOT PERFORMED; storage reclamation HUMAN_PAUSED.
+
+
+### D161 initial actual-source approval with assertion accounting qualification
+
+Decision 7eeafe1c439cd49d1d4b9d939150d0732281f9ed0f9f2d7d38b78f45c245c6a1 follows fresh independent/adversarial
+review and separate judge12c2f2aa0c872917db4e5971538a5d6faec0c0eaa4a4a006b1386a4f599589fd.
+APPROVE separately registered configuration/composition preparation ONLY. Exact
+source manifest36c202deeae26da9dcf458717546454992f905438224fb2f9d55eae29e2b17b1
+is retained; no mandatory executable-source revision, and D161's one evidenced
+revision remains unused. Old D160/D158/D159 allowances stay at zero.
+
+Adversary's assertion accounting qualification is accepted: 10 starts times6
+comparisons describes search loops, not instrumented total work. Judge derives
+at most55 Matches evaluations,21 character comparisons each,1155 comparisons and
+2310 Fold calls per admitted nonempty Find for the identified source expressions.
+These are inspection-derived finite bounds, not proof, WCET, total operations or
+stack/runtime accounting. Preconditions, other assertions and generated machinery
+remain separate. Later registration must carry this explicitly; checks remain on.
+
+No native/compiler/configuration/fixture/validator/control execution follows from
+this approval. Reverse by withholding composition/execution and retaining all
+artifacts. Next: publish exact source/review checkpoint, then separately register
+the fixed configuration-only prerequisite with corrected full reservation ledger.
+All gates preserved; Phase One incomplete; F7 NOT PERFORMED; storage human-paused.

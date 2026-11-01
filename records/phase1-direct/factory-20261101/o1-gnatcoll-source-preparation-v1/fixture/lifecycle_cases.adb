@@ -1,0 +1,59 @@
+with Ada.Assertions;
+with First_Match_Oracle;
+with Fixture_Results;
+with GNATCOLL.Boyer_Moore;
+
+package body Lifecycle_Cases is
+   procedure Run_Case
+     (Id : Fixture_Results.Case_Id; Motif : String; Text : String;
+      Sensitive : Boolean; Expected : Integer)
+   is
+      use type Fixture_Results.Case_Id;
+      Pattern : GNATCOLL.Boyer_Moore.Pattern;
+
+      procedure Step
+        (Step_Id : Fixture_Results.Case_Id; Needle, Haystack : String;
+         Mode : Boolean; Want : Integer)
+      is
+         Oracle : constant Integer :=
+           First_Match_Oracle.Find (Needle, Haystack, Mode);
+         Actual : Integer;
+      begin
+         if Step_Id = Fixture_Results.C01 then
+            GNATCOLL.Boyer_Moore.Compile (Pattern, Needle);
+         else
+            GNATCOLL.Boyer_Moore.Compile (Pattern, Needle, Mode);
+         end if;
+         Actual := GNATCOLL.Boyer_Moore.Search (Pattern, Haystack);
+         Fixture_Results.Search (Step_Id, Want, Oracle, Actual);
+         GNATCOLL.Boyer_Moore.Free (Pattern);
+         GNATCOLL.Boyer_Moore.Free (Pattern);
+         Fixture_Results.Free_Completed (Step_Id);
+         Ada.Assertions.Assert (Oracle = Want and then Actual = Want);
+      end Step;
+
+   begin
+      Step (Id, Motif, Text, Sensitive, Expected);
+      if Id = Fixture_Results.C10 then
+         --  The same source object, after Free/Free; never Search after Free.
+         Step (Fixture_Results.C10R, "Bc", "xxbC", False, 3);
+      end if;
+   end Run_Case;
+
+   procedure Run is
+      use Fixture_Results;
+      Non_One : constant String (5 .. 11) := "zzabazz";
+      Empty_Text : constant String (1 .. 0) := "";
+   begin
+      Run_Case (C01, "aba", "zzabazzaba", True, 3);
+      Run_Case (C02, "aba", "zzabb", True, -1);
+      Run_Case (C03, "AbC", "xxabc", True, -1);
+      Run_Case (C04, "AbC", "xxaBc", False, 3);
+      Run_Case (C05, "a", "a", True, 1);
+      Run_Case (C06, "abcdef", "abc", True, -1);
+      Run_Case (C07, "aba", Non_One, True, 7);
+      Run_Case (C08, "", "abc", True, -1);
+      Run_Case (C09, "aba", Empty_Text, True, -1);
+      Run_Case (C10, "aba", "aba", True, 1);
+   end Run;
+end Lifecycle_Cases;

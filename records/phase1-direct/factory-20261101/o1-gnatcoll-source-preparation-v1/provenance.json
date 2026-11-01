@@ -1,0 +1,28 @@
+{
+  "schema": "worldline.source-preparation-provenance.v1",
+  "decision": "D161",
+  "role": "fresh implementation author",
+  "task": "/root/o1_gnatcoll_source_author",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "high",
+  "runtime_attestation": "No independent backend attestation available; task routing is declared provenance, not model-attestation evidence.",
+  "owned_root": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-source-preparation-v1",
+  "lease": "Sole carrier writer during preparation; root relinquished carrier writes. Release follows exact sealed readback in external message.",
+  "source_only": true,
+  "compiler_fixture_validator_controls": "NOT_RUN_FORBIDDEN",
+  "no_external_effects": true,
+  "F7": "NOT PERFORMED",
+  "storage": "HUMAN_PAUSED",
+  "D160_D158_D159_revisions_remaining": [
+    0,
+    0,
+    0
+  ],
+  "D161_initial_review": "NOT_PERFORMED",
+  "D161_evidenced_revisions_remaining": 1,
+  "retained_draft_failures": [
+    "draft-inspection-failure.json",
+    "draft-roster-read-failure.json"
+  ],
+  "new_source_review_and_composition": "REQUIRED_BEFORE_EXECUTION"
+}

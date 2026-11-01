@@ -315,3 +315,46 @@ fit, compiler configuration, generation or recovery result follows.
 D160 further revisions zero; D158/D159 zero unchanged. Native generator remains
 FAILED/UNQUALIFIED. Historical documentary references are preserved as exact
 snapshots/prefixes, so later progress cannot erase their reviewed state.
+
+
+### D161 provenance-pointer correction and configuration reservation correction
+
+Root read-only roster inspection failed on a string/object schema assumption;
+no package mutation occurred. A later receipt accidentally contained an invalid
+placeholder in its tool_call_id field. Exact native custom-tool output was
+located, and correction58e958d8a90406c86b3ec2159779282bdef09a94de366e1ab14e2768b0da4eac
+binds actual call_8d4b7c43b6234903bd30b798ea0734e1, session line5845. Original
+receipt remains; the unsent packet was superseded by v1a before paired review.
+This corrects a documentary pointer, not a failed native execution or proof.
+
+STALE configuration planning floor24188281856 omitted later registered roots,
+new full recovery and fresh capture allowances. Planner correction
+e567385786398afc18bd22f9da4d825a46a6aae5c322169d61217f3f447bd047
+retains that estimate as insufficient and proposes conservative24292090880:
+original24178844672 plus108MiB including prior16MiB, new package/review/live/helper
+26MiB and fresh capture66MiB. This is proposed reservation arithmetic only,
+not actual capacity, admission, a filesystem quota or authority to run. Existing
+1GiB shutdown margin and all prior caps remain; fresh ledger/capacity required.
+
+
+### D161 assertion accounting qualification accepted at source boundary
+
+Adversaryf6681ef53cd0363b0f685389d6e4b42ef1bf595e8c3c1470b2c02a3efe6298c8
+identified enabled invariant re-evaluation beyond nominal10times6 search loops.
+Judge12c2f2aa0c872917db4e5971538a5d6faec0c0eaa4a4a006b1386a4f599589fd
+and decision7eeafe1c439cd49d1d4b9d939150d0732281f9ed0f9f2d7d38b78f45c245c6a1 accept the qualification.
+No source revision needed for preparation, but later registration must account for
+assertion expressions/temporaries. Judge inspection-derived55Matches/1155comparison/
+2310Fold bounds do not prove WCET, total machine work or runtime fit. No assertion
+disablement, native admission or acceptance follows. D161 revision1 remains unused.
+
+
+### V7 checkpoint coherence correction before publication
+
+Initial coherence review9aa22421759f6bd3c077790ac915b03734ea3ddf9c5eca1e99d0bb342b3bc85f
+rejected a stale current continuation alias: D161_source_review_status still said
+INITIAL_NOT_STARTED beside the approved decision. Root updated that alias to the
+current source-review verdict. Exact pre-correction continuation/dissent snapshots
+retain old publication-plan documentary inputs; initial plan/checkpoint/hygiene
+remain superseded preparation records. No sealed source/review decision changed,
+no decision-review allowance reset, and no native or F7 claim follows.

@@ -1,0 +1,27 @@
+{
+  "F7": "NOT PERFORMED",
+  "descendants": 35,
+  "elapsed_seconds": 0.4070061407983303,
+  "files": 30,
+  "immutable_references_matched": 66,
+  "manifest": {
+    "bytes": 12362,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-source-preparation-v1/manifest.json",
+    "sha256": "36c202deeae26da9dcf458717546454992f905438224fb2f9d55eae29e2b17b1"
+  },
+  "native_fixture_validator_controls": "NOT_RUN",
+  "package_bytes": 104200,
+  "payload_entries_matched": 34,
+  "retained_preliminary_inspection_failure": {
+    "actual_output_chunk": "e6042d",
+    "cause": "Root inspection treated source_roster string as object; corrected after reading schema. Python failed before writes; following cat succeeded and shell exit0 did not mean Python success.",
+    "effect": "Read-only; no package change; not a native attempt.",
+    "error": "TypeError: string indices must be integers, not 'str'",
+    "tool_call_id": "call prior functions.exec chunk38f969 corrected chunk3b? see root public session"
+  },
+  "schema": "worldline.actual-source-root-readback.v1",
+  "source_pins_matched": 342,
+  "state": "OBSERVED_EXACT_BYTES_AND_TYPED_ENTRIES_ONLY",
+  "three_site_forward_reverse_exact": true,
+  "utc": "2026-11-01T15:58:35.198131+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "worldline.targeted-static-update.v1",
+  "reason": "check meaningful validator output write/flush states; clarify fixture versus dependency assertion policy",
+  "operation": "AST parse only; no import or validator/fixture/control execution",
+  "validator_sha256": "1864eeadaed914908adf261321087f855ef89a2b3e5a00c6bf5d02e30565b8a1",
+  "functions": 3,
+  "maximum_function_lines": 17,
+  "prior_static_receipt_retained": "static-verification.json",
+  "measured_seconds": 0.001366,
+  "state": "PASSED_AST_ONLY"
+}

@@ -1,0 +1,157 @@
+{
+  "schema": "worldline.bounded-compatibility-case-roster.v1",
+  "source_only": true,
+  "cases": [
+    {
+      "id": "C01",
+      "motif": "aba",
+      "text": "zzabazzaba",
+      "text_first": 1,
+      "text_last": 10,
+      "case_sensitive": true,
+      "expected": 3,
+      "default_mode_call": true,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C02",
+      "motif": "aba",
+      "text": "zzabb",
+      "text_first": 1,
+      "text_last": 5,
+      "case_sensitive": true,
+      "expected": -1,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C03",
+      "motif": "AbC",
+      "text": "xxabc",
+      "text_first": 1,
+      "text_last": 5,
+      "case_sensitive": true,
+      "expected": -1,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C04",
+      "motif": "AbC",
+      "text": "xxaBc",
+      "text_first": 1,
+      "text_last": 5,
+      "case_sensitive": false,
+      "expected": 3,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C05",
+      "motif": "a",
+      "text": "a",
+      "text_first": 1,
+      "text_last": 1,
+      "case_sensitive": true,
+      "expected": 1,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C06",
+      "motif": "abcdef",
+      "text": "abc",
+      "text_first": 1,
+      "text_last": 3,
+      "case_sensitive": true,
+      "expected": -1,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C07",
+      "motif": "aba",
+      "text": "zzabazz",
+      "text_first": 5,
+      "text_last": 11,
+      "case_sensitive": true,
+      "expected": 7,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C08",
+      "motif": "",
+      "text": "abc",
+      "text_first": 1,
+      "text_last": 3,
+      "case_sensitive": true,
+      "expected": -1,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C09",
+      "motif": "aba",
+      "text": "",
+      "text_first": 1,
+      "text_last": 0,
+      "case_sensitive": true,
+      "expected": -1,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C10",
+      "motif": "aba",
+      "text": "aba",
+      "text_first": 1,
+      "text_last": 3,
+      "case_sensitive": true,
+      "expected": 1,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": false
+    },
+    {
+      "id": "C10R",
+      "motif": "Bc",
+      "text": "xxbC",
+      "text_first": 1,
+      "text_last": 4,
+      "case_sensitive": false,
+      "expected": 3,
+      "default_mode_call": false,
+      "same_pattern_reuse_after_C10_free_free": true
+    }
+  ],
+  "consumer": [
+    {
+      "id": "D01",
+      "exact_ascii": "From a\nSubject: A\n\none\n\nFrom b\nSubject: B\n\ntwo\n",
+      "bounds": [
+        1,
+        47
+      ],
+      "states": [
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "id": "D02",
+      "exact_ascii": "From a\nSubject: A\n\none\n",
+      "bounds": [
+        1,
+        23
+      ],
+      "states": [
+        true,
+        false
+      ]
+    }
+  ],
+  "result_order": "SEARCH/FREE pair per lifecycle row, D01, D02, COMPLETE",
+  "normal_public_api_calls": 57,
+  "scope": "Source-authored explicit API call accounting only; internal/compiler-copy/runtime operations separate."
+}

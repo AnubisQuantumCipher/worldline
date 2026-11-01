@@ -1,0 +1,20 @@
+{
+  "schema": "worldline.source-inspection-failure.v1",
+  "state": "FAILED_DRAFT_SOURCE_INSPECTION",
+  "native_execution": false,
+  "findings": [
+    {
+      "path": "fixture/lifecycle_cases.adb",
+      "draft_sha256": "633c5d03dec425fac45f3f0faca6885d37ce4768739c8304c72b2500236676c8",
+      "finding": "use type Case_Id followed the nested Step declaration and was not visible in its body",
+      "repair": "move use type before nested declaration"
+    },
+    {
+      "path": "fixture/fixture_results.adb",
+      "draft_sha256": "17ba3bad2749b9aae45faeac6c516fe946450dae132e90360a5628754f3a5e4d",
+      "finding": "negative Integer Image has no leading space; expected canonical delimiter was missing",
+      "repair": "bounded Decimal helper plus explicit single space delimiters"
+    }
+  ],
+  "evidence_limit": "Manual source inspection only; no compiler, fixture or validator run. This is author preparation before D161 initial independent review, not consumption or reset of its revision allowance."
+}

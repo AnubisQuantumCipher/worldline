@@ -1,0 +1,62 @@
+with Ada.Assertions;
+with Ada.Text_IO;
+
+package body Fixture_Results is
+   Row_Count : Natural range 0 .. 25 := 0;
+   Byte_Count : Natural range 0 .. 16_384 := 0;
+
+   procedure Emit (Row : String) is
+   begin
+      Ada.Assertions.Assert
+        (Row'Length in 1 .. 128 and then Row_Count < 25
+         and then Byte_Count <= 16_384 - Row'Length - 1);
+      Ada.Text_IO.Put_Line (Row);
+      Row_Count := Row_Count + 1;
+      Byte_Count := Byte_Count + Row'Length + 1;
+   end Emit;
+
+   function Decimal (Value : Integer) return String is
+      Image : constant String := Integer'Image (Value);
+   begin
+      if Value < 0 then
+         return Image;
+      end if;
+      return Image (Image'First + 1 .. Image'Last);
+   end Decimal;
+
+   procedure Search
+     (Id : Case_Id; Expected : Integer; Oracle : Integer; Actual : Integer)
+   is
+   begin
+      Emit ("SEARCH " & Case_Id'Image (Id) &
+            " EXPECTED " & Decimal (Expected) &
+            " ORACLE " & Decimal (Oracle) &
+            " ACTUAL " & Decimal (Actual));
+   end Search;
+
+   procedure Free_Completed (Id : Case_Id) is
+   begin
+      --  Public normal return twice; no private-pointer or release claim.
+      Emit ("FREE " & Case_Id'Image (Id) & " COMPLETED 2");
+   end Free_Completed;
+
+   procedure Consumer_D01 (First, Second, Third : Boolean) is
+   begin
+      Emit ("CONSUMER D01 " & Boolean'Image (First) & " " &
+            Boolean'Image (Second) & " " & Boolean'Image (Third));
+   end Consumer_D01;
+
+   procedure Consumer_D02 (First, Second : Boolean) is
+   begin
+      Emit ("CONSUMER D02 " & Boolean'Image (First) & " " &
+            Boolean'Image (Second));
+   end Consumer_D02;
+
+   procedure Complete is
+   begin
+      Ada.Assertions.Assert (Row_Count = 24);
+      Emit ("COMPLETE SEARCH 11 FREE 11 CONSUMER 2");
+      Ada.Assertions.Assert (Row_Count = 25);
+      Ada.Text_IO.Flush;
+   end Complete;
+end Fixture_Results;

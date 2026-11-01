@@ -1,5 +1,7 @@
 {
   "D160_proposal_revisions_remaining": 0,
+  "D161_source_review_revisions_remaining": 1,
+  "D161_source_review_status": "APPROVE_SEPARATELY_REGISTERED_CONFIGURATION_COMPOSITION_PREPARATION_ONLY",
   "active_jobs": [],
   "additional_metadata_reservation": {
     "additive_to_existing_R": true,
@@ -41,7 +43,7 @@
     "D157 exact279-source prerequisite cut independently byte/blob/receipt verified; generator/compiler/proof UNRUN.",
     "D157 remaining compiler candidate771files37730838B acquired with671GETs+100reuses, root allblob/SHA/size/mode/receipt verified; executable closure UNPROVEN."
   ],
-  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v5.json",
+  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/checkpoint-source-v6.json",
   "current_runtime_boundary": "Passing96.492s unchanged padding regression used earlier quantity603a4bc3/loader318a9033 checked build. Currentquantity7463adf3/loaderfbf8962f integrated build/runtime remainsUNRUN; numeric87checks applycurrent7463/c074 only.",
   "evidence": [
     "render-runtime/result.json",
@@ -208,12 +210,13 @@
     "factory-20261101/resume-20261101T1050/o1-generator-native-result-v1.json"
   ],
   "goal_status": "ACTIVE_INCOMPLETE",
-  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
-  "head_class": "Current documentary HEAD matches remote. Product source remains1d148820; no product integration or qualified run in current resume.",
-  "helper_status": "D160 author, fresh v2 pair and separate judge completed and released; root sole writer; checkpoint coherence reviewer read-only",
-  "latest_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v5.json",
+  "head": "e311b8c3945a54444a39af9806cadf10b984ce19",
+  "head_class": "Published documentary/evidence checkpoint v6. Product source remains1d148820. Actual native dependency attempt on b916c7a failed; no qualified generator run.",
+  "helper_status": "All D161 authors/reviewers/planner completed; root sole writer; no native job",
+  "latest_checkpoint": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/checkpoint-source-v6.json",
   "latest_continuation": "factory-20261101/resume-20261101T1050/resumption.json",
   "latest_native_decision": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-decision-v1.json",
+  "latest_native_execution_head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
   "latest_native_result": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-v1.json",
   "latest_native_review_packet": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-closure-packet-v1.json",
   "latest_operational_decision": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json",
@@ -224,7 +227,15 @@
   "latest_proposal_registration": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-dossier-registration-v1.json",
   "latest_proposal_review_packet": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-review-packet-v2.json",
   "latest_proposal_review_packet_sha256": "b241072eb044744b038ba642f663d70179e3abd06559850ebbf6902663767515",
-  "latest_publication_readback": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v5.json",
+  "latest_publication_readback": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/publication-readback-v6.json",
+  "latest_source_decision": "records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/o1-gnatcoll-source-decision-v1.json",
+  "latest_source_decision_sha256": "7eeafe1c439cd49d1d4b9d939150d0732281f9ed0f9f2d7d38b78f45c245c6a1",
+  "latest_source_manifest": "records/phase1-direct/factory-20261101/o1-gnatcoll-source-preparation-v1/manifest.json",
+  "latest_source_manifest_sha256": "36c202deeae26da9dcf458717546454992f905438224fb2f9d55eae29e2b17b1",
+  "latest_source_preparation_registration": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-source-preparation-registration-v1.json",
+  "latest_source_preparation_registration_sha256": "75a9aef3871edbf199988a2e9e494cd825bb93d68ed96f963b790aa9d20dd974",
+  "latest_source_review_packet": "records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/o1-gnatcoll-source-review-packet-v1a.json",
+  "latest_source_review_packet_sha256": "810f743b2d6c7b6238cbce4a15ac8641aaffb839ffba3cc178357de75a462fd5",
   "memory": {
     "class": "model-origin navigation only, not proof",
     "current_state_authority": "direct-continuation.json and live receipts; earlier note contains an older proof handle",
@@ -236,8 +247,8 @@
     "pin_evidence": "sia-raw-layout-pin-state.json",
     "ready_exit": 0
   },
-  "next": "Publish non-final native failure and D160 reviewed proposal checkpoint, then register bounded derivative/fixture source preparation; no native retry admitted",
-  "next_executable_task": "Publish non-final native failure and D160 reviewed proposal checkpoint, then register bounded derivative/fixture source preparation; no native retry admitted",
+  "next": "Publish non-final D161 source/review checkpoint, then register exact fixed configuration-only prerequisite with assertion qualification and complete reservations",
+  "next_executable_task": "Prepare non-final checkpoint; configuration package source preparation remains separately registered before authoring",
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
     "Zero-padding successor regression passes after normalization; genuinely significant805-byte value still raises GNAT big integer limit exceeded. No full-domain runtime closure.",
@@ -247,13 +258,13 @@
     "protected/actor witnesses and independent F7 acceptance"
   ],
   "owner": "Codex Astra coordinator 01a196b6-6595-7b30-ae07-8af6b0ed4dc7; sole WORLDLINE Phase One integrator",
-  "pending_publication": "V6 non-final native failure, original/revised proposal and review evidence; derivative/fixture not materialized; no execution admission",
+  "pending_publication": "V6 post-commit receipts; D161 registration/source/readbacks/reviews/decision; planner and reservation corrections; current decisions/progress/dissent/continuation",
   "phase_acceptance": false,
   "previous_factory_continuation": "factory-20261101/checkpoint-paused-v1.json",
   "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
   "previous_utc": "2026-11-01T14:42:30.814262+00:00",
-  "publication_receipt": "factory-20261101/resume-20261101T1050/publication-readback-v5.json",
-  "published_head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "publication_receipt": "factory-20261101/o1-compatibility-review-metadata-v1/publication-readback-v6.json",
+  "published_head": "e311b8c3945a54444a39af9806cadf10b984ce19",
   "published_readback": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
   "remote_checkpoint": {
     "branch": "codex/phase1-direct-20261019",
@@ -279,13 +290,24 @@
     "utc": "2026-10-26T16:50:15.173164+00:00"
   },
   "resumption": "factory-20261101/resumption.json",
+  "source_preparation_budget": {
+    "additive_reservation": 8388608,
+    "metadata_payload": 2097152,
+    "metadata_recovery": 2097152,
+    "source_descendants": 64,
+    "source_payload": 2097152,
+    "source_recovery": 2097152,
+    "static_seconds": 10
+  },
   "source_proposals": [
     "completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/independent-review.json",
     "completion-20261026/old-retirement-fresh-owner-slice-v1/source-closure.json",
     "completion-20261026/old-retirement-fresh-owner-source-closure-fetch-v1/exact-source-integration-review-v2.json",
     "completion-20261026/reservation-plan/checked-cost-rejection-v1.json"
   ],
+  "source_review_evidenced_revisions_remaining": 1,
+  "source_review_state": "APPROVE_SEPARATELY_REGISTERED_CONFIGURATION_COMPOSITION_PREPARATION_ONLY",
   "storage_coordination": "Human accepted100GB and paused reclamation; DUAT owner released scheduling claim; no runtimeadmission",
-  "utc": "2026-11-01T15:02:46.637543+00:00",
+  "utc": "2026-11-01T16:05:51.806325+00:00",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019"
 }

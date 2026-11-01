@@ -1,0 +1,53 @@
+{
+  "D160_D158_D159_remaining": [
+    0,
+    0,
+    0
+  ],
+  "F7": "NOT PERFORMED",
+  "choice_reason": "Fresh independent pair and separate judge found no mandatory finite-source defect; source identities and intended materialization matched. Native behavior remains unqualified.",
+  "compiler_fixture_validator_control_execution": "NOT_AUTHORIZED_BY_THIS_DECISION",
+  "decision": "D161",
+  "judge_packet": {
+    "bytes": 3189,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/o1-gnatcoll-source-judge-packet-v1.json",
+    "sha256": "f35d4418b6a46977ebffa5ec2064a31d3f2b9b9d80304c967b0753f365608564"
+  },
+  "judge_report": {
+    "bytes": 3474,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/o1-gnatcoll-source-initial-judge-report.md",
+    "sha256": "12c2f2aa0c872917db4e5971538a5d6faec0c0eaa4a4a006b1386a4f599589fd"
+  },
+  "mandatory_carried_qualification": {
+    "excludes": "Preconditions, other assertions, generated/runtime machinery, total machine operations, WCET, stack and transitive allocations",
+    "nominal_10_times_6_is_total_instrumented_bound": false,
+    "requirement": "Include enabled assertion evaluation and temporaries in later source/runtime accounting; no assertion suppression to meet bounds.",
+    "source_expression_bound_per_nonempty_Find": {
+      "Fold_calls": 2310,
+      "Matches_calls": 55,
+      "character_comparisons": 1155,
+      "character_comparisons_per_Matches": 21
+    },
+    "status": "INSPECTION_DERIVED_NOT_FORMALLY_PROVED"
+  },
+  "native_generator": "FAILED_UNQUALIFIED",
+  "options": [
+    "Accept bounded actual source for later separately registered preparation with assertion accounting qualification",
+    "Require executable-source revision",
+    "Reject actual source"
+  ],
+  "phase_one": "ACTIVE_INCOMPLETE",
+  "reverse": "Withhold later composition/execution; retain exact sealed source, failures and review history. No policy deviation accepted.",
+  "revision_remaining": 1,
+  "round": "INITIAL",
+  "runtime_admission": false,
+  "schema": "worldline.actual-source-decision.v1",
+  "source_packet": {
+    "bytes": 13225,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/o1-gnatcoll-source-review-packet-v1a.json",
+    "sha256": "810f743b2d6c7b6238cbce4a15ac8641aaffb839ffba3cc178357de75a462fd5"
+  },
+  "storage": "HUMAN_PAUSED",
+  "utc": "2026-11-01T16:05:51.806325+00:00",
+  "verdict": "APPROVE_SEPARATELY_REGISTERED_CONFIGURATION_COMPOSITION_PREPARATION_ONLY"
+}

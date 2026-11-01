@@ -1,0 +1,16 @@
+{
+  "actual_call_id": "call_8d4b7c43b6234903bd30b798ea0734e1",
+  "actual_output_chunk": "e6042d",
+  "corrects": {
+    "bytes": 1295,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/o1-gnatcoll-source-root-readback-v1.json",
+    "sha256": "04b30ce7cb9ffbae68d69d055d690cea8932b7d74bdaed575deb9a1b7cfc1181"
+  },
+  "field": "retained_preliminary_inspection_failure.tool_call_id",
+  "native_session": "/home/sicarii/.codex/sessions/2026/11/01/rollout-2026-11-01T05-44-58-01a196b6-6595-7b30-ae07-8af6b0ed4dc7.jsonl",
+  "native_session_line": 5845,
+  "old_value_status": "INVALID_PLACEHOLDER_NOT_AN_ACTUAL_CALL_ID",
+  "reason": "Root accidentally inserted a placeholder into evidence-pointer field; exact custom_tool_call_output located and corrected here. Original retained. Payload checks are unchanged; this is no native evidence.",
+  "schema": "worldline.evidence-pointer-correction.v1",
+  "timestamp": "2026-11-01T15:57:54.204Z"
+}

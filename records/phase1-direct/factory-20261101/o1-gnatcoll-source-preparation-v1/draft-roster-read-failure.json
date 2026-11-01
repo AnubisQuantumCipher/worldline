@@ -1,0 +1,10 @@
+{
+  "schema": "worldline.static-preparation-failure.v1",
+  "state": "FAILED_READ_ONLY_ROSTER_INTROSPECTION",
+  "operation": "read input-pins.json and inspect top-level keys",
+  "exit_code": 1,
+  "error": "AttributeError: 'list' object has no attribute 'items'",
+  "cause": "author assumed mapping rather than top-level list; no input was modified",
+  "correction": "use actual list schema; print only bounded GPR matches",
+  "native_or_validator_execution": false
+}

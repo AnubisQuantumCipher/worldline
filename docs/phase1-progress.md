@@ -988,3 +988,32 @@ versions, review decisions and provenance; then register bounded source preparat
 The full failed work directory is preserved locally, not claimed archived or
 restored by publishing its inventory. Root sole writer, no native jobs, F7 NOT
 PERFORMED, Phase One incomplete; storage remains human-paused.
+
+
+Checkpoint v6 e311b8c3945a54444a39af9806cadf10b984ce19 is published; remote
+commit/tree and eight raw readbacks match. This preserves failed native evidence
+and approved source-preparation proposal, not acceptance or native qualification.
+D161 now registers the exact derivative and finite fixture source package only,
+with2MiB payload/2MiB recovery/64 descendants/10s static checks and separately
+bounded review metadata. No native/configuration or fixture-control execution.
+Root readonly during the fresh Sol/high author's lease. Next is sealed actual
+source review, then the still-open configuration/runtime prerequisites.
+
+
+D161 actual derivative and bounded combined fixture source is sealed at manifest
+36c202deeae26da9dcf458717546454992f905438224fb2f9d55eae29e2b17b1.
+Root matched typed payloads, 66 references and 342 source pins; no native or
+validator execution. Fresh independent/adversarial initial review uses packet
+810f743b2d6c7b6238cbce4a15ac8641aaffb839ffba3cc178357de75a462fd5,
+with separate judge pending. Root owns writing again. D161 has one evidenced
+revision available; old decision budgets stay exhausted. Next: actual-source
+judgment and a separately registered exact configuration-only prerequisite.
+Generator remains FAILED/UNQUALIFIED; Phase One incomplete; F7 NOT PERFORMED.
+
+
+D161 INITIAL approved source suitability only: 7eeafe1c439cd49d1d4b9d939150d0732281f9ed0f9f2d7d38b78f45c245c6a1.
+Fresh pair and separate judge require assertion-aware resource accounting; no
+source revision required, one evidenced revision unused. Native legality, selected
+configuration, intrinsic assertion behavior, actual release and whole-process fit
+remain UNRUN/UNPROVEN. Next: non-final checkpoint and separately registered fixed
+configuration-only preparation. No native launch admitted; F7 NOT PERFORMED.

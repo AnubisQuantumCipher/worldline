@@ -1,0 +1,428 @@
+{
+  "schema": "worldline.typed-actual-compatibility-source-manifest.v1",
+  "decision": "D161",
+  "state": "SEALED_SOURCE_ONLY_PENDING_INITIAL_ACTUAL_SOURCE_REVIEW",
+  "scope": "Original/derivative and combined bounded fixture/validator/negative-control SOURCE ONLY. No wrapper, integration or native/validator execution.",
+  "head_from_registration": "e311b8c3945a54444a39af9806cadf10b984ce19",
+  "product_source_from_registration": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "root": {
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-source-preparation-v1",
+    "type": "directory",
+    "mode": "0755",
+    "uid": 1000,
+    "gid": 1000,
+    "nlink": 7
+  },
+  "manifest_self_excluded": true,
+  "manifest_identity_authority": "External exact hash/bytes after final readback; no recursive self hash.",
+  "payload_entries": [
+    {
+      "path": "CONTRACT.md",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 6248,
+      "sha256": "f471047f56a08571e125ddf5305019faab426633d2f50f8ba304b0ef4f1227dd",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "RESOURCE-ACCOUNTING.md",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 4322,
+      "sha256": "8f478ddcafa382039c691652a1305094a114438226d499b83e60a0e0d0cc2fac",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "case-roster.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 3635,
+      "sha256": "603e14ac5f0e08969b541cb26d028cf41d3c1a05481d975f0752648e85826126",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "derived",
+      "type": "directory",
+      "mode": "0755",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 2,
+      "role": "owned_directory"
+    },
+    {
+      "path": "derived/gnatcoll-boyer_moore.adb",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 12721,
+      "sha256": "f0843c5a17d7cd01901828b46a291649349131ce55592ae72155d9ecf966143c",
+      "role": "exact_three_site_derivative_source"
+    },
+    {
+      "path": "draft-failures",
+      "type": "directory",
+      "mode": "0755",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 2,
+      "role": "owned_directory"
+    },
+    {
+      "path": "draft-failures/fixture_results.adb.draft",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 1665,
+      "sha256": "17ba3bad2749b9aae45faeac6c516fe946450dae132e90360a5628754f3a5e4d",
+      "role": "retained_failed_draft_source_NOT_BUILD_INPUT"
+    },
+    {
+      "path": "draft-failures/lifecycle_cases.adb.draft",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 2145,
+      "sha256": "633c5d03dec425fac45f3f0faca6885d37ce4768739c8304c72b2500236676c8",
+      "role": "retained_failed_draft_source_NOT_BUILD_INPUT"
+    },
+    {
+      "path": "draft-inspection-failure.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 1008,
+      "sha256": "210f95b51c5dd7af4f6a20f88515bbdd5d0d85b5da9609ca41e744876590b73f",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "draft-roster-read-failure.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 466,
+      "sha256": "31274e353ac6c228b7f4218a6dec84c65eb52f202852ac7216be14766db33e07",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "failed-draft-preservation.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 387,
+      "sha256": "0b28c233d389e1544e238f82d44495cf666398f4837064af8e1029c1facdbd3d",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "fixture",
+      "type": "directory",
+      "mode": "0755",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 2,
+      "role": "owned_directory"
+    },
+    {
+      "path": "fixture/combined_main.adb",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 819,
+      "sha256": "af8fd286a6bc11552cd15c619a2aafcea205942913fdb6005fa4b83b89304108",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/compatibility_fixture.gpr",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 886,
+      "sha256": "6431d82720c4b88b5b20e77cc03b09586f96a59a9cdb67800483a4a66f1ae5c6",
+      "role": "source_only_fixture_project"
+    },
+    {
+      "path": "fixture/first_match_oracle.adb",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 2034,
+      "sha256": "e5023e70f08551a7eab7912be15e424a620675b224d7e77cb787b8e4ee0e8f44",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/first_match_oracle.ads",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 630,
+      "sha256": "64210a44c267ac1d986edd662351561e6f1914a48e6ed41a8967f219d22d084f",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/fixture_results.adb",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 1900,
+      "sha256": "e005a1733f064d6a322dc73db1ed3a8cc8f2114006f7e688fecca50450dcd2e0",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/fixture_results.ads",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 402,
+      "sha256": "6c1c4c90115918044e54a3fbb5e1a23577bd830bee876f15fb459be226b20fe5",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/input_buffers.ads",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 718,
+      "sha256": "ef82bb1d5cdfa21661dfb2c00da5998302edb105a7d580674920bfde74be2774",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/lifecycle_cases.adb",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 2145,
+      "sha256": "4fe7a5d2ef468dbedf8e3745eb8bf6474e5ffb3d5390a7fb7d30d09dfc97b4c6",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/lifecycle_cases.ads",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 66,
+      "sha256": "90b82c06a8118e4cd2e766c109808607dbeb9638e26ec865db53ee722f7f825a",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/mailbox_cases.adb",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 1781,
+      "sha256": "e3554c454da41d30b1a04bf2f13be8315a14302b0431316dacfc42fcf76ef26a",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "fixture/mailbox_cases.ads",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 62,
+      "sha256": "e47d571fa9c76303c390b099430c920eae2e972d789caefecf5f9d4eb7ea7065",
+      "role": "bounded_Ada_fixture_source"
+    },
+    {
+      "path": "input-references.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 19749,
+      "sha256": "f01b20fc6ec5ead79bc9113c38f577b9579f1606505114cd19ae84cc742394e7",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "original",
+      "type": "directory",
+      "mode": "0755",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 2,
+      "role": "owned_directory"
+    },
+    {
+      "path": "original/gnatcoll-boyer_moore.adb",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 12701,
+      "sha256": "8559ffbde746e34833294f631548b4536606ca29bacd849213ab9842d4018ece",
+      "role": "preserved_upstream_source"
+    },
+    {
+      "path": "prospective.diff",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 974,
+      "sha256": "5236f5d2e65281a838ea883411dd5de2effd0344af5767dcbee74f5229da3922",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "provenance.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 1169,
+      "sha256": "f97481ed4386556b4f9f80d37bc97514246f3b64d4dee6e462b996431459fd5c",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "static-verification.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 1004,
+      "sha256": "42124b343b2691af9f4f089341ba168ad7a0305caed6c570bc470f0903f20e67",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "static_checks.py",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 8374,
+      "sha256": "4cef9eaf1197dff6787cbdce88b7f23b1f59504296afeb2f715f64c7a8ca6dd6",
+      "role": "static_check_source"
+    },
+    {
+      "path": "targeted-static-update.json",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 522,
+      "sha256": "2766a5f0caf130c9e320531ba7f3c2c5bd72b93fbd96c5caa8facdf14758dd38",
+      "role": "evidence_or_contract_metadata"
+    },
+    {
+      "path": "validation",
+      "type": "directory",
+      "mode": "0755",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 2,
+      "role": "owned_directory"
+    },
+    {
+      "path": "validation/negative_controls.py",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 758,
+      "sha256": "b31a41898f4c0b6295e14c202aebf6aae35e3a5fd483082d33dcf30e8b89f966",
+      "role": "negative_control_source_UNRUN"
+    },
+    {
+      "path": "validation/validate_results.py",
+      "type": "regular",
+      "mode": "0644",
+      "uid": 1000,
+      "gid": 1000,
+      "nlink": 1,
+      "bytes": 2547,
+      "sha256": "1864eeadaed914908adf261321087f855ef89a2b3e5a00c6bf5d02e30565b8a1",
+      "role": "bounded_validator_source_UNRUN"
+    }
+  ],
+  "payload_bytes_excluding_manifest": 91838,
+  "file_count_including_manifest": 30,
+  "descendants_including_manifest": 35,
+  "root_inclusive_entries": 36,
+  "bounds": {
+    "package_payload_bytes_including_manifest": 2097152,
+    "maximum_descendants": 64,
+    "full_recovery_margin_bytes": 2097152,
+    "static_seconds_aggregate_ceiling": 10,
+    "prior_preparatory_wall_reservation_seconds": 2.0,
+    "measured_listed_static_seconds_before_final_readback": 0.145338,
+    "final_readback_stop_seconds": 7.5
+  },
+  "normal_specified_Pattern_sources": {
+    "Compile": 12,
+    "nonempty_Compile": 11,
+    "allocation_operations": 22,
+    "maximum_source_Pattern_objects": 2,
+    "maximum_designated_blocks": 4,
+    "persistent_consumer_baseline": "NOT_FREED_BY_FIXTURE; release of lifecycle contribution remains separate UNPROVEN evidence"
+  },
+  "result_protocol": {
+    "records": 25,
+    "canonical_bytes": 779,
+    "maximum_input_bytes": 16384,
+    "maximum_line_bytes": 128
+  },
+  "D161_review_budget": {
+    "initial_round": "NOT_PERFORMED",
+    "evidence_driven_revisions_remaining": 1
+  },
+  "D160_D158_D159_revisions_remaining": [
+    0,
+    0,
+    0
+  ],
+  "native_generator": "FAILED_UNQUALIFIED",
+  "runtime_admission": "NOT_GRANTED",
+  "CGPR_selection_matching_and_consumption": "REQUIRED_BEFORE_COMPOSITION",
+  "compiler_fixture_validator_negative_controls": "NOT_RUN_FORBIDDEN",
+  "native_legality_runtime_allocator_semantics": "UNPROVEN",
+  "F7": "NOT PERFORMED",
+  "storage": "HUMAN_PAUSED",
+  "author_release": "EXTERNAL_MESSAGE_AFTER_EXACT_READBACK"
+}

@@ -1,0 +1,48 @@
+{
+  "corrected_current": [
+    {
+      "bytes": 23471,
+      "path": "records/phase1-direct/direct-continuation.json",
+      "sha256": "4cc273ff6a8c257c47a970226b33953720a3d05a0c548a1d65b32b7f47b9d928"
+    },
+    {
+      "bytes": 22321,
+      "path": "factory/dissent/DISSENT-LOG.md",
+      "sha256": "373b333c9bf08a8c8dc78fb2d2e3227b7600b753dcaad008803fb5d73029d63f"
+    }
+  ],
+  "initial_review": {
+    "bytes": 1544,
+    "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/publication-v7-coherence-initial-report.md",
+    "sha256": "9aa22421759f6bd3c077790ac915b03734ea3ddf9c5eca1e99d0bb342b3bc85f"
+  },
+  "reason": "Stale current D161 status alias corrected before publication; initial rejected plan retained.",
+  "replay_mappings": [
+    {
+      "original": {
+        "bytes": 23418,
+        "path": "records/phase1-direct/direct-continuation.json",
+        "sha256": "cbc6a1bc434fb4537ab1d3d8618e4bfd53dca453c18c9b05ce5ba3e112e636e7"
+      },
+      "snapshot": {
+        "bytes": 23418,
+        "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/publication-v7-pre-correction-continuation.json",
+        "sha256": "cbc6a1bc434fb4537ab1d3d8618e4bfd53dca453c18c9b05ce5ba3e112e636e7"
+      }
+    },
+    {
+      "original": {
+        "bytes": 21693,
+        "path": "factory/dissent/DISSENT-LOG.md",
+        "sha256": "cd31651c954fb069ab1b68b5db0427ed73f6aa3358d7ce30e6d6886a67efeb75"
+      },
+      "snapshot": {
+        "bytes": 21693,
+        "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-source-review-v1/publication-v7-pre-correction-dissent.md",
+        "sha256": "cd31651c954fb069ab1b68b5db0427ed73f6aa3358d7ce30e6d6886a67efeb75"
+      }
+    }
+  ],
+  "schema": "worldline.publication-documentary-correction.v1",
+  "source_review_decision_unchanged": true
+}
