@@ -1,0 +1,48 @@
+{
+  "schema": "worldline.o1.compiler-metadata-registration.v1",
+  "utc": "2026-11-01T12:08:17.196611+00:00",
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "writer": "/root/old_closure_investigator actual gpt-6.1-sol/high",
+  "source_head": "e6444ed158dd042d544cbeedc0e9871d47445c5c",
+  "permitted_write_root": "records/phase1-direct/completion-20261026/old-retirement-compiler-metadata-v1",
+  "maximum_files": 32,
+  "maximum_new_bytes": 8388608,
+  "recovery_scratch_bytes": 8388608,
+  "reserve_bytes": 10000000000,
+  "observed_available_bytes": 90491686912,
+  "pin": "Existing full carrier pin; no retirement",
+  "maximum_requests": 2,
+  "maximum_response_bytes_each": 1048576,
+  "maximum_tree_entries_each": 4096,
+  "maximum_seconds_each": 30,
+  "maximum_seconds_total": 90,
+  "maximum_redirects": 0,
+  "maximum_retries": 0,
+  "source_body_requests": 0,
+  "endpoints": [
+    {
+      "repository": "AdaCore/spark2014",
+      "pinned_ref": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "subtree": "src",
+      "sha": "0f1f51c51973750ae9d69c6b83c78afdb2598307",
+      "url": "https://api.github.com/repos/AdaCore/spark2014/git/trees/0f1f51c51973750ae9d69c6b83c78afdb2598307?recursive=1"
+    },
+    {
+      "repository": "gcc-mirror/gcc",
+      "pinned_ref": "6afcc4f6da931eb93f3ab001a0dd9650ea71d1ea",
+      "subtree": "gcc/ada",
+      "sha": "a3b9f0d4c999c8c127cebdc239ca8218284137aa",
+      "url": "https://api.github.com/repos/gcc-mirror/gcc/git/trees/a3b9f0d4c999c8c127cebdc239ca8218284137aa?recursive=1"
+    }
+  ],
+  "required_validation": [
+    "Durable raw response and receipt before parsing",
+    "HTTP200, expected subtree sha, truncated exactly false",
+    "Unique bounded safe relative paths, recognized git modes/types, bounded roster",
+    "Exact candidate/reusable/missing mappings from durable trees and planner project-source predicate; source acquisition remains separately inadmissible until exact registration"
+  ],
+  "history": "Original8 consumed inventory attempts plus separate1GNATcoll recovery retained; these2new explicit requests are not an IPC revision or retry reset.",
+  "execution": "Metadata acquisition and local read-only mapping only; no fetched source execution, compiler/generator/proof/lock/mount/service/archive/install",
+  "storage_window": "No heavy or runtime window requested or granted; DUAT remains owner",
+  "archive_backlog": "Retain local under carrier pin; full archive/restore retirement remains separately gated"
+}

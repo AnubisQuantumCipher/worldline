@@ -3061,3 +3061,113 @@ acceptance requires an unmodified translator build and reproduction of unchanged
 static-leak failures before semantic changes. Generator success alone cannot discharge
 that chain. Reversal is ceasing preparation while preserving all pinned evidence.
 DUAT's remainder122 service retains the storage window; WORLDLINE has no active job.
+
+### D157 source closure preparation and bounded generator package
+
+Two separately registered immutable metadata GETs recovered SPARK src and GCC Ada
+trees, both200, with durable raw responses before parsing. Candidate771 paths total
+37730838B; reusable100 total7611873B and missing671 total30118965B. All2059 excluded
+historical-roster paths are explicit; candidate selection is not executable closure.
+Root checked all tree/mapping/partition joins and all105 alternative reuse payloads.
+Three recorded one-LF reconstructions exactly recover pinned build-input blobs.
+The prior planner's eight-GCC subtotal was4116317B; fresh bytes total4106317B. Its
+sixteen-additional subtotal therefore corrects from6159286 to6149286B. The original
+report remains intact; no source identity mismatch occurred.
+
+The separately registered body acquisition completed671 GETs and100 reuses with
+zero failures/retries/redirects in237.503143s. All771 sources total37730838B. The
+777-file packet is38474969B; manifest7e59cd169373e045b82896d579dc9256735661e453f29c43c28aa7bf8387d4aa.
+Root independently verified every776 payload and all771 source Git blobs, sizes,
+SHA256 values, modes and receipt joins. Eight capacity observations stayed above
+reserve plus registered output/recovery budgets; maximum observed age30.554053s.
+Root receipt5ffb565aa937e9e904de949b8c9cdfd16f88446ea1ab4f4cafcbbcb3292fd29d
+is o1-compiler-source-root-readback.json in the resume directory. Separate spark2014/
+and gcc/ layouts preserve repository paths. All bodies remain data-only0644; no
+fetched script, generator, compiler, proof, install or semantic change executed.
+
+Choose source-only preparation of an isolated GNATcoll/xtree worker and a derivative
+of the existing bounded non-IPC capacity guard. Registration
+8141ea3981fceeeb6d96b87e85b3c21940a7002cae23732482260ba57768f398
+admits only8MiB/96 source-metadata files and bounded pure synthetic tests. Its future
+job profile is UNADMITTED:4GiB monitored live output,8192 entries,64MiB compiler-file/
+log limits, separate USTAR archive and full-restore budgets,1GiB shutdown/growth
+margin,1500s inner deadline and finite outer admission/cleanup. Total proposed peak
+above the unchanged10GB reserve is14050918400B. These are unmeasured ceilings, not
+demonstrated fit or an aggregate filesystem quota. No inherited failed-job deadline
+or resource ceiling changes.8GiB/zero-swap and post-lock14GiB remain mandatory.
+Fresh independent/adversarial review and separate judgment, followed by owner
+handoff and actual resource admission, remain prerequisites to execution.
+
+Read-only planning established21 exact template outputs and35 registered callback
+names with identical placeholder sets. Missing callbacks delete template lines and
+emit warnings, so marker absence alone is insufficient. Preserve complete diagnostics,
+reject warnings, and compare two fresh generations. The later translator recipe must
+use explicit bounded commands because upstream setup reruns xgen with-j0. Its own
+generator/layout/C-unit closure and exact candidate-translator D47 selection remain
+unqualified. Internal planning/readbacks do not provide F7 or O1 acceptance.
+
+### D157 frozen generator proposal and minimal driver-selection readback
+
+The isolated generator package is frozen at manifest
+ecb97b933a8f1440cb738d07c9883292647a39ea2d539a754c4f49c2b791c23f:
+46files1097130B. Root checked all45payloads/exact roster,342input pins and2623
+tool/runtime pins. Author final62tests and root34read-only tests pass; initial49-test
+fixture failure and all later attempts remain. These are synthetic observations,
+not build, sandbox, recovery or termination qualification. Same immutable review
+packet c523710945b4eea07933107a9efaef96ea21b03f0e1b8b96eb4447985679b25f
+went to fresh Astra-medium and Sol-high nonauthors before either current verdict
+was shared. Both request revision for final-receipt failure returning0 and zero-exit
+build warnings being accepted. A separate fresh judge is examining exact evidence;
+no revision or launch has yet been authorized by that judgment.
+
+Root's preparation feedback corrected archive framing from8390656 to8392191B
+within the unchanged16MiB allowance, and isolated recovery logs within the registered
+control budget. The original registration and pre-feedback source remain. Local
+recovery compares full names/types/modes/bytes/hashes; it does not claim UID/GID,
+ACL/xattr or nanosecond preservation and grants no DUAT retirement authority.
+
+Exact driver selection remains a separate baseline prerequisite. Choose minimal
+immutable source readback over speculative PATH/relocation claims. Two registered
+GETs acquired configuration.adb and gnatprove_build.adb,220172B, both200; root
+verified all7payloads, both Gitblobs/modes/receipt joins. Manifest
+56d750bb283987e6617d02fd04fe29011dde97c9a4c3484c92f164589a2d2df5
+binds8files234372B. Root's initially wrong summary filename is retained separately
+as a readback-command error, not an acquisition failure. Source inspection establishes
+delegation to missing Analysis/Global_Gen actions and missing visible installation
+declarations, not a translator override. A new bounded registration permits only
+those3needed bodies/spec39488B; gnatprove main remains unrequested. Sol-high
+source analysis supplies the exact references; it is not formal approval or installed
+correspondence evidence. Reversal is stopping acquisition/preparation while retaining
+all pinned inputs/evidence. No compiler, generator, driver or proof has run.
+
+## D158 — Fixed disk generator failure-contract review
+
+Both fresh nonauthor reviewers independently requested revision of the identical
+68-reference packet c523710945b4eea07933107a9efaef96ea21b03f0e1b8b96eb4447985679b25f.
+The separate fresh Astra-medium judge reproduced both mandatory defects in0.022s:
+final guard receipt OSError allows exit0 without final evidence, and all3build stages
+accept a synthetic zero-exit warning on either stream. A clean guard control retains
+its final result. All68source/evidence identities matched before/after. Recovery's
+nonempty zero-exit diagnostic acceptance is source-observed and must also be covered.
+These are consumer/error-contract counterexamples, not demonstrated authentic pinned
+producer warnings, actual disk failure or native terminal behavior.
+
+Choose REJECTED_RETURN_FOR_SOLE_REVISION over launch or weakening warning/retention
+requirements. Decision and all3raw reports, runtime contexts and public tool records
+are in resume-20261101T1050/o1-generator-decision-v1.json and o1-generator-r1-*.
+The sole revision must propagate final receipt failures and provide bounded complete
+diagnostic handling across build/recovery, with negative controls and full logs.
+Only directly necessary source/tests/contracts/manifests may change; original pins,
+GPR/source bytes, caps/deadlines and retained failures remain. Reversal requires
+reviewed exact revision satisfying the unchanged requirements. Mandatory defects
+after that sole revision mean BLOCK without resetting the decision.
+
+No operational launch, storage window, native qualification or product acceptance
+is authorized. This is an independent O1 prerequisite, not a reset of D156's blocked
+IPC dossier. D47/full-value semantics/final gates and commissioned F7 remain open.
+
+D157 driver-action followup completed exactly3GETs/39488B, all200, zero failures/
+retries/redirects,1.844s. Root verified all8payloads/exact9file packet, all3blobs,
+sizes, hashes,0644modes and complete receipt joins; manifest
+0349e03b476588f0d55cd40e286a9a40d305d768ef4fb1a21c74061336236a95.
+The source-only selection analysis continues; no driver/build/proof executed.

@@ -127,3 +127,39 @@ Its no-blocking-finding conclusion is STALE for the packet's mandatory malformed
 uniqueness requirement. The passing four original repairs and authentic-producer
 reachability limitation remain valid bounded observations. This is a requirements
 decision supported by reproduction, not reviewer voting or a model reliability claim.
+
+## D157-STALE-arithmetic-correction — retained compiler reuse subtotal
+
+The original o1-compiler-closure-planner-report.md remains immutable. Its eight GCC
+local bodies total4106317B, not4116317B; the sixteen additional local files total
+6149286B, not6159286B. Fresh acquisition-agent readback and root sum of the exact
+eight mapped GCC bodies establish the correction. Their hashes and source identities
+match. Corrected current mappings, body acquisition and root readback use actual byte
+sums. This corrects arithmetic only; it adds no executable closure or proof claim.
+
+## D158-r1-Astra-REJECT — final evidence and warning contracts
+
+Raw verdict REVISE; session01a19728-decf-7611-9e02-1b010d8c6ee9; reportc34d600cd714345587739f8220ddd3ea59b811ae6fa14e367da69dca2279685c.
+Same immutable initial packet and public tool evidence are retained as
+resume-20261101T1050/o1-generator-r1-independent-*. Final guard receipt failure
+can yield0; zero-exit build warnings are accepted. Synthetic consumer counterexamples,
+not authentic producer/runtime failure. The judge independently reproduced both;
+sole evidence-driven revision permitted, launch prohibited, no IPC reset or F7 credit.
+
+## D158-r1-Sol-REJECT — final evidence and warning contracts
+
+Raw verdict REVISE; session01a19729-128a-7fd2-babe-d448cf18463b; reporte2807abc134f9b6048575ae21584ba864819fdd9a96a62f8efcf312e27e99cd4.
+Same immutable initial packet and public tool evidence are retained as
+resume-20261101T1050/o1-generator-r1-adversary-*. Final guard receipt failure
+can yield0; zero-exit build warnings are accepted. Synthetic consumer counterexamples,
+not authentic producer/runtime failure. The judge independently reproduced both;
+sole evidence-driven revision permitted, launch prohibited, no IPC reset or F7 credit.
+
+## D158-r1-judge-REJECT — final evidence and warning contracts
+
+Raw verdict REVISE; session01a1972c-bf68-7691-94af-cbbd7f213b10; report0d15e920cf78776a53e9244738a99ff7e7f5fb12d194b7a015202b55eda9ada8.
+Same immutable initial packet and public tool evidence are retained as
+resume-20261101T1050/o1-generator-r1-judge-*. Final guard receipt failure
+can yield0; zero-exit build warnings are accepted. Synthetic consumer counterexamples,
+not authentic producer/runtime failure. The judge independently reproduced both;
+sole evidence-driven revision permitted, launch prohibited, no IPC reset or F7 credit.

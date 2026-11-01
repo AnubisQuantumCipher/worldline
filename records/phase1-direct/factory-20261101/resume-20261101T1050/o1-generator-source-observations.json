@@ -1,0 +1,40 @@
+{
+  "historical_scope_readonly_observation": {
+    "argv": [
+      "/usr/bin/systemctl",
+      "--user",
+      "show",
+      "wl-phase1-7746de61887e4cfe95f9e0ec6316e3dc.scope",
+      "-p",
+      "Id",
+      "-p",
+      "LoadState",
+      "-p",
+      "ActiveState",
+      "-p",
+      "ControlGroup"
+    ],
+    "exit": 0,
+    "scope": "Collected old scope only; not new launch or mechanism qualification",
+    "stderr": "",
+    "stdout": "Id=wl-phase1-7746de61887e4cfe95f9e0ec6316e3dc.scope\nLoadState=not-found\nActiveState=inactive\nControlGroup=\n"
+  },
+  "runtime_window": "NOT_REQUESTED_OR_GRANTED",
+  "storage_owner_acknowledgement": {
+    "identity": {
+      "bytes": 1399,
+      "sha256": "61456e3aa735017c122be9a0692f577af8c3bd95dce97894fdb1ad3cd61a50a2"
+    },
+    "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/worldline-source-only-compiler-package-update-20261101.json",
+    "payload": {
+      "active_worker": "duat-reviewed-remainder-20261101.service",
+      "invariant": "Continue independently reviewed native archives without opening candidate/retained-source trees from monitoring; preserve WORLDLINE/factory/current dependencies and held originals; any future transfer requires completed-folder yield and terminal receipt/pin/guard/descendant reconciliation.",
+      "readback": "WORLDLINE coordination update: our explicit (b) release remains in force. We have not requested or taken a runtime/heavy window. The IPC diagnostic composition was BLOCKED after its sole revision; no launch or further review reset will occur for it. We independently acquired and verified pinned compiler prerequisite/candidate source bytes and are now preparing a separate bounded disk GNATcoll/xtree build package, source-only. Any future runtime request will identify the exact reviewed package, resource budgets and current admission evidence before your completed-folder yield protocol. Please continue your independently reviewed storage queue; preserve current WORLDLINE/factory dependencies and the held originals. This is scheduling context only, not an instruction to pause or alter an in-flight operation.",
+      "recorded_utc": "2026-11-01 12:29:04 UTC",
+      "runtime_transfer": false,
+      "schema": "worldline-storage-scheduling-update-v1",
+      "source_thread_id": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7"
+    }
+  },
+  "utc": "2026-11-01T12:48:46.543901+00:00"
+}

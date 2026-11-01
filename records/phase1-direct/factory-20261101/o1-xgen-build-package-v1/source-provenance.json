@@ -1,0 +1,45 @@
+{
+  "bootstrap_assumption": "root verifies exact manifest and payloads externally before imports and after run",
+  "heavy_helper": {
+    "identity": {
+      "bytes": 9619,
+      "sha256": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a"
+    },
+    "path": "scripts/phase1_heavy.py",
+    "unchanged": true
+  },
+  "intentional_changes": [
+    "paths/constants/imported bounded helpers",
+    "disk class inventory; root-inclusive framing correction",
+    "systemctl scratch directory moved to owned disk control",
+    "strict JSON duplicate/non-integer rejection and bool-typed admission",
+    "strict live cgroup population parse and exact unit Id; explicitly distinguished collected scope with complete normal receipt and reaped exit",
+    "complete terminal receipt retention",
+    "fresh packet/input/tool preflight and sanitized environment",
+    "60s admission and1590s monitor; source worker1500s; original cleanup bounds",
+    "preflight before creating bounded guard receipt"
+  ],
+  "new_source_status": "UNRUN_UNADMITTED_AUTHOR_TESTED_ONLY",
+  "source_derivative": {
+    "base": "records/phase1-direct/factory-20261101/chunk_capacity_guard_v5.py",
+    "diff": "guard-source.diff",
+    "identity": {
+      "bytes": 12684,
+      "sha256": "f5850499903a25985f477ba3b593b452bae8223bae5c970da2a515f9d6bfda18"
+    },
+    "new": "xgen_guard.py",
+    "new_identity": {
+      "bytes": 15557,
+      "sha256": "e78ee18084d60bd6076a4812c171b3f84055b498780329041aa4772e6635b891"
+    }
+  },
+  "unchanged_guard_function_AST": [
+    "record",
+    "best_effort_record",
+    "read_small",
+    "command_limits",
+    "cancel_launch_group",
+    "stop_scope",
+    "cleanup_owned"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "worldline.o1.compiler-metadata-root-readback.v1",
+  "utc": "2026-11-01T12:15:28.906466+00:00",
+  "status": "PASS_METADATA_AND_EXISTING_REUSE_BYTES_ONLY",
+  "command_evidence": "Native root exec Python read-only validator, output chunk cf5ffc, exit0, elapsed0.115s",
+  "manifest_sha256": "2e5089a5dd6aee81a5e2c7dcac24e03de2732c46d4cf099d2075e06e13bdb897",
+  "payload_files_verified": 14,
+  "total_files": 15,
+  "total_bytes": 2483810,
+  "counts": {
+    "selected": {
+      "paths": 771,
+      "source_bytes": 37730838
+    },
+    "reusable": {
+      "paths": 100,
+      "source_bytes": 7611873
+    },
+    "missing": {
+      "paths": 671,
+      "source_bytes": 30118965
+    },
+    "excluded_prior_roster": {
+      "paths": 2059,
+      "source_bytes": 35858714
+    },
+    "spark_src_entries": 336,
+    "gcc_ada_entries": 2497
+  },
+  "checks": [
+    "Manifest payload bytes/SHA and exact roster",
+    "771selected and2059excluded each match original immutable tree mode/blob/size",
+    "Reusable100 and missing671 partition selected without overlap",
+    "Both raw responses match durable200/no retry/no redirect receipts",
+    "All105 alternative local reuse entries match bytes/SHA/Git blob including102identity and3explicit append-one-LF reconstructions"
+  ],
+  "build_closure": "UNPROVEN",
+  "source_installed_correspondence": "UNKNOWN",
+  "planner_correction": {
+    "report": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-compiler-closure-planner-report.md",
+    "incorrect_eight_GCC_bytes": 4116317,
+    "correct_eight_GCC_bytes": 4106317,
+    "incorrect_sixteen_additional_bytes": 6159286,
+    "correct_sixteen_additional_bytes": 6149286,
+    "classification": "Arithmetic reporting error, no source identity mismatch; original report preserved"
+  }
+}

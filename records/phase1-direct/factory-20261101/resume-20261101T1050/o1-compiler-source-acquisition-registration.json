@@ -1,0 +1,40 @@
+{
+  "schema": "worldline.o1.compiler-source-acquisition-registration.v1",
+  "utc": "2026-11-01T12:15:28.909375+00:00",
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "writer": "/root/old_closure_investigator actual gpt-6.1-sol/high",
+  "source_head": "e6444ed158dd042d544cbeedc0e9871d47445c5c",
+  "output_root": "records/phase1-direct/completion-20261026/old-retirement-compiler-source-cut-v1",
+  "selected_mapping": {
+    "path": "records/phase1-direct/completion-20261026/old-retirement-compiler-metadata-v1/selected-candidate-mapping.json",
+    "sha256": "ae4005318452566042353c8a796000cd79900f26884d0272e63230f7d1b91dbe"
+  },
+  "missing_mapping": {
+    "path": "records/phase1-direct/completion-20261026/old-retirement-compiler-metadata-v1/missing-candidate-mapping.json",
+    "sha256": "d49e837f3d91c6d726529456dee0695bc580c974a25594c3ea41355c2ebe854e"
+  },
+  "selected_files": 771,
+  "exact_selected_source_bytes": 37730838,
+  "local_reuse_files": 100,
+  "maximum_requests": 671,
+  "exact_success_response_bytes": 30118965,
+  "maximum_total_response_bytes": 33554432,
+  "maximum_single_response_bytes": 4194304,
+  "maximum_seconds_each": 10,
+  "maximum_seconds_total": 900,
+  "maximum_redirects": 0,
+  "maximum_retries": 0,
+  "maximum_output_files": 800,
+  "maximum_new_bytes": 50331648,
+  "recovery_scratch_bytes": 50331648,
+  "reserve_bytes": 10000000000,
+  "observed_available_bytes": 91872014336,
+  "maximum_observation_age_seconds": 60,
+  "materialized_modes": "0644 data-only; preserve upstreammode inreceipt",
+  "pin": "Existing fullcarrier pin; keep local",
+  "limits": "Stop on first request/validation failure; boundedfailure capture; no retry or source-list amendment inthislease",
+  "execution": "Source bytes acquisition/reuse and hashing only; no compiler/generator/fetchedsource/proof/install/archive/mount/service/lock operation",
+  "storage_window": "No heavy/runtime admission; DUAT holdswindow",
+  "archive_backlog": "Retain source local pinned; no retirement",
+  "acceptance_boundary": "Exact source bytes only; candidate executable closure and installed correspondence remain unproved"
+}

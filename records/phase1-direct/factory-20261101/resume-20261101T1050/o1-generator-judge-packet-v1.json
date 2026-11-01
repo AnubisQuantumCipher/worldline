@@ -1,0 +1,50 @@
+{
+  "F7": "NOT PERFORMED",
+  "dossier": "O1-FIXED-DISK-GENERATOR",
+  "files": [
+    {
+      "bytes": 21168,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-review-packet-v1.json",
+      "sha256": "c523710945b4eea07933107a9efaef96ea21b03f0e1b8b96eb4447985679b25f"
+    },
+    {
+      "bytes": 6874,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r1-independent-report.md",
+      "sha256": "c34d600cd714345587739f8220ddd3ea59b811ae6fa14e367da69dca2279685c"
+    },
+    {
+      "bytes": 854,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r1-independent-provenance.json",
+      "sha256": "30788e0c6657a0e36f1dfa56279f4e9cbc33b64fd59811e8074c19936069aa76"
+    },
+    {
+      "bytes": 195800,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r1-independent-public-tools.json",
+      "sha256": "f542f4922d33bcaa4a00bfb4572af764a4b4308693563c12c1f311883e5bdf3f"
+    },
+    {
+      "bytes": 6997,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r1-adversary-report.md",
+      "sha256": "e2807abc134f9b6048575ae21584ba864819fdd9a96a62f8efcf312e27e99cd4"
+    },
+    {
+      "bytes": 846,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r1-adversary-provenance.json",
+      "sha256": "8054f98876ec5202fa267fc493ae28a9d74a11ff5ff37e2502e6d0921dac1009"
+    },
+    {
+      "bytes": 254742,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r1-adversary-public-tools.json",
+      "sha256": "fbb6d82155deb5691747b70e7e7fece5374c963d3862d880636254b87466421e"
+    }
+  ],
+  "peer_separation": "Both completed before any current peer verdict was shared; runtime contexts captured",
+  "phase_acceptance": false,
+  "question": "Adjudicate both fresh nonauthor REVISE reports against the exact source packet; independently reproduce alleged mandatory defects. Decide APPROVE/REVISE/BLOCK and concrete requirements for sole revision if justified.",
+  "review_scope": "READ-ONLY;<=60s aggregate pure/in-memory synthetic checks, no writes/pycache/scratch/operational mains/compiler/generator/proof/tar/mount/IPC/service/lock/network/archive. Inspect before reuse.",
+  "revision": 1,
+  "revision_policy": "One evidence-driven revision remains for this distinct initial generator decision; no IPC reset. Judge does not itself authorize launch.",
+  "runtime_admission": "NOT_GRANTED",
+  "same_original_packet_sha256": "c523710945b4eea07933107a9efaef96ea21b03f0e1b8b96eb4447985679b25f",
+  "schema": "worldline.o1.fixed-disk-generator-judge.v1"
+}

@@ -773,3 +773,23 @@ The next steps are separately registered remaining metadata recovery and reviewe
 bounded disk generator preparation. Actual build admission requires a fresh storage
 handoff and unchanged resource gates. DUAT's separately reviewed queue remains live;
 WORLDLINE has taken no runtime window. Phase One is ACTIVE and INCOMPLETE.
+
+The two remaining compiler-tree responses are now durable. Exact candidate acquisition
+completed771 source files/37730838B, with671 GETs and100 reuses. Root independently
+verified all source blobs, sizes, hashes, modes and receipts. The earlier planner's
+eight-GCC byte subtotal was10000B too high; a correcting record preserves the original
+report. All executable compatibility, installed correspondence and O1 semantic claims
+remain open. Source-only preparation of the bounded disk generator package is now
+registered; its proposed limits do not authorize a build. Same-packet fresh review,
+separate judgment, storage handoff and fresh admission still precede execution.
+
+The fixed generator source package is frozen and root-verified. Both fresh reviews
+request revision for two synthetic failure-contract defects; separate judgment is
+pending and no launch is admitted. Two exact driver bodies are now verified data;
+their delegation identifies3minimal followup sources, separately registered. Actual
+translator selection, installed correspondence and all original O1/final gates remain
+unproved. DUAT retains the runtime/storage window.
+
+D158 separate judgment reproduced both generator integration defects and rejected
+the initial package for its sole permitted source revision. Original sources, pins,
+ceilings and guarantees remain. Actual build/recovery/terminal qualification is UNRUN.

@@ -1,0 +1,110 @@
+{
+  "actual_execution": "UNRUN",
+  "all8_payloads_and_exact9_file_roster_match": true,
+  "elapsed_seconds": 1.843655,
+  "installed_correspondence": "UNKNOWN",
+  "manifest": {
+    "bytes": 1802,
+    "sha256": "0349e03b476588f0d55cd40e286a9a40d305d768ef4fb1a21c74061336236a95"
+  },
+  "packet_bytes": 55064,
+  "phase_acceptance": false,
+  "schema": "worldline.o1.driver-actions-root-readback.v1",
+  "source_checks": [
+    {
+      "bytes": 16014,
+      "git_blob": "855eec6808363909a6ea4709b9ab25368fe01b3b",
+      "identity": {
+        "bytes": 16014,
+        "sha256": "fd8274176fdafb46744eca8dc325a416b87bc205a5de7b2277ecac1f1dfd2826"
+      },
+      "mode": "100644",
+      "path": "src/gnatprove/configuration.ads",
+      "receipt": {
+        "bytes": 16014,
+        "end_utc": "2026-11-01T12:57:24.242603+00:00",
+        "git_blob_sha1": "855eec6808363909a6ea4709b9ab25368fe01b3b",
+        "http_status": 200,
+        "materialized_mode": "0644",
+        "path": "src/gnatprove/configuration.ads",
+        "request_utc": "2026-11-01T12:57:23.341131+00:00",
+        "response_end_utc": "2026-11-01T12:57:24.237487+00:00",
+        "sha256": "fd8274176fdafb46744eca8dc325a416b87bc205a5de7b2277ecac1f1dfd2826",
+        "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+        "status": "VERIFIED_WRITTEN_READBACK",
+        "upstream_git_mode": "100644",
+        "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/gnatprove/configuration.ads"
+      },
+      "request_seconds": 0.896356
+    },
+    {
+      "bytes": 9185,
+      "git_blob": "ffcca769c01f8791ed50d2b14557f06becd1e73a",
+      "identity": {
+        "bytes": 9185,
+        "sha256": "cd752952a4d1bd071c37237d520df528166ac6ce556bd220253a50981de133e4"
+      },
+      "mode": "100644",
+      "path": "src/gnatprove/gpr2-build-actions-process-compile-ada-analysis.adb",
+      "receipt": {
+        "bytes": 9185,
+        "end_utc": "2026-11-01T12:57:24.675814+00:00",
+        "git_blob_sha1": "ffcca769c01f8791ed50d2b14557f06becd1e73a",
+        "http_status": 200,
+        "materialized_mode": "0644",
+        "path": "src/gnatprove/gpr2-build-actions-process-compile-ada-analysis.adb",
+        "request_utc": "2026-11-01T12:57:24.243647+00:00",
+        "response_end_utc": "2026-11-01T12:57:24.673670+00:00",
+        "sha256": "cd752952a4d1bd071c37237d520df528166ac6ce556bd220253a50981de133e4",
+        "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+        "status": "VERIFIED_WRITTEN_READBACK",
+        "upstream_git_mode": "100644",
+        "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/gnatprove/gpr2-build-actions-process-compile-ada-analysis.adb"
+      },
+      "request_seconds": 0.430023
+    },
+    {
+      "bytes": 14289,
+      "git_blob": "d7543861dc4ae85dd58b2d9916003397dda9e246",
+      "identity": {
+        "bytes": 14289,
+        "sha256": "a60639252469e208e8113c7891f3cc91b34bcc571b8ba5da4cf9d64998f7b5dc"
+      },
+      "mode": "100644",
+      "path": "src/gnatprove/gpr2-build-actions-process-compile-ada-global_gen.adb",
+      "receipt": {
+        "bytes": 14289,
+        "end_utc": "2026-11-01T12:57:25.181942+00:00",
+        "git_blob_sha1": "d7543861dc4ae85dd58b2d9916003397dda9e246",
+        "http_status": 200,
+        "materialized_mode": "0644",
+        "path": "src/gnatprove/gpr2-build-actions-process-compile-ada-global_gen.adb",
+        "request_utc": "2026-11-01T12:57:24.676767+00:00",
+        "response_end_utc": "2026-11-01T12:57:25.176214+00:00",
+        "sha256": "a60639252469e208e8113c7891f3cc91b34bcc571b8ba5da4cf9d64998f7b5dc",
+        "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+        "status": "VERIFIED_WRITTEN_READBACK",
+        "upstream_git_mode": "100644",
+        "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/gnatprove/gpr2-build-actions-process-compile-ada-global_gen.adb"
+      },
+      "request_seconds": 0.499447
+    }
+  ],
+  "summary": {
+    "available_bytes_before_acquisition": 98261446656,
+    "ended_utc": "2026-11-01T12:57:25.183807+00:00",
+    "failure": null,
+    "installed_correspondence": "UNKNOWN",
+    "redirects": 0,
+    "requests": 3,
+    "response_bytes": 39488,
+    "retries": 0,
+    "schema": "worldline.o1.driver-actions-source-acquisition.v1",
+    "source_execution": false,
+    "started_utc": "2026-11-01T12:57:23.340152+00:00",
+    "status": "COMPLETE_EXACT_THREE_FILE_SOURCE_CUT",
+    "verified_bytes": 39488,
+    "verified_files": 3
+  },
+  "utc": "2026-11-01T12:58:29.757301+00:00"
+}

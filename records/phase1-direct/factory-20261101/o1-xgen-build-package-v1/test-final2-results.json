@@ -1,0 +1,113 @@
+{
+  "attempts": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v1/source_tests.py"
+      ],
+      "elapsed_seconds": 0.26660272711887956,
+      "environment": {
+        "LC_ALL": "C",
+        "PATH": "/usr/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONOPTIMIZE": "0"
+      },
+      "exit": 0,
+      "stderr": {
+        "bytes": 5399,
+        "sha256": "b7c74c06d78ffcb7e72cf41d74e39e90bc532da41f93b1f8f89c29d08ea41dba"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout_seconds": 30
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v1/source_tests.py"
+      ],
+      "elapsed_seconds": 0.16681519709527493,
+      "environment": {
+        "LC_ALL": "C",
+        "PATH": "/usr/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONOPTIMIZE": "0",
+        "XGEN_READ_ONLY_TESTS": "1"
+      },
+      "exit": 0,
+      "stderr": {
+        "bytes": 3079,
+        "sha256": "94c3b100fdafacddf95d023ae1e384e164ce09b1d223d4ac473f94921ca71533"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout_seconds": 30
+    }
+  ],
+  "author_only": true,
+  "elapsed_seconds": 0.4340082840062678,
+  "operational_mains_run": false,
+  "sources_after": {
+    "run_author_tests.py": {
+      "bytes": 2438,
+      "sha256": "7673ebfcb5ececd44df418a75d63ce876a47357787afe846d3f78da4b789c37f"
+    },
+    "source_tests.py": {
+      "bytes": 27076,
+      "sha256": "b27aeaa3bd7d4c254f64d1044eec92bbcacb05f3fe8cf935e6927806f7f755f3"
+    },
+    "xgen_common.py": {
+      "bytes": 7379,
+      "sha256": "59ded210655b149eac6846683552605663509a25b5f7fb6441496dd1f818decf"
+    },
+    "xgen_guard.py": {
+      "bytes": 15557,
+      "sha256": "e78ee18084d60bd6076a4812c171b3f84055b498780329041aa4772e6635b891"
+    },
+    "xgen_recovery.py": {
+      "bytes": 6827,
+      "sha256": "dfe332270af758d34d0151b12f2926c017b16930370ed20efaf237576afc7244"
+    },
+    "xgen_worker.py": {
+      "bytes": 10112,
+      "sha256": "7b125cad17919727c10ffbf2950600eaffb1d866ea46653ad9208baa389201af"
+    }
+  },
+  "sources_before": {
+    "run_author_tests.py": {
+      "bytes": 2438,
+      "sha256": "7673ebfcb5ececd44df418a75d63ce876a47357787afe846d3f78da4b789c37f"
+    },
+    "source_tests.py": {
+      "bytes": 27076,
+      "sha256": "b27aeaa3bd7d4c254f64d1044eec92bbcacb05f3fe8cf935e6927806f7f755f3"
+    },
+    "xgen_common.py": {
+      "bytes": 7379,
+      "sha256": "59ded210655b149eac6846683552605663509a25b5f7fb6441496dd1f818decf"
+    },
+    "xgen_guard.py": {
+      "bytes": 15557,
+      "sha256": "e78ee18084d60bd6076a4812c171b3f84055b498780329041aa4772e6635b891"
+    },
+    "xgen_recovery.py": {
+      "bytes": 6827,
+      "sha256": "dfe332270af758d34d0151b12f2926c017b16930370ed20efaf237576afc7244"
+    },
+    "xgen_worker.py": {
+      "bytes": 10112,
+      "sha256": "7b125cad17919727c10ffbf2950600eaffb1d866ea46653ad9208baa389201af"
+    }
+  },
+  "sources_unchanged": true
+}

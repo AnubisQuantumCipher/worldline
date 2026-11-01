@@ -1,0 +1,93 @@
+{
+  "aggregate_actual_test_wall_time": "under4seconds including all recorded attempts; within120s; per-final-driver monotonic evidence in referenced JSON",
+  "all_operational_mains_UNRUN": true,
+  "author_tests_not_independent_review": true,
+  "final2_reason": "Strengthened complete terminal receipt ControlGroup binding; all earlier evidence retained",
+  "final_driver_command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 /usr/bin/timeout --signal=TERM --kill-after=2s 65s /usr/bin/python3 -B -W error run_author_tests.py > final2-driver.stdout 2> final2-driver.stderr",
+  "final_driver_exit": 0,
+  "final_driver_stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "final_driver_stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "final_pinned_test_result": "test-final2-results.json",
+  "full_tests_final": 62,
+  "initial_failure": "one fixture PID was Mock, not int; bounded JSON receipt failed and guard returned125; corrected fixture only",
+  "prior_attempts": [
+    {
+      "command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 /usr/bin/timeout --signal=TERM --kill-after=2s 60s /usr/bin/python3 -B -W error source_tests.py > test-attempt-01.stdout 2> test-attempt-01.stderr",
+      "cwd": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v1",
+      "exit": 1,
+      "label": "test-attempt-01",
+      "reported_tests": 49,
+      "source_snapshot": "attempt01-*.txt preserved byte-identical to run inputs",
+      "stderr": {
+        "bytes": 4736,
+        "sha256": "fc6cc0b40849704343605a16ff995fb274675ceb34d49bbc8880523f349b8be1"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "unittest_reported_seconds": "0.084"
+    },
+    {
+      "command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 /usr/bin/timeout --signal=TERM --kill-after=2s 60s /usr/bin/python3 -B -W error source_tests.py > test-attempt-02.stdout 2> test-attempt-02.stderr",
+      "cwd": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v1",
+      "exit": 0,
+      "label": "test-attempt-02",
+      "reported_tests": 52,
+      "source_snapshot": "No execution-time source hash captured; superseded by final pinned-source tests",
+      "stderr": {
+        "bytes": 4395,
+        "sha256": "6d5f4e3de7cfa13120fd56b12e44e918d45df5a2bdd56be5afca7b505d641524"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "unittest_reported_seconds": "0.073"
+    },
+    {
+      "command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 XGEN_READ_ONLY_TESTS=1 /usr/bin/timeout --signal=TERM --kill-after=2s 30s /usr/bin/python3 -B -W error source_tests.py > test-readonly-01.stdout 2> test-readonly-01.stderr",
+      "cwd": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v1",
+      "exit": 0,
+      "label": "test-readonly-01",
+      "reported_tests": 28,
+      "source_snapshot": "No execution-time source hash captured; superseded by final pinned-source tests",
+      "stderr": {
+        "bytes": 2463,
+        "sha256": "e219df737e3c33243da9a525399d2ec049f36f218b81599935db36b46a6eb51d"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "unittest_reported_seconds": "0.030"
+    },
+    {
+      "command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 /usr/bin/timeout --signal=TERM --kill-after=2s 30s /usr/bin/python3 -B -W error source_tests.py > test-attempt-03.stdout 2> test-attempt-03.stderr",
+      "cwd": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v1",
+      "exit": 0,
+      "label": "test-attempt-03",
+      "reported_tests": 56,
+      "source_snapshot": "No execution-time source hash captured; superseded by final pinned-source tests",
+      "stderr": {
+        "bytes": 4783,
+        "sha256": "b15e3389ceec4873920e62cb9a21b8e865c1793daa436339c1144302227db54e"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "unittest_reported_seconds": "0.265"
+    }
+  ],
+  "read_only_tests_final": 34,
+  "result_budget": "under2MiB cumulative logs/results",
+  "superseded_first_final_pinned_result": "test-final-results.json",
+  "test_fixture_budget": "under2MiB; regular synthetic files only; no FIFO/socket/real IPC"
+}

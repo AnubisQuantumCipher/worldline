@@ -1,0 +1,33 @@
+{
+  "additional_outer_metadata_bytes": 8388608,
+  "admission_lock_wait_seconds": 60,
+  "archive_file_limit_bytes": 4311744512,
+  "archive_payload_bytes": 4294967296,
+  "archive_ustar_framing_upper_bytes": 8390656,
+  "capacity_poll_seconds": 1,
+  "compiler_file_and_log_limit_bytes": 67108864,
+  "disk_admission_bytes_above_reserve": 14050918400,
+  "framing_correction": {
+    "archive_file_ceiling_unchanged": 4311744512,
+    "conservative_root_inclusive_bound_bytes": 8392191,
+    "expression": "512 root + 8192*(512 header+511 payload padding) + 1024 end blocks + 10239 final record padding",
+    "registered_original_estimate_bytes": 8390656,
+    "status": "source-derived correction; below existing16MiB allowance"
+  },
+  "inner_timeout_seconds": 1500,
+  "job_metadata_root": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1",
+  "live_aggregate_stop_bytes": 4294967296,
+  "live_entry_stop_count": 8192,
+  "maximum_observation_age_seconds": 60,
+  "memory_max_bytes": 8589934592,
+  "outer_monitor_seconds": 1590,
+  "owned_launcher_wait_seconds": 5,
+  "owned_scope_cleanup_seconds": 20,
+  "post_lock_memavailable_bytes": 15032385536,
+  "restore_filesystem_allowance_bytes": 67108864,
+  "restore_payload_bytes": 4294967296,
+  "shutdown_growth_margin_bytes": 1073741824,
+  "status": "UNMEASURED_PROPOSED_CEILINGS_NOT_ADMISSION_OR_HARD_AGGREGATE_QUOTA",
+  "swap_max_bytes": 0,
+  "work_root": "records/phase1-direct/completion-20261026/o1-xgen-build-v1"
+}

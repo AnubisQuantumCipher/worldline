@@ -1,0 +1,138 @@
+"""Native USTAR recovery of owned, quiescent live tree; no retirement."""
+from pathlib import Path
+import os
+import selectors
+import signal
+import resource
+import re
+import subprocess
+import time
+from xgen_common import (WORK, LIVE_ROOT, FILE, ARCHIVE, digest, hashed_inventory,
+                         inventory, write_json)
+from xgen_common import relative
+CAPTURE = 256 * 1024
+
+
+def archive_limits():
+    # Parent has not installed compiler-child's hard64MiB limit.
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+    resource.setrlimit(resource.RLIMIT_FSIZE, (ARCHIVE, ARCHIVE))
+
+
+def restore_limits():
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+    resource.setrlimit(resource.RLIMIT_FSIZE, (FILE, FILE))
+
+
+def pipe_chunk(key, selector, totals, outputs):
+    data = os.read(key.fd, 65536)
+    if not data:
+        selector.unregister(key.fileobj)
+        return
+    name = key.data
+    if totals[name] + len(data) >= CAPTURE:
+        raise RuntimeError("recovery capture overflow; evidence loss")
+    if outputs[name].write(data) != len(data):
+        raise RuntimeError("short recovery capture")
+    outputs[name].flush()
+    totals[name] += len(data)
+
+
+def capture(argv, prefix, deadline, limit_function):
+    """Bound every pipe chunk/count/time; terminate only fresh child group."""
+    process, totals = None, {"stdout": 0, "stderr": 0}
+    with (prefix.with_suffix(".stdout")).open("xb") as out:
+        with (prefix.with_suffix(".stderr")).open("xb") as err:
+            with selectors.DefaultSelector() as selector:
+                try:
+                    process = subprocess.Popen(argv, stdin=subprocess.DEVNULL,
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                        start_new_session=True, preexec_fn=limit_function,
+                        env={"PATH": "/usr/bin", "LC_ALL": "C", "TZ": "UTC"})
+                    for name in totals:
+                        pipe = getattr(process, name)
+                        os.set_blocking(pipe.fileno(), False)
+                        selector.register(pipe, selectors.EVENT_READ, name)
+                    # At most2*256KiB nonempty1-byte reads plus finite polling.
+                    for _ in range(2 * CAPTURE + 15001):
+                        if time.monotonic() >= deadline:
+                            raise TimeoutError("recovery deadline")
+                        if not selector.get_map():
+                            break
+                        for key, _event in selector.select(min(.1, max(0, deadline-time.monotonic()))):
+                            pipe_chunk(key, selector, totals, {"stdout": out, "stderr": err})
+                    if selector.get_map():
+                        raise RuntimeError("recovery read iteration bound")
+                    code = process.wait(timeout=max(.001, deadline-time.monotonic()))
+                    if code != 0:
+                        raise RuntimeError("native recovery command failed: " + str(code))
+                    return {"exit": code, **totals}
+                finally:
+                    if process is not None:
+                        if process.poll() is None:
+                            os.killpg(process.pid, signal.SIGKILL)
+                            process.wait(timeout=5)
+                        for name in totals:
+                            getattr(process, name).close()
+
+
+def sandbox(argv, writable):
+    return ["/usr/bin/bwrap", "--die-with-parent", "--unshare-pid", "--unshare-net",
+            "--cap-drop", "ALL", "--ro-bind", "/", "/", "--proc", "/proc",
+            "--dev", "/dev", "--bind", str(writable), str(writable), "--", *map(str, argv)]
+
+
+def compare_inventory(expected, actual):
+    validate_inventory(expected)
+    validate_inventory(actual)
+    if expected != actual:
+        raise RuntimeError("recovery full hash/mode/roster mismatch")
+
+
+def validate_inventory(rows):
+    if not isinstance(rows, dict) or len(rows) > 8192:
+        raise RuntimeError("recovery inventory type/count")
+    for name, row in rows.items():
+        relative(name)
+        if not isinstance(row, dict) or row.get("kind") not in ("file", "directory"):
+            raise RuntimeError("recovery inventory kind/type")
+        keys = {"kind", "mode"} if row["kind"] == "directory" else {"kind", "mode", "bytes", "sha256"}
+        if set(row) != keys or type(row["mode"]) is not int or not 0 <= row["mode"] <= 0o1777:
+            raise RuntimeError("recovery inventory mode/schema")
+        if row["kind"] == "file":
+            if type(row["bytes"]) is not int or not 0 <= row["bytes"] <= FILE:
+                raise RuntimeError("recovery inventory bytes/type")
+            if not isinstance(row["sha256"], str) or re.fullmatch(r"[0-9a-f]{64}", row["sha256"]) is None:
+                raise RuntimeError("recovery inventory digest")
+
+
+def recover(deadline):
+    """All phases use remaining original1500s budget; not an extra budget."""
+    archive, restore = WORK / "archive", WORK / "restore"
+    before = hashed_inventory(LIVE_ROOT)
+    root_mode = LIVE_ROOT.stat().st_mode & 0o7777
+    archive.mkdir()
+    target = archive / "live.tar"
+    create = ["/usr/bin/tar", "--create", "--format=ustar", "--sort=name",
+              "--numeric-owner", "--owner=0", "--group=0", "--file", target,
+              "--directory", LIVE_ROOT, "."]
+    control = WORK / "control"
+    created = capture(sandbox(create, archive), control / "create", min(deadline, time.monotonic()+300), archive_limits)
+    identity = digest(target, ARCHIVE)
+    if identity["bytes"] >= ARCHIVE:
+        raise RuntimeError("archive limit reached")
+    compare_inventory(before, hashed_inventory(LIVE_ROOT))
+    restore.mkdir(mode=root_mode)
+    extract = ["/usr/bin/tar", "--extract", "--file", target, "--directory", restore,
+               "--no-same-owner", "--same-permissions", "--delay-directory-restore", "--keep-old-files"]
+    restored = capture(sandbox(extract, restore), control / "extract", min(deadline, time.monotonic()+300), restore_limits)
+    if digest(target, ARCHIVE) != identity:
+        raise RuntimeError("archive changed during restore")
+    compare_inventory(before, hashed_inventory(restore))
+    if restore.stat().st_mode & 0o7777 != root_mode:
+        raise RuntimeError("restored root mode mismatch")
+    inventory(archive, ARCHIVE, ARCHIVE, 1)
+    write_json(control / "recovery-inventory.json", before, 2 * 1024**2)
+    return {"state": "OBSERVED_COMPLETE", "archive": identity,
+            "create": created, "extract": restored, "entries": len(before),
+            "inventory_receipt": digest(control / "recovery-inventory.json")}

@@ -1,0 +1,62 @@
+{
+  "F7": "NOT PERFORMED",
+  "IPC": "Separate BLOCKED decision unchanged; no reset",
+  "actual_execution": "UNRUN",
+  "dossier": "O1-FIXED-DISK-GENERATOR",
+  "judge_packet_sha256": "11483056484b5477cddf85190b15e5fda509c71dab48f4662b476cbadfe719c9",
+  "judge_reproduction": "Clean guard control0/fullreceipt; injected finalOSError0/no finalreceipt; all3build stages accept synthetic warnings on bothstreams; elapsed0.022s, all68refs before/after matched",
+  "launch": "PROHIBITED",
+  "mandatory_defects": [
+    "Final guard result receipt failure is ignored and can leave exit0",
+    "Zero-exit build warnings on either stream accepted; recovery diagnostic policy also must be explicit"
+  ],
+  "phase_acceptance": false,
+  "reachability_limit": "Synthetic integration counterexamples; authentic pinned tool warning/storage failure and native terminal behavior not demonstrated",
+  "reversal": "Only exact sole revision satisfying original requirements after prescribed fresh pair/judge; no waiver or extra reset",
+  "review_packet_sha256": "c523710945b4eea07933107a9efaef96ea21b03f0e1b8b96eb4447985679b25f",
+  "reviewers": [
+    {
+      "provenance": {
+        "bytes": 854,
+        "sha256": "30788e0c6657a0e36f1dfa56279f4e9cbc33b64fd59811e8074c19936069aa76"
+      },
+      "report": {
+        "bytes": 6874,
+        "sha256": "c34d600cd714345587739f8220ddd3ea59b811ae6fa14e367da69dca2279685c"
+      },
+      "role": "independent"
+    },
+    {
+      "provenance": {
+        "bytes": 846,
+        "sha256": "8054f98876ec5202fa267fc493ae28a9d74a11ff5ff37e2502e6d0921dac1009"
+      },
+      "report": {
+        "bytes": 6997,
+        "sha256": "e2807abc134f9b6048575ae21584ba864819fdd9a96a62f8efcf312e27e99cd4"
+      },
+      "role": "adversary"
+    },
+    {
+      "provenance": {
+        "bytes": 782,
+        "sha256": "5fab8234d32cb2b7d6f426ef7ac4e67f6bf219618cecb3c5884cb78dcaab07fe"
+      },
+      "report": {
+        "bytes": 7380,
+        "sha256": "0d15e920cf78776a53e9244738a99ff7e7f5fb12d194b7a015202b55eda9ada8"
+      },
+      "role": "judge"
+    }
+  ],
+  "revision": 1,
+  "revisions_remaining": 1,
+  "schema": "worldline.o1.fixed-disk-generator-decision.v1",
+  "sole_revision_scope": [
+    "Nonzero failure propagation for final receipt write/flush/shortwrite/budget exhaustion with cleanup independent",
+    "Bounded complete diagnostic policy across build and recovery, both streams, clean/zeroexit-warning/nonzero/overflow/missing-evidence controls",
+    "Only directly necessary source/tests/contracts/manifests; preserve original inputs/pins/bounds and all failures"
+  ],
+  "state": "REJECTED_RETURN_FOR_SOLE_REVISION",
+  "utc": "2026-11-01T12:56:37.530443+00:00"
+}

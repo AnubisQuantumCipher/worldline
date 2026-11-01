@@ -1,0 +1,87 @@
+{
+  "all7_payloads_and_exact8_file_roster_match": true,
+  "installed_correspondence": "UNKNOWN",
+  "manifest": {
+    "bytes": 1589,
+    "sha256": "56d750bb283987e6617d02fd04fe29011dde97c9a4c3484c92f164589a2d2df5"
+  },
+  "packet_bytes": 234372,
+  "purpose": "Read pinned driver selection semantics; not executable closure or launch approval",
+  "raw_receipts": [
+    {
+      "bytes": 184085,
+      "end_utc": "2026-11-01T12:51:31.026579+00:00",
+      "git_blob_sha1": "29eb034f34b427bf9a7fba737ef74adceb98e884",
+      "http_status": 200,
+      "materialized_mode": "0644",
+      "path": "src/gnatprove/configuration.adb",
+      "request_utc": "2026-11-01T12:51:30.514083+00:00",
+      "response_end_utc": "2026-11-01T12:51:31.010090+00:00",
+      "sha256": "70be5c4e4d86aab91bf0560bb7946608ccbf7c41f6a4191546af838868a91c52",
+      "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "status": "VERIFIED_WRITTEN_READBACK",
+      "upstream_git_mode": "100644",
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/gnatprove/configuration.adb"
+    },
+    {
+      "bytes": 36087,
+      "end_utc": "2026-11-01T12:51:31.372385+00:00",
+      "git_blob_sha1": "c76c3aadadf576fa85719707a863f2f71de664ca",
+      "http_status": 200,
+      "materialized_mode": "0644",
+      "path": "src/gnatprove/gnatprove_build.adb",
+      "request_utc": "2026-11-01T12:51:31.028331+00:00",
+      "response_end_utc": "2026-11-01T12:51:31.367848+00:00",
+      "sha256": "435d6c1103f115db76c229b776dca816b41be73d65db17262926d011758ad6b5",
+      "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+      "status": "VERIFIED_WRITTEN_READBACK",
+      "upstream_git_mode": "100644",
+      "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/gnatprove/gnatprove_build.adb"
+    }
+  ],
+  "schema": "worldline.o1.driver-source-root-readback.v1",
+  "source_execution": "UNRUN",
+  "sources": [
+    {
+      "blob_verified": "29eb034f34b427bf9a7fba737ef74adceb98e884",
+      "bytes": 184085,
+      "git_blob": "29eb034f34b427bf9a7fba737ef74adceb98e884",
+      "identity": {
+        "bytes": 184085,
+        "sha256": "70be5c4e4d86aab91bf0560bb7946608ccbf7c41f6a4191546af838868a91c52"
+      },
+      "materialized_mode": "0644",
+      "mode": "100644",
+      "path": "src/gnatprove/configuration.adb"
+    },
+    {
+      "blob_verified": "c76c3aadadf576fa85719707a863f2f71de664ca",
+      "bytes": 36087,
+      "git_blob": "c76c3aadadf576fa85719707a863f2f71de664ca",
+      "identity": {
+        "bytes": 36087,
+        "sha256": "435d6c1103f115db76c229b776dca816b41be73d65db17262926d011758ad6b5"
+      },
+      "materialized_mode": "0644",
+      "mode": "100644",
+      "path": "src/gnatprove/gnatprove_build.adb"
+    }
+  ],
+  "summary": {
+    "available_bytes_before_acquisition": 97538211840,
+    "ended_utc": "2026-11-01T12:51:31.373630+00:00",
+    "failure": null,
+    "installed_correspondence": "UNKNOWN",
+    "redirects": 0,
+    "requests": 2,
+    "response_bytes": 220172,
+    "retries": 0,
+    "schema": "worldline.o1.driver-source-acquisition.v1",
+    "source_execution": false,
+    "started_utc": "2026-11-01T12:51:30.513242+00:00",
+    "status": "COMPLETE_EXACT_TWO_FILE_SOURCE_CUT",
+    "verified_bytes": 220172,
+    "verified_files": 2
+  },
+  "utc": "2026-11-01T12:52:11.720947+00:00"
+}

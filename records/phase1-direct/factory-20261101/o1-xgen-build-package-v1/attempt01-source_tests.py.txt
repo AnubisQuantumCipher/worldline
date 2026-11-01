@@ -1,0 +1,399 @@
+"""Author's pure synthetic tests; no operational main or external command."""
+from pathlib import Path
+import ast
+import copy
+import io
+import json
+import os
+import stat
+import subprocess
+import tempfile
+import types
+import unittest
+from unittest.mock import patch, Mock
+import xgen_common as c
+import xgen_guard as g
+import xgen_worker as w
+import xgen_recovery as r
+
+
+class Cases(unittest.TestCase):
+    def setUp(self):
+        if os.environ.get("XGEN_READ_ONLY_TESTS") == "1":
+            self.root = c.HERE / "READ_ONLY_NO_FIXTURE_DIRECTORY"
+            return
+        self.temp = tempfile.TemporaryDirectory(prefix="synthetic-", dir=c.HERE)
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def file(self, name="f", data=b"abc"):
+        p = self.root / name
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_bytes(data)
+        return p
+
+    def test_relative_good(self):
+        self.assertEqual(c.relative("source/why.ads"), Path("source/why.ads"))
+
+    def test_relative_rejections(self):
+        for name in [True, 1, None, "", "/a", "../a", "a/../b", "a//b", "a/./b", "a\n", "x"*100]:
+            with self.subTest(name=name), self.assertRaises(RuntimeError):
+                c.relative(name)
+
+    def test_digest_and_bound(self):
+        p = self.file()
+        self.assertEqual(c.digest(p)["bytes"], 3)
+        with self.assertRaises(RuntimeError):
+            c.digest(p, 2)
+
+    def test_symlink_file_and_component(self):
+        p = self.file()
+        link = self.root / "link"
+        link.symlink_to(p)
+        with self.assertRaises(RuntimeError):
+            c.digest(link)
+        directory = self.root / "dirlink"
+        directory.symlink_to(self.root, target_is_directory=True)
+        with self.assertRaises(RuntimeError):
+            c.digest(directory / "f")
+
+    def test_regular_directory_rejected(self):
+        with self.assertRaises(RuntimeError):
+            c.digest(self.root)
+
+    def test_inventory_caps(self):
+        self.file()
+        for kwargs in [{"byte_limit": 2}, {"file_limit": 2}, {"entry_limit": 0}]:
+            with self.subTest(kwargs=kwargs), self.assertRaises(RuntimeError):
+                c.inventory(self.root, **kwargs)
+
+    def test_inventory_link(self):
+        p = self.file()
+        (self.root / "link").symlink_to(p)
+        with self.assertRaises(RuntimeError):
+            c.inventory(self.root)
+
+    def test_inventory_unsupported_and_hardlink(self):
+        row = Mock(path=str(self.root / "socket"))
+        row.is_symlink.return_value = False
+        for mode, links in [(stat.S_IFSOCK, 1), (stat.S_IFREG, 2), (stat.S_IFREG | stat.S_ISUID, 1)]:
+            row.stat.return_value = types.SimpleNamespace(st_mode=mode, st_size=0, st_nlink=links)
+            context = Mock()
+            context.__enter__ = Mock(return_value=iter([row]))
+            context.__exit__ = Mock(return_value=False)
+            with patch.object(c.os, "scandir", return_value=context), self.assertRaises(RuntimeError):
+                c.inventory(self.root)
+
+    def test_json_strict(self):
+        for raw in [b'{"a":1,"a":2}', b'{"a":NaN}', b'{"a":Infinity}', b'{"a":1e10000}', b'{"a":1.0}']:
+            p = self.file("control", raw)
+            with self.subTest(raw=raw), self.assertRaises(ValueError):
+                c.load_json(p)
+
+    def test_json_write_bound_and_exclusive(self):
+        with self.assertRaises(RuntimeError):
+            c.write_json(self.root / "large", {"x": "x"*100}, 2)
+        target = self.root / "receipt"
+        c.write_json(target, {"a": 1})
+        with self.assertRaises(FileExistsError):
+            c.write_json(target, {})
+
+    def test_pin_identity_and_drift(self):
+        p = self.file()
+        row = {"path": str(p), "identity": c.digest(p)}
+        c.verify_pins([row])
+        p.write_bytes(b"abd")
+        with self.assertRaises(RuntimeError):
+            c.verify_pins([row])
+
+    def test_pin_strict_numbers(self):
+        p = self.file()
+        for size in [True, False, 3.0, "3", -1, 128*1024**2+1]:
+            with self.subTest(size=size), self.assertRaises(RuntimeError):
+                c.verify_pins([{"path": str(p), "identity": {"bytes": size, "sha256": "0"*64}}])
+
+    def test_pin_bad_hash_and_count(self):
+        p = self.file()
+        for value in [True, "bad", "A"*64]:
+            with self.assertRaises(RuntimeError):
+                c.verify_pins([{"path": str(p), "identity": {"bytes": 3, "sha256": value}}])
+        with self.assertRaises(RuntimeError):
+            c.verify_pins([{}]*4097)
+
+    def test_admission_types(self):
+        p = self.root / "admitted"
+        self.assertIsNone(g.admission_value(p))
+        for value in [False, True]:
+            p.write_text(json.dumps({"admitted": value}))
+            self.assertIs(g.admission_value(p), value)
+        for value in [0, 1, "false", None, {}, []]:
+            p.write_text(json.dumps({"admitted": value}))
+            with self.assertRaises(RuntimeError):
+                g.admission_value(p)
+
+    def test_admission_schema(self):
+        for value in [{}, [], {"admitted": False, "extra": 1}]:
+            p = self.file("control", json.dumps(value).encode())
+            with self.assertRaises(RuntimeError):
+                g.admission_value(p)
+
+    def test_guard_receipt_bounds(self):
+        stream = io.StringIO()
+        with self.assertRaises(RuntimeError):
+            g.record(stream, {"x": "x"*16384})
+        stream = io.StringIO("x"*(512*1024))
+        stream.seek(0, 2)
+        self.assertFalse(g.best_effort_record(stream, {}))
+
+    def monitor(self, admission=None, clock=None, scope="unit", code=None, free=10**12):
+        process, stream = Mock(), io.StringIO()
+        process.poll.return_value = code
+        with patch.object(g, "capacity_classes", return_value={}), patch.object(g.os, "statvfs", return_value=types.SimpleNamespace(f_bavail=free, f_frsize=1)), patch.object(g, "admission_value", return_value=admission), patch.object(g, "owned_scope", return_value=scope), patch.object(g, "wrapper_terminal") as terminal, patch.object(g.time, "sleep"), patch.object(g.time, "monotonic", side_effect=clock or [0, 0, 0, 1591]):
+            result = g.monitor(process, stream)
+            return result, terminal.called
+
+    def test_monitor_first_refusal(self):
+        result, _ = self.monitor(admission=False)
+        self.assertEqual(result[0], 125)
+        self.assertIn("refusal", result[1])
+
+    def test_monitor_admission_timeout(self):
+        result, _ = self.monitor(clock=[0, 61], scope=None)
+        self.assertIn("60 second", result[1])
+
+    def test_monitor_global_bound(self):
+        result, _ = self.monitor(clock=[0, 1591, 1591])
+        self.assertIn("1590", result[1])
+
+    def test_monitor_capacity(self):
+        result, _ = self.monitor(free=0, clock=[0, 0])
+        self.assertIn("margin", result[1])
+
+    def test_monitor_nonzero_preserved(self):
+        result, terminal = self.monitor(code=2, clock=[0])
+        self.assertEqual(result, (2, None))
+        self.assertTrue(terminal)
+
+    def test_cleanup_cancellation_precedes_receipt(self):
+        order = []
+        with patch.object(g, "cancel_launch_group", side_effect=lambda *_: order.append("cancel") or {"outer_exit": 143}), patch.object(g, "owned_scope", side_effect=lambda: order.append("receipt") or "unit"), patch.object(g, "stop_scope", return_value={"terminal": True}):
+            result = g.cleanup_owned(Mock(), io.StringIO())
+        self.assertEqual(order, ["cancel", "receipt"])
+        self.assertTrue(result["terminal"])
+
+    def test_cleanup_no_receipt_unverified(self):
+        with patch.object(g, "cancel_launch_group", return_value={"outer_exit": 143}), patch.object(g, "owned_scope", return_value=None):
+            self.assertFalse(g.cleanup_owned(Mock(), io.StringIO())["terminal"])
+
+    def test_guard_receipt_failure_still_cleans(self):
+        with patch.object(g.subprocess, "Popen", return_value=Mock()), patch.object(g, "record", side_effect=OSError("full")), patch.object(g, "cleanup_owned") as cleanup:
+            self.assertEqual(g.run(io.StringIO(), ["NOT_EXECUTED"]), 125)
+            cleanup.assert_called_once()
+
+    def test_normal_failure_not_promoted(self):
+        with patch.object(g.subprocess, "Popen", return_value=Mock()), patch.object(g, "monitor", return_value=(2, None)):
+            self.assertEqual(g.run(io.StringIO(), ["NOT_EXECUTED"]), 2)
+
+    def test_scope_duplicate_key(self):
+        self.file("scope.jsonl", b'{"unit":"bad","unit":"wl-phase1-' + b'a'*32 + b'.scope"}\n')
+        with patch.object(g, "JOB", self.root), self.assertRaises(ValueError):
+            g.owned_scope()
+
+    def test_terminal_missing_or_false(self):
+        with patch.object(g, "owned_scope", return_value=None), self.assertRaises(RuntimeError):
+            g.wrapper_terminal(io.StringIO())
+        with patch.object(g, "owned_scope", return_value="unit"), patch.object(g, "read_small", return_value=b'{"populated":0,"scope_state":{"ActiveState":"inactive"}}'), self.assertRaises(RuntimeError):
+            g.wrapper_terminal(io.StringIO())
+
+    def test_budget_classes_separate(self):
+        for name in ("live", "archive", "restore", "control"):
+            (self.root / name).mkdir()
+        self.file("live/f")
+        self.file("archive/live.tar", b"archive")
+        with patch.object(g, "WORK", self.root), patch.object(g, "LIVE_ROOT", self.root / "live"), patch.object(g, "JOB", self.root / "absent"):
+            sizes = g.capacity_classes()
+        self.assertEqual(sizes["live"], 3)
+        self.assertEqual(sizes["archive"], 7)
+
+    def test_unregistered_class(self):
+        (self.root / "unexpected").mkdir()
+        with patch.object(g, "WORK", self.root), patch.object(g, "LIVE_ROOT", self.root / "absent"), self.assertRaises(RuntimeError):
+            g.capacity_classes()
+
+    def test_actual_static_template_join(self):
+        inputs = c.load_json(c.HERE / "input-pins.json")
+        xtree = next(Path(x["path"]) for x in inputs if x["destination"].endswith("/xtree.adb"))
+        roster = c.load_json(c.HERE / "template-roster.json")
+        w.static_templates(xtree, xtree.parent, roster)
+
+    def test_static_join_rejects_roster(self):
+        p = self.file("xtree", b'Process ("a");')
+        with self.assertRaises(RuntimeError):
+            w.static_templates(p, self.root, ["a"])
+
+    def generated(self):
+        roster = c.load_json(c.HERE / "template-roster.json")
+        for name in roster:
+            self.file(name, b"generated\n")
+            self.file(name + "-tmpl", b"template\n")
+        return roster
+
+    def test_output_determinism(self):
+        roster = self.generated()
+        self.assertEqual(w.verify_outputs(self.root, roster), w.verify_outputs(self.root, roster))
+        expected = c.hashed_inventory(self.root)
+        self.file(roster[0], b"different")
+        with self.assertRaises(RuntimeError):
+            r.compare_inventory(expected, c.hashed_inventory(self.root))
+
+    def test_marker_missing_extra_empty(self):
+        roster = self.generated()
+        for raw in [b"", b"_@UNKNOWN@_", b"partial @_"]:
+            self.file(roster[0], raw)
+            with self.assertRaises(RuntimeError):
+                w.verify_outputs(self.root, roster)
+        self.file(roster[0], b"valid")
+        self.file("extra")
+        with self.assertRaises(RuntimeError):
+            w.verify_outputs(self.root, roster)
+
+    def test_build_flags_and_scenarios(self):
+        stages = w.build_commands()
+        self.assertEqual([x[2] for x in stages], [300, 600, 300])
+        for _, command, _ in stages:
+            for flag in ["-j2", "-XGNATCOLL_BUILD_MODE=DEBUG", "-XLIBRARY_TYPE=static", "-XGNATCOLL_VERSION=25.0", "-gnatwa", "-gnatwe", "-gnatVa"]:
+                self.assertIn(flag, command)
+        self.assertIn("-Werror", stages[0][1])
+        self.assertIn("-gnata", stages[2][1])
+
+    def test_sanitized_env_and_binds(self):
+        with patch.dict(os.environ, {"LD_PRELOAD": "evil", "ADAFLAGS": "-gnatp"}):
+            self.assertNotIn("LD_PRELOAD", w.environment())
+            self.assertNotIn("ADAFLAGS", g.launch_environment())
+        command = c.isolated(["compiler"], c.LIVE_ROOT)
+        self.assertEqual(command[command.index("--bind")+1:command.index("--bind")+3], [str(c.LIVE_ROOT)]*2)
+        self.assertNotIn("--unshare-ipc", command)
+
+    def test_separate_child_limits(self):
+        with patch.object(w.resource, "setrlimit") as call:
+            w.child_limits()
+            self.assertEqual(call.call_args.args[1], (c.FILE, c.FILE))
+        with patch.object(r.resource, "setrlimit") as call:
+            r.archive_limits()
+            self.assertEqual(call.call_args.args[1], (c.ARCHIVE, c.ARCHIVE))
+
+    def test_stage_nonzero_retains_log(self):
+        (self.root / "logs").mkdir()
+        receipts = []
+        def fake(_argv, **kwargs):
+            kwargs["stdout"].write(b"warning: pattern UNKNOWN not found\n")
+            return types.SimpleNamespace(returncode=2)
+        with patch.object(w, "LIVE_ROOT", self.root), patch.object(w.subprocess, "run", side_effect=fake), self.assertRaises(RuntimeError):
+            w.stage_command("mock", ["NEVER_RUN"], self.root, 1, 10**20, receipts)
+        self.assertEqual(receipts[0]["exit"], 2)
+        self.assertIn(b"warning", (self.root / "logs/mock.stdout").read_bytes())
+
+    def test_stage_timeout_partial_logs(self):
+        (self.root / "logs").mkdir()
+        receipts = []
+        def fake(_argv, **kwargs):
+            kwargs["stderr"].write(b"partial")
+            raise subprocess.TimeoutExpired("mock", 1)
+        with patch.object(w, "LIVE_ROOT", self.root), patch.object(w.subprocess, "run", side_effect=fake), self.assertRaises(subprocess.TimeoutExpired):
+            w.stage_command("mock", ["NEVER_RUN"], self.root, 1, 10**20, receipts)
+        self.assertEqual((self.root / "logs/mock.stderr").read_bytes(), b"partial")
+        self.assertIn("TIMEOUT", receipts[0]["failure"])
+
+    def test_stage_expired_before_spawn(self):
+        with patch.object(w.subprocess, "run") as child, self.assertRaises(TimeoutError):
+            w.stage_command("mock", [], self.root, 1, 0, [])
+        child.assert_not_called()
+
+    def test_recovery_typed_equality(self):
+        base = {"a": {"kind": "file", "mode": 1, "bytes": 1, "sha256": "0"*64}}
+        for key, value in [("mode", True), ("bytes", True), ("bytes", 1.0), ("bytes", "1"), ("sha256", False)]:
+            altered = copy.deepcopy(base)
+            altered["a"][key] = value
+            with self.assertRaises(RuntimeError):
+                r.compare_inventory(base, altered)
+
+    def test_recovery_pipe_overflow(self):
+        key = types.SimpleNamespace(fd=123, data="stdout", fileobj=None)
+        with patch.object(r.os, "read", return_value=b"x"), self.assertRaises(RuntimeError):
+            r.pipe_chunk(key, Mock(), {"stdout": r.CAPTURE-1}, {"stdout": io.BytesIO()})
+
+    def test_recovery_pipe_short_write(self):
+        key = types.SimpleNamespace(fd=123, data="stdout", fileobj=None)
+        stream = Mock()
+        stream.write.return_value = 0
+        with patch.object(r.os, "read", return_value=b"x"), self.assertRaises(RuntimeError):
+            r.pipe_chunk(key, Mock(), {"stdout": 0}, {"stdout": stream})
+
+    def test_recovery_pipe_eof(self):
+        key, selector = types.SimpleNamespace(fd=123, data="stdout", fileobj="fake"), Mock()
+        with patch.object(r.os, "read", return_value=b""):
+            r.pipe_chunk(key, selector, {}, {})
+        selector.unregister.assert_called_once_with("fake")
+
+    def test_recovery_unsupported_before_command(self):
+        with patch.object(r, "hashed_inventory", side_effect=RuntimeError("unsupported object")), patch.object(r, "capture") as child, self.assertRaises(RuntimeError):
+            r.recover(10**20)
+        child.assert_not_called()
+
+    def test_worker_result_write_failure_propagates(self):
+        with patch.object(w, "prepare", side_effect=RuntimeError("mock")), patch.object(w, "write_json", side_effect=OSError("full")), self.assertRaises(OSError):
+            w.run()
+
+    def test_worker_unrun_not_pass(self):
+        with patch.object(w, "prepare", side_effect=RuntimeError("mock")), patch.object(w, "write_json") as receipt:
+            self.assertEqual(w.run(), 125)
+        value = receipt.call_args.args[1]
+        self.assertEqual(value["build"], "UNRUN")
+        self.assertEqual(value["terminal"], "UNKNOWN")
+        self.assertFalse(value["acceptance_credit"])
+
+    def test_framing_root_inclusive(self):
+        bound = 512 + 8192 * (512 + 511) + 1024 + 10239
+        self.assertEqual(bound, 8392191)
+        self.assertLess(bound, 16*1024**2)
+
+    def test_short_functions(self):
+        for name in ["xgen_common.py", "xgen_worker.py", "xgen_recovery.py", "xgen_guard.py", "source_tests.py"]:
+            tree = ast.parse((c.HERE / name).read_text())
+            for node in ast.walk(tree):
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    self.assertLessEqual(node.end_lineno-node.lineno+1, 60, (name, node.name))
+
+    def test_guard_unchanged_cleanup_ast(self):
+        old = ast.parse((c.HERE.parent / "chunk_capacity_guard_v5.py").read_text())
+        new = ast.parse((c.HERE / "xgen_guard.py").read_text())
+        names = ["record", "best_effort_record", "read_small", "command_limits", "cancel_launch_group", "scope_observation", "stop_scope", "cleanup_owned", "wrapper_terminal"]
+        before = {x.name: ast.dump(x, include_attributes=False) for x in old.body if isinstance(x, ast.FunctionDef)}
+        after = {x.name: ast.dump(x, include_attributes=False) for x in new.body if isinstance(x, ast.FunctionDef)}
+        for name in names:
+            if name == "wrapper_terminal":
+                continue  # Strict JSON hook is the explicit registered control change.
+            self.assertEqual(before[name], after[name], name)
+
+
+READ_ONLY_NAMES = (
+    "relative_good", "relative_rejections", "guard_receipt_bounds",
+    "monitor_first_refusal", "monitor_admission_timeout", "monitor_global_bound",
+    "monitor_capacity", "monitor_nonzero_preserved", "cleanup_cancellation_precedes_receipt",
+    "cleanup_no_receipt_unverified", "guard_receipt_failure_still_cleans",
+    "normal_failure_not_promoted", "terminal_missing_or_false", "actual_static_template_join",
+    "build_flags_and_scenarios", "sanitized_env_and_binds", "separate_child_limits",
+    "stage_expired_before_spawn", "recovery_typed_equality", "recovery_pipe_overflow",
+    "recovery_pipe_short_write", "recovery_pipe_eof", "recovery_unsupported_before_command",
+    "worker_result_write_failure_propagates", "worker_unrun_not_pass",
+    "framing_root_inclusive", "short_functions", "guard_unchanged_cleanup_ast")
+
+
+def load_tests(loader, standard, _pattern):
+    if os.environ.get("XGEN_READ_ONLY_TESTS") == "1":
+        return unittest.TestSuite(Cases("test_" + name) for name in READ_ONLY_NAMES)
+    return standard
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
