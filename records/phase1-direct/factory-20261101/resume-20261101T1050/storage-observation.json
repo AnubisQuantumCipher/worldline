@@ -1,0 +1,66 @@
+{
+  "schema": "worldline.resume-storage-observation.v1",
+  "utc": "2026-11-01T10:49:32.969146+00:00",
+  "bridge": {
+    "device": {
+      "argv": [
+        "idevice_id",
+        "-l"
+      ],
+      "exit": 0,
+      "stdout_sha256": "69376ccd6436d7f67857dab7809caf4fcab49632abca6865a4aaf199d4801f39",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "device_count": 1,
+      "success_text": null
+    },
+    "pairing": {
+      "argv": [
+        "idevicepair",
+        "validate"
+      ],
+      "exit": 0,
+      "stdout_sha256": "22482930d494136239f2410c3a37e93e4ca36924d012e94f384c445ec4e50e03",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "device_count": null,
+      "success_text": true
+    }
+  },
+  "mounts": [
+    {
+      "path": "/home/sicarii/iPad",
+      "findmnt_exit": 0,
+      "fstype": "fuse.ifuse",
+      "vault_id_matches": true,
+      "repository_config_readable": true,
+      "available_bytes": 1396703047680
+    },
+    {
+      "path": "/home/sicarii/iPadBackup",
+      "findmnt_exit": 0,
+      "fstype": "fuse.ifuse",
+      "vault_id_matches": true,
+      "repository_config_readable": true,
+      "available_bytes": 1396703047680
+    }
+  ],
+  "linux_available_bytes": 75952381952,
+  "reserve_bytes": 10000000000,
+  "target_available_bytes": 300000000000,
+  "memory": {
+    "MemAvailable": "18483308 kB",
+    "SwapTotal": "40989692 kB",
+    "SwapFree": "24541764 kB"
+  },
+  "storage_owner": "01a195f9-dee5-7cb0-a440-777959511b7c",
+  "storage_worker": {
+    "pid": 549256,
+    "state": "NATIVE_RUNNING",
+    "path": "/home/sicarii/Work/sia-assurance-evidence-20261019/takeover-qv4-private-qtqml-build-v2",
+    "worker_pid": 802211,
+    "remaining_count": 131
+  },
+  "storage_worker_live": true,
+  "completed_items_reported": 14,
+  "claim": "OBSERVED current transport and capacity; not fresh recovery, archive completion or job admission",
+  "worldline_heavy_admitted": false
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "worldline.diagnostic-v2-review-packet.v1",
+  "dossier": "IPC-DIAGNOSTIC-V2",
+  "revision": 1,
+  "utc": "2026-11-01T10:48:10.616469+00:00",
+  "source_head": "e6c8fc7bd495ae9b5c87f6b29365c989de6a0c3e",
+  "question": "Is the unchanged-predicate diagnostic-only v2 adequate and bounded for preparing a successor collector/guard? No actual execution authorization or mechanism qualification is requested.",
+  "required_discriminator": "retain selected mount rows plus actual opened directory mnt_id before refusal, distinguish hidden-row selection from actual topology failure; preserve original predicates and limits",
+  "requirements": [
+    "Phase1 verification-path qualification prerequisite",
+    "G0 decision integrity",
+    "F0-F6 evidence and resource preservation"
+  ],
+  "files": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/manifest.json",
+      "bytes": 11355,
+      "sha256": "8ae60236e75b2c0ceb1182b7d2500d4773ff2489dbbee86f81ee9016e5d12ce5"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/README.md",
+      "bytes": 1983,
+      "sha256": "20c8e539e15e3b74a90bc46346a07114b903c2fee260a145450cda6b7890dbe4"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.py",
+      "bytes": 20769,
+      "sha256": "b6da769aa9d5707951b58a7737535657032c1df5077262a6017cd29db0497e8b"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch",
+      "bytes": 6542,
+      "sha256": "7bf901a6bfa1c1eac4b6f45bbf1e5d5469fe247505d7d5881ad236e96c5ccf09"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/source_tests.py",
+      "bytes": 9154,
+      "sha256": "5ffb2f1df5fe48f60a681842235e9087a1aed13a5abdc47bd2daa224f36f5f88"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/boundary_tests.py",
+      "bytes": 4050,
+      "sha256": "b311dfd6b08af0f49e441a72bc51f5d6943e67781886fad78e193a247efe5b03"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/source-tests.json",
+      "bytes": 24418,
+      "sha256": "eaf4e75c6ac892e95ab5279d43479756b550ce3604150042ebba5a1b9996d07a"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v2/boundary-tests.json",
+      "bytes": 2356,
+      "sha256": "6b3d279210dde9820e7073a1c33b458e32535fa3164c04ed67d8002b30b676fe"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-mount-diagnosis-v1.json",
+      "bytes": 15002,
+      "sha256": "24f0c858c84beca8e47be61a743d964b8072bec8a73d3f65dcdedf6593afea2a"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+      "bytes": 17080,
+      "sha256": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-review-v1.json",
+      "bytes": 15415,
+      "sha256": "b9b5011b3324fb94c1c859e36099b2c0e8930932db26fe21eb999dd89d44f4ef"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-policy-review-v1.json",
+      "bytes": 13160,
+      "sha256": "df5c7f452147eaf39cca6fba8727126c3f2e852438efd96e60e2d803baa4ac48"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-probe-root-readback-v1.json",
+      "bytes": 10685,
+      "sha256": "dd6f8428cf0b4e87a91d283b4c499af41230047d7b3b628f3eb42b06d3a749b3"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-mechanism-result-review-v1.json",
+      "bytes": 12736,
+      "sha256": "509f7f698071e7a798529a5526460f1abf31ac4bc77008d0a1ca029db0f2257e"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/checkpoint-paused-v1.json",
+      "bytes": 1930,
+      "sha256": "a96727055617c72f9e16d025091f312a567005163d4abe2e001d962ee8673921"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/phase1-acceptance.md",
+      "bytes": 11255,
+      "sha256": "17d20c7f9c0f81d1377cd10adce609492268e18d165a40c47e4e89bba864a6f3"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "bytes": 35034,
+      "sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/complete-output.tar.gz",
+      "bytes": 485,
+      "sha256": "5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61"
+    }
+  ],
+  "review_output_policy": "Read only; return report to root, no source writes or tool/probe/build execution; source tests may be inspected but original receipt-writing mains must not run",
+  "prior_reports": "Author synthetic receipts and historical v1 only; no peer verdict supplied",
+  "actual_v2_execution": "UNRUN",
+  "phase_acceptance": false
+}

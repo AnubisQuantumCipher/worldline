@@ -1,0 +1,17 @@
+{
+  "role": "adversary",
+  "session": {
+    "id": "01a196b9-959b-7af0-ad2f-a727f92b4ca5",
+    "parent_thread_id": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+    "agent_path": "/root/ipc_v2_adversary"
+  },
+  "runtime_reported": {
+    "model": "gpt-6.1-sol",
+    "effort": "high"
+  },
+  "fresh_context": true,
+  "nonauthor": true,
+  "raw_final_report_sha256": "b9afc6de37205deaa279a1ed5a268b999139b6483a5cce2abfc2e1203bbd2d0e",
+  "source": "selected native local session metadata and final response only",
+  "limitations": "Not backend weight attestation; shared tools/filesystem; no hidden reasoning used as evidence"
+}

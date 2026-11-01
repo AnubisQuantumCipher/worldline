@@ -1,0 +1,224 @@
+{
+  "MAX_RESULT": 8192,
+  "MOUNT_EVIDENCE_LIMIT": 3072,
+  "all_other_top_level_AST_identical": true,
+  "changed_functions": [
+    "shm_mount_evidence"
+  ],
+  "constants_identical": true,
+  "functions": {
+    "boundary_tests.py": [
+      {
+        "lines": 17,
+        "name": "check_refusal"
+      },
+      {
+        "lines": 41,
+        "name": "main"
+      }
+    ],
+    "probe.py": [
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 2,
+        "name": "identity"
+      },
+      {
+        "lines": 3,
+        "name": "validate_aliases"
+      },
+      {
+        "lines": 7,
+        "name": "validate_namespaces"
+      },
+      {
+        "lines": 4,
+        "name": "bounded_env"
+      },
+      {
+        "lines": 13,
+        "name": "config"
+      },
+      {
+        "lines": 11,
+        "name": "inject_control"
+      },
+      {
+        "lines": 5,
+        "name": "read_limited"
+      },
+      {
+        "lines": 16,
+        "name": "mount_record"
+      },
+      {
+        "lines": 28,
+        "name": "shm_mount_evidence"
+      },
+      {
+        "lines": 28,
+        "name": "record_os_evidence"
+      },
+      {
+        "lines": 23,
+        "name": "open_context"
+      },
+      {
+        "lines": 18,
+        "name": "check_boundaries"
+      },
+      {
+        "lines": 25,
+        "name": "load_libc"
+      },
+      {
+        "lines": 9,
+        "name": "trywait"
+      },
+      {
+        "lines": 38,
+        "name": "semaphore"
+      },
+      {
+        "lines": 37,
+        "name": "close_semaphore"
+      },
+      {
+        "lines": 18,
+        "name": "create_witness"
+      },
+      {
+        "lines": 12,
+        "name": "leftover_socket"
+      },
+      {
+        "lines": 9,
+        "name": "save_result"
+      },
+      {
+        "lines": 6,
+        "name": "success_status"
+      },
+      {
+        "lines": 20,
+        "name": "finish"
+      },
+      {
+        "lines": 19,
+        "name": "render_report"
+      },
+      {
+        "lines": 38,
+        "name": "main"
+      }
+    ],
+    "regression_tests.py": [
+      {
+        "lines": 8,
+        "name": "predecessor"
+      },
+      {
+        "lines": 17,
+        "name": "old_failure"
+      },
+      {
+        "lines": 30,
+        "name": "check_prefix"
+      },
+      {
+        "lines": 14,
+        "name": "transitions"
+      },
+      {
+        "lines": 10,
+        "name": "unjoined_ids"
+      },
+      {
+        "lines": 18,
+        "name": "main"
+      },
+      {
+        "lines": 5,
+        "name": "capture"
+      }
+    ],
+    "source_tests.py": [
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 7,
+        "name": "load_source"
+      },
+      {
+        "lines": 19,
+        "name": "formation"
+      },
+      {
+        "lines": 19,
+        "name": "observe"
+      },
+      {
+        "lines": 12,
+        "name": "check_selected"
+      },
+      {
+        "lines": 15,
+        "name": "predicate_cases"
+      },
+      {
+        "lines": 16,
+        "name": "stacked_cases"
+      },
+      {
+        "lines": 25,
+        "name": "budget_cases"
+      },
+      {
+        "lines": 18,
+        "name": "main"
+      },
+      {
+        "lines": 4,
+        "name": "fake_read"
+      }
+    ]
+  },
+  "phase_acceptance": false,
+  "predecessor": {
+    "boundary_tests.py": "b311dfd6b08af0f49e441a72bc51f5d6943e67781886fad78e193a247efe5b03",
+    "probe.py": "b6da769aa9d5707951b58a7737535657032c1df5077262a6017cd29db0497e8b",
+    "source_tests.py": "5ffb2f1df5fe48f60a681842235e9087a1aed13a5abdc47bd2daa224f36f5f88"
+  },
+  "proof": false,
+  "schema": "worldline.private-ipc-probe-v3.static-verification.v1",
+  "unchanged_functions": [
+    "require",
+    "identity",
+    "validate_aliases",
+    "validate_namespaces",
+    "bounded_env",
+    "config",
+    "inject_control",
+    "read_limited",
+    "mount_record",
+    "record_os_evidence",
+    "open_context",
+    "check_boundaries",
+    "load_libc",
+    "trywait",
+    "semaphore",
+    "close_semaphore",
+    "create_witness",
+    "leftover_socket",
+    "save_result",
+    "success_status",
+    "finish",
+    "render_report",
+    "main"
+  ]
+}

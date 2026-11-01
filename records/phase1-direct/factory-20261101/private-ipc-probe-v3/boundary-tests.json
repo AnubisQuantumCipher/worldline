@@ -1,0 +1,60 @@
+{
+  "actual_mount_or_IPC_execution": false,
+  "cases": [
+    {
+      "candidate_count": 510,
+      "complete": false,
+      "error": "shm candidate evidence incomplete: bound refusal",
+      "fixture_sha256": "4db3fc673af6882ff9d2c433dbd7541a5d8f618f0792848911f1fe2c59ae5984",
+      "name": "512-lines-with-many-stacked-shm-rows",
+      "omitted_rows": 478,
+      "result_bytes": 3795,
+      "selected_id_exact": true
+    },
+    {
+      "candidate_count": 3,
+      "complete": false,
+      "error": "shm candidate evidence incomplete: bound refusal",
+      "fixture_sha256": "ead40946c91b9d60dd2b65dc0e398033af195409f88241f5ec73afb62f1b5377",
+      "name": "2048-byte-row-with-JSON-escaping",
+      "omitted_rows": 1,
+      "result_bytes": 5627,
+      "selected_id_exact": true
+    },
+    {
+      "candidate_count": 3,
+      "complete": false,
+      "error": "shm candidate evidence incomplete: bound refusal",
+      "fixture_sha256": "598a00539fc1c73a15978c5a953818b825e2c335d4efc6421d58217f6534df1a",
+      "name": "oversized-selected-ID-explicitly-unknown",
+      "omitted_rows": 0,
+      "result_bytes": 1811,
+      "selected_id_exact": false
+    },
+    {
+      "candidate_count": null,
+      "complete": null,
+      "error": "mountinfo entry bound",
+      "fixture_sha256": "9b00f3af1746aa8bf81616c0fecead199e9cb856fadfb5c10158fa62561e76bc",
+      "name": "513-lines-original-rejection",
+      "omitted_rows": null,
+      "result_bytes": 172,
+      "selected_id_exact": null
+    },
+    {
+      "candidate_count": null,
+      "complete": null,
+      "error": "mountinfo line bound",
+      "fixture_sha256": "b15a9e676576acec3eb224582af91380852dc5b6f0c75a36122c6686d895eda8",
+      "name": "2049-byte-row-original-rejection",
+      "omitted_rows": null,
+      "result_bytes": 171,
+      "selected_id_exact": null
+    }
+  ],
+  "enforcement": "shm_mount_evidence checks final-counter serialized bytes before retaining each candidate and at return; record_os_evidence checks after FD ID; render_report checks original8192-byte ceiling. Incomplete mandatory candidate evidence refuses before original mount predicates/IPC.",
+  "phase_acceptance": false,
+  "schema": "worldline.private-ipc-probe-v3.boundary-tests.v1",
+  "source_sha256": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260",
+  "status": "TESTED_SYNTHETIC_BOUNDARIES_ONLY_NOT_FORMAL_PROOF"
+}

@@ -2892,3 +2892,60 @@ or immediate retry based on an unobserved cause is rejected. Root explicitly rel
 the storage window to owner01a195f9 after terminal readback; source-only preparation
 continues without a job or lock. The mechanism remains UNQUALIFIED and all Phase One
 gates remain unchanged. Reversal means no successor launch, retaining this full failure.
+
+## D155 — Resume explicitly and reject incomplete diagnostic evidence before launch
+
+The user explicitly resumed Phase One on 2026-11-01. Root reconciled the settled
+prior owner, the sole direct carrier at e6c8fc7, the matching remote branch, retained
+dirty evidence, terminal former scope and active external DUAT owner. Resumption
+does not erase D154 or admit a job. The current storage observation removes the old
+shortage as a standing assumption; each actual job still requires fresh admission
+and an explicit safe window from the storage owner. Registration, preimage and
+live observations are in factory-20261101/resume-20261101T1050 under the direct records.
+
+Decision dossier IPC-DIAGNOSTIC-V2 revision1, packet
+a08d01f5f4cef07e90b6cf0144f877472959ba19ee22419661152dac8cc02a88,
+received fresh Astra-medium preparation approval and fresh Sol-high REJECT. The
+separate fresh Astra-medium judge reproduced the adversary's counterexample and
+REJECTED preparation adequacy. Model and effort are native runtime-reported, not
+backend weight attestations. These are internal reviews, never commissioned F7.
+
+The synthetic 27-row, 3466-byte fixture yields 2817 bytes against the 2816-byte
+metadata ceiling after final counters replace placeholders. The resulting exception
+loses candidate counts/hash and precedes the FD observation. Failing closed does
+not satisfy the required failure evidence. Preserve both original reports; the
+initial conclusion that no blocking source fix exists is STALE under the reproduced
+counterexample. Derived entries are in factory/dissent/DISSENT-LOG.md.
+
+Choose the sole evidence-driven revision: fit each proposed prefix with its final
+counters and completeness value, preserving the prior bounded envelope on refusal.
+The Sol-high author's source-only v3 changes only shm_mount_evidence; other probe
+functions/constants and original predicates remain unchanged. Source hash is
+8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260,
+manifest9642acf6d1e60ef12209a16ec82a9c89df5ebc66228892edc91fd3f2ce69b324.
+Author synthetic tests reproduce v2's failure and retain v3's 14/25 candidate rows,
+11 omissions, hash and mocked FD observation before explicit incomplete refusal.
+Three author suites exit0; actual IPC, formal proof and mechanism qualification
+remain UNRUN/UNPROVEN. This does not repair mount selection or topology.
+
+Revision2 packet09689e1fd544ea1c6f2bb99b1dbc267974f619acf88e1852ccae1ea2c1b68623
+is sealed for a fresh paired nonauthor review, then separate judge. This consumes
+the one revision allowance; unresolved mandatory failure will block this decision.
+No source can treat retention completeness as FD correlation: the future consumer
+requires a unique retained-row join. Nonzero tool termination overrides an earlier
+successful result; pretty/compact overflow remains a refusal, never qualification.
+Collector/guard composition and actual launch require separate review and admission.
+Alternatives of an unchanged retry, larger caps, relaxed predicates or immediate
+topology fix are rejected. Reversal is not using v3, retaining all sources, failures
+and reviews. All original Phase One gates and separately commissioned F7 remain open.
+
+D155 revision2 disposition: fresh Astra-medium and Sol-high reviewers approved
+preparation only; a separate fresh Astra-medium judge independently reproduced the
+old failure and repaired result and approved the same bounded scope. Judge report
+3e8598c568234a4c98eb9121dbd4a0decefb91972439de3432bd907ed40ec672
+and ipc-v3-decision.json retain the exact packet and verdict bindings. The old v2
+defect remains FAILED and the initial no-fix conclusion remains STALE. The sole
+revision is consumed, with no reset. Native tool requests/results are retained as
+supplementary evidence, excluding hidden reasoning. Two adversary harness expectation
+failures are explicitly retained; they were not source failures. No actual IPC run,
+mechanism qualification, production integration, proof or F7 credit is added.

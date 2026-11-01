@@ -1,0 +1,27 @@
+{
+  "schema": "worldline.explicit-resume.v1",
+  "utc": "2026-11-01T10:48:10.616469+00:00",
+  "state": "ACTIVE_INCOMPLETE",
+  "user_authorization": [
+    "Resume now",
+    "Resume Phase One"
+  ],
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "prior_owner": "01a19606-239f-7b43-8c88-4fc902372e80",
+  "prior_owner_observation": "Codex read_thread: notLoaded; latest three turns settled; explicit PAUSED checkpoint; no source takeover before current resume",
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "head": "e6c8fc7bd495ae9b5c87f6b29365c989de6a0c3e",
+  "remote_head": "e6c8fc7bd495ae9b5c87f6b29365c989de6a0c3e",
+  "branch": "codex/phase1-direct-20261019",
+  "old_scope": "wl-phase1-7746de61887e4cfe95f9e0ec6316e3dc.scope LoadState=not-found ActiveState=inactive",
+  "active_owned_jobs": [],
+  "coordinator_runtime_model": "gpt-6-astra",
+  "coordinator_runtime_effort": "ultra",
+  "provenance_limit": "local session turn_context; not provider-weight attestation",
+  "prior_goal_turn_class": "prior thread pause/document acknowledgment; current new owner resume reconciliation",
+  "tracked_dirt_preserved_sha256": "0662cf628c1f670186e32fe9d0b98fcbcf92c04e8b0e9dbcfa829e65e67c0916",
+  "status_inventory_sha256": "5eacfdfe4dad97e249d9407ecff41c3be76264d508d50277e3eda868c15c75a3",
+  "phase_acceptance": false,
+  "review_budget": "diagnostic-v2 first fresh pair and judge; no existing decision or execution budget reset",
+  "next": "Review retained diagnostic-only v2; planner independently checks prepared replay disk qualification route"
+}

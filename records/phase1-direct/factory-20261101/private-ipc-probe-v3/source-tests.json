@@ -1,0 +1,716 @@
+{
+  "boundary": "All mount/maps/fdinfo values are deterministic synthetic fixtures. Only record_os_evidence with mocked read_limited, unchanged pure mount_record, shm_mount_evidence and render_report executed. No open_context/main/semaphore/cleanup/socket/namespace/mount/guard job.",
+  "budgets": {
+    "candidate_evidence_bytes": 2676,
+    "candidate_refusal": {
+      "error": "shm candidate evidence incomplete: bound refusal",
+      "gid_map": "         0       1000          1\n",
+      "mode": "normal",
+      "mount_evidence": {
+        "ambiguous": true,
+        "candidate_count": 43,
+        "candidate_lines_joined_LF_sha256": "d0d1444a924d2c16f464f0ff2f9e1767289810660c7c7088fe47210cd1f9e189",
+        "complete": false,
+        "equal_longest_count": 41,
+        "omitted_rows": 30,
+        "opened_fd_mount_id": "3",
+        "retained_rows": 13,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 2,
+            "raw": "3 2 0:3 /ipc /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 5,
+            "raw": "6 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 6,
+            "raw": "7 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 7,
+            "raw": "8 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 8,
+            "raw": "9 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 9,
+            "raw": "10 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 10,
+            "raw": "11 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 11,
+            "raw": "12 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 12,
+            "raw": "13 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 13,
+            "raw": "14 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 14,
+            "raw": "15 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 2,
+        "selected_mount_id": "3",
+        "selected_mount_id_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "mounts": {
+        "alias": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "4",
+          "mountpoint": "/owned",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "dev": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "shm": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "3",
+          "mountpoint": "/dev/shm",
+          "options": "rw",
+          "root": "/ipc",
+          "super_options": "rw"
+        },
+        "tmp": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "5",
+          "mountpoint": "/owned/tmp",
+          "options": "rw",
+          "root": "/tmp",
+          "super_options": "rw"
+        }
+      },
+      "phase_acceptance": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "shm_fdinfo": "pos:\t0\nflags:\t02300000\nmnt_id:\t3\nino:\t1\n",
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid_map": "         0       1000          1\n"
+    },
+    "fallback_bytes": 3143,
+    "overflow_fallback": {
+      "cleanup_verified": false,
+      "error": "stdout bound",
+      "full_report_bytes": 20054,
+      "full_report_sha256": "b26dea13f1dc13096369d987e57ce87c20e9ea50f1c8220b86a1d723cecb8531",
+      "mandatory_evidence_discarded": true,
+      "mount_evidence": {
+        "ambiguous": true,
+        "candidate_count": 43,
+        "candidate_lines_joined_LF_sha256": "d0d1444a924d2c16f464f0ff2f9e1767289810660c7c7088fe47210cd1f9e189",
+        "complete": false,
+        "equal_longest_count": 41,
+        "omitted_rows": 30,
+        "opened_fd_mount_id": "3",
+        "retained_rows": 13,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 2,
+            "raw": "3 2 0:3 /ipc /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 5,
+            "raw": "6 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 6,
+            "raw": "7 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 7,
+            "raw": "8 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 8,
+            "raw": "9 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 9,
+            "raw": "10 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 10,
+            "raw": "11 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 11,
+            "raw": "12 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 12,
+            "raw": "13 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 13,
+            "raw": "14 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 14,
+            "raw": "15 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 2,
+        "selected_mount_id": "3",
+        "selected_mount_id_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "omitted_field_count": 12,
+      "omitted_key_roster_sha256": "c0eca785cead9b213b995ed075bb63fdcfe98e7528892bfab7325a284b4cfcf2",
+      "phase_acceptance": false,
+      "qualification": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "status": "FAILED"
+    }
+  },
+  "formation": {
+    "changed_original_functions": [
+      "shm_mount_evidence"
+    ],
+    "every_original_mount_predicate_retained": true,
+    "unchanged_original_functions": [
+      "require",
+      "identity",
+      "validate_aliases",
+      "validate_namespaces",
+      "bounded_env",
+      "config",
+      "inject_control",
+      "read_limited",
+      "mount_record",
+      "record_os_evidence",
+      "open_context",
+      "check_boundaries",
+      "load_libc",
+      "trywait",
+      "semaphore",
+      "close_semaphore",
+      "create_witness",
+      "leftover_socket",
+      "save_result",
+      "success_status",
+      "finish",
+      "render_report",
+      "main"
+    ]
+  },
+  "phase_acceptance": false,
+  "predicate_cases": {
+    "normal": {
+      "gid_map": "         0       1000          1\n",
+      "mode": "normal",
+      "mount_evidence": {
+        "ambiguous": false,
+        "candidate_count": 3,
+        "candidate_lines_joined_LF_sha256": "517e3fcf4eecb3387854bdadbce7468f2e76e86e0b4a9e627211d36cce6e3001",
+        "complete": true,
+        "equal_longest_count": 1,
+        "omitted_rows": 0,
+        "opened_fd_mount_id": "3",
+        "retained_rows": 3,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 2,
+            "raw": "3 2 0:3 /ipc /dev/shm rw - tmpfs tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 2,
+        "selected_mount_id": "3",
+        "selected_mount_id_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "mounts": {
+        "alias": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "4",
+          "mountpoint": "/owned",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "dev": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "shm": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "3",
+          "mountpoint": "/dev/shm",
+          "options": "rw",
+          "root": "/ipc",
+          "super_options": "rw"
+        },
+        "tmp": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "5",
+          "mountpoint": "/owned/tmp",
+          "options": "rw",
+          "root": "/tmp",
+          "super_options": "rw"
+        }
+      },
+      "phase_acceptance": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "shm_fdinfo": "pos:\t0\nflags:\t02300000\nmnt_id:\t3\nino:\t1\n",
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid_map": "         0       1000          1\n"
+    },
+    "readonly_shm": {
+      "error": "private shm mount mismatch",
+      "gid_map": "         0       1000          1\n",
+      "mode": "normal",
+      "mount_evidence": {
+        "ambiguous": false,
+        "candidate_count": 3,
+        "candidate_lines_joined_LF_sha256": "f634d51abf29e862c5bce99325445ca92d007f152ef876014912b3797d26fa43",
+        "complete": true,
+        "equal_longest_count": 1,
+        "omitted_rows": 0,
+        "opened_fd_mount_id": "3",
+        "retained_rows": 3,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 2,
+            "raw": "3 2 0:3 /ipc /dev/shm ro - tmpfs tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 2,
+        "selected_mount_id": "3",
+        "selected_mount_id_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "mounts": {
+        "alias": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "4",
+          "mountpoint": "/owned",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "dev": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "shm": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "3",
+          "mountpoint": "/dev/shm",
+          "options": "ro",
+          "root": "/ipc",
+          "super_options": "rw"
+        },
+        "tmp": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "5",
+          "mountpoint": "/owned/tmp",
+          "options": "rw",
+          "root": "/tmp",
+          "super_options": "rw"
+        }
+      },
+      "phase_acceptance": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "shm_fdinfo": "pos:\t0\nflags:\t02300000\nmnt_id:\t3\nino:\t1\n",
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid_map": "         0       1000          1\n"
+    },
+    "wrong_filesystem": {
+      "error": "private shm mount mismatch",
+      "gid_map": "         0       1000          1\n",
+      "mode": "normal",
+      "mount_evidence": {
+        "ambiguous": false,
+        "candidate_count": 3,
+        "candidate_lines_joined_LF_sha256": "b09235a04bd643df360ed869195253c9bbb68d6eb7a58d7489a123dd8ba3740b",
+        "complete": true,
+        "equal_longest_count": 1,
+        "omitted_rows": 0,
+        "opened_fd_mount_id": "3",
+        "retained_rows": 3,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 2,
+            "raw": "3 2 0:3 /ipc /dev/shm rw - ext4 tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 2,
+        "selected_mount_id": "3",
+        "selected_mount_id_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "mounts": {
+        "alias": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "4",
+          "mountpoint": "/owned",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "dev": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "shm": {
+          "device": "0:3",
+          "filesystem": "ext4",
+          "mount_id": "3",
+          "mountpoint": "/dev/shm",
+          "options": "rw",
+          "root": "/ipc",
+          "super_options": "rw"
+        },
+        "tmp": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "5",
+          "mountpoint": "/owned/tmp",
+          "options": "rw",
+          "root": "/tmp",
+          "super_options": "rw"
+        }
+      },
+      "phase_acceptance": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "shm_fdinfo": "pos:\t0\nflags:\t02300000\nmnt_id:\t3\nino:\t1\n",
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid_map": "         0       1000          1\n"
+    },
+    "wrong_mountpoint": {
+      "error": "private shm mount mismatch",
+      "gid_map": "         0       1000          1\n",
+      "mode": "normal",
+      "mount_evidence": {
+        "ambiguous": false,
+        "candidate_count": 2,
+        "candidate_lines_joined_LF_sha256": "7db802640006e7fb312decdbc9c3392c71e697f2537091939bbb700d65f4b768",
+        "complete": true,
+        "equal_longest_count": 1,
+        "omitted_rows": 0,
+        "opened_fd_mount_id": "3",
+        "retained_rows": 2,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 1,
+        "selected_mount_id": "2",
+        "selected_mount_id_sha256": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "mounts": {
+        "alias": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "4",
+          "mountpoint": "/owned",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "dev": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "shm": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "tmp": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "5",
+          "mountpoint": "/owned/tmp",
+          "options": "rw",
+          "root": "/tmp",
+          "super_options": "rw"
+        }
+      },
+      "phase_acceptance": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "shm_fdinfo": "pos:\t0\nflags:\t02300000\nmnt_id:\t3\nino:\t1\n",
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid_map": "         0       1000          1\n"
+    }
+  },
+  "schema": "worldline.private-ipc-probe-v3.source-tests.v1",
+  "source_sha256": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260",
+  "stacked_cases": {
+    "first_readonly": {
+      "error": "private shm mount mismatch",
+      "gid_map": "         0       1000          1\n",
+      "mode": "normal",
+      "mount_evidence": {
+        "ambiguous": true,
+        "candidate_count": 4,
+        "candidate_lines_joined_LF_sha256": "7f8765e034729f56cac0eed3be90219d1883ab989fbc8d6bff1b78650a860c81",
+        "complete": true,
+        "equal_longest_count": 2,
+        "omitted_rows": 0,
+        "opened_fd_mount_id": "6",
+        "retained_rows": 4,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 2,
+            "raw": "3 2 0:3 /ipc /dev/shm ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 3,
+            "raw": "6 2 0:3 /ipc /dev/shm rw - tmpfs tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 2,
+        "selected_mount_id": "3",
+        "selected_mount_id_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "mounts": {
+        "alias": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "4",
+          "mountpoint": "/owned",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "dev": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "shm": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "3",
+          "mountpoint": "/dev/shm",
+          "options": "ro",
+          "root": "/ipc",
+          "super_options": "rw"
+        },
+        "tmp": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "5",
+          "mountpoint": "/owned/tmp",
+          "options": "rw",
+          "root": "/tmp",
+          "super_options": "rw"
+        }
+      },
+      "phase_acceptance": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "shm_fdinfo": "pos:\t0\nflags:\t02300000\nmnt_id:\t6\nino:\t1\n",
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid_map": "         0       1000          1\n"
+    },
+    "first_writable": {
+      "gid_map": "         0       1000          1\n",
+      "mode": "normal",
+      "mount_evidence": {
+        "ambiguous": true,
+        "candidate_count": 4,
+        "candidate_lines_joined_LF_sha256": "676f87705a17a18341261d7b2e26de20ff096da3f5cee73c122e7bdbcc59c76a",
+        "complete": true,
+        "equal_longest_count": 2,
+        "omitted_rows": 0,
+        "opened_fd_mount_id": "6",
+        "retained_rows": 4,
+        "rows": [
+          {
+            "line_index": 0,
+            "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+          },
+          {
+            "line_index": 1,
+            "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 2,
+            "raw": "6 2 0:3 /ipc /dev/shm rw - tmpfs tmpfs rw"
+          },
+          {
+            "line_index": 3,
+            "raw": "3 2 0:3 /ipc /dev/shm ro - tmpfs tmpfs rw"
+          }
+        ],
+        "selected_id_exact": true,
+        "selected_line_index": 2,
+        "selected_mount_id": "6",
+        "selected_mount_id_sha256": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+        "selection_rule": "first_longest_covering_row_in_file_order"
+      },
+      "mounts": {
+        "alias": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "4",
+          "mountpoint": "/owned",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "dev": {
+          "device": "0:2",
+          "filesystem": "tmpfs",
+          "mount_id": "2",
+          "mountpoint": "/dev",
+          "options": "ro",
+          "root": "/",
+          "super_options": "rw"
+        },
+        "shm": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "6",
+          "mountpoint": "/dev/shm",
+          "options": "rw",
+          "root": "/ipc",
+          "super_options": "rw"
+        },
+        "tmp": {
+          "device": "0:3",
+          "filesystem": "tmpfs",
+          "mount_id": "5",
+          "mountpoint": "/owned/tmp",
+          "options": "rw",
+          "root": "/tmp",
+          "super_options": "rw"
+        }
+      },
+      "phase_acceptance": false,
+      "schema": "worldline.private-ipc-probe.v1",
+      "shm_fdinfo": "pos:\t0\nflags:\t02300000\nmnt_id:\t6\nino:\t1\n",
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid_map": "         0       1000          1\n"
+    }
+  },
+  "status": "TESTED_SYNTHETIC_RECORDS_ONLY_NO_ACTUAL_OS_IPC"
+}

@@ -1,0 +1,23 @@
+--- private-ipc-probe-v2/probe.py
++++ private-ipc-probe-v3/probe.py
+@@ -122,14 +122,13 @@
+                     candidate_lines_joined_LF_sha256=hashlib.sha256(joined).hexdigest(),
+                     rows=[], retained_rows=0, omitted_rows=len(candidates), complete=False)
+     for index, line, _ in candidates:
+-        item = dict(line_index=index, raw=line)
+-        evidence["rows"].append(item)
+-        if len(json.dumps(evidence, sort_keys=True).encode("ascii")) > MOUNT_EVIDENCE_LIMIT - 256:
+-            evidence["rows"].pop()
++        rows = evidence["rows"] + [dict(line_index=index, raw=line)]
++        proposed = dict(evidence, rows=rows, retained_rows=len(rows),
++                        omitted_rows=len(candidates) - len(rows),
++                        complete=len(candidates) == len(rows) and len(selected) <= 64)
++        if len(json.dumps(proposed, sort_keys=True).encode("ascii")) > MOUNT_EVIDENCE_LIMIT - 256:
+             break
+-    evidence.update(retained_rows=len(evidence["rows"]),
+-                    omitted_rows=len(candidates) - len(evidence["rows"]),
+-                    complete=len(candidates) == len(evidence["rows"]) and len(selected) <= 64)
++        evidence = proposed
+     require(len(json.dumps(evidence, sort_keys=True).encode("ascii")) <=
+             MOUNT_EVIDENCE_LIMIT - 256, "mount evidence metadata bound")
+     return evidence

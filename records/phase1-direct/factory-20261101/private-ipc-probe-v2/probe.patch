@@ -1,0 +1,128 @@
+--- private-ipc-probe-v1/probe.py
++++ private-ipc-probe-v2/probe.py
+@@ -19,6 +19,7 @@
+ DIRECTORY = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+ NEW_FILE = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC
+ MAX_RESULT = 8192
++MOUNT_EVIDENCE_LIMIT = 3072
+ 
+ 
+ def require(condition, message):
+@@ -103,20 +104,65 @@
+     return chosen
+ 
+ 
+-def record_os_evidence(cfg, report):
++def shm_mount_evidence(lines, chosen):
++    candidates = []
++    for index, line in enumerate(lines):
++        target = line.split()[4]  # All lines validated by unchanged mount_record.
++        if "/dev/shm" == target or "/dev/shm".startswith(target.rstrip("/") + "/"):
++            candidates.append((index, line, target))
++    best = [item for item in candidates if item[2] == chosen["mountpoint"]]
++    joined = "\n".join(item[1] for item in candidates).encode("ascii")
++    selected = chosen["mount_id"]
++    evidence = dict(selection_rule="first_longest_covering_row_in_file_order",
++                    selected_mount_id=selected if len(selected) <= 64 else None,
++                    selected_mount_id_sha256=hashlib.sha256(selected.encode("ascii")).hexdigest(),
++                    selected_id_exact=len(selected) <= 64,
++                    selected_line_index=best[0][0], candidate_count=len(candidates),
++                    equal_longest_count=len(best), ambiguous=len(best) > 1,
++                    candidate_lines_joined_LF_sha256=hashlib.sha256(joined).hexdigest(),
++                    rows=[], retained_rows=0, omitted_rows=len(candidates), complete=False)
++    for index, line, _ in candidates:
++        item = dict(line_index=index, raw=line)
++        evidence["rows"].append(item)
++        if len(json.dumps(evidence, sort_keys=True).encode("ascii")) > MOUNT_EVIDENCE_LIMIT - 256:
++            evidence["rows"].pop()
++            break
++    evidence.update(retained_rows=len(evidence["rows"]),
++                    omitted_rows=len(candidates) - len(evidence["rows"]),
++                    complete=len(candidates) == len(evidence["rows"]) and len(selected) <= 64)
++    require(len(json.dumps(evidence, sort_keys=True).encode("ascii")) <=
++            MOUNT_EVIDENCE_LIMIT - 256, "mount evidence metadata bound")
++    return evidence
++
++
++def record_os_evidence(cfg, report, ipc_fd):
+     lines = read_limited("/proc/self/mountinfo", 65536).splitlines()
+     require(len(lines) <= 512, "mountinfo entry bound")
+     mounts = {name: mount_record(path, lines) for name, path in
+               (("dev", "/dev"), ("shm", "/dev/shm"),
+                ("alias", cfg["PROBE_RAM_IPC"]), ("tmp", cfg["TMPDIR"]))}
++    # Publish actual observations before any mount predicate can reject them.
++    report["mounts"] = mounts
++    report["uid_map"] = read_limited("/proc/self/uid_map", 256)
++    report["gid_map"] = read_limited("/proc/self/gid_map", 256)
++    evidence = shm_mount_evidence(lines, mounts["shm"])
++    report["mount_evidence"] = evidence
++    fdinfo = read_limited("/proc/self/fdinfo/" + str(ipc_fd), 1024)
++    report["shm_fdinfo"] = fdinfo
++    ids = [line.split(":", 1)[1].strip() for line in fdinfo.splitlines()
++           if line.startswith("mnt_id:")]
++    require(len(ids) == 1 and re.fullmatch("[0-9]{1,20}", ids[0]) is not None,
++            "opened shm fd mount ID missing or invalid")
++    evidence["opened_fd_mount_id"] = ids[0]
++    require(len(json.dumps(evidence, sort_keys=True).encode("ascii")) <=
++            MOUNT_EVIDENCE_LIMIT, "mount evidence final bound")
++    require(evidence["complete"], "shm candidate evidence incomplete: bound refusal")
+     require(mounts["dev"]["mountpoint"] == "/dev"
+             and "ro" in mounts["dev"]["options"].split(","), "dev parent writable")
+     require(mounts["shm"]["mountpoint"] == "/dev/shm"
+             and "rw" in mounts["shm"]["options"].split(",")
+             and mounts["shm"]["filesystem"] == "tmpfs", "private shm mount mismatch")
+     require("ro" in mounts["alias"]["options"].split(","), "RAM alias writable")
+-    report.update(uid_map=read_limited("/proc/self/uid_map", 256),
+-                  gid_map=read_limited("/proc/self/gid_map", 256), mounts=mounts)
+ 
+ 
+ def open_context(cfg, context, report):
+@@ -140,7 +186,7 @@
+     require(fs.f_blocks * fs.f_frsize == 33554432 and fs.f_files <= 1024,
+             "existing RAM quota mismatch")
+     report.update(output_bytes=33554432, output_inodes=fs.f_files)
+-    record_os_evidence(cfg, report)
++    record_os_evidence(cfg, report, context["ipc"])
+     context["safe_result"] = True
+ 
+ 
+@@ -356,6 +402,27 @@
+             os.close(context["tmp"])
+ 
+ 
++def render_report(report):
++    rendered = json.dumps(report, sort_keys=True)
++    if len(rendered.encode("ascii")) <= MAX_RESULT:
++        return rendered
++    report["status"] = "FAILED"  # Same fail-closed outcome as v1 overflow.
++    evidence = report.get("mount_evidence")
++    require(evidence is None or len(json.dumps(evidence, sort_keys=True).encode("ascii"))
++            <= MOUNT_EVIDENCE_LIMIT, "overflow mount evidence bound")
++    minimal = dict(schema=SCHEMA, status="FAILED", error="stdout bound",
++                   full_report_bytes=len(rendered.encode("ascii")),
++                   full_report_sha256=hashlib.sha256(rendered.encode("ascii")).hexdigest(),
++                   omitted_field_count=len(report),
++                   omitted_key_roster_sha256=hashlib.sha256(
++                       json.dumps(sorted(report)).encode("ascii")).hexdigest(),
++                   mandatory_evidence_discarded=True, cleanup_verified=False,
++                   qualification=False, phase_acceptance=False, mount_evidence=evidence)
++    rendered = json.dumps(minimal, sort_keys=True)
++    require(len(rendered.encode("ascii")) <= MAX_RESULT, "bounded failure envelope exceeded")
++    return rendered
++
++
+ def main():
+     report = dict(schema=SCHEMA, status="FAILED", stage="configuration",
+                   phase_acceptance=False)
+@@ -388,10 +455,7 @@
+             finish(context, state, report)
+         except Exception as error:
+             report.update(status="FAILED", finalization_error=str(error)[:512])
+-    rendered = json.dumps(report, sort_keys=True)
+-    if len(rendered.encode("ascii")) > MAX_RESULT:
+-        report["status"] = "FAILED"
+-        rendered = '{"schema":"' + SCHEMA + '","status":"FAILED","error":"stdout bound"}'
++    rendered = render_report(report)
+     print(rendered, flush=True)
+     if report["status"] == "SIGKILL_PREPARED":
+         os.kill(os.getpid(), signal.SIGKILL)

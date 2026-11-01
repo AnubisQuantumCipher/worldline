@@ -1,0 +1,23 @@
+{
+  "role": "independent",
+  "session": {
+    "id": "01a196c4-db6c-7942-bc49-b574362d706d",
+    "parent_thread_id": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+    "agent_path": "/root/ipc_v3_independent"
+  },
+  "requested": {
+    "model": "gpt-6-astra",
+    "effort": "medium"
+  },
+  "runtime_reported": {
+    "model": "gpt-6-astra",
+    "effort": "medium"
+  },
+  "fresh_context": true,
+  "nonauthor": true,
+  "peer_current_verdict_supplied": false,
+  "raw_final_report_sha256": "46a85f9c4515b01aa32d4e3417ecf8d281d2adacf4a7751122647b8ac4aac03a",
+  "packet_sha256": "09689e1fd544ea1c6f2bb99b1dbc267974f619acf88e1852ccae1ea2c1b68623",
+  "source": "selected native local session metadata and final response only",
+  "limitations": "Not backend weight attestation; shared tools/filesystem; no hidden reasoning used as evidence"
+}

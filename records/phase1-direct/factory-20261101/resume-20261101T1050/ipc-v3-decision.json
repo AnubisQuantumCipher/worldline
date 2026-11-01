@@ -1,0 +1,48 @@
+{
+  "schema": "worldline.ipc-diagnostic-decision.v1",
+  "dossier": "IPC-DIAGNOSTIC-V2",
+  "decision": "D155",
+  "revision": 2,
+  "state": "APPROVED_PREPARATION_ONLY",
+  "revision_allowance_remaining": 0,
+  "utc": "2026-11-01T11:06:55.041277+00:00",
+  "source_head": "e6c8fc7bd495ae9b5c87f6b29365c989de6a0c3e",
+  "references": [
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-review-packet.json",
+      "bytes": 13284,
+      "sha256": "09689e1fd544ea1c6f2bb99b1dbc267974f619acf88e1852ccae1ea2c1b68623"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-independent-report.md",
+      "bytes": 4478,
+      "sha256": "46a85f9c4515b01aa32d4e3417ecf8d281d2adacf4a7751122647b8ac4aac03a"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-adversary-report.md",
+      "bytes": 3876,
+      "sha256": "486423a7a67a3a9f0061ec3a150411bd8c11392bc14940312c3d717c3d057134"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-judge-packet.json",
+      "bytes": 1786,
+      "sha256": "cafdef9c0a3a164908687c26f5e47e185771d989997b92661aab0f891cb4108c"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-judge-report.md",
+      "bytes": 3514,
+      "sha256": "3e8598c568234a4c98eb9121dbd4a0decefb91972439de3432bd907ed40ec672"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-judge-provenance.json",
+      "bytes": 585,
+      "sha256": "01d743d0e912b4167e47f6436358566251cee4f45500701c25089fb30a09592e"
+    }
+  ],
+  "preserved_failure": "Revision1 rejected; v2 defect remains FAILED; initial no-blocking-fix conclusion remains STALE",
+  "actual_execution": "UNRUN",
+  "mechanism_qualified": false,
+  "phase_acceptance": false,
+  "F7": "NOT PERFORMED",
+  "next": "Prepare separately reviewed bounded collector/guard and unique descriptor-row consumer; actual launch separately admitted"
+}

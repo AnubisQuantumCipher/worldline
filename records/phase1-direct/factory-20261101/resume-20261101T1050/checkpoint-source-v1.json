@@ -1,0 +1,34 @@
+{
+  "schema": "worldline.phase1.checkpoint.v1",
+  "utc": "2026-11-01T11:07:27.708378+00:00",
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "source_head": "e6c8fc7bd495ae9b5c87f6b29365c989de6a0c3e",
+  "state": "ACTIVE_INCOMPLETE",
+  "jobs": [],
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "branch": "codex/phase1-direct-20261019",
+  "decision": "D155/IPC-DIAGNOSTIC-V2 revision2 APPROVED_PREPARATION_ONLY",
+  "dissent_entries": [
+    "D155-r1-Sol-REJECT",
+    "D155-r1-judge-REJECT",
+    "D155-r1-STALE-correction",
+    "D155-r2-resolution"
+  ],
+  "tested": "Author and fresh independent/adversarial/judge synthetic counter-fit evidence; no actual IPC or proof",
+  "proved": "NONE NEW",
+  "actual_v3": "UNRUN",
+  "mechanism": "UNQUALIFIED",
+  "F7": "NOT PERFORMED",
+  "storage": {
+    "linux_available_bytes": 77660553216,
+    "reserve_bytes": 10000000000,
+    "source_and_metadata_local_pinned": true,
+    "new_ipad_archive": "NOT PERFORMED; active existing storage owner",
+    "owner": "01a195f9-dee5-7cb0-a440-777959511b7c",
+    "window": "NOT_REQUESTED",
+    "bounded_new_source_bytes": 1048576,
+    "resume_budget_bytes": 8388608
+  },
+  "next": "Prepare separately reviewed v5 collector and v2 fixed guard with a bounded unique opened-FD/mount-row consumer. V3 counter-fit revision2 approved for preparation only; no launch before fresh storage-owner handoff and resource admission.",
+  "publication": "Pending non-final checkpoint commit and remote readback"
+}

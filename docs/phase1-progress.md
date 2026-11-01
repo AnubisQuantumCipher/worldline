@@ -739,3 +739,20 @@ window was explicitly released. No semaphore lifecycle, mechanism qualification 
 compiler proof is established. Next is a source-reviewed diagnostic-only successor that
 retains the actual mount records before rejecting them, then a newly coordinated bounded
 diagnostic window. All original Phase One obligations and commissioned F7 remain open.
+
+D155 resumed Phase One under the explicit user instruction, with the same sole
+carrier at e6c8fc7 and the prior failed IPC run fully preserved. Fresh review found
+a source-only diagnostic evidence-loss counterexample; the judge reproduced it.
+The sole v3 revision repairs final-counter fitting under unchanged ceilings and
+predicates. Independent and adversarial synthetic tests and the separate judge
+approve only preparation of a new collector/guard. Actual v3 execution is UNRUN;
+mechanism qualification and every open product/F7 gate remain unchanged. Derived
+dissent records both rejections, the STALE correction and the narrow resolution.
+
+Fresh O1 readiness inspection matches the five acquired frontend interfaces and
+installed translator hash. Complete immutable build closure, source-to-binary
+correspondence, finite build-space budget and semantic finalization obligations
+remain UNPROVEN. Repeating the old missing-file claim or an unchanged failed run
+would be unsound. DUAT continues under its existing owner; no runtime window has
+been taken. Next is separate exact-source review of the diagnostic collector/guard
+and unique FD-row consumer, followed by fresh owner/capacity admission.

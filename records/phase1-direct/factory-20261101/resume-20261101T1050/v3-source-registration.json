@@ -1,0 +1,20 @@
+{
+  "schema": "worldline.source-revision-registration.v1",
+  "utc": "2026-11-01T10:53:32.399295+00:00",
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "delegated_writer": "/root/disk_path_investigator",
+  "output_paths": [
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v3"
+  ],
+  "maximum_new_bytes": 1048576,
+  "retained_recovery_budget_bytes": 1048576,
+  "maximum_files": 16,
+  "linux_available_bytes": 75929059328,
+  "reserve_bytes": 10000000000,
+  "pin": "Existing entire carrier pin; no release",
+  "allowed_execution": "bounded pure synthetic tests only, 60s total deadline; no main probe, IPC, compiler, proof, guard, real topology reads or storage mutation",
+  "source_preimage": "private-ipc-probe-v2/probe.py sha256 b6da769aa9d5707951b58a7737535657032c1df5077262a6017cd29db0497e8b",
+  "purpose": "Single evidence-driven revision of IPC-DIAGNOSTIC-V2 counters fitting defect; prior source/evidence retained",
+  "one_writer": "Root yields carrier writes while delegated source-only author runs; root remains sole integrator/committer",
+  "phase_acceptance": false
+}

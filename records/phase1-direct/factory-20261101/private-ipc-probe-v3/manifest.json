@@ -1,0 +1,223 @@
+{
+  "actual_probe_executed": false,
+  "assurance_limits": [
+    "complete means bounded candidate/selected-ID retention only, not safe topology or descriptor correlation.",
+    "Successor consumer must uniquely join opened FD mount ID to retained row before relying on correlation; unknown999/duplicate IDs remain UNPROVEN and unmodified.",
+    "Inherited pretty result-file8192 versus compact stdout8192 overflow remains; refusal/overflow cannot qualify.",
+    "Receipt can precede final tmp-FD close; an earlier result file cannot override nonzero tool termination or replace final stdout/cleanup/archive/readback.",
+    "No collector/guard changes, actual diagnostic launch, mechanism qualification, proof, production integration, Phase One gate or F7 acceptance.",
+    "Single permitted evidence-driven decision revision; prior source/rejected review/failed executions retained and histories not reset."
+  ],
+  "author": "/root/disk_path_investigator",
+  "change": {
+    "algorithm": "Measure proposed retained prefix using final retained_rows, omitted_rows and complete; adopt only if <=2816 bytes; overflow preserves last accepted envelope.",
+    "all_other_probe_AST_identical": true,
+    "constants_identical": true,
+    "functions": [
+      "shm_mount_evidence"
+    ],
+    "original_predicates_preserved": true,
+    "selector_or_topology_fix": false
+  },
+  "files": {
+    "README.md": {
+      "bytes": 4528,
+      "sha256": "cdf901dcad065255ffcfe4066ed89949281c773dfd5cdd0f087d7f13acc2492b"
+    },
+    "boundary-tests.json": {
+      "bytes": 2370,
+      "sha256": "6c20967ac310b259e797a197c185d629f8788e1a945352b23ee3233001b49247"
+    },
+    "boundary_tests.py": {
+      "bytes": 4064,
+      "sha256": "a2abbc2c566f2c498a1fabd5bc4b01919fe1cc10ddccca451cc45aac56011915"
+    },
+    "handoff.json": {
+      "bytes": 1650,
+      "sha256": "1950e2409e07f2ffb8634dfaccc76a240ded67a2e1d323606d4c025d4132b023"
+    },
+    "probe.patch": {
+      "bytes": 1378,
+      "sha256": "335d0fd6a8d26f17581e864e43c748f8412b33c8925f69ce02f11ce7ead52300"
+    },
+    "probe.py": {
+      "bytes": 20742,
+      "sha256": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260"
+    },
+    "regression-tests.json": {
+      "bytes": 83447,
+      "sha256": "2dcc7d5ed7fd043324a9f9d558af865b350071bc99d234eabb273c74d47bfd67"
+    },
+    "regression_tests.py": {
+      "bytes": 6659,
+      "sha256": "e65713317679bea3fc2705c7a08484405d501e3f713d42b8bb8e07b283b32d81"
+    },
+    "source-tests.json": {
+      "bytes": 24469,
+      "sha256": "f93dc245a18dde007981a247098ac1b80d24e99f91fab69d0deb290bd6db6ce6"
+    },
+    "source_tests.py": {
+      "bytes": 9320,
+      "sha256": "1448c49cc213325bbad48759e2a08005654f479dee4a0a5ae64b79c2161a7a30"
+    },
+    "static-verification.json": {
+      "bytes": 4131,
+      "sha256": "cb4d709dc1bf7c855e726679c1ce83f4b32ab68bfba95aee40040bba63eae8c0"
+    },
+    "test-execution.json": {
+      "bytes": 1952,
+      "sha256": "4313c84a14dfafae6cbbd50e96bb041b6213a6fd4f6971c6b02c4bbfc955b629"
+    }
+  },
+  "launch_authorized": false,
+  "manifest_hash_rule": "Excludes itself; root must pin final manifest externally. Hash-bound source package, not OS-immutable.",
+  "mechanical_bounds": {
+    "FD_metadata_margin": 256,
+    "MAX_RESULT": 8192,
+    "MOUNT_EVIDENCE_LIMIT": 3072,
+    "fdinfo_bytes": 1024,
+    "input_line_characters": 2048,
+    "input_mountinfo_bytes": 65536,
+    "input_rows": 512,
+    "max_function_lines": 41,
+    "other_resources": "All original32MiB/1024inode output,separate restore,8MiB archive,4MiB receipts,8GiB/swap0,reserve/owner/deadlines unchanged outside probe.",
+    "prefix_limit": 2816,
+    "registered_files": 16,
+    "registered_new_bytes": 1048576,
+    "registered_recovery_bytes": 1048576,
+    "uid_gid_map_bytes_each": 256
+  },
+  "mechanism_qualified": false,
+  "next_step": "Root seals exact immutable review packet; fresh paired nonauthor reviewers and separate judge inspect revision. Any later collector/guard and actual diagnostic require separate review/admission.",
+  "phase_acceptance": false,
+  "preimage": {
+    "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.py",
+    "sha256": "b6da769aa9d5707951b58a7737535657032c1df5077262a6017cd29db0497e8b"
+  },
+  "proof_credit": false,
+  "registration": "records/phase1-direct/factory-20261101/resume-20261101T1050/v3-source-registration.json",
+  "registration_sha256": "fe063565678f98a7f8209c6ce80d6091b3f4c2068cad6dcc5b395d4ec406cbe6",
+  "schema": "worldline.phase1.private-ipc-probe-diagnostic-successor.v3",
+  "source": {
+    "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v3/probe.py",
+    "sha256": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260"
+  },
+  "status": "SOURCE_ONLY_DIAGNOSTIC_COUNTER_FIT_REVISION_AUTHOR_SYNTHETIC_TESTED_ACTUAL_UNRUN",
+  "synthetic_tests": {
+    "all_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "author_tests_not_independent_review": true,
+    "boundary": "Definitions-only imports; mount/maps/fdinfo fixtures synthetic, read_limited mocked, os.open forbidden in tested observation path. No main/open_context/semaphore/socket/cleanup/namespace/mount/FD/guard/compiler/proof execution. Real own-source/receipt I/O only.",
+    "counter_cases": 286,
+    "derived_new_source_pin": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260",
+    "derived_predecessor_sources": {
+      "boundary_tests.py": "b311dfd6b08af0f49e441a72bc51f5d6943e67781886fad78e193a247efe5b03",
+      "source_tests.py": "5ffb2f1df5fe48f60a681842235e9087a1aed13a5abdc47bd2daa224f36f5f88"
+    },
+    "elapsed_seconds": 1.4309417691547424,
+    "exact_regression": {
+      "input_bytes": 3466,
+      "predecessor": {
+        "actual_OS_observation": false,
+        "error": "mount evidence metadata bound",
+        "evidence": {
+          "bytes": 2817,
+          "envelope": {
+            "ambiguous": true,
+            "candidate_count": 25,
+            "candidate_lines_joined_LF_sha256": "7002e71ef42de9719a32ab2799a143e9dfeabebb0113a0499c9015dd5d2172f6",
+            "complete": false,
+            "equal_longest_count": 23,
+            "omitted_rows": 10,
+            "retained_rows": 15,
+            "rows": [
+              {
+                "line_index": 0,
+                "raw": "1 0 0:1 / / ro - rootfs rootfs ro"
+              },
+              {
+                "line_index": 1,
+                "raw": "2 1 0:2 / /dev ro - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 2,
+                "raw": "3 2 0:3 /ipc /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 5,
+                "raw": "6 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 6,
+                "raw": "7 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 7,
+                "raw": "8 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 8,
+                "raw": "9 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 9,
+                "raw": "10 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 10,
+                "raw": "11 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 11,
+                "raw": "12 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 12,
+                "raw": "13 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 13,
+                "raw": "14 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 14,
+                "raw": "15 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 15,
+                "raw": "16 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              },
+              {
+                "line_index": 16,
+                "raw": "17 2 0:3 /xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx /dev/shm rw - tmpfs tmpfs rw"
+              }
+            ],
+            "selected_id_exact": true,
+            "selected_line_index": 2,
+            "selected_mount_id": "3",
+            "selected_mount_id_sha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+            "selection_rule": "first_longest_covering_row_in_file_order"
+          }
+        },
+        "fdinfo_retained": false
+      },
+      "revised": {
+        "candidate_count": 25,
+        "complete": false,
+        "fdinfo_retained": true,
+        "fixture_sha256": "1213bb377a0246d467c0b9b20e7cfaa04817c4df89d98d79aa31b3ae8983317d",
+        "omitted_rows": 11,
+        "retained_rows": 14,
+        "serialized_bytes": 2638
+      },
+      "rows": 27
+    },
+    "execution_receipt": "test-execution.json",
+    "no_failed_author_test_attempts": true,
+    "total_deadline_seconds": 60
+  },
+  "utc": "2026-11-01T10:57:36.551169+00:00"
+}

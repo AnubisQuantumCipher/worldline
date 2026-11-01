@@ -1,0 +1,19 @@
+{
+  "schema": "worldline.publication-hygiene.v1",
+  "whole_staged_diff_check": {
+    "exit_code": 2,
+    "stdout": "records/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:8: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:9: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:13: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:14: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:77: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:78: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:87: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:88: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:91: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/private-ipc-probe-v2/probe.patch:92: trailing whitespace.\n+ \n",
+    "stderr": ""
+  },
+  "context_marker_analysis": "All ten findings are exactly one required unified-diff context marker on an empty source line in the preserved, hash-bound v2 patch artifact. No code/source whitespace defect; patch bytes retained unchanged.",
+  "patch_sha256": "7bf901a6bfa1c1eac4b6f45bbf1e5d5469fe247505d7d5881ad236e96c5ccf09",
+  "remaining_staged_paths_check": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "secret_pattern_scan": "No matches in63 explicitly staged paths; no general secret-absence proof",
+  "size_scan": "Each staged file under1MiB",
+  "review_packets": "All42 revision2 references rechecked unchanged",
+  "qualification": false
+}
