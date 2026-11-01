@@ -793,3 +793,27 @@ unproved. DUAT retains the runtime/storage window.
 D158 separate judgment reproduced both generator integration defects and rejected
 the initial package for its sole permitted source revision. Original sources, pins,
 ceilings and guarantees remain. Actual build/recovery/terminal qualification is UNRUN.
+
+
+The sole generator revision is sealed and independently read back:41files1106581B,
+342input pins and2623tool/runtime pins match. Author96full/68read-only tests and
+root68read-only tests pass; fresh revision2 pair is now reviewing the same immutable
+packet. No additional revision or launch is authorized. Original source/caps remain.
+
+The six-file driver source chain now establishes the GNSA_ROOT/bin selection route;
+actual both-phase execution and installed/source correspondence remain unproved.
+Prospective translator resources and execution provenance are recorded separately,
+including a corrected archive framing estimate and unavailable tracer prerequisite.
+DUAT remains active; WORLDLINE has no heavy job or runtime/storage window.
+
+
+D158 revision2 is approved for source preparation by both fresh reviewers and the
+separate fresh judge. The judge reran68synthetic tests and1164parser cases; source
+and evidence identities match. Native build/generation/recovery/terminal behavior
+remains UNRUN. Root launch capture/supervision is the next admission detail; no
+compiled job has started, and the sealed package will not be revised again.
+
+DUAT's human accepted roughly100GB available and paused further reclamation. Its
+owner explicitly released scheduling ownership; root matched the durable stop
+receipt and five bound evidence hashes. This does not grant runtime admission.
+Current source/bridge/pin/terminal/resource checks still precede any fixed attempt.

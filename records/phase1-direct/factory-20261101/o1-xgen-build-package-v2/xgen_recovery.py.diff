@@ -1,0 +1,25 @@
+--- records/phase1-direct/factory-20261101/o1-xgen-build-package-v1/xgen_recovery.py
++++ records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_recovery.py
+@@ -10,6 +10,7 @@
+ from xgen_common import (WORK, LIVE_ROOT, FILE, ARCHIVE, digest, hashed_inventory,
+                          inventory, write_json)
+ from xgen_common import relative
++from xgen_diagnostics import recovery_diagnostics
+ CAPTURE = 256 * 1024
+ 
+ 
+@@ -66,9 +67,11 @@
+                     code = process.wait(timeout=max(.001, deadline-time.monotonic()))
+                     if code != 0:
+                         raise RuntimeError("native recovery command failed: " + str(code))
+-                    return {"exit": code, "argv": argv, "captured_bytes": totals,
+-                            "stdout": digest(prefix.with_suffix(".stdout"), CAPTURE),
+-                            "stderr": digest(prefix.with_suffix(".stderr"), CAPTURE)}
++                    result = {"exit": code, "argv": argv, "captured_bytes": totals,
++                              "stdout": digest(prefix.with_suffix(".stdout"), CAPTURE),
++                              "stderr": digest(prefix.with_suffix(".stderr"), CAPTURE)}
++                    result["diagnostics"] = recovery_diagnostics(prefix, result, CAPTURE)
++                    return result
+                 finally:
+                     if process is not None:
+                         if process.poll() is None:

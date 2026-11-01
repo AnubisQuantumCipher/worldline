@@ -1,0 +1,27 @@
+{
+  "bridge_and_pin_admission": "NOT_REFRESHED; required before any actual launch",
+  "earlier_readonly_command_error": "Initial systemctl without required user-bus environment failed; repeated with explicit user-bus environment, no state change",
+  "exit": 0,
+  "linux_available_bytes": 100712251392,
+  "schema": "worldline.storage-source-only-observation.v3",
+  "service_command": [
+    "systemctl",
+    "--user",
+    "show",
+    "duat-reviewed-remainder-20261101.service",
+    "-p",
+    "Id",
+    "-p",
+    "ActiveState",
+    "-p",
+    "SubState",
+    "-p",
+    "MainPID",
+    "-p",
+    "ControlGroup"
+  ],
+  "stderr": "",
+  "stdout": "Id=duat-reviewed-remainder-20261101.service\nActiveState=inactive\nSubState=dead\nMainPID=0\nControlGroup=\n",
+  "utc": "2026-11-01T13:28:55.579537+00:00",
+  "window": "DUAT owner retains current window; WORLDLINE no runtime request/admission"
+}

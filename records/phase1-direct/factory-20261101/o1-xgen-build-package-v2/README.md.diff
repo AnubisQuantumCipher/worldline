@@ -1,0 +1,82 @@
+--- records/phase1-direct/factory-20261101/o1-xgen-build-package-v1/README.md
++++ records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md
+@@ -1,6 +1,8 @@
+-# Source preparation only: fixed disk xtree candidate
+-
+-**UNRUN / UNADMITTED.** This packet does not authorize a launch, establish a
++# Sole source revision: fixed disk xtree candidate
++
++**REVISION2 / UNRUN / UNADMITTED.** This is the sole evidence-driven revision;
++zero revisions remain after this preparation grant. V1 stays immutable. This
++packet does not authorize a launch, establish a
+ mechanism qualification, close O1/D47/translator correspondence, or perform F7.
+ Fresh paired review, separate judge, current storage-owner handoff and explicit
+ admission are required. The compiler acquisition packets remain immutable.
+@@ -118,6 +120,8 @@
+ `-cargs:Ada -gnata -gnatVa -gnatwa -gnatwe`. Existing DEBUG checks/O0,
+ Initialize_Scalars/stack checks/binder-E and helpers'gnatg remain in the GPRs.
+ An upstream warning is a retained failure, never grounds to suppress a gate.
++No quiet flag is added. See DIAGNOSTICS.md for the exact finite progress policy
++and complete captured-log validation on both streams.
+ 
+ `tool-runtime-pins.json` records2623file identities/402438744bytes, including
+ GPR tools and71configuration KB files, GNU compiler frontends/link tools and
+@@ -168,24 +172,43 @@
+ 
+ ## Tests and remaining acceptance
+ 
+-`source_tests.py` is the author's synthetic/mock suite, not independent review.
+-No operational main, compiler, generator, tar, service, mount or lock is run.
+-All attempts and initial failed fixture evidence are retained. Attempt01 failed
+-because a mock PID was not JSON serializable; the guard correctly failed closed.
+-Attempt02 corrected the fixture; later tests add recovery and terminal controls.
+-`attempt01-*.txt` preserve the exact first-run sources.
+-
+-The full author suite uses small temporary fixtures only inside this packet.
+-Reviewers can run its explicit read-only subset without creating fixtures:
++`source_tests.py` inherits the v1 test source and adds `revision_tests.py` through
++an explicit loader. All revision fixtures are in memory; full inherited author
++fixtures remain inside this v2 packet. V1 raw test logs are not copied or presented
++as v2 results. `v1-evidence-reference.json` pins the preserved original packet and
++its failure records. Every v2 attempt has its own retained outputs.
++
++The new tests exercise final write/flush/short-write/budget failure and successful
++retention, preserved nonzero exits, independent at-most-once cleanup, complete
++close failure, all finite progress records, all build stages/both streams, native
++recovery capture via mocked child/selector/read interfaces, warning/nonzero/
++overflow/missing/hash-drift controls, split boundaries, control/non-ASCII bytes,
++overlong/incomplete/excess records, type-sensitive identities and exact unchanged
++operational command/input/profile controls. This is author evidence, not branch
++coverage proof, independent review, or native producer reachability evidence.
++
++Reviewers can run the explicit read-only subset without creating fixtures:
+ 
+ ```
+ PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 XGEN_READ_ONLY_TESTS=1 \
+   /usr/bin/python3 -B -W error source_tests.py
+ ```
+ 
+-The read-only subset is deliberately identified separately from the full suite.
+-See `test-results.json` for exact commands, exits, elapsed evidence and source/
+-output hashes. Tests do not establish native compiler/sandbox/tar/cgroup fit.
+-Next: immutable same-packet paired review and judge, then fresh storage/admission
+-review. Successful future generator/recovery observations alone cannot establish
+-translator closure, installed correspondence, formal proof or Phase One acceptance.
++All new revision tests run in both modes. The inherited filesystem-fixture tests
++remain identified separately. See `test-results.json` and its pinned final result
++for exact commands, exits, monotonic elapsed evidence and source/output hashes.
++No operational main, compiler, generator, native archive, service, lock, mount,
++proof, driver or network action runs in these tests.
++
++No warning is removed from its original captured file. Validation occurs only
++after full capture; a rejected record does not stop hashing the remaining bounded
++file. Capture exhaustion explicitly records failure/evidence loss and cannot
++qualify. A result receipt never overrides nonzero actual tool termination, and
++successful write/flush is not a claim of fsync durability. Final close failure
++still prevents successful process termination.
++
++Next: immutable same-packet fresh paired review and separate judge. A mandatory
++defect remaining after this sole revision means BLOCK without a reset. Only
++subsequent explicit storage-owner handoff/current admission could permit runtime.
++Native output-format fit, warning-free execution, sandbox/tar/cgroup behavior and
++resource fit remain UNRUN/UNPROVEN. D47, O1 closure, Phase One and F7 remain open.

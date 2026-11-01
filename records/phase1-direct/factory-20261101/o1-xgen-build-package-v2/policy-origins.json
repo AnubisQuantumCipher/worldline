@@ -1,0 +1,62 @@
+{
+  "construction_identity": {
+    "bytes": 2611,
+    "sha256": "146b9b2255a9018a1dccab4e568a21bd83b92048da8be3bfa99647f1a338a8d5"
+  },
+  "counts": {
+    "core": 276,
+    "helpers": 63,
+    "minimal": 49
+  },
+  "frozen_GPR_names": [
+    {
+      "destination": "source/gnatcoll/core/gnatcoll_core.gpr",
+      "identity": {
+        "bytes": 17281,
+        "sha256": "f455926012a471152e2be46b452ad52f2e7b0156efacc467d90d9177ea85677b"
+      }
+    },
+    {
+      "destination": "source/gnatcoll/minimal/gnatcoll_minimal.gpr",
+      "identity": {
+        "bytes": 6078,
+        "sha256": "3fb730be08fd91aabca6df8cc7695861cf000ccc6015af6b4e8485503e5ddfbb"
+      }
+    },
+    {
+      "destination": "source/spark/src/why/xgen/helpers.gpr",
+      "identity": {
+        "bytes": 370,
+        "sha256": "94edb4130405a4f4cba4e28259dc7c470ad416ff91ffcbbcd882a7b7bf0d9231"
+      }
+    }
+  ],
+  "historical_format_observations": [
+    {
+      "identity": {
+        "bytes": 3603,
+        "sha256": "8b3e4ed635e53fe316fce1041b3182a63d33ffecd0febaa661ba9a539364f566"
+      },
+      "path": "records/phase1-direct/namespace-runtime-v3/original-helper-build.stdout",
+      "scope": "historical progress mixed with warnings; not current-source qualification or complete producer format specification"
+    },
+    {
+      "identity": {
+        "bytes": 8417,
+        "sha256": "17f3b6134e64673613fd356cf7a2c5063e3d28a149c8879b8be57844c023afc2"
+      },
+      "path": "records/phase1-direct/completion-20261026/checked-build-v2/stdout",
+      "scope": "historical progress mixed with warnings; not current-source qualification or complete producer format specification"
+    }
+  ],
+  "input_pins_identity": {
+    "bytes": 143616,
+    "sha256": "a29cf1112a71235320262d393f2f27447af75fc57ee7b8cf04a70b9e81463b81"
+  },
+  "policy_identity": {
+    "bytes": 20361,
+    "sha256": "7aec3abd0b56cecf020a84459c53520982da201a6ef97f546275608ca26bcefc"
+  },
+  "protocol": "finite exact candidate records only; unknown legitimate output fails and is retained; no automatic expansion",
+  "schema": "worldline.xgen.progress.origins.v2"
+}

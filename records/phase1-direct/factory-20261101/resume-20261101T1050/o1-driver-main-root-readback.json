@@ -1,0 +1,51 @@
+{
+  "actual_execution": "UNRUN",
+  "all6_payloads_and_exact7_file_roster_match": true,
+  "elapsed_seconds": 0.355381,
+  "installed_correspondence": "UNKNOWN",
+  "manifest": {
+    "bytes": 1451,
+    "sha256": "8ea6625d7df8f920888c5f146ce4d7e1e209523d539e5e7fb68e070349796368"
+  },
+  "packet_bytes": 24706,
+  "receipt": {
+    "bytes": 11476,
+    "end_utc": "2026-11-01T13:06:34.767259+00:00",
+    "git_blob_sha1": "1ba4b42edf9062e6e5d96c1b1b48f107cea3b2af",
+    "http_status": 200,
+    "materialized_mode": "0644",
+    "path": "src/gnatprove/gnatprove.adb",
+    "request_utc": "2026-11-01T13:06:34.414696+00:00",
+    "response_end_utc": "2026-11-01T13:06:34.764571+00:00",
+    "sha256": "06e5456cfd88517ad1bf06e97936cdd3271fc52d07af5bb1cfcea3c5bb1a6cf9",
+    "source_commit": "b9410c6ed36d4e69a6c4d31e152fa8facaf0235c",
+    "status": "VERIFIED_WRITTEN_READBACK",
+    "upstream_git_mode": "100644",
+    "url": "https://raw.githubusercontent.com/AdaCore/spark2014/b9410c6ed36d4e69a6c4d31e152fa8facaf0235c/src/gnatprove/gnatprove.adb"
+  },
+  "request_seconds": 0.349875,
+  "schema": "worldline.o1.driver-main-root-readback.v1",
+  "source": {
+    "bytes": 11476,
+    "git_blob": "1ba4b42edf9062e6e5d96c1b1b48f107cea3b2af",
+    "path": "src/gnatprove/gnatprove.adb",
+    "sha256": "06e5456cfd88517ad1bf06e97936cdd3271fc52d07af5bb1cfcea3c5bb1a6cf9"
+  },
+  "summary": {
+    "available_bytes_before_acquisition": 99086979072,
+    "ended_utc": "2026-11-01T13:06:34.767829+00:00",
+    "failure": null,
+    "installed_correspondence": "UNKNOWN",
+    "redirects": 0,
+    "requests": 1,
+    "response_bytes": 11476,
+    "retries": 0,
+    "schema": "worldline.o1.driver-main-source-acquisition.v1",
+    "source_execution": false,
+    "started_utc": "2026-11-01T13:06:34.412448+00:00",
+    "status": "COMPLETE_EXACT_ONE_FILE_SOURCE_CUT",
+    "verified_bytes": 11476,
+    "verified_files": 1
+  },
+  "utc": "2026-11-01T13:08:02.976418+00:00"
+}

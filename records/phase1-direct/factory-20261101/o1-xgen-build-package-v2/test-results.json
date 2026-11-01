@@ -1,0 +1,78 @@
+{
+  "author_tests_not_independent_review": true,
+  "driver_stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "driver_stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "earlier_v2_attempts": [
+    {
+      "command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 /usr/bin/timeout --signal=TERM --kill-after=2s 30s /usr/bin/python3 -B -W error source_tests.py > test-attempt-01.stdout 2> test-attempt-01.stderr",
+      "exit": 0,
+      "label": "test-attempt-01",
+      "reported_tests": 91,
+      "source_identity_limit": "No execution-time source hash was captured for this early passing run; final pinned run supersedes it.",
+      "stderr": {
+        "bytes": 8619,
+        "sha256": "97127e8bdd0d23e727c6543b70ea8db98b06db94bd0f33570f4d4b525b5bf5d9"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "unittest_reported_seconds": "0.322"
+    },
+    {
+      "command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 XGEN_READ_ONLY_TESTS=1 /usr/bin/timeout --signal=TERM --kill-after=2s 30s /usr/bin/python3 -B -W error source_tests.py > test-readonly-01.stdout 2> test-readonly-01.stderr",
+      "exit": 0,
+      "label": "test-readonly-01",
+      "reported_tests": 63,
+      "source_identity_limit": "No execution-time source hash was captured for this early passing run; final pinned run supersedes it.",
+      "stderr": {
+        "bytes": 6299,
+        "sha256": "ea609245248d5a849723798ce11aac910f121b4b82486cab1bf79b550663cc01"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "unittest_reported_seconds": "0.131"
+    },
+    {
+      "command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 /usr/bin/timeout --signal=TERM --kill-after=2s 30s /usr/bin/python3 -B -W error source_tests.py > test-attempt-02.stdout 2> test-attempt-02.stderr",
+      "exit": 0,
+      "label": "test-attempt-02",
+      "reported_tests": 94,
+      "source_identity_limit": "No execution-time source hash was captured for this early passing run; final pinned run supersedes it.",
+      "stderr": {
+        "bytes": 8989,
+        "sha256": "9c9f2f036f92e0cc212013379953b727b502e22932980c3bb0a6443b681e90d3"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "unittest_reported_seconds": "0.635"
+    }
+  ],
+  "final_driver_command": "PYTHONOPTIMIZE=0 PYTHONDONTWRITEBYTECODE=1 /usr/bin/timeout --signal=TERM --kill-after=2s 65s /usr/bin/python3 -B -W error run_author_tests.py > final-driver.stdout 2> final-driver.stderr",
+  "final_driver_exit": 0,
+  "final_full_tests": 96,
+  "final_read_only_tests": 68,
+  "final_result": {
+    "identity": {
+      "bytes": 5672,
+      "sha256": "3346f4bccf656c553bb7e8674f5d91787f0730cba858a6a14a3a5f514eafbd79"
+    },
+    "path": "test-final-results.json"
+  },
+  "fixtures": "Inherited author fixtures are confined to v2 and under2MiB; all new revision fixtures are in memory, no real IPC object.",
+  "results": "All output/results under2MiB; no output truncation.",
+  "revision": 2,
+  "test_budget": "All actual test runs under5s cumulative, within120s; final monotonic timing is in referenced JSON; no native operational command ran.",
+  "v1_results_not_repurposed": true,
+  "v2_failures": []
+}

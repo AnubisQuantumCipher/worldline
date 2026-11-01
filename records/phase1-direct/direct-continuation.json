@@ -1,9 +1,9 @@
 {
-  "utc": "2026-11-01T13:00:02.381424+00:00",
+  "utc": "2026-11-01T13:40:58.835618+00:00",
   "owner": "Codex Astra coordinator 01a196b6-6595-7b30-ae07-8af6b0ed4dc7; sole WORLDLINE Phase One integrator",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "e6444ed158dd042d544cbeedc0e9871d47445c5c",
-  "published_readback": "e6444ed158dd042d544cbeedc0e9871d47445c5c",
+  "head": "aad6dadd56d794940702a54187eafb4d7800ca63",
+  "published_readback": "aad6dadd56d794940702a54187eafb4d7800ca63",
   "active_jobs": [],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
@@ -34,7 +34,7 @@
     "D157 exact279-source prerequisite cut independently byte/blob/receipt verified; generator/compiler/proof UNRUN.",
     "D157 remaining compiler candidate771files37730838B acquired with671GETs+100reuses, root allblob/SHA/size/mode/receipt verified; executable closure UNPROVEN."
   ],
-  "next": "Publish coherent nonfinal D157 source/D158 rejected initial review checkpoint; prepare sole generator revision after read-only author plan. Analyze exact5driver sources. No runtime admission, IPC blocked unchanged.",
+  "next": "Resolve bounded root capture/terminal envelope using existing controls; fresh exact admission before one fixed generator attempt",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -182,7 +182,20 @@
     "factory-20261101/resume-20261101T1050/o1-compiler-metadata-root-readback.json",
     "factory-20261101/resume-20261101T1050/o1-compiler-source-root-readback.json",
     "factory-20261101/resume-20261101T1050/o1-disk-generator-preparation-registration.json",
-    "factory-20261101/resume-20261101T1050/o1-generator-decision-v1.json"
+    "factory-20261101/resume-20261101T1050/o1-generator-decision-v1.json",
+    "factory-20261101/resume-20261101T1050/o1-generator-review-packet-v2.json",
+    "factory-20261101/resume-20261101T1050/o1-generator-v2-root-readback.json",
+    "factory-20261101/resume-20261101T1050/o1-driver-main-root-readback.json",
+    "factory-20261101/resume-20261101T1050/o1-driver-main-analysis-report.md",
+    "factory-20261101/resume-20261101T1050/o1-translator-baseline-plan-report.md",
+    "factory-20261101/resume-20261101T1050/o1-translator-baseline-framing-correction-report.md",
+    "factory-20261101/resume-20261101T1050/o1-translator-execution-plan-report.md",
+    "factory-20261101/resume-20261101T1050/o1-tracer-local-acquisition-plan-report.md",
+    "factory-20261101/resume-20261101T1050/o1-generator-decision-v2.json",
+    "factory-20261101/resume-20261101T1050/o1-generator-judge-packet-v2.json",
+    "factory-20261101/resume-20261101T1050/storage-owner-stop-readback-v4.json",
+    "factory-20261101/resume-20261101T1050/o1-generator-capture-envelope-analysis-report.md",
+    "factory-20261101/resume-20261101T1050/checkpoint-source-v4.json"
   ],
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
@@ -203,11 +216,11 @@
     "pin_applied": true,
     "pin_evidence": "sia-raw-layout-pin-state.json"
   },
-  "previous_utc": "2026-11-01T12:56:37.530443+00:00",
+  "previous_utc": "2026-11-01T13:27:25.910968+00:00",
   "resumption": "factory-20261101/resumption.json",
   "phase_acceptance": false,
   "current_runtime_boundary": "Passing96.492s unchanged padding regression used earlier quantity603a4bc3/loader318a9033 checked build. Currentquantity7463adf3/loaderfbf8962f integrated build/runtime remainsUNRUN; numeric87checks applycurrent7463/c074 only.",
-  "helper_status": "Root sole writer/integrator; all acquisitions released. Disk author and compiler planner read-only. All generator initial reviews/judge completed.",
+  "helper_status": "Root sole writer/integrator; all v2 author/review/judge/planning workers released. No operational job.",
   "source_proposals": [
     "completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/independent-review.json",
     "completion-20261026/old-retirement-fresh-owner-slice-v1/source-closure.json",
@@ -216,9 +229,9 @@
   ],
   "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
   "head_class": "Current documentary HEAD matches remote. Product source remains1d148820; no product integration or qualified run in current resume.",
-  "publication_receipt": "factory-20261101/resume-20261101T1050/publication-readback-v2.json",
+  "publication_receipt": "factory-20261101/resume-20261101T1050/publication-readback-v3.json",
   "latest_continuation": "factory-20261101/resume-20261101T1050/resumption.json",
-  "pending_publication": "Current D157 source identities and D158 rejection/sole-revision decision are being checkpointed;1125third-party source body paths excluded.",
+  "pending_publication": "Checkpointv4 source-preparation adjudication and lastdriverbodymetadata pending coherent nonfinal publication; actualgenerator UNRUN.",
   "remote_checkpoint": {
     "utc": "2026-10-26T16:50:15.173164+00:00",
     "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
@@ -245,13 +258,13 @@
   "blocked_condition_audit": {
     "historical_audit": "Preserved previous three-turn storage impasse in pre-reconciliation continuation",
     "current_resumed_run_consecutive_impasse_turns": 0,
-    "current_state": "PROGRESS: source-only generator review and minimal driver selection source closure; IPC blocked independently, no runtime admission."
+    "current_state": "PROGRESS: sole generator source revision approved; root capture/admission detail remains before native qualification. Storage scheduling claim explicitly released; reclamation user-paused."
   },
   "previous_factory_continuation": "factory-20261101/checkpoint-paused-v1.json",
-  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v3.json",
-  "storage_coordination": "DUAT owner01a195f9 retains remainder122 window; service duat-reviewed-remainder-20261101.service/MainPID1038879 observed live. WORLDLINE no heavy/runtime window requested or granted. See storage-coordination-readback-v2.json.",
+  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
+  "storage_coordination": "Human accepted100GB and paused reclamation; DUAT owner released scheduling claim; no runtimeadmission",
   "goal_status": "ACTIVE_INCOMPLETE",
-  "latest_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v3.json",
-  "published_head": "e6444ed158dd042d544cbeedc0e9871d47445c5c",
-  "latest_publication_readback": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v2.json"
+  "latest_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
+  "published_head": "aad6dadd56d794940702a54187eafb4d7800ca63",
+  "latest_publication_readback": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v3.json"
 }

@@ -163,3 +163,41 @@ resume-20261101T1050/o1-generator-r1-judge-*. Final guard receipt failure
 can yield0; zero-exit build warnings are accepted. Synthetic consumer counterexamples,
 not authentic producer/runtime failure. The judge independently reproduced both;
 sole evidence-driven revision permitted, launch prohibited, no IPC reset or F7 credit.
+
+
+## D157-STALE-translator-framing — prospective arithmetic corrected
+
+The original Sol-medium planner report241edddc72df8775a519eb6b7c797f9966f6c74777875328c00b00a457af3922,
+session01a1973d-cd3d-7dd3-ad2b-2c84cf8c0bc9, remains immutable. Its33531904B
+framing allowance is STALE under the explicit32768descendants excluding root rule.
+Author correction12acf3cf4eb53b38cb442a96f71411da66518302305555dcfa4258e25884cc9a
+and root arithmetic establish33533439B including root/end/final record padding,
+a1535B increase per proposed archive/restore class. Both reports/provenance are in
+resume-20261101T1050/o1-translator-baseline-*. No prior registered limit changed;
+proposal remains UNMEASURED/UNADMITTED. This is a corrected planning observation,
+not an implemented decision, fresh review allowance or native archive qualification.
+
+
+## D158-r2-resolution — exact receipt and diagnostic repairs approved
+
+The two D158-r1 defects are resolved for SOURCE_PREPARATION_ONLY by unchanged
+review packet3cfe570241560773312a07ad5f9cfae1413d12ea30ffb52b7d6cf8f5d10f1b0e.
+Independent report4283db4dee1a21b1316aeedea08f1aa98ede876eca1f9e3a31be99a4dc7e7f41,
+adversary a92f5bc6a66d1065616d4bb950a72536ca208a017c0961027dfb33eace50e57b,
+and judge35b2e7c930183a394fdf71ad29b2923bfc683bbef9387dcf452a6a650953bbdf
+retain exact actual-session provenance/public tools in o1-generator-r2-*.
+The judge independently reproduced receipt controls and1164parser cases. Original
+rejections remain correct for v1; no historical verdict is rewritten. Zero revisions
+remain. Native compatibility/resource fit/recovery/terminal behavior remain UNRUN;
+root capture envelope and fresh admission still block launch. No IPC reset or F7.
+
+## D158-STALE-capture-signal-scope — planner limitation refined
+
+Original admission-plan reporta3e25976de7cea58bc6467099225e0f836ce2c410ba40b5c228e22379d41f9dd
+remains immutable. Follow-upb90ca9ac3cb534adaee5dade42c8f50655eefa52b13831613092d8eb492b7bcc
+clarifies SIGXFSZ targets the writer, not every process sharing the file descriptor.
+The initial broad implication of guard termination solely from child capture overflow
+is STALE. No finite static inherited-stream bound was found. Original live launcher
+relationship and cleanup uncertainty remain material; this correction grants no
+runtime admission or source revision. Both reports are Sol-medium read-only analysis,
+not native fault-injection qualification or independent acceptance.

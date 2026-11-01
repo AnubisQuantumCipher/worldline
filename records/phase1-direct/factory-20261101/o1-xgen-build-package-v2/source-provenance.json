@@ -1,0 +1,56 @@
+{
+  "author": "/root/disk_path_investigator; registered gpt-6.1-sol/high; no separate runtime attestation",
+  "bootstrap": "External root manifest+payload hash verification remains mandatory before imports and after actual job; in-process pin checks do not replace bootstrap",
+  "functional_AST_delta": {
+    "xgen_guard.py": [
+      "run"
+    ],
+    "xgen_recovery.py": [
+      "capture"
+    ],
+    "xgen_worker.py": [
+      "stage_command"
+    ]
+  },
+  "heavy_helper": {
+    "identity": {
+      "bytes": 9619,
+      "sha256": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a"
+    },
+    "path": "scripts/phase1_heavy.py",
+    "unchanged": true
+  },
+  "native_format_compatibility": "UNRUN_UNKNOWN_ORDINARY_OUTPUT_FAILS_CLOSED",
+  "new_production_helpers": [
+    "xgen_diagnostics.py"
+  ],
+  "new_pure_policy_source": "progress_policy_source.py",
+  "no_flags_pins_caps_deadlines_changed": true,
+  "no_quiet_flags_or_optional_tool_invocation": true,
+  "operational_mains": "UNRUN",
+  "revision": 2,
+  "revisions_remaining": 0,
+  "source_head_from_registration": "aad6dadd56d794940702a54187eafb4d7800ca63",
+  "unchanged_payloads": {
+    "input-pins.json": {
+      "bytes": 143616,
+      "sha256": "a29cf1112a71235320262d393f2f27447af75fc57ee7b8cf04a70b9e81463b81"
+    },
+    "profile.json": {
+      "bytes": 1465,
+      "sha256": "a6bcb7f11ab49e97322fadb5efa4b628593dff0d23abae8c18f99bb1c3696c30"
+    },
+    "template-roster.json": {
+      "bytes": 554,
+      "sha256": "ea6735cb215122a47a64972fece75f2851657ba697a4a9967477552cccf2961f"
+    },
+    "tool-runtime-pins.json": {
+      "bytes": 722017,
+      "sha256": "704d7968d7267dff7b0a9f86a6a58a4d4c1112af74291340678be1fa6e5db562"
+    },
+    "xgen_common.py": {
+      "bytes": 7379,
+      "sha256": "59ded210655b149eac6846683552605663509a25b5f7fb6441496dd1f818decf"
+    }
+  }
+}

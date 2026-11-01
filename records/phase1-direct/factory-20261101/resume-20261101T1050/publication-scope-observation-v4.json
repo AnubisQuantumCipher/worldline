@@ -1,0 +1,39 @@
+{
+  "schema": "worldline.publication-scoped-observation.v4",
+  "prior_broad_status": "Read-only git status command included historical untracked fixtures; output was truncated and is not used as a complete publication inventory. No historical paths changed. Scoped query below replaces it.",
+  "command_scopes": [
+    "docs/decisions.md",
+    "docs/phase1-progress.md",
+    "factory/dissent/DISSENT-LOG.md",
+    "records/phase1-direct/direct-continuation.json",
+    "records/phase1-direct/factory-20261101/resume-20261101T1050",
+    "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2",
+    "records/phase1-direct/completion-20261026/old-retirement-driver-main-source-cut-v1"
+  ],
+  "exit": 0,
+  "tracked": [
+    {
+      "status": " M",
+      "path": "docs/decisions.md"
+    },
+    {
+      "status": " M",
+      "path": "docs/phase1-progress.md"
+    },
+    {
+      "status": " M",
+      "path": "factory/dissent/DISSENT-LOG.md"
+    },
+    {
+      "status": " M",
+      "path": "records/phase1-direct/direct-continuation.json"
+    }
+  ],
+  "untracked_counts": {
+    "records/phase1-direct/completion-20261026/old-retirement-driver-main-source-cut-v1": 7,
+    "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2": 41,
+    "records/phase1-direct/factory-20261101/resume-20261101T1050": 29
+  },
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

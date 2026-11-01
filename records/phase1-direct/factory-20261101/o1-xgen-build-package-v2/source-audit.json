@@ -1,0 +1,1138 @@
+{
+  "progress_policy_source.py": {
+    "functions": [
+      {
+        "first_line": 13,
+        "lines": 4,
+        "name": "progress"
+      },
+      {
+        "first_line": 19,
+        "lines": 12,
+        "name": "source_names"
+      },
+      {
+        "first_line": 33,
+        "lines": 25,
+        "name": "stage_records"
+      },
+      {
+        "first_line": 60,
+        "lines": 4,
+        "name": "policy"
+      }
+    ],
+    "identity": {
+      "bytes": 2611,
+      "sha256": "146b9b2255a9018a1dccab4e568a21bd83b92048da8be3bfa99647f1a338a8d5"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "revision_tests.py": {
+    "functions": [
+      {
+        "first_line": 20,
+        "lines": 2,
+        "name": "identity"
+      },
+      {
+        "first_line": 25,
+        "lines": 2,
+        "name": "__enter__"
+      },
+      {
+        "first_line": 28,
+        "lines": 2,
+        "name": "__exit__"
+      },
+      {
+        "first_line": 33,
+        "lines": 2,
+        "name": "__init__"
+      },
+      {
+        "first_line": 36,
+        "lines": 2,
+        "name": "__str__"
+      },
+      {
+        "first_line": 39,
+        "lines": 2,
+        "name": "__truediv__"
+      },
+      {
+        "first_line": 42,
+        "lines": 2,
+        "name": "with_suffix"
+      },
+      {
+        "first_line": 45,
+        "lines": 5,
+        "name": "open"
+      },
+      {
+        "first_line": 53,
+        "lines": 2,
+        "name": "__init__"
+      },
+      {
+        "first_line": 56,
+        "lines": 3,
+        "name": "add"
+      },
+      {
+        "first_line": 60,
+        "lines": 10,
+        "name": "regular"
+      },
+      {
+        "first_line": 71,
+        "lines": 5,
+        "name": "read"
+      },
+      {
+        "first_line": 77,
+        "lines": 2,
+        "name": "fstat"
+      },
+      {
+        "first_line": 80,
+        "lines": 2,
+        "name": "digest"
+      },
+      {
+        "first_line": 83,
+        "lines": 6,
+        "name": "mocks"
+      },
+      {
+        "first_line": 92,
+        "lines": 3,
+        "name": "__init__"
+      },
+      {
+        "first_line": 96,
+        "lines": 8,
+        "name": "write"
+      },
+      {
+        "first_line": 105,
+        "lines": 5,
+        "name": "flush"
+      },
+      {
+        "first_line": 113,
+        "lines": 2,
+        "name": "__init__"
+      },
+      {
+        "first_line": 116,
+        "lines": 2,
+        "name": "__enter__"
+      },
+      {
+        "first_line": 119,
+        "lines": 2,
+        "name": "__exit__"
+      },
+      {
+        "first_line": 122,
+        "lines": 3,
+        "name": "register"
+      },
+      {
+        "first_line": 126,
+        "lines": 2,
+        "name": "unregister"
+      },
+      {
+        "first_line": 129,
+        "lines": 2,
+        "name": "get_map"
+      },
+      {
+        "first_line": 132,
+        "lines": 2,
+        "name": "select"
+      },
+      {
+        "first_line": 137,
+        "lines": 2,
+        "name": "setUp"
+      },
+      {
+        "first_line": 140,
+        "lines": 8,
+        "name": "stream_check"
+      },
+      {
+        "first_line": 149,
+        "lines": 11,
+        "name": "guard_run"
+      },
+      {
+        "first_line": 161,
+        "lines": 6,
+        "name": "test_final_success_control"
+      },
+      {
+        "first_line": 168,
+        "lines": 6,
+        "name": "test_final_write_flush_short_fail"
+      },
+      {
+        "first_line": 175,
+        "lines": 4,
+        "name": "test_final_budget_fail"
+      },
+      {
+        "first_line": 180,
+        "lines": 4,
+        "name": "test_final_failure_preserves_nonzero"
+      },
+      {
+        "first_line": 185,
+        "lines": 4,
+        "name": "test_no_second_cleanup_on_failed_monitor"
+      },
+      {
+        "first_line": 190,
+        "lines": 4,
+        "name": "test_cleanup_error_cannot_restore_zero"
+      },
+      {
+        "first_line": 195,
+        "lines": 7,
+        "name": "test_close_error_overrides_apparent_zero"
+      },
+      {
+        "first_line": 203,
+        "lines": 3,
+        "name": "test_stream_clean_silent_and_progress"
+      },
+      {
+        "first_line": 207,
+        "lines": 5,
+        "name": "test_split_boundaries"
+      },
+      {
+        "first_line": 213,
+        "lines": 4,
+        "name": "test_warning_unknown_and_appended_text"
+      },
+      {
+        "first_line": 218,
+        "lines": 4,
+        "name": "test_controls_and_nonascii"
+      },
+      {
+        "first_line": 223,
+        "lines": 4,
+        "name": "test_overlong_incomplete_and_record_count"
+      },
+      {
+        "first_line": 228,
+        "lines": 9,
+        "name": "test_rejected_record_still_hashes_full_capture"
+      },
+      {
+        "first_line": 238,
+        "lines": 4,
+        "name": "test_changed_hash_and_length"
+      },
+      {
+        "first_line": 243,
+        "lines": 7,
+        "name": "test_identity_types_and_capture_bound"
+      },
+      {
+        "first_line": 251,
+        "lines": 19,
+        "name": "stage"
+      },
+      {
+        "first_line": 271,
+        "lines": 5,
+        "name": "test_all_build_stages_clean_control"
+      },
+      {
+        "first_line": 277,
+        "lines": 10,
+        "name": "test_all_build_stages_both_warning_streams"
+      },
+      {
+        "first_line": 288,
+        "lines": 4,
+        "name": "test_all_build_stages_nonzero_clean_fails"
+      },
+      {
+        "first_line": 293,
+        "lines": 12,
+        "name": "test_build_capture_identities_and_bounds"
+      },
+      {
+        "first_line": 306,
+        "lines": 3,
+        "name": "test_stderr_progress_not_accepted"
+      },
+      {
+        "first_line": 310,
+        "lines": 3,
+        "name": "test_unknown_stage_rejected"
+      },
+      {
+        "first_line": 314,
+        "lines": 8,
+        "name": "test_target_version_and_generator_policies"
+      },
+      {
+        "first_line": 323,
+        "lines": 9,
+        "name": "test_both_streams_checked_when_one_invalid"
+      },
+      {
+        "first_line": 333,
+        "lines": 8,
+        "name": "test_missing_log_and_missing_identity"
+      },
+      {
+        "first_line": 342,
+        "lines": 12,
+        "name": "recovery"
+      },
+      {
+        "first_line": 355,
+        "lines": 2,
+        "name": "test_recovery_silent_control"
+      },
+      {
+        "first_line": 358,
+        "lines": 6,
+        "name": "test_both_recovery_warning_streams"
+      },
+      {
+        "first_line": 365,
+        "lines": 12,
+        "name": "test_recovery_counts_missing_hash_drift"
+      },
+      {
+        "first_line": 378,
+        "lines": 35,
+        "name": "capture_case"
+      },
+      {
+        "first_line": 414,
+        "lines": 5,
+        "name": "test_native_capture_clean_both_stages"
+      },
+      {
+        "first_line": 420,
+        "lines": 12,
+        "name": "test_native_capture_negative_matrix_retains_logs"
+      },
+      {
+        "first_line": 433,
+        "lines": 8,
+        "name": "test_policy_exact_regeneration_and_join"
+      },
+      {
+        "first_line": 442,
+        "lines": 5,
+        "name": "test_every_finite_progress_record"
+      },
+      {
+        "first_line": 448,
+        "lines": 7,
+        "name": "test_policy_bad_types_duplicates_controls"
+      },
+      {
+        "first_line": 456,
+        "lines": 5,
+        "name": "test_command_caps_and_unmodified_controls"
+      },
+      {
+        "first_line": 462,
+        "lines": 12,
+        "name": "test_ast_only_necessary_function_changes"
+      },
+      {
+        "first_line": 151,
+        "lines": 6,
+        "name": "monitored"
+      },
+      {
+        "first_line": 253,
+        "lines": 4,
+        "name": "fake"
+      },
+      {
+        "first_line": 257,
+        "lines": 3,
+        "name": "dig"
+      },
+      {
+        "first_line": 387,
+        "lines": 6,
+        "name": "read"
+      },
+      {
+        "first_line": 393,
+        "lines": 7,
+        "name": "dig"
+      },
+      {
+        "first_line": 197,
+        "lines": 2,
+        "name": "__exit__"
+      },
+      {
+        "first_line": 368,
+        "lines": 7,
+        "name": "alter"
+      },
+      {
+        "first_line": 297,
+        "lines": 6,
+        "name": "adjust"
+      }
+    ],
+    "identity": {
+      "bytes": 22356,
+      "sha256": "3fa1fafd80e0fef1586b194bce88d4100323f2ab5c7e23107ba9dcad75aad261"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "run_author_tests.py": {
+    "functions": [
+      {
+        "first_line": 16,
+        "lines": 5,
+        "name": "identity"
+      },
+      {
+        "first_line": 23,
+        "lines": 3,
+        "name": "limits"
+      },
+      {
+        "first_line": 28,
+        "lines": 27,
+        "name": "main"
+      }
+    ],
+    "identity": {
+      "bytes": 2637,
+      "sha256": "1d1aa916d0d2ca471f5283f21910d20ed17588281a9db7ab9d79f780f097c314"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "source_tests.py": {
+    "functions": [
+      {
+        "first_line": 519,
+        "lines": 5,
+        "name": "load_tests"
+      },
+      {
+        "first_line": 22,
+        "lines": 7,
+        "name": "setUp"
+      },
+      {
+        "first_line": 30,
+        "lines": 5,
+        "name": "file"
+      },
+      {
+        "first_line": 36,
+        "lines": 2,
+        "name": "test_relative_good"
+      },
+      {
+        "first_line": 39,
+        "lines": 4,
+        "name": "test_relative_rejections"
+      },
+      {
+        "first_line": 44,
+        "lines": 5,
+        "name": "test_digest_and_bound"
+      },
+      {
+        "first_line": 50,
+        "lines": 10,
+        "name": "test_symlink_file_and_component"
+      },
+      {
+        "first_line": 61,
+        "lines": 3,
+        "name": "test_regular_directory_rejected"
+      },
+      {
+        "first_line": 65,
+        "lines": 5,
+        "name": "test_inventory_caps"
+      },
+      {
+        "first_line": 71,
+        "lines": 5,
+        "name": "test_inventory_link"
+      },
+      {
+        "first_line": 77,
+        "lines": 10,
+        "name": "test_inventory_unsupported_and_hardlink"
+      },
+      {
+        "first_line": 88,
+        "lines": 5,
+        "name": "test_json_strict"
+      },
+      {
+        "first_line": 94,
+        "lines": 7,
+        "name": "test_json_write_bound_and_exclusive"
+      },
+      {
+        "first_line": 102,
+        "lines": 7,
+        "name": "test_pin_identity_and_drift"
+      },
+      {
+        "first_line": 110,
+        "lines": 5,
+        "name": "test_pin_strict_numbers"
+      },
+      {
+        "first_line": 116,
+        "lines": 7,
+        "name": "test_pin_bad_hash_and_count"
+      },
+      {
+        "first_line": 124,
+        "lines": 10,
+        "name": "test_admission_types"
+      },
+      {
+        "first_line": 135,
+        "lines": 5,
+        "name": "test_admission_schema"
+      },
+      {
+        "first_line": 141,
+        "lines": 7,
+        "name": "test_guard_receipt_bounds"
+      },
+      {
+        "first_line": 149,
+        "lines": 6,
+        "name": "monitor"
+      },
+      {
+        "first_line": 156,
+        "lines": 4,
+        "name": "test_monitor_first_refusal"
+      },
+      {
+        "first_line": 161,
+        "lines": 3,
+        "name": "test_monitor_admission_timeout"
+      },
+      {
+        "first_line": 165,
+        "lines": 3,
+        "name": "test_monitor_global_bound"
+      },
+      {
+        "first_line": 169,
+        "lines": 3,
+        "name": "test_monitor_capacity"
+      },
+      {
+        "first_line": 173,
+        "lines": 4,
+        "name": "test_monitor_nonzero_preserved"
+      },
+      {
+        "first_line": 178,
+        "lines": 6,
+        "name": "test_cleanup_cancellation_precedes_receipt"
+      },
+      {
+        "first_line": 185,
+        "lines": 3,
+        "name": "test_cleanup_no_receipt_unverified"
+      },
+      {
+        "first_line": 189,
+        "lines": 4,
+        "name": "test_guard_receipt_failure_still_cleans"
+      },
+      {
+        "first_line": 194,
+        "lines": 3,
+        "name": "test_normal_failure_not_promoted"
+      },
+      {
+        "first_line": 198,
+        "lines": 4,
+        "name": "test_scope_duplicate_key"
+      },
+      {
+        "first_line": 203,
+        "lines": 5,
+        "name": "test_terminal_missing_or_false"
+      },
+      {
+        "first_line": 209,
+        "lines": 9,
+        "name": "test_budget_classes_separate"
+      },
+      {
+        "first_line": 219,
+        "lines": 4,
+        "name": "test_unregistered_class"
+      },
+      {
+        "first_line": 224,
+        "lines": 5,
+        "name": "test_actual_static_template_join"
+      },
+      {
+        "first_line": 230,
+        "lines": 4,
+        "name": "test_static_join_rejects_roster"
+      },
+      {
+        "first_line": 235,
+        "lines": 6,
+        "name": "generated"
+      },
+      {
+        "first_line": 242,
+        "lines": 7,
+        "name": "test_output_determinism"
+      },
+      {
+        "first_line": 250,
+        "lines": 10,
+        "name": "test_marker_missing_extra_empty"
+      },
+      {
+        "first_line": 261,
+        "lines": 8,
+        "name": "test_build_flags_and_scenarios"
+      },
+      {
+        "first_line": 270,
+        "lines": 7,
+        "name": "test_sanitized_env_and_binds"
+      },
+      {
+        "first_line": 278,
+        "lines": 7,
+        "name": "test_separate_child_limits"
+      },
+      {
+        "first_line": 286,
+        "lines": 10,
+        "name": "test_stage_nonzero_retains_log"
+      },
+      {
+        "first_line": 297,
+        "lines": 10,
+        "name": "test_stage_timeout_partial_logs"
+      },
+      {
+        "first_line": 308,
+        "lines": 4,
+        "name": "test_stage_expired_before_spawn"
+      },
+      {
+        "first_line": 313,
+        "lines": 4,
+        "name": "test_stage_output_exact_limit_fails"
+      },
+      {
+        "first_line": 318,
+        "lines": 9,
+        "name": "test_zero_exit_warning_rejected"
+      },
+      {
+        "first_line": 328,
+        "lines": 8,
+        "name": "test_twice_generation_compare_mismatch"
+      },
+      {
+        "first_line": 337,
+        "lines": 7,
+        "name": "test_recovery_typed_equality"
+      },
+      {
+        "first_line": 345,
+        "lines": 4,
+        "name": "test_recovery_pipe_overflow"
+      },
+      {
+        "first_line": 350,
+        "lines": 6,
+        "name": "test_recovery_pipe_short_write"
+      },
+      {
+        "first_line": 357,
+        "lines": 5,
+        "name": "test_recovery_pipe_eof"
+      },
+      {
+        "first_line": 363,
+        "lines": 4,
+        "name": "test_recovery_unsupported_before_command"
+      },
+      {
+        "first_line": 368,
+        "lines": 20,
+        "name": "test_native_recovery_mock_full_comparison"
+      },
+      {
+        "first_line": 389,
+        "lines": 9,
+        "name": "test_archive_failure_preserves_live"
+      },
+      {
+        "first_line": 399,
+        "lines": 11,
+        "name": "test_capture_timeout_only_owned_group"
+      },
+      {
+        "first_line": 411,
+        "lines": 11,
+        "name": "test_capture_nonzero_rejected"
+      },
+      {
+        "first_line": 423,
+        "lines": 3,
+        "name": "test_worker_result_write_failure_propagates"
+      },
+      {
+        "first_line": 427,
+        "lines": 7,
+        "name": "test_worker_unrun_not_pass"
+      },
+      {
+        "first_line": 435,
+        "lines": 4,
+        "name": "test_framing_root_inclusive"
+      },
+      {
+        "first_line": 440,
+        "lines": 6,
+        "name": "test_short_functions"
+      },
+      {
+        "first_line": 447,
+        "lines": 8,
+        "name": "test_guard_unchanged_cleanup_ast"
+      },
+      {
+        "first_line": 456,
+        "lines": 5,
+        "name": "test_population_malformed_unknown"
+      },
+      {
+        "first_line": 462,
+        "lines": 7,
+        "name": "test_scope_missing_events_unknown"
+      },
+      {
+        "first_line": 470,
+        "lines": 6,
+        "name": "test_scope_binding_and_exact_population"
+      },
+      {
+        "first_line": 477,
+        "lines": 8,
+        "name": "test_collected_scope_distinguished"
+      },
+      {
+        "first_line": 486,
+        "lines": 9,
+        "name": "test_collected_needs_reaped_exit_and_full_receipt"
+      },
+      {
+        "first_line": 496,
+        "lines": 5,
+        "name": "test_terminal_receipt_wrong_group_rejected"
+      },
+      {
+        "first_line": 289,
+        "lines": 3,
+        "name": "fake"
+      },
+      {
+        "first_line": 300,
+        "lines": 3,
+        "name": "fake"
+      },
+      {
+        "first_line": 322,
+        "lines": 2,
+        "name": "data"
+      },
+      {
+        "first_line": 332,
+        "lines": 2,
+        "name": "data"
+      },
+      {
+        "first_line": 374,
+        "lines": 7,
+        "name": "fake"
+      }
+    ],
+    "identity": {
+      "bytes": 27257,
+      "sha256": "b2079875716da600cd9cfc5fc76f1e953b0fc6b98a93d4a2a058096bc50435a9"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "xgen_common.py": {
+    "functions": [
+      {
+        "first_line": 24,
+        "lines": 15,
+        "name": "regular"
+      },
+      {
+        "first_line": 41,
+        "lines": 17,
+        "name": "digest"
+      },
+      {
+        "first_line": 60,
+        "lines": 9,
+        "name": "bounded_read"
+      },
+      {
+        "first_line": 71,
+        "lines": 7,
+        "name": "reject_pairs"
+      },
+      {
+        "first_line": 80,
+        "lines": 3,
+        "name": "load_json"
+      },
+      {
+        "first_line": 85,
+        "lines": 2,
+        "name": "reject_number"
+      },
+      {
+        "first_line": 89,
+        "lines": 7,
+        "name": "write_json"
+      },
+      {
+        "first_line": 98,
+        "lines": 12,
+        "name": "relative"
+      },
+      {
+        "first_line": 112,
+        "lines": 30,
+        "name": "inventory"
+      },
+      {
+        "first_line": 144,
+        "lines": 6,
+        "name": "hashed_inventory"
+      },
+      {
+        "first_line": 152,
+        "lines": 22,
+        "name": "verify_pins"
+      },
+      {
+        "first_line": 176,
+        "lines": 15,
+        "name": "verify_packet"
+      },
+      {
+        "first_line": 193,
+        "lines": 5,
+        "name": "isolated"
+      }
+    ],
+    "identity": {
+      "bytes": 7379,
+      "sha256": "59ded210655b149eac6846683552605663509a25b5f7fb6441496dd1f818decf"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "xgen_diagnostics.py": {
+    "functions": [
+      {
+        "first_line": 13,
+        "lines": 8,
+        "name": "identity_schema"
+      },
+      {
+        "first_line": 23,
+        "lines": 18,
+        "name": "consume"
+      },
+      {
+        "first_line": 43,
+        "lines": 29,
+        "name": "validate_stream"
+      },
+      {
+        "first_line": 74,
+        "lines": 20,
+        "name": "progress_policy"
+      },
+      {
+        "first_line": 96,
+        "lines": 11,
+        "name": "validate_pair"
+      },
+      {
+        "first_line": 109,
+        "lines": 21,
+        "name": "stage_diagnostics"
+      },
+      {
+        "first_line": 132,
+        "lines": 10,
+        "name": "recovery_diagnostics"
+      }
+    ],
+    "identity": {
+      "bytes": 6112,
+      "sha256": "81325483d9891f8049aea7055834474d71ce8f7819155fbf8a8835aa8b467a85"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "xgen_guard.py": {
+    "functions": [
+      {
+        "first_line": 31,
+        "lines": 8,
+        "name": "record"
+      },
+      {
+        "first_line": 41,
+        "lines": 7,
+        "name": "best_effort_record"
+      },
+      {
+        "first_line": 50,
+        "lines": 12,
+        "name": "read_small"
+      },
+      {
+        "first_line": 64,
+        "lines": 4,
+        "name": "class_bytes"
+      },
+      {
+        "first_line": 70,
+        "lines": 6,
+        "name": "metadata_bytes"
+      },
+      {
+        "first_line": 78,
+        "lines": 12,
+        "name": "capacity_classes"
+      },
+      {
+        "first_line": 92,
+        "lines": 2,
+        "name": "command_limits"
+      },
+      {
+        "first_line": 96,
+        "lines": 17,
+        "name": "systemctl"
+      },
+      {
+        "first_line": 115,
+        "lines": 24,
+        "name": "cancel_launch_group"
+      },
+      {
+        "first_line": 141,
+        "lines": 14,
+        "name": "owned_scope"
+      },
+      {
+        "first_line": 157,
+        "lines": 24,
+        "name": "scope_observation"
+      },
+      {
+        "first_line": 183,
+        "lines": 16,
+        "name": "population"
+      },
+      {
+        "first_line": 201,
+        "lines": 21,
+        "name": "stop_scope"
+      },
+      {
+        "first_line": 224,
+        "lines": 27,
+        "name": "cleanup_owned"
+      },
+      {
+        "first_line": 253,
+        "lines": 18,
+        "name": "preflight"
+      },
+      {
+        "first_line": 273,
+        "lines": 6,
+        "name": "launch_environment"
+      },
+      {
+        "first_line": 281,
+        "lines": 9,
+        "name": "admission_value"
+      },
+      {
+        "first_line": 292,
+        "lines": 25,
+        "name": "wrapper_terminal"
+      },
+      {
+        "first_line": 319,
+        "lines": 22,
+        "name": "monitor"
+      },
+      {
+        "first_line": 343,
+        "lines": 33,
+        "name": "run"
+      }
+    ],
+    "identity": {
+      "bytes": 16097,
+      "sha256": "55ea7858c376211ad8898f7c7058cc33f16d6cf9bad6b1b3f1111a8b5ff6fb53"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "xgen_recovery.py": {
+    "functions": [
+      {
+        "first_line": 17,
+        "lines": 4,
+        "name": "archive_limits"
+      },
+      {
+        "first_line": 23,
+        "lines": 3,
+        "name": "restore_limits"
+      },
+      {
+        "first_line": 28,
+        "lines": 12,
+        "name": "pipe_chunk"
+      },
+      {
+        "first_line": 42,
+        "lines": 40,
+        "name": "capture"
+      },
+      {
+        "first_line": 84,
+        "lines": 4,
+        "name": "sandbox"
+      },
+      {
+        "first_line": 90,
+        "lines": 5,
+        "name": "compare_inventory"
+      },
+      {
+        "first_line": 97,
+        "lines": 15,
+        "name": "validate_inventory"
+      },
+      {
+        "first_line": 114,
+        "lines": 30,
+        "name": "recover"
+      }
+    ],
+    "identity": {
+      "bytes": 7007,
+      "sha256": "1000a7ac83b40b7023ee2427e0e5bf65564676b2c8c1123054ee7e22b630d4bf"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  },
+  "xgen_worker.py": {
+    "functions": [
+      {
+        "first_line": 16,
+        "lines": 3,
+        "name": "child_limits"
+      },
+      {
+        "first_line": 21,
+        "lines": 7,
+        "name": "environment"
+      },
+      {
+        "first_line": 30,
+        "lines": 14,
+        "name": "stage_inputs"
+      },
+      {
+        "first_line": 46,
+        "lines": 14,
+        "name": "static_templates"
+      },
+      {
+        "first_line": 62,
+        "lines": 26,
+        "name": "stage_command"
+      },
+      {
+        "first_line": 90,
+        "lines": 8,
+        "name": "scenarios"
+      },
+      {
+        "first_line": 100,
+        "lines": 13,
+        "name": "build_commands"
+      },
+      {
+        "first_line": 115,
+        "lines": 12,
+        "name": "verify_outputs"
+      },
+      {
+        "first_line": 129,
+        "lines": 21,
+        "name": "generations"
+      },
+      {
+        "first_line": 152,
+        "lines": 16,
+        "name": "prepare"
+      },
+      {
+        "first_line": 170,
+        "lines": 42,
+        "name": "run"
+      }
+    ],
+    "identity": {
+      "bytes": 10203,
+      "sha256": "cfec39957fa6fb742c4099ce8be1d9108783eb99f1b0be621bc2585f63c8f091"
+    },
+    "scope": "static AST/function-length check only; not proof or branch coverage"
+  }
+}

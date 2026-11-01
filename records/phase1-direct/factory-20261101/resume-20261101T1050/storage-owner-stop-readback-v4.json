@@ -1,0 +1,44 @@
+{
+  "human_instruction_in_durable_owner_receipt": "100fb is enough thank you.",
+  "limits": "Root matched stop receipt and five referenced bytes/hashes; did not independently repeat32archive/restore comparisons. Fresh terminal/descendant/pin/bridge admission still required.",
+  "owner_thread": "01a195f9-dee5-7cb0-a440-777959511b7c",
+  "reclamation": "PAUSED_BY_USER; no further offloads or expanded capacity audit without new human instruction",
+  "references": [
+    {
+      "bytes": 16304,
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/independent-remainder122-yield-reconciliation.json",
+      "sha256": "a4bfc52190a135020d7d05205704e44539006b9368804275b3981704c1990e32"
+    },
+    {
+      "bytes": 2125,
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/protected-capacity-audit-final.json",
+      "sha256": "1008d3d7c38d0d41a8e9297fa721b712cbc0cd0f4aebf0c30264e3242e4db1f1"
+    },
+    {
+      "bytes": 15184,
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/reviewed-remainder-worker-state.json",
+      "sha256": "30de741bc0d433d247ea4fb458378f4901766fba998ac9dbe6aa6ac8efe7f63e"
+    },
+    {
+      "bytes": 424,
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/pause-reviewed-remainder-archives",
+      "sha256": "c721ab8506d4972597882422085788850b325f748b0fdc5cff41b6a4b7f053b5"
+    },
+    {
+      "bytes": 89150,
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/approved-remaining90-archive-plan.json",
+      "sha256": "d1e536e5479ccf68ee6e10211fbb3c34f6bafecfb9683c8d70112e0a9d7cf133"
+    }
+  ],
+  "runtime_admission": "NOT_GRANTED",
+  "schema": "worldline.storage-owner-stop-readback.v4",
+  "source_owner_delegation": "Explicit message says DUAT no longer claims storage scheduling window; release is not runtime authorization or admission waiver.32retirements/90unattempted; no successor launch. Metadata audit terminal.",
+  "stop_receipt": {
+    "bytes": 1655,
+    "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/USER-ACCEPTED-100GB-STOP.json",
+    "sha256": "49b2bd5098e977fa7f09454b5b6a25e28a300922b1a4786683beb6676d30b5f6"
+  },
+  "storage_goal_status": "paused",
+  "utc": "2026-11-01T13:36:56.624635+00:00",
+  "worldline_goal": "ACTIVE_INCOMPLETE"
+}

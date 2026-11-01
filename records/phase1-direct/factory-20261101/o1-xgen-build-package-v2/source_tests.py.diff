@@ -1,0 +1,29 @@
+--- records/phase1-direct/factory-20261101/o1-xgen-build-package-v1/source_tests.py
++++ records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py
+@@ -15,6 +15,7 @@
+ import xgen_guard as g
+ import xgen_worker as w
+ import xgen_recovery as r
++import revision_tests
+ 
+ 
+ class Cases(unittest.TestCase):
+@@ -437,7 +438,7 @@
+         self.assertLess(bound, 16*1024**2)
+ 
+     def test_short_functions(self):
+-        for name in ["xgen_common.py", "xgen_worker.py", "xgen_recovery.py", "xgen_guard.py", "source_tests.py"]:
++        for name in ["xgen_common.py", "xgen_worker.py", "xgen_recovery.py", "xgen_guard.py", "source_tests.py", "xgen_diagnostics.py", "progress_policy_source.py", "revision_tests.py"]:
+             tree = ast.parse((c.HERE / name).read_text())
+             for node in ast.walk(tree):
+                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+@@ -517,7 +518,8 @@
+ 
+ def load_tests(loader, standard, _pattern):
+     if os.environ.get("XGEN_READ_ONLY_TESTS") == "1":
+-        return unittest.TestSuite(Cases("test_" + name) for name in READ_ONLY_NAMES)
++        standard = unittest.TestSuite(Cases("test_" + name) for name in READ_ONLY_NAMES)
++    standard.addTests(loader.loadTestsFromTestCase(revision_tests.RevisionCases))
+     return standard
+ 
+ 

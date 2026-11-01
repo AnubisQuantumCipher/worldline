@@ -1,0 +1,27 @@
+--- records/phase1-direct/factory-20261101/o1-xgen-build-package-v1/xgen_guard.py
++++ records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py
+@@ -359,10 +359,20 @@
+                 cleanup_owned(process, stream)
+             except BaseException as error:
+                 best_effort_record(stream, {"cleanup": "UNVERIFIED", "error": str(error)[:2048]})
+-        best_effort_record(stream, {"outer_exit": code if normal else None,
+-                                   "normal_wrapper_exit": normal, "reason": reason,
+-                                   "acceptance_credit": False})
+-    return code if normal else 125
++        retained = best_effort_record(stream, {"outer_exit": code if normal else None,
++                                              "normal_wrapper_exit": normal, "reason": reason,
++                                              "acceptance_credit": False})
++        if not retained and normal and process is not None:
++            # Earlier terminal evidence does not replace a lost final result.
++            # This is the sole cleanup attempt on this otherwise-normal path.
++            try:
++                cleanup_owned(process, stream)
++            except BaseException as error:
++                best_effort_record(stream, {"cleanup": "UNVERIFIED",
++                                           "error": str(error)[:2048]})
++    if normal and (code != 0 or retained):
++        return code
++    return 125
+ 
+ 
+ if __name__ == "__main__":

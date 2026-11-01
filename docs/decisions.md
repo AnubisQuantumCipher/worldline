@@ -3171,3 +3171,107 @@ retries/redirects,1.844s. Root verified all8payloads/exact9file packet, all3blob
 sizes, hashes,0644modes and complete receipt joins; manifest
 0349e03b476588f0d55cd40e286a9a40d305d768ef4fb1a21c74061336236a95.
 The source-only selection analysis continues; no driver/build/proof executed.
+
+D157 analysis of the five driver bodies/specs establishes both Analysis and
+Global_Gen set the bare driver name gnat2why; it does not establish executable
+resolution or a fixed absolute path. Configuration derives installation paths and
+defines GNSA_ROOT, but startup PATH policy is missing. Choose the now-justified
+single11476B gnatprove.adb readback at the unchanged pin; registration caps one GET,
+16KiB response,10s request/20s total,1MiB packet+1MiB recovery. No further source
+expansion is authorized. GPR2 resolution and installed correspondence remain open;
+actual child execution evidence for both phases is mandatory.
+
+D157 final now-justified driver-main body completed one GET/11476B,200,0.356s,
+zero failures/retries/redirects. Root verifies all6payloads/exact7file24706B packet,
+Gitblob/SHA/0644/receipt joins; manifest8ea6625d7df8f920888c5f146ce4d7e1e209523d539e5e7fb68e070349796368.
+No driver/source execution. Startup selection analysis remains source-only.
+
+D158 sole revision2 is now registered at o1-xgen-build-package-v2,8MiB/96files
+plus8MiB recovery; only bounded pure/mock tests. Author plan keeps all command flags
+and original limits unchanged, uses finite exact progress records, rejects other
+build diagnostics and requires silent recovery. Unknown legitimate progress fails
+closed; native format compatibility remains UNRUN. Final receipt retention becomes
+necessary for exit0. Granting this writer lease consumes the sole revision allowance;
+zero remain after it. Preserve initial package, all reports and every failure.
+Fresh exact-packet pair and judge remain mandatory; no runtime window is authorized.
+
+
+### D157 driver startup closure and prospective translator boundaries
+
+The final pinned main establishes GNSA_ROOT/bin precedence before installed
+libexec/spark/bin and incoming PATH, before command-line/project loading. Both
+Global_Gen and Analysis select bare gnat2why. Root-verified six-source identities
+and o1-driver-main-analysis-report.md retain the chain. This ends current driver
+source acquisition; it does not prove installed/source correspondence, GPR2 lookup
+or actual child execution. Later unchanged D47 must establish candidate execution
+in both phases with fresh work, complete static reports and expected failure signature.
+
+The source-only translator planner measured installed gnat2why at106334584B,
+SHA256375d0100954a66c78bace00d2229c9b96a30b6cf28845e00c4db220ba1efddb5;
+reusing xtree's64MiB child cap would reject even that installed-sized file.
+Prospective larger translator ceilings remain UNMEASURED, unregistered and unadmitted.
+Its original framing arithmetic is retained with an append-only correction:
+32768descendants*(512+511)+512root+1024end+10239recordpadding=33533439B,
+1535B above the original allowance. No prior job deadline or cap was changed.
+
+The read-only execution planner requires complete successful-exec and ancestry
+observations, immutable pathname/inode binding and exact option-file phase joins.
+PATH/action-created/session-only observations are insufficient. Strace is absent
+from inspected locations. Local Arch ARM metadata identifies a possible exact
+strace7.2-1 package, but acquisition, signature validity/trust, extraction safety,
+runtime compatibility and tracer qualification remain unperformed. No download,
+installation, tracer execution, D47 launch or new source expansion is authorized
+by these prospective reports. Choose to retain these prerequisites while completing
+the already registered generator decision. Reversal leaves all reports unchanged.
+
+### D158 sole revision2 seal and fresh review
+
+Author explicitly released the writer after sealing41files1106581B at manifest
+561833c2cfed7979a2148ab0151329ee3c58752aacfa3586c5ddc0c17b0e541e.
+Root independently checked the exact40payload roster, all342input and2623tool/runtime
+pins, unchanged v1, original common/profile/flags/caps, and only three changed
+existing function bodies: guard.run, worker.stage_command and recovery.capture.
+New diagnostics and finite policy construction are bounded; unknown ordinary
+output is a retained refusal, native compatibility is still UNRUN.
+
+Author final96full/68read-only tests passed. Root's separately retained68read-only
+tests passed with unchanged package identities and absent future W/JOB roots.
+These are synthetic/source observations, not native compilation/recovery/proof.
+Fresh Astra-medium independent and Sol-high adversarial nonauthors now receive
+identical130-reference packet3cfe570241560773312a07ad5f9cfae1413d12ea30ffb52b7d6cf8f5d10f1b0e,
+before either current verdict is shared. Separate fresh judge follows. Zero further
+revisions remain; surviving mandatory defects require BLOCK without reset.
+Root resumes sole writer status for documentary capture. No runtime window granted.
+
+
+### D158 revision2 adjudication: source preparation approved, runtime unadmitted
+
+Both fresh nonauthors approved exact revision2 after completing independent work
+before verdict sharing. Separate fresh Astra-medium judge then independently ran
+68read-only tests, direct receipt controls and1164parser cases, and matched all7judge
+plus130review references before/after. Its verdict is APPROVE_SOURCE_PREPARATION.
+Decision19449a266d2a0f37eba9e4dace86c92bad9b835ae7309158ed3fc25a7e40a7af
+binds all raw reports, public tool evidence and actual native routing metadata.
+The adversary additionally ran98composed build/receipt cases and50recovery cases;
+its preliminary os.read mock KeyError3 is retained as harness error, not product failure.
+Original rejected package and all failures remain. Zero further revisions remain.
+
+No runtime qualification follows. A separate admission planner identifies inherited
+root stdout/stderr from the guard/heavy bootstrap as an unresolved launch-envelope
+obligation. The package already captures worker/native streams; root capture files
+must be outside fresh W/JOB and separately budgeted. Lowering inherited HARD file
+limits would prevent the existing compiler/archive setters. Soft-only limits are a
+candidate, not an admitted solution; overflow targets the writing process. Existing
+cleanup requires original launcher identity; a bare reaped PID cannot reconstruct it.
+Unknown cleanup remains UNKNOWN and prohibits successors. Choose to withhold launch
+until this exact operational capture boundary and current admission are resolved,
+without altering the approved package, resetting its revision allowance, creating
+another orchestrator or claiming unconditional native cleanup.
+
+The DUAT owner explicitly released its scheduling claim after the human accepted
+100GB and paused further reclamation. Root matched USER-ACCEPTED-100GB-STOP.json
+SHA49b2bd5098e977fa7f09454b5b6a25e28a300922b1a4786683beb6676d30b5f6
+and all five referenced receipt hashes. This ends the prior storage-window claim;
+it is not runtime authorization or a waiver of bridge/pin/terminal/capacity checks.
+Further offloads and expanded capacity audit remain user-paused. Phase One remains
+ACTIVE_INCOMPLETE. Reversal is withholding the run and retaining all evidence.

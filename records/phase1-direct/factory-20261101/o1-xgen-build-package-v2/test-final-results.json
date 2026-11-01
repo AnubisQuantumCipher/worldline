@@ -1,0 +1,178 @@
+{
+  "attempts": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py"
+      ],
+      "elapsed_seconds": 0.417446763953194,
+      "environment": {
+        "LC_ALL": "C",
+        "PATH": "/usr/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONOPTIMIZE": "0"
+      },
+      "exit": 0,
+      "stderr": {
+        "bytes": 9215,
+        "sha256": "5a6322c2141e19d5ec94796a801699bbb473ea65ffe1273d48a59338a0f1fc83"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout_seconds": 30
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py"
+      ],
+      "elapsed_seconds": 0.3175004250369966,
+      "environment": {
+        "LC_ALL": "C",
+        "PATH": "/usr/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONOPTIMIZE": "0",
+        "XGEN_READ_ONLY_TESTS": "1"
+      },
+      "exit": 0,
+      "stderr": {
+        "bytes": 6895,
+        "sha256": "45ec366eeee0c297e504d5e611818bac6fb13a0b327f5af5f960d0567ae00d2f"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout_seconds": 30
+    }
+  ],
+  "author_only": true,
+  "elapsed_seconds": 0.7354920781217515,
+  "operational_mains_run": false,
+  "revision": 2,
+  "sources_after": {
+    "input-pins.json": {
+      "bytes": 143616,
+      "sha256": "a29cf1112a71235320262d393f2f27447af75fc57ee7b8cf04a70b9e81463b81"
+    },
+    "profile.json": {
+      "bytes": 1465,
+      "sha256": "a6bcb7f11ab49e97322fadb5efa4b628593dff0d23abae8c18f99bb1c3696c30"
+    },
+    "progress-policy.json": {
+      "bytes": 20361,
+      "sha256": "7aec3abd0b56cecf020a84459c53520982da201a6ef97f546275608ca26bcefc"
+    },
+    "progress_policy_source.py": {
+      "bytes": 2611,
+      "sha256": "146b9b2255a9018a1dccab4e568a21bd83b92048da8be3bfa99647f1a338a8d5"
+    },
+    "revision_tests.py": {
+      "bytes": 22356,
+      "sha256": "3fa1fafd80e0fef1586b194bce88d4100323f2ab5c7e23107ba9dcad75aad261"
+    },
+    "run_author_tests.py": {
+      "bytes": 2637,
+      "sha256": "1d1aa916d0d2ca471f5283f21910d20ed17588281a9db7ab9d79f780f097c314"
+    },
+    "source_tests.py": {
+      "bytes": 27257,
+      "sha256": "b2079875716da600cd9cfc5fc76f1e953b0fc6b98a93d4a2a058096bc50435a9"
+    },
+    "template-roster.json": {
+      "bytes": 554,
+      "sha256": "ea6735cb215122a47a64972fece75f2851657ba697a4a9967477552cccf2961f"
+    },
+    "tool-runtime-pins.json": {
+      "bytes": 722017,
+      "sha256": "704d7968d7267dff7b0a9f86a6a58a4d4c1112af74291340678be1fa6e5db562"
+    },
+    "xgen_common.py": {
+      "bytes": 7379,
+      "sha256": "59ded210655b149eac6846683552605663509a25b5f7fb6441496dd1f818decf"
+    },
+    "xgen_diagnostics.py": {
+      "bytes": 6112,
+      "sha256": "81325483d9891f8049aea7055834474d71ce8f7819155fbf8a8835aa8b467a85"
+    },
+    "xgen_guard.py": {
+      "bytes": 16097,
+      "sha256": "55ea7858c376211ad8898f7c7058cc33f16d6cf9bad6b1b3f1111a8b5ff6fb53"
+    },
+    "xgen_recovery.py": {
+      "bytes": 7007,
+      "sha256": "1000a7ac83b40b7023ee2427e0e5bf65564676b2c8c1123054ee7e22b630d4bf"
+    },
+    "xgen_worker.py": {
+      "bytes": 10203,
+      "sha256": "cfec39957fa6fb742c4099ce8be1d9108783eb99f1b0be621bc2585f63c8f091"
+    }
+  },
+  "sources_before": {
+    "input-pins.json": {
+      "bytes": 143616,
+      "sha256": "a29cf1112a71235320262d393f2f27447af75fc57ee7b8cf04a70b9e81463b81"
+    },
+    "profile.json": {
+      "bytes": 1465,
+      "sha256": "a6bcb7f11ab49e97322fadb5efa4b628593dff0d23abae8c18f99bb1c3696c30"
+    },
+    "progress-policy.json": {
+      "bytes": 20361,
+      "sha256": "7aec3abd0b56cecf020a84459c53520982da201a6ef97f546275608ca26bcefc"
+    },
+    "progress_policy_source.py": {
+      "bytes": 2611,
+      "sha256": "146b9b2255a9018a1dccab4e568a21bd83b92048da8be3bfa99647f1a338a8d5"
+    },
+    "revision_tests.py": {
+      "bytes": 22356,
+      "sha256": "3fa1fafd80e0fef1586b194bce88d4100323f2ab5c7e23107ba9dcad75aad261"
+    },
+    "run_author_tests.py": {
+      "bytes": 2637,
+      "sha256": "1d1aa916d0d2ca471f5283f21910d20ed17588281a9db7ab9d79f780f097c314"
+    },
+    "source_tests.py": {
+      "bytes": 27257,
+      "sha256": "b2079875716da600cd9cfc5fc76f1e953b0fc6b98a93d4a2a058096bc50435a9"
+    },
+    "template-roster.json": {
+      "bytes": 554,
+      "sha256": "ea6735cb215122a47a64972fece75f2851657ba697a4a9967477552cccf2961f"
+    },
+    "tool-runtime-pins.json": {
+      "bytes": 722017,
+      "sha256": "704d7968d7267dff7b0a9f86a6a58a4d4c1112af74291340678be1fa6e5db562"
+    },
+    "xgen_common.py": {
+      "bytes": 7379,
+      "sha256": "59ded210655b149eac6846683552605663509a25b5f7fb6441496dd1f818decf"
+    },
+    "xgen_diagnostics.py": {
+      "bytes": 6112,
+      "sha256": "81325483d9891f8049aea7055834474d71ce8f7819155fbf8a8835aa8b467a85"
+    },
+    "xgen_guard.py": {
+      "bytes": 16097,
+      "sha256": "55ea7858c376211ad8898f7c7058cc33f16d6cf9bad6b1b3f1111a8b5ff6fb53"
+    },
+    "xgen_recovery.py": {
+      "bytes": 7007,
+      "sha256": "1000a7ac83b40b7023ee2427e0e5bf65564676b2c8c1123054ee7e22b630d4bf"
+    },
+    "xgen_worker.py": {
+      "bytes": 10203,
+      "sha256": "cfec39957fa6fb742c4099ce8be1d9108783eb99f1b0be621bc2585f63c8f091"
+    }
+  },
+  "sources_unchanged": true
+}

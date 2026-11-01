@@ -1,0 +1,18 @@
+--- records/phase1-direct/factory-20261101/o1-xgen-build-package-v1/xgen_worker.py
++++ records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py
+@@ -10,6 +10,7 @@
+                          bounded_read, digest, inventory, isolated, load_json,
+                          relative, verify_pins, write_json)
+ from xgen_recovery import recover
++from xgen_diagnostics import stage_diagnostics
+ 
+ 
+ def child_limits():
+@@ -81,6 +82,7 @@
+     # An exact-limit stream is conservatively ambiguous: fail, never truncate.
+     if any(item[x]["bytes"] >= FILE for x in ("stdout", "stderr")):
+         raise RuntimeError("capture limit reached; possible evidence loss")
++    stage_diagnostics(name, out, err, item)
+     inventory(LIVE_ROOT)
+     return out, err
+ 

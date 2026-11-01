@@ -1,0 +1,177 @@
+{
+  "disposition": "Retain exact sealed diff framing and raw report hard-break bytes; no executable source finding or source-policy waiver",
+  "false_positives": [
+    {
+      "classification": "Substring of exact retained public metadata filename o1-disk-generator-preparation-registration.json",
+      "match_sha256": "53fa3a6baf764d033bf86b36cbf570931e69a21c7f9de0ecb8c8785c5695e25c",
+      "path": "records/phase1-direct/direct-continuation.json"
+    },
+    {
+      "classification": "Substring of exact retained public metadata filename o1-disk-generator-preparation-registration.json",
+      "match_sha256": "53fa3a6baf764d033bf86b36cbf570931e69a21c7f9de0ecb8c8785c5695e25c",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/before-direct-continuation-v4.json"
+    },
+    {
+      "classification": "Substring of exact retained public metadata filename o1-disk-generator-preparation-registration.json",
+      "match_sha256": "53fa3a6baf764d033bf86b36cbf570931e69a21c7f9de0ecb8c8785c5695e25c",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r2-adversary-public-tools.json"
+    },
+    {
+      "classification": "Substring of exact retained public metadata filename o1-disk-generator-preparation-registration.json",
+      "match_sha256": "53fa3a6baf764d033bf86b36cbf570931e69a21c7f9de0ecb8c8785c5695e25c",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r2-independent-public-tools.json"
+    },
+    {
+      "classification": "Substring of exact retained public metadata filename o1-disk-generator-preparation-registration.json",
+      "match_sha256": "53fa3a6baf764d033bf86b36cbf570931e69a21c7f9de0ecb8c8785c5695e25c",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-r2-judge-public-tools.json"
+    },
+    {
+      "classification": "Substring of exact retained public metadata filename o1-disk-generator-preparation-registration.json",
+      "match_sha256": "53fa3a6baf764d033bf86b36cbf570931e69a21c7f9de0ecb8c8785c5695e25c",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-review-packet-v2.json"
+    },
+    {
+      "classification": "Substring of exact retained public metadata filename o1-disk-generator-preparation-registration.json",
+      "match_sha256": "53fa3a6baf764d033bf86b36cbf570931e69a21c7f9de0ecb8c8785c5695e25c",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-commit-v3.json"
+    }
+  ],
+  "findings": [
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 21,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 25,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 27,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 53,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 58,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 8,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 9,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 13,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 21,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 28,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 29,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "new blank line at EOF.",
+      "line": 28,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 25,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 26,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 9,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_recovery.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 10,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_recovery.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 8,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 9,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "trailing whitespace.",
+      "line": 18,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff"
+    },
+    {
+      "classification": "Required unified-diff context framing",
+      "kind": "new blank line at EOF.",
+      "line": 18,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff"
+    },
+    {
+      "classification": "Verbatim Markdown hard line break in native public report",
+      "kind": "trailing whitespace.",
+      "line": 3,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-v2-author-report.md"
+    }
+  ],
+  "initial_secret_scan": "Failed closed on7sk-pattern matches; diagnostic classification found exact known metadata filename substring, no credential value printed",
+  "other_secret_pattern_hits": 0,
+  "raw_diff_check_exit": 2,
+  "raw_stderr": "",
+  "raw_stdout": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff:21: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff:25: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff:27: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff:53: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md.diff:58: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff:8: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff:9: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff:13: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff:21: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff:28: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff:29: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/source_tests.py.diff:28: new blank line at EOF.\nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py.diff:25: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py.diff:26: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_recovery.py.diff:9: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_recovery.py.diff:10: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff:8: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff:9: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff:18: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py.diff:18: new blank line at EOF.\nrecords/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-v2-author-report.md:3: trailing whitespace.\n+Package: [o1-xgen-build-package-v2](/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/README.md)  \n",
+  "schema": "worldline.publication-hygiene.v4",
+  "scope": "Explicit105paths only, no thirdparty source bodies, full native sessions or hidden reasoning",
+  "secret_scan_limit": "Bounded heuristic patterns are not universal secret absence proof; no general filename exclusion introduced",
+  "utc": "2026-11-01T13:43:39.701080+00:00"
+}

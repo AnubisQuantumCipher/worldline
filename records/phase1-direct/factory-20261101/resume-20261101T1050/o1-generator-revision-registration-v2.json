@@ -1,0 +1,58 @@
+{
+  "F7": "NOT PERFORMED",
+  "actual_execution": "UNRUN",
+  "author_plan": {
+    "bytes": 2736,
+    "sha256": "b34cee416ab041492391c2fdeb5fdab571e9a63b62913c001aaf0a192ae29615"
+  },
+  "decision": {
+    "bytes": 2680,
+    "sha256": "3351c87d570880a9de5444331ab7aae0a25f256d956791f69f6e3bba080e54ab"
+  },
+  "dossier": "O1-FIXED-DISK-GENERATOR",
+  "existing_pin": "Whole carrier local/pinned; no DUAT pin mutation",
+  "freeze_requirement": "Seal exact manifest with complete source/policy/test identity and report then explicit writerrelease. Fresh pair/judge on samepacket; mandatory surviving defects=>BLOCK no reset.",
+  "initial_package_manifest": {
+    "bytes": 8812,
+    "sha256": "ecb97b933a8f1440cb738d07c9883292647a39ea2d539a754c4f49c2b791c23f"
+  },
+  "judge_report": {
+    "bytes": 7380,
+    "sha256": "0d15e920cf78776a53e9244738a99ff7e7f5fb12d194b7a015202b55eda9ada8"
+  },
+  "maximum_files": 96,
+  "maximum_new_bytes": 8388608,
+  "observed_available_bytes": 99490025472,
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "permitted_changes": [
+    "Final result retention required for exit0, propagate write/flush/shortwrite/budget failure while preserving existing nonzero exits and cleanup independence",
+    "Bounded complete capture diagnostic validation: build stderr empty, stdout exact finite registered progress records from fixed producers/artifacts; unknown/malformed/incomplete/missing/hash-drift fails closed",
+    "Recovery stdout/stderr must be empty after complete capture and identity checks; retain logs/archive on failures",
+    "Directly necessary tests/docs/policy data/manifests/provenance only; read-only reviewer test mode"
+  ],
+  "permitted_write_root": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2",
+  "phase_acceptance": false,
+  "recovery_scratch_bytes": 8388608,
+  "reserve_bytes": 10000000000,
+  "revision": 2,
+  "revisions_remaining_after_writer_grant": 0,
+  "runtime_window": "NOT_REQUESTED_OR_GRANTED",
+  "schema": "worldline.o1.generator-sole-revision-registration.v2",
+  "scope": "Source preparation and bounded pure/mock tests only. No new network/source acquisition, operational mains/build/compiler/generator/proof/driver/tar/archive/mount/service/lock/install/stage/commit; do not write outside exactv2root.",
+  "source_head": "aad6dadd56d794940702a54187eafb4d7800ca63",
+  "test_bounds": {
+    "aggregate_timeout_seconds": 120,
+    "fixture_bytes": 2097152,
+    "operational_mains": false,
+    "output_bytes": 2097152
+  },
+  "unchanged": [
+    "All v1 files and failures",
+    "Original source/GPR and tool/runtime pins",
+    "All operational command flags, caps, deadlines, heavyhelper and cleanup ordering/bounds",
+    "Future W/JOB roots remain absent and unchanged; no failed-job deadline extension",
+    "No IPC consumer/review reset; no authority or acceptance change"
+  ],
+  "utc": "2026-11-01T13:08:02.976418+00:00",
+  "writer": "/root/disk_path_investigator actual gpt-6.1-sol/high"
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "worldline.storage-owner-boundary-update.v3",
+  "source_thread_id": "01a195f9-dee5-7cb0-a440-777959511b7c",
+  "claim_class": "OWNER_REPORTED; exact native terminal and protection receipts not yet reverified by WORLDLINE root",
+  "owner_delegation": "Remainder122 yielded normally at13:22UTC;32 complete full native recovery/comparison retirements,90 unattempted; independent reconciliation13:25UTC; no archive descendants/guard holders/canonical locks; both held originals and restored protections match. Storage owner retains window for read-only capacity/keep-local audit. No WORLDLINE runtime/heavy handoff. Future archive continuation uses a new remaining-only namespace.",
+  "public_messages": [
+    {
+      "turn": "01a19741-ff94-7c01-9fc9-6a6201f2d681",
+      "phase": "commentary",
+      "text": "I’m continuing past the 100 GB milestone toward the full 300 GB target. I’ll check the current restore and its completion receipt before counting further reclaimed space."
+    },
+    {
+      "turn": "01a19741-ff94-7c01-9fc9-6a6201f2d681",
+      "phase": "commentary",
+      "text": "The reviewed queue has not yet established a path to 300 GB free. I’m having it yield after the current folder finishes so I can audit the remaining large storage areas and the keep-local set. The full restore will finish first."
+    },
+    {
+      "turn": "01a19741-ff94-7c01-9fc9-6a6201f2d681",
+      "phase": "commentary",
+      "text": "The current restore has finished. I’m waiting for its final receipt and restored pin protections, then I’ll begin the capacity audit with the archive worker stopped at that completed-folder boundary."
+    },
+    {
+      "turn": "01a19741-ff94-7c01-9fc9-6a6201f2d681",
+      "phase": "commentary",
+      "text": "The archive worker has finished safely at a verified boundary: 32 folders in this batch are now recoverable from the iPad. I’m checking the remaining large storage areas against your current protection rules to find a defensible path to the full 300 GB target."
+    }
+  ],
+  "root_observation": "storage-source-only-observation-v3.json independently observes service inactive/dead,PID0,emptyControlGroup and100712251392availableB at13:28:55UTC; this does not confer admission.",
+  "runtime_window": "NOT_GRANTED",
+  "future_requirement": "Exact reviewed generator package and budget, explicit scheduling transfer, fresh bridge/source/tool/capacity/terminal/descendant/pin readback and post-lock memory admission."
+}
