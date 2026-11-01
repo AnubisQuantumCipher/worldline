@@ -1,0 +1,44 @@
+{
+  "D158_revisions_remaining": 0,
+  "D159_revisions_remaining": 0,
+  "F7": "NOT PERFORMED",
+  "decision": "D160",
+  "implementation": "NOT_APPROVED",
+  "judge": {
+    "bytes": 3741,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-judge-report.md",
+    "sha256": "1e0e5413f4aa473f15a5f82e6ffdd5ca317dfb1d194c1139739d4abde99b15d8"
+  },
+  "mandatory_defect": "Combined fixture omits persistent consumer Pattern allocations from finite resource contract. Select combined executable and distinguish lifecycle from elaboration contributions.",
+  "required_revision": {
+    "accessibility": "Library-level caller-owned aliased buffers, On_Close=>null; no unchecked access or disabledchecks",
+    "combined_allocations": 22,
+    "combined_compile_calls": 12,
+    "combined_nonempty_compile_calls": 11,
+    "consumer_allocations": 2,
+    "consumer_compile_calls": 1,
+    "deallocation_baseline": "post-elaboration baseline; do notclaim persistentPattern freed or wholeprocesszero",
+    "lifecycle_allocations": 20,
+    "lifecycle_compile_calls": 11,
+    "lifecycle_nonempty_compile_calls": 10,
+    "maximum_designated_heap_blocks": 4,
+    "maximum_live_pattern_objects": 2,
+    "symbolic_designated_payload": "12 Character units plus14 Offset units, excluding allocator overhead; Pattern records, transient Compile arrays, library-level buffers, cursors and other runtime/library allocations separately unaccounted until exactnativeaccounting",
+    "topology": "One combined executable per clean profile"
+  },
+  "review_packet": {
+    "bytes": 6670,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-review-packet-v1.json",
+    "sha256": "7d4c2fc8dd68c27286b2c5d84ae2864b3c4055a0334002b51b5c86933c2469bc"
+  },
+  "review_round": "INITIAL",
+  "revision_allowance": {
+    "after_revision_dispatch": 0,
+    "before_dispatch": 1,
+    "reset_forbidden": true
+  },
+  "runtime": "NOT_GRANTED",
+  "schema": "worldline.source-only-compatibility-decision.v1",
+  "storage": "HUMAN_PAUSED",
+  "verdict": "REQUEST_CHANGES"
+}

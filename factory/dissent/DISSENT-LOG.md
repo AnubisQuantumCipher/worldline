@@ -263,3 +263,55 @@ protect the first Bash. Existing cleanenvironment prerequisite must be applied
 by caller before that Bash, with onlyFD0/1/2. Missing evidence rejects admission.
 Four FAILED suites and two historical cores remain;33narrow observations do not
 convert suites into passes. Zero revisions remain. RuntimeUNRUN/F7NOTPERFORMED.
+
+
+### D158 native warning failure and D159 observed rejection retained
+
+First native attempt on b916c7a failed original GNATCOLL minimal build under
+unchanged -gnatwa/-gnatwe: legacy Unchecked_Deallocation obsolescence at body77.
+Actual minimal4, worker/heavy/guard125, root1; generation/recoveryUNRUN. No
+diagnostic whitelist or warning-policy expansion. Four earlier failed harnesses
+remain FAILED. D159 stream consumers0 plus rejected root1 observe this failure
+path only, not general qualification. Typed normal terminal completion chain is
+under fresh read-only paired review; original UNKNOWN/UNDETERMINED receipt labels
+remain. No automatic retry, no source/operational review-budget reset.
+
+
+### D160 configuration provenance correction and retained author check
+
+SOURCE-OBSERVED / NOT QUALIFIED: an earlier planning specimen
+selected-native-slot-config.cgpr is a one-row -MMD to -MD derivative; the
+generated header does not identify derivative provenance. Append-only
+correction o1-selected-configuration-plan-stale-correction-v1.json has SHA
+d93c02e7927cb78f42ed9a9a4e1534c68ebd98cbbf6bc64bceb633f33425b4a2.
+Actual WORLDLINE CGPR and nonempty selector grammar remain open.
+Author's pre-write fixture literal arithmetic failure is retained in sealed
+draft-static-failure.json; corrected finite counts were checked statically.
+Neither correction supplies build, behavior, release or F7 evidence.
+Initial proposal review pending; D158/D159 exhausted budgets remain unchanged.
+
+
+### D160 INITIAL mandatory dissent accepted: omitted persistent consumer allocation
+
+Adversary16a62f5b561d1274ebbd66d06e19e01b6dee9a5e702923c2bb75c888fd83bf35
+identified unqualified lifecycle-only accounting in a combined fixture. Separate
+judge1e0e5413f4aa473f15a5f82e6ffdd5ca317dfb1d194c1139739d4abde99b15d8
+confirmed it as mandatory. INITIAL REQUEST_CHANGES; no preparation approval.
+Sole revision must retain initial packet, explicitly include the persistent
+consumer Pattern (22totalallocation operations/fourlive designatedblocks for
+the two Pattern sources), separate other allocations, and use post-elaboration
+baseline. No whole-process byte proof follows. Accessibility requires checked
+library-level aliased buffers; no unchecked workaround. D160 revision budget0
+after dispatch; D158/D1590 unchanged. Failure and dissent remain immutable.
+
+
+### D160 sole revision closes proposal-accounting dissent only
+
+Fresh pair and separate judge accepted explicit combined accounting in v2;
+decision0c3181f154032134bf7eb944322100efa1755872c847c1e8f270ef5a79cf7483 permits
+separately registered source preparation only. Initial dissent and rejected
+packet remain retained. No actual memory release, equivalence, native resource
+fit, compiler configuration, generation or recovery result follows.
+D160 further revisions zero; D158/D159 zero unchanged. Native generator remains
+FAILED/UNQUALIFIED. Historical documentary references are preserved as exact
+snapshots/prefixes, so later progress cannot erase their reviewed state.

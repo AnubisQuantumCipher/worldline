@@ -1,0 +1,141 @@
+{
+  "D158_payloads_after": 40,
+  "D159_capture_tools_after": 16,
+  "F7": "NOT PERFORMED",
+  "actual_root_exit": 1,
+  "actual_root_tool_session": 40754,
+  "actual_tool_stderr_bytes": 0,
+  "actual_tool_stdout_bytes": 0,
+  "failure": "Strict warnings-as-errors rejected gnatcoll-boyer_moore.adb:77:06 obsolescent renamed predefined unit (RM J.1) [-gnatwj]",
+  "gprbuild_minimal_exit": 4,
+  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "heavy_lock_rows": [],
+  "heavy_worker_exit": 125,
+  "helper_and_protected_pins_match": true,
+  "inventory": {
+    "bytes": 105605,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-failed-inventory-v1.json",
+    "sha256": "00b07f544744c03668fa99506b8a76b8374d00c00ccde45b8f006ca790043814"
+  },
+  "phase_acceptance": false,
+  "qualifications": "Generator FAILED/UNQUALIFIED; D159 captured and rejected this failure, not universal runtime qualification",
+  "resource": {
+    "memory_max": 8589934592,
+    "oom": false,
+    "peak_bytes": 105226240,
+    "postlock_admission": {
+      "MemAvailable": "MemAvailable:   19228788 kB",
+      "admitted": true,
+      "threshold": "14GiB (conservative interpretation of 14GB)",
+      "utc": "2026-11-01T14:50:30.225890+00:00"
+    },
+    "rusage": {
+      "elapsed_seconds": 2.0029545570723712,
+      "measurement": "RUSAGE_CHILDREN maximum child RSS; aggregate cap measured separately by cgroup",
+      "ru_maxrss_kib": 22904
+    },
+    "swap_max": 0
+  },
+  "retry": "NOT_AUTHORIZED_AUTOMATICALLY; retain all artifacts, no sealed package/source/pin/warning/deadline change or decision reset",
+  "root_captures": [
+    {
+      "bytes": 195,
+      "device": 64768,
+      "inode": 10664737,
+      "mode": "0600",
+      "nlink": 1,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/status",
+      "sha256": "0574f9ebbb104c4a92451f8d4a540e9d672e4b8c9b7952dcf2681624ac4e3e4d",
+      "uid": 1000
+    },
+    {
+      "bytes": 0,
+      "device": 64768,
+      "inode": 10664739,
+      "mode": "0600",
+      "nlink": 1,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "uid": 1000
+    },
+    {
+      "bytes": 0,
+      "device": 64768,
+      "inode": 10664741,
+      "mode": "0600",
+      "nlink": 1,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stderr-consumer.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "uid": 1000
+    },
+    {
+      "bytes": 0,
+      "device": 64768,
+      "inode": 10664738,
+      "mode": "0600",
+      "nlink": 1,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "uid": 1000
+    },
+    {
+      "bytes": 0,
+      "device": 64768,
+      "inode": 10664740,
+      "mode": "0600",
+      "nlink": 1,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stdout-consumer.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "uid": 1000
+    }
+  ],
+  "schema": "worldline.o1-generator.native-result-readback.v1",
+  "source_pins_after": 342,
+  "stages": {
+    "core": "UNRUN",
+    "determinism": "UNRUN",
+    "generation": "UNRUN",
+    "helpers": "UNRUN",
+    "minimal": "FAILED exit4",
+    "recovery": "UNRUN",
+    "target": "OBSERVED exit0 aarch64-linux-gnu",
+    "version": "OBSERVED exit0 16.1.0"
+  },
+  "terminal": {
+    "claim": "Normal wrapper path and exact collected tuple jointly observed; not collection-alone failure-cleanup proof; worker terminal UNKNOWN preserved",
+    "exit": 0,
+    "fresh_command": [
+      "/usr/bin/systemctl",
+      "--user",
+      "show",
+      "wl-phase1-b48f0d3c9fa147f3ade478739df47bb2.scope",
+      "-p",
+      "Id",
+      "-p",
+      "LoadState",
+      "-p",
+      "ActiveState",
+      "-p",
+      "ControlGroup"
+    ],
+    "inherited_populated": false,
+    "normal_wrapper_exit": true,
+    "scope_collected": true,
+    "state": "OBSERVED_NORMAL_WRAPPER_COMPLETION_NONZERO_WORKER",
+    "typed_reaped_launcher_exit": 125,
+    "values": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "Id": "wl-phase1-b48f0d3c9fa147f3ade478739df47bb2.scope",
+      "LoadState": "not-found"
+    }
+  },
+  "tool_runtime_pins_after": 2623,
+  "tracked_diff_empty": true,
+  "utc": "2026-11-01T14:52:44.617673+00:00",
+  "worker_receipt": {
+    "bytes": 3756,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/xgen-worker-result.json",
+    "sha256": "477ddc0830bb03734553aa7348af0ccbbc0d6785eb27b367cce141535c0f8182"
+  }
+}

@@ -1,0 +1,11 @@
+**Verdict: APPROVE FOR SEPARATELY REGISTERED DERIVATIVE/FIXTURE SOURCE PREPARATION ONLY.** D160 v2 satisfies the initial mandatory correction. No remaining mandatory proposal defect was established. This verdict grants no implementation, configuration or native-execution authority.
+
+**OBSERVED:** Judge packet SHA256 `040077dc0526b2ac3829e3cd6073eadd144b4cfee06c6ef347645ac7d0d2b599`, HEAD, all 37 direct judge/common references and all 50 dossier input references match. Independently reconstructed in-memory derivative matches `f0843c5a17d7cd01901828b46a291649349131ce55592ae72155d9ecf966143c` and reverses exactly. Reviewer routing metadata is not backend attestation.
+
+The corrected combined topology accounts for **12 Compile calls, 11 nonempty calls, 22 allocation operations, two specified Pattern sources and four simultaneously live designated blocks**. Source allocation sites support the symbolic maximum **12 Character + 14 Offset units**. Other storage remains separately accountable; lifecycle release targets the **post-elaboration baseline**, preserving persistent consumer allocations. Library-level aliased buffers, checked access, `On_Close => null` and finalization ordering remain explicit requirements.
+
+**UNPROVEN/UNRUN:** semantic equivalence, checked accessibility, actual configuration/runtime selection, intrinsic lowering, canonical contracts/assertion policy, nulling and pool release, whole-executable resource fit, clean builds, generation, determinism and recovery. Reviewer agreement discharges none of these.
+
+Smallest sound next step: register a bounded, distinct source-preparation package, preserving original bytes and failed evidence; require exact derivative/fixture identities and composition review before any subsequent execution admission.
+
+D160 further revisions: **0**; D158/D159 remain **0**. Generator remains **UNQUALIFIED**, storage **HUMAN_PAUSED**, F7 **NOT PERFORMED**. All checks were read-only; no compiler/configuration invocation, network, locks, services, offloads or writes occurred.

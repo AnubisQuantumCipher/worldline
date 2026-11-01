@@ -1,0 +1,57 @@
+{
+  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "parent": [
+    "7a3127281389f58f2291c86d123ec1f920cee6b7"
+  ],
+  "push_exit": 0,
+  "raw_artifacts": [
+    {
+      "bytes": 581,
+      "path": "records/phase1-direct/factory-20261101/o1-root-capture-package-v2/entry.sh",
+      "remote_raw_matches": true,
+      "sha256": "3b9953b0cde34d1b570a13107c575bae060305e615c1056a97e8255aafe05afd"
+    },
+    {
+      "bytes": 5845,
+      "path": "records/phase1-direct/factory-20261101/o1-root-capture-package-v2/launch.sh",
+      "remote_raw_matches": true,
+      "sha256": "6b6d79cf6c268ee944c6b4e6a0748a2560ee9ffe5d11ca29ea511a2b11a62a55"
+    },
+    {
+      "bytes": 69719,
+      "path": "records/phase1-direct/factory-20261101/o1-root-capture-package-v2/manifest.json",
+      "remote_raw_matches": true,
+      "sha256": "9b7fdd14d656bb31eff6eb52beb51effa35364c8fafe4e8c3fe28b052b3fc446"
+    },
+    {
+      "bytes": 407,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-core-zero-entry.sh",
+      "remote_raw_matches": true,
+      "sha256": "13207586a591089ff927b66fdb0293e4f415c2d46498397b8b88302268f5633a"
+    },
+    {
+      "bytes": 2980,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json",
+      "remote_raw_matches": true,
+      "sha256": "e9b297794f0ff730c8177c58485dec3b57fdded0f3ed819a32212e66cd699a63"
+    },
+    {
+      "bytes": 5170,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v5.json",
+      "remote_raw_matches": true,
+      "sha256": "c6befd2d551ba5140c5832084679adbd72caf8cfc60a1bd55a5bbcf8e0a2fbb6"
+    },
+    {
+      "bytes": 80553,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-review-packet.json",
+      "remote_raw_matches": true,
+      "sha256": "42f8cf27ddf50a4e703d33846eb78b7911f961501e4b7a04d2521750fb14ed40"
+    }
+  ],
+  "remote_ref": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6\trefs/heads/codex/phase1-direct-20261019",
+  "schema": "worldline.publication-readback.v5",
+  "scope": "Non-final checkpoint; nativeUNRUN, F7NOTPERFORMED, no release/acceptance",
+  "source_mapping": "Reviewed parent7a312728 plus exact unchanged operational source hashes in checkpoint-source-v5; no assertion successor documentary commit itself had prior review",
+  "tree": "d0a3b94925fd99be66c874f25ee1b131ddca14be",
+  "utc": "2026-11-01T14:45:19.441618+00:00"
+}

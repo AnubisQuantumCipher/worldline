@@ -3429,3 +3429,189 @@ Static translator planning fixes expected runtime/sdefault/GNATCOLL paths but no
 WORLDLINE CGPR or qualified objects yet exist. An existing SIA configuration is
 only a specimen with a target alias, not an adopted input. Native gnatls/config
 readback and dependency qualification remain UNRUN; no new source acquisition.
+
+
+### D158 first native attempt FAILED; D159 failure capture observed
+
+Published checkpoint b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6 has remote commit and
+seven raw-artifact matches (publication-readback-v5.json). Product source and
+D158/heavy bytes remain unchanged. Reviewed-parent to successor source binding
+is explicit; the later documentary commit is not retroactively reviewed.
+
+Fresh prelaunch readback matched285packet refs,254typed descendants,40D158payloads,
+342input pins,2623tool/runtime pins,16capture tools and host CORE handler pins.
+Bridge pairing, both vault markers/repository configs, protected pins, inactive
+storage units and empty heavy/vault lock observations matched. Available bytes
+100218458112 exceeded24178844672. Two readback-tool mistakes (small-file hash-loop
+bound and overbroad mandatory system-process exe links) were retained and corrected
+before launch; these are not native attempts. Independent scope audit confirmed
+selected comm/argv observation, with no exhaustive process-behavior claim.
+
+Actual launch custody recorded a clean allowlisted environment BEFORE first Bash,
+only descriptors0/1/2, COREsoft/hard0 and FSIZEsoft8MiB/hardunlimited. The first
+fixed native invocation ran in tool session40754. Post-lock MemAvailable19228788KiB
+was admitted; actual memory.max8589934592 and swap.max0 were observed, cgroup peak
+105226240B with zeroOOM/OOMkill. RUSAGE_CHILDREN maxRSS22904KiB is a separate measure.
+
+Compiler target and version stages exited0 with exact aarch64-linux-gnu and16.1.0.
+Minimal GNATCOLL build exited4 because original gnatcoll-boyer_moore.adb:77:06
+imports legacy Unchecked_Deallocation, triggering renamed-predefined-unit
+obsolescence warning -gnatwj under unchanged warnings-as-errors. Worker/heavy/guard
+exit125 and actual external rootexit1 are retained. Both native stream consumers
+exited0, all four captures empty, status capture_rejected1. This is an observed
+correct rejection path, not universal qualification of the capture envelope.
+Core/helpers/generation/determinism/recovery are UNRUN. No warning was suppressed.
+
+Normal wrapper completion records typed reapedlauncher125, complete inherited
+unpopulated/inactive receipt and fresh exact collected-scope tuple for
+wl-phase1-b48f0d3c9fa147f3ade478739df47bb2.scope. Root reports that joint normal
+terminal chain, not a collected-scope-only failure-cleanup proof. Original worker
+terminal UNKNOWN and root status cleanupUNDETERMINED remain unchanged. Fresh
+read-only pair then judge will independently assess the terminal classification.
+
+Postrun source/tool/helper/protected pins match; tracked diff was empty. Failed
+W inventory retains461entries/4739339logical bytes; inventory is NOT recovery.
+Result8350b5bc88cfb15e62dcab44331c8166634edb4a7f93cc09296c10f859feaf0d and closure
+packeta456f5f1ad116ac4af5b846e06d25c63076e5081fd8d651134e2ba6ee9bc39e0 bind raw
+outputs and actual native tool exit. No automatic retry or edits to failed artifacts.
+
+Static planning identifies a prospective three-site canonical Ada.Unchecked_Deallocation
+adaptation, preserving the exact upstream original and recording derivative provenance.
+This newly observed dependency/compiler issue is proposed as materially distinct
+from D158 receipt/progress review; it is not implemented, approved or a budget reset.
+D158/D159 remain at zero revisions. Full Old guarantee and strict flags unchanged.
+Current generator prerequisite FAILED/UNQUALIFIED; Phase One ACTIVE/INCOMPLETE;
+independent F7 NOT PERFORMED. Storage reclamation remains human-paused.
+
+
+### D160 prospective dependency compatibility dossier registered
+
+Native-result judge deb22625d43979bfcf663b1830d15f0e2a6e2760d8e0ccf0afecbceedf85a342
+confirmed FAILED generator/normal wrapper termination. Literalpopulated0 was not
+observed; inheritedfalse is not upgraded to literal sample or cleanup proof.
+Decision dd4bb4907aadcddf522984d1296eb9d8209d746258af59e27c9a2fcabc90664d permits
+only a distinct source-only dossier for the newly observed dependency warning.
+D158/D159 remain0revisions; no derivative implementation or rerun is approved.
+
+Options are exact three-site canonical naming, a broader compiler/upstream change,
+or preserving failed status. Warning suppression, skipping the unit and rewriting
+the selected pin are rejected. First prepare a prospective patch plus in-memory
+derivative identity and semantic/lifecycle specification, leaving original/failed
+source untouched. This provides a concrete bounded proposal for fresh pair/judge.
+Actual adaptation/build/provenance and behavioral equivalence remain unproved.
+
+Registered new dossier o1-gnatcoll-compatibility-dossier-v1 is limited to2MiBpayload
+plus2MiBfull-recovery margin,64descendants,15saggregate static in-memory checks.
+No runnable derivative/test/guard, native execution, locks/services/storage activity
+or external acquisition is permitted. ExistingR8MiBcap is unchanged. A single
+Sol-high author owns only that new root; coordinator relinquishes all carrier
+writes until seal/release. Reverse by withholding implementation approval while
+preserving the dossier and failed native evidence; no policy waiver or reset.
+Fresh initialproposal review plus at most one evidencedrevision applies toD160.
+PhaseOneACTIVE/INCOMPLETE,F7NOTPERFORMED,storagehumanpaused.
+
+
+### D160 sealed initial proposal and review dispatch
+
+Author released the sole writer lease after sealing dossier manifest
+c5df18ce9a98cb2ae9f9d16a4d022b22d8d43663ce2b8d53d426c06408727daa. Root readback
+matched eight regular single-link nonexecutable files,39192 logical bytes and
+all manifest payload identities. In-memory reproduction matched prospective
+derivative f0843c5a17d7cd01901828b46a291649349131ce55592ae72155d9ecf966143c.
+No derivative body, actual fixture or operational wrapper was written.
+The author's failed draft mailbox-length arithmetic check remains retained.
+
+Immutable initial review packet
+7d4c2fc8dd68c27286b2c5d84ae2864b3c4055a0334002b51b5c86933c2469bc
+binds dossier, original failure decision and author local routing/public tools.
+Fresh nonauthor Astra/medium independent and Sol/high adversary received the
+same packet before current-verdict sharing; separate judge remains pending.
+D160 initial proposal round is now in progress, with at most one evidenced
+revision available. D158/D159 remain zero revisions. Approval is not assumed.
+
+STALE correction d93c02e7927cb78f42ed9a9a4e1534c68ebd98cbbf6bc64bceb633f33425b4a2
+retains the earlier configuration planning report: the SIA selected CGPR is
+a one-row -MMD to -MD derivative, not raw generated bytes. Its historic
+header cannot establish derived-byte provenance. Exact nonempty gprconfig
+selector grammar and actual WORLDLINE selected CGPR remain unresolved.
+This is source planning, not config execution or native qualification.
+
+Root resumes sole writing; reviewers/planner are read-only. No native job
+was started. Native generator remains FAILED/UNQUALIFIED; Phase One active
+and incomplete; F7 NOT PERFORMED. Storage remains human-paused.
+
+
+### D160 initial adjudication: mandatory resource correction; sole revision dispatched
+
+Initial independent reviewer approved preparation with later accounting and
+accessibility requirements; adversary requested a mandatory correction. Separate
+judge1e0e5413f4aa473f15a5f82e6ffdd5ca317dfb1d194c1139739d4abde99b15d8
+substantiated the unqualified fixture allocation bound as a proposal defect.
+Decision438a7bafa8978da43a61034262aaea1c0f0e2e358532731fe01bb7f12a4bb177
+is REQUEST_CHANGES; derivative/fixture implementation remains unapproved.
+
+Use D160's sole evidenced revision: explicitly one combined executable; lifecycle
+11Compile/10nonempty/20allocation operations, plus persistent consumer elaboration
+1Compile/2allocations. Together12Compile/11nonempty/22allocation operations,
+at most2Pattern objects and4designatedheapblocks, symbolic12Character+14Offset
+payload units. Records, temporaryarrays, buffers, cursors and other runtime/library
+allocations require separate accounting. Lifecycle release returns only to the
+post-elaboration baseline; persistent consumer allocation is not claimed freed.
+Use caller-owned library-level aliased buffers, On_Close=>null and checked access.
+No source patch defect was demonstrated; semantic equivalence remains unproved.
+
+Revisionregistrationb2b937c1c259756bc80d390c9eddb679bdbf5df946375ca67e22e122de83cebe
+retains v1 and allows only new source-only dossierv2, with initial+revision together
+inside original2MiBpayload/2MiBrecovery/64descendants/15sstatic allowance. D160
+revisions remaining becomes0 on dispatch; D158/D159 remain0. No reset or run.
+
+Additional bounded metadata registratione1c57447e9de1c84c9128fb5b3fd3ced5479b712c07044afb7a7ddd81eb6e052
+adds2MiBmetadata+2MiBfullrecovery for revised review receipts. Existing R cap8MiB
+is unchanged; combined metadata/recovery allowances are10MiB each. Future native
+admission must count the additive4MiB and all carried data; no runtime admission.
+
+Exact pinned gprconfig embedded-help bytes independently read by root identify
+CONFIG=language[,version[,runtime[,path[,name]]]]. Readback25e4f834de34790393918661dcbb4b6fae326dc325743dd8e295df71603c462f
+resolves field-order evidence without native invocation. Parser matching,
+normalization, compiler selection and actual CGPR remain UNVERIFIED. Earlier
+reports are retained; no new help wrapper or native help call is needed merely
+to learn the field order. Root relinquishes carrier writes to the sole revised-
+dossier author until seal/release. PhaseOne incomplete; F7 NOT PERFORMED.
+
+
+### D160 revised proposal approved for separately registered source preparation only
+
+Fresh independent Astra/medium and adversary Sol/high reviews of common packet
+b241072eb044744b038ba642f663d70179e3abd06559850ebbf6902663767515 both accepted
+the correction. Separate Astra/medium judge ca91ba59d7346f3dcd48392c222690856db30681adc65ac0434025a0adbcfc5f
+confirmed the initial mandatory defect is resolved. Decision
+0c3181f154032134bf7eb944322100efa1755872c847c1e8f270ef5a79cf7483 permits only
+a separately registered derivative/fixture source-preparation package. No actual
+derivative, fixture, configuration generation or native execution is admitted.
+
+The exact three-site patch and prospective derivative identity remain unchanged.
+V1 and v2 total 19 files / 121785 bytes within their shared original bounds.
+Combined fixture accounting explicitly includes the persistent consumer Pattern;
+other runtime storage, actual accessibility, intrinsic lowering, contracts, pool
+release, semantic equivalence and native fit remain UNPROVEN/UNRUN.
+D160 has zero further revisions; D158/D159 remain zero. Initial rejection,
+failed draft check and first native failure are preserved, not superseded as
+execution results. Reverse by withholding source preparation or later admission
+while retaining every version; no guarantee or policy deviation was accepted.
+
+Four documentary inputs were held fixed through pair and judge. Exact snapshots
+and initial-prefix/continuation recovery are retained under
+o1-compatibility-review-metadata-v1/review-documentary-snapshot-map-v1.json
+(7f89d75199f376208c674851f93e6fd50691b818030a7da9bc1a589e92c0cde0).
+Subsequent append-only progress is not a mutation of those reviewed snapshots.
+
+Next: publish the non-final failure/proposal checkpoint, then register exact
+derivative and bounded fixture source preparation. Actual selected configuration
+remains a distinct prerequisite. Field order is observed in pinned executable
+help bytes; neither parser matching nor generated CGPR is qualified. The planner
+explicitly proposed an unprefixed gcc selector; byte equality with prefixed gcc
+does not establish invocation equivalence. Resolve exact selection under the
+later configuration review, without silently substituting paths or pin identities.
+Root is sole writer; all dossier/review workers have released. Native jobs none.
+Phase One ACTIVE/INCOMPLETE; generator FAILED/UNQUALIFIED; F7 NOT PERFORMED.
+Storage reclamation remains human-paused. No merge, tag, release or acceptance.

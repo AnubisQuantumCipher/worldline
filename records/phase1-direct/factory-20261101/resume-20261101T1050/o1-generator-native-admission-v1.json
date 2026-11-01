@@ -1,0 +1,168 @@
+{
+  "D158_payloads": 40,
+  "F7": "NOT PERFORMED",
+  "MemAvailable_bytes": 19801317376,
+  "R_bytes": 6421856,
+  "available_bytes": 100218458112,
+  "bridge": {
+    "device_count": 1,
+    "pairing_success": true
+  },
+  "capture_tools": 16,
+  "checked_ancestors": [
+    {
+      "mode": "0o755",
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+      "uid": 1000
+    },
+    {
+      "mode": "0o755",
+      "path": "/home/sicarii/Work",
+      "uid": 1000
+    },
+    {
+      "mode": "0o700",
+      "path": "/home/sicarii",
+      "uid": 1000
+    },
+    {
+      "mode": "0o755",
+      "path": "/home",
+      "uid": 0
+    },
+    {
+      "mode": "0o555",
+      "path": "/",
+      "uid": 0
+    },
+    {
+      "mode": "0o755",
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101",
+      "uid": 1000
+    },
+    {
+      "mode": "0o755",
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct",
+      "uid": 1000
+    },
+    {
+      "mode": "0o700",
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050",
+      "uid": 1000
+    }
+  ],
+  "core_handler_pins_match": true,
+  "elapsed_seconds": 0.8744637039490044,
+  "future_paths_absent": true,
+  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "input-pins.json": {
+    "bytes": 3751237,
+    "count": 342
+  },
+  "locks": [
+    {
+      "device_inode": "fd:00:457925",
+      "path": "/home/sicarii/.worldline-heavy.lock",
+      "reservation": false,
+      "rows": []
+    },
+    {
+      "device_inode": "fd:00:7393010",
+      "path": "/home/sicarii/.local/state/project-vault/operation.lock",
+      "reservation": false,
+      "rows": []
+    }
+  ],
+  "native_run": "NOT_STARTED",
+  "next": "Caller clean allowlist and FD0/1/2 before firstBash; actual postlock memory remains authoritative",
+  "operations": {
+    "cold-operation.json": {
+      "bytes": 133,
+      "finished": "2026-11-01T13:22:12.026500+00:00",
+      "phase": null,
+      "sha256": "dcc1ea1ce7fd1c2157cd5c4651032f1af6326ae9d87237f13b5e3f4851204ca9",
+      "state": "passed"
+    },
+    "operation.json": {
+      "bytes": 475,
+      "finished": "2026-11-01T14:09:48.471400+00:00",
+      "phase": "snapshots",
+      "sha256": "e326e192eaf0bf1bfb848f780bee539465587d95e958db2dbeffd180b337a467",
+      "state": "passed"
+    }
+  },
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "packet_references": 285,
+  "protected_pins": {
+    "bytes": 96872,
+    "carrier_and_toolchain_covered": true,
+    "count": 1334,
+    "sha256": "c033b227198aca0003ccf4c454a1e0717756ac12e946b2c79a2f3656f8e9cfb2"
+  },
+  "schema": "worldline.o1-generator.native-admission-readback.v1",
+  "selected_process_scan": {
+    "matched": [],
+    "scanned": 641,
+    "scope": "selected comm and argv token basenames; no executable-link access or all-process-behavior attestation",
+    "unreadable": []
+  },
+  "services": [
+    {
+      "stderr": "",
+      "unit": "duat-reviewed-remainder-20261101.service",
+      "values": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "ExecMainStatus": "0",
+        "Id": "duat-reviewed-remainder-20261101.service",
+        "MainPID": "0",
+        "SubState": "dead"
+      }
+    },
+    {
+      "stderr": "",
+      "unit": "project-vault-backup.service",
+      "values": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "ExecMainStatus": "0",
+        "Id": "project-vault-backup.service",
+        "MainPID": "0",
+        "SubState": "dead"
+      }
+    }
+  ],
+  "state": "PRELAUNCH_CHECKS_MATCHED",
+  "storage_stop": {
+    "bytes": 1655,
+    "sha256": "49b2bd5098e977fa7f09454b5b6a25e28a300922b1a4786683beb6676d30b5f6"
+  },
+  "tool-runtime-pins.json": {
+    "bytes": 402438744,
+    "count": 2623
+  },
+  "tracked_clean": true,
+  "typed_descendants": 254,
+  "uid": 1000,
+  "utc": "2026-11-01T14:49:29.643301+00:00",
+  "vault_mounts": [
+    {
+      "fstype": "fuse.ifuse",
+      "path": "/home/sicarii/iPad",
+      "repository_config": {
+        "bytes": 155,
+        "sha256": "45ad6db531c03514115c60f2a1eb0de974d7a396a35f22fd2270ca606ca0f009"
+      },
+      "vault_id_matches": true
+    },
+    {
+      "fstype": "fuse.ifuse",
+      "path": "/home/sicarii/iPadBackup",
+      "repository_config": {
+        "bytes": 155,
+        "sha256": "45ad6db531c03514115c60f2a1eb0de974d7a396a35f22fd2270ca606ca0f009"
+      },
+      "vault_id_matches": true
+    }
+  ]
+}

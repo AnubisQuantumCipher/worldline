@@ -1,0 +1,14 @@
+{
+  "D158_D159_revision_budgets": "UNCHANGED",
+  "artifacts_created_by_failed_attempts": false,
+  "corrected_command_sha256": "077ed49213127cf61e791d6a353a7ee70173c0c180c0fc4392462037dec7e3bb",
+  "correction": "One additional bounded read iteration to observe EOF for small file limit; no operational package/helper/program edits",
+  "failures": [
+    "Read-only prelaunch attempt1 failed RuntimeError hash bound at native Repository/config: smalllimit4096 gave only one hash-loop iteration, so nonempty155B read hit for-else before EOF check",
+    "Public command extraction first selected function_call instead of native custom_tool_call and asserted zero matches before any write; corrected by exact native row4784"
+  ],
+  "native_attempt_started": false,
+  "original_command_sha256": "af8e2123d4c008db66cb98d7d14c41d96ae0964f3e9203b96426f24b33e30055",
+  "schema": "worldline.admission-preparation-history.v1",
+  "stage": "PRELAUNCH_NO_RUNTIME"
+}

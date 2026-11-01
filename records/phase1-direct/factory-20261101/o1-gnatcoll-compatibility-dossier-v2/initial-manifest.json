@@ -1,0 +1,95 @@
+{
+  "D158_source_revisions_remaining": 0,
+  "D159_operational_revisions_remaining": 0,
+  "D160_review_round": "INITIAL_NOT_STARTED",
+  "F7": "NOT PERFORMED",
+  "author_release": "EXTERNAL MESSAGE AFTER EXACT READBACK",
+  "bounds": {
+    "aggregate_static_check_seconds": 15,
+    "full_recovery_margin_bytes": 2097152,
+    "maximum_descendants": 64,
+    "payload_bytes_including_manifest": 2097152
+  },
+  "decision": "D160",
+  "descendants_including_manifest": 8,
+  "expected_manifest_sha256": "EXTERNAL WRITER RELEASE ONLY",
+  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "manifest_self_excluded": true,
+  "payload_bytes_excluding_manifest": 36489,
+  "payload_entries": [
+    {
+      "bytes": 7682,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "LIFECYCLE-FIXTURE-SPEC.md",
+      "sha256": "22c5a46ee6784fdd90b9f1a19e0079fc969c62bd0f60c38f260245dd99da51b4",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 11173,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "PROPOSAL.md",
+      "sha256": "fe5e40edaf0c0d01ac1f82825b5834c7b0e07e80d83e7c5e0a5d3ad81e89a94d",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 655,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "draft-static-failure.json",
+      "sha256": "f34fc515cc7cef0ccb3a86304c0c5407c96253bc6ec57afc60113605534f92ff",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 3696,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "identities.json",
+      "sha256": "18221d0ea82d195fcbfeeb0541f2176f7ce81d128e1e058b2bed9402473a5f96",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 11317,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "input-references.json",
+      "sha256": "7df0c498f9d306ee7f5ae291e35d941c4874ffdb1199dddd642eb810e6a0aa53",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 974,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "prospective.diff",
+      "sha256": "5236f5d2e65281a838ea883411dd5de2effd0344af5767dcbee74f5229da3922",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 992,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "static-verification.json",
+      "sha256": "c73befdf641c16bd0642a8832ce26766f8dfe798dd6568bb6598012d3f146db9",
+      "type": "regular",
+      "uid": 1000
+    }
+  ],
+  "phase_acceptance": false,
+  "runtime_admission": "NOT_GRANTED",
+  "schema": "worldline.typed-source-only-compatibility-dossier-manifest.v1",
+  "state": "SEALED_SOURCE_ONLY_PROPOSAL_PENDING_FRESH_PAIR_AND_JUDGE"
+}

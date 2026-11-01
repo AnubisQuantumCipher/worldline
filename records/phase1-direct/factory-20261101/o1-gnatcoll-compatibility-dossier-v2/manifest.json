@@ -1,0 +1,137 @@
+{
+  "D158_revisions_remaining": 0,
+  "D159_revisions_remaining": 0,
+  "D160_further_revisions_remaining": 0,
+  "F7": "NOT PERFORMED",
+  "aggregate_bounds": {
+    "aggregate_static_seconds_ceiling": 15,
+    "full_recovery_margin_bytes": 2097152,
+    "maximum_descendants": 64,
+    "new_static_seconds_ceiling": 10,
+    "payload_bytes_including_manifests": 2097152,
+    "prior_author_static_seconds": 0.2189,
+    "prior_v1_bytes": 39192,
+    "prior_v1_files": 8,
+    "root_inclusive_v1_v2_entry_count": 21
+  },
+  "author_release": "EXTERNAL MESSAGE AFTER EXACT READBACK",
+  "decision": "D160",
+  "expected_manifest_sha256": "EXTERNAL WRITER RELEASE ONLY",
+  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "initial_manifest": {
+    "bytes": 2703,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/manifest.json",
+    "sha256": "c5df18ce9a98cb2ae9f9d16a4d022b22d8d43663ce2b8d53d426c06408727daa"
+  },
+  "manifest_self_excluded": true,
+  "payload_bytes_excluding_manifest": 78561,
+  "payload_entries": [
+    {
+      "bytes": 10137,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "LIFECYCLE-FIXTURE-SPEC.md",
+      "sha256": "5cf26191685ae4f8801523aa6a57348f8dad538d8d912f2518836d6426ec88e6",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 13326,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "PROPOSAL.md",
+      "sha256": "25615a33758d0a98a512f91a08734f6f900c79dea4e8981d451875bd087024ab",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 655,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "draft-static-failure.json",
+      "sha256": "f34fc515cc7cef0ccb3a86304c0c5407c96253bc6ec57afc60113605534f92ff",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 3696,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "identities.json",
+      "sha256": "18221d0ea82d195fcbfeeb0541f2176f7ce81d128e1e058b2bed9402473a5f96",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 2703,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "initial-manifest.json",
+      "sha256": "c5df18ce9a98cb2ae9f9d16a4d022b22d8d43663ce2b8d53d426c06408727daa",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 992,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "initial-static-verification.json",
+      "sha256": "c73befdf641c16bd0642a8832ce26766f8dfe798dd6568bb6598012d3f146db9",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 16992,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "input-references.json",
+      "sha256": "e747208b22c19884dcc9a46d50d10b4dcfcf674438b602cf423e8d8ad8d55748",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 974,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "prospective.diff",
+      "sha256": "5236f5d2e65281a838ea883411dd5de2effd0344af5767dcbee74f5229da3922",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 27587,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "revision-provenance.json",
+      "sha256": "4cf3fbf43ca9bee5dab5c7c88d47caa2423e592f6ffb1978d3516768c3c5f0c5",
+      "type": "regular",
+      "uid": 1000
+    },
+    {
+      "bytes": 1499,
+      "gid": 1000,
+      "mode": "0644",
+      "nlink": 1,
+      "path": "static-verification.json",
+      "sha256": "61d4708439bae4300d06fa4577f3b3a8fad97ae957ce1a8bad5500dd1a5e9bd1",
+      "type": "regular",
+      "uid": 1000
+    }
+  ],
+  "phase_acceptance": false,
+  "revision": "SOLE_EVIDENCE_DRIVEN_REVISION",
+  "runtime_admission": "NOT_GRANTED",
+  "schema": "worldline.typed-source-only-compatibility-dossier-manifest.v2",
+  "state": "SEALED_SOURCE_ONLY_REVISION_PENDING_RENEWED_FRESH_PAIR_AND_JUDGE",
+  "storage": "HUMAN_PAUSED",
+  "v2_files_including_manifest": 11
+}

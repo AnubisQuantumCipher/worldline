@@ -1,0 +1,114 @@
+{
+  "F7": "NOT PERFORMED",
+  "binary": {
+    "bytes": 38836096,
+    "path": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprconfig",
+    "sha256": "58e81e9c21d18f20b80f7c2594a3f473621b64dff2498f191e4fbe2da9d0ce46"
+  },
+  "configuration_generated": false,
+  "native_invoked": false,
+  "observations": [
+    {
+      "ascii": "--config=",
+      "length": 9,
+      "offset_zero_based": 15170040
+    },
+    {
+      "ascii": "Preselect a compiler.",
+      "length": 21,
+      "offset_zero_based": 15170056
+    },
+    {
+      "ascii": "  CONFIG=language[,version[,runtime[,path[,name]]]]",
+      "length": 51,
+      "offset_zero_based": 15170078
+    },
+    {
+      "ascii": "  Name is either one of the names of the blocks in the knowledge base",
+      "length": 69,
+      "offset_zero_based": 15170130
+    },
+    {
+      "ascii": "  ('GCC', 'GCC-28',...) or the base name of an executable ('gcc', 'gnatmake').",
+      "length": 78,
+      "offset_zero_based": 15170200
+    },
+    {
+      "ascii": "  An empty string can be specified for any of the optional parameters,",
+      "length": 70,
+      "offset_zero_based": 15170279
+    },
+    {
+      "ascii": "  otherwise positional prefixes can be used:",
+      "length": 44,
+      "offset_zero_based": 15170350
+    },
+    {
+      "ascii": "  --config=language:ada,runtime:zfp equals to --config=ada,,zfp.",
+      "length": 64,
+      "offset_zero_based": 15170395
+    },
+    {
+      "ascii": "--target=",
+      "length": 9,
+      "offset_zero_based": 15169368
+    },
+    {
+      "ascii": "Select specified target or \"all\" for any target",
+      "length": 47,
+      "offset_zero_based": 15170488
+    },
+    {
+      "ascii": "--batch",
+      "length": 7,
+      "offset_zero_based": 15169584
+    },
+    {
+      "ascii": "Batch mode, no interactive compiler selection",
+      "length": 45,
+      "offset_zero_based": 15169592
+    },
+    {
+      "ascii": "-o:",
+      "length": 3,
+      "offset_zero_based": 15169688
+    },
+    {
+      "ascii": "Name and directory of the output file",
+      "length": 37,
+      "offset_zero_based": 15169696
+    },
+    {
+      "ascii": "--db:",
+      "length": 5,
+      "offset_zero_based": 15169768
+    },
+    {
+      "ascii": "Parse DIR as an additional knowledge base",
+      "length": 41,
+      "offset_zero_based": 15169776
+    },
+    {
+      "ascii": " --db-                  Do not load the standard knowledge base",
+      "length": 63,
+      "offset_zero_based": 15169818
+    },
+    {
+      "ascii": "--fallback-targets",
+      "length": 18,
+      "offset_zero_based": 15169960
+    },
+    {
+      "ascii": "Look for native toolchains of different architecture",
+      "length": 52,
+      "offset_zero_based": 15169984
+    }
+  ],
+  "schema": "worldline.compiled-help-byte-readback.v1",
+  "scope": "Exact pinned executable embedded help text, read as bytes; not invoked. Documents tuple field order only. Runtime/parser matching and generated configuration remain UNVERIFIED. Supersedes only claim that field order lacks local evidence; earlier reports retained.",
+  "window": {
+    "length": 2300,
+    "offset_zero_based": 15168800,
+    "sha256": "89b269565b4803a852414115df793dc49357d50443a71582312a87264e471b25"
+  }
+}

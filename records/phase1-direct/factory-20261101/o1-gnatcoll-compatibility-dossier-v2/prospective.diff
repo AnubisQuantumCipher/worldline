@@ -1,0 +1,24 @@
+--- upstream/gnatcoll/minimal/src/gnatcoll-boyer_moore.adb
++++ prospective-derived/gnatcoll/minimal/src/gnatcoll-boyer_moore.adb
+@@ -74,7 +74,7 @@
+ --  combined, and the pattern is moved forward by the maximum amount reported
+ --  by the two functions.
+ 
+-with Unchecked_Deallocation;
++with Ada.Unchecked_Deallocation;
+ with Ada.Text_IO;             use Ada.Text_IO;
+ with Ada.Integer_Text_IO;     use Ada.Integer_Text_IO;
+ with GNAT.Case_Util;          use GNAT.Case_Util;
+@@ -245,9 +245,10 @@
+    ----------
+ 
+    procedure Free (Motif : in out Pattern) is
+-      procedure Internal is new Unchecked_Deallocation
++      procedure Internal is new Ada.Unchecked_Deallocation
+         (Offset_Array, Offset_Array_Access);
+-      procedure Internal is new Unchecked_Deallocation (String, String_Access);
++      procedure Internal is new Ada.Unchecked_Deallocation
++        (String, String_Access);
+    begin
+       Internal (Motif.Good_Suffix);
+       Internal (Motif.Motif);

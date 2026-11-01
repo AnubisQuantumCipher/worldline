@@ -1,0 +1,18 @@
+{
+  "attempt": 1,
+  "claimed_d01_bytes": 49,
+  "claimed_d02_bytes": 24,
+  "claimed_lf_separator_index_1_based": 25,
+  "correction": "Use literal-derived47/23/24 in fresh packet; immutable source/failure evidence unchanged",
+  "dossier_files_written_before_failure": false,
+  "exit": 1,
+  "native_or_product_run": false,
+  "observed_d01_bytes": 47,
+  "observed_d02_bytes": 23,
+  "observed_lf_separator_index_1_based": 24,
+  "raw_stderr_tail": "AssertionError",
+  "raw_stdout": "consumer literal counts 47 23 24",
+  "schema": "worldline.author-static-failure.v1",
+  "state": "FAILED_PREWRITE_DRAFT_ORACLE_CHECK",
+  "tool_cell_wall_seconds_displayed": 0.2
+}

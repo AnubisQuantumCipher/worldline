@@ -1,0 +1,25 @@
+{
+  "all_artifact_diff_check": {
+    "exit": 2,
+    "stderr": "",
+    "stdout": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/prospective.diff:6: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/prospective.diff:14: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/prospective.diff:6: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/prospective.diff:14: trailing whitespace.\n+ \n"
+  },
+  "all_index_bytes_match": true,
+  "all_other_paths_diff_check": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "bytes": 4042429,
+  "credential_format_scan_findings": [],
+  "credential_scan_limit": "Heuristic patterns, not proof of absence of every possible secret",
+  "excluded_from_generic_whitespace_check_only": [
+    "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/prospective.diff",
+    "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/prospective.diff"
+  ],
+  "immutable_patch_context_classification": "Exactly four findings are the required single-space prefix for blank context lines in the two identical reviewed unified-diff artifacts; no source addition contains that whitespace. Preserve exact canonical diff bytes and hashes. This is artifact grammar, not a waiver of code warnings or source quality requirements.",
+  "schema": "worldline.publication-hygiene.v6",
+  "sealed_artifact_policy": "No normalization or mutation of reviewed artifacts; exact source patch identity and in-memory roundtrip verified by fresh pair/judge.",
+  "selected": 136,
+  "utc": "2026-11-01T15:31:37.499876+00:00"
+}

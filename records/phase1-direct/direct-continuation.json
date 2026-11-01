@@ -1,8 +1,15 @@
 {
+  "D160_proposal_revisions_remaining": 0,
   "active_jobs": [],
+  "additional_metadata_reservation": {
+    "additive_to_existing_R": true,
+    "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1",
+    "payload": 2097152,
+    "recovery": 2097152
+  },
   "blocked_condition_audit": {
     "current_resumed_run_consecutive_impasse_turns": 0,
-    "current_state": "PROGRESS: D159 operational envelope approved conditionally; initial clean environment before firstBash is mandatory; exact checkpoint and fresh native admission next",
+    "current_state": "PROGRESS: first actual native attempt FAILED on strict legacy predefined-unit warning; terminal/source review and materially distinct dependency compatibility planning ongoing; no same-failure retry",
     "historical_audit": "Preserved previous three-turn storage impasse in pre-reconciliation continuation"
   },
   "completed": [
@@ -34,7 +41,7 @@
     "D157 exact279-source prerequisite cut independently byte/blob/receipt verified; generator/compiler/proof UNRUN.",
     "D157 remaining compiler candidate771files37730838B acquired with671GETs+100reuses, root allblob/SHA/size/mode/receipt verified; executable closure UNPROVEN."
   ],
-  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
+  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v5.json",
   "current_runtime_boundary": "Passing96.492s unchanged padding regression used earlier quantity603a4bc3/loader318a9033 checked build. Currentquantity7463adf3/loaderfbf8962f integrated build/runtime remainsUNRUN; numeric87checks applycurrent7463/c074 only.",
   "evidence": [
     "render-runtime/result.json",
@@ -197,17 +204,27 @@
     "factory-20261101/resume-20261101T1050/storage-owner-stop-readback-v4.json",
     "factory-20261101/resume-20261101T1050/o1-generator-capture-envelope-analysis-report.md",
     "factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
-    "factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json"
+    "factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json",
+    "factory-20261101/resume-20261101T1050/o1-generator-native-result-v1.json"
   ],
   "goal_status": "ACTIVE_INCOMPLETE",
-  "head": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
   "head_class": "Current documentary HEAD matches remote. Product source remains1d148820; no product integration or qualified run in current resume.",
-  "helper_status": "All D159 author/pair/judge and translator planner released; root sole writer, no operational job",
-  "latest_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
+  "helper_status": "D160 author, fresh v2 pair and separate judge completed and released; root sole writer; checkpoint coherence reviewer read-only",
+  "latest_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v5.json",
   "latest_continuation": "factory-20261101/resume-20261101T1050/resumption.json",
+  "latest_native_decision": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-decision-v1.json",
+  "latest_native_result": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-v1.json",
+  "latest_native_review_packet": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-closure-packet-v1.json",
   "latest_operational_decision": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json",
   "latest_operational_packet": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-review-packet.json",
-  "latest_publication_readback": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v4.json",
+  "latest_proposal_decision": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-decision-v2.json",
+  "latest_proposal_decision_sha256": "0c3181f154032134bf7eb944322100efa1755872c847c1e8f270ef5a79cf7483",
+  "latest_proposal_manifest_sha256": "e313be5b7270cd7d768de7f9f052b9a5f6a1c8676b9db4112b7e42eadde6af91",
+  "latest_proposal_registration": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-dossier-registration-v1.json",
+  "latest_proposal_review_packet": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-review-packet-v2.json",
+  "latest_proposal_review_packet_sha256": "b241072eb044744b038ba642f663d70179e3abd06559850ebbf6902663767515",
+  "latest_publication_readback": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v5.json",
   "memory": {
     "class": "model-origin navigation only, not proof",
     "current_state_authority": "direct-continuation.json and live receipts; earlier note contains an older proof handle",
@@ -219,8 +236,8 @@
     "pin_evidence": "sia-raw-layout-pin-state.json",
     "ready_exit": 0
   },
-  "next": "Publish exact reviewed D159 checkpoint then fresh native admission; one unchanged fixed generator attempt only if every gate passes",
-  "next_executable_task": "Publish exact reviewed D159 checkpoint then fresh native admission; one unchanged fixed generator attempt only if every gate passes",
+  "next": "Publish non-final native failure and D160 reviewed proposal checkpoint, then register bounded derivative/fixture source preparation; no native retry admitted",
+  "next_executable_task": "Publish non-final native failure and D160 reviewed proposal checkpoint, then register bounded derivative/fixture source preparation; no native retry admitted",
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
     "Zero-padding successor regression passes after normalization; genuinely significant805-byte value still raises GNAT big integer limit exceeded. No full-domain runtime closure.",
@@ -230,14 +247,14 @@
     "protected/actor witnesses and independent F7 acceptance"
   ],
   "owner": "Codex Astra coordinator 01a196b6-6595-7b30-ae07-8af6b0ed4dc7; sole WORLDLINE Phase One integrator",
-  "pending_publication": "HEAD7a312728 remainsremotecheckpoint; newD159source/evidence/documents notyetpublished",
+  "pending_publication": "V6 non-final native failure, original/revised proposal and review evidence; derivative/fixture not materialized; no execution admission",
   "phase_acceptance": false,
   "previous_factory_continuation": "factory-20261101/checkpoint-paused-v1.json",
   "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
-  "previous_utc": "2026-11-01T14:34:14.384146+00:00",
-  "publication_receipt": "factory-20261101/resume-20261101T1050/publication-readback-v4.json",
-  "published_head": "7a3127281389f58f2291c86d123ec1f920cee6b7",
-  "published_readback": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "previous_utc": "2026-11-01T14:42:30.814262+00:00",
+  "publication_receipt": "factory-20261101/resume-20261101T1050/publication-readback-v5.json",
+  "published_head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "published_readback": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
   "remote_checkpoint": {
     "branch": "codex/phase1-direct-20261019",
     "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
@@ -269,6 +286,6 @@
     "completion-20261026/reservation-plan/checked-cost-rejection-v1.json"
   ],
   "storage_coordination": "Human accepted100GB and paused reclamation; DUAT owner released scheduling claim; no runtimeadmission",
-  "utc": "2026-11-01T14:42:30.814262+00:00",
+  "utc": "2026-11-01T15:02:46.637543+00:00",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019"
 }

@@ -1,0 +1,15 @@
+**Verdict: APPROVE SOURCE PREPARATION ONLY.** No remaining mandatory proposal defect found in D160 v2. Fresh separate judgment and distinct derivative/fixture registration remain required; this review authorizes no execution.
+
+**OBSERVED:** HEAD and packet SHA256 `b241072eb044744b038ba642f663d70179e3abd06559850ebbf6902663767515` match. All 30 packet references and 50 dossier input references match. Typed v1/v2 rosters total 19 files, 121,785 bytes. Original/staged source, acquisition receipt, runtime declarations, reversible in-memory derivative, and unchanged patch/identity/failure payloads match. Four documentary snapshots match; three historical prefixes and the recovered initial-continuation hash are bound.
+
+The initial objection is resolved. Source allocation sites support the revised combined totals: **12 Compile calls, 11 nonempty calls, 22 allocation operations, two specified Pattern sources, four designated blocks, and symbolic maximum payload 12 Character + 14 Offset units.** Persistent consumer storage remains resident; lifecycle release targets the post-elaboration baseline. Compiler-created copies, records, temporary arrays, allocator overhead and other runtime storage remain separately accounted qualification obligations.
+
+The finite oracle independently matches all 11 lifecycle expectations. D01/D02 lengths are 47/23; D01 separator begins at 24, with second message beginning at 25. Source inspection supports the prescribed iterator states. Library-level aliased buffers with checked access and `On_Close => null` address the identified accessibility/ownership hazard without suppressing checks.
+
+The unchanged three-site patch presents no demonstrated textual defect. **UNPROVEN/UNRUN:** native legality, actual configuration/runtime selection, generic resolution/intrinsic lowering, canonical contracts/assertion policy, pointer nulling, pool release, exception behavior, behavioral equivalence and whole-executable resource fit. These are mandatory later qualification evidence, not grounds to reject this source-only correction.
+
+Smallest sound next step: separate judge evaluates both fresh reports; following approval, register bounded derivative/fixture source preparation reproducing SHA256 `f0843c5a17d7cd01901828b46a291649349131ce55592ae72155d9ecf966143c`. Actual source, wiring, checks, resource accounting and evidence controls then require review before fresh native admission.
+
+D160 further revisions: **0**; D158/D159: **0**. Generator remains **UNQUALIFIED**; storage **HUMAN_PAUSED**; F7 **NOT PERFORMED**.
+
+Review was read-only: no writes, native/configuration execution, network, locks, services or storage operations. One local summary initially mislabeled the manifest digest as the packet digest through variable reuse; the packet assertion had passed, and a subsequent explicit readback corrected the label.

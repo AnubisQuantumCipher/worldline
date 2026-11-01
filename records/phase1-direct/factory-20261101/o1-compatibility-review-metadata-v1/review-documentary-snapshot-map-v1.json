@@ -1,0 +1,75 @@
+{
+  "initial_continuation": {
+    "bytes": 20835,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v1-direct-continuation.json",
+    "sha256": "a648cd4b8be1b66c68b12f2463d4499b0b813ceca9bc0f14bb90eee146a1c38f"
+  },
+  "initial_continuation_method": "Reversed root recorded documentary updates in memory; exact20835bytes/SHAa648cd4b matched v1 historical reference before writing. Three append-only documents recover their prior identities as exact byte prefixes. Current snapshots preserve v2 referenced state before later updates.",
+  "no_product_changes": true,
+  "schema": "worldline.review-documentary-snapshots.v1",
+  "snapshots": [
+    {
+      "initial_observation_recovered_as_exact_prefix": {
+        "bytes": 588746,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/decisions.md",
+        "sha256": "771b904391f945410e8509bca532a577b74abc5179d2159c02456ca82e81b3bd"
+      },
+      "snapshot": {
+        "bytes": 593011,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-decisions.md",
+        "sha256": "152819beb04a60159317dc21d680d9ccce7dab14bc1bd59bd0c89e123ee5b0ef"
+      },
+      "source_observation": {
+        "bytes": 593011,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/decisions.md",
+        "sha256": "152819beb04a60159317dc21d680d9ccce7dab14bc1bd59bd0c89e123ee5b0ef"
+      }
+    },
+    {
+      "initial_observation_recovered_as_exact_prefix": {
+        "bytes": 130513,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/phase1-progress.md",
+        "sha256": "8416eda1afd47fd8b0ecb29d07366a81c3e8873cbb12bcf36d63e4fb2d9dabc3"
+      },
+      "snapshot": {
+        "bytes": 131888,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-phase1-progress.md",
+        "sha256": "132acf4f577d6a56b0d6e67ceae1996e9bfd2a3e749bfd21399eae0cdd0284ea"
+      },
+      "source_observation": {
+        "bytes": 131888,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/phase1-progress.md",
+        "sha256": "132acf4f577d6a56b0d6e67ceae1996e9bfd2a3e749bfd21399eae0cdd0284ea"
+      }
+    },
+    {
+      "initial_observation_recovered_as_exact_prefix": {
+        "bytes": 17395,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/factory/dissent/DISSENT-LOG.md",
+        "sha256": "7aa12b9b0714b70ccf47006ef243bbfe03fe41583ae069bef9975e87ab1cad31"
+      },
+      "snapshot": {
+        "bytes": 19034,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-DISSENT-LOG.md",
+        "sha256": "ca731474f7691d4433203255ce9f7eebce7d2e345043ef7319654f0d8de6bdb8"
+      },
+      "source_observation": {
+        "bytes": 19034,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/factory/dissent/DISSENT-LOG.md",
+        "sha256": "ca731474f7691d4433203255ce9f7eebce7d2e345043ef7319654f0d8de6bdb8"
+      }
+    },
+    {
+      "snapshot": {
+        "bytes": 21690,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-direct-continuation.json",
+        "sha256": "005eae13e8b26ec45957e7fbc24e433b98318c67686cdd24a6d5d9e82f8512ec"
+      },
+      "source_observation": {
+        "bytes": 21690,
+        "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/direct-continuation.json",
+        "sha256": "005eae13e8b26ec45957e7fbc24e433b98318c67686cdd24a6d5d9e82f8512ec"
+      }
+    }
+  ]
+}

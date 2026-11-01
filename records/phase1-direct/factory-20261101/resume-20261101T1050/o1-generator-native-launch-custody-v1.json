@@ -1,0 +1,57 @@
+{
+  "CORE_soft_hard": [
+    0,
+    0
+  ],
+  "F7": "NOT PERFORMED",
+  "FD_closure_bound": 524288,
+  "FSIZE_soft_hard": [
+    8388608,
+    -1
+  ],
+  "actual_entry": [
+    "/usr/bin/bash",
+    "--noprofile",
+    "--norc",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-core-zero-entry.sh"
+  ],
+  "admission_age_seconds": 59.97679,
+  "admission_sha256": "ed2f201db5f39aa721934a75bebea9a3eb4248a7d86c4a60a34cf9f7ede1960d",
+  "head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "initial_exec_environment": {
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+    "HOME": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/o1-xgen-build-v1/control",
+    "LC_ALL": "C",
+    "PATH": "/usr/bin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONOPTIMIZE": "0",
+    "TZ": "UTC",
+    "XDG_RUNTIME_DIR": "/run/user/1000"
+  },
+  "initial_fd_state": [
+    {
+      "device": 7,
+      "fd": 0,
+      "inode": 5,
+      "kind": 8192
+    },
+    {
+      "device": 16,
+      "fd": 1,
+      "inode": 240116618,
+      "kind": 4096
+    },
+    {
+      "device": 16,
+      "fd": 2,
+      "inode": 240116619,
+      "kind": 4096
+    }
+  ],
+  "root_control": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2",
+  "root_mode": "0700",
+  "root_uid": 1000,
+  "schema": "worldline.generator.actual-entry-custody.v1",
+  "state": "ENTRY_ABOUT_TO_EXEC; actual result must come from tool exit plus capture and job receipts",
+  "utc": "2026-11-01T14:50:29.620091+00:00"
+}

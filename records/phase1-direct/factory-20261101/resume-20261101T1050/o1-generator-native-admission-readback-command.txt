@@ -1,0 +1,98 @@
+python - <<'PY'
+import os,json,hashlib,stat,subprocess,time,datetime,resource
+from pathlib import Path
+K=Path.cwd();R=K/'records/phase1-direct/factory-20261101/resume-20261101T1050';F=R.parent;D=F/'o1-xgen-build-package-v2';P=F/'o1-root-capture-package-v2';start=time.monotonic();facts={}
+def sha(p,limit=134217728):
+ p=Path(p);s=p.stat();assert stat.S_ISREG(s.st_mode) and s.st_size<=limit
+ h=hashlib.sha256();n=0
+ with p.open('rb') as f:
+  for _ in range(limit//1048576+2):
+   b=f.read(1048576)
+   if not b:break
+   h.update(b);n+=len(b)
+  else:raise RuntimeError('hash bound')
+ assert n==s.st_size;return {'bytes':n,'sha256':h.hexdigest()}
+def run(args,env=None):
+ r=subprocess.run(args,env=env,capture_output=True,timeout=10,check=False);assert r.returncode==0 and len(r.stdout)+len(r.stderr)<65536,(args,r.returncode,r.stderr[:1024]);return r
+facts['head']=run(['git','rev-parse','HEAD']).stdout.decode().strip();assert facts['head']=='b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6'
+assert run(['git','status','--porcelain','--untracked-files=no']).stdout==b''
+facts['tracked_clean']=True
+for name,expected in [('o1-root-capture-v2-review-packet.json','42f8cf27ddf50a4e703d33846eb78b7911f961501e4b7a04d2521750fb14ed40'),('o1-generator-root-launch-decision-v2.json','e9b297794f0ff730c8177c58485dec3b57fdded0f3ed819a32212e66cd699a63')]:assert sha(R/name)['sha256']==expected
+packet=json.loads((R/'o1-root-capture-v2-review-packet.json').read_text())
+refs=packet.get('references',packet.get('files'));assert isinstance(refs,list) and len(refs)==285
+for row in refs:assert sha(row['path'])=={k:row[k] for k in ['bytes','sha256']}
+facts['packet_references']=len(refs)
+m=json.loads((P/'manifest.json').read_text());actual={str(p.relative_to(P)) for p in P.rglob('*')};assert actual=={x['path'] for x in m['payload_entries']}|{'manifest.json'}
+for row in m['payload_entries']:
+ p=P/row['path'];s=p.lstat();assert s.st_uid==row['uid'] and s.st_gid==row['gid'] and stat.S_IMODE(s.st_mode)==int(row['mode'],8) and s.st_mtime_ns==row['mtime_ns']
+ if row['type']=='regular':assert stat.S_ISREG(s.st_mode) and sha(p)=={k:row[k] for k in ['bytes','sha256']}
+ elif row['type']=='directory':assert stat.S_ISDIR(s.st_mode)
+ elif row['type']=='fifo':assert stat.S_ISFIFO(s.st_mode)
+ elif row['type']=='symlink':assert stat.S_ISLNK(s.st_mode) and os.readlink(p)==row['target']
+ else:raise RuntimeError('unknown type')
+facts['typed_descendants']=len(actual)
+for row in json.loads((D/'manifest.json').read_text())['files']:assert sha(D/row['path'])==row['identity']
+facts['D158_payloads']=40
+for name in ['input-pins.json','tool-runtime-pins.json']:
+ rows=json.loads((D/name).read_text());assert len(rows)<=4096
+ for row in rows:
+  p=Path(row['path'])
+  if row.get('link') is not None:assert p.is_symlink() and os.readlink(p)==row['link']
+  assert sha(p)==row['identity']
+ facts[name]={'count':len(rows),'bytes':sum(x['identity']['bytes'] for x in rows)}
+for row in json.loads((P/'tool-pins.json').read_text())['files']:assert str(Path(row['path']).resolve())==row['resolved'] and sha(row['path'])=={k:row[k] for k in ['bytes','sha256']}
+facts['capture_tools']=16
+host=json.loads((R/'o1-root-capture-v2-core-host-pins.json').read_text())
+for row in host['files']:
+ b=Path(row['path']).read_bytes();assert len(b)==row['bytes'] and hashlib.sha256(b).hexdigest()==row['sha256']
+for p in host['absent_dropin_directories']:assert not os.path.lexists(p)
+facts['core_handler_pins_match']=True
+assert sha(K/'scripts/phase1_heavy.py')['sha256']=='c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a'
+for p in [K/'records/phase1-direct/completion-20261026/o1-xgen-build-v1',F/'o1-xgen-build-job-v1',F/'o1-xgen-root-control-v2']:assert not os.path.lexists(p)
+facts['future_paths_absent']=True
+ancestors=[]
+for p in [K,*K.parents,F,F.parent,R]:
+ s=p.lstat();assert stat.S_ISDIR(s.st_mode) and s.st_uid in (0,1000) and not stat.S_IMODE(s.st_mode)&0o022
+ ancestors.append({'path':str(p),'uid':s.st_uid,'mode':oct(stat.S_IMODE(s.st_mode))})
+facts['checked_ancestors']=ancestors
+state=Path('/home/sicarii/.local/state/project-vault');pins=state/'pinned-paths.json';identity=sha(pins);assert identity['sha256']=='c033b227198aca0003ccf4c454a1e0717756ac12e946b2c79a2f3656f8e9cfb2'
+rows=json.loads(pins.read_text());assert any(K.is_relative_to(Path(p)) for p in rows) and any(Path('/home/sicarii/opt/gnat').is_relative_to(Path(p)) for p in rows);facts['protected_pins']={**identity,'count':len(rows),'carrier_and_toolchain_covered':True}
+stop=state/'archive-retrieve-300gb-20261101/USER-ACCEPTED-100GB-STOP.json';facts['storage_stop']=sha(stop);assert facts['storage_stop']['sha256']=='49b2bd5098e977fa7f09454b5b6a25e28a300922b1a4786683beb6676d30b5f6'
+env={'PATH':'/usr/bin','LC_ALL':'C','XDG_RUNTIME_DIR':'/run/user/1000','DBUS_SESSION_BUS_ADDRESS':'unix:path=/run/user/1000/bus','USBMUXD_SOCKET_ADDRESS':'UNIX:/home/sicarii/.cache/ipad-usbmuxd.sock'}
+facts['services']=[]
+for unit in ['duat-reviewed-remainder-20261101.service','project-vault-backup.service']:
+ r=run(['/usr/bin/systemctl','--user','show',unit,'-p','Id','-p','ActiveState','-p','SubState','-p','MainPID','-p','ExecMainStatus','-p','ControlGroup'],env);values=dict(line.split('=',1) for line in r.stdout.decode().splitlines());assert values['ActiveState']=='inactive' and values['MainPID']=='0' and values['ControlGroup']=='';facts['services'].append({'unit':unit,'values':values,'stderr':r.stderr.decode()})
+facts['operations']={}
+for name in ['operation.json','cold-operation.json']:
+ d=json.loads((state/name).read_text());assert d.get('state')=='passed' and d.get('finished');facts['operations'][name]={**sha(state/name),'phase':d.get('phase'),'state':d['state'],'finished':d['finished']}
+r=run(['/usr/bin/idevice_id','-l'],env);assert len(r.stdout.splitlines())==1 and not r.stderr
+p=run(['/usr/bin/idevicepair','validate'],env);assert b'SUCCESS:' in p.stdout and not p.stderr;facts['bridge']={'device_count':1,'pairing_success':True}
+config=json.loads(Path('/home/sicarii/.config/project-vault/config.json').read_text());assert config.get('local_reserve_bytes',10000000000)==10000000000
+mounts=Path('/proc/self/mountinfo').read_text().splitlines();facts['vault_mounts']=[]
+for root in ['/home/sicarii/iPad','/home/sicarii/iPadBackup']:
+ matches=[line for line in mounts if line.split()[4]==root];assert len(matches)==1 and matches[0].split(' - ')[1].split()[0]=='fuse.ifuse'
+ vault=Path(root)/'TryOmarchy';assert (vault/'.vault-id').read_text().strip()==config['vault_id'];identity=sha(vault/'Repository/config',4096);assert identity['sha256']=='45ad6db531c03514115c60f2a1eb0de974d7a396a35f22fd2270ca606ca0f009';facts['vault_mounts'].append({'path':root,'fstype':'fuse.ifuse','vault_id_matches':True,'repository_config':identity})
+locks=Path('/proc/locks').read_text().splitlines();facts['locks']=[]
+for p in [Path('/home/sicarii/.worldline-heavy.lock'),state/'operation.lock']:
+ s=p.stat();key=f'{os.major(s.st_dev):02x}:{os.minor(s.st_dev):02x}:{s.st_ino}';found=[x for x in locks if key in x.split()];assert not found;facts['locks'].append({'path':str(p),'device_inode':key,'rows':found,'reservation':False})
+procs=list(Path('/proc').iterdir());assert len(procs)<4096;matched=[];unreadable=[];scanned=0
+names={'gnatprove','gnat2why','gprbuild','gnat1','alt-ergo','z3','cvc5','restic'};scripts={'phase1_heavy.py','xgen_guard.py','xgen_worker.py','private_ipc_guard.py'}
+for p in procs:
+ if not p.name.isdigit():continue
+ scanned+=1
+ try:
+  raw=(p/'cmdline').read_bytes();assert len(raw)<=262144;args=raw.split(b'\0');exe=os.readlink(p/'exe')
+  if Path(exe).name in names or any(Path(a.decode(errors='replace')).name in scripts for a in args[:10]):matched.append({'pid':int(p.name),'executable':exe})
+ except (FileNotFoundError,ProcessLookupError):continue
+ except PermissionError:unreadable.append(int(p.name))
+assert not matched and not unreadable;facts['selected_process_scan']={'scanned':scanned,'matched':matched,'unreadable':unreadable,'scope':'selected executable and script tokens, not all-process-behavior proof'}
+fs=os.statvfs(K);facts['available_bytes']=fs.f_bavail*fs.f_frsize;assert facts['available_bytes']>=24178844672
+mem=dict(line.split(':',1) for line in Path('/proc/meminfo').read_text().splitlines());facts['MemAvailable_bytes']=int(mem['MemAvailable'].split()[0])*1024;assert facts['MemAvailable_bytes']>=15032385536
+facts['R_bytes']=sum(p.stat().st_size for p in R.rglob('*') if p.is_file());assert facts['R_bytes']<8*1024**2-131072
+facts.update({'schema':'worldline.o1-generator.native-admission-readback.v1','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'elapsed_seconds':time.monotonic()-start,'uid':os.getuid(),'owner':'01a196b6-6595-7b30-ae07-8af6b0ed4dc7','state':'PRELAUNCH_CHECKS_MATCHED','next':'Caller clean allowlist and FD0/1/2 before firstBash; actual postlock memory remains authoritative','native_run':'NOT_STARTED','F7':'NOT PERFORMED'})
+assert facts['uid']==1000 and facts['elapsed_seconds']<60
+p=R/'o1-generator-native-admission-v1.json';b=(json.dumps(facts,indent=2,sort_keys=True)+'\n').encode();assert len(b)<65536
+with p.open('xb') as f:assert f.write(b)==len(b)
+assert p.read_bytes()==b
+print(json.dumps({'receipt':str(p),'sha256':hashlib.sha256(b).hexdigest(),'elapsed_seconds':facts['elapsed_seconds'],'available_bytes':facts['available_bytes'],'MemAvailable_bytes':facts['MemAvailable_bytes'],'state':facts['state'],'utc':facts['utc']},indent=2))
+PY

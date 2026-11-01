@@ -1,0 +1,32 @@
+{
+  "F7": "NOT PERFORMED",
+  "interpretation": "Unprefixed and target-prefixed GCC files have equal bytes but distinct paths/inodes. This does not establish invocation equivalence: argv[0] and lookup may matter. The planner candidate chooses unprefixed gcc explicitly; this is not approved selection or a silent replacement of the earlier desired prefixed C path. Future configuration-stage review must choose the exact argv/path and verify selected target, drivers and runtime.",
+  "native_invoked": false,
+  "observations": [
+    {
+      "bytes": 2300216,
+      "inode": 4369710,
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "resolved_path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "sha256": "ef4d2c23a77857bed0b8f86b7878451da2be9023988d5f5358d37f04fa3ec0fe",
+      "type": "regular"
+    },
+    {
+      "bytes": 2300216,
+      "inode": 4369697,
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/aarch64-linux-gnu-gcc",
+      "resolved_path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/aarch64-linux-gnu-gcc",
+      "sha256": "ef4d2c23a77857bed0b8f86b7878451da2be9023988d5f5358d37f04fa3ec0fe",
+      "type": "regular"
+    },
+    {
+      "bytes": 4024496,
+      "inode": 4369726,
+      "path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnatls",
+      "resolved_path": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnatls",
+      "sha256": "8f94099aaece72e3dfdda659b4f14fa9a83a5a71e436510097a991dfb8d5ad29",
+      "type": "regular"
+    }
+  ],
+  "schema": "worldline.compiler-path-byte-observation.v1"
+}

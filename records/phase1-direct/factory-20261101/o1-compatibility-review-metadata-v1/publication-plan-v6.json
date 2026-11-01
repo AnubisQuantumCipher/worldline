@@ -1,0 +1,690 @@
+{
+  "branch": "codex/phase1-direct-20261019",
+  "local_exclusions": "All failedW copied input/partial native object files except raw control/logs remain local; retain full inventory. Historical7capturefixtureexclusions and1126sourcebodies unchanged.",
+  "parent": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "paths": [
+    {
+      "bytes": 595524,
+      "path": "docs/decisions.md",
+      "sha256": "affc115d09038a25763ac5bc282be9dba879ecf2e437ae2a35320b2ed4d9eedd"
+    },
+    {
+      "bytes": 132840,
+      "path": "docs/phase1-progress.md",
+      "sha256": "f83728ff9fd6b13b49bf47d190f0806ed8143675055858fa61b6274915d3d949"
+    },
+    {
+      "bytes": 19709,
+      "path": "factory/dissent/DISSENT-LOG.md",
+      "sha256": "15f2f7c8271facb2e46d8f8a5e3ae7f75129b74220e13e9aac66d04790f19255"
+    },
+    {
+      "bytes": 2716,
+      "path": "records/phase1-direct/completion-20261026/o1-xgen-build-v1/control/guard.jsonl",
+      "sha256": "dfded6e80ecb9ff9da3f1dbe51082202a8d42cd074b968e64f16b3565407544b"
+    },
+    {
+      "bytes": 110,
+      "path": "records/phase1-direct/completion-20261026/o1-xgen-build-v1/live/logs/minimal.stderr",
+      "sha256": "0e7b89340aa18d5f0879c73acd27d02a0ac6c2417d4a1601b5d5e70cfa1c8e7b"
+    },
+    {
+      "bytes": 1051,
+      "path": "records/phase1-direct/completion-20261026/o1-xgen-build-v1/live/logs/minimal.stdout",
+      "sha256": "98cc3e89db4d9f8870dc965df0bbf3682f0dbd73e55e88aab225de90b7c906eb"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/completion-20261026/o1-xgen-build-v1/live/logs/target.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 18,
+      "path": "records/phase1-direct/completion-20261026/o1-xgen-build-v1/live/logs/target.stdout",
+      "sha256": "811b17aa02eb472140fbd7c338e99ac8770181c999ed2ea78797163dfd0fbd5b"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/completion-20261026/o1-xgen-build-v1/live/logs/version.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 7,
+      "path": "records/phase1-direct/completion-20261026/o1-xgen-build-v1/live/logs/version.stdout",
+      "sha256": "32432b1207472725d2ff242a3c804108d734db278bc9013841d4c4992d090a6c"
+    },
+    {
+      "bytes": 21793,
+      "path": "records/phase1-direct/direct-continuation.json",
+      "sha256": "82928144735d9c7a8a869d43f1316c8c247ca9b72366b1f0eeaba6d56ba6d29d"
+    },
+    {
+      "bytes": 3579,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/checkpoint-source-v6.json",
+      "sha256": "f4755f7c9604e1636c9fee348d95603eb966e021a846f359bd8cede0684032e8"
+    },
+    {
+      "bytes": 1624,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-compiler-path-byte-observation-v1.json",
+      "sha256": "2e57b676b8d351573c27881a5c3d7e455536e24d9e818664076970e5d47c3711"
+    },
+    {
+      "bytes": 992,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-config-only-prerequisite-plan-v1-provenance.json",
+      "sha256": "644517631546b40d5f8773d80b72b9f617095f71d6c9f6bda64ebdc3daea63f0"
+    },
+    {
+      "bytes": 5414,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-config-only-prerequisite-plan-v1-report.md",
+      "sha256": "ae30c0417bfac2160e9d8f1a11ed2bbcf08ad45d274c988092d8bf4502891e3e"
+    },
+    {
+      "bytes": 2603,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-decision-v2.json",
+      "sha256": "0c3181f154032134bf7eb944322100efa1755872c847c1e8f270ef5a79cf7483"
+    },
+    {
+      "bytes": 10179,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-review-packet-v2.json",
+      "sha256": "b241072eb044744b038ba642f663d70179e3abd06559850ebbf6902663767515"
+    },
+    {
+      "bytes": 1322,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-adversary-provenance.json",
+      "sha256": "92b90c8e56b17b842ddec2b5f73bf226f9539ed4fe4e25d5fc7137f76eb7f354"
+    },
+    {
+      "bytes": 225433,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-adversary-public-tools.json",
+      "sha256": "080dedcbdbf8ec1eeedfebe00e19ebb35ccd0cdddf79b488e8f5fba11cbcb92c"
+    },
+    {
+      "bytes": 2868,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-adversary-report.md",
+      "sha256": "089f5c60f691a5709c6717fc834e5b2ebaaf391d8c51a845872d165c42293134"
+    },
+    {
+      "bytes": 1317,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-author-provenance.json",
+      "sha256": "e7496a3bc341dfbf048dc50d9d3825a102135009aee749fbf6bb05cc37188025"
+    },
+    {
+      "bytes": 326932,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-author-public-tools.json",
+      "sha256": "1e5b4e27006dd7b4f5ff9ded54d2e57eead70ed8b3cdbd876952b5ac6d7b594f"
+    },
+    {
+      "bytes": 662,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-author-report.md",
+      "sha256": "0a04e9eadb4d767dcfa6f37b52585d5203df7c116b759b424ca86dc19da4a43c"
+    },
+    {
+      "bytes": 1329,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-independent-provenance.json",
+      "sha256": "08fbd91a94602c62b25f4567b62595a5da0ddbd69da59c6e78ca036d9432f1ea"
+    },
+    {
+      "bytes": 177974,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-independent-public-tools.json",
+      "sha256": "c4ab0b83592c53230840c4d28a2be649e24388344d09cd2cda105a6964c56fe4"
+    },
+    {
+      "bytes": 3466,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-independent-report.md",
+      "sha256": "687ef97bc52a0990e730dbe1fe1a03871f1df769972abd939e87293871f9a91c"
+    },
+    {
+      "bytes": 3223,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-judge-packet.json",
+      "sha256": "040077dc0526b2ac3829e3cd6073eadd144b4cfee06c6ef347645ac7d0d2b599"
+    },
+    {
+      "bytes": 1311,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-judge-provenance.json",
+      "sha256": "3636e230651cbb23ef7097f0f287d9334ca35cb6a728383586ad8e675a774d7e"
+    },
+    {
+      "bytes": 109643,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-judge-public-tools.json",
+      "sha256": "326784c051ab5316a522c50aa94c5bfc3d1cd5930eca1a4c34c931c4a5b64b8b"
+    },
+    {
+      "bytes": 2043,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-v2-judge-report.md",
+      "sha256": "ca91ba59d7346f3dcd48392c222690856db30681adc65ac0434025a0adbcfc5f"
+    },
+    {
+      "bytes": 3849,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-documentary-snapshot-map-v1.json",
+      "sha256": "7f89d75199f376208c674851f93e6fd50691b818030a7da9bc1a589e92c0cde0"
+    },
+    {
+      "bytes": 20835,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v1-direct-continuation.json",
+      "sha256": "a648cd4b8be1b66c68b12f2463d4499b0b813ceca9bc0f14bb90eee146a1c38f"
+    },
+    {
+      "bytes": 19034,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-DISSENT-LOG.md",
+      "sha256": "ca731474f7691d4433203255ce9f7eebce7d2e345043ef7319654f0d8de6bdb8"
+    },
+    {
+      "bytes": 593011,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-decisions.md",
+      "sha256": "152819beb04a60159317dc21d680d9ccce7dab14bc1bd59bd0c89e123ee5b0ef"
+    },
+    {
+      "bytes": 21690,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-direct-continuation.json",
+      "sha256": "005eae13e8b26ec45957e7fbc24e433b98318c67686cdd24a6d5d9e82f8512ec"
+    },
+    {
+      "bytes": 131888,
+      "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/review-v2-phase1-progress.md",
+      "sha256": "132acf4f577d6a56b0d6e67ceae1996e9bfd2a3e749bfd21399eae0cdd0284ea"
+    },
+    {
+      "bytes": 7682,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/LIFECYCLE-FIXTURE-SPEC.md",
+      "sha256": "22c5a46ee6784fdd90b9f1a19e0079fc969c62bd0f60c38f260245dd99da51b4"
+    },
+    {
+      "bytes": 11173,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/PROPOSAL.md",
+      "sha256": "fe5e40edaf0c0d01ac1f82825b5834c7b0e07e80d83e7c5e0a5d3ad81e89a94d"
+    },
+    {
+      "bytes": 655,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/draft-static-failure.json",
+      "sha256": "f34fc515cc7cef0ccb3a86304c0c5407c96253bc6ec57afc60113605534f92ff"
+    },
+    {
+      "bytes": 3696,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/identities.json",
+      "sha256": "18221d0ea82d195fcbfeeb0541f2176f7ce81d128e1e058b2bed9402473a5f96"
+    },
+    {
+      "bytes": 11317,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/input-references.json",
+      "sha256": "7df0c498f9d306ee7f5ae291e35d941c4874ffdb1199dddd642eb810e6a0aa53"
+    },
+    {
+      "bytes": 2703,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/manifest.json",
+      "sha256": "c5df18ce9a98cb2ae9f9d16a4d022b22d8d43663ce2b8d53d426c06408727daa"
+    },
+    {
+      "bytes": 974,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/prospective.diff",
+      "sha256": "5236f5d2e65281a838ea883411dd5de2effd0344af5767dcbee74f5229da3922"
+    },
+    {
+      "bytes": 992,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/static-verification.json",
+      "sha256": "c73befdf641c16bd0642a8832ce26766f8dfe798dd6568bb6598012d3f146db9"
+    },
+    {
+      "bytes": 10137,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/LIFECYCLE-FIXTURE-SPEC.md",
+      "sha256": "5cf26191685ae4f8801523aa6a57348f8dad538d8d912f2518836d6426ec88e6"
+    },
+    {
+      "bytes": 13326,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/PROPOSAL.md",
+      "sha256": "25615a33758d0a98a512f91a08734f6f900c79dea4e8981d451875bd087024ab"
+    },
+    {
+      "bytes": 655,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/draft-static-failure.json",
+      "sha256": "f34fc515cc7cef0ccb3a86304c0c5407c96253bc6ec57afc60113605534f92ff"
+    },
+    {
+      "bytes": 3696,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/identities.json",
+      "sha256": "18221d0ea82d195fcbfeeb0541f2176f7ce81d128e1e058b2bed9402473a5f96"
+    },
+    {
+      "bytes": 2703,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/initial-manifest.json",
+      "sha256": "c5df18ce9a98cb2ae9f9d16a4d022b22d8d43663ce2b8d53d426c06408727daa"
+    },
+    {
+      "bytes": 992,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/initial-static-verification.json",
+      "sha256": "c73befdf641c16bd0642a8832ce26766f8dfe798dd6568bb6598012d3f146db9"
+    },
+    {
+      "bytes": 16992,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/input-references.json",
+      "sha256": "e747208b22c19884dcc9a46d50d10b4dcfcf674438b602cf423e8d8ad8d55748"
+    },
+    {
+      "bytes": 4032,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/manifest.json",
+      "sha256": "e313be5b7270cd7d768de7f9f052b9a5f6a1c8676b9db4112b7e42eadde6af91"
+    },
+    {
+      "bytes": 974,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/prospective.diff",
+      "sha256": "5236f5d2e65281a838ea883411dd5de2effd0344af5767dcbee74f5229da3922"
+    },
+    {
+      "bytes": 27587,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/revision-provenance.json",
+      "sha256": "4cf3fbf43ca9bee5dab5c7c88d47caa2423e592f6ffb1978d3516768c3c5f0c5"
+    },
+    {
+      "bytes": 1499,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/static-verification.json",
+      "sha256": "61d4708439bae4300d06fa4577f3b3a8fad97ae957ce1a8bad5500dd1a5e9bd1"
+    },
+    {
+      "bytes": 169,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/admission.jsonl",
+      "sha256": "fc323ca383e6bc4396b5c818f0f3d056aef1a592c708e2cc6a51c7e4d9c8b184"
+    },
+    {
+      "bytes": 18,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/admitted.json",
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6"
+    },
+    {
+      "bytes": 1610,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/cgroup.jsonl",
+      "sha256": "f2540226e64ef27d055095c0e941f1c72e26379560b25aaa2a5bc251c470a3fc"
+    },
+    {
+      "bytes": 477,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/launch.jsonl",
+      "sha256": "7b62b4ae9c62f5373393401be60a487f346b87f95d7d7abc5efe7bf2a4c764d5"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/launcher.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/launcher.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 62,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/result.jsonl",
+      "sha256": "5ddce607dd19a4e991fee5a56f661a630227da0d2bfd256f6ffe0ca71e6a4b56"
+    },
+    {
+      "bytes": 160,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/rusage.json",
+      "sha256": "6aa934e010d91148d7c1adfc0a808f0d7103ef4cdb1bebe68bce894743a1fec0"
+    },
+    {
+      "bytes": 633,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/scope-journal.txt",
+      "sha256": "817d4ec6fcf634902ac004e4d1e8fffdd7cb2fa7eb9abf9e6cd4a192a85a1dd7"
+    },
+    {
+      "bytes": 104,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/scope.jsonl",
+      "sha256": "423edb2a03332d131938c4446d57d4e4f641d7277733bae78bc983e4a221b6be"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2035,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/supervisor.jsonl",
+      "sha256": "a2b0db2b812bc3d8c29512881c48616c75bfc1d58de9e9a804b6a4faf99579d9"
+    },
+    {
+      "bytes": 276,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/terminal-scope.jsonl",
+      "sha256": "9839cd1e3d4bf8043266996b3aa02d84990f62ebb2055c229424637b3852e272"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/tracked.diff",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 61,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/worker-result.json",
+      "sha256": "5f8f0f1cc0b720e0d6aaab7692c967db043c81ce16b134ad299f40a51fbd5362"
+    },
+    {
+      "bytes": 3756,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-job-v1/xgen-worker-result.json",
+      "sha256": "477ddc0830bb03734553aa7348af0ccbbc0d6785eb27b367cce141535c0f8182"
+    },
+    {
+      "bytes": 195,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/status",
+      "sha256": "0574f9ebbb104c4a92451f8d4a540e9d672e4b8c9b7952dcf2681624ac4e3e4d"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stderr-consumer.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-root-control-v2/stdout-consumer.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 979,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-admission-process-scope-audit-provenance.json",
+      "sha256": "0fa0ed001f67dc469da5ba4937dd28f7f1a2b518317d00f10b313a132ec6524e"
+    },
+    {
+      "bytes": 531,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-admission-process-scope-audit-report.md",
+      "sha256": "2f253a519117092c1b65fe85517d35f68e407a4b0dc0b63daa0a3398c3ee2d53"
+    },
+    {
+      "bytes": 874,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-compatibility-review-metadata-registration-v1.json",
+      "sha256": "e1c57447e9de1c84c9128fb5b3fd3ced5479b712c07044afb7a7ddd81eb6e052"
+    },
+    {
+      "bytes": 973,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-dependency-successor-plan-v1-provenance.json",
+      "sha256": "246287ff9e38bcbf44fe396be2309a2f9137e9ceb9ac3d5edf740bbe2d9e8d91"
+    },
+    {
+      "bytes": 5525,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-dependency-successor-plan-v1-report.md",
+      "sha256": "8a6c1d556527d4f927374d9430771163e774ff22a990998c777bb417494df613"
+    },
+    {
+      "bytes": 9461,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-admission-original-command.txt",
+      "sha256": "af8e2123d4c008db66cb98d7d14c41d96ae0964f3e9203b96426f24b33e30055"
+    },
+    {
+      "bytes": 878,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-admission-preparation-history-v2.json",
+      "sha256": "b1b2858231c064520c3a3b6d483c58fb790a51e4b4a70daf86124eab16006f53"
+    },
+    {
+      "bytes": 950,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-admission-preparation-history.json",
+      "sha256": "82f6641e22c73b96877d57fa96c53e955aefc14f7e08577b96e5c30edd06ed93"
+    },
+    {
+      "bytes": 9520,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-admission-readback-command-v2.txt",
+      "sha256": "4c5957c331f9a323b84394e2df4be5a574f75b29dcfdae468b59db18e50a7026"
+    },
+    {
+      "bytes": 9461,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-admission-readback-command.txt",
+      "sha256": "077ed49213127cf61e791d6a353a7ee70173c0c180c0fc4392462037dec7e3bb"
+    },
+    {
+      "bytes": 4485,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-admission-v1.json",
+      "sha256": "ed2f201db5f39aa721934a75bebea9a3eb4248a7d86c4a60a34cf9f7ede1960d"
+    },
+    {
+      "bytes": 1263,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-adversary-provenance.json",
+      "sha256": "327b8513f4373c83ab89a0b3712cea68f7ab28699ff0e5aee526b6040dedcbb8"
+    },
+    {
+      "bytes": 223974,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-adversary-public-tools.json",
+      "sha256": "6380c575e7c0d7b1b8362cb187ae89ce5dc6ab9f63ff8dbf1a94536e08d76e33"
+    },
+    {
+      "bytes": 4828,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-adversary-report.md",
+      "sha256": "ab687593c42e9fdc81954c9ad6670276459c1ff92447402ed74155e5d9979a06"
+    },
+    {
+      "bytes": 2431,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-decision-v1.json",
+      "sha256": "dd4bb4907aadcddf522984d1296eb9d8209d746258af59e27c9a2fcabc90664d"
+    },
+    {
+      "bytes": 14206,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-entry-public-tools-v1.json",
+      "sha256": "bb677c34dc686883f66a11b3c0ca455d1dc5f34623e092c1db4bd77188013916"
+    },
+    {
+      "bytes": 105605,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-failed-inventory-v1.json",
+      "sha256": "00b07f544744c03668fa99506b8a76b8374d00c00ccde45b8f006ca790043814"
+    },
+    {
+      "bytes": 1290,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-independent-provenance.json",
+      "sha256": "4dc64da11f639e366a78d2abc4361117e450dbd26706bd8a4ab73c52fa109a34"
+    },
+    {
+      "bytes": 119488,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-independent-public-tools.json",
+      "sha256": "f5fbf3d971324dddb09fd0fd47a71e3ecd75330f8cc765ca698dde7a1d552970"
+    },
+    {
+      "bytes": 3433,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-independent-report.md",
+      "sha256": "ad58d2cce314c41f2d96fca17a7c59a4b375ef1a3ebf1beccb66a0860f949b33"
+    },
+    {
+      "bytes": 4126,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-judge-packet-v1.json",
+      "sha256": "e96cb87a9bf9839c1dda01143efdc00d25bc1f2bd46264eff567cf3921ffed3f"
+    },
+    {
+      "bytes": 1251,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-judge-provenance.json",
+      "sha256": "e6f8a4866d4e6872047ccc9ff6c9e4be1db52961740d6edccf0e789c00e628ef"
+    },
+    {
+      "bytes": 93463,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-judge-public-tools.json",
+      "sha256": "b7b9e82b0d16db67bd3305307fca403406e75a2f1dff7f0c5b42dde76cf0142f"
+    },
+    {
+      "bytes": 3351,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-judge-report.md",
+      "sha256": "deb22625d43979bfcf663b1830d15f0e2a6e2760d8e0ccf0afecbceedf85a342"
+    },
+    {
+      "bytes": 1645,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-launch-custody-v1.json",
+      "sha256": "f52cd6134b403ebadbb5e8ec556965e9f923e96de102f2663b69a4ec8b3b8b32"
+    },
+    {
+      "bytes": 2661,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-closure-packet-v1.json",
+      "sha256": "a456f5f1ad116ac4af5b846e06d25c63076e5081fd8d651134e2ba6ee9bc39e0"
+    },
+    {
+      "bytes": 10593,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-review-packet-v1.json",
+      "sha256": "cc74323071a52ea790a854e8e87841ba4f9fd4974f244957c4d2307686d0bc94"
+    },
+    {
+      "bytes": 5111,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-v1.json",
+      "sha256": "8350b5bc88cfb15e62dcab44331c8166634edb4a7f93cc09296c10f859feaf0d"
+    },
+    {
+      "bytes": 1298,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-dossier-author-provenance.json",
+      "sha256": "4313398a77687ea8546eb2e472179e84ac8c16fb47d5442ee730362d0d23423d"
+    },
+    {
+      "bytes": 274744,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-dossier-author-public-tools.json",
+      "sha256": "129ed9f7eb8b208135bf0188f0271ee7937d786518645a3d2f40441f762bf690"
+    },
+    {
+      "bytes": 1012,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-dossier-author-report.md",
+      "sha256": "e3426923c1629701d1171b75941664cd330d8d4425b17a533396502831324a13"
+    },
+    {
+      "bytes": 3218,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-dossier-registration-v1.json",
+      "sha256": "79605f6bb216fb86af5cfcdcc60775a3fdb6d289663b7b0c45fed67300b97e1b"
+    },
+    {
+      "bytes": 1299,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-adversary-provenance.json",
+      "sha256": "0ab8bd1121e65ec9290f422c7c655b0cb497bdd00756a337a2f6000cb17c06ff"
+    },
+    {
+      "bytes": 170636,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-adversary-public-tools.json",
+      "sha256": "8f2801414add03ca31904e39a83576844fb338fee6eb22644819c81ae1b32a46"
+    },
+    {
+      "bytes": 4293,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-adversary-report.md",
+      "sha256": "16a62f5b561d1274ebbd66d06e19e01b6dee9a5e702923c2bb75c888fd83bf35"
+    },
+    {
+      "bytes": 2215,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-decision.json",
+      "sha256": "438a7bafa8978da43a61034262aaea1c0f0e2e358532731fe01bb7f12a4bb177"
+    },
+    {
+      "bytes": 1306,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-independent-provenance.json",
+      "sha256": "e73f50983bdd8a323d5deac287934ef5326e3ef0b97ac6e71f7f1f7bf8718f42"
+    },
+    {
+      "bytes": 166986,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-independent-public-tools.json",
+      "sha256": "440cc39334f0c777312070eb825207f810e1eeecd2b2842970abd2a7b02e0f32"
+    },
+    {
+      "bytes": 3994,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-independent-report.md",
+      "sha256": "fa5925ef6275b43464ab306f2709faa410113960089f7d47a188dab2b2b42587"
+    },
+    {
+      "bytes": 3013,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-judge-packet.json",
+      "sha256": "88ce3c1c6fd14b33d53797a189ee4e7f1670b41e33e42a93ef0eca681e75f368"
+    },
+    {
+      "bytes": 1295,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-judge-provenance.json",
+      "sha256": "d5fa54efefd47af803e7eeef8e022cf132a4e99d7d123440dff4564588a6becb"
+    },
+    {
+      "bytes": 80222,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-judge-public-tools.json",
+      "sha256": "9bff09aa7f00f1a0308fb487a3e62af6b1d5c857e65b7e617c8a1b6ae00ee379"
+    },
+    {
+      "bytes": 3741,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-initial-judge-report.md",
+      "sha256": "1e0e5413f4aa473f15a5f82e6ffdd5ca317dfb1d194c1139739d4abde99b15d8"
+    },
+    {
+      "bytes": 6670,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-review-packet-v1.json",
+      "sha256": "7d4c2fc8dd68c27286b2c5d84ae2864b3c4055a0334002b51b5c86933c2469bc"
+    },
+    {
+      "bytes": 2570,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-compatibility-revision-registration-v2.json",
+      "sha256": "b2b937c1c259756bc80d390c9eddb679bdbf5df946375ca67e22e122de83cebe"
+    },
+    {
+      "bytes": 990,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-legacy-inventory-provenance.json",
+      "sha256": "7b29caefee95277c9ae47cf6d1fe2cab23a274a9272397a52f47af5d2abefd0a"
+    },
+    {
+      "bytes": 2925,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-legacy-inventory-report.md",
+      "sha256": "eedfbf2eb553e61c96dd4beb70a19436ad1ae5e17826c3cda9d344509f7edf3b"
+    },
+    {
+      "bytes": 781,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-native-compatibility-plan-provenance.json",
+      "sha256": "fc891c850fdb044233c4ca8a783e0cf87a912d0b4381a4b606072930d58e4c11"
+    },
+    {
+      "bytes": 4999,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-gnatcoll-native-compatibility-plan-report.md",
+      "sha256": "9847e8887f5757b90cbe0affacfb3021b3486e91e28f840200b719c04f03be04"
+    },
+    {
+      "bytes": 989,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-selected-configuration-embedded-help-plan-v1-provenance.json",
+      "sha256": "783bb397fd6fd41a1e414c25df4880b1114d109bb81e503a0acea3d6ef4f7189"
+    },
+    {
+      "bytes": 3131,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-selected-configuration-embedded-help-plan-v1-report.md",
+      "sha256": "0b2cd255510cdff4ea5c3c88354c6955407157abf8c4e4529ed0e79b2cea7ad7"
+    },
+    {
+      "bytes": 3213,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-selected-configuration-embedded-help-readback-v1.json",
+      "sha256": "25e4f834de34790393918661dcbb4b6fae326dc325743dd8e295df71603c462f"
+    },
+    {
+      "bytes": 1251,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-selected-configuration-plan-stale-correction-v1.json",
+      "sha256": "d93c02e7927cb78f42ed9a9a4e1534c68ebd98cbbf6bc64bceb633f33425b4a2"
+    },
+    {
+      "bytes": 975,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-selected-configuration-plan-v2-provenance.json",
+      "sha256": "f3bd25c9951e3350629aa86b6e1b2c98e9b25d51e87d5f52cc18a063606a24fb"
+    },
+    {
+      "bytes": 5016,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-selected-configuration-plan-v2-report.md",
+      "sha256": "6c7c420df6442d61a1d3acc19fdacda71ffee36d03f59d99f79321ef22850d86"
+    },
+    {
+      "bytes": 881,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-commit-message-v5.txt",
+      "sha256": "ea3fe3ae77e02a6aa5d27c8304d67e70f9834b98609676a6031d5561d1974b2e"
+    },
+    {
+      "bytes": 34258,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-commit-v5.json",
+      "sha256": "58014e3424ca4f0392c220e39c032c16524b535c9f3ebf4be35f40d2e82ebcde"
+    },
+    {
+      "bytes": 2478,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v5.json",
+      "sha256": "10e21d1c8aaf4d012af4e8795127024e92ebf9ab0c36d13cb22117056461bf30"
+    }
+  ],
+  "schema": "worldline.publication-plan.v6",
+  "scope": "Non-final native failure/proposal checkpoint; no merge/tag/release/execution admission/acceptance.",
+  "source_binding": {
+    "bytes": 3579,
+    "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/checkpoint-source-v6.json",
+    "sha256": "f4755f7c9604e1636c9fee348d95603eb966e021a846f359bd8cede0684032e8"
+  },
+  "utc": "2026-11-01T15:31:05.731884+00:00"
+}

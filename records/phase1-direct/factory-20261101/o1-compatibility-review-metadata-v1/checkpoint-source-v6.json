@@ -1,0 +1,76 @@
+{
+  "D158_D159_D160_revisions_remaining": [
+    0,
+    0,
+    0
+  ],
+  "D158_manifest_unchanged": {
+    "bytes": 8023,
+    "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/manifest.json",
+    "sha256": "561833c2cfed7979a2148ab0151329ee3c58752aacfa3586c5ddc0c17b0e541e"
+  },
+  "D160_decision": {
+    "bytes": 2603,
+    "path": "records/phase1-direct/factory-20261101/o1-compatibility-review-metadata-v1/o1-gnatcoll-compatibility-decision-v2.json",
+    "sha256": "0c3181f154032134bf7eb944322100efa1755872c847c1e8f270ef5a79cf7483"
+  },
+  "D160_dossiers": [
+    {
+      "bytes": 2703,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v1/manifest.json",
+      "sha256": "c5df18ce9a98cb2ae9f9d16a4d022b22d8d43663ce2b8d53d426c06408727daa"
+    },
+    {
+      "bytes": 4032,
+      "path": "records/phase1-direct/factory-20261101/o1-gnatcoll-compatibility-dossier-v2/manifest.json",
+      "sha256": "e313be5b7270cd7d768de7f9f052b9a5f6a1c8676b9db4112b7e42eadde6af91"
+    }
+  ],
+  "F7": "NOT PERFORMED",
+  "downstream_stages": "UNRUN",
+  "heavy_helper_unchanged": {
+    "bytes": 9619,
+    "path": "scripts/phase1_heavy.py",
+    "sha256": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a"
+  },
+  "local_failed_work_inventory": {
+    "bytes": 105605,
+    "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-failed-inventory-v1.json",
+    "sha256": "00b07f544744c03668fa99506b8a76b8374d00c00ccde45b8f006ca790043814"
+  },
+  "local_failed_work_policy": "All461 entries/4739339logical bytes preserved locally. Publish29rawcontrols/logs and inventory only; no full recovery or full failed directory publication claimed. Original copied inputs and partial objects remain unqualified. Prior7special/large/compiled capture fixtures retained locally unchanged.",
+  "native_failure": {
+    "bytes": 5111,
+    "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-result-v1.json",
+    "sha256": "8350b5bc88cfb15e62dcab44331c8166634edb4a7f93cc09296c10f859feaf0d"
+  },
+  "native_failure_decision": {
+    "bytes": 2431,
+    "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-native-decision-v1.json",
+    "sha256": "dd4bb4907aadcddf522984d1296eb9d8209d746258af59e27c9a2fcabc90664d"
+  },
+  "native_generator": "FAILED_UNQUALIFIED",
+  "operational_source_unchanged": [
+    {
+      "bytes": 581,
+      "path": "records/phase1-direct/factory-20261101/o1-root-capture-package-v2/entry.sh",
+      "sha256": "3b9953b0cde34d1b570a13107c575bae060305e615c1056a97e8255aafe05afd"
+    },
+    {
+      "bytes": 5845,
+      "path": "records/phase1-direct/factory-20261101/o1-root-capture-package-v2/launch.sh",
+      "sha256": "6b6d79cf6c268ee944c6b4e6a0748a2560ee9ffe5d11ca29ea511a2b11a62a55"
+    },
+    {
+      "bytes": 407,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-core-zero-entry.sh",
+      "sha256": "13207586a591089ff927b66fdb0293e4f415c2d46498397b8b88302268f5633a"
+    }
+  ],
+  "parent_native_execution_head": "b916c7a9f550613bb1daa54f31ecd6b1f59a0ba6",
+  "phase_acceptance": false,
+  "product_source": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "schema": "worldline.source-checkpoint-binding.v6",
+  "scope": "Non-final documentary/evidence checkpoint. Actual native attempt occurred at parentHEAD and failed. No claim that later documentary commit was the native source or that proposalapproval establishes implementation/runtimequalification.",
+  "storage": "HUMAN_PAUSED"
+}

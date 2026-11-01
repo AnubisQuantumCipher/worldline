@@ -1,0 +1,27 @@
+Setup
+   [mkdir]        object directory for project GNATCOLL_Minimal
+   [mkdir]        library directory for project GNATCOLL_Minimal
+Compile
+   [C]            gnatcoll_atomics.c
+   [C]            getRSS.c
+   [Ada]          gnatcoll-coders.adb
+   [Ada]          gnatcoll-storage_pools-headers.adb
+   [Ada]          gnatcoll-damerau_levenshtein_generic.adb
+   [Ada]          gnatcoll-locks.adb
+   [Ada]          gnatcoll-storage_pools.ads
+   [Ada]          gnatcoll-refcount.adb
+   [Ada]          gnatcoll-tribooleans.adb
+   [Ada]          gnatcoll-atomic.adb
+   [Ada]          gnatcoll.ads
+   [Ada]          gnatcoll-refcount-weakref.adb
+   [Ada]          gnatcoll-damerau_levenshtein_distance.ads
+   [Ada]          gnatcoll-memory.adb
+   [Ada]          gnatcoll-asserts.adb
+   [Ada]          gnatcoll-coders-streams.adb
+   [Ada]          gnatcoll-storage_pools-alignment.adb
+   [Ada]          gnatcoll-promises.adb
+   [Ada]          gnatcoll-boyer_moore.adb
+
+   compilation of gnatcoll-boyer_moore.adb failed
+
+gprbuild: *** compilation phase failed
