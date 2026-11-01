@@ -1,0 +1,59 @@
+{
+  "absent_dropin_directories": [
+    "/etc/systemd/coredump.conf.d",
+    "/run/systemd/coredump.conf.d",
+    "/usr/local/lib/systemd/coredump.conf.d",
+    "/usr/lib/systemd/coredump.conf.d"
+  ],
+  "files": [
+    {
+      "bytes": 65,
+      "path": "/proc/sys/kernel/core_pattern",
+      "resolved": "/proc/sys/kernel/core_pattern",
+      "sha256": "e599366299290269a923d389a62d1d39a99fcda57d4117b7040767c7d5613e8e"
+    },
+    {
+      "bytes": 3,
+      "path": "/proc/sys/kernel/core_pipe_limit",
+      "resolved": "/proc/sys/kernel/core_pipe_limit",
+      "sha256": "e6c21e8d260fe71882debdb339d2402a2ca7648529bc2303f48649bce0380017"
+    },
+    {
+      "bytes": 1037,
+      "path": "/etc/systemd/coredump.conf",
+      "resolved": "/etc/systemd/coredump.conf",
+      "sha256": "5312d42f451c244936ca906f391600d28764372c860f9b6f58b56f70e6024a40"
+    },
+    {
+      "bytes": 133360,
+      "path": "/usr/lib/systemd/systemd-coredump",
+      "resolved": "/usr/lib/systemd/systemd-coredump",
+      "sha256": "4ad67dab2e17337c24c699aac27de588facb3d58bc7ed189ee27c0ae9d47caa6"
+    },
+    {
+      "bytes": 1143,
+      "path": "/usr/lib/systemd/system/systemd-coredump@.service",
+      "resolved": "/usr/lib/systemd/system/systemd-coredump@.service",
+      "sha256": "1f18a116cecef70e03532e191befbfa893083f78465a14cba29f8a389f2fccb7"
+    },
+    {
+      "bytes": 6082,
+      "path": "/usr/share/man/man8/systemd-coredump.8.gz",
+      "resolved": "/usr/share/man/man8/systemd-coredump.8.gz",
+      "sha256": "dd2fdfe4e4d19d24ea11761e7a3d4d2ba11e380018478c7609319600b10f4693"
+    },
+    {
+      "bytes": 3579,
+      "path": "/usr/share/man/man5/coredump.conf.5.gz",
+      "resolved": "/usr/share/man/man5/coredump.conf.5.gz",
+      "sha256": "326fb944780e26727b8ce2c8af084c05557e23a06eaa1d3411d726125ff828fb"
+    }
+  ],
+  "mechanism": "COREsoft/hard0 is consumed by existing systemd handler through kernel%c; notkernelpipe suppression. Metadata/log activitypossible; nozeroexternalwritesclaim. CORE0nativecrash validationUNRUN; existingD158compiler/recoverysettersalreadyCORE0.",
+  "outer_entry": {
+    "bytes": 407,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-core-zero-entry.sh",
+    "sha256": "13207586a591089ff927b66fdb0293e4f415c2d46498397b8b88302268f5633a"
+  },
+  "proposed_runtime_admission": false
+}

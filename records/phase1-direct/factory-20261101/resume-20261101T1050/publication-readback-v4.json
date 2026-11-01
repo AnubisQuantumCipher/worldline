@@ -1,0 +1,134 @@
+{
+  "F7": "NOT PERFORMED",
+  "branch": "codex/phase1-direct-20261019",
+  "commit": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "native_execution": "UNRUN",
+  "phase_acceptance": false,
+  "push": "Normal nonforce push exit0; aad6dad..7a31272",
+  "raw_artifacts": [
+    {
+      "bytes": 121651,
+      "command": [
+        "gh",
+        "api",
+        "repos/AnubisQuantumCipher/worldline/contents/docs/phase1-progress.md?ref=7a3127281389f58f2291c86d123ec1f920cee6b7",
+        "-H",
+        "Accept: application/vnd.github.raw+json"
+      ],
+      "exact_match": true,
+      "exit": 0,
+      "local_sha256": "609b9105a8f644e67e558228d92ac2c74ba8565f406cbf8367a69576fc8ffcda",
+      "path": "docs/phase1-progress.md",
+      "remote_sha256": "609b9105a8f644e67e558228d92ac2c74ba8565f406cbf8367a69576fc8ffcda",
+      "stderr": ""
+    },
+    {
+      "bytes": 12890,
+      "command": [
+        "gh",
+        "api",
+        "repos/AnubisQuantumCipher/worldline/contents/factory/dissent/DISSENT-LOG.md?ref=7a3127281389f58f2291c86d123ec1f920cee6b7",
+        "-H",
+        "Accept: application/vnd.github.raw+json"
+      ],
+      "exact_match": true,
+      "exit": 0,
+      "local_sha256": "5ac167d4ad2a5ecec4547d0e6a4de9a28a24ade0190692de0a08c1b0e84263f2",
+      "path": "factory/dissent/DISSENT-LOG.md",
+      "remote_sha256": "5ac167d4ad2a5ecec4547d0e6a4de9a28a24ade0190692de0a08c1b0e84263f2",
+      "stderr": ""
+    },
+    {
+      "bytes": 6507,
+      "command": [
+        "gh",
+        "api",
+        "repos/AnubisQuantumCipher/worldline/contents/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-decision-v2.json?ref=7a3127281389f58f2291c86d123ec1f920cee6b7",
+        "-H",
+        "Accept: application/vnd.github.raw+json"
+      ],
+      "exact_match": true,
+      "exit": 0,
+      "local_sha256": "19449a266d2a0f37eba9e4dace86c92bad9b835ae7309158ed3fc25a7e40a7af",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-decision-v2.json",
+      "remote_sha256": "19449a266d2a0f37eba9e4dace86c92bad9b835ae7309158ed3fc25a7e40a7af",
+      "stderr": ""
+    },
+    {
+      "bytes": 8023,
+      "command": [
+        "gh",
+        "api",
+        "repos/AnubisQuantumCipher/worldline/contents/records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/manifest.json?ref=7a3127281389f58f2291c86d123ec1f920cee6b7",
+        "-H",
+        "Accept: application/vnd.github.raw+json"
+      ],
+      "exact_match": true,
+      "exit": 0,
+      "local_sha256": "561833c2cfed7979a2148ab0151329ee3c58752aacfa3586c5ddc0c17b0e541e",
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/manifest.json",
+      "remote_sha256": "561833c2cfed7979a2148ab0151329ee3c58752aacfa3586c5ddc0c17b0e541e",
+      "stderr": ""
+    },
+    {
+      "bytes": 10203,
+      "command": [
+        "gh",
+        "api",
+        "repos/AnubisQuantumCipher/worldline/contents/records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py?ref=7a3127281389f58f2291c86d123ec1f920cee6b7",
+        "-H",
+        "Accept: application/vnd.github.raw+json"
+      ],
+      "exact_match": true,
+      "exit": 0,
+      "local_sha256": "cfec39957fa6fb742c4099ce8be1d9108783eb99f1b0be621bc2585f63c8f091",
+      "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_worker.py",
+      "remote_sha256": "cfec39957fa6fb742c4099ce8be1d9108783eb99f1b0be621bc2585f63c8f091",
+      "stderr": ""
+    },
+    {
+      "bytes": 1925,
+      "command": [
+        "gh",
+        "api",
+        "repos/AnubisQuantumCipher/worldline/contents/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-driver-main-root-readback.json?ref=7a3127281389f58f2291c86d123ec1f920cee6b7",
+        "-H",
+        "Accept: application/vnd.github.raw+json"
+      ],
+      "exact_match": true,
+      "exit": 0,
+      "local_sha256": "74d0492f913a59eccc1ddd7e36b57c98505c1a0cb171de78add0704402150413",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-driver-main-root-readback.json",
+      "remote_sha256": "74d0492f913a59eccc1ddd7e36b57c98505c1a0cb171de78add0704402150413",
+      "stderr": ""
+    },
+    {
+      "bytes": 30200,
+      "command": [
+        "gh",
+        "api",
+        "repos/AnubisQuantumCipher/worldline/contents/records/phase1-direct/factory-20261101/resume-20261101T1050/publication-staged-manifest-v4.json?ref=7a3127281389f58f2291c86d123ec1f920cee6b7",
+        "-H",
+        "Accept: application/vnd.github.raw+json"
+      ],
+      "exact_match": true,
+      "exit": 0,
+      "local_sha256": "52a452404934515bbca19f0500b015e08d19808d148b442abc3ea7811196d4e1",
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-staged-manifest-v4.json",
+      "remote_sha256": "52a452404934515bbca19f0500b015e08d19808d148b442abc3ea7811196d4e1",
+      "stderr": ""
+    }
+  ],
+  "remote_exact": true,
+  "remote_ref_command": [
+    "git",
+    "ls-remote",
+    "origin",
+    "refs/heads/codex/phase1-direct-20261019"
+  ],
+  "remote_ref_exit": 0,
+  "remote_ref_stderr": "",
+  "remote_ref_stdout": "7a3127281389f58f2291c86d123ec1f920cee6b7\trefs/heads/codex/phase1-direct-20261019\n",
+  "schema": "worldline.publication-readback.v4",
+  "utc": "2026-11-01T13:44:59.990840+00:00"
+}

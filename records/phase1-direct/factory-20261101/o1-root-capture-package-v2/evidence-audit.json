@@ -1,0 +1,194 @@
+{
+  "all_32_retained_case_dispositions_and_recipes_checked": [
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "9898c1477a154c97f61a79fca6b80314c462c3d91dbf2fcb733351154c6bce15",
+      "name": "empty"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "435e8ccbcff68aee532a628e4c8e3fc7d4d59de275cfc666bf6dfdcf64cb7e07",
+      "name": "output"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "127fb7d366af84918fb6f9f68822b5827787ea683f2abf23f2e9b12808ed694f",
+      "name": "stderr"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "064ad433a912b744e255780c7bc9127fbd54f864714cb5ae3ab80202c4bd9e83",
+      "name": "guard-nonzero"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "c5d67e6363e5d9fc292dc8d8e913aed66d6166ea9061f55face6eadfc699fe7b",
+      "name": "guard-signal"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "ab4c0d986bcb8efc129a9ffd73651b5ee792662c0d2664b5e7d12a0566f26d4c",
+      "name": "first-eio"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "d813c9b47a5f7f3bab18f670a595d88be46d554c42b7897881e17dd928b7358e",
+      "name": "first-enospc"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "8613fd96ffe9bd1472613dc36f533a7e3c5bdd2a0eb9c73433c2431e51956879",
+      "name": "partial"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "05340087c582275639861353894b680f98da481de2864c7158398d01309b7ace",
+      "name": "close-empty"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "8ac02a76029af614cc0b5df9c9bb83bdaf42dd4109b0f38cec01b8cd4a0fe0f0",
+      "name": "close-stderr"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "87aa595d6d3b5fa2a9063f3afe397293f0288b97999ef2f8725006ba40160542",
+      "name": "lost-diag"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "feaebd1fec1f02afd1553281f61d15731d679f3c70983ce2c9c40bc00f977adc",
+      "name": "cap"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "1b6a6df7be80acbe8231531e731e8455e68d75c07d238f9484ceb72aec7bdf07",
+      "name": "cap-exact"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "11a68b677446b9b8a55ae51c012bb3b8f1b02839d801c5a4542059f75797a610",
+      "name": "consumer-death"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "c4203e30c57093c7bcd0317d5a0fba35bbfe1119e84ec686a90bb48b53613f2d",
+      "name": "delayed-eof"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "760feaa257c5b6a72e886ddca3153989db227d28f387431d283df32faa43f346",
+      "name": "receipt-first"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "b0b922ea695058c5c94178bcad73278bfe687823ea1c62f938fba59f9ad6eac0",
+      "name": "receipt-partial"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "3f1800ee9491bb9c45e6ceedf0e989a0342f6559381f5cff6f4d0f0d4d0520ed",
+      "name": "receipt-close"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "732b46d72f235fcb29b2fb4abd076dcac6ed82a6f94801d45c242c35da521696",
+      "name": "existing"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "2e8d5e81dbf5340d78a280bd81d6aceda694656432f1074bd9ce02e0924ced96",
+      "name": "special"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "de451468c7c154b54556fcb895259795cc6909c5a319c85ee248b2780f95ea79",
+      "name": "symlink"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "f410ad58a1116a830060b8b6df388f52f5f4ffc68fb381c029117295ce6db28b",
+      "name": "status-exists"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "51f996a31a64272d00d05cbf50a724b3045b5513141f7641a0f5251f4e8a9762",
+      "name": "bad-mode"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "14d9830e87ebc6f10fcbf23f5119259ee67c2e60556816e211b3c9207fffbb02",
+      "name": "guard-fds"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "6e57ff38e8bb3197fecbb2a872942a5b856fb9bcd6bb53d6c79d09b9fa62bb6e",
+      "name": "final-lost-diag"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "303bfc953b3f8621540ec7fbe1235acf78022a5d892db3ba40187aaa0d95929e",
+      "name": "final-receipt-close"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "d47ad6bbb6971d5d0900c8e8d0e7da87d28813e4292297e6cb5a3644db85de3f",
+      "name": "final-close-empty"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "4bd96a98b0d559c2a8f4dfc6db14ef67ece8c5d9c3d1a6cdfb418242d1b2e9e0",
+      "name": "final-stderr-first"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "1e24a016ebae1c397136ac70f6fd4c3e533528c663a1d3eb74e29fc0f405d390",
+      "name": "final-receipt-enospc"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "e9e164fb3fe3343acd19a07d7e26880070dbcd2cc75bcd0f68444fd35a96bef6",
+      "name": "final-close-output"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "8c1be786f412c950d297ba150e5f273edbf79fd061f9e58d059660f14b26decc",
+      "name": "final-stderr-partial"
+    },
+    {
+      "expected_disposition_observed": true,
+      "fixture_sha256": "58602c618471f02d1033d91d4a857a6d720e32eebd8200390f362195533a176b",
+      "name": "final-empty"
+    }
+  ],
+  "all_harness_failures": [
+    "attempt01 lost_diag assertion",
+    "attempt02 compiler rejection fwrite_unlocked macro",
+    "attempt03 lost_diag newline assertion",
+    "attempt04 timeout diagnostic assertion"
+  ],
+  "audit_first_probe_failure": "AssertionError: substring directory selector matched both lost-diag and final-lost-diag; corrected exact case-name selector, no data changed",
+  "audit_status": "PASSED narrower read-only assertions only; failed suites remain FAILED",
+  "budget_seconds": 120,
+  "case_33_kernel_diag_failure": {
+    "diagnostic": "timeout: the monitored command dumped core",
+    "external_status": 1,
+    "fixture_sha256": "490ade7eafbf550968f0627b5405c6dc56b402dd5bdf6d1ea27b4b51434512d1",
+    "recipe_base": "final-test-results.json results[0].replacements",
+    "recipe_replacements": {
+      "case-100-final-lost-diag": "case-200-native-diag-cap",
+      "tee-final-fixture.sh": "tee-diag-fixture.sh"
+    },
+    "tee_consumer": "WAIT_STATUS:153"
+  },
+  "conservative_test_seconds_upper_bound": 30,
+  "core_limit_zero_enforced": false,
+  "heavy_unchanged": true,
+  "no_test_reexecution": true,
+  "observed_available_bytes": 100254253056,
+  "outside_core_artifacts": "UNKNOWN; no external artifact query or cleanup",
+  "recorded_seconds_lower_bound": 2.0426800183486193,
+  "sealed_D158_40_payloads_unchanged": true,
+  "source_execution_pins_checked_against_retained_bytes": true,
+  "source_head": "7a3127281389f58f2291c86d123ec1f920cee6b7"
+}

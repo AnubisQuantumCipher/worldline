@@ -1,0 +1,68 @@
+{
+  "actual_exit": -25,
+  "anonymous_sink_bytes": 0,
+  "argv": [
+    "/usr/bin/tee",
+    "--output-error=exit"
+  ],
+  "child_limits": {
+    "AS": [
+      67108864,
+      67108864
+    ],
+    "CORE": [
+      0,
+      0
+    ],
+    "FSIZE": [
+      0,
+      0
+    ]
+  },
+  "expected_exit": -25,
+  "handler_storage_control": "OBSERVED_CORE0_NO_FILENAME",
+  "input_bytes": 1,
+  "last_journal_argv": [
+    "/usr/bin/journalctl",
+    "--no-pager",
+    "--since",
+    "2026-11-01 14:28:57 UTC",
+    "COREDUMP_PID=1820012",
+    "COREDUMP_UID=1000",
+    "COREDUMP_EXE=/usr/bin/tee",
+    "--output=json",
+    "--output-fields=__REALTIME_TIMESTAMP,COREDUMP_PID,COREDUMP_FILENAME,COREDUMP_RLIMIT,COREDUMP_TIMESTAMP,COREDUMP_EXE,COREDUMP_CWD,MESSAGE",
+    "--lines=8"
+  ],
+  "limits": "Selectedjournalmetadata only, noexternaldumpcontentsreadorcleanup; absentfilenamealone is not universalnegativeproof. Noactualgeneratoradmission.",
+  "native_signal_predicate": true,
+  "pid": 1820012,
+  "queries": [
+    {
+      "elapsed": 0.7770441609900445,
+      "exit": 0,
+      "rows": [
+        {
+          "COREDUMP_CWD": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+          "COREDUMP_EXE": "/usr/bin/tee",
+          "COREDUMP_PID": "1820012",
+          "COREDUMP_RLIMIT": "0",
+          "COREDUMP_TIMESTAMP": "1793543337000000",
+          "MESSAGE": "Process 1820012 (tee) of user 1000 terminated abnormally without generating a coredump.",
+          "_BOOT_ID": "0ef7893c3a874b99b06815b488191f39",
+          "__CURSOR": "s=f16fe23d25054b8ea810f02c3f6eef17;i=85c461;b=0ef7893c3a874b99b06815b488191f39;m=1243ab67b1a;t=65f37d9824e53;x=ce4a0a6c488b3362",
+          "__MONOTONIC_TIMESTAMP": "1255115488026",
+          "__REALTIME_TIMESTAMP": "1793543337299539",
+          "__SEQNUM": "8766561",
+          "__SEQNUM_ID": "f16fe23d25054b8ea810f02c3f6eef17"
+        }
+      ],
+      "stderr": ""
+    }
+  ],
+  "schema": "worldline.d159.core-zero-native-control-result.v1",
+  "started": "2026-11-01T14:28:57.223738+00:00",
+  "stderr": "",
+  "timeout_error": null,
+  "utc": "2026-11-01T14:28:58.000805+00:00"
+}

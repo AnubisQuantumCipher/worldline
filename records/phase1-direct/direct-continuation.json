@@ -1,10 +1,10 @@
 {
-  "utc": "2026-11-01T13:40:58.835618+00:00",
-  "owner": "Codex Astra coordinator 01a196b6-6595-7b30-ae07-8af6b0ed4dc7; sole WORLDLINE Phase One integrator",
-  "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "aad6dadd56d794940702a54187eafb4d7800ca63",
-  "published_readback": "aad6dadd56d794940702a54187eafb4d7800ca63",
   "active_jobs": [],
+  "blocked_condition_audit": {
+    "current_resumed_run_consecutive_impasse_turns": 0,
+    "current_state": "PROGRESS: D159 operational envelope approved conditionally; initial clean environment before firstBash is mandatory; exact checkpoint and fresh native admission next",
+    "historical_audit": "Preserved previous three-turn storage impasse in pre-reconciliation continuation"
+  },
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
     "Next_Line strict level3 proof: 35 total reported, zero unproved/justified/Assume",
@@ -34,7 +34,8 @@
     "D157 exact279-source prerequisite cut independently byte/blob/receipt verified; generator/compiler/proof UNRUN.",
     "D157 remaining compiler candidate771files37730838B acquired with671GETs+100reuses, root allblob/SHA/size/mode/receipt verified; executable closure UNPROVEN."
   ],
-  "next": "Resolve bounded root capture/terminal envelope using existing controls; fresh exact admission before one fixed generator attempt",
+  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
+  "current_runtime_boundary": "Passing96.492s unchanged padding regression used earlier quantity603a4bc3/loader318a9033 checked build. Currentquantity7463adf3/loaderfbf8962f integrated build/runtime remainsUNRUN; numeric87checks applycurrent7463/c074 only.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -195,8 +196,31 @@
     "factory-20261101/resume-20261101T1050/o1-generator-judge-packet-v2.json",
     "factory-20261101/resume-20261101T1050/storage-owner-stop-readback-v4.json",
     "factory-20261101/resume-20261101T1050/o1-generator-capture-envelope-analysis-report.md",
-    "factory-20261101/resume-20261101T1050/checkpoint-source-v4.json"
+    "factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
+    "factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json"
   ],
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "head": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "head_class": "Current documentary HEAD matches remote. Product source remains1d148820; no product integration or qualified run in current resume.",
+  "helper_status": "All D159 author/pair/judge and translator planner released; root sole writer, no operational job",
+  "latest_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
+  "latest_continuation": "factory-20261101/resume-20261101T1050/resumption.json",
+  "latest_operational_decision": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json",
+  "latest_operational_packet": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-review-packet.json",
+  "latest_publication_readback": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v4.json",
+  "memory": {
+    "class": "model-origin navigation only, not proof",
+    "current_state_authority": "direct-continuation.json and live receipts; earlier note contains an older proof handle",
+    "exact_recall": "sia-raw-layout-exact-recall.txt",
+    "exact_recall_exit": 0,
+    "indexed_ask_exit": 0,
+    "note_slug": "notes/2026-10-19-192539-codex-a0a654423bff4d1d9c2e4544d775ddf7",
+    "pin_applied": true,
+    "pin_evidence": "sia-raw-layout-pin-state.json",
+    "ready_exit": 0
+  },
+  "next": "Publish exact reviewed D159 checkpoint then fresh native admission; one unchanged fixed generator attempt only if every gate passes",
+  "next_executable_task": "Publish exact reviewed D159 checkpoint then fresh native admission; one unchanged fixed generator attempt only if every gate passes",
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
     "Zero-padding successor regression passes after normalization; genuinely significant805-byte value still raises GNAT big integer limit exceeded. No full-domain runtime closure.",
@@ -205,66 +229,46 @@
     "unbounded full-value implicit Old retirement conjunction",
     "protected/actor witnesses and independent F7 acceptance"
   ],
-  "memory": {
-    "class": "model-origin navigation only, not proof",
-    "note_slug": "notes/2026-10-19-192539-codex-a0a654423bff4d1d9c2e4544d775ddf7",
-    "ready_exit": 0,
-    "indexed_ask_exit": 0,
-    "exact_recall_exit": 0,
-    "exact_recall": "sia-raw-layout-exact-recall.txt",
-    "current_state_authority": "direct-continuation.json and live receipts; earlier note contains an older proof handle",
-    "pin_applied": true,
-    "pin_evidence": "sia-raw-layout-pin-state.json"
-  },
-  "previous_utc": "2026-11-01T13:27:25.910968+00:00",
-  "resumption": "factory-20261101/resumption.json",
+  "owner": "Codex Astra coordinator 01a196b6-6595-7b30-ae07-8af6b0ed4dc7; sole WORLDLINE Phase One integrator",
+  "pending_publication": "HEAD7a312728 remainsremotecheckpoint; newD159source/evidence/documents notyetpublished",
   "phase_acceptance": false,
-  "current_runtime_boundary": "Passing96.492s unchanged padding regression used earlier quantity603a4bc3/loader318a9033 checked build. Currentquantity7463adf3/loaderfbf8962f integrated build/runtime remainsUNRUN; numeric87checks applycurrent7463/c074 only.",
-  "helper_status": "Root sole writer/integrator; all v2 author/review/judge/planning workers released. No operational job.",
+  "previous_factory_continuation": "factory-20261101/checkpoint-paused-v1.json",
+  "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
+  "previous_utc": "2026-11-01T14:34:14.384146+00:00",
+  "publication_receipt": "factory-20261101/resume-20261101T1050/publication-readback-v4.json",
+  "published_head": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "published_readback": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "remote_checkpoint": {
+    "branch": "codex/phase1-direct-20261019",
+    "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
+    "complete_tree_entries": 5018,
+    "free_bytes_observed": 10013102080,
+    "historical_only": true,
+    "local_HEAD": "08e95150aa3e5c747821c6865534ff326a93a38a",
+    "local_git_safety": "Remote is ahead of local HEAD. Do not commit/push stale local history. After capacity returns, fetch and reconcile this owned branch while preserving local source/evidence; never force-push away remote checkpoints.",
+    "parents": [
+      "08e95150aa3e5c747821c6865534ff326a93a38a"
+    ],
+    "phase_acceptance": false,
+    "plan_sha256": "ef48ddde71642dbd4af6dabac5d1b095c9d326dffc4d3d369532abf85c532f94",
+    "publication_method": "GitHub create_tree/create_commit/update_ref expected_sha=08e9515, force=false; connector commit readback and git ls-remote exact SHA; no local Git object/index writes",
+    "published_source_checkpoint_unchanged": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+    "remote_branch_exact_readback": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
+    "selected_paths": 120,
+    "superseded_by": "factory-20261101/resume-20261101T1050/publication-readback-v1.json",
+    "tree": "8f42e9c45c5d85eb2a76759b526600bccbfa9759",
+    "tree_readback": "api-tree-readback-v1.json",
+    "unexpected_tree_or_blob_changes": [],
+    "utc": "2026-10-26T16:50:15.173164+00:00"
+  },
+  "resumption": "factory-20261101/resumption.json",
   "source_proposals": [
     "completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/independent-review.json",
     "completion-20261026/old-retirement-fresh-owner-slice-v1/source-closure.json",
     "completion-20261026/old-retirement-fresh-owner-source-closure-fetch-v1/exact-source-integration-review-v2.json",
     "completion-20261026/reservation-plan/checked-cost-rejection-v1.json"
   ],
-  "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
-  "head_class": "Current documentary HEAD matches remote. Product source remains1d148820; no product integration or qualified run in current resume.",
-  "publication_receipt": "factory-20261101/resume-20261101T1050/publication-readback-v3.json",
-  "latest_continuation": "factory-20261101/resume-20261101T1050/resumption.json",
-  "pending_publication": "Checkpointv4 source-preparation adjudication and lastdriverbodymetadata pending coherent nonfinal publication; actualgenerator UNRUN.",
-  "remote_checkpoint": {
-    "utc": "2026-10-26T16:50:15.173164+00:00",
-    "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
-    "tree": "8f42e9c45c5d85eb2a76759b526600bccbfa9759",
-    "parents": [
-      "08e95150aa3e5c747821c6865534ff326a93a38a"
-    ],
-    "branch": "codex/phase1-direct-20261019",
-    "remote_branch_exact_readback": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
-    "local_HEAD": "08e95150aa3e5c747821c6865534ff326a93a38a",
-    "published_source_checkpoint_unchanged": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
-    "plan_sha256": "ef48ddde71642dbd4af6dabac5d1b095c9d326dffc4d3d369532abf85c532f94",
-    "tree_readback": "api-tree-readback-v1.json",
-    "selected_paths": 120,
-    "complete_tree_entries": 5018,
-    "unexpected_tree_or_blob_changes": [],
-    "publication_method": "GitHub create_tree/create_commit/update_ref expected_sha=08e9515, force=false; connector commit readback and git ls-remote exact SHA; no local Git object/index writes",
-    "phase_acceptance": false,
-    "local_git_safety": "Remote is ahead of local HEAD. Do not commit/push stale local history. After capacity returns, fetch and reconcile this owned branch while preserving local source/evidence; never force-push away remote checkpoints.",
-    "free_bytes_observed": 10013102080,
-    "historical_only": true,
-    "superseded_by": "factory-20261101/resume-20261101T1050/publication-readback-v1.json"
-  },
-  "blocked_condition_audit": {
-    "historical_audit": "Preserved previous three-turn storage impasse in pre-reconciliation continuation",
-    "current_resumed_run_consecutive_impasse_turns": 0,
-    "current_state": "PROGRESS: sole generator source revision approved; root capture/admission detail remains before native qualification. Storage scheduling claim explicitly released; reclamation user-paused."
-  },
-  "previous_factory_continuation": "factory-20261101/checkpoint-paused-v1.json",
-  "current_factory_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
   "storage_coordination": "Human accepted100GB and paused reclamation; DUAT owner released scheduling claim; no runtimeadmission",
-  "goal_status": "ACTIVE_INCOMPLETE",
-  "latest_checkpoint": "records/phase1-direct/factory-20261101/resume-20261101T1050/checkpoint-source-v4.json",
-  "published_head": "aad6dadd56d794940702a54187eafb4d7800ca63",
-  "latest_publication_readback": "records/phase1-direct/factory-20261101/resume-20261101T1050/publication-readback-v3.json"
+  "utc": "2026-11-01T14:42:30.814262+00:00",
+  "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019"
 }

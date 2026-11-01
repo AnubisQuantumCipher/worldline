@@ -817,3 +817,59 @@ DUAT's human accepted roughly100GB available and paused further reclamation. Its
 owner explicitly released scheduling ownership; root matched the durable stop
 receipt and five bound evidence hashes. This does not grant runtime admission.
 Current source/bridge/pin/terminal/resource checks still precede any fixed attempt.
+
+
+### 2026-11-01 D159 root capture revision2 under fresh review
+
+D158 generator source remains approved, native build UNRUN. D159 initial simple
+regular-file capture was rejected: an ignored cleanup-child error could hide a
+failed first diagnostic write. The sole capture revision now checks two native
+consumer exits and native status-receipt finalization; all four failed author
+harness attempts remain retained. Root matched the complete typed254-entry packet
+and tool pins. Fresh independent/adversarial review is active, then a fresh judge;
+no revisions remain after this revision.
+
+A host CORE boundary was investigated without modifying services or deleting data.
+Two own-test cores remain retained; outer COREsoft/hard0 is now bound into the
+review packet. One bounded native SIGXFSZ control produced the expected-25 and a
+CORE0 journal report explicitly stating no core was generated. Actual generator
+admission still requires current identities, bridge/pins/owner/terminal evidence,
+24178844672available bytes and existing post-lock14GiB/8GiB/zero-swap gates.
+
+Next executable task: finish D159 adjudication; if approved, admit and execute the
+one unchanged fixed generator attempt. Full translator preparation then needs exact
+CGPR/runtime bindings, upstream sdefault transformations and qualified GNATcoll reuse.
+No additional immutable source acquisition is justified. DUAT reclamation remains
+user-paused; Phase One remains ACTIVE_INCOMPLETE; independent F7 NOT PERFORMED.
+
+
+### D159 revision2 adjudicated; native admission remains separate
+
+Fresh independent Astra-medium and adversary Sol-high approved identical packet
+42f8cf27ddf50a4e703d33846eb78b7911f961501e4b7a04d2521750fb14ed40. Separate fresh
+Astra-medium judge ec804da4c132420afba5b74f658604dc9a5b1a45d8d2666c399c3509e48fb3cf
+confirmed APPROVE_OPERATIONAL_ENVELOPE conditional on existing external admission.
+Decision e9b297794f0ff730c8177c58485dec3b57fdded0f3ed819a32212e66cd699a63 retains
+zero revisions, initial rejection and all four FAILED author harness attempts.
+Native generator remains UNRUN; source preparation and internal review do not
+establish O1, D47, Phase One or F7. F7 NOT PERFORMED.
+
+The adversary demonstrated that BASH_ENV executes before a Bash script body despite
+--noprofile --norc. The existing cleanenvironment prerequisite therefore applies
+before the FIRST Bash, including startup hooks, shell options, loader variables
+and inherited descriptors restricted to0/1/2. The inner env-i supplies no protection
+for earlier startup. Root must supply an allowlisted initial exec environment and
+record it; missing evidence rejects admission. This is an existing caller obligation,
+not a source correction or a new decision round. CORE0 outer entry remains exact.
+
+The native prerequisite still requires exact-source checkpoint mapping; current
+owner/source/tool/handler/protected-pin/bridge/capacity/terminal readback and
+post-lock14GiB memory. Floor24178844672B, memory8GiB/swap0 and deadlines unchanged.
+Each of three IO consumers has a separate1650+5s failure bound. Terminal unknown
+forbids successor execution. Reversal is to withhold admission/qualification on
+any failed or missing predicate, preserving all partials without edits or reset.
+
+Static translator planning fixes expected runtime/sdefault/GNATCOLL paths but no
+WORLDLINE CGPR or qualified objects yet exist. An existing SIA configuration is
+only a specimen with a target alias, not an adopted input. Native gnatls/config
+readback and dependency qualification remain UNRUN; no new source acquisition.

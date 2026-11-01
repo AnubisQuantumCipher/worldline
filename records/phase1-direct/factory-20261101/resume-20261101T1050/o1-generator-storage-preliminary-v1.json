@@ -1,0 +1,125 @@
+{
+  "archive_reserve_bytes": 50000000000,
+  "bridge": {
+    "device": {
+      "argv": [
+        "/usr/bin/idevice_id",
+        "-l"
+      ],
+      "device_count": 1,
+      "exit": 0,
+      "stderr": "",
+      "stdout_bytes": 26,
+      "stdout_sha256": "69376ccd6436d7f67857dab7809caf4fcab49632abca6865a4aaf199d4801f39",
+      "success_text": null
+    },
+    "pairing": {
+      "argv": [
+        "/usr/bin/idevicepair",
+        "validate"
+      ],
+      "device_count": null,
+      "exit": 0,
+      "stderr": "",
+      "stdout_bytes": 65,
+      "stdout_sha256": "22482930d494136239f2410c3a37e93e4ca36924d012e94f384c445ec4e50e03",
+      "success_text": true
+    }
+  },
+  "elapsed_seconds": 0.14618475292809308,
+  "linux_available_bytes": 100707954688,
+  "memavailable_bytes": 19812728832,
+  "mounts": [
+    {
+      "fstype": "fuse.ifuse",
+      "mount_count": 1,
+      "path": "/home/sicarii/iPad",
+      "repository_config_bytes": 155,
+      "repository_config_sha256": "45ad6db531c03514115c60f2a1eb0de974d7a396a35f22fd2270ca606ca0f009",
+      "vault_id_matches": true
+    },
+    {
+      "fstype": "fuse.ifuse",
+      "mount_count": 1,
+      "path": "/home/sicarii/iPadBackup",
+      "repository_config_bytes": 155,
+      "repository_config_sha256": "45ad6db531c03514115c60f2a1eb0de974d7a396a35f22fd2270ca606ca0f009",
+      "vault_id_matches": true
+    }
+  ],
+  "operations": {
+    "cold-operation.json": {
+      "bytes": 133,
+      "selected": {
+        "exit_code": null,
+        "finished": "2026-11-01T13:22:12.026500+00:00",
+        "owner_pid": null,
+        "phase": null,
+        "pid": null,
+        "state": "passed"
+      },
+      "sha256": "dcc1ea1ce7fd1c2157cd5c4651032f1af6326ae9d87237f13b5e3f4851204ca9"
+    },
+    "offload-queue.json": {
+      "bytes": 17391,
+      "selected": {
+        "rows": 40,
+        "states": {
+          "cancelled": 1,
+          "done": 14,
+          "needs-review": 25
+        }
+      },
+      "sha256": "0867fab84ff74d93c51b290ad04e2ab0aa33ef294111291bb11d472518da9b1a"
+    },
+    "operation.json": {
+      "bytes": 789,
+      "selected": {
+        "exit_code": 0,
+        "finished": "2026-11-01T13:22:06.144325+00:00",
+        "owner_pid": 1506824,
+        "phase": "restore",
+        "pid": 1518125,
+        "state": "passed"
+      },
+      "sha256": "aca2e6a4891cd4261817aacfa448991a116a28348e252565000ca2a088156d13"
+    }
+  },
+  "pins": {
+    "bytes": 96872,
+    "carrier_covered": true,
+    "count": 1334,
+    "installed_gnat_covered": true,
+    "sha256": "c033b227198aca0003ccf4c454a1e0717756ac12e946b2c79a2f3656f8e9cfb2"
+  },
+  "process_observation": {
+    "matched": [],
+    "scanned": 648,
+    "scope": "Selected native executable and script token names, not exhaustive process behavior attestation",
+    "unreadable": []
+  },
+  "reserve_bytes": 10000000000,
+  "runtime_admission": "NOT_GRANTED; operational review pending and all admission checks must be fresh before launch",
+  "schema": "worldline.generator.preliminary-storage-readback.v1",
+  "services": [
+    {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "Id=duat-reviewed-remainder-20261101.service\nActiveState=inactive\nSubState=dead\nMainPID=0\nExecMainStatus=0\nControlGroup=\n",
+      "unit": "duat-reviewed-remainder-20261101.service"
+    },
+    {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "Id=project-vault-backup.service\nActiveState=inactive\nSubState=dead\nMainPID=0\nExecMainStatus=0\nControlGroup=\n",
+      "unit": "project-vault-backup.service"
+    }
+  ],
+  "storage_stop": {
+    "bytes": 1655,
+    "matches_accepted_stop": true,
+    "sha256": "49b2bd5098e977fa7f09454b5b6a25e28a300922b1a4786683beb6676d30b5f6"
+  },
+  "uid": 1000,
+  "utc": "2026-11-01T13:55:41.448541+00:00"
+}

@@ -1,0 +1,47 @@
+{
+  "F7": "NOT PERFORMED",
+  "decision_id": "D159",
+  "references": [
+    {
+      "bytes": 80553,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-review-packet.json",
+      "sha256": "42f8cf27ddf50a4e703d33846eb78b7911f961501e4b7a04d2521750fb14ed40"
+    },
+    {
+      "bytes": 4197,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-independent-report.md",
+      "sha256": "81669c0b713193406c9148370b286268de3c480abf5eada1bc5f516fc16e14a3"
+    },
+    {
+      "bytes": 162621,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-independent-public-tools.json",
+      "sha256": "1aa598bb5871c2213cdab2285dd3d3454bc90ec1b3b53d577b6fb11dbceade5a"
+    },
+    {
+      "bytes": 1278,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-independent-provenance.json",
+      "sha256": "92175a34c2622f27057b96ee42850fe453cd657cbf6a480025c5336f3ddb830a"
+    },
+    {
+      "bytes": 4968,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-adversary-report.md",
+      "sha256": "1b685dc8e09f7cfb24206bae4b72d8d9678b12ea2683dded67ad5bc729a256ba"
+    },
+    {
+      "bytes": 349646,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-adversary-public-tools.json",
+      "sha256": "d960a1000f9e4681ff45a5b4b295e328a6acb38fec5f1d5f82a02d077d3b6674"
+    },
+    {
+      "bytes": 1271,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-adversary-provenance.json",
+      "sha256": "a234e5e506b7a121d0568a1f6f362e7b13a6b8db66862d9e5cd8f163eec3a110"
+    }
+  ],
+  "revision": 2,
+  "revisions_remaining": 0,
+  "runtime": "UNRUN",
+  "schema": "worldline.o1-root-capture-judge-packet.v2",
+  "scope": "Fresh separate judge. Both pair verdicts complete before sharing. Immutable packet unchanged. Assess external initial clean-environment prerequisite including first Bash and FD0/1/2; no claim inner env-i prevents pre-body startup. No runtime admission, source qualification or F7 acceptance. Mandatory surviving defect blocks with no reset.",
+  "source_head": "7a3127281389f58f2291c86d123ec1f920cee6b7"
+}

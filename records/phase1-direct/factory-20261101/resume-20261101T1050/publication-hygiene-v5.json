@@ -1,0 +1,22 @@
+{
+  "all_index_bytes_match": true,
+  "bytes": 2898737,
+  "diff_check": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "nul_findings": [],
+  "oversized_findings": [],
+  "schema": "worldline.publication-hygiene.v5",
+  "sealed_artifact_policy": "Do not mutate sealed evidence for whitespace; any findings require exact classification before publication",
+  "secret_findings": [],
+  "secret_patterns": [
+    "private_key",
+    "github_token",
+    "openai_key",
+    "aws_key"
+  ],
+  "selected": 275,
+  "utc": "2026-11-01T14:43:26.394725+00:00"
+}

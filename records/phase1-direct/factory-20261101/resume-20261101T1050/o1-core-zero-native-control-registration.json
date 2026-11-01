@@ -1,0 +1,42 @@
+{
+  "F7": "NOT PERFORMED",
+  "argv": [
+    "/usr/bin/tee",
+    "--output-error=exit"
+  ],
+  "attempts": 1,
+  "child_limits": {
+    "RLIMIT_AS": 67108864,
+    "RLIMIT_CORE": [
+      0,
+      0
+    ],
+    "RLIMIT_FSIZE": [
+      0,
+      0
+    ]
+  },
+  "child_timeout_seconds": 5,
+  "clean_env": {
+    "LC_ALL": "C",
+    "PATH": "/usr/bin",
+    "TZ": "UTC"
+  },
+  "conservative_potential_core_bytes": 134217728,
+  "decision": "D159revision2qualificationevidence; nosealedsourceedit orreviewreset",
+  "executable": "/usr/bin/tee",
+  "expected_native_exit": -25,
+  "full_recovery_margin_bytes": 134217728,
+  "maximum_metadata_rows": 8,
+  "metadata_observation_deadline_seconds": 30,
+  "minimum_linux_available_bytes": 10268500992,
+  "permissions": "Routine bounded local engineering under activePhaseOne; no neweffectauthority orhostconfigurationchange",
+  "phase_acceptance": false,
+  "purpose": "One native empty-sink SIGXFSZ control with hard+softCORE0 to check configuredhandler behavior beforefreshpair",
+  "retained_metadata_bytes": 65536,
+  "schema": "worldline.d159.core-zero-native-control-registration.v1",
+  "scope": "No guard/heavy/compiler/generator/serviceconfiguration/locks/mounts/network orarchive. One child atmost; onlyitsPID/time/exe journalmetadata. Kernelmayinvokeexistinghandler; requireCORE0anddisabled/notstoredreport. Unknownremainsunqualified, noretry. No externalcorecontents/deletion.",
+  "stdin_bytes": 1,
+  "stdout": "anonymous memfd, file-size limit0",
+  "utc": "2026-11-01T14:28:18.101275+00:00"
+}

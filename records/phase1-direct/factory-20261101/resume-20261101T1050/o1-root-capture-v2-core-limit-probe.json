@@ -1,0 +1,8 @@
+{
+  "command": "ulimit -S -c 0 || exit 125\nulimit -H -c 0 || exit 125\n[[ \"$(ulimit -S -c)\" == 0 && \"$(ulimit -H -c)\" == 0 ]] || exit 125\n[[ \"$(ulimit -H -f)\" == unlimited ]] || exit 125\nulimit -S -f 8192 || exit 125\nexec /usr/bin/python3 -B -W error -c 'import os,resource,json\nassert resource.getrlimit(resource.RLIMIT_CORE)==(0,0)\nassert resource.getrlimit(resource.RLIMIT_FSIZE)==(8388608,resource.RLIM_INFINITY)\nfds=[]\nfor name in os.listdir(\"/proc/self/fd\"):\n try: os.fstat(int(name))\n except OSError: continue\n fds.append(int(name))\nassert sorted(fds)==[0,1,2]\ntry: resource.setrlimit(resource.RLIMIT_CORE,(resource.RLIM_INFINITY,resource.RLIM_INFINITY))\nexcept ValueError: rejected=True\nelse: rejected=False\nassert rejected\nprint(json.dumps({\"CORE\":resource.getrlimit(resource.RLIMIT_CORE),\"FSIZE\":resource.getrlimit(resource.RLIMIT_FSIZE),\"open_fds\":sorted(fds),\"core_raise_rejected\":rejected}))'\n",
+  "exit": 0,
+  "scope": "Pure childlimit/fd introspection; nofilewrite/noactualguard/no crash orhandlerbehavior test; doesnotestablish actualfuturedescriptorstate",
+  "stderr": "",
+  "stdout": "{\"CORE\": [0, 0], \"FSIZE\": [8388608, -1], \"open_fds\": [0, 1, 2], \"core_raise_rejected\": true}\n",
+  "utc": "2026-11-01T14:26:24.052963+00:00"
+}

@@ -1,0 +1,6 @@
+schema=worldline.root-capture-status.v2
+guard=WAIT_STATUS:143
+stdout_consumer=WAIT_STATUS:0
+stderr_consumer=WAIT_STATUS:0
+capture_rejected=1
+cleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED

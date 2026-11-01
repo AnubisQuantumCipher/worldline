@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/final_diag_test.py", line 51, in <module>
+    main()
+    ~~~~^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/final_diag_test.py", line 34, in main
+    assert row["files"]["stdout-consumer.stderr"]["bytes"] == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

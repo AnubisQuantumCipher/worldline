@@ -1,0 +1,1719 @@
+{
+  "error": "AssertionError()",
+  "operational_guard": "UNRUN",
+  "results": [
+    {
+      "case": "empty",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-00-empty/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 0,
+        "seconds": 0.030647258972749114,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": true,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "51639f7e8f80abc07b03c3e60d5195a99604db1633b207b23e4396809a8dbadd",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=0\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "9898c1477a154c97f61a79fca6b80314c462c3d91dbf2fcb733351154c6bce15",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-00-empty",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "output",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-01-output/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.01869433093816042,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "c37581790ed3f8b1b2e98a5c387ee93ace949225ca53303f5c67756795a9b45a",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 6,
+          "sha256": "e0ee8bb50685e05fa0f47ed04203ae953fdfd055f5bd2892ea186504254f8c3a",
+          "text": "output"
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "435e8ccbcff68aee532a628e4c8e3fc7d4d59de275cfc666bf6dfdcf64cb7e07",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-01-output",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'output'\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "stderr",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-02-stderr/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.01720983488485217,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "c37581790ed3f8b1b2e98a5c387ee93ace949225ca53303f5c67756795a9b45a",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 5,
+          "sha256": "ca00fccfb408989eddc401062c4d1219a6aceb6b9b55412357f1790862e8f178",
+          "text": "error"
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "127fb7d366af84918fb6f9f68822b5827787ea683f2abf23f2e9b12808ed694f",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-02-stderr",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'error' >&2\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "guard-nonzero",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-03-guard-nonzero/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.02343216584995389,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "481aa488ec442a7ff351826805789df7b57cc56591972b3d612bdad6ea9ae72a",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:7\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "064ad433a912b744e255780c7bc9127fbd54f864714cb5ae3ab80202c4bd9e83",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-03-guard-nonzero",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    exit 7\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "guard-signal",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-04-guard-signal/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.02873945003375411,
+        "stderr": "Terminated                 ( exec >&\"$P_OUT\" 2>&\"$P_ERR\" < /dev/null || exit 125; close_fd \"$P_OUT\" || exit 125; close_fd \"$P_ERR\" || exit 125; close_captures || exit 125; close_fd \"$STATUS_F\" || exit 125; operational_guard )\n",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 195,
+          "sha256": "b7f1377d1bf1f0faef160d75a34a5f5bbb5f9edf2e2d721710b7ccbf3c0a8b89",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:143\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "c5d67e6363e5d9fc292dc8d8e913aed66d6166ea9061f55face6eadfc699fe7b",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-04-guard-signal",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    /usr/bin/kill -TERM \"$BASHPID\"\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "first-eio",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-05-first-eio/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "first_eio",
+          "FIXTURE_FAULT_TARGET": "stdout",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.019816807005554438,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "e66b242700a03d15517adb1fa6bc69a04d261d959fb97e24165336dc2732f9c5",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:1\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 43,
+          "sha256": "4401ee03413d18d996a63c105963e899ac81ba389bfd731599ec62216a72c45b",
+          "text": "tee: 'standard output': Input/output error\n"
+        }
+      },
+      "fixture_sha256": "ab4c0d986bcb8efc129a9ffd73651b5ee792662c0d2664b5e7d12a0566f26d4c",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-05-first-eio",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'ignored-output' || :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "first-enospc",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-06-first-enospc/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "first_enospc",
+          "FIXTURE_FAULT_TARGET": "stdout",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.016459502978250384,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "e66b242700a03d15517adb1fa6bc69a04d261d959fb97e24165336dc2732f9c5",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:1\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 48,
+          "sha256": "6b3b5ef1f263bcfea9465dc7bf6aee58c65b918c5646e32e18ce1672cb25100c",
+          "text": "tee: 'standard output': No space left on device\n"
+        }
+      },
+      "fixture_sha256": "d813c9b47a5f7f3bab18f670a595d88be46d554c42b7897881e17dd928b7358e",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-06-first-enospc",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'ignored-output' || :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "partial",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-07-partial/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "partial",
+          "FIXTURE_FAULT_TARGET": "stdout",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.018314810004085302,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "e66b242700a03d15517adb1fa6bc69a04d261d959fb97e24165336dc2732f9c5",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:1\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 1,
+          "sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+          "text": "a"
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 23,
+          "sha256": "7c1cd0641264a32284e665bec14aeede5e35c309ae2bb8cab652ff88fda0aa56",
+          "text": "tee: 'standard output'\n"
+        }
+      },
+      "fixture_sha256": "8613fd96ffe9bd1472613dc36f533a7e3c5bdd2a0eb9c73433c2431e51956879",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-07-partial",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'abcdef' || :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "close-empty",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-08-close-empty/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "close",
+          "FIXTURE_FAULT_TARGET": "stdout",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.017553645186126232,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "e66b242700a03d15517adb1fa6bc69a04d261d959fb97e24165336dc2732f9c5",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:1\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 37,
+          "sha256": "5e3549b6ff0388956e8c50c4b6cf958530bf760dd1ef9b91d7531b34a455f395",
+          "text": "tee: write error: Input/output error\n"
+        }
+      },
+      "fixture_sha256": "05340087c582275639861353894b680f98da481de2864c7158398d01309b7ace",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-08-close-empty",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "close-stderr",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-09-close-stderr/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "close",
+          "FIXTURE_FAULT_TARGET": "stderr",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.020916740177199244,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "b911193b711559f7034752e281ea2a3ff88043a16cc4307e58805b4f2d136511",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:1\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 37,
+          "sha256": "5e3549b6ff0388956e8c50c4b6cf958530bf760dd1ef9b91d7531b34a455f395",
+          "text": "tee: write error: Input/output error\n"
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "8ac02a76029af614cc0b5df9c9bb83bdaf42dd4109b0f38cec01b8cd4a0fe0f0",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-09-close-stderr",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "lost-diag",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-10-lost-diag/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "lost_diag",
+          "FIXTURE_FAULT_TARGET": "stdout",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.017217335989698768,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "e66b242700a03d15517adb1fa6bc69a04d261d959fb97e24165336dc2732f9c5",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:1\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 43,
+          "sha256": "4401ee03413d18d996a63c105963e899ac81ba389bfd731599ec62216a72c45b",
+          "text": "tee: 'standard output': Input/output error\n"
+        }
+      },
+      "fixture_sha256": "87aa595d6d3b5fa2a9063f3afe397293f0288b97999ef2f8725006ba40160542",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-10-lost-diag",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'lost' || :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "cap",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-11-cap/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.15250592795200646,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 195,
+          "sha256": "18c40814992b682fb4479ccb2b924e6eac43eaa83446a0029e4d35960fe3c1ee",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:153\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 8388608,
+          "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 43,
+          "sha256": "de25f493e2a030af329f5f01121c9f9249da8508936bfa0a119d0a5c8f638731",
+          "text": "timeout: the monitored command dumped core\n"
+        }
+      },
+      "fixture_sha256": "feaebd1fec1f02afd1553281f61d15731d679f3c70983ce2c9c40bc00f977adc",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-11-cap",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    /usr/bin/head -c 8388609 /dev/zero || :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "cap-exact",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-12-cap-exact/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.04884035489521921,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "c37581790ed3f8b1b2e98a5c387ee93ace949225ca53303f5c67756795a9b45a",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 8388608,
+          "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "1b6a6df7be80acbe8231531e731e8455e68d75c07d238f9484ceb72aec7bdf07",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-12-cap-exact",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    /usr/bin/head -c 8388608 /dev/zero || :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "consumer-death",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-13-consumer-death/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.023901317035779357,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 195,
+          "sha256": "25b5aad8ede9e22349f5b1e3f2625f85fdae4043423ffa9ec2ab53893f9b7c51",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:137\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "11a68b677446b9b8a55ae51c012bb3b8f1b02839d801c5a4542059f75797a610",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-13-consumer-death",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    /usr/bin/kill -KILL \"$P_OUT_PID\"; :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "delayed-eof",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-14-delayed-eof/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.4235273040831089,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 197,
+          "sha256": "d9f470b1a6b03c798f4b5da96aac2cdf655de4d51a30a97e34717eb370cf2ef0",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:124\nstderr_consumer=WAIT_STATUS:124\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "c4203e30c57093c7bcd0317d5a0fba35bbfe1119e84ec686a90bb48b53613f2d",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-14-delayed-eof",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    /usr/bin/sleep 0.7 &\n    :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "receipt-first",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-15-receipt-first/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "first_eio",
+          "FIXTURE_FAULT_TARGET": "status",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.02994822314940393,
+        "stderr": "tee: 'standard output': Input/output error\n",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "760feaa257c5b6a72e886ddca3153989db227d28f387431d283df32faa43f346",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-15-receipt-first",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "receipt-partial",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-16-receipt-partial/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "partial",
+          "FIXTURE_FAULT_TARGET": "status",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.03274237108416855,
+        "stderr": "tee: 'standard output'\n",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 1,
+          "sha256": "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89",
+          "text": "s"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "b0b922ea695058c5c94178bcad73278bfe687823ea1c62f938fba59f9ad6eac0",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-16-receipt-partial",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "receipt-close",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-17-receipt-close/fixture.sh"
+        ],
+        "environment": {
+          "FIXTURE_FAULT_MODE": "close",
+          "FIXTURE_FAULT_TARGET": "status",
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.03364529483951628,
+        "stderr": "tee: write error: Input/output error\n",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "51639f7e8f80abc07b03c3e60d5195a99604db1633b207b23e4396809a8dbadd",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=0\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "3f1800ee9491bb9c45e6ceedf0e989a0342f6559381f5cff6f4d0f0d4d0520ed",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-17-receipt-close",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    :\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "existing",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-18-existing/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.010492060100659728,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 187,
+          "sha256": "d70fec10ba8fa35357eb135f0e59d47a67ad592255363e9017ecf8e5b94082aa",
+          "text": "schema=worldline.root-capture-status.v2\nguard=NOT_STARTED\nstdout_consumer=NOT_STARTED\nstderr_consumer=NOT_STARTED\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "absent": true
+        },
+        "stderr-consumer.stderr": {
+          "absent": true
+        },
+        "stdout": {
+          "bytes": 14,
+          "sha256": "8cd34bf42ce458c60b66d82e97b25b1b6cec89383d785adb98152f173654e2b7",
+          "text": "do not replace"
+        },
+        "stdout-consumer.stderr": {
+          "absent": true
+        }
+      },
+      "fixture_sha256": "732b46d72f235fcb29b2fb4abd076dcac6ed82a6f94801d45c242c35da521696",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-18-existing",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'must-not-launch'\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "special",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-19-special/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.009419211186468601,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 187,
+          "sha256": "d70fec10ba8fa35357eb135f0e59d47a67ad592255363e9017ecf8e5b94082aa",
+          "text": "schema=worldline.root-capture-status.v2\nguard=NOT_STARTED\nstdout_consumer=NOT_STARTED\nstderr_consumer=NOT_STARTED\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "absent": true
+        },
+        "stderr-consumer.stderr": {
+          "absent": true
+        },
+        "stdout": {
+          "type": "nonregular"
+        },
+        "stdout-consumer.stderr": {
+          "absent": true
+        }
+      },
+      "fixture_sha256": "2e8d5e81dbf5340d78a280bd81d6aceda694656432f1074bd9ce02e0924ced96",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-19-special",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'must-not-launch'\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "symlink",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-20-symlink/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.007958882953971624,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 187,
+          "sha256": "d70fec10ba8fa35357eb135f0e59d47a67ad592255363e9017ecf8e5b94082aa",
+          "text": "schema=worldline.root-capture-status.v2\nguard=NOT_STARTED\nstdout_consumer=NOT_STARTED\nstderr_consumer=NOT_STARTED\ncapture_rejected=1\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "absent": true
+        },
+        "stderr-consumer.stderr": {
+          "absent": true
+        },
+        "stdout": {
+          "symlink": "/dev/full"
+        },
+        "stdout-consumer.stderr": {
+          "absent": true
+        }
+      },
+      "fixture_sha256": "de451468c7c154b54556fcb895259795cc6909c5a319c85ee248b2780f95ea79",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-20-symlink",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'must-not-launch'\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "status-exists",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-21-status-exists/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.004353439901024103,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "bytes": 15,
+          "sha256": "d188eccb67ef7f9b373870e984dcacf84d169e6edcfd06c199b3830bd0fd7384",
+          "text": "existing status"
+        },
+        "stderr": {
+          "absent": true
+        },
+        "stderr-consumer.stderr": {
+          "absent": true
+        },
+        "stdout": {
+          "absent": true
+        },
+        "stdout-consumer.stderr": {
+          "absent": true
+        }
+      },
+      "fixture_sha256": "f410ad58a1116a830060b8b6df388f52f5f4ffc68fb381c029117295ce6db28b",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-21-status-exists",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'must-not-launch'\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "bad-mode",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-22-bad-mode/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 1,
+        "seconds": 0.0018891841173171997,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": false,
+      "files": {
+        "status": {
+          "absent": true
+        },
+        "stderr": {
+          "absent": true
+        },
+        "stderr-consumer.stderr": {
+          "absent": true
+        },
+        "stdout": {
+          "absent": true
+        },
+        "stdout-consumer.stderr": {
+          "absent": true
+        }
+      },
+      "fixture_sha256": "51f996a31a64272d00d05cbf50a724b3045b5513141f7641a0f5251f4e8a9762",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-22-bad-mode",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    printf 'must-not-launch'\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    },
+    {
+      "case": "guard-fds",
+      "command": {
+        "argv": [
+          "/usr/bin/bash",
+          "--noprofile",
+          "--norc",
+          "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-23-guard-fds/fixture.sh"
+        ],
+        "environment": {
+          "LC_ALL": "C",
+          "PATH": "/usr/bin",
+          "TZ": "UTC"
+        },
+        "returncode": 0,
+        "seconds": 0.02394719491712749,
+        "stderr": "",
+        "stdout": ""
+      },
+      "expected_zero": true,
+      "files": {
+        "status": {
+          "bytes": 193,
+          "sha256": "51639f7e8f80abc07b03c3e60d5195a99604db1633b207b23e4396809a8dbadd",
+          "text": "schema=worldline.root-capture-status.v2\nguard=WAIT_STATUS:0\nstdout_consumer=WAIT_STATUS:0\nstderr_consumer=WAIT_STATUS:0\ncapture_rejected=0\ncleanup=UNDETERMINED_EXTERNAL_RECONCILIATION_REQUIRED\n"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stderr-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        },
+        "stdout-consumer.stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "text": ""
+        }
+      },
+      "fixture_sha256": "14d9830e87ebc6f10fcbf23f5119259ee67c2e60556816e211b3c9207fffbb02",
+      "passed": true,
+      "replacements": [
+        {
+          "new": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/case-23-guard-fds",
+          "old": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2"
+        },
+        {
+          "new": "IO_DEADLINE=0.4s",
+          "old": "IO_DEADLINE=1650s"
+        },
+        {
+          "new": "KILL_GRACE=0.1s",
+          "old": "KILL_GRACE=5s"
+        },
+        {
+          "new": "    [[ $(ulimit -H -f) == unlimited && $(ulimit -S -f) == 8192 ]] || exit 17\n    for fd in \"$P_OUT\" \"$P_ERR\" \"$OUT_F\" \"$ERR_F\" \"$OUT_DIAG_F\" \"$ERR_DIAG_F\" \"$STATUS_F\"; do\n        [[ ! -e /proc/$BASHPID/fd/$fd ]] || exit 18\n    done\n",
+          "old": "    cd /home/sicarii/Work/worldline-phase1-direct-20261019 || exit 125\n    exec /usr/bin/python3 -B -W error \\\n        records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/xgen_guard.py\n"
+        },
+        {
+          "new": "/usr/bin/bash /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/tee-fixture.sh --output-error=exit",
+          "old": "/usr/bin/tee --output-error=exit"
+        }
+      ]
+    }
+  ],
+  "seconds": 1.2566540411207825,
+  "source_pins": {
+    "entry.sh": "3b9953b0cde34d1b570a13107c575bae060305e615c1056a97e8255aafe05afd",
+    "fault.c": "287bde22865c874bfe54d3f106dc2fd4814dbac1de501b149209b431d0f862d0",
+    "launch.sh": "6b6d79cf6c268ee944c6b4e6a0748a2560ee9ffe5d11ca29ea511a2b11a62a55",
+    "run_tests.py": "b38b21a6e027637f08f8f8a805923605a60bd211aec7eed6aa8889e53c76d0d0",
+    "tee-fixture.sh": "2e8f3bcde360e176a20386b6580ebfc17ef52df4d6a6b1078e01a5397d56f6d7"
+  },
+  "synthetic_only": true
+}

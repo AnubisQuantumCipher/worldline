@@ -1,0 +1,131 @@
+{
+  "D158_manifest": {
+    "bytes": 8023,
+    "path": "records/phase1-direct/factory-20261101/o1-xgen-build-package-v2/manifest.json",
+    "sha256": "561833c2cfed7979a2148ab0151329ee3c58752aacfa3586c5ddc0c17b0e541e"
+  },
+  "F7": "NOT PERFORMED",
+  "decision": {
+    "bytes": 2980,
+    "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-generator-root-launch-decision-v2.json",
+    "sha256": "e9b297794f0ff730c8177c58485dec3b57fdded0f3ed819a32212e66cd699a63"
+  },
+  "heavy_helper": {
+    "bytes": 9619,
+    "path": "scripts/phase1_heavy.py",
+    "sha256": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a"
+  },
+  "local_excluded": [
+    {
+      "manifest_entry": {
+        "bytes": 8388608,
+        "gid": 1000,
+        "mode": "0600",
+        "mtime_ns": 1793542285053042544,
+        "path": "case-11-cap/stdout",
+        "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74",
+        "type": "regular",
+        "uid": 1000
+      },
+      "reason": "Retained local typed fixture, compiled test shim, or large generated negative capture; immutable manifest pins exact identity; not retired/offloaded"
+    },
+    {
+      "manifest_entry": {
+        "bytes": 8388608,
+        "gid": 1000,
+        "mode": "0600",
+        "mtime_ns": 1793542285231052041,
+        "path": "case-12-cap-exact/stdout",
+        "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74",
+        "type": "regular",
+        "uid": 1000
+      },
+      "reason": "Retained local typed fixture, compiled test shim, or large generated negative capture; immutable manifest pins exact identity; not retired/offloaded"
+    },
+    {
+      "manifest_entry": {
+        "gid": 1000,
+        "mode": "0600",
+        "mtime_ns": 1793542285810307402,
+        "path": "case-19-special/stdout",
+        "type": "fifo",
+        "uid": 1000
+      },
+      "reason": "Retained local typed fixture, compiled test shim, or large generated negative capture; immutable manifest pins exact identity; not retired/offloaded"
+    },
+    {
+      "manifest_entry": {
+        "gid": 1000,
+        "mode": "0777",
+        "mtime_ns": 1793542285820215931,
+        "path": "case-20-symlink/stdout",
+        "target": "/dev/full",
+        "type": "symlink",
+        "uid": 1000
+      },
+      "reason": "Retained local typed fixture, compiled test shim, or large generated negative capture; immutable manifest pins exact identity; not retired/offloaded"
+    },
+    {
+      "manifest_entry": {
+        "bytes": 70240,
+        "gid": 1000,
+        "mode": "0755",
+        "mtime_ns": 1793542508063072996,
+        "path": "fault-diag.so",
+        "sha256": "d841f339eddf7e1d833743f42da6860c5b1ac662a645b66fbd052caa31365fd5",
+        "type": "regular",
+        "uid": 1000
+      },
+      "reason": "Retained local typed fixture, compiled test shim, or large generated negative capture; immutable manifest pins exact identity; not retired/offloaded"
+    },
+    {
+      "manifest_entry": {
+        "bytes": 70392,
+        "gid": 1000,
+        "mode": "0755",
+        "mtime_ns": 1793542426492656004,
+        "path": "fault-final.so",
+        "sha256": "09485f5ce4189cef962a5369eee8b3d61db25efd6d6589c117b33fa034574814",
+        "type": "regular",
+        "uid": 1000
+      },
+      "reason": "Retained local typed fixture, compiled test shim, or large generated negative capture; immutable manifest pins exact identity; not retired/offloaded"
+    },
+    {
+      "manifest_entry": {
+        "bytes": 70072,
+        "gid": 1000,
+        "mode": "0755",
+        "mtime_ns": 1793542284789720580,
+        "path": "fault.so",
+        "sha256": "ecb940696557afa63a9bd746367c64bddefed058cb13cc41027d024d4c5413c5",
+        "type": "regular",
+        "uid": 1000
+      },
+      "reason": "Retained local typed fixture, compiled test shim, or large generated negative capture; immutable manifest pins exact identity; not retired/offloaded"
+    }
+  ],
+  "native_generator": "UNRUN",
+  "operational_source": [
+    {
+      "bytes": 581,
+      "path": "records/phase1-direct/factory-20261101/o1-root-capture-package-v2/entry.sh",
+      "sha256": "3b9953b0cde34d1b570a13107c575bae060305e615c1056a97e8255aafe05afd"
+    },
+    {
+      "bytes": 5845,
+      "path": "records/phase1-direct/factory-20261101/o1-root-capture-package-v2/launch.sh",
+      "sha256": "6b6d79cf6c268ee944c6b4e6a0748a2560ee9ffe5d11ca29ea511a2b11a62a55"
+    },
+    {
+      "bytes": 407,
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-core-zero-entry.sh",
+      "sha256": "13207586a591089ff927b66fdb0293e4f415c2d46498397b8b88302268f5633a"
+    }
+  ],
+  "parent_reviewed_head": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "phase_acceptance": false,
+  "product_source": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "schema": "worldline.source-checkpoint-binding.v5",
+  "scope": "Commit reviewed D159 operational source and raw bounded evidence; D158/helper/product bytes unchanged. Reviewed parent HEAD does not assert review of later documentary commit. Exact retained file hashes carry program identity into successor; recheck before native admission."
+}

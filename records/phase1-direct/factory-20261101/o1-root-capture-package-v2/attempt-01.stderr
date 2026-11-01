@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/run_tests.py", line 179, in <module>
+    main()
+    ~~~~^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/run_tests.py", line 166, in main
+    check_semantics()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/run_tests.py", line 115, in check_semantics
+    assert by_name["lost-diag"]["files"]["stdout-consumer.stderr"]["bytes"] == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

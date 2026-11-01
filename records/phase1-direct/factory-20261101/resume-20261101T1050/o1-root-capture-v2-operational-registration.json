@@ -1,0 +1,53 @@
+{
+  "F7": "NOT PERFORMED",
+  "actual_entry": [
+    "/usr/bin/bash",
+    "--noprofile",
+    "--norc",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-root-capture-v2-core-zero-entry.sh"
+  ],
+  "budgets": {
+    "capture_root_and_full_recovery": 69206016,
+    "carry_unconsumed_capture_package_recovery": 41943040,
+    "conservative_available_minimum": 24178844672,
+    "explanation": "Earlier24136901632 floor covers66+16MiB; currentflooraddscarrying40MiB authorpackage recovery. No runtime cap/deadline increase orsourcebudget reset.",
+    "original_generator_peak": 14050918400,
+    "resume_metadata_and_full_recovery": 16777216,
+    "unchanged_reserve": 10000000000
+  },
+  "core_boundaries": {
+    "future": "Outer COREsoft/hard0 verifiedbeforechildlaunch, FSIZEhard\u221epreserved. PurelimitprobeplusoneboundednativeSIGXFSZcontrolwithCORE0:actual-25,0sinkbytes,journal reports terminatedwithoutgeneratingcoredumpandCORE0. Handler/configpinsrequired; metadata/logwritesstillpossible.",
+    "native_control": {
+      "bytes": 2091,
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/o1-core-zero-native-control-result.json",
+      "sha256": "53c627186be490a87cbe9ab7afc0cb9fcf82e7e587f79a56d83ae020509433c8"
+    },
+    "past": "Narrowmetadata found2testcores16512+21048bytes, allocated53248B; retaineduntouched; notfullcrashdatareadorwholehistorynegativeproof"
+  },
+  "decision_id": "D159",
+  "expected_success": [
+    "Actualexternalexit0; complete status withguard/stdout_consumer/stderr_consumer WAIT_STATUS:0,capture_rejected0",
+    "Fourcompleteemptyregularsinglelinkowner1000mode600captureswithinitial/finalidentitymatch; completefinite statuswithcheckednativewrite/close",
+    "Source/manifest/tool/command/corehandlerconfig unchanged; no unregistered inheritedFD beyond0/1/2; freshowner/source/pins/bridge/capacity/terminalandpostlockmemorygates",
+    "Unchanged D158actualgeneration/build/diagnostics/fullrecovery/resource/typedterminal predicates; sourcequalification remainsseparate"
+  ],
+  "failed_tests": "Fourfailedharness attempts remainFAILED;33expectedindividualdispositions observed; readonlyauditlimited. Notallcasesrerunwithfinalshim.",
+  "failure": "Unknowncleanup/noactualexit/missingwriterstatus/captureloss staysFAILEDorUNVERIFIED;no successor withoutreconciliation; no barePIDownership. Survivingmandatorydefect blocksD159with0revisions.",
+  "fixed_root_control": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-xgen-root-control-v2",
+  "owner": "01a196b6-6595-7b30-ae07-8af6b0ed4dc7",
+  "package_manifest": {
+    "bytes": 69719,
+    "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/manifest.json",
+    "sha256": "9b7fdd14d656bb31eff6eb52beb51effa35364c8fafe4e8c3fe28b052b3fc446"
+  },
+  "phase_acceptance": false,
+  "review_test_budget": "Read-only review, \u226460s aggregate pure/in-memory controls withCORE0enforcedbeforechild tests; nofilesystemwrites/nooperationalguard/noactualW/JOB/rootcontrol/no crash generation. Do notrunretainedexclusivefixturetestdriversinplace.",
+  "revision": 2,
+  "revisions_remaining": 0,
+  "runtime_deadlines": "1500sinner/1590sguardunchanged; eachofthreeIOconsumers separately1650s+5s killgrace, notsingle1650 aggregate. AnyIOexpiryfailed; never extendsgenerationtime.",
+  "schema": "worldline.o1.root-capture-operational-revision2.v1",
+  "source_head": "7a3127281389f58f2291c86d123ec1f920cee6b7",
+  "source_integrity": "NoD158orheavy edits; all40payloads checked",
+  "state": "SEALED_FOR_FRESH_REVIEW_NOT_ADMITTED",
+  "writer_release": "Author01a1976e-d375-7222-8ce4-df0021e4a1fa sealed; rootsolewriter"
+}

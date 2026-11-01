@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "/usr/bin/gcc",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wpedantic",
+    "-Wconversion",
+    "-Wshadow",
+    "-Wformat=2",
+    "-O2",
+    "-fPIC",
+    "-shared",
+    "-o",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/fault-final.so",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/fault.c",
+    "-ldl"
+  ],
+  "environment": {
+    "LC_ALL": "C",
+    "PATH": "/usr/bin",
+    "TZ": "UTC"
+  },
+  "returncode": 0,
+  "seconds": 0.30637585488148034,
+  "stderr": "",
+  "stdout": ""
+}

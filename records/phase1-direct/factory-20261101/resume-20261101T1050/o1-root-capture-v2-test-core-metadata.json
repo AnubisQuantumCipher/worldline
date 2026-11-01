@@ -1,0 +1,76 @@
+{
+  "argv": [
+    "/usr/bin/journalctl",
+    "--no-pager",
+    "--since",
+    "2026-11-01 14:06:00 UTC",
+    "COREDUMP_CWD=/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2",
+    "COREDUMP_EXE=/usr/bin/tee",
+    "COREDUMP_UID=1000",
+    "--output=json",
+    "--output-fields=__REALTIME_TIMESTAMP,COREDUMP_PID,COREDUMP_FILENAME,COREDUMP_RLIMIT,COREDUMP_TIMESTAMP,COREDUMP_UNIT,COREDUMP_EXE,COREDUMP_CWD",
+    "--lines=64"
+  ],
+  "exit": 0,
+  "matching_records": [
+    {
+      "artifact_content": "NOT_READ_OR_HASHED",
+      "current_stat": {
+        "allocated_bytes": 24576,
+        "bytes": 16512,
+        "dev": 64768,
+        "gid": 0,
+        "inode": 136200,
+        "mode": "0o640",
+        "regular": true,
+        "uid": 0
+      },
+      "journal": {
+        "COREDUMP_CWD": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2",
+        "COREDUMP_EXE": "/usr/bin/tee",
+        "COREDUMP_FILENAME": "/var/lib/systemd/coredump/core.tee.1000.0ef7893c3a874b99b06815b488191f39.1757375.1793542285000000.zst",
+        "COREDUMP_PID": "1757375",
+        "COREDUMP_RLIMIT": "18446744073709551615",
+        "COREDUMP_TIMESTAMP": "1793542285000000",
+        "COREDUMP_UNIT": "user@1000.service",
+        "_BOOT_ID": "0ef7893c3a874b99b06815b488191f39",
+        "__CURSOR": "s=f16fe23d25054b8ea810f02c3f6eef17;i=85bf8b;b=0ef7893c3a874b99b06815b488191f39;m=123fc004603;t=65f379acc193b;x=9dfafd93eb017798",
+        "__MONOTONIC_TIMESTAMP": "1254063359491",
+        "__REALTIME_TIMESTAMP": "1793542285171003",
+        "__SEQNUM": "8765323",
+        "__SEQNUM_ID": "f16fe23d25054b8ea810f02c3f6eef17"
+      }
+    },
+    {
+      "artifact_content": "NOT_READ_OR_HASHED",
+      "current_stat": {
+        "allocated_bytes": 28672,
+        "bytes": 21048,
+        "dev": 64768,
+        "gid": 0,
+        "inode": 136201,
+        "mode": "0o640",
+        "regular": true,
+        "uid": 0
+      },
+      "journal": {
+        "COREDUMP_CWD": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2",
+        "COREDUMP_EXE": "/usr/bin/tee",
+        "COREDUMP_FILENAME": "/var/lib/systemd/coredump/core.tee.1000.0ef7893c3a874b99b06815b488191f39.1771816.1793542508000000.zst",
+        "COREDUMP_PID": "1771816",
+        "COREDUMP_RLIMIT": "18446744073709551615",
+        "COREDUMP_TIMESTAMP": "1793542508000000",
+        "COREDUMP_UNIT": "user@1000.service",
+        "_BOOT_ID": "0ef7893c3a874b99b06815b488191f39",
+        "__CURSOR": "s=f16fe23d25054b8ea810f02c3f6eef17;i=85c0e8;b=0ef7893c3a874b99b06815b488191f39;m=124094ac6c5;t=65f37a81699fc;x=74746984c0e42d38",
+        "__MONOTONIC_TIMESTAMP": "1254286345925",
+        "__REALTIME_TIMESTAMP": "1793542508157436",
+        "__SEQNUM": "8765672",
+        "__SEQNUM_ID": "f16fe23d25054b8ea810f02c3f6eef17"
+      }
+    }
+  ],
+  "scope": "Narrow own-package cwd/user/tee/time metadata only; no corecontents/retrieval/cleanup. Observed records not completehistoricalnegativeproof. PriorCOREunlimited tests notretroactivelyqualified.",
+  "stderr": "",
+  "utc": "2026-11-01T14:26:24.093990+00:00"
+}

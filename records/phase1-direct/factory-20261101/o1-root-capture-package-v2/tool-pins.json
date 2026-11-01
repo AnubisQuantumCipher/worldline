@@ -1,0 +1,149 @@
+{
+  "files": [
+    {
+      "bytes": 68448,
+      "path": "/usr/bin/env",
+      "resolved": "/usr/bin/env",
+      "sha256": "739d1393d3bc8a76dcb4399af7b8cd9a9ab60cba033604efe577ac18a6c1afc4"
+    },
+    {
+      "bytes": 1194408,
+      "path": "/usr/bin/bash",
+      "resolved": "/usr/bin/bash",
+      "sha256": "d120d580a7fa09f22742a9648b836c32cdd321d56b0fd622f18016b092ffa3a1"
+    },
+    {
+      "bytes": 68032,
+      "path": "/usr/bin/tee",
+      "resolved": "/usr/bin/tee",
+      "sha256": "519b28930b21c3e9cbe720d494daf9e69d371d22e67392fa16f7d143fad6934e"
+    },
+    {
+      "bytes": 68448,
+      "path": "/usr/bin/timeout",
+      "resolved": "/usr/bin/timeout",
+      "sha256": "7539e28e3fc02160564cc93739e03d0d3e001a6fae58671371403a46b643439b"
+    },
+    {
+      "bytes": 133576,
+      "path": "/usr/bin/stat",
+      "resolved": "/usr/bin/stat",
+      "sha256": "7afa3d6f3f8554bbaa8e0cda57f0c1f7d762e3551f1c64335cc040eb1c9856f2"
+    },
+    {
+      "bytes": 67720,
+      "path": "/usr/bin/python3",
+      "resolved": "/usr/bin/python3.14",
+      "sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947"
+    },
+    {
+      "bytes": 2365000,
+      "path": "/usr/bin/gcc",
+      "resolved": "/usr/bin/gcc",
+      "sha256": "741ced8152a820a28ab88603dd1ceb2343245728ac784839e4b5390f2411890e"
+    },
+    {
+      "bytes": 2500416,
+      "path": "/usr/bin/ld",
+      "resolved": "/usr/bin/ld",
+      "sha256": "b07b094ae88efa267dda9314058a805a0e05a6133c6f5a88fd524dbe37e32dac"
+    },
+    {
+      "bytes": 660992,
+      "path": "/usr/bin/as",
+      "resolved": "/usr/bin/as",
+      "sha256": "ff23e1813fd9b31af1113d13fe580c61a76b4978dbe64a29b0dd11424c04fe0e"
+    },
+    {
+      "bytes": 68032,
+      "path": "/usr/bin/head",
+      "resolved": "/usr/bin/head",
+      "sha256": "58dff93556cac697ab776ae0a235143066330cc2a54139da59604e07ac6c4d31"
+    },
+    {
+      "bytes": 133336,
+      "path": "/usr/bin/kill",
+      "resolved": "/usr/bin/kill",
+      "sha256": "c272fb5049869fd8ae08facd799fa4e4398def7e007f2a26519f9683e164b7e3"
+    },
+    {
+      "bytes": 68024,
+      "path": "/usr/bin/sleep",
+      "resolved": "/usr/bin/sleep",
+      "sha256": "862b82aee5255c9337d29f5c16ab7e435af8ef2345e526b552ec54403de7eb78"
+    },
+    {
+      "bytes": 68024,
+      "path": "/usr/bin/readlink",
+      "resolved": "/usr/bin/readlink",
+      "sha256": "7a4103aa512baaa29f0e27f8580c4d6682823b364d9137e9385d38543cc77bfd"
+    },
+    {
+      "bytes": 1853736,
+      "path": "/usr/lib/libc.so.6",
+      "resolved": "/usr/lib/libc.so.6",
+      "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+    },
+    {
+      "bytes": 201832,
+      "path": "/lib/ld-linux-aarch64.so.1",
+      "resolved": "/usr/lib/ld-linux-aarch64.so.1",
+      "sha256": "b1f2738bdb51e6419d7062f96c8a44bd68853698dc5ac624fa6ca9f9b03d456d"
+    },
+    {
+      "bytes": 39473352,
+      "path": "/usr/lib/gcc/aarch64-unknown-linux-gnu/16.1.1/cc1",
+      "resolved": "/usr/lib/gcc/aarch64-unknown-linux-gnu/16.1.1/cc1",
+      "sha256": "01be12f35423d142ca7d54518108ad265c422eff61213308f39d480dfca8d897"
+    }
+  ],
+  "host_TCB": "libc and loader pinned; complete compiler/OS not proved; D158 Python/runtime pins remain mandatory",
+  "shellcheck_path": null,
+  "versions": {
+    "/usr/bin/bash": {
+      "argv": [
+        "/usr/bin/bash",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "GNU bash, version 5.3.20(1)-release (aarch64-unknown-linux-gnu)\nCopyright (C) 2025 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis is free software; you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n"
+    },
+    "/usr/bin/env": {
+      "argv": [
+        "/usr/bin/env",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "env (GNU coreutils) 9.11\nCopyright (C) 2026 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Richard Mlynarik, David MacKenzie, and Assaf Gordon.\n"
+    },
+    "/usr/bin/gcc": {
+      "argv": [
+        "/usr/bin/gcc",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "gcc (GCC) 16.1.1 20260430\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    "/usr/bin/tee": {
+      "argv": [
+        "/usr/bin/tee",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "tee (GNU coreutils) 9.11\nCopyright (C) 2026 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by Mike Parker, Richard M. Stallman, and David MacKenzie.\n"
+    },
+    "/usr/bin/timeout": {
+      "argv": [
+        "/usr/bin/timeout",
+        "--version"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "timeout (GNU coreutils) 9.11\nCopyright (C) 2026 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n\nWritten by P\u00e1draig Brady.\n"
+    }
+  }
+}

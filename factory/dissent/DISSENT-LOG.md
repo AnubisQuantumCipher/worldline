@@ -201,3 +201,65 @@ is STALE. No finite static inherited-stream bound was found. Original live launc
 relationship and cleanup uncertainty remain material; this correction grants no
 runtime admission or source revision. Both reports are Sol-medium read-only analysis,
 not native fault-injection qualification or independent acceptance.
+
+
+### D159 initial operational capture rejection — pending judge
+
+Dossier O1-GENERATOR-ROOT-CAPTURE, revision1, packet
+705d1623fa8307dbd6bf75108c40a970790c78dfd781e6b78f3ee5c57978fbf5.
+Disputing native session01a19764-3eb0-71a0-912a-003f6f8000aa, actual local
+turn_context gpt-6.1-sol/high; backend identity not independently attested.
+Reportba2fb21c806e9e43f2389fcc75f5b419a6099046e5a9db8c14c97baab3de848c
+rejects complete root-capture failure detection. The pinned heavy helper discards
+cleanup systemctl return codes; source-derived first-write EIO/ENOSPC could leave
+an empty root stream, followed by normal terminal state and overallzero. Empty-file
+hashes cannot expose bytes never retained. Native fault injection is UNRUN; producer
+reachability is not established. Initial independent reviewer approved conditionally;
+that approval does not overrule the concrete dissent.
+
+Both pair reports finished before current verdict sharing. Fresh judge packet
+a608fd09968149223a4933e0d8af1ee470c6e5bf2212d35033cbb97930f9760a
+is pending. Runtime remains withheld; initial operational decision retains at most
+one evidence-driven revision. D158 sealed generator source0revisions and IPCblock
+remain unchanged. No native W/JOB/capture root created. Resolution/final state will
+be appended; current state REJECTED_PENDING_JUDGE. This is internal review, notF7.
+
+
+### D159 initial dissent adjudicated — sole operational revision registered
+
+Judge7b7c0bb4c0eface6713a758a0bef75b8d620530eeb8f8bbf3f26fa95cdcfc502
+confirmed the D159 source-derived observability defect. Initial state REJECTED,
+native fault injection UNRUN. Decision06366a54a5136ad52f3e6249645062c981544c9df2136481e5e73cdc43b7c0e5
+and sole revision registratione9b70119edbea2f0f449314fde415c28c11923299602e4197f464653026a34f0
+preserve the rejected command, both reports and public evidence. Bounded checked
+native capture plumbing is the permitted correction; D158 sealed0revisions remains
+unchanged. New revision is not yet implemented/reviewed/admitted. No waiver or reset.
+
+
+### D159 revision2 and core-history correction — review pending
+
+Typed manifest9b7fdd14d656bb31eff6eb52beb51effa35364c8fafe4e8c3fe28b052b3fc446
+retains all failed fixture attempts. No initial dissent is erased; checked native
+consumer/receipt handling is now offered in the sole revision. Both fresh reviewers
+receive packet42f8cf27ddf50a4e703d33846eb78b7911f961501e4b7a04d2521750fb14ed40;
+current resolution PENDING,0revisions remain. Source-generation qualification UNRUN.
+
+STALE partial update to the author's outside-core UNKNOWN: narrow same-package
+cwd/tee/uid/time metadata identifies two cores37560logical/53248allocated bytes,
+retained untouched. Broader historical completeness remains UNKNOWN. Future outer
+CORE0 is included in the same revision2 packet; one native bounded control reports
+CORE0 and termination without generating a core. This does not retroactively change
+past tests or establish zero host metadata writes. No policy deviation or waiver.
+
+
+### D159 revision2 dissent resolution and initial-environment boundary
+
+Separate judge ec804da4c132420afba5b74f658604dc9a5b1a45d8d2666c399c3509e48fb3cf
+confirms operational envelope approval, conditional on existing external gates.
+Original first-write observability dissent is resolved at native consumer status
+and mandatory external-exit boundary; original rejected packet remains retained.
+Adversarial BASH_ENV startup control proves --noprofile --norc/inner env-i cannot
+protect the first Bash. Existing cleanenvironment prerequisite must be applied
+by caller before that Bash, with onlyFD0/1/2. Missing evidence rejects admission.
+Four FAILED suites and two historical cores remain;33narrow observations do not
+convert suites into passes. Zero revisions remain. RuntimeUNRUN/F7NOTPERFORMED.

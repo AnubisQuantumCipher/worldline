@@ -3275,3 +3275,157 @@ and all five referenced receipt hashes. This ends the prior storage-window claim
 it is not runtime authorization or a waiver of bridge/pin/terminal/capacity checks.
 Further offloads and expanded capacity audit remain user-paused. Phase One remains
 ACTIVE_INCOMPLETE. Reversal is withholding the run and retaining all evidence.
+
+
+## D159 — bounded root capture for the unchanged generator package (initial review)
+
+Objective: close D158's separate inherited stdout/stderr launch prerequisite without
+editing its sealed package or resetting its exhausted source-revision allowance.
+The planner compared an in-Python setter with a clean Bash soft-only file limit;
+choose the latter for operational review because it bounds Python startup output
+as well. The hard limit must remain unlimited so existing native compiler/archive
+children can install their original limits after their streams are redirected.
+Exact command912ba8e198b57efb0187b99e1acc4ba0bcf8d7722097d3df49ea68d4b8824885
+and registration951fa47c9164d9d03461a35ab8b5be20c120d2336803598591a4007ca7b2d22c
+are bound by54-reference packet705d1623fa8307dbd6bf75108c40a970790c78dfd781e6b78f3ee5c57978fbf5.
+
+Register two exclusive8MiB captures plus1MiB metadata in a fresh owner-only root
+outside W/JOB,17MiB full recovery scratch, and16MiB existing resume metadata/recovery
+allowance. Combined conservative admission is24103347200available bytes, preserving
+the original14050918400peak and10000000000reserve. Root alone writes metadata.
+Per-file RLIMIT and capacity polling are not aggregate quota/reservation claims.
+Expected successful root streams are empty; nonempty, capped, missing or failed
+captures, nonzero/signal termination and unknown cleanup cannot qualify.
+
+Fresh Astra-medium independent and Sol-high adversarial nonauthors inspect the same
+packet before verdict sharing; a separate fresh Astra-medium judge follows. This
+new operational decision has initial review plus one evidence-driven revision;
+D158 source remains0revisions and IPC remains separately blocked. Review verdicts
+are PENDING. Actual W/JOB/root-control paths remain absent; no native attempt.
+Reversal: withhold launch, preserve captures/failures and all source; do not infer
+launcher ownership from bare PID or claim unconditional cleanup. Fresh storage,
+source/tool/pin/bridge/capacity checks and existing post-lock memory gate remain.
+Phase One ACTIVE_INCOMPLETE; F7 NOT PERFORMED.
+
+
+### D159 initial pair disagreement retained
+
+Fresh independent Astra-medium approved the operational envelope conditionally;
+fresh Sol-high adversary rejected its complete capture-failure contract. Heavy
+cleanup discards systemctl statuses, so a source-derived first-write failure could
+leave empty captures and later normal terminal evidence with overallzero. Native
+fault injection is UNRUN. Both reports and public tests are sealed before separate
+fresh judge review under packeta608fd09968149223a4933e0d8af1ee470c6e5bf2212d35033cbb97930f9760a.
+Dissent is appended without weakening the claim or editing D158. No native run;
+one operational revision remains only if adjudication identifies a resolvable defect.
+
+
+### D159 initial judge rejection and sole operational revision
+
+Separate fresh Astra-medium judge7b7c0bb4c0eface6713a758a0bef75b8d620530eeb8f8bbf3f26fa95cdcfc502
+confirmed the capture observability gap from actual discarded status expressions,
+not native fault injection or reviewer voting. Decision06366a54a5136ad52f3e6249645062c981544c9df2136481e5e73cdc43b7c0e5
+records REJECTED_CAPTURE_OBSERVABILITY; D158 source and cleanup contract remain
+unchanged. The smallest correction is independently checked pipe-to-file capture.
+
+Sole operational revision registratione9b70119edbea2f0f449314fde415c28c11923299602e4197f464653026a34f0
+assigns a fresh Sol-high author the new o1-root-capture-package-v2 root only. Root
+relinquishes ALL filesystem writing until the author seals and explicitly releases.
+Authoring allows8MiB source/reports plus32MiB retained synthetic fixtures and40MiB
+recovery margin,256entries and120s aggregate tests. Only bounded IO controls may
+execute; actual guard/heavy/generator/build/proof/service/lock/mount/archive/network
+remain forbidden. An optional tiny strictly compiled owned fault-injection fixture
+may validate native write/close errors; it must never affect actual product processes.
+
+Proposed runtime keeps original generator budgets/deadlines, adds four8MiB captures,
+1MiB metadata and33MiB recovery plus16MiB existing resume metadata/recovery:
+minimum24136901632available bytes.1650s consumer plus5s kill grace is a separate
+initial IO-failure bound, not a generator extension. Exact consumer PID waits, EOF,
+file close/status retention and negative controls must resolve the dissent. No
+new scheduler/orchestrator or sealed helper edits. Root will inspect the sealed
+packet, then a fresh nonauthor pair and judge review it; zero revisions remain
+thereafter. Actual runtime remains UNRUN, Phase One incomplete, F7 NOT PERFORMED.
+
+
+### D159 sole revision2 sealed and sent to fresh pair
+
+Sol-high author01a1976e-d375-7222-8ce4-df0021e4a1fa released all writing after
+sealing typed manifest9b7fdd14d656bb31eff6eb52beb51effa35364c8fafe4e8c3fe28b052b3fc446.
+Root independently matched253payload entries plus manifest:254descendants,
+218regular payloads,33directories,oneFIFO,one symlink;17437050regular bytes total.
+Special negative-control nodes were inspected by type/target only, never opened.
+All16tool pins and unchanged40D158payloads match. Root is sole writer again.
+
+Exact Bash plumbing checks both pipe-to-file GNU tee consumers, each explicit wait,
+finite IO timeout, complete regular capture identity, and a third checked native tee
+for final receipt write/close. Actual external exit remains mandatory even when a
+persisted status says zero. Thirty-three expected individual dispositions were
+observed, but all four failed author harness attempts remain FAILED: diagnostic
+hook coverage, a strict C macro compile rejection, inline diagnostic newline, and
+an overstrict timeout-diagnostic assertion. The constrained-fixture audit supports
+only its narrower propositions and never rewrites those suites as passed.
+
+The unbounded CORE limit in synthetic tests is a retained resource-boundary failure.
+A narrowly scoped journal/stat readback identified two own-package tee cores of
+16512 and21048bytes (53248allocated bytes); they remain untouched outside the carrier.
+No dump data was read. This updates the author's historical UNKNOWN, not the package
+bytes or past test configuration. Host defaults permit external32GiB cores; global
+cleanup targets are not hard admission bounds.
+
+Outer command13207586a591089ff927b66fdb0293e4f415c2d46498397b8b88302268f5633a
+now installs/verifies COREsoft/hard0 before the sealed entry, preserving FSIZEhard
+unlimited. Pure introspection confirms CORE0,FSIZE8MiB/unlimited,FDs0/1/2 and refusal
+to raise CORE. One separately registered bounded native tee SIGXFSZ control
+(registration338a4bde80bf8d009308f066c79d9504e06e3d894adec02b0daff62b73326f04)
+returned actual-25 with empty anonymous sink. Existing handler reported CORE0 and
+termination without generating a coredump; result53c627186be490a87cbe9ab7afc0cb9fcf82e7e587f79a56d83ae020509433c8.
+This observed one control and pinned handler/configuration; it is not universal
+crash/storage proof or a zero-external-metadata-write claim. Native generator UNRUN.
+
+The conservative admission floor is now24178844672bytes: original14050918400peak
+plus10000000000reserve,66MiB root capture/recovery,16MiB resume metadata/recovery,
+and40MiB carried author-package recovery margin. This only carries an existing
+registered recovery allowance; original generator caps and deadlines are unchanged.
+Each capture/receipt consumer has its own1650s+5s IO bound, not one aggregate1650s
+wrapper deadline. None extends original1500/1590s native work. Unknown cleanup still
+prohibits a successor and cannot be inferred from a bare PID or collected scope.
+
+Fresh nonauthor Astra-medium independent and Sol-high adversary receive identical
+285-reference packet42f8cf27ddf50a4e703d33846eb78b7911f961501e4b7a04d2521750fb14ed40
+before verdict sharing. A separate fresh judge follows. Zero operational revisions
+remain; any surviving mandatory defect blocks D159. D1580source revisions and IPC
+block remain. W/JOB/root-control-v2 are absent. No runtime admission or F7 credit.
+Root packet preparation first failed KeyErrorbytes on nested D158manifest identity;
+that pre-write integration mistake is retained, corrected by actual schema readback.
+
+
+### D159 revision2 adjudicated; native admission remains separate
+
+Fresh independent Astra-medium and adversary Sol-high approved identical packet
+42f8cf27ddf50a4e703d33846eb78b7911f961501e4b7a04d2521750fb14ed40. Separate fresh
+Astra-medium judge ec804da4c132420afba5b74f658604dc9a5b1a45d8d2666c399c3509e48fb3cf
+confirmed APPROVE_OPERATIONAL_ENVELOPE conditional on existing external admission.
+Decision e9b297794f0ff730c8177c58485dec3b57fdded0f3ed819a32212e66cd699a63 retains
+zero revisions, initial rejection and all four FAILED author harness attempts.
+Native generator remains UNRUN; source preparation and internal review do not
+establish O1, D47, Phase One or F7. F7 NOT PERFORMED.
+
+The adversary demonstrated that BASH_ENV executes before a Bash script body despite
+--noprofile --norc. The existing cleanenvironment prerequisite therefore applies
+before the FIRST Bash, including startup hooks, shell options, loader variables
+and inherited descriptors restricted to0/1/2. The inner env-i supplies no protection
+for earlier startup. Root must supply an allowlisted initial exec environment and
+record it; missing evidence rejects admission. This is an existing caller obligation,
+not a source correction or a new decision round. CORE0 outer entry remains exact.
+
+The native prerequisite still requires exact-source checkpoint mapping; current
+owner/source/tool/handler/protected-pin/bridge/capacity/terminal readback and
+post-lock14GiB memory. Floor24178844672B, memory8GiB/swap0 and deadlines unchanged.
+Each of three IO consumers has a separate1650+5s failure bound. Terminal unknown
+forbids successor execution. Reversal is to withhold admission/qualification on
+any failed or missing predicate, preserving all partials without edits or reset.
+
+Static translator planning fixes expected runtime/sdefault/GNATCOLL paths but no
+WORLDLINE CGPR or qualified objects yet exist. An existing SIA configuration is
+only a specimen with a target alias, not an adopted input. Native gnatls/config
+readback and dependency qualification remain UNRUN; no new source acquisition.

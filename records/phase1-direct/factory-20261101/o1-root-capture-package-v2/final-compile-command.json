@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "/usr/bin/gcc",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wpedantic",
+    "-Wconversion",
+    "-Wshadow",
+    "-Wformat=2",
+    "-O2",
+    "-fPIC",
+    "-shared",
+    "-o",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/fault-final.so",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/fault.c",
+    "-ldl"
+  ],
+  "environment": {
+    "LC_ALL": "C",
+    "PATH": "/usr/bin",
+    "TZ": "UTC"
+  },
+  "returncode": 1,
+  "seconds": 0.044272182043641806,
+  "stderr": "In file included from /usr/include/stdio.h:970,\n                 from /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/fault.c:6:\n/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/o1-root-capture-package-v2/fault.c:104:8: error: expected identifier or '(' before '__extension__'\n  104 | size_t fwrite_unlocked(const void *ptr, size_t size, size_t count, FILE *stream)\n      |        ^~~~~~~~~~~~~~~\n",
+  "stdout": ""
+}
