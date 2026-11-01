@@ -1,0 +1,10 @@
+--- records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/worldline-ordinary_reservation_replay.adb
++++ records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb
+@@ -5,7 +5,6 @@
+ package body Worldline.Ordinary_Reservation_Replay with SPARK_Mode is
+    use Worldline.Producer_Values;
+    use type Interfaces.Unsigned_32;
+-   use type Worldline.Resources.Byte;
+    subtype Code_Kind is Interfaces.Unsigned_32 range 0 .. 2;
+    subtype Selection_Kind is Worldline.Resources.Byte range 0 .. 2;
+    subtype Mask_Array is Worldline.Ordinary_Reservation_Lifecycle.Mask_Array;

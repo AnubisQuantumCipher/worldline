@@ -1,0 +1,48 @@
+{
+  "captured_utc": "2026-11-01T07:47:25.442005+00:00",
+  "source_session": "/home/sicarii/.codex/sessions/2026/11/01/rollout-2026-11-01T02-32-27-01a19606-239f-7b43-8c88-4fc902372e80.jsonl",
+  "source_line": 432,
+  "source_line_sha256": "a9ec8c958004b2a449f4ba58c15f9754f31926b5c7f4d3eb84c5f4156fb53d64",
+  "classification": "CONTEMPORANEOUS_RUNTIME_RECORDED_COMMAND",
+  "original_record": {
+    "timestamp": "2026-11-01T07:43:07.031Z",
+    "ordinal": 431,
+    "type": "event_msg",
+    "payload": {
+      "type": "item_completed",
+      "thread_id": "01a19606-239f-7b43-8c88-4fc902372e80",
+      "turn_id": "01a19606-289d-7e91-84d1-40365d923644",
+      "item": {
+        "type": "CommandExecution",
+        "id": "exec-cac2598b-6c60-4991-9010-1037af2fb242",
+        "process_id": "55372",
+        "command": [
+          "/bin/bash",
+          "-lc",
+          ". /home/sicarii/opt/gnat/env.sh\nulimit -c 0\nPYTHONDONTWRITEBYTECODE=1 PYTHONOPTIMIZE=0 /usr/bin/python3 scripts/phase1_heavy.py --out records/phase1-direct/completion-20261026/ram-qualification-probe-job-v4 --timeout 240s --swap-max 0 -- /usr/bin/python3 records/phase1-direct/completion-20261026/ram_qualification_v2.py probe"
+        ],
+        "cwd": "file:///home/sicarii/Work/worldline-phase1-direct-20261019",
+        "parsed_cmd": [
+          {
+            "type": "unknown",
+            "cmd": ". /home/sicarii/opt/gnat/env.sh\nulimit -c 0\nPYTHONDONTWRITEBYTECODE=1 PYTHONOPTIMIZE=0 /usr/bin/python3 scripts/phase1_heavy.py --out records/phase1-direct/completion-20261026/ram-qualification-probe-job-v4 --timeout 240s --swap-max 0 -- /usr/bin/python3 records/phase1-direct/completion-20261026/ram_qualification_v2.py probe"
+          }
+        ],
+        "source": "unified_exec_startup",
+        "status": "completed",
+        "aggregated_output": "",
+        "exit_code": 0,
+        "duration": {
+          "secs": 5,
+          "nanos": 985452481
+        }
+      },
+      "started_at_ms": 1793518981013,
+      "completed_at_ms": 1793518987025
+    }
+  },
+  "limits": [
+    "Runtime records requested shell command; no independent provider or child sys.flags attestation",
+    "No new run performed to replace launch evidence"
+  ]
+}

@@ -2438,3 +2438,160 @@ copy ownership, implicit Old retirement or the original 805-byte counterexample.
 Keep those obligations open. All proposals are outside production and reversible by
 leaving them unapplied; exact source hashes, implementation arguments and reviews are
 under completion-20261026. The root remains the sole production integrator.
+
+## D144 — Reconcile the current factory carrier without changing working bytes
+
+The current user commissions the Codex-native Phase One continuation. Prior source-owner
+thread 01a1787b-9465-7363-96e3-47c837eec185 is freshly observed idle; its final owned
+probe scopes are recorded terminal. The coordinator thread
+01a19606-239f-7b43-8c88-4fc902372e80 is the sole integration owner. Runtime turn metadata
+reports gpt-6-astra/ultra for the coordinator and gpt-6.1-sol/high for three bounded
+read-only workers. This is runtime-reported routing, not independent provider attestation.
+The later explicit all-GPT role instruction governs this team; it does not demonstrate
+two-model-family independence or waive any remaining soak/F7 obligation.
+
+Options were a duplicate carrier, destructive cleanup/stash, or preservation plus an
+index-only reconciliation. Select the last: all four dirty tracked files, diff, status
+and actual index were preserved. Fetch found documentary/evidence successor d34c9b9;
+138 of its 139 changed paths already matched local bytes. Only the continuation differed.
+Actual Sol source review conditionally approved index-only reconciliation and explicit
+branch compare-and-swap. Ordinary fast-forward refused collisions; Git rejected two
+symref-verification transaction forms. Both failures remain recorded. After inspecting
+the exact intermediate index/ref state, explicit-branch CAS succeeded. The complete
+index tree equals 021cb0257593fa6b6bc474bfcded3a8f02f000ea, staged diff is empty, all139
+working file hashes remain identical, and the local continuation remains preserved/dirty.
+No product file or another branch was overwritten. Reversal is recovery from the saved
+index/preimages only after inspecting current ownership/ref state, never blind reset.
+Receipts: records/phase1-direct/factory-20261101/{resumption,remote-reconciliation,
+fast-forward,fast-forward-completed,fast-forward-final,initial-observations}.json.
+
+The older 68 scheduled rows are not complete Phase One dependency closure. Sol review
+identified omitted explicit Item1/3/4/6 dependencies and a missing distinct collapse row
+in the historical seven-area map. Preserve historical maps; reconcile all219 original
+IDs separately before final qualification. No obligation is closed by this discovery.
+
+## D145 — Admit only the corrected RAM mechanism probe after the storage handoff
+
+Options: repeat the unqualified compiler path; require a large disk job first; or test
+the existing corrected helper in its bounded no-production probe. Choose the last after
+fresh capacity and scheduling admission. The previous two refusals never entered the
+namespace. November exact-cache recovery is a materially changed storage prerequisite,
+not permission to remove reserves. Source review now binds helper b7aa45ec, rather than
+its f5eacc predecessor. Actual independent Sol verdict APPROVE is limited to one probe.
+
+The external storage coordinator owns the current test window. No WORLDLINE heavy job
+starts until its terminal handoff; the shared lock and original post-lock admission stay
+required afterward. The package registers32MiB output plus32MiB full-restore tmpfs,
+8MiB preallocated archive,4MiB receipt allowance and separate bounded outer metadata.
+Original10GB Linux reserve,8GiB/zero-swap cap and240s outer deadline remain.
+
+Acceptance requires the intentional killed-child status, exact retained witness/stdout,
+empty stderr, forbidden write refusals, full archive comparison, different namespace
+identities, empty parent mountpoints and terminal unpopulated scope with no OOM.
+Probe source_state covers only its driver. It cannot qualify compiler sources/objects,
+Chunk proof, OOM survival or product behavior. Failure remains failure, with retained
+available evidence. Reversal is discontinuing this diagnostic while preserving receipts.
+Exact pins, review and registered outputs: factory-20261101/probe-source-review.json and
+probe-work-package.json under records/phase1-direct. F7 remains NOT PERFORMED.
+
+D145 actual outcome: exact probe outer/collector exit0, intentional child137, actual
+8589934592-byte memory cap and swap0, peak37990400, zero recorded OOM. Root and a fresh
+Sol reviewer independently streamed all five archive entries and checked payload hashes.
+The helper records full in-namespace restoration/content/metadata comparison. USTAR uses
+normalized ownership and seconds; the inventory retains nanoseconds. /dev/null has a write
+control only, correcting the prospective work-package's read/write wording.
+
+Fresh review held for missing PYTHONOPTIMIZE in raw receipts, then independently verified
+the contemporaneous completed CommandExecution55372 explicitly setting PYTHONOPTIMIZE=0
+and inspected unchanged environment inheritance. Verdict: APPROVE_EXACT_COMPLETED_MECHANISM_PROBE_ONLY.
+This is runtime command evidence, not independently captured child sys.flags. Both hold
+and closure are preserved in factory-20261101/probe-result-independent-review.json.
+
+The first coordinator fresh scope query lacked user-bus environment and failed. A storage
+release message was sent prematurely before inspection. A corrected explicit-bus query
+verified inactive/not-found/dead and the nonblocking heavy-lock check succeeded. The storage
+owner received the correction immediately. Preserve the failure in probe-root-readback.json.
+No probe repeat was needed. The storage owner subsequently completed its offload and released
+the window. No compiler, Chunk, proof, OOM-survival, production or Phase One credit follows.
+
+## D146 — Qualify one reservation replay compiler target in bounded RAM
+
+Options: corrected Chunk proof with three seeded object trees; target-only reservation
+legality without seeds; or remain source-only. Choose the smaller independent legality
+experiment after the actual corrected mechanism probe and external storage terminal release.
+Sol verification_path reviewed the exact existing proposal a9c3bc2c and recommends this
+path. Root read the driver, imports, all resource ceilings and compiler evidence parser.
+No production changes or contract weakening are authorized by this diagnostic.
+
+Only the new empty reservation object mountpoint is writable inside the private namespace.
+Imported Attest and SPARKlib outputs remain read-only and receive before/after inventories.
+Retain all proposal/private-source pins plus actual compiler/runtime identities. Original
+14GiB post-lock admission,8GiB/zero-swap scope,10GB reserve,60/30MB observations and180/220/240s
+deadlines remain. Output and restore each have32MiB/1024inode caps; archive8MiB; driver
+receipts4MiB; outer metadata separately bounded. An incorrect configuration digest must
+refuse before namespace/compiler creation; the archive-writer negative remains active.
+
+Pass requires one exact strict target invocation including -gnatc/-gnatwe/-gnata and
+-fno-var-tracking-assignments, no suppressing flags, zero warnings/errors, exit0, unchanged
+source/imported outputs, complete restored archive and terminal empty scope. Actual compiler
+failure is retained; no writable dependency expansion or original deadline change follows.
+This establishes target Ada legality only. Replay equivalence, Plan-to-Conforms, checked
+cost, full proof/runtime and every original gate remain open. Reversal is ceasing use of
+the proposal and preserving its outputs; it is outside production and old files stay intact.
+
+D146 actual first result: FAILED. Actual compiler4 and outer1; one strict invocation,
+redundant/no-effect Byte visibility warnings and two GPR filename/name warnings. Full867-byte
+archive0efa800bd62d676401afec2ad79bd0f728c4a01a9675d02fbb89e4f14b156373 is retained and
+independently streamed. Actual8GiB/zero-swap, peak99287040, zero recorded OOM. Root verified
+all source/tool/runtime hashes and707 imported output entries unchanged; reviewer independently
+verified all179 source-before hashes. Parent mountpoints empty, fresh scope inactive/not-found,
+unpopulated receipt and shared lock available. The external storage owner received terminal
+release. New source-only repair may remove the redundant clause and correct GPR identities,
+preserving every contract/import/switch and this failed run; no suppression or product promotion.
+
+## D147 — Preserve every original obligation and explicit semantic dependencies
+
+The original registry's219 rows are retained verbatim under factory-20261101 with source
+hashes and historical checklist pointers. Sol closure_reconcile initially classified68direct,
+76prerequisites,18touched dependencies,35unresolved and22future/separately owned. No status
+or acceptance credit is inherited from this classification. Original release-DAG dependencies
+and explicitly imported Item1/3/4/6 obligations remain required;68 scheduled rows are insufficient.
+
+Further exact dependency tracing moves16 unresolved rows to touched semantic dependencies:
+all seven R9 relocation rows, all five K8 root/publication rows and issuer/Genesis061/062/067/070.
+Relocate calls changed StateStore.verify_chains; changed controller/daemon retain root/PRIME
+callers; protected capability paths consume the actual external issuer, revocations, Genesis
+roster and anchored replay. The v2 overlay retains34touched and19unresolved. These are D1
+semantic/publication dependencies, not permission to start general Phase Two or alter COSMOGONY.
+
+Options were omitting nonscheduled rows, blanket inclusion of later product development,
+or explicit source-grounded classification with unresolved exclusions prohibited. Choose the
+last. Original ownership/targets and evidence states remain untouched. Separate ownership
+waives no current F4 requirement; D1 close-or-refuse cannot replace valid behavior required
+by Phase One. Internal source review establishes relevance only, not runtime/proof closure.
+Reversal is a new versioned classification overlay with evidence; preserve prior versions.
+
+D146 retry source review: the v2 proposal168772c1 retains the Python driver byte-for-byte,
+removes exactly one redundant body visibility line, preserves the spec/contracts, and matches
+GPR names. The local Attest descriptor resolves to the same original source/object paths;
+no dependency or warning flag is removed. Root and a fresh nonauthor Sol reviewer checked
+the exact delta and all48proposal/134private pins; reviewer APPROVE is for one separately
+admitted reservation legality retry only. Fresh root admission and preflight are recorded
+in reservation-legality-preflight-v2.json. Preserve v1 and use fresh v2 output paths.
+
+D146 v2 actual result: TESTED target Ada legality only. Exactly one strict compiler
+invocation exits 0 with no warnings/errors; outer/collector exit 0, peak 47882240 bytes,
+actual 8 GiB/zero-swap and no recorded OOM. The 4753-byte archive
+a1a16c160f1403616436c91558d795b280c518b0fa14d9d6dd7b14595a8de024 passes recorded full
+restoration and independent payload-hash readback. Root and the fresh reviewer verified
+all 181 source pins, 1573 runtime source files, ten tools and 707 imported output entries.
+Scope and mountpoints are terminal/empty; the shared lock is free. The reviewer confirms
+TESTED_TARGET_ADA_LEGALITY_ONLY. Replay equivalence, production Plan-to-Conforms, checked
+cost and all original full-value/integrated gates remain unproved. No proposal is integrated.
+
+D147 v3 follows the actual shipped protected-authority service and supervisor, including
+explicit selected-source identity, imported CanonicalStore, broker phase recovery, actuator
+crash window, protected evidence and inherited lease. Twelve more rows become touched semantic
+dependencies: 68 direct, 76 prerequisites, 46 touched, seven unresolved and 22 future or
+separately owned. OB-065/066/069/185/186/187/217 remain unresolved pending exact selected
+external installation and campaign binding. None is excluded; all original targets remain.

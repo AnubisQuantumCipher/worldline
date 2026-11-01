@@ -1,0 +1,68 @@
+{
+  "utc": "2026-11-01T07:57:04.804079+00:00",
+  "outcome": "TESTED_TARGET_ADA_LEGALITY_ONLY",
+  "outer_exit": 0,
+  "tool_exit": 0,
+  "compiler_invocations": [
+    [
+      "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+      "-c",
+      "-x",
+      "ada",
+      "-gnatA",
+      "-gnat2022",
+      "-gnatwa",
+      "-gnatwe",
+      "-gnatVa",
+      "-gnatf",
+      "-O2",
+      "-g",
+      "-fPIC",
+      "-fno-var-tracking-assignments",
+      "-gnata",
+      "-gnatc",
+      "-gnatwe",
+      "-gnatec=/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/reservation-legality-job-v2/tmp/GPR.2/GNAT-TEMP-000003.TMP",
+      "-gnatem=/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/reservation-legality-job-v2/tmp/GPR.2/GNAT-TEMP-000004.TMP",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb"
+    ]
+  ],
+  "stdout": "Changing to object directory of \"Reservation_RAM_Legality\": \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v2/object-mounts/reservation/\"\n/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc -c -x ada -gnatA -gnat2022 -gnatwa -gnatwe -gnatVa -gnatf -O2 -g -fPIC -fno-var-tracking-assignments -gnata -gnatc -gnatwe -gnatec=/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/reservation-legality-job-v2/tmp/GPR.2/GNAT-TEMP-000003.TMP -gnatem=/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/reservation-legality-job-v2/tmp/GPR.2/GNAT-TEMP-000004.TMP /home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb\n",
+  "stderr": "",
+  "archive_sha256": "a1a16c160f1403616436c91558d795b280c518b0fa14d9d6dd7b14595a8de024",
+  "archive_bytes": 4753,
+  "every_payload_hash_verified": true,
+  "recorded_full_restore": true,
+  "source_count": 181,
+  "sources_tools_runtime_imported_outputs_unchanged": true,
+  "scope": "wl-phase1-ca49fd8af3de48f3a6eb2367dbf7a3a9.scope",
+  "live_scope": "LoadState=not-found\nActiveState=inactive\nSubState=dead\n",
+  "terminal_unpopulated_receipt": {
+    "populated": false,
+    "scope_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "LoadState": "not-found",
+      "MemoryMax": "infinity",
+      "MemoryPeak": "[not set]",
+      "MemorySwapMax": "infinity",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "utc": "2026-11-01T07:56:34.158701+00:00"
+  },
+  "lock_free": true,
+  "parent_mountpoints_empty": true,
+  "memory_peak": "47882240",
+  "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+  "namespace_separate": true,
+  "free_bytes": 11201372160,
+  "phase_acceptance": false,
+  "unproved": [
+    "Replay equivalence",
+    "Plan-to-Conforms bridge",
+    "Full proof",
+    "Integrated runtime",
+    "Original O1"
+  ]
+}

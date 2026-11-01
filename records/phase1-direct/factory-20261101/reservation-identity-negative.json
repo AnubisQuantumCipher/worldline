@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/ram_legality_driver.py",
+    "reservation",
+    "negative-v1",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/ram_legality_driver.py\", line 217, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/ram_legality_driver.py\", line 212, in main\n    return parent(*args)\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/ram_legality_driver.py\", line 162, in parent\n    value = config(expected)\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/ram_legality_driver.py\", line 21, in config\n    raise RuntimeError(\"reviewed configuration identity mismatch\")\nRuntimeError: reviewed configuration identity mismatch\n",
+  "no_run_directory": true,
+  "classification": "TESTED configuration digest refusal before namespace/compiler"
+}

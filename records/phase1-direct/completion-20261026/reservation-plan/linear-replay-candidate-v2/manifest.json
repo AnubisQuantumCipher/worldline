@@ -1,0 +1,24 @@
+{
+  "body_equals_preimage_minus_exact_one_line": true,
+  "compiler_run": false,
+  "created_utc": "2026-11-01T07:54:00.760958+00:00",
+  "exact_delta": "Remove only use type Worldline.Resources.Byte; already use-visible through worldline.ads. Spec, contracts and all executable statements unchanged.",
+  "phase_acceptance": false,
+  "predecessor_manifest": {
+    "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/manifest.json",
+    "sha256": "feb020f130d72f5f0664ccc746e1b6dccf2e7593ac70ca6199393b957d64441b"
+  },
+  "preimage": {
+    "worldline-ordinary_reservation_replay.adb": "35cb6eadd1f6726e730431dd56bd18242acd7be0b72b06c5310b01b1e196915f",
+    "worldline-ordinary_reservation_replay.ads": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1"
+  },
+  "production_edit": false,
+  "proof_run": false,
+  "schema": "worldline.reservation-replay-warning-successor.v2",
+  "sources": {
+    "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.adb": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949",
+    "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v2/worldline-ordinary_reservation_replay.ads": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1"
+  },
+  "spec_byte_identical": true,
+  "status": "SOURCE_ONLY_UNRUN"
+}

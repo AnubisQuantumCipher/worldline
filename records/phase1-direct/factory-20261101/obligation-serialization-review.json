@@ -1,0 +1,24 @@
+{
+  "utc": "2026-11-01T07:55:13.791529+00:00",
+  "reviewer": "/root/closure_reconcile",
+  "verdict": "SERIALIZATION_MATCHES_REVIEWED_PARTITION",
+  "checks": [
+    "All219 original rows exact equality",
+    "Complete unique IDs andcounts forv1v2",
+    "v1selectors matchallrows",
+    "v2changesexact16 overlay IDs",
+    "v1hashbinding8current sourcehashes4inputhashesmatch",
+    "allcurrent acceptanceUNVERIFIED;phase_acceptancefalse",
+    "remaining19unresolved exact"
+  ],
+  "model_provenance_clarification": {
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "high",
+    "runtime_reported_model": "gpt-6.1-sol",
+    "runtime_reported_effort": "high",
+    "runtime_evidence": "initial-observations.json/model_runtime;session01a19606-c583-7a21-a69b-a67fa4645537 turn_context",
+    "provider_serving_attestation": "UNAVAILABLE",
+    "clarifies": "The words actual Sol/high inv1reviewer/v2basis mean real delegated review with requested and runtime-reported routing, not independent backendattestation."
+  },
+  "phase_acceptance": false
+}

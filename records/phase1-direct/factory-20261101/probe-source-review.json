@@ -1,0 +1,35 @@
+{
+  "utc": "2026-11-01T07:39:35.279860+00:00",
+  "reviewer_thread": "01a19607-3233-72e1-9d5d-1282d1db9b28",
+  "role": "independent source reviewer; no authorship",
+  "requested": {
+    "model": "gpt-6.1-sol",
+    "effort": "high"
+  },
+  "runtime_reported": {
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "provider": "openai"
+  },
+  "provider_attestation": false,
+  "verdict": "APPROVE_ONE_CONTROLLED_NO_PRODUCTION_PROBE_ONLY",
+  "source_pins": {
+    "scripts/phase1_heavy.py": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a",
+    "records/phase1-direct/completion-20261026/ram_qualification_v2.py": "b7aa45ec2a8aa3e0262d9a4c051ba5887912afc7f11abc8a9718e6935b60ccad"
+  },
+  "conditions": [
+    "external storage test window terminal handoff",
+    "unchanged reserve plus 8MiB archive and 4MiB receipts; D32 observations/guard",
+    "shared heavy lock; >=14GiB post-lock; 8GiB memory and zero swap",
+    "PYTHONOPTIMIZE=0; bytecode disabled",
+    "new outer and fixed inner paths absent",
+    "actual terminal unpopulated scope; no OOM; complete verified archive",
+    "independent exact witness/stdout/empty stderr; different namespace IDs; outer mountpoints empty"
+  ],
+  "non_claims": [
+    "No Chunk/compiler qualification",
+    "Probe source_state hashes only driver",
+    "Not proof, OOM survival, host ownership equivalence or Phase One acceptance"
+  ],
+  "phase_acceptance": false
+}

@@ -1,0 +1,50 @@
+{
+  "argv": [
+    "unshare",
+    "--user",
+    "--map-root-user",
+    "--mount",
+    "--propagation",
+    "private",
+    "/usr/bin/python3",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+    "--inside",
+    "probe",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-probe-v2"
+  ],
+  "child_exit": 0,
+  "phase_acceptance": false,
+  "private_mounts": true,
+  "retention": "COMPLETE_VERIFIED",
+  "sources_and_original_objects_unchanged": true,
+  "stop": null,
+  "tool": {
+    "argv": [
+      "bwrap",
+      "--die-with-parent",
+      "--unshare-pid",
+      "--unshare-net",
+      "--ro-bind",
+      "/",
+      "/",
+      "--proc",
+      "/proc",
+      "--dev",
+      "/dev",
+      "--remount-ro",
+      "/dev",
+      "--bind",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-probe-v2/ram/tmp",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-probe-job-v4/tmp",
+      "--bind",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-probe-v2/ram/cache",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-probe-job-v4/cache",
+      "--",
+      "/usr/bin/python3",
+      "-c",
+      "from pathlib import Path\nimport errno, os, signal\nroot, writable = Path(os.environ['PROBE_READONLY']), Path(os.environ['TMPDIR'])\nfor path in (root / 'forbidden-write', Path('/dev/forbidden-write'), Path('/dev/shm/forbidden-write')):\n    try:\n        path.write_text('must not reach disk')\n    except OSError as error:\n        assert error.errno in (errno.EROFS, errno.ENOENT), error\n    else:\n        raise RuntimeError('read-only boundary absent')\nwith Path('/dev/null').open('wb') as null:\n    assert null.write(b'device access works') == 19\n(writable / 'before-kill.txt').write_text('retained after child SIGKILL\\n')\nprint('readonly boundary rejected write', flush=True)\nos.kill(os.getpid(), signal.SIGKILL)\n"
+    ],
+    "exit_code": 137,
+    "stop": null
+  }
+}

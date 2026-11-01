@@ -1,0 +1,25 @@
+{
+  "utc": "2026-11-01T07:43:00.794252+00:00",
+  "source_commit": "d34c9b9b369f33829e737175d9deaa9f241856fd",
+  "sources": {
+    "scripts/phase1_heavy.py": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a",
+    "records/phase1-direct/completion-20261026/ram_qualification_v2.py": "b7aa45ec2a8aa3e0262d9a4c051ba5887912afc7f11abc8a9718e6935b60ccad"
+  },
+  "tools": {
+    "/usr/bin/python3": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947",
+    "/usr/bin/bwrap": "3016d82c88481eeb15c1145ea82a591b11890faa6e957635b75bc148a1701e45",
+    "/usr/bin/unshare": "42578868785842e688633143b40a95f79a490aeab4af018571d359f8fe132009",
+    "/usr/bin/mount": "9f6eb9ecf4daed8fd3a4134a748eb10c695c909d438ceadbf18e8b3e15b82be2",
+    "/usr/bin/flock": "c82e1ed523ce89dbffd2cde8665a89bc1adc6c5b50ce34db96d2d453d537e8f8",
+    "/usr/bin/systemd-run": "b540a415eab4452328905f9443652f69b0ec357917218c21c0327c5e147bc35f",
+    "/usr/bin/timeout": "7539e28e3fc02160564cc93739e03d0d3e001a6fae58671371403a46b643439b"
+  },
+  "free_bytes": 10975952896,
+  "memory": "MemAvailable:   18569528 kB",
+  "external_window_release": "01a195d3 terminal handoff: goal paused, no test/build launched, no locks acquired; 01a195f9 acknowledges waiting for this probe",
+  "reserve_bytes": 10000000000,
+  "startup_margin_bytes": 60000000,
+  "early_stop_margin_bytes": 30000000,
+  "policy": "Later D142 bounded diagnostic envelope, reviewed by verification_path; D32 polling is assumed, not a hard floor",
+  "phase_acceptance": false
+}

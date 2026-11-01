@@ -1,0 +1,18 @@
+{
+  "utc": "2026-11-01T07:38:16.971274+00:00",
+  "prior_failures": [
+    "fast-forward.json",
+    "fast-forward-completed.json"
+  ],
+  "diagnosis": "Git rejects HEAD symref verification alongside current-branch update because branch update also records HEAD; use explicit-branch atomic CAS with cooperative exclusive owner and before/after symbolic HEAD checks",
+  "exit": 0,
+  "stdout": "",
+  "stderr": "",
+  "head": "d34c9b9b369f33829e737175d9deaa9f241856fd",
+  "branch": "refs/heads/codex/phase1-direct-20261019",
+  "index_tree": "021cb0257593fa6b6bc474bfcded3a8f02f000ea",
+  "staged_diff": "",
+  "working_files_unchanged": true,
+  "phase_acceptance": false,
+  "passed": true
+}

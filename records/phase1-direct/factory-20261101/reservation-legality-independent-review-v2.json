@@ -1,0 +1,37 @@
+{
+  "utc": "2026-11-01T08:00:08.350997+00:00",
+  "reviewer": "/root/probe_result_review",
+  "verdict": "TESTED_TARGET_ADA_LEGALITY_ONLY",
+  "outer_exit": 0,
+  "compiler_exit": 0,
+  "strict_exact_target": true,
+  "warnings_errors": 0,
+  "independently_verified": {
+    "archive_payload_files": 5,
+    "source_pins": 181,
+    "runtime_source_hashes": 1573,
+    "tool_hashes": 10,
+    "imported_output_entries": 707
+  },
+  "tool_stdout": "Contains actualcompiler invocation and GPR directory message; no diagnostic warnings/errors",
+  "tool_stderr": "Empty",
+  "archive_sha256": "a1a16c160f1403616436c91558d795b280c518b0fa14d9d6dd7b14595a8de024",
+  "archive_bytes": 4753,
+  "memory_peak_bytes": 47882240,
+  "actual_memory_cap_bytes": 8589934592,
+  "actual_swap_bytes": 0,
+  "recorded_oom_events": 0,
+  "terminal_scope_absent_unpopulated": true,
+  "parent_mountpoints_empty": true,
+  "launch_environment": "Contemporaneous runtimecommand reviewed:PYTHONOPTIMIZE=0,bytecodedisabled,intendedhelperimportpath",
+  "restore": "Fullcomparison recorded by unchangedhelper; reviewer streamed allpayloadhashes withoutrestoring",
+  "phase_acceptance": false,
+  "not_proved": [
+    "Replay equivalence",
+    "Plan-to-Conforms",
+    "Formalproof",
+    "Integratedruntime",
+    "OriginalO1",
+    "PhaseOne"
+  ]
+}

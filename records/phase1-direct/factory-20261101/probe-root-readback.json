@@ -1,0 +1,28 @@
+{
+  "utc": "2026-11-01T07:44:15.994518+00:00",
+  "classification": "TESTED exact corrected-v2 filesystem/failure-retention mechanism only",
+  "passed": true,
+  "helper_sha256": "b7aa45ec2a8aa3e0262d9a4c051ba5887912afc7f11abc8a9718e6935b60ccad",
+  "source_commit": "d34c9b9b369f33829e737175d9deaa9f241856fd",
+  "outer_exit": 0,
+  "tool_exit": 137,
+  "scope": "wl-phase1-9d8b8b21fc1a485089cba9493e0839c0.scope",
+  "live_scope_readback": "LoadState=not-found\nActiveState=inactive\nSubState=dead\n",
+  "heavy_lock_nonblocking_acquisition_exit": 0,
+  "archive_sha256": "c761487429f5d80f65c5d1dec313c63d0662e8c00a565c0e99514f611633af65",
+  "archive_bytes": 252,
+  "full_archived_payload_hashes_verified": true,
+  "full_restore_metadata_comparison_recorded": true,
+  "memory_peak_bytes": "37990400",
+  "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+  "namespaces_differ": true,
+  "parent_mountpoints_empty": true,
+  "source_unchanged": true,
+  "free_bytes": 10974576640,
+  "initial_readback_failure": "First coordinator readback lacked user bus environment and stopped at scope assertion; archive checks had passed. Coordination release was sent prematurely before fresh query/lock claim was verified. Corrected explicit user bus readback and lock check now verify terminal state; failure retained here.",
+  "phase_acceptance": false,
+  "limits": [
+    "Probe source state covers driver only, not compiler inputs/object trees",
+    "No compiler execution, proof, OOM survival or host UID preservation claim"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "owner": "01a19606-239f-7b43-8c88-4fc902372e80",
+  "source_commit": "d34c9b9b369f33829e737175d9deaa9f241856fd",
+  "status": "READY_HELD_EXTERNAL_WINDOW",
+  "objective": "Qualify corrected v2 filesystem/failure-retention mechanism before any compiler use",
+  "outputs": [
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-probe-job-v4",
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-probe-v2"
+  ],
+  "peak_output_tmpfs_bytes": 33554432,
+  "peak_restore_tmpfs_bytes": 33554432,
+  "max_archive_bytes": 8388608,
+  "receipt_allowance_bytes": 4194304,
+  "outer_metadata_budget_bytes": 4194304,
+  "linux_reserve_bytes": 10000000000,
+  "deadline_seconds": 240,
+  "retirement": "No historical or new local data retired by this probe; retain durable archive and receipts under existing carrier pin",
+  "review": "probe-source-review.json",
+  "original_failures": [
+    "ram-qualification-probe-job-v2",
+    "ram-qualification-probe-job-v3"
+  ],
+  "changed_prerequisite": "November verified storage recovery restored reserve and per-package headroom; exact v2 helper newly independently reviewed",
+  "positive": "read/write /dev/null; known RAM witness survives intentional child SIGKILL via complete archive/full restore",
+  "negative": "forbidden disk/device/shm writes refused; byte1025 archive writer control refused",
+  "acceptance": "all review conditions and exact postrun readback; scope limited to mechanism",
+  "phase_acceptance": false
+}

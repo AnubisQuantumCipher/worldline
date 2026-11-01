@@ -1,0 +1,45 @@
+{
+  "verdict": "APPROVE_EXACT_COMPLETED_MECHANISM_PROBE_ONLY",
+  "reviewer": "/root/probe_result_review",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "high",
+  "provider_attestation": "UNAVAILABLE",
+  "prior_verdict": "HOLD pending contemporaneous PYTHONOPTIMIZE=0 launch evidence",
+  "hold_closure": {
+    "record": "probe-launch-command-provenance.json",
+    "source_session_line": 432,
+    "source_line_sha256": "a9ec8c958004b2a449f4ba58c15f9754f31926b5c7f4d3eb84c5f4156fb53d64",
+    "artifact_sha256": "93f2ee6d95ab4879190fe1c64afa588f11a9df216ec5dbd34ad3b5c0814e770e",
+    "recorded_process": "55372",
+    "recorded_exit": 0,
+    "recorded_environment": "PYTHONDONTWRITEBYTECODE=1 PYTHONOPTIMIZE=0",
+    "reviewed_inheritance": "wrapper inherits environment, worker copies os.environ; unshare/bwrap do not reset it",
+    "evidence_class": "Runtime-recorded launch command plus inspected inheritance; not child sys.flags attestation"
+  },
+  "verified": [
+    "Actual8589934592 memory cap and zero swap",
+    "Peak37990400; no recorded OOM",
+    "Intentional child137; collector and outer0",
+    "Three forbidden-write controls",
+    "Exact witness29B,stdout33B,empty stderr",
+    "Five archive entries; every payload hash matched",
+    "Writer control retains1024A and refuses byte1025",
+    "Different parent/inner namespace",
+    "Unchanged reviewed helper and wrapper",
+    "Empty parent directories and terminal scope"
+  ],
+  "restore_boundary": "Full in-namespace content/metadata comparison is recorded by unchanged helper; reviewer independently streams archive payloads. USTAR seconds and normalized ownership; inventory retains nanoseconds.",
+  "positive_device_control": "/dev/null write only; no read control",
+  "phase_acceptance": false,
+  "non_claims": [
+    "Compiler qualification",
+    "Chunk proof",
+    "Formal proof",
+    "OOM survival",
+    "Host ownership equivalence",
+    "Production",
+    "Phase One",
+    "Independent F7 acceptance"
+  ],
+  "F7": "NOT PERFORMED"
+}

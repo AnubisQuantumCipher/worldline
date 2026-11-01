@@ -1,0 +1,81 @@
+diff --git a/docs/decisions.md b/docs/decisions.md
+index 079bb24..819c026 100644
+--- a/docs/decisions.md
++++ b/docs/decisions.md
+@@ -2438,3 +2438,58 @@ copy ownership, implicit Old retirement or the original 805-byte counterexample.
+ Keep those obligations open. All proposals are outside production and reversible by
+ leaving them unapplied; exact source hashes, implementation arguments and reviews are
+ under completion-20261026. The root remains the sole production integrator.
++
++## D144 — Reconcile the current factory carrier without changing working bytes
++
++The current user commissions the Codex-native Phase One continuation. Prior source-owner
++thread 01a1787b-9465-7363-96e3-47c837eec185 is freshly observed idle; its final owned
++probe scopes are recorded terminal. The coordinator thread
++01a19606-239f-7b43-8c88-4fc902372e80 is the sole integration owner. Runtime turn metadata
++reports gpt-6-astra/ultra for the coordinator and gpt-6.1-sol/high for three bounded
++read-only workers. This is runtime-reported routing, not independent provider attestation.
++The later explicit all-GPT role instruction governs this team; it does not demonstrate
++two-model-family independence or waive any remaining soak/F7 obligation.
++
++Options were a duplicate carrier, destructive cleanup/stash, or preservation plus an
++index-only reconciliation. Select the last: all four dirty tracked files, diff, status
++and actual index were preserved. Fetch found documentary/evidence successor d34c9b9;
++138 of its 139 changed paths already matched local bytes. Only the continuation differed.
++Actual Sol source review conditionally approved index-only reconciliation and explicit
++branch compare-and-swap. Ordinary fast-forward refused collisions; Git rejected two
++symref-verification transaction forms. Both failures remain recorded. After inspecting
++the exact intermediate index/ref state, explicit-branch CAS succeeded. The complete
++index tree equals 021cb0257593fa6b6bc474bfcded3a8f02f000ea, staged diff is empty, all139
++working file hashes remain identical, and the local continuation remains preserved/dirty.
++No product file or another branch was overwritten. Reversal is recovery from the saved
++index/preimages only after inspecting current ownership/ref state, never blind reset.
++Receipts: records/phase1-direct/factory-20261101/{resumption,remote-reconciliation,
++fast-forward,fast-forward-completed,fast-forward-final,initial-observations}.json.
++
++The older 68 scheduled rows are not complete Phase One dependency closure. Sol review
++identified omitted explicit Item1/3/4/6 dependencies and a missing distinct collapse row
++in the historical seven-area map. Preserve historical maps; reconcile all219 original
++IDs separately before final qualification. No obligation is closed by this discovery.
++
++## D145 — Admit only the corrected RAM mechanism probe after the storage handoff
++
++Options: repeat the unqualified compiler path; require a large disk job first; or test
++the existing corrected helper in its bounded no-production probe. Choose the last after
++fresh capacity and scheduling admission. The previous two refusals never entered the
++namespace. November exact-cache recovery is a materially changed storage prerequisite,
++not permission to remove reserves. Source review now binds helper b7aa45ec, rather than
++its f5eacc predecessor. Actual independent Sol verdict APPROVE is limited to one probe.
++
++The external storage coordinator owns the current test window. No WORLDLINE heavy job
++starts until its terminal handoff; the shared lock and original post-lock admission stay
++required afterward. The package registers32MiB output plus32MiB full-restore tmpfs,
++8MiB preallocated archive,4MiB receipt allowance and separate bounded outer metadata.
++Original10GB Linux reserve,8GiB/zero-swap cap and240s outer deadline remain.
++
++Acceptance requires the intentional killed-child status, exact retained witness/stdout,
++empty stderr, forbidden write refusals, full archive comparison, different namespace
++identities, empty parent mountpoints and terminal unpopulated scope with no OOM.
++Probe source_state covers only its driver. It cannot qualify compiler sources/objects,
++Chunk proof, OOM survival or product behavior. Failure remains failure, with retained
++available evidence. Reversal is discontinuing this diagnostic while preserving receipts.
++Exact pins, review and registered outputs: factory-20261101/probe-source-review.json and
++probe-work-package.json under records/phase1-direct. F7 remains NOT PERFORMED.
+diff --git a/records/phase1-direct/direct-continuation.json b/records/phase1-direct/direct-continuation.json
+index 813bf93..f93faaa 100644
+--- a/records/phase1-direct/direct-continuation.json
++++ b/records/phase1-direct/direct-continuation.json
+@@ -171,9 +171,11 @@
+     "free_bytes_observed": 10013102080
+   },
+   "blocked_condition_audit": {
+-    "consecutive_goal_turns_at_current_impasse": 1,
++    "consecutive_goal_turns_at_current_impasse": 3,
+     "condition": "Linux has reached/breached unchanged10GBreserve; required compiler/proof/toolchain jobs cannot be admitted, and no additional approved storage is available. Source-only continuations and publication have been completed; need user/external capacity change.",
+     "goal_complete": false,
+-    "request_pending": "User asked to increase Linux disk or provide another Linux volume; do not resume iPad work."
++    "request_pending": "User asked to increase Linux disk or provide another Linux volume; do not resume iPad work.",
++    "latest_evidence": "completion-20261026/blocked-audit-turn-3.json",
++    "verdict": "BLOCKED threshold satisfied; original objective not achieved"
+   }
+ }

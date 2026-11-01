@@ -1,9 +1,9 @@
 {
-  "utc": "2026-10-26T16:53:31.721430+00:00",
-  "owner": "Codex Phase One completion thread 01a1787b-9465-7363-96e3-47c837eec185; OMP separate and stopped",
+  "utc": "2026-11-01T08:00:08.350997+00:00",
+  "owner": "Codex Astra coordinator 01a19606-239f-7b43-8c88-4fc902372e80; sole WORLDLINE Phase One integrator",
   "worktree": "/home/sicarii/Work/worldline-phase1-direct-20261019",
-  "head": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
-  "published_readback": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "head": "d34c9b9b369f33829e737175d9deaa9f241856fd",
+  "published_readback": "d34c9b9b369f33829e737175d9deaa9f241856fd",
   "active_jobs": [],
   "completed": [
     "renderer checked build/Ada/fuzz and 519 unchanged oracle cases at eafe777",
@@ -19,9 +19,11 @@
     "D129 published 13954dc: full Lifetime_Values unit strict proof; four ledger array exact-contract proofs; SQLite Leading_Zeros and six variant proofs; endpoint/grammar/malformed runtime and existing resource/context/finalization/SQL controls passed. See lifetime-verification-summary.json.",
     "D130 published c51dc97, remote readback verified: whole raw decoder strict proof, original Ada/fuzz,188 exact length controls,45 native tests,46 assurance/release tests. See raw-layout-verification-summary.json.",
     "D131 published d6bd982: strict custody flow47/47, four helper proofs,6 direct controls, overflow reproducer, Ada/fuzz,43 custody regressions and47 assurance/release tests. Whole numeric unit and original Phase One gates remain open.",
-    "D132 published c6c0674, remote readback verified: initialization extraction and scalar append/cause bounds; strict custody flow48/48 and focused Extra12, AppendEventExtras38, InitializeInput49 proofs; original Ada/fuzz,43 custody regressions,47 assurance/release tests and endpoint controls passed. See custody-load-next-verification-summary.json."
+    "D132 published c6c0674, remote readback verified: initialization extraction and scalar append/cause bounds; strict custody flow48/48 and focused Extra12, AppendEventExtras38, InitializeInput49 proofs; original Ada/fuzz,43 custody regressions,47 assurance/release tests and endpoint controls passed. See custody-load-next-verification-summary.json.",
+    "D144 exact carrier reconciliation preserves working bytes. D145 corrected RAM mechanism probe tested; fresh Sol result review approved after contemporaneous PYTHONOPTIMIZE=0 launch evidence. No compiler/proof/product credit.",
+    "D146 private reservation replay v2 strict target Ada legality passes after retained v1warning failure: one compiler,zero warnings/errors,fullretention and fresh independent readback. No semantic/proof/integration credit."
   ],
-  "next": "Linux capacity must support the declared output/retention budget. Two corrected-wrapper probe launches were refused before namespace/tool creation; no blind retry on transient free-space rebounds. All three helpers and owned jobs are settled. After capacity: fetch/reconcile remote API checkpoint preserving local work, qualify v2 wrapper probe, then correctedChunk strictproof and reviewed replay/coordinator legality. Original full-domain/O1 and complete same-source/F7 gates remain open.",
+  "next": "Qualify corrected UTF8 Chunk whole-unit strict proof using tested RAMv2 after freshsource/resource admission; originalsread-only and freshall-entity report required. Separately implement/review reservation semantic contracts and Plan-to-Conforms bridge, and resolve seven external obligationbindings. No whole-gate credit from targetlegality.",
   "evidence": [
     "render-runtime/result.json",
     "proof-custody-next-line-v2/gnatprove.out",
@@ -112,7 +114,19 @@
     "completion-20261026/utf8-chunk-proof-v2/result.json",
     "completion-20261026/pins-current-readback-v1.json",
     "completion-20261026/bounded-continuation-readback-v1.json",
-    "completion-20261026/bounded-terminal-readback-v1.json"
+    "completion-20261026/bounded-terminal-readback-v1.json",
+    "factory-20261101/fast-forward-final.json",
+    "factory-20261101/g0-binding-readback.json",
+    "factory-20261101/probe-launch-command-provenance.json",
+    "factory-20261101/probe-root-readback.json",
+    "factory-20261101/probe-result-independent-review.json",
+    "factory-20261101/obligation-classification-v1.json",
+    "factory-20261101/reservation-legality-independent-review.json",
+    "factory-20261101/reservation-repair-independent-review.json",
+    "factory-20261101/reservation-legality-root-readback-v2.json",
+    "factory-20261101/reservation-legality-independent-review-v2.json",
+    "factory-20261101/obligation-serialization-review.json",
+    "factory-20261101/obligation-classification-v3-overlay.json"
   ],
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
@@ -134,10 +148,10 @@
     "pin_evidence": "sia-raw-layout-pin-state.json"
   },
   "previous_utc": "2026-10-19T21:51:40.000296+00:00",
-  "resumption": "completion-20261026/resumption.json",
+  "resumption": "factory-20261101/resumption.json",
   "phase_acceptance": false,
   "current_runtime_boundary": "Passing96.492s unchanged padding regression used earlier quantity603a4bc3/loader318a9033 checked build. Currentquantity7463adf3/loaderfbf8962f integrated build/runtime remainsUNRUN; numeric87checks applycurrent7463/c074 only.",
-  "helper_status": "All three GPT-6.1-Sol/high helper assignments are settled; no helper jobs or production writes.",
+  "helper_status": "All bounded Sol/high assignments settled; no helper jobs, compiler, proof or integration writes active.",
   "source_proposals": [
     "completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v1/independent-review.json",
     "completion-20261026/old-retirement-fresh-owner-slice-v1/source-closure.json",
@@ -145,10 +159,10 @@
     "completion-20261026/reservation-plan/checked-cost-rejection-v1.json"
   ],
   "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
-  "head_class": "Published engineering source checkpoint; later documentary receipt commits may advance GitHEAD without changing this source.",
+  "head_class": "d34c9b9 was HEAD at checkpoint formation. Following documentary commits carry this evidence; product source remains1d148820. Read publication receipt/live Git for current documentary HEAD.",
   "publication_receipt": "completion-20261026/publication-receipt-v1.json",
-  "latest_continuation": "completion-20261026/bounded-terminal-readback-v1.json",
-  "pending_publication": "Resolved by remote API checkpoint70d3db9; a later receipt-only commit may advance remote further. Local GitHEAD remains08e9515.",
+  "latest_continuation": "factory-20261101/checkpoint.json",
+  "pending_publication": "Factory checkpoint selected for exact-path commit and ordinary push; receipt follows actual remote readback.",
   "remote_checkpoint": {
     "utc": "2026-10-26T16:50:15.173164+00:00",
     "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
@@ -171,9 +185,9 @@
     "free_bytes_observed": 10013102080
   },
   "blocked_condition_audit": {
-    "consecutive_goal_turns_at_current_impasse": 1,
-    "condition": "Linux has reached/breached unchanged10GBreserve; required compiler/proof/toolchain jobs cannot be admitted, and no additional approved storage is available. Source-only continuations and publication have been completed; need user/external capacity change.",
-    "goal_complete": false,
-    "request_pending": "User asked to increase Linux disk or provide another Linux volume; do not resume iPad work."
-  }
+    "historical_audit": "Preserved previous three-turn storage impasse in pre-reconciliation continuation",
+    "current_resumed_run_consecutive_impasse_turns": 0,
+    "current_state": "Meaningful progress: remote reconciliation, storage recovery, actual corrected probe, original219ID classification. No blocked status."
+  },
+  "previous_factory_continuation": "records/phase1-direct/factory-20261101/pre-reconciliation/records/phase1-direct/direct-continuation.json"
 }

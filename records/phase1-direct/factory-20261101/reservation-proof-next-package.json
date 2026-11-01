@@ -1,0 +1,40 @@
+{
+  "status": "READ_ONLY_DESIGN_NO_PROOF_RUN",
+  "author": "verification_path",
+  "package": "Whole replay safety/flow/termination plus local Reconciled_Gone lemma in shadow production body, separately retained whole-unit targets",
+  "strict_flags": [
+    "--no-inlining",
+    "--mode=all",
+    "--level=3",
+    "--report=all",
+    "--checks-as-errors=on",
+    "--proof-warnings=on",
+    "--warnings=error",
+    "--memlimit=1024",
+    "--timeout=5",
+    "-j2"
+  ],
+  "targets": [
+    "worldline-ordinary_reservation_replay.adb",
+    "worldline-ordinary_reservation_lifecycle.adb"
+  ],
+  "resource_envelope": "Existing32MiBoutput/32MiBrestore/8MiBarchive/4MiBreceipts/8GiBswap0/180-220-240s",
+  "initial_lemma": "Reconciled_Gone result = Observed_False, backed by actual Remove_Row body",
+  "missing_semantic_relations": [
+    "Capture_ready/schema/profile/count/optionalvalidation/uniqueness",
+    "Row validity and selection including selection before malformed matched attach",
+    "Exact control codes and complete manager capture",
+    "First malformed failureprefix and untouchedzerosuffix",
+    "Matches cardinality inclfirstmalformed selection",
+    "Last-match position/identitymatch semantics",
+    "Bidirectional processedmask equality",
+    "Non-one/null index bounds",
+    "Replay iff retained declarative Plan_Conforms",
+    "Every actual Plan return establishes semanticrelation"
+  ],
+  "integration_cycle": "Replay spec depends on parent Mask_Array; direct Replay with in parent spec cycles. Resolve explicitly with proved body/caller design; do not weaken Post.",
+  "cost_constraint": "No Capture_Ready,Unique_Prefix,parsing or whole-prefixreplay inside inner-loop invariants; original checkedcostrejection binding",
+  "coverage_required": "All14replayfunctions plus calls/checks/flow/termination; shadowPlan/nestedselectors/helper; real dependencybodies no stubs",
+  "non_claim": "Safety/locallemma proof does not establish semanticbridge. Current legality GPR is insufficient proofclosure.",
+  "phase_acceptance": false
+}

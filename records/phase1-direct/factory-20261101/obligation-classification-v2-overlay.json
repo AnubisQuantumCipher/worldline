@@ -1,0 +1,1424 @@
+{
+  "created_utc": "2026-11-01T07:52:48.031423+00:00",
+  "basis": "Actual Sol/high closure_reconcile source dependency review; no execution",
+  "supersedes_classification_only": {
+    "path": "records/phase1-direct/factory-20261101/obligation-classification-v1.json",
+    "sha256": "f8bc08e22ba43facb771d85421caca286221f44dc8c44ee9a4b62dd70a2f9c90"
+  },
+  "overlay": {
+    "from": "unresolved_classification_no_exclusion",
+    "to": "touched_semantic_module_dependency",
+    "ids": [
+      "OB-043",
+      "OB-044",
+      "OB-045",
+      "OB-061",
+      "OB-062",
+      "OB-067",
+      "OB-070",
+      "OB-081",
+      "OB-082",
+      "OB-117",
+      "OB-147",
+      "OB-169",
+      "OB-170",
+      "OB-171",
+      "OB-172",
+      "OB-203"
+    ],
+    "original_owner_target_evidence_unchanged": true,
+    "acceptance_credit": false
+  },
+  "counts": {
+    "preserved_future_or_separately_owned_work": 22,
+    "direct_phase_one": 68,
+    "required_prerequisite": 76,
+    "touched_semantic_module_dependency": 34,
+    "unresolved_classification_no_exclusion": 19
+  },
+  "source_refs": {
+    "R9": [
+      "runtime/worldline/relocate.py:1053",
+      "runtime/worldline/relocate.py:1059",
+      "runtime/worldline/relocate.py:1061",
+      "runtime/worldline/store.py:217",
+      "runtime/worldline/store.py:263",
+      "runtime/worldline/store.py:1007",
+      "runtime/worldline/store.py:1040"
+    ],
+    "K8": [
+      "runtime/worldline/controller.py:405",
+      "runtime/worldline/controller.py:440",
+      "runtime/worldline/controller.py:455",
+      "runtime/worldline/daemon.py:462",
+      "runtime/worldline/roots.py:455",
+      "runtime/worldline/roots.py:469",
+      "runtime/worldline/roots.py:570",
+      "runtime/worldline/prime.py:135"
+    ],
+    "issuer": [
+      "runtime/worldline/protected_capability_uses.py:27",
+      "runtime/worldline/protected_capability_uses.py:39",
+      "runtime/worldline/protected_capability_uses.py:193",
+      "runtime/worldline/protected_capability_uses.py:292",
+      "core/worldline-startup_issuer_source.adb:185",
+      "core/worldline-startup_issuer_source.adb:328",
+      "core/worldline-startup_issuer_source.adb:375",
+      "core/worldline-startup_issuer_source.adb:518"
+    ]
+  },
+  "current_source_hashes": {
+    "core/worldline-startup_issuer_source.adb": "003ade43553808fbe3f96a9cf3a23a3fb07c04c46a2a05ae798651e43e1129c2",
+    "runtime/worldline/controller.py": "17ccd237864d4b11a19fbd836ad9e585df718558d0d0c83569c1397761cb7aba",
+    "runtime/worldline/daemon.py": "671ec7917d3ca5d327dbdf420fe7a1f4d73f21ab18013e758fa7b82d85089cf6",
+    "runtime/worldline/prime.py": "6e261b48e45732861ec2e42655bbde2bc2af8cfc8272111c9103e337e06adad7",
+    "runtime/worldline/protected_capability_uses.py": "20670c03735f2641797af546df12c9a33871b24746c2f59ee6dc5e8b3057e12d",
+    "runtime/worldline/relocate.py": "7d3fe3a557c9d5ba8b9c3b058aa8ba5c2d0bceeede81173a95b9dbeeec0542e5",
+    "runtime/worldline/roots.py": "c96a51708961c07be4e199c0a503fcab35a3aafbc17c101857ddf7f407b11f23",
+    "runtime/worldline/store.py": "377dba3db8727d4b26742ac29dc09e5b93597607c3774a298148e893c042ccd0"
+  },
+  "rows": [
+    {
+      "id": "OB-001",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-001]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-002",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-002]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-003",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-003]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-004",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-004]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-005",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-005]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-006",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-006]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-007",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-007]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-008",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-008]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-009",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-009]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-010",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-010]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-011",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-011]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-012",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-012]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-013",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-013]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-014",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-014]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-015",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-015]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-016",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-016]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-017",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-017]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-018",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-018]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-019",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-019]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-020",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-020]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-021",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-021]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-022",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-022]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-023",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-023]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-024",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-024]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-025",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-025]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-026",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-026]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-027",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-027]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-028",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-028]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-029",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-029]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-030",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-030]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-031",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-031]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-032",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-032]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-033",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-033]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-034",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-034]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-035",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-035]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-036",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-036]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-037",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-037]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-038",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-038]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-039",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-039]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-040",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-040]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-041",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-041]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-042",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-042]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-043",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-043]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-044",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-044]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-045",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-045]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-046",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-046]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-047",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-047]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-048",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-048]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-049",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-049]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-050",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-050]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-051",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-051]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-052",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-052]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-053",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-053]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-054",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-054]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-055",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-055]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-056",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-056]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-057",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-057]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-058",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-058]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-059",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-059]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-060",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-060]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-061",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-061]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-062",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-062]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-063",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-063]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-064",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-064]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-065",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-065]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-066",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-066]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-067",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-067]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-068",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-068]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-069",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-069]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-070",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-070]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-071",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-071]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-072",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-072]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-073",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-073]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-074",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-074]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-075",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-075]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-076",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-076]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-077",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-077]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-078",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-078]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-079",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-079]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-080",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-080]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-081",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-081]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-082",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-082]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-083",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-083]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-084",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-084]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-085",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-085]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-086",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-086]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-087",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-087]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-088",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-088]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-089",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-089]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-090",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-090]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-091",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-091]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-092",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-092]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-093",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-093]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-094",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-094]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-095",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-095]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-096",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-096]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-097",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-097]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-098",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-098]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-099",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-099]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-100",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-100]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-101",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-101]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-102",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-102]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-103",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-103]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-104",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-104]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-105",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-105]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-106",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-106]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-107",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-107]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-108",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-108]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-109",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-109]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-110",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-110]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-111",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-111]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-112",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-112]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-113",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-113]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-114",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-114]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-115",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-115]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-116",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-116]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-117",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-117]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-118",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-118]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-119",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-119]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-120",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-120]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-121",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-121]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-122",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-122]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-123",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-123]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-124",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-124]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-125",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-125]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-126",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-126]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-127",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-127]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-128",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-128]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-129",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-129]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-130",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-130]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-131",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-131]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-132",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-132]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-133",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-133]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-134",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-134]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-135",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-135]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-136",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-136]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-137",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-137]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-138",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-138]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-139",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-139]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-140",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-140]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-141",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-141]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-142",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-142]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-143",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-143]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-144",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-144]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-145",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-145]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-146",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-146]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-147",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-147]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-148",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-148]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-149",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-149]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-150",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-150]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-151",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-151]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-152",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-152]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-153",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-153]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-154",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-154]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-155",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-155]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-156",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-156]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-157",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-157]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-158",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-158]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-159",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-159]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-160",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-160]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-161",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-161]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-162",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-162]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-163",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-163]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-164",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-164]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-165",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-165]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-166",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-166]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-167",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-167]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-168",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-168]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-169",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-169]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-170",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-170]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-171",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-171]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-172",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-172]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-173",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-173]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-174",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-174]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-175",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-175]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-176",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-176]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-177",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-177]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-178",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-178]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-179",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-179]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-180",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-180]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-181",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-181]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-182",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-182]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-183",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-183]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-184",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-184]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-185",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-185]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-186",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-186]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-187",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-187]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-188",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-188]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-189",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-189]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-190",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-190]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-191",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-191]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-192",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-192]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-193",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-193]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-194",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-194]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-195",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-195]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-196",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-196]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-197",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-197]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-198",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-198]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-199",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-199]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-200",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-200]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-201",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-201]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-202",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-202]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-203",
+      "classification": "touched_semantic_module_dependency",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-203]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-204",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-204]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-205",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-205]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-206",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-206]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-207",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-207]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-208",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-208]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-209",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-209]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-210",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-210]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-211",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-211]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-212",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-212]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-213",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-213]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-214",
+      "classification": "direct_phase_one",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-214]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-215",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-215]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-216",
+      "classification": "preserved_future_or_separately_owned_work",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-216]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-217",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-217]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-218",
+      "classification": "unresolved_classification_no_exclusion",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-218]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    },
+    {
+      "id": "OB-219",
+      "classification": "required_prerequisite",
+      "original_row_reference": "obligation-classification-v1.json/rows[id=OB-219]/original_row",
+      "current_source_acceptance": "UNVERIFIED"
+    }
+  ],
+  "remaining_unresolved": [
+    "OB-060",
+    "OB-063",
+    "OB-064",
+    "OB-065",
+    "OB-066",
+    "OB-069",
+    "OB-071",
+    "OB-122",
+    "OB-123",
+    "OB-124",
+    "OB-181",
+    "OB-182",
+    "OB-183",
+    "OB-184",
+    "OB-185",
+    "OB-186",
+    "OB-187",
+    "OB-217",
+    "OB-218"
+  ],
+  "limits": [
+    "Dependencies do not authorize general Phase Two or COSMOGONY implementation",
+    "Original complete targets stay OPEN",
+    "D1 close-or-refuse publication condition cannot replace valid behavior required by current Phase One",
+    "No unresolved exclusion or acceptance credit"
+  ],
+  "phase_acceptance": false
+}

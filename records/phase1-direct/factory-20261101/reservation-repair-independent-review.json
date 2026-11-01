@@ -1,0 +1,18 @@
+{
+  "verdict": "APPROVE_ONE_ADMITTED_RESERVATION_LEGALITY_RETRY_ONLY",
+  "reviewer": "/root/probe_result_review",
+  "proposal_sha256": "168772c1d9fc21596cbac8cf97176a8df4f8803486d50ca67202c7328bad31d9",
+  "delta_sha256": "8b2b38492162a8d6a59b5fa21466d7279b6a4439d236f15d698d9bce2744a850",
+  "candidate_body_sha256": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949",
+  "checked": [
+    "Exact redundantline removal",
+    "Specunchanged",
+    "Driverbyteidentical samepathdepth",
+    "Matching GPRnames",
+    "Attestpathsresolveidentically",
+    "All48source134privatepinsmatch",
+    "Strictflagsandwritebudgetsunchanged"
+  ],
+  "acceptance": "Actualone strictcompiler,zero warnings/errors,exit0,exactsource/object/tool equality,fullretention,noOOM,terminalcleanup",
+  "phase_acceptance": false
+}

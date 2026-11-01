@@ -1,0 +1,984 @@
+{
+  "head": "08e95150aa3e5c747821c6865534ff326a93a38a",
+  "remote": "d34c9b9b369f33829e737175d9deaa9f241856fd",
+  "commits": [
+    "d34c9b9b369f33829e737175d9deaa9f241856fd Record API checkpoint readback and terminal storage refusals",
+    "70d3db9491b78df45a9f312305f4a69c65f6a3c4 Record bounded Phase One verification failures and source proposals"
+  ],
+  "implementation_diff": "",
+  "rows": [
+    {
+      "status": "M",
+      "path": "docs/decisions.md",
+      "remote_bytes": 512146,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "M",
+      "path": "docs/phase1-acceptance-report.md",
+      "remote_bytes": 57135,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "M",
+      "path": "docs/phase1-progress.md",
+      "remote_bytes": 110695,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/api-checkpoint-internal-review-v1.json",
+      "remote_bytes": 5547,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/api-publication-plan-v1.json",
+      "remote_bytes": 28063,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/api-publication-plan-v2.json",
+      "remote_bytes": 29891,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/api-publication-receipt-v1.json",
+      "remote_bytes": 1227,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/api-tree-readback-v1.json",
+      "remote_bytes": 357,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/REPRESENTATION.md",
+      "remote_bytes": 9177,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/full_domain_columns.adb",
+      "remote_bytes": 2505,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/full_domain_columns.ads",
+      "remote_bytes": 4172,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/private-tmpfs-execution-review.json",
+      "remote_bytes": 5492,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/private-tmpfs-retention-correction.json",
+      "remote_bytes": 3156,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/source-lineage-review.json",
+      "remote_bytes": 5552,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bignum-padding/full-domain-source-v1/source-manifest.json",
+      "remote_bytes": 6371,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bounded-continuation-readback-v1.json",
+      "remote_bytes": 3004,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/bounded-terminal-readback-v1.json",
+      "remote_bytes": 1247,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/README.md",
+      "remote_bytes": 2904,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/proposal.json",
+      "remote_bytes": 11311,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/ram_legality_driver.py",
+      "remote_bytes": 10460,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/reservation_ram_legality.gpr",
+      "remote_bytes": 1293,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-legality-driver-proposal-v1/utf8_ram_legality.gpr",
+      "remote_bytes": 2007,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/admission.jsonl",
+      "remote_bytes": 169,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/admitted.json",
+      "remote_bytes": 18,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/cgroup.jsonl",
+      "remote_bytes": 1209,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/launch.jsonl",
+      "remote_bytes": 379,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/launcher.stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/launcher.stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/result.jsonl",
+      "remote_bytes": 60,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/rusage.json",
+      "remote_bytes": 160,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/scope-journal.txt",
+      "remote_bytes": 392,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/scope.jsonl",
+      "remote_bytes": 104,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/supervisor.jsonl",
+      "remote_bytes": 1184,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/terminal-scope.jsonl",
+      "remote_bytes": 276,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/tracked.diff",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-job-v1/worker-result.json",
+      "remote_bytes": 59,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-v1/inside-result.json",
+      "remote_bytes": 5031,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-v1/parent-before.json",
+      "remote_bytes": 1449,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-output-probe-v1/result.json",
+      "remote_bytes": 421,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/admission.jsonl",
+      "remote_bytes": 169,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/admitted.json",
+      "remote_bytes": 18,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/cgroup.jsonl",
+      "remote_bytes": 2011,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/launch.jsonl",
+      "remote_bytes": 390,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/launcher.stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/launcher.stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/result.jsonl",
+      "remote_bytes": 60,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/rusage.json",
+      "remote_bytes": 160,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/scope-journal.txt",
+      "remote_bytes": 565,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/scope.jsonl",
+      "remote_bytes": 104,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/supervisor.jsonl",
+      "remote_bytes": 2315,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/terminal-scope.jsonl",
+      "remote_bytes": 276,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/tracked.diff",
+      "remote_bytes": 3548,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-job-v1/worker-result.json",
+      "remote_bytes": 59,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/inside-result.json",
+      "remote_bytes": 100800,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/launch.json",
+      "remote_bytes": 514,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/output-inventory.json",
+      "remote_bytes": 89438,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/result.json",
+      "remote_bytes": 2459,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/source-before.json",
+      "remote_bytes": 128499,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/tool.stderr.txt",
+      "remote_bytes": 372,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-chunk-v1/tool.stdout.txt",
+      "remote_bytes": 412,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/admission.jsonl",
+      "remote_bytes": 169,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/admitted.json",
+      "remote_bytes": 18,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/cgroup.jsonl",
+      "remote_bytes": 1209,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/launch.jsonl",
+      "remote_bytes": 390,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/launcher.stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/launcher.stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/result.jsonl",
+      "remote_bytes": 60,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/rusage.json",
+      "remote_bytes": 160,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/scope-journal.txt",
+      "remote_bytes": 407,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/scope.jsonl",
+      "remote_bytes": 104,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/supervisor.jsonl",
+      "remote_bytes": 1192,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/terminal-scope.jsonl",
+      "remote_bytes": 276,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/tracked.diff",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v1/worker-result.json",
+      "remote_bytes": 59,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/admission.jsonl",
+      "remote_bytes": 169,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/admitted.json",
+      "remote_bytes": 18,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/cgroup.jsonl",
+      "remote_bytes": 1209,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/launch.jsonl",
+      "remote_bytes": 390,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/launcher.stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/launcher.stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/result.jsonl",
+      "remote_bytes": 60,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/rusage.json",
+      "remote_bytes": 160,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/scope-journal.txt",
+      "remote_bytes": 407,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/scope.jsonl",
+      "remote_bytes": 104,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/stderr",
+      "remote_bytes": 534,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/supervisor.jsonl",
+      "remote_bytes": 1192,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/terminal-scope.jsonl",
+      "remote_bytes": 276,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/tracked.diff",
+      "remote_bytes": 3548,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v2/worker-result.json",
+      "remote_bytes": 59,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/admission.jsonl",
+      "remote_bytes": 169,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/admitted.json",
+      "remote_bytes": 18,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/cgroup.jsonl",
+      "remote_bytes": 1209,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/launch.jsonl",
+      "remote_bytes": 390,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/launcher.stderr",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/launcher.stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/result.jsonl",
+      "remote_bytes": 60,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/rusage.json",
+      "remote_bytes": 160,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/scope-journal.txt",
+      "remote_bytes": 407,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/scope.jsonl",
+      "remote_bytes": 104,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/stderr",
+      "remote_bytes": 534,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/stdout",
+      "remote_bytes": 0,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/supervisor.jsonl",
+      "remote_bytes": 1480,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/terminal-scope.jsonl",
+      "remote_bytes": 276,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/tracked.diff",
+      "remote_bytes": 17860,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-job-v3/worker-result.json",
+      "remote_bytes": 59,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/inside-result.json",
+      "remote_bytes": 5607,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/launch.json",
+      "remote_bytes": 514,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/output-inventory.json",
+      "remote_bytes": 928,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/result.json",
+      "remote_bytes": 2043,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-probe-v1/source-before.json",
+      "remote_bytes": 83,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-source-review-v1.json",
+      "remote_bytes": 8198,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-source-review-v2.json",
+      "remote_bytes": 3879,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram_output_probe_v1.py",
+      "remote_bytes": 5519,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v1.py",
+      "remote_bytes": 13235,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v2.py",
+      "remote_bytes": 13703,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/design.md",
+      "remote_bytes": 5520,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/manifest.json",
+      "remote_bytes": 3516,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/reconciled-gone.patch",
+      "remote_bytes": 553,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/worldline-ordinary_reservation_replay.adb",
+      "remote_bytes": 10825,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-candidate-v1/worldline-ordinary_reservation_replay.ads",
+      "remote_bytes": 840,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/README.md",
+      "remote_bytes": 3365,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/recipe.json",
+      "remote_bytes": 7236,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-legality-v1/reservation_replay_legality.gpr",
+      "remote_bytes": 1163,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/reservation-plan/linear-replay-review-v1/independent-review.json",
+      "remote_bytes": 12957,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/change-proof-argument.md",
+      "remote_bytes": 3493,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/coordinator-source-v2.json",
+      "remote_bytes": 8481,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/decomposition.patch",
+      "remote_bytes": 15152,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/root-team-review.json",
+      "remote_bytes": 9574,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_proposal.adb",
+      "remote_bytes": 10069,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_proposal.ads",
+      "remote_bytes": 502,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "A",
+      "path": "records/phase1-direct/completion-20261026/utf8-budgeted-chunks-v1/coordinator-candidate-v2/utf8_coordinator_qualification.gpr",
+      "remote_bytes": 1770,
+      "local_exists": true,
+      "local_matches_remote": true
+    },
+    {
+      "status": "M",
+      "path": "records/phase1-direct/direct-continuation.json",
+      "remote_bytes": 12286,
+      "local_exists": true,
+      "local_matches_remote": false
+    }
+  ]
+}

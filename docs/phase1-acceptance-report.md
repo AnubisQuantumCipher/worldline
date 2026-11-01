@@ -1,5 +1,16 @@
 # Phase 1 acceptance report
 
+Current continuation (2026-11-01): exact documentary successor `d34c9b9b369f33829e737175d9deaa9f241856fd`
+is reconciled locally without product changes. The corrected RAM v2 mechanism probe is
+TESTED with actual 8 GiB/zero-swap controls, retained killed-child output and fresh internal
+review. This repairs the verification-path prerequisite only. No compiler or product gate
+is promoted. Reservation replay v2 passes strict target-only Ada legality after its preserved
+warning failure; it remains outside production without semantic/proof/integration credit.
+The 219-ID classification retains every row and now flags seven unresolved applicability
+decisions; none is excluded from acceptance. Current source-bound
+full proof, full-value/implicit Old retirement, original campaigns, protected/actor evidence
+and F7 remain open. See `records/phase1-direct/factory-20261101/`; no narrowed claim is selected.
+
 Current engineering candidate (2026-10-26): published source `1d1488207b5df63dd18df0bc7c8e313f2847371e`, with documentary HEAD `08e95150aa3e5c747821c6865534ff326a93a38a`. The unchanged padding regression passed on the earlier quantity603a4bc3/loader318a9033 build; six current numeric routines have 87 clean focused checks. Current quantity7463adf3/loaderfbf8962f integrated build/runtime remains unqualified, and a significant 805-byte value still raises the installed big-integer error. The UTF8 Chunk prototype had 155 proved checks but a strict warning failure; its corrected disk run stopped for capacity, and its later RAM run failed sandbox dependency setup before proof. The corrected wrapper probe was then refused by storage admission. D142 retains the tested RAM/SIGKILL retention evidence and complete failed-run archive; D143 proposals remain uncompiled outside production. Linux has reached the unchanged 10 GB reserve. Full loader/UTF8/authority proof, automatic full-value/implicit Old retirement, frozen-source campaigns, authentic protected/actor runs and independent acceptance remain open. These component results promote no historical gate below. Phase 1 remains OPEN; no narrowed claim is selected.
 
 Historical engineering candidate (2026-10-17): semantic repairs are under qualification on isolated branch `astra/phase1-completion-20261016`. The v10 checked build/core/fuzz/native smoke and 519-case representation oracle pass. The original huge-array workload now passes with exact 214,748,369-byte output; a real primary exit 7 now retains native `COMPLETED/FAIL` and `DEGRADED`. Corrected behavioral authority/source guards pass 39 controls and reject both owned always-complete/late-pin-publication mutants. These finite results and scoped internal source approvals are not complete matching-source formal/runtime campaigns, original retirement, authentic operator gates or acceptance. See D116–D118 and `docs/phase1-progress.md`; no Phase One completion or new successful proof manifest is claimed.

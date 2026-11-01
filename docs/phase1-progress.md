@@ -1,5 +1,33 @@
 # Phase 1 progress
 
+## 2026-11-01 — current factory continuation
+
+The sole current integrator is thread01a19606-239f-7b43-8c88-4fc902372e80. Local carrier
+and remote documentary successor d34c9b9 are reconciled with all working bytes preserved
+(D144). Runtime reports Astra/ultra coordinator and Sol/high workers; provider attestation
+remains unavailable. The exact binding G0 digest was rechecked, without a ceremonial rerun.
+
+TESTED: corrected RAM v2 failure-retention mechanism, deliberate child137 and outer0,
+8 GiB/zero swap, peak37990400 bytes, no recorded OOM, full archive/restore comparison and
+terminal cleanup. Fresh internal review held for launch-environment evidence, then approved
+after verifying the contemporaneous command. D145 preserves that hold, its closure, and
+the coordinator's failed initial user-bus query/premature handoff correction. Compiler,
+formal-proof and Phase One acceptance credit remain absent.
+
+All 219 original obligation rows are preserved. The latest source-grounded classification
+has 68 direct, 76 prerequisites, 46 touched dependencies, seven unresolved and 22 separately
+owned or future. Unresolved means no exclusion, not waived work. The original versions remain.
+
+The first reservation legality attempt failed on strict redundant-visibility and GPR-name
+warnings. A minimal independently reviewed private successor preserves contracts, imports
+and strict switches and passes one compiler invocation with zero warnings. Complete retained
+output and source/tool/runtime/imported-output readbacks pass; the scope is terminal. Fresh
+internal review confirms TESTED target Ada legality only. Semantic replay/Plan-to-Conforms,
+checked cost, production proof and original O1 remain unproved. No proposal is integrated.
+
+Next is corrected UTF8 Chunk whole-unit proof qualification after fresh source and resource
+admission. All-source campaigns and independently commissioned F7 remain binding and open.
+
 Current engineering checkpoint (2026-10-15): source commits c8a73cd (ordinary recovery context) and df0bcaf (shared String parser with additive proof obligations) are published on the isolated branch. The tested release source remains ef7b7e3. D109's complete additive resolver controls passed; complete production build/proof/runtime on the new source is pending. D106 isolated whole Producer_Values proof is retained without transfer to production. D107 Wide and D108 renderer proofs remain incomplete at their deadlines. The main/roadmap audit confirms PR #5 result-file isolation is merged. Acquisition classification, automatic full-value Old retirement, complete authority joins and authentic final gates remain open. Independent acceptance remains NOT PERFORMED; no gate requirement is weakened.
 
 Phase 1 OPEN. Independent acceptance NOT PERFORMED.
