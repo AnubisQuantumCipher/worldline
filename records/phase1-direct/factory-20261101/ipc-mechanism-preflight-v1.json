@@ -1,0 +1,200 @@
+{
+  "utc": "2026-11-01T09:27:43.175688+00:00",
+  "phase_acceptance": false,
+  "post_lock_admission": "UNRUN; required per case",
+  "environment": {
+    "PYTHONOPTIMIZE": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PATH": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin:/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin:/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/Work/worldline-phase1-direct-20261019/bin:/home/sicarii/.codex/tmp/arg0/codex-arg0UKLjTi:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.grok/bin:/home/sicarii/.local/lib/omarchy-scan-guard:/usr/share/omarchy/bin:/home/sicarii/.local/share/mise/installs/claude/latest:/home/sicarii/.local/share/mise/installs/codex/latest/bin:/home/sicarii/.local/share/mise/installs/gh/latest/gh_2.101.0_linux_arm64/bin:/home/sicarii/.local/share/mise/installs/github-can1357-oh-my-pi/latest:/home/sicarii/.local/share/mise/installs/node/latest/bin:/home/sicarii/.local/share/mise/installs/npm-openai-codex/latest/node_modules/.bin:/home/sicarii/.local/share/mise/installs/pi/latest/pi:/home/sicarii/.local/share/mise/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/sicarii/.local/share/mise/shims:/home/sicarii/.local/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/sicarii/.elan/bin:/home/sicarii/.bun/bin:/home/sicarii/.elan/bin:/home/sicarii/.cargo/bin:/home/sicarii/.grok/bin:/usr/lib/chatgpt/resources"
+  },
+  "core_limit": [
+    0,
+    0
+  ],
+  "source_commit": "e21db96c3bf197374d49586c22f875420456991b",
+  "verified_counts": {
+    "source_pins": 168,
+    "tools": 16,
+    "runtime_sources": 1573,
+    "driver_input_pins": 161
+  },
+  "reference_sha256": "47714e59f0f6f5407e7ba6bf0c09d8897978b717ff5cf267986b979205fa5e01",
+  "collector_sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716",
+  "probe_state": {
+    "driver": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716",
+    "probe": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693"
+  },
+  "selected_path_tools": {
+    "gprbuild": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprbuild",
+    "gprconfig": "/home/sicarii/opt/gnat/gprbuild-aarch64-linux-26.0.0-1/bin/gprconfig",
+    "gcc": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gcc",
+    "gnatls": "/home/sicarii/opt/gnat/gnat-aarch64-linux-16.1.0-1/bin/gnatls",
+    "gnatprove": "/home/sicarii/opt/gnat/gnatprove-aarch64-linux-16.1.0-1/bin/gnatprove",
+    "bwrap": "/usr/bin/bwrap",
+    "unshare": "/usr/bin/unshare",
+    "mount": "/usr/bin/mount",
+    "systemd-run": "/usr/bin/systemd-run",
+    "python3": "/usr/bin/python3.14"
+  },
+  "cases": [
+    {
+      "mode": "ipc-probe",
+      "guard": "ipc_capacity_guard_v1.py",
+      "sha256": "b82daae76209bb40acc6898bde0043fb9e41e0658bdd34f957e8052a3bedb50e",
+      "job": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-job-v1",
+      "inner": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4",
+      "log": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.jsonl",
+      "host_boundary": {
+        "host_identity": [
+          29,
+          1
+        ],
+        "token": "fffb886db14fe84436169209c18325ee",
+        "host_absent": {
+          "wl-ipc-fffb886db14fe84436169209c18325ee.witness": true,
+          "sem.wl-ipc-fffb886db14fe84436169209c18325ee": true
+        },
+        "parent_ipc": "ipc:[4026531839]",
+        "parent_mnt": "mnt:[4026531832]"
+      },
+      "expected_collector": 0,
+      "expected_tool": 0,
+      "expected_retention": "COMPLETE_VERIFIED"
+    },
+    {
+      "mode": "ipc-alias-mismatch",
+      "guard": "ipc_alias_mismatch_guard_v1.py",
+      "sha256": "2f3885dc379b37033f5da7ca7bf99800c3ebf97ba3a7b5f327a1a40b22baff44",
+      "job": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-alias-mismatch-job-v1",
+      "inner": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-alias-mismatch-v4",
+      "log": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_alias_mismatch_guard_v1.jsonl",
+      "host_boundary": {
+        "host_identity": [
+          29,
+          1
+        ],
+        "token": "9ee9af924adf709b8c2538a9533d545d",
+        "host_absent": {
+          "wl-ipc-9ee9af924adf709b8c2538a9533d545d.witness": true,
+          "sem.wl-ipc-9ee9af924adf709b8c2538a9533d545d": true
+        },
+        "parent_ipc": "ipc:[4026531839]",
+        "parent_mnt": "mnt:[4026531832]"
+      },
+      "expected_collector": 1,
+      "expected_tool": 2,
+      "expected_retention": "COMPLETE_VERIFIED"
+    },
+    {
+      "mode": "ipc-namespace-mismatch",
+      "guard": "ipc_namespace_mismatch_guard_v1.py",
+      "sha256": "7dfeb0af3b97b20d911c01872ecd325cb0d4d9ae43d679ee94b00649821cde31",
+      "job": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-namespace-mismatch-job-v1",
+      "inner": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-namespace-mismatch-v4",
+      "log": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_namespace_mismatch_guard_v1.jsonl",
+      "host_boundary": {
+        "host_identity": [
+          29,
+          1
+        ],
+        "token": "2148c9335ca93dfe6a7ac0f838cdb918",
+        "host_absent": {
+          "wl-ipc-2148c9335ca93dfe6a7ac0f838cdb918.witness": true,
+          "sem.wl-ipc-2148c9335ca93dfe6a7ac0f838cdb918": true
+        },
+        "parent_ipc": "ipc:[4026531839]",
+        "parent_mnt": "mnt:[4026531832]"
+      },
+      "expected_collector": 1,
+      "expected_tool": 2,
+      "expected_retention": "COMPLETE_VERIFIED"
+    },
+    {
+      "mode": "ipc-leftover-socket",
+      "guard": "ipc_leftover_socket_guard_v1.py",
+      "sha256": "f127aad83071e879abdcd23f5401773bb930b99babcf6ba492f92b9bfa910e76",
+      "job": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-leftover-socket-job-v1",
+      "inner": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-leftover-socket-v4",
+      "log": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_leftover_socket_guard_v1.jsonl",
+      "host_boundary": {
+        "host_identity": [
+          29,
+          1
+        ],
+        "token": "a1244537ea6ebf3e5cc7520425d48606",
+        "host_absent": {
+          "wl-ipc-a1244537ea6ebf3e5cc7520425d48606.witness": true,
+          "sem.wl-ipc-a1244537ea6ebf3e5cc7520425d48606": true
+        },
+        "parent_ipc": "ipc:[4026531839]",
+        "parent_mnt": "mnt:[4026531832]"
+      },
+      "expected_collector": 1,
+      "expected_tool": 0,
+      "expected_retention": "LOST_EPHEMERAL_OUTPUTS"
+    },
+    {
+      "mode": "ipc-cap-controls",
+      "guard": "ipc_cap_controls_guard_v1.py",
+      "sha256": "45a52dcff7e191e1c4bf27b9bc6a9b6cb21cc9a96add126fca654d121333f2fd",
+      "job": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-cap-controls-job-v1",
+      "inner": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-cap-controls-v4",
+      "log": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_cap_controls_guard_v1.jsonl",
+      "host_boundary": {
+        "host_identity": [
+          29,
+          1
+        ],
+        "token": "7f67016d640e9562060fcd734a21164a",
+        "host_absent": {
+          "wl-ipc-7f67016d640e9562060fcd734a21164a.witness": true,
+          "sem.wl-ipc-7f67016d640e9562060fcd734a21164a": true
+        },
+        "parent_ipc": "ipc:[4026531839]",
+        "parent_mnt": "mnt:[4026531832]"
+      },
+      "expected_collector": 0,
+      "expected_tool": 0,
+      "expected_retention": "COMPLETE_VERIFIED"
+    },
+    {
+      "mode": "ipc-sigkill",
+      "guard": "ipc_sigkill_guard_v1.py",
+      "sha256": "2621a835fdaa2d4341761154648b02c651a0e27764b4a873a4a09050685681c6",
+      "job": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-sigkill-job-v1",
+      "inner": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-sigkill-v4",
+      "log": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_sigkill_guard_v1.jsonl",
+      "host_boundary": {
+        "host_identity": [
+          29,
+          1
+        ],
+        "token": "9a3b7bcef9766159937eabb99489c767",
+        "host_absent": {
+          "wl-ipc-9a3b7bcef9766159937eabb99489c767.witness": true,
+          "sem.wl-ipc-9a3b7bcef9766159937eabb99489c767": true
+        },
+        "parent_ipc": "ipc:[4026531839]",
+        "parent_mnt": "mnt:[4026531832]"
+      },
+      "expected_collector": 0,
+      "expected_tool": [
+        -9,
+        137
+      ],
+      "expected_retention": "COMPLETE_VERIFIED"
+    }
+  ],
+  "review_receipts": {
+    "private-ipc-review-v1.json": "b9b5011b3324fb94c1c859e36099b2c0e8930932db26fe21eb999dd89d44f4ef",
+    "ipc-admission-independent-check-v1.json": "380141aaea897642efc840e603e2406b328c59afd0d7b36845c38835f04fb16e",
+    "ipc-storage-handoff-review-v1.json": "47b0ec3d2d868b84dd61f031a62f3d257997077edc5973848237b5177520c908"
+  },
+  "storage_reconciliation": {
+    "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/independent-interrupted-batch-reconciliation-review.json",
+    "sha256": "e981790e23d31b6415efc66254426837880e21c74c8acf9c4600603a1dac242f"
+  },
+  "free_bytes": 18628616192,
+  "mem_available_kb": 19031788,
+  "status": "ADMITTED_TO_FIRST_GUARD; wrapper must admit again under lock"
+}

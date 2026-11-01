@@ -1,0 +1,94 @@
+{
+  "F7_credit": false,
+  "actions": [
+    "Targeted reads and hashes of named documents/receipts",
+    "Parsed status, case count, correction and reference checks",
+    "Wrote only this new assigned JSON"
+  ],
+  "findings": [],
+  "launch_authorized": false,
+  "mechanism_qualified": false,
+  "not_performed": [
+    "No launch/mount/compiler/prover/flock/storage mutation",
+    "No changes to other files",
+    "No broad filesystem or inventory rerun",
+    "No approval or execution of unfinished diagnostic-v2 sources"
+  ],
+  "phase_acceptance": false,
+  "pins": [
+    {
+      "bytes": 546247,
+      "path": "docs/decisions.md",
+      "sha256": "4814b639ab016b18611362fb8a50b4e43e0c480adbd8609feaacdba66261f6d2"
+    },
+    {
+      "bytes": 116333,
+      "path": "docs/phase1-progress.md",
+      "sha256": "0b6b9ff73deb7d653df9225e80cadfafbc73897798b8e95e68dd7d96140285e6"
+    },
+    {
+      "bytes": 4981,
+      "path": "records/phase1-direct/factory-20261101/checkpoint-v5.json",
+      "sha256": "d78a5d22dc4d451a576949e0ef8becbd9907236272c96b3bb5051d37dbd9a152"
+    },
+    {
+      "bytes": 16495,
+      "path": "records/phase1-direct/direct-continuation.json",
+      "sha256": "df4dfdb1f25cf69fb8bcbf2a6f30ce871b52ff43b8412444a0cc90bd6681fad5"
+    },
+    {
+      "bytes": 12736,
+      "path": "records/phase1-direct/factory-20261101/ipc-mechanism-result-review-v1.json",
+      "sha256": "509f7f698071e7a798529a5526460f1abf31ac4bc77008d0a1ca029db0f2257e"
+    },
+    {
+      "bytes": 10685,
+      "path": "records/phase1-direct/factory-20261101/ipc-probe-root-readback-v1.json",
+      "sha256": "dd6f8428cf0b4e87a91d283b4c499af41230047d7b3b628f3eb42b06d3a749b3"
+    },
+    {
+      "bytes": 10278,
+      "path": "records/phase1-direct/factory-20261101/ipc-mechanism-preflight-v1.json",
+      "sha256": "67ab8b28832de2341c0111722302ac0a0c04efc4ecabf843e68d3dcc625bfeff"
+    },
+    {
+      "bytes": 14926,
+      "path": "records/phase1-direct/factory-20261101/ipc-admission-independent-check-v1.json",
+      "sha256": "380141aaea897642efc840e603e2406b328c59afd0d7b36845c38835f04fb16e"
+    },
+    {
+      "bytes": 12165,
+      "path": "records/phase1-direct/factory-20261101/ipc-storage-handoff-review-v1.json",
+      "sha256": "47b0ec3d2d868b84dd61f031a62f3d257997077edc5973848237b5177520c908"
+    },
+    {
+      "bytes": 797,
+      "path": "records/phase1-direct/factory-20261101/ipc-storage-window-release-v1.json",
+      "sha256": "14e651a820b3016871e03721264508aad6ab971e82928980211e55799fd3a032"
+    }
+  ],
+  "proof_credit": false,
+  "publication_completed": false,
+  "remaining_required": [
+    "Review exact immutable diagnostic source and synthetic tests when author hands over; preserve current failed source and all receipts",
+    "Fresh explicit storage-owner window and exact resource/source admission before any changed nominal diagnostic",
+    "Complete six-case mechanism evidence before any separately admitted compiler/proof diagnostic",
+    "Publication still requires exact finite selected-tree/commit/remote readback; this receipt reviews content only"
+  ],
+  "reviewer": "/root/probe_result_review",
+  "schema": "worldline.phase1.ipc-failure-checkpoint-independent-review.v1",
+  "status": "APPROVE_NARROW_DOCUMENTARY_CONTENT",
+  "unchanged_retry_authorized": false,
+  "verdict": "D153/D154, latest progress append, checkpoint-v5 and latest continuation fields preserve the actual failed nominal case and unknown mount subcondition without promoting mechanism, proof, production or F7 status. No documentary blocker found.",
+  "verified_claims": {
+    "actual_matrix": "Nominal guard/collector1 and tool2; inside collector0 completed full retention. Expected nominal0/0 not met. Five successor cases UNRUN. Older D151/D153 UNRUN statements are historical decision-time entries, explicitly superseded by D154 actual outcome.",
+    "cause_limit": "Primary retained error private shm mount mismatch before semaphore. Exact mountpoint/rw/filesystem subcondition UNKNOWN; distinct identity/ns and32MiB/1024inodes do not establish shm rw. No owned semaphore lifecycle or write-boundary success claimed.",
+    "counts": "Matches exact prior review:168source/161driver-input/1573runtime/16tool hashes and348objects/355attest/281sparklib/71library inventories, zero mismatches. Documentary review does not rerun those audits.",
+    "credit": "checkpoint mechanism_qualified=false, proved_this_package=[], phase_acceptance=false, active root jobs[]; progress/continuation preserve original obligations and commissioned F7 open. Separate replay model proposal retains source-only status.",
+    "resources": "Postlock17,797,072kB MemAvailable;8GiB/zero swap; peak42,467,328B; noOOM match raw review. Preflight18,628,616,192free and19,031,788kB are historical observations, not fresh successor admission.",
+    "retention": "485B complete archive SHA5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61, all5 entries, stdout539B/stderr0B; no private result because safe_result not established. Missing-report message is secondary, not lost archive output.",
+    "source_only_next": "Diagnostic evidence-ordering successor is only being prepared; no reviewed collector/guard successor or launch approved here. All predicates/budgets retained, no topology repair from guessed cause, no unchanged retry. External owner holds next window; root source work only.",
+    "storage": "Interrupted batch143 remains incomplete:12complete,18remaining includes interrupted13th; no false completion or extra release authority. Explicit root window-release receipt matches readback hash. Parent reports owner accepted release and archives active; no new owner-state/archives audit performed here.",
+    "terminal": "Exact scope wl-phase1-7746de61887e4cfe95f9e0ec6316e3dc.scope terminal/absent cgroup/launcher, empty dirs/no parent mounts and recorded no heavy-lock holder match prior review. Initial missing-session-variable systemctl failure remains preserved and not credited as cleanup."
+  }
+}

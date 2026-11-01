@@ -1,0 +1,309 @@
+{
+  "F7_credit": false,
+  "acceptance_required": "All six exact matrix cases and full independent raw/resource/host/source/archive/terminal conjunction remain required after any reviewed repair; strict compiler diagnostic remains separately admitted. Internal reviewer is not commissioned F7.",
+  "actual_case": {
+    "actual_probe_stdout": {
+      "directory_close_errors": [],
+      "error": "private shm mount mismatch",
+      "error_type": "RuntimeError",
+      "euid": 0,
+      "host_identity": [
+        29,
+        1
+      ],
+      "ipc_namespace": "ipc:[4026533011]",
+      "mode": "normal",
+      "mount_namespace": "mnt:[4026533003]",
+      "output_bytes": 33554432,
+      "output_inodes": 1024,
+      "phase_acceptance": false,
+      "private_identity": [
+        90,
+        4
+      ],
+      "schema": "worldline.private-ipc-probe.v1",
+      "semaphore_cleanup": {
+        "close": "NOT_OWNED",
+        "created": false,
+        "errors": [],
+        "unlink": "NOT_OWNED"
+      },
+      "stage": "private identity",
+      "status": "FAILED",
+      "uid": 0
+    },
+    "expected": {
+      "guard_collector": 0,
+      "retention": "COMPLETE_VERIFIED",
+      "tool": 0
+    },
+    "mode": "ipc-probe",
+    "observed": {
+      "control_observed": false,
+      "guard_collector": 1,
+      "inside_collector": 0,
+      "retention": "COMPLETE_VERIFIED",
+      "stop": null,
+      "tool": 2
+    },
+    "tool_stderr_bytes": 0,
+    "tool_stdout_bytes": 539,
+    "tool_stdout_sha256": "5cbae8de9c3d5f28a20645a57f6ab04cfd1aade4fb6754aba486eec643a1752a"
+  },
+  "archive": {
+    "all_members_independently_read_and_payloads_hashed": true,
+    "archive_ceiling": 8388608,
+    "bytes": 485,
+    "inventory_match": true,
+    "members": [
+      {
+        "bytes": 0,
+        "kind": "directory",
+        "name": "cache",
+        "sha256": null
+      },
+      {
+        "bytes": 0,
+        "kind": "directory",
+        "name": "ipc",
+        "sha256": null
+      },
+      {
+        "bytes": 0,
+        "kind": "directory",
+        "name": "tmp",
+        "sha256": null
+      },
+      {
+        "bytes": 0,
+        "kind": "file",
+        "name": "tool.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 539,
+        "kind": "file",
+        "name": "tool.stdout",
+        "sha256": "5cbae8de9c3d5f28a20645a57f6ab04cfd1aade4fb6754aba486eec643a1752a"
+      }
+    ],
+    "restore_limit": "Ephemeral restore has terminated; fresh reviewer validates durable full archive and exact collector/source comparison receipt, not a new restore execution.",
+    "sha256": "5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61",
+    "source_collector_reported_full_restore_comparison": true,
+    "writer_negative_bytes": 1024,
+    "writer_negative_expected_sha256": "6ab72eeb9e77b07540897e0c8d6d23ec8eef0f8c3a47e1b3f4e93443d9536bed"
+  },
+  "compiler_credit": false,
+  "environment_provenance": {
+    "actual_guard_readback": "Guard JSONL records python_optimize0; argv records child -B. Wrapper source sets worker bytecode environment1.",
+    "limit": "Preflight declaration and source inheritance are not an independent child sys.flags/dont_write_bytecode runtime receipt or provider/backend attestation. No missing field is promoted to verified runtime state. Failure verdict does not depend on claiming those absent observations.",
+    "preflight_declared_environment": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONOPTIMIZE": "0",
+      "core_limit": [
+        0,
+        0
+      ]
+    }
+  },
+  "failure_analysis": {
+    "bounded_evidence": "Private identity[90,4] differs host[29,1]; IPC ipc:[4026533011] differs parent ipc:[4026531839], mount mnt:[4026533003] differs parent mnt:[4026531832]; statvfs33554432bytes/1024inodes passed before failure. Actual semaphore ABI/operations and write controls were not reached.",
+    "cleanup": "created=false and close/unlink NOT_OWNED; no unlink authority exercised. alias/ipc directory_close_errors=[] and no finalization_error; source finally closes tmp. Archive ipc/tmp trees empty; no semaphore/witness. This does not test owned semaphore cleanup.",
+    "observed": "private shm mount mismatch at private identity before boundary writes/semaphore/witness; collector subsequent missing tmp/private-ipc-probe.json is secondary diagnostic, not original cause.",
+    "source_predicate": "Probe record_os_evidence requires selected shm mountpoint=/dev/shm AND rw in per-mount options AND filesystem=tmpfs. Earlier /dev parent RO predicate passed by source order.",
+    "unknown": "Exact failing shm subcondition and raw mountinfo/UID/GID maps UNKNOWN: record_os_evidence updates report only after its assertions; no selected/raw rows survive. Do not infer writable/readonly status from identity/quota alone."
+  },
+  "host_and_terminal": {
+    "before_after_host_receipts_equal": true,
+    "fresh_empty_paths": {
+      "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ram": true,
+      "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/restore": true,
+      "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/cache": true,
+      "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/tmp": true
+    },
+    "fresh_exact_parent_mount_rows": [],
+    "fresh_launcher430127_absent": true,
+    "fresh_original_cgroup_absent": true,
+    "fresh_readonly_host_observation": {
+      "identity": [
+        29,
+        1
+      ],
+      "names_absent": {
+        "sem.wl-ipc-fffb886db14fe84436169209c18325ee": true,
+        "wl-ipc-fffb886db14fe84436169209c18325ee.witness": true
+      }
+    },
+    "guard_fresh_terminal_readback": "inactive/not-found/ControlGroup empty; terminal true in immutable guard JSONL",
+    "raw_wrapper_terminal_receipt": {
+      "populated": false,
+      "scope_state": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "MemoryMax": "infinity",
+        "MemoryPeak": "[not set]",
+        "MemorySwapMax": "infinity",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "utc": "2026-11-01T09:28:10.114891+00:00"
+    },
+    "reviewer_no_lock_acquisition": true,
+    "root_fresh_systemctl_readback": {
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "LoadState=not-found\nActiveState=inactive\nControlGroup=\n",
+      "unit": "wl-phase1-7746de61887e4cfe95f9e0ec6316e3dc.scope"
+    },
+    "root_initial_systemctl_query_failure_preserved": {
+      "cause": "root shell lacked XDG_RUNTIME_DIR/DBUS_SESSION_BUS_ADDRESS",
+      "effect": "not accepted as cleanup; repeated with existing wrapper runtime address",
+      "exit": 1
+    },
+    "root_kernel_heavy_lock_rows": [],
+    "scope_boundary": "Reviewer directly rechecks filesystem/proc/cgroup/host; root and guard current systemctl/lock observations are readback evidence, not new reviewer systemctl or flock execution."
+  },
+  "launch_authorized": false,
+  "mechanism_qualified": false,
+  "mismatches": [],
+  "phase_acceptance": false,
+  "pins": [
+    {
+      "bytes": 10278,
+      "path": "records/phase1-direct/factory-20261101/ipc-mechanism-preflight-v1.json",
+      "sha256": "67ab8b28832de2341c0111722302ac0a0c04efc4ecabf843e68d3dcc625bfeff"
+    },
+    {
+      "bytes": 14926,
+      "path": "records/phase1-direct/factory-20261101/ipc-admission-independent-check-v1.json",
+      "sha256": "380141aaea897642efc840e603e2406b328c59afd0d7b36845c38835f04fb16e"
+    },
+    {
+      "bytes": 10685,
+      "path": "records/phase1-direct/factory-20261101/ipc-probe-root-readback-v1.json",
+      "sha256": "dd6f8428cf0b4e87a91d283b4c499af41230047d7b3b628f3eb42b06d3a749b3"
+    },
+    {
+      "bytes": 2469,
+      "path": "records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.jsonl",
+      "sha256": "e9fa351b9e9b96051caf6fbce2b237506eac99cf4f509163b8e6e433e280da8a"
+    },
+    {
+      "bytes": 539923,
+      "path": "records/phase1-direct/factory-20261101/chunk-proof-preflight-v1.json",
+      "sha256": "47714e59f0f6f5407e7ba6bf0c09d8897978b717ff5cf267986b979205fa5e01"
+    },
+    {
+      "bytes": 35034,
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716"
+    },
+    {
+      "bytes": 17080,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+      "sha256": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693"
+    },
+    {
+      "bytes": 15415,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-review-v1.json",
+      "sha256": "b9b5011b3324fb94c1c859e36099b2c0e8930932db26fe21eb999dd89d44f4ef"
+    },
+    {
+      "bytes": 12690,
+      "path": "records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.py",
+      "sha256": "b82daae76209bb40acc6898bde0043fb9e41e0658bdd34f957e8052a3bedb50e"
+    }
+  ],
+  "proof_credit": false,
+  "resource_evidence": {
+    "actual_memory_max": [
+      "8589934592"
+    ],
+    "actual_swap_max": [
+      "0"
+    ],
+    "actual_tmpfs_quota_report": {
+      "bytes": 33554432,
+      "inodes": 1024
+    },
+    "cap_controls_status": "UNRUN",
+    "deadlines": "Recorded argv/source retain180s tool/220s collector/240s outer; no stop or timeout. Guard samples remain well above10GB+30MB stop floor.",
+    "final_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+    "peak_bytes": 42467328,
+    "post_lock_admission": {
+      "MemAvailable": "MemAvailable:   17797072 kB",
+      "admitted": true,
+      "threshold": "14GiB (conservative interpretation of 14GB)",
+      "utc": "2026-11-01T09:28:07.962764+00:00"
+    },
+    "restore_actual_quota": "Pinned mount_ram checks both mounts; no separate persisted statvfs row, no new quota-control pass claimed."
+  },
+  "reviewer": "/root/probe_result_review",
+  "reviewer_actions": [
+    "Read specified sources/receipts",
+    "Read every complete archive member without extracting/executing",
+    "Read-only exact pinned source/tool/runtime/input inventories and current proc/filesystem checks",
+    "Write only this new assigned JSON"
+  ],
+  "schema": "worldline.phase1.ipc-mechanism-independent-result-review.v1",
+  "smallest_sound_next_step": "Source-only new immutable diagnostic preserving current failed source/receipts: record bounded raw/selected mountinfo and maps before asserting, retain refusal stdout. Review/test exact delta without weakening any mount predicate, cap, floor, negative, archive or unsupported-entry policy. Establish the actual failing condition before changing topology. Any later actual run requires a new explicit owner window and fresh admission.",
+  "source_commit": "e21db96c3bf197374d49586c22f875420456991b",
+  "source_inventory_checks": {
+    "all_match": true,
+    "independent_current_hash_and_metadata_counts": {
+      "attest_inventory": 355,
+      "driver_input_pins": 161,
+      "library_inventory": 71,
+      "objects_inventory": 348,
+      "runtime_sources": 1573,
+      "source_pins": 168,
+      "sparklib_inventory": 281,
+      "tools": 16
+    },
+    "mechanism_does_not_copy_compiler_seed_trees": true,
+    "reference": "chunk-proof-preflight-v1.json",
+    "root_original_receipt_hashes_checked": 27
+  },
+  "status": "FAILED_NOMINAL_BEFORE_SEMAPHORE_NOT_QUALIFIED",
+  "storage_boundary": "Six-case window granted after interrupted batch143 reconciliation, not completion. Nominal failure stopped sequence. Cleanup evidence supports returning window to external owner; it does not authorize any successor or unchanged retry.",
+  "successors": [
+    {
+      "guard_log_absent": true,
+      "inner_absent": true,
+      "job_absent": true,
+      "mode": "ipc-alias-mismatch",
+      "status": "UNRUN"
+    },
+    {
+      "guard_log_absent": true,
+      "inner_absent": true,
+      "job_absent": true,
+      "mode": "ipc-namespace-mismatch",
+      "status": "UNRUN"
+    },
+    {
+      "guard_log_absent": true,
+      "inner_absent": true,
+      "job_absent": true,
+      "mode": "ipc-leftover-socket",
+      "status": "UNRUN"
+    },
+    {
+      "guard_log_absent": true,
+      "inner_absent": true,
+      "job_absent": true,
+      "mode": "ipc-cap-controls",
+      "status": "UNRUN"
+    },
+    {
+      "guard_log_absent": true,
+      "inner_absent": true,
+      "job_absent": true,
+      "mode": "ipc-sigkill",
+      "status": "UNRUN"
+    }
+  ],
+  "unchanged_retry_authorized": false,
+  "verdict": "Nominal actual collector1/tool2 violates required0/0. Complete failure retention and bounded terminal cleanup are supported; no new mechanism qualification, compiler/proof/F7 or PhaseOne credit. All five successors remain UNRUN. No unchanged retry."
+}

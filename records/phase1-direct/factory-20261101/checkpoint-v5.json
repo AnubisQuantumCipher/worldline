@@ -1,0 +1,86 @@
+{
+  "utc": "2026-11-01T09:31:14.935099+00:00",
+  "owner": "01a19606-239f-7b43-8c88-4fc902372e80",
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "branch": "codex/phase1-direct-20261019",
+  "base_documentary_commit": "e21db96c3bf197374d49586c22f875420456991b",
+  "product_source_checkpoint": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "active_root_heavy_jobs": [],
+  "integration_changes": "No product integration. D153 nominal IPC control FAILED; all five successors UNRUN. Diagnostic-only evidence repair under source preparation.",
+  "tested": [
+    "Actual nominal private IPC probe FAILED before semaphore creation; tool2, collector1, full archive retained",
+    "Root and nonauthor archive-member/hash/input/source/tool/runtime/terminal checks match"
+  ],
+  "observed": [
+    "Actual8GiB/zero-swap scope, peak42467328B, no OOM",
+    "Private and host identities distinct; child IPC/mount namespaces distinct;32MiB/1024 inodes observed before refusal",
+    "Exact failed shm mount subcondition UNKNOWN because raw selected rows were not saved before assertion"
+  ],
+  "actual_mechanism_cases": {
+    "ipc-probe": "FAILED_BEFORE_SEMAPHORE_COMPLETE_RAW_RETENTION",
+    "ipc-alias-mismatch": "UNRUN",
+    "ipc-namespace-mismatch": "UNRUN",
+    "ipc-leftover-socket": "UNRUN",
+    "ipc-cap-controls": "UNRUN",
+    "ipc-sigkill": "UNRUN"
+  },
+  "proved_this_package": [],
+  "mechanism_qualified": false,
+  "phase_acceptance": false,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "goal_turn_classification": "PROGRESS: actual isolated nominal failure diagnosed and preserved with complete raw evidence; safe storage handoff; material source-only diagnostic repair in preparation",
+  "next": "Review and test diagnostic-only immutable probe successor retaining mount evidence before predicates. Then coordinate a fresh storage window and fresh admission for the changed nominal diagnostic. No unchanged retry or compiler proof before complete mechanism qualification.",
+  "storage_coordination": "Explicitly released after nominal failure and fresh terminal readback. External storage owner01a195f9 owns next storage window; root only source preparation.",
+  "free_bytes_at_checkpoint": 18623295488,
+  "source_review": "private-ipc-review-v1.json",
+  "source_review_sha256": "b9b5011b3324fb94c1c859e36099b2c0e8930932db26fe21eb999dd89d44f4ef",
+  "evidence": [
+    "private-ipc-source-window-v1.json",
+    "private-ipc-profile-implementation-v1.json",
+    "private-ipc-profile-implementation-correction-v1.json",
+    "private-ipc-probe-v1/implementation.json",
+    "private-ipc-root-tests-v1.json",
+    "private-ipc-profile-source-tests-v1.json",
+    "publication-api-readback-v3.json",
+    "publication-receipt-v3.json",
+    "replay-row-model-proposal-v1/manifest.json",
+    "replay-row-model-review-v1.json",
+    "ipc-admission-independent-check-v1.json",
+    "ipc-storage-handoff-review-v1.json",
+    "ipc-mechanism-preflight-v1.json",
+    "ipc_capacity_guard_v1.jsonl",
+    "private-ipc-probe-job-v1",
+    "ipc-probe-root-readback-v1.json",
+    "ipc-mechanism-result-review-v1.json",
+    "ipc-storage-window-release-v1.json",
+    "../completion-20261026/ram-qualification-ipc-probe-v4"
+  ],
+  "unproved": [
+    "Actual private IPC mechanism: nominal FAILED before semaphore; five controls UNRUN; provider socket cleanup UNPROVEN",
+    "Fresh whole-unit Chunk and replay proof",
+    "Replay models and production Plan-to-Conforms bridge",
+    "Original O1 automatic full-value/implicit Old retirement",
+    "Significant 805-byte value arithmetic",
+    "Full custody/UTF8/authority proof and original 1000s acquisition",
+    "Full frozen-source build/proof/runtime/protected/actor/manifests",
+    "Independently commissioned F7"
+  ],
+  "acceptance_evidence_required": "All original gates and seven workstreams, applicable 219-obligation closure on one frozen integrated source, and independent commissioned F7; no narrowed claim.",
+  "active_source_only_workers": {
+    "verification_path": "private-ipc-probe-v2 diagnostic-only successor",
+    "closure_reconcile": "installed bwrap read-only mount-semantics diagnosis"
+  },
+  "published_ipc_checkpoint": "7e56da60f125d89edeadb8a4b1f180bc90b5e640",
+  "published_ipc_receipt_commit": "55ed413407ec4c1b6507f4b98cb5f9e0c6110b28",
+  "replay_proposal": {
+    "manifest": "replay-row-model-proposal-v1/manifest.json",
+    "manifest_sha256": "98c97fd6d465584e4a7906a62b01dc647bee4dbe13caa25691e7e3735ae20a6a",
+    "after_body_sha256": "b04f6bcc39f8045da65aaef4d48ee4aaa5b1c7a71172878b109f64e719c64104",
+    "review": "replay-row-model-review-v1.json",
+    "review_sha256": "76968607a69b496d161a4bd194ce3271ce90c389d998972cfdb6e11f8b767f15",
+    "actual_cases": "24_SOURCE_ORACLES_UNRUN",
+    "status": "SOURCE_ONLY_UNCOMPILED_UNPROVED_UNINTEGRATED"
+  },
+  "actual_result_review": "ipc-mechanism-result-review-v1.json",
+  "actual_result_review_sha256": "509f7f698071e7a798529a5526460f1abf31ac4bc77008d0a1ca029db0f2257e"
+}

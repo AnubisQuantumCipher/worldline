@@ -1,0 +1,294 @@
+{
+  "artifact_base": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101",
+  "artifact_sha256": {
+    "batch-boundary-handoff.json": "26d43cfd2dd2c6e8e979e562e313f38feac32428568a8ee106101937a983aa62",
+    "batch-interruption-reconciled.json": "ba7d4e6967e0ae9ee0b842abe92d622b56c52a72c3f64b30a9b21b213448d134",
+    "batch-operation.json": "23a3119809435818ee0d5433481d551babc394e11877fb798f3b65302bcc2650",
+    "independent-interrupted-batch-receipt-readback.json": "3cc3e72d8d33d9a472a8d8a54c25d55dcf0dca65028d447c8651f01dadd6c585",
+    "independent-interrupted-batch-reconciliation-review.json": "e981790e23d31b6415efc66254426837880e21c74c8acf9c4600603a1dac242f",
+    "independent-interrupted-restic-lock-readback.json": "22ab6ec67698f7b243740eb54d9525d6ff093184cf7f6e1e0848b28b9d6bd80e",
+    "independent-interrupted-source-manifest-readback.json": "6a25481aae7f89056b31c0213bee22acafb66c0fbd4509b9afe36a7c63c0fa48",
+    "polling-attempt-batch-boundary-handoff.json": "8bdc9bb4db15f30a1825bcbf30ca2443f5ddcfa47de98e04b3027ea825166006"
+  },
+  "blockers": [],
+  "claim_class": "OBSERVED specified process/lock/pin metadata and TESTED receipt hash correspondence; no new archive/proof/runtime success",
+  "coordination_authority": {
+    "boundary": "This is owner coordination relayed by root, not authority inferred from stale state or absent PIDs. No additional storage or WORLDLINE job authority is created by this review.",
+    "owner": "01a195f9",
+    "source": "Current parent task reports the owning storage session explicitly grants WORLDLINE six small IPC controls and will perform no new archives/storage mutation until root release."
+  },
+  "fresh_kernel_lock_observations": {
+    "/home/sicarii/.cache/anubis-wt/target-pathprec/release/.cargo-lock": {
+      "identity": [
+        64768,
+        9440833
+      ],
+      "kernel_records": []
+    },
+    "/home/sicarii/.local/state/project-vault/operation.lock": {
+      "identity": [
+        64768,
+        7393010
+      ],
+      "kernel_records": []
+    },
+    "/home/sicarii/.local/state/project-vault/pins.lock": {
+      "identity": [
+        64768,
+        7396357
+      ],
+      "kernel_records": []
+    },
+    "/home/sicarii/.worldline-heavy.lock": {
+      "identity": [
+        64768,
+        457925
+      ],
+      "kernel_records": []
+    }
+  },
+  "fresh_pin_check": {
+    "all_remaining_exact_pins_present": true,
+    "all_remaining_real_directories": true,
+    "interrupted_identity_equals_review": true,
+    "metadata_path_correction": "Initial read-only lookup of pins.json was absent; pins.py identifies authoritative pinned-paths.json, checked here. No pin absence was inferred from the wrong filename.",
+    "other_identities_boundary": "Other current identities are recorded; full historical identity equality/content manifests for18 are retained in the independently hashed readback, not independently recomputed here.",
+    "path": "/home/sicarii/.local/state/project-vault/pinned-paths.json",
+    "remaining": [
+      {
+        "current_identity": [
+          64768,
+          9498216
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/pathprec/target/debug/vault-retained-binaries-695e278042504905b0403c0aecc49a10",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          9441015
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/pathprec/target/release/vault-retained-binaries-0b8e6568f6fc4d69a638e12cf4b2034e",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          10153923
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/sortchk/target/debug/vault-retained-binaries-b511d468d55d4ec3a53816e93800810c",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          10092546
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/sortchk/target/release/vault-retained-binaries-3ab44c8073f4482aa2fe295a7863dad1",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          17172658
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-crash10/release/vault-retained-binaries-3abeca977807408dabf2687a5b1b32b3",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          15597569
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-esc-dbg/release/vault-retained-binaries-a0be839cd76b42bb82ed3762998cfed7",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          15335427
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-esc-r37/release/vault-retained-binaries-3ca6e720c57841579830d3126c53ed16",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          10104222
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-esc2/release/vault-retained-binaries-4dd731e4dc4f4ed8a0bafa0e0f526f5f",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          18545909
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-ifc2/release/vault-retained-binaries-a187217149a7490abaa6ed0fef6c08e6",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          19070577
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-ifc2land/debug/vault-retained-binaries-0d759197550548e0a7a91fa9c4e37860",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          15400125
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-mac/aarch64-apple-darwin/debug/vault-retained-binaries-0cc144340c7243669215dc24901464b5",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          15520434
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-mac/debug/vault-retained-binaries-8296fc5ba0bb458d81af08c02a9ef948",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          16825469
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-ord3/release/vault-retained-binaries-a4edcf2adbd4417b93178b5d84e9b730",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          9441775
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-pathprec/release/vault-retained-binaries-c2486a990b6c4b988cab7fbabd2d5311",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          16284206
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-r38b/release/vault-retained-binaries-9a1a95eaf69a4d6590c3fb3649a0a89f",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          9705484
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-rereview/release/vault-retained-binaries-0faf5c5e4b564e7f9cbeb064f12c12ee",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          9761299
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-review/release/vault-retained-binaries-1aeb2e2fd2e94f7aba73e4d4c6cadb3e",
+        "real_directory": true
+      },
+      {
+        "current_identity": [
+          64768,
+          9705474
+        ],
+        "exact_pin_present": true,
+        "path": "/home/sicarii/.cache/anubis-wt/target-review3/release/vault-retained-binaries-5af359ec15de42cb9e204b3e6851bd98",
+        "real_directory": true
+      }
+    ],
+    "sha256": "0a8f9f666f99cb105a82e7697099cc8af449516459419ce1cc7af816b3c41f73"
+  },
+  "fresh_specific_process_observations": [
+    {
+      "pid": 212328,
+      "proc_present": false,
+      "role": "original batch"
+    },
+    {
+      "pid": 366713,
+      "proc_present": false,
+      "role": "earlier polling coordinator"
+    },
+    {
+      "pid": 388313,
+      "proc_present": false,
+      "role": "interrupted native worker"
+    },
+    {
+      "pid": 388373,
+      "proc_present": false,
+      "role": "interrupted Restic writer"
+    },
+    {
+      "pid": 390501,
+      "proc_present": false,
+      "role": "final boundary coordinator"
+    },
+    {
+      "pid": 2015427,
+      "proc_present": false,
+      "role": "older canonical repository lock PID"
+    }
+  ],
+  "phase_acceptance": false,
+  "process_and_lock_limit": "Point-in-time observations of specified identities, not an atomic reservation or proof that no unrelated process exists. No full /proc tree or descendant scan performed by this worker. Root still acquires its ordinary lock and performs fresh complete resource/source admission.",
+  "repository_boundary": {
+    "canonical_lock_ids": [
+      "e72784caefca4662ffd2b0c421845d16f1ce5dc8872c875a30635d3b93d74ff5",
+      "4c4b664628360cc6988423db1abcccd87273c0ec04939aea2a4ebba7bc193526"
+    ],
+    "cleanup_unlock_retry_authorized": false,
+    "retained_repository_lock_PIDs": [
+      2015427,
+      388373
+    ],
+    "storage_successor": "Separate repository-owner lock/orphan reconciliation and fresh exact native qualification remain pending. Persistent canonical/tmp lock artifacts are preserved. No snapshot/pack or recovery success is inferred from absent PIDs."
+  },
+  "required_next_step": "Root rechecks ordinary source/runtime/control reviews, exact admitted six-control roster, capacity/reserve/budgets, shared heavy lock/post-lock admission, bounded own scope and cleanup before launch; retain storage-owner hold until root terminal release.",
+  "retained_batch_result": {
+    "cause": "UNKNOWN",
+    "classification": "BATCH_INTERRUPTED_INCOMPLETE_SOURCE_INTACT_AND_REPINNED",
+    "completed_items": 12,
+    "count_boundary": "Remaining18 INCLUDES the interrupted13th item. It is not18 additional items. Interrupted item is excluded from completed12.",
+    "full_content_revalidation_by_this_reviewer": false,
+    "interrupted_item_id": "118e6f5251604f39830c2749f9b0b64a",
+    "original_exit": 143,
+    "remaining_originals": 18,
+    "retained_full_manifest_review": "independent-interrupted-source-manifest-readback.json; exact hash verified here",
+    "retained_manifest_sha256": "91f69fc9d1b2ca366e13a49df75f0e2fc03f79955719ad62444cb68120ca32b4",
+    "success": false
+  },
+  "reviewer": "/root/closure_reconcile",
+  "schema": "worldline.ipc-storage-handoff-review.v1",
+  "scope": "Read-only reconciliation receipt, exact known /proc/PID checks, exact lock-file stat plus /proc/locks, exact remaining-original lstat and pin membership. Only this new carrier receipt written. No lock acquisition, signals, vault/Restic commands, archive access, source scan, pin change, offload or cleanup.",
+  "state_file_reconciliation": {
+    "batch-boundary-handoff.json": "FAILED_NO_HANDOFF correctly remains. This review does not rewrite it as an intentional safe boundary or success.",
+    "batch-operation.json": "Retained NATIVE_OFFLOAD_RUNNING/worker_terminal false is stale; it is not live ownership authority or a successful terminal receipt.",
+    "later_review": "Exact independent interruption reconciliation and explicit owner handoff supersede those raw liveness labels only for this bounded IPC scheduling decision.",
+    "polling-attempt-batch-boundary-handoff.json": "Retained WAITING_FOR_VERIFIED_BOUNDARY is stale; recorded coordinator is absent."
+  },
+  "utc": "2026-11-01T09:26:11.888553+00:00",
+  "verdict": "NO_STORAGE_CONFLICT_OBSERVED_FOR_EXPLICIT_SIX_CONTROL_WINDOW_SUBJECT_TO_FRESH_GUARDS"
+}

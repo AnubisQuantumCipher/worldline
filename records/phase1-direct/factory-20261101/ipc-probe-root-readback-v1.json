@@ -1,0 +1,199 @@
+{
+  "utc": "2026-11-01T09:29:04.063754+00:00",
+  "case": "ipc-probe",
+  "classification": "FAILED_NOMINAL_BEFORE_SEMAPHORE",
+  "phase_acceptance": false,
+  "successors": "ALL FIVE UNRUN; unexpected nominal failure forbids successor",
+  "preflight_sha256": "67ab8b28832de2341c0111722302ac0a0c04efc4ecabf843e68d3dcc625bfeff",
+  "result": {
+    "argv": [
+      "unshare",
+      "--user",
+      "--map-root-user",
+      "--mount",
+      "--propagation",
+      "private",
+      "/usr/bin/python3",
+      "-B",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "--inside",
+      "ipc-probe",
+      "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4"
+    ],
+    "child_exit": 0,
+    "host_boundary_unchanged_and_owned_names_absent": true,
+    "phase_acceptance": false,
+    "private_ipc_control": {
+      "error": "\"filename 'tmp/private-ipc-probe.json' not found\"",
+      "observed": false
+    },
+    "private_mounts": true,
+    "retention": "COMPLETE_VERIFIED",
+    "sources_and_original_objects_unchanged": true,
+    "stop": null,
+    "tool": {
+      "argv": [
+        "bwrap",
+        "--die-with-parent",
+        "--unshare-pid",
+        "--unshare-net",
+        "--unshare-ipc",
+        "--ro-bind",
+        "/",
+        "/",
+        "--proc",
+        "/proc",
+        "--dev",
+        "/dev",
+        "--dir",
+        "/dev/shm",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ram/ipc",
+        "/dev/shm",
+        "--remount-ro",
+        "/dev",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ram/tmp",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/tmp",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ram/cache",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/cache",
+        "--setenv",
+        "PROBE_READONLY",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4",
+        "--setenv",
+        "PROBE_RAM_IPC",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ram/ipc",
+        "--setenv",
+        "PROBE_TOKEN",
+        "fffb886db14fe84436169209c18325ee",
+        "--setenv",
+        "PROBE_HOST_SHM_DEV",
+        "29",
+        "--setenv",
+        "PROBE_HOST_SHM_INO",
+        "1",
+        "--setenv",
+        "PROBE_PARENT_IPC_NS",
+        "ipc:[4026531839]",
+        "--setenv",
+        "PROBE_PARENT_MOUNT_NS",
+        "mnt:[4026531832]",
+        "--",
+        "/usr/bin/python3",
+        "-B",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+        "normal"
+      ],
+      "exit_code": 2,
+      "stop": null
+    }
+  },
+  "archive_sha256": "5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61",
+  "archive_members": [
+    {
+      "name": "cache",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "name": "ipc",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "name": "tmp",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "name": "tool.stderr",
+      "size": 0,
+      "kind": "file"
+    },
+    {
+      "name": "tool.stdout",
+      "size": 539,
+      "kind": "file"
+    }
+  ],
+  "tool.stderr": "",
+  "tool.stdout": "{\"directory_close_errors\": [], \"error\": \"private shm mount mismatch\", \"error_type\": \"RuntimeError\", \"euid\": 0, \"host_identity\": [29, 1], \"ipc_namespace\": \"ipc:[4026533011]\", \"mode\": \"normal\", \"mount_namespace\": \"mnt:[4026533003]\", \"output_bytes\": 33554432, \"output_inodes\": 1024, \"phase_acceptance\": false, \"private_identity\": [90, 4], \"schema\": \"worldline.private-ipc-probe.v1\", \"semaphore_cleanup\": {\"close\": \"NOT_OWNED\", \"created\": false, \"errors\": [], \"unlink\": \"NOT_OWNED\"}, \"stage\": \"private identity\", \"status\": \"FAILED\", \"uid\": 0}\n",
+  "full_original_source_tool_runtime_objects_library_unchanged": true,
+  "fresh_host_boundary": {
+    "host_identity": [
+      29,
+      1
+    ],
+    "token": "fffb886db14fe84436169209c18325ee",
+    "host_absent": {
+      "wl-ipc-fffb886db14fe84436169209c18325ee.witness": true,
+      "sem.wl-ipc-fffb886db14fe84436169209c18325ee": true
+    },
+    "parent_ipc": "ipc:[4026531839]",
+    "parent_mnt": "mnt:[4026531832]"
+  },
+  "current_empty_paths": {
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ram": true,
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/restore": true,
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/tmp": true,
+    "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/cache": true
+  },
+  "fresh_scope_readback": {
+    "unit": "wl-phase1-7746de61887e4cfe95f9e0ec6316e3dc.scope",
+    "returncode": 0,
+    "stdout": "LoadState=not-found\nActiveState=inactive\nControlGroup=\n",
+    "stderr": ""
+  },
+  "original_cgroup_absent": true,
+  "observed_memory_max": [
+    "8589934592",
+    "8589934592",
+    "8589934592"
+  ],
+  "observed_swap_max": [
+    "0",
+    "0",
+    "0"
+  ],
+  "final_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 0",
+  "peak_bytes": "42467328",
+  "parent_mount_entries": [],
+  "launcher_pid_430127_absent": true,
+  "heavy_lock_kernel_rows": [],
+  "initial_terminal_query_failure": {
+    "cause": "root shell lacked XDG_RUNTIME_DIR/DBUS_SESSION_BUS_ADDRESS",
+    "exit": 1,
+    "effect": "not accepted as cleanup; repeated with existing wrapper runtime address"
+  },
+  "terminal_release_eligible": true,
+  "evidence_sha256": {
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/host-boundary-before.json": "df3b4d9f3b3fa66695888e521718cddb6dfd56d01054628472d57a36d75ac509",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/source-before.json": "62daa303081c980622817125ea092a5e42fc8f74908ea0f1826565b1bc30f85e",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/inside-result.json": "b3614f1f47b6c285646810821edc7e241af5a633ab5246be36a75b89c73109e4",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/output-inventory.json": "be39548f956a1535e0b53824598b1d61cfeecc4e14ffb9096e47d5e72e45a91f",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/writer-limit-negative.bin": "6ab72eeb9e77b07540897e0c8d6d23ec8eef0f8c3a47e1b3f4e93443d9536bed",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ipc-profile-check.json": "5bbd5d3f142a9078a82b84d3844b255042262c26e15047ac9201d2ec28cb96bf",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/launch.json": "f2ae15eb242383599b821874b54daea37ffb283288ffad001dda96f985a92b5a",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/tool-result.json": "a393998d5380bb2c56b2dccad62706ac6dbd20276a3a67cf7d03583eeb047a8b",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/host-boundary-after.json": "df3b4d9f3b3fa66695888e521718cddb6dfd56d01054628472d57a36d75ac509",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/result.json": "477958c8553b7b38b6ce1c312602943c0bae183d90222a0656c0030bef2837d9",
+    "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/complete-output.tar.gz": "5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/launcher.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/scope.jsonl": "60c955e9a260f9b555c7fbd300b025dc09bb13024467aff0a2d05e3888de3583",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/cgroup.jsonl": "fd6f98a8547899798e067437307ee3d03e07347f54bd416a6644cd20bc4a5b42",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/rusage.json": "37c09a639780b5168d6044a12ff306e3ef95011b76434000cd1cad1ac7bdd0e6",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/terminal-scope.jsonl": "59868c82450debcff538ec5ea59a72e71d5dbd06b6851026b3735b69bb69b2d1",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/result.jsonl": "1697d49f773ba019fa8d195ba926fb6e5be3d76e65494eb58efad90b874fd338",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/admitted.json": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/launch.jsonl": "6d39381c7b8d3d4d7444ca0519f356233e988c7a69e3789229fc32786b357969",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/scope-journal.txt": "cab759bba7f126850a0cad64f7a747a57e4278e70c9deed317425ff7fcacc655",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/worker-result.json": "8fa16bd1ce7eab2b287085070e6858bbe81e913503dadb948082de2905023357",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/tracked.diff": "0aa5e5b50f241624fa81150f15e8c399db334fc6c2301ce00bb3f44cd0dfa99a",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/admission.jsonl": "0be07a654ffbcaf8df9dfbe69eb3883ddf640dc2cabda3826748a12459746292",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/launcher.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/supervisor.jsonl": "11cb0c6cbb82cf0274e2845b16e04a8b1bcba50c33571c34fb3d3c7e95416ea5"
+  }
+}

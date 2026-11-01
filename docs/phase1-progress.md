@@ -729,3 +729,13 @@ models and two exact Posts preserve the existing operational branch bodies and p
 domain. Textual formation checks passed; all twenty-four proposed case oracles remain
 UNRUN. No Ada legality, totality, semantic proof, checked cost or Plan bridge is claimed.
 The retained original declarative iff target and all dependency/final gates remain binding.
+
+D153-D154 exercised the nominal private IPC control after fresh source/resource admission
+and explicit storage handoff. It FAILED before semaphore creation: "private shm mount
+mismatch". Probe exit2 and collector exit1 are retained with complete archived output;
+all five successor controls remain UNRUN. Root reverified original inputs, host isolation
+observations and terminal cleanup under the unchanged8GiB/zero-swap boundary. The storage
+window was explicitly released. No semaphore lifecycle, mechanism qualification or new
+compiler proof is established. Next is a source-reviewed diagnostic-only successor that
+retains the actual mount records before rejecting them, then a newly coordinated bounded
+diagnostic window. All original Phase One obligations and commissioned F7 remain open.

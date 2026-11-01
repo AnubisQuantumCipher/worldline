@@ -1,0 +1,250 @@
+{
+  "utc": "2026-11-01T09:32:52.876467+00:00",
+  "base_commit": "e21db96c3bf197374d49586c22f875420456991b",
+  "branch": "codex/phase1-direct-20261019",
+  "scope": "D153-D154 actual nominal IPC failure, complete raw evidence and independent cleanup/source readback",
+  "files": [
+    {
+      "path": "docs/decisions.md",
+      "bytes": 546247,
+      "sha256": "4814b639ab016b18611362fb8a50b4e43e0c480adbd8609feaacdba66261f6d2",
+      "git_blob": "e2d2f4a0bca290ab49b904a8bfcf7f89de0677d3"
+    },
+    {
+      "path": "docs/phase1-progress.md",
+      "bytes": 116333,
+      "sha256": "0b6b9ff73deb7d653df9225e80cadfafbc73897798b8e95e68dd7d96140285e6",
+      "git_blob": "d2d143fc4f1d8ef69705dcd369a3d454ef68ed58"
+    },
+    {
+      "path": "records/phase1-direct/direct-continuation.json",
+      "bytes": 16495,
+      "sha256": "df4dfdb1f25cf69fb8bcbf2a6f30ce871b52ff43b8412444a0cc90bd6681fad5",
+      "git_blob": "2de6ea781e26e4181f38dd34ada353e91fe5fa8f"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/checkpoint-v5.json",
+      "bytes": 4981,
+      "sha256": "d78a5d22dc4d451a576949e0ef8becbd9907236272c96b3bb5051d37dbd9a152",
+      "git_blob": "126da6f796cee0f3f9cfd531e5745447ee64fe22"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc-admission-independent-check-v1.json",
+      "bytes": 14926,
+      "sha256": "380141aaea897642efc840e603e2406b328c59afd0d7b36845c38835f04fb16e",
+      "git_blob": "e2f22c5ecbddcadae51fe04be8637be6b7ba8325"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc-storage-handoff-review-v1.json",
+      "bytes": 12165,
+      "sha256": "47b0ec3d2d868b84dd61f031a62f3d257997077edc5973848237b5177520c908",
+      "git_blob": "f13989beab5cec575dd70a4f8b4bb2ee38468690"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc-mechanism-preflight-v1.json",
+      "bytes": 10278,
+      "sha256": "67ab8b28832de2341c0111722302ac0a0c04efc4ecabf843e68d3dcc625bfeff",
+      "git_blob": "401fc2648d763ac0b8a825b2cdc8d4835a5e1b82"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.jsonl",
+      "bytes": 2469,
+      "sha256": "e9fa351b9e9b96051caf6fbce2b237506eac99cf4f509163b8e6e433e280da8a",
+      "git_blob": "10e9eb8f433612054cbe1d57bc5dbb3311598cd9"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc-probe-root-readback-v1.json",
+      "bytes": 10685,
+      "sha256": "dd6f8428cf0b4e87a91d283b4c499af41230047d7b3b628f3eb42b06d3a749b3",
+      "git_blob": "672b2d23e799e5f190380e7999be8e27d0b1ebae"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc-mechanism-result-review-v1.json",
+      "bytes": 12736,
+      "sha256": "509f7f698071e7a798529a5526460f1abf31ac4bc77008d0a1ca029db0f2257e",
+      "git_blob": "97d0486fe31da7a3b8af0b21f404def1ab17bb83"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc-storage-window-release-v1.json",
+      "bytes": 797,
+      "sha256": "14e651a820b3016871e03721264508aad6ab971e82928980211e55799fd3a032",
+      "git_blob": "388619fc636039a2a6d838e51a90d631d748e5e4"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/ipc-failure-checkpoint-review-v1.json",
+      "bytes": 5999,
+      "sha256": "fc652168967764af4293c45a1a18ef805c387ec6378e931d08d10ec0587b1871",
+      "git_blob": "b849d13d0a2ef210df387e7a28b06de142db715a"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/complete-output.tar.gz",
+      "bytes": 485,
+      "sha256": "5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61",
+      "git_blob": "bc1ef53f14d5324263d646545fb6b7237b748c7a"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/host-boundary-after.json",
+      "bytes": 303,
+      "sha256": "df3b4d9f3b3fa66695888e521718cddb6dfd56d01054628472d57a36d75ac509",
+      "git_blob": "7d38d1c0df4d6c0a409c0992af752854c5b21557"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/host-boundary-before.json",
+      "bytes": 303,
+      "sha256": "df3b4d9f3b3fa66695888e521718cddb6dfd56d01054628472d57a36d75ac509",
+      "git_blob": "7d38d1c0df4d6c0a409c0992af752854c5b21557"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/inside-result.json",
+      "bytes": 6068,
+      "sha256": "b3614f1f47b6c285646810821edc7e241af5a633ab5246be36a75b89c73109e4",
+      "git_blob": "07be853ebcd384f9a9b53a0b4df63bfba962c871"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/ipc-profile-check.json",
+      "bytes": 90,
+      "sha256": "5bbd5d3f142a9078a82b84d3844b255042262c26e15047ac9201d2ec28cb96bf",
+      "git_blob": "7b818ab67003d3157591dd7c1e03626d7128cd98"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/launch.json",
+      "bytes": 518,
+      "sha256": "f2ae15eb242383599b821874b54daea37ffb283288ffad001dda96f985a92b5a",
+      "git_blob": "16fac064f7e233e68517e19561528904d0ba9a6c"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/output-inventory.json",
+      "bytes": 819,
+      "sha256": "be39548f956a1535e0b53824598b1d61cfeecc4e14ffb9096e47d5e72e45a91f",
+      "git_blob": "1ceef623637231830a760e899804f408fc1d3157"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/result.json",
+      "bytes": 2810,
+      "sha256": "477958c8553b7b38b6ce1c312602943c0bae183d90222a0656c0030bef2837d9",
+      "git_blob": "b43e63636f5131888bc6c3e4032baa2afbad2e08"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/source-before.json",
+      "bytes": 162,
+      "sha256": "62daa303081c980622817125ea092a5e42fc8f74908ea0f1826565b1bc30f85e",
+      "git_blob": "02ab43b05b06f5c5b20cce0c984522447dd3e00d"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/tool-result.json",
+      "bytes": 1885,
+      "sha256": "a393998d5380bb2c56b2dccad62706ac6dbd20276a3a67cf7d03583eeb047a8b",
+      "git_blob": "bdf6a635e007599f354fd1e3ba40a0525b7c078e"
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/writer-limit-negative.bin",
+      "bytes": 1024,
+      "sha256": "6ab72eeb9e77b07540897e0c8d6d23ec8eef0f8c3a47e1b3f4e93443d9536bed",
+      "git_blob": "bc7c569e9e2a166a80e6f9670ccbd58fe02da75c"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/admission.jsonl",
+      "bytes": 169,
+      "sha256": "0be07a654ffbcaf8df9dfbe69eb3883ddf640dc2cabda3826748a12459746292",
+      "git_blob": "1c2c359bdb86573d22df81861e0d985849ce4864"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/admitted.json",
+      "bytes": 18,
+      "sha256": "e28b47f9f64bf78265407b69cb493cd165347e361db087908ceb9d6d521d15c6",
+      "git_blob": "e19b160939005a7c81f26204e07084c045c9534c"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/cgroup.jsonl",
+      "bytes": 1209,
+      "sha256": "fd6f98a8547899798e067437307ee3d03e07347f54bd416a6644cd20bc4a5b42",
+      "git_blob": "24e84209d2b7a36de9d92e26b3bd8f8d6d1f9411"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/launch.jsonl",
+      "bytes": 455,
+      "sha256": "6d39381c7b8d3d4d7444ca0519f356233e988c7a69e3789229fc32786b357969",
+      "git_blob": "987ebe961bbd5232db2dc42b72232df70c813b99"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/launcher.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/result.jsonl",
+      "bytes": 60,
+      "sha256": "1697d49f773ba019fa8d195ba926fb6e5be3d76e65494eb58efad90b874fd338",
+      "git_blob": "7f4c3d49a5a6a30a5349dba63b42d87010a05603"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/rusage.json",
+      "bytes": 160,
+      "sha256": "37c09a639780b5168d6044a12ff306e3ef95011b76434000cd1cad1ac7bdd0e6",
+      "git_blob": "da8f03865a4b52be58dafcaa663f4eb6d907d763"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/scope-journal.txt",
+      "bytes": 463,
+      "sha256": "cab759bba7f126850a0cad64f7a747a57e4278e70c9deed317425ff7fcacc655",
+      "git_blob": "f79f2d3e1f3362928e503bc96e3d94a4d9be304b"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/scope.jsonl",
+      "bytes": 104,
+      "sha256": "60c955e9a260f9b555c7fbd300b025dc09bb13024467aff0a2d05e3888de3583",
+      "git_blob": "62e8561cb2ec6b302ff5b2958ddd9a7898b99ab9"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/supervisor.jsonl",
+      "bytes": 1477,
+      "sha256": "11cb0c6cbb82cf0274e2845b16e04a8b1bcba50c33571c34fb3d3c7e95416ea5",
+      "git_blob": "ee818e54bc9c3ded0435503ccad95d72722c1fe4"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/terminal-scope.jsonl",
+      "bytes": 276,
+      "sha256": "59868c82450debcff538ec5ea59a72e71d5dbd06b6851026b3735b69bb69b2d1",
+      "git_blob": "76d6da287f375af2f6900e7e4b461a1ee9dbbf53"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/tracked.diff",
+      "bytes": 2620,
+      "sha256": "0aa5e5b50f241624fa81150f15e8c399db334fc6c2301ce00bb3f44cd0dfa99a",
+      "git_blob": "1006a83f0d354b12a3e3ecfdc20edcea1c7a62d1"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-job-v1/worker-result.json",
+      "bytes": 59,
+      "sha256": "8fa16bd1ce7eab2b287085070e6858bbe81e913503dadb948082de2905023357",
+      "git_blob": "19f1234a722ad596c626149f850e667fcb3569d7"
+    }
+  ],
+  "manifest_self_rule": "Manifest additionally staged; no recursive self-hash",
+  "product_source_checkpoint": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "mechanism_qualified": false,
+  "phase_acceptance": false,
+  "proof_credit": false,
+  "all_five_successors": "UNRUN",
+  "hygiene": "39 explicit bounded paths; <=2MiB total; UTF8/JSON/JSONL and credential-pattern checks; tar.gz and1024B writer fixture retained as binary evidence",
+  "historical_untracked": "EXCLUDED; preserved locally"
+}

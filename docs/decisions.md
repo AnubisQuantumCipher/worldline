@@ -2829,3 +2829,66 @@ mechanism passes its real controls and current resource admission. Preserve all 
 range constraints, failure/partial-output effects, native/actor controls and final gates.
 No compiler or runtime job ran during this source package. Reversal is leaving the
 proposal unintegrated while retaining its exact sources, references, review and failures.
+
+## D153 — Admit the six real private IPC controls after explicit storage handoff
+
+Choose sequential execution of the reviewed six fixed mechanism guards, beginning
+with the nominal semaphore case. The external storage owner explicitly handed over
+this window after its interrupted batch was independently reconciled. Exit143 is
+not completion: twelve items have matching full recovery receipts, and eighteen
+remaining originals include the interrupted thirteenth, which is intact and re-pinned.
+No storage retry, stale repository-lock removal or compiler run is authorized by
+this mechanism window. Alternatives of launching during the batch or repeating the
+unchanged failed compiler diagnostic remain rejected.
+
+Fresh nonauthor admission receipt380141aaea897642efc840e603e2406b328c59afd0d7b36845c38835f04fb16e
+and storage review47b0ec3d2d868b84dd61f031a62f3d257997077edc5973848237b5177520c908
+found no mismatch or observed holder. Root preflight67ab8b28832de2341c0111722302ac0a0c04efc4ecabf843e68d3dcc625bfeff
+independently rechecked the reviewed collector/probe/guards,168 source pins,16 tools,
+1573 runtime files,161 driver inputs and original object/library inventories.
+It observed18,628,616,192 free bytes and19,031,788kB MemAvailable; these observations
+do not replace each guard's admission under the heavy-job lock. All six exact
+output paths and owned host names were absent. Launch requires optimization0,
+bytecode suppression1 and core limit0. All existing resource and retention caps remain.
+
+Actual results are UNRUN at this decision. Each successor requires the expected
+collector/tool/retention outcome, current terminal scope and empty private mounts,
+unchanged source/host evidence and retained raw outputs. Unexpected failure stops
+successors for diagnosis; no unchanged retry. Full six-case conjunction and fresh
+nonauthor raw review are required for this mechanism only, never Phase One or F7.
+Root will explicitly release this window after terminal cleanup, including on failure.
+Reversal is stopping further launches and preserving all source, outputs and failures.
+
+## D154 — Preserve the failed nominal IPC control and release the storage window
+
+The D153 nominal case actually ran on source checkpoint e21db96 with only D153
+documentary changes. Exact guard b82daae76209bb40acc6898bde0043fb9e41e0658bdd34f957e8052a3bedb50e
+exited1; collector exited1; probe exited2. Post-lock admission observed17,797,072kB
+MemAvailable. Actual cgroup limits were8GiB and zero swap, observed peak42,467,328B,
+with zero OOM events. All five other controls remain UNRUN; no unchanged retry follows.
+
+The complete archive485B, SHA5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61,
+contains all five inventory entries, including539B stdout and empty stderr. The probe
+failed at private identity with "private shm mount mismatch" before semaphore creation.
+It observed distinct host/private directory identities and IPC/mount namespaces, and
+the existing32MiB/1024-inode capacity. The exact rejected mountpoint/rw/filesystem
+subcondition is UNKNOWN: the probe stores mount records only after those assertions.
+No private result file was written because admission did not establish safe_result.
+The later missing-result diagnostic is not the primary failure or lost raw output.
+
+Root readback dd6f8428cf0b4e87a91d283b4c499af41230047d7b3b628f3eb42b06d3a749b3
+reverified every archive member hash and original source/tool/runtime/object/library
+identity. Exact scope wl-phase1-7746de61887e4cfe95f9e0ec6316e3dc.scope was freshly
+inactive/not-found, original cgroup absent, launcher absent, private directories empty,
+no parent mounts or heavy-lock kernel holder, and host identities/names unchanged.
+An initial root systemctl query lacked session-bus variables and failed; it was not
+accepted as cleanup evidence. The corrected explicit wrapper-known runtime address
+succeeded, and both observations are retained. No signal or foreign cleanup occurred.
+
+Fresh nonauthor raw review concurs with the primary failure, complete retention and
+unknown mount subcondition. Choose diagnostic-only evidence-ordering repair for an
+immutable successor proposal; preserve every predicate and budget. A topology change
+or immediate retry based on an unobserved cause is rejected. Root explicitly released
+the storage window to owner01a195f9 after terminal readback; source-only preparation
+continues without a job or lock. The mechanism remains UNQUALIFIED and all Phase One
+gates remain unchanged. Reversal means no successor launch, retaining this full failure.

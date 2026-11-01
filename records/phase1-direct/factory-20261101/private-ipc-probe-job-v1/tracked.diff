@@ -1,0 +1,37 @@
+diff --git a/docs/decisions.md b/docs/decisions.md
+index e42ff53..51d9d66 100644
+--- a/docs/decisions.md
++++ b/docs/decisions.md
+@@ -2829,3 +2829,32 @@ mechanism passes its real controls and current resource admission. Preserve all
+ range constraints, failure/partial-output effects, native/actor controls and final gates.
+ No compiler or runtime job ran during this source package. Reversal is leaving the
+ proposal unintegrated while retaining its exact sources, references, review and failures.
++
++## D153 — Admit the six real private IPC controls after explicit storage handoff
++
++Choose sequential execution of the reviewed six fixed mechanism guards, beginning
++with the nominal semaphore case. The external storage owner explicitly handed over
++this window after its interrupted batch was independently reconciled. Exit143 is
++not completion: twelve items have matching full recovery receipts, and eighteen
++remaining originals include the interrupted thirteenth, which is intact and re-pinned.
++No storage retry, stale repository-lock removal or compiler run is authorized by
++this mechanism window. Alternatives of launching during the batch or repeating the
++unchanged failed compiler diagnostic remain rejected.
++
++Fresh nonauthor admission receipt380141aaea897642efc840e603e2406b328c59afd0d7b36845c38835f04fb16e
++and storage review47b0ec3d2d868b84dd61f031a62f3d257997077edc5973848237b5177520c908
++found no mismatch or observed holder. Root preflight67ab8b28832de2341c0111722302ac0a0c04efc4ecabf843e68d3dcc625bfeff
++independently rechecked the reviewed collector/probe/guards,168 source pins,16 tools,
++1573 runtime files,161 driver inputs and original object/library inventories.
++It observed18,628,616,192 free bytes and19,031,788kB MemAvailable; these observations
++do not replace each guard's admission under the heavy-job lock. All six exact
++output paths and owned host names were absent. Launch requires optimization0,
++bytecode suppression1 and core limit0. All existing resource and retention caps remain.
++
++Actual results are UNRUN at this decision. Each successor requires the expected
++collector/tool/retention outcome, current terminal scope and empty private mounts,
++unchanged source/host evidence and retained raw outputs. Unexpected failure stops
++successors for diagnosis; no unchanged retry. Full six-case conjunction and fresh
++nonauthor raw review are required for this mechanism only, never Phase One or F7.
++Root will explicitly release this window after terminal cleanup, including on failure.
++Reversal is stopping further launches and preserving all source, outputs and failures.
