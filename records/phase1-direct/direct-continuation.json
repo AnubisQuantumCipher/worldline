@@ -151,7 +151,9 @@
     "factory-20261101/private-ipc-root-tests-v1.json",
     "factory-20261101/private-ipc-profile-source-tests-v1.json",
     "factory-20261101/private-ipc-review-v1.json",
-    "factory-20261101/checkpoint-v3-preparation-failure.json"
+    "factory-20261101/checkpoint-v3-preparation-failure.json",
+    "factory-20261101/publication-api-readback-v3.json",
+    "factory-20261101/publication-receipt-v3.json"
   ],
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
@@ -185,9 +187,9 @@
   ],
   "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
   "head_class": "d34c9b9 was HEAD at checkpoint formation. Following documentary commits carry this evidence; product source remains1d148820. Read publication receipt/live Git for current documentary HEAD.",
-  "publication_receipt": "factory-20261101/publication-receipt.json",
-  "latest_continuation": "factory-20261101/checkpoint.json",
-  "pending_publication": "D151 source/test checkpoint being prepared from b15b6d9; live Git/publication receipt will identify the published commit.",
+  "publication_receipt": "factory-20261101/publication-receipt-v3.json",
+  "latest_continuation": "factory-20261101/checkpoint-v3.json",
+  "pending_publication": "D151 checkpoint7e56da6 published with exact remote/API readback. The following receipt-only commit may advance documentary HEAD; read live Git.",
   "remote_checkpoint": {
     "utc": "2026-10-26T16:50:15.173164+00:00",
     "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",

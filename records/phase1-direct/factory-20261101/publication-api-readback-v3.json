@@ -1,0 +1,58 @@
+{
+  "utc": "2026-11-01T09:14:05.877789+00:00",
+  "commit": "7e56da60f125d89edeadb8a4b1f180bc90b5e640",
+  "changed_paths_exact": true,
+  "changed_paths": [
+    "docs/decisions.md",
+    "docs/phase1-progress.md",
+    "records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+    "records/phase1-direct/direct-continuation.json",
+    "records/phase1-direct/factory-20261101/checkpoint-v3-preparation-failure.json",
+    "records/phase1-direct/factory-20261101/checkpoint-v3.json",
+    "records/phase1-direct/factory-20261101/ipc_alias_mismatch_guard_v1.py",
+    "records/phase1-direct/factory-20261101/ipc_cap_controls_guard_v1.py",
+    "records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.py",
+    "records/phase1-direct/factory-20261101/ipc_leftover_socket_guard_v1.py",
+    "records/phase1-direct/factory-20261101/ipc_namespace_mismatch_guard_v1.py",
+    "records/phase1-direct/factory-20261101/ipc_sigkill_guard_v1.py",
+    "records/phase1-direct/factory-20261101/private-ipc-checkpoint-review-v1.json",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-v1/implementation.json",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+    "records/phase1-direct/factory-20261101/private-ipc-profile-implementation-correction-v1.json",
+    "records/phase1-direct/factory-20261101/private-ipc-profile-implementation-v1.json",
+    "records/phase1-direct/factory-20261101/private-ipc-profile-source-tests-v1.json",
+    "records/phase1-direct/factory-20261101/private-ipc-profile-source-tests-v1.py",
+    "records/phase1-direct/factory-20261101/private-ipc-review-v1.json",
+    "records/phase1-direct/factory-20261101/private-ipc-root-tests-v1.json",
+    "records/phase1-direct/factory-20261101/private-ipc-root-tests-v1.py",
+    "records/phase1-direct/factory-20261101/private-ipc-source-window-v1.json",
+    "records/phase1-direct/factory-20261101/publication-package-v3.json",
+    "records/phase1-direct/factory-20261101/publication-preparation-refusal-v3.json",
+    "records/phase1-direct/factory-20261101/source-workers-runtime-readback-v1.json"
+  ],
+  "selected_file_bytes": [
+    {
+      "path": "records/phase1-direct/factory-20261101/publication-package-v3.json",
+      "bytes": 7370,
+      "sha256": "f2e40ac4e517c890f0f69eb358830c6eb90f0dc6b33714de0d16ed4452d95f2e",
+      "git_blob": "03bc33365d4445692e0eb794e845ff92630271a8",
+      "api_exact_bytes_equal": true
+    },
+    {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "bytes": 35034,
+      "sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716",
+      "git_blob": "36ac1f0149d17c010331f318319799ea1633eaa0",
+      "api_exact_bytes_equal": true
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+      "bytes": 17080,
+      "sha256": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693",
+      "git_blob": "a0624b9ab164d149cff3381e5c4e7585886a5f50",
+      "api_exact_bytes_equal": true
+    }
+  ],
+  "method": "GitHub connector fetch_commit plus fetch_file at immutable commit; decoded payload and Git blob compared locally",
+  "phase_acceptance": false
+}
