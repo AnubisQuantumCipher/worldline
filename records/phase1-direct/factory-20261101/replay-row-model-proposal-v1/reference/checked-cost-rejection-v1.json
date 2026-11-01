@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-26T15:47:27.032007+00:00",
+  "status": "SOURCE_REVIEW_REJECT_ADOPTION_NOT_RUNTIME_TEST",
+  "patch_sha256": "e6bedb4ebedd570e41e0626fe2709beea99c69f1befae9be7a7a99c51a426336",
+  "reviewer": "source_lineage GPT-6.1-Sol high; root exact integer arithmetic crosscheck",
+  "case": "Source-review case: n distinct opaque release rows, each ne:false,left:{},right:{},operatorResult:{}, requireUnique:true, requireBuiltinStrings absent. Missing hex fields prevent Distinct_Identity shortcircuit failures. This is not an executed native fixture.",
+  "derivation": "New outer Unique_Prefix(K-1) plus inner repeated Unique_Prefix(K-1): sumK(1+(K-1))*choose(K-1,2) = 3*choose(n+1,4). Each predicate reparses original JSON twice. Does not count additional prefix validity/full mask/postcondition scans.",
+  "counts": [
+    {
+      "n": 64,
+      "outer_prefix_pairs": 41664,
+      "inner_prefix_pairs": 1989456,
+      "total": 2031120
+    },
+    {
+      "n": 128,
+      "outer_prefix_pairs": 341376,
+      "inner_prefix_pairs": 32686752,
+      "total": 33028128
+    }
+  ],
+  "original_complexity_preservation_required": true,
+  "production_patch_applied": false,
+  "next": "Cache parsed input and operation; independent one-pass result replay with scalar state and single mask comparison per row; uniqueness at most once per replay preserving original comparisons. Incremental proof bridge must avoid repeated checked prefix computation; no suppressed assertions or weakened postconditions.",
+  "phase_acceptance": false
+}

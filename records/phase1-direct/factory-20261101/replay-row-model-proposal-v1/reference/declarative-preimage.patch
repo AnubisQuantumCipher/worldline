@@ -1,0 +1,530 @@
+--- a/core/worldline-ordinary_reservation_lifecycle.ads
++++ b/core/worldline-ordinary_reservation_lifecycle.ads
+@@ -1,15 +1,225 @@
+ with Interfaces;
+ with Worldline.Resources;
++with Worldline.Producer_Values;
++with Worldline.Manager_Resource_Lifecycle;
+ package Worldline.Ordinary_Reservation_Lifecycle with SPARK_Mode is
++   use Worldline.Producer_Values;
+    use type Interfaces.Unsigned_32;
+    use type Worldline.Resources.Byte;
+    type Mask_Array is array (Positive range <>) of Worldline.Resources.Byte;
+-   -- Codes: 0 malformed capture, 1 false/skip/refused, 2 true/proceed.
+-   -- Mask: 0 untouched, 1 selected, 2 selected retaining current identity.
+-   -- Position is the unique matching row, or zero. No resource arithmetic.
++
++   --  These ghost queries specify the captured Python protocol, not the
++   --  execution of arbitrary Python objects. No equality is substituted for
++   --  inequality, no repeated observation is reused, and no truth conversion
++   --  is applied to a reconciliation observation. Parse/Field retain their
++   --  original last-key-wins JSON meaning. Optional flags are enabled only by
++   --  literal true; absent and other-valued flags retain the original domain.
++   function Operation (Data : String) return String is
++     (Text (Data, Field (Data, Parse (Data), "operation")))
++     with Ghost, Global => null;
++   function Captured_Rows (Data : String) return Node is
++     (Field (Data, Parse (Data), "rows")) with Ghost, Global => null;
++   function Boolean_Field (Data : String; Parent : Node; Name : String)
++      return Boolean is (Field (Data, Parent, Name).Form = Boolean_Value)
++     with Ghost, Global => null;
++   function Flag (Data : String; Parent : Node; Name : String) return Boolean is
++     (Is_True (Data, Field (Data, Parent, Name))) with Ghost, Global => null;
++   function Row_Operation (Op : String) return Boolean is
++     (Op = "release" or else Op = "reconcile" or else Op = "attach-unit"
++      or else Op = "identity-match" or else Op = "identity-update")
++     with Ghost, Global => null;
++   function Equality_Operation (Op : String) return Boolean is
++     (Op = "attach-unit" or else Op = "identity-match" or else Op = "identity-update")
++     with Ghost, Global => null;
++   function Builtin_Row (Data : String; K : Positive) return Boolean is
++     (declare
++         Row : constant Node := Element (Data, Captured_Rows (Data), K);
++      begin
++         Boolean_Field (Data, Row, "builtinString") and then
++         Flag (Data, Row, "builtinString") and then
++         Field (Data, Field (Data, Row, "left"), "utf8SurrogatepassHex").Form = String_Value)
++     with Ghost, Global => null;
++   function Builtin_Prefix (Data : String; Last : Natural) return Boolean is
++     (for all K in 1 .. Last => Builtin_Row (Data, K))
++     with Ghost, Global => null;
++   function Distinct_Identity (Data : String; K, J : Positive) return Boolean is
++     (declare
++         L : constant Node := Field (Data, Element (Data, Captured_Rows (Data), K), "left");
++         R : constant Node := Field (Data, Element (Data, Captured_Rows (Data), J), "left");
++         LH : constant Node := Field (Data, L, "utf8SurrogatepassHex");
++         RH : constant Node := Field (Data, R, "utf8SurrogatepassHex");
++      begin
++         not (LH.Form = String_Value and then RH.Form = String_Value
++              and then Equal (Data, LH, Data, RH)))
++     with Ghost, Global => null;
++   function Unique_Prefix (Data : String; Last : Natural) return Boolean is
++     (for all K in 1 .. Last =>
++        (for all J in 1 .. K - 1 => Distinct_Identity (Data, K, J)))
++     with Ghost, Global => null;
++   function Capture_Ready (Data : String; Length : Natural) return Boolean is
++     (declare
++         Root : constant Node := Parse (Data);
++         Rows : constant Node := Captured_Rows (Data);
++      begin
++         Root.Form = Object_Value and then
++         Is_Text (Data, Field (Data, Root, "schema"), "worldline.ordinary-reservation-v1") and then
++         Is_Text (Data, Field (Data, Root, "profile"), "python-actual-protocol-v1") and then
++         Rows.Form = Array_Value and then Count (Data, Rows) = Length and then
++         (if Flag (Data, Root, "requireBuiltinStrings") then Builtin_Prefix (Data, Length)) and then
++         (if Flag (Data, Root, "requireUnique") then Unique_Prefix (Data, Length)))
++     with Ghost, Global => null;
++
++   --  Assignable describes validation before the first row write. For a
++   --  matching attach-unit row, unitEq is checked AFTER selection/Position.
++   --  Accordingly a malformed unitEq can leave that row marked one in Ada.
++   function Row_Assignable (Data : String; K : Positive) return Boolean is
++     (declare
++         Row : constant Node := Element (Data, Captured_Rows (Data), K);
++         Op : constant String := Operation (Data);
++      begin
++         Row.Form = Object_Value and then
++         (if Op /= "reconcile" then
++            Field (Data, Row, "left").Form = Object_Value and then
++            Field (Data, Row, "right").Form = Object_Value and then
++            Field (Data, Row, "operatorResult").Form = Object_Value) and then
++         (if Op = "release" then Boolean_Field (Data, Row, "ne")
++          elsif Op = "reconcile" then
++            Boolean_Field (Data, Row, "literalFalse") and then
++            Field (Data, Row, "original").Form = Object_Value
++          elsif Equality_Operation (Op) then Boolean_Field (Data, Row, "eq")
++          else False))
++     with Ghost, Global => null;
++   function Row_Valid (Data : String; K : Positive) return Boolean is
++     (Row_Assignable (Data, K) and then
++      (if Operation (Data) = "attach-unit" then
++         (declare
++             Row : constant Node := Element (Data, Captured_Rows (Data), K);
++          begin
++             (if Flag (Data, Row, "eq") then Boolean_Field (Data, Row, "unitEq")
++              else Field (Data, Row, "unitEq").Form = Null_Value))))
++     with Ghost, Global => null;
++   function Valid_Prefix (Data : String; Last : Natural) return Boolean is
++     (for all K in 1 .. Last => Row_Valid (Data, K))
++     with Ghost, Global => null;
++   function Row_Selection (Data : String; K : Positive) return Worldline.Resources.Byte is
++     (if not Row_Assignable (Data, K) then 0
++      else
++        (declare
++            Row : constant Node := Element (Data, Captured_Rows (Data), K);
++            Op : constant String := Operation (Data);
++         begin
++            (if Op = "release" then
++               (if Is_False (Data, Field (Data, Row, "ne")) then 1 else 0)
++             elsif Op = "reconcile" then
++               (if Flag (Data, Row, "literalFalse") then 1 else 0)
++             elsif not Flag (Data, Row, "eq") then 0
++             elsif Op = "attach-unit" and then Boolean_Field (Data, Row, "unitEq")
++               and then Flag (Data, Row, "unitEq") then 2
++             else 1)))
++     with Ghost, Global => null;
++   function Selected_Prefix (Data : String; Last : Natural) return Boolean is
++     (for some K in 1 .. Last => Row_Selection (Data, K) /= 0)
++     with Ghost, Global => null;
++   function Unique_Selection_Prefix (Data : String; Last : Natural) return Boolean is
++     (for some K in 1 .. Last => Row_Selection (Data, K) /= 0 and then
++        (for all J in 1 .. Last => (if J /= K then Row_Selection (Data, J) = 0)))
++     with Ghost, Global => null;
++
++   --  Only the complete original manager capture is delegated. A null capture
++   --  preserves the legacy observed-state case; a malformed nonobject capture
++   --  is refused only after all preceding guard observations permit it.
++   function Manager_Accepted (Data : String; Raw : Node) return Boolean is
++     (declare
++         Result : constant String := Worldline.Manager_Resource_Lifecycle.Decide (Slice (Data, Raw));
++      begin Is_True (Result, Field (Result, Parse (Result), "accepted")))
++     with Ghost, Global => null;
++   function Control_Code (Data : String) return Interfaces.Unsigned_32 is
++     (declare
++         Root : constant Node := Parse (Data);
++         Op : constant String := Operation (Data);
++         Unit : constant Node := Field (Data, Root, "unitObservation");
++         Status : constant Node := Field (Data, Root, "codeObservation");
++         Raw : constant Node := Field (Data, Root, "managerCapture");
++      begin
++         (if Op = "gate" or else Op = "probe" then
++            (if not Boolean_Field (Data, Root, "observation") then 0
++             elsif Flag (Data, Root, "observation") then 2 else 1)
++          elsif Op = "failure" then
++            (if Field (Data, Root, "beforeOriginal").Form = Object_Value and then
++                Field (Data, Root, "afterOriginal").Form = Object_Value and then
++                Field (Data, Root, "resultOriginal").Form = Object_Value then 2 else 0)
++          elsif Op = "guard-release" then
++            (if not Boolean_Field (Data, Root, "decisionPresent") or else
++                not Boolean_Field (Data, Root, "deferred") then 0
++             elsif Flag (Data, Root, "decisionPresent") and then
++                not Flag (Data, Root, "deferred") then 2 else 1)
++          elsif Op = "identity-unit" then
++            (if not Boolean_Field (Data, Unit, "ne") then 0
++             elsif Flag (Data, Unit, "ne") then 1 else 2)
++          elsif Op = "guard-settled" then
++            (if not Boolean_Field (Data, Unit, "eq") or else
++                not Boolean_Field (Data, Status, "eq") or else
++                Field (Data, Root, "originalState").Form /= Object_Value or else
++                not Boolean_Field (Data, Root, "stateMember") then 0
++             elsif not Flag (Data, Unit, "eq") or else not Flag (Data, Status, "eq")
++                or else not Flag (Data, Root, "stateMember") then 1
++             elsif Raw.Form = Null_Value then 2
++             elsif Raw.Form = Object_Value then
++                (if Manager_Accepted (Data, Raw) then 2 else 1)
++             else 0)
++          else 0))
++     with Ghost, Global => null;
++   function Expected_Code (Data : String; Length : Natural) return Interfaces.Unsigned_32 is
++     (if not Capture_Ready (Data, Length) then 0
++      elsif not Row_Operation (Operation (Data)) then Control_Code (Data)
++      elsif not Valid_Prefix (Data, Length) then 0
++      elsif Operation (Data) = "identity-match" then
++         (if Unique_Selection_Prefix (Data, Length) then 2 else 1)
++      elsif Selected_Prefix (Data, Length) then 2 else 1)
++     with Ghost, Global => null;
++   function Expected_Selection (Data : String; Length : Natural; K : Positive)
++      return Worldline.Resources.Byte is
++     (if Capture_Ready (Data, Length) and then Row_Operation (Operation (Data))
++         and then Valid_Prefix (Data, K - 1) then Row_Selection (Data, K) else 0)
++     with Ghost, Global => null;
++
++   --  Ordinals refer to captured row order, independent of the actual positive
++   --  lower bound of Mask. Null arrays are admitted; all quantifiers use their
++   --  actual length/range. Mask_At is total, so malformed Position values cannot
++   --  cause an index check while the contract is being evaluated.
++   function Mask_At (Mask : Mask_Array; Ordinal : Natural) return Worldline.Resources.Byte is
++     (if Ordinal in 1 .. Mask'Length then Mask (Mask'First + (Ordinal - 1)) else 0)
++     with Ghost, Global => null;
++   function Last_Selected (Mask : Mask_Array; Position : Natural) return Boolean is
++     (Position <= Mask'Length and then
++      (if Position = 0 then (for all I in Mask'Range => Mask (I) = 0)
++       else Mask_At (Mask, Position) /= 0 and then
++         (for all K in 1 .. Mask'Length => (if K > Position then Mask_At (Mask, K) = 0))))
++     with Ghost, Global => null;
++   function Only_Selected (Mask : Mask_Array; Position : Natural) return Boolean is
++     (Position in 1 .. Mask'Length and then Mask_At (Mask, Position) /= 0 and then
++      (for all K in 1 .. Mask'Length => (if K /= Position then Mask_At (Mask, K) = 0)))
++     with Ghost, Global => null;
++   function Plan_Conforms (Data : String; Mask : Mask_Array;
++                          Code : Interfaces.Unsigned_32; Position : Natural) return Boolean is
++     (Code <= 2 and then Position <= Mask'Length and then
++      (for all I in Mask'Range => Mask (I) <= 2) and then
++      Code = Expected_Code (Data, Mask'Length) and then
++      (for all K in 1 .. Mask'Length => Mask_At (Mask, K) = Expected_Selection (Data, Mask'Length, K)) and then
++      (if Code = 0 and then Capture_Ready (Data, Mask'Length) and then
++          Equality_Operation (Operation (Data)) then Last_Selected (Mask, Position)
++       elsif Code = 2 and then Operation (Data) = "identity-match" then Only_Selected (Mask, Position)
++       else Position = 0))
++     with Ghost, Global => null;
++
++   --  Codes: 0 malformed capture, 1 false/skip/refused, 2 true/proceed.
++   --  Mask: 0 untouched, 1 selected, 2 selected retaining current identity.
++   --  On complete identity-match, Position is the unique selected row ordinal
++   --  or zero. On malformed equality rows, it retains the last partial match.
++   --  C API Code = 0 returns without publishing these partial Ada outputs.
++   --  This protocol contract performs no resource arithmetic/conservation.
+    procedure Plan (Data : String; Mask : out Mask_Array;
+                    Code : out Interfaces.Unsigned_32; Position : out Natural)
+      with Global => null, Always_Terminates,
+-       Post => Code <= 2 and then Position <= Mask'Length and then
+-         (for all I in Mask'Range => Mask (I) <= 2);
++       Post => Plan_Conforms (Data, Mask, Code, Position);
+ end Worldline.Ordinary_Reservation_Lifecycle;
+--- a/core/worldline-ordinary_reservation_lifecycle.adb
++++ b/core/worldline-ordinary_reservation_lifecycle.adb
+@@ -6,6 +6,9 @@
+    use type Interfaces.Unsigned_32;
+    use type Worldline.Resources.Byte;
+    package Existing renames Resource_Reservation_Lifecycle;
++   function Reconciled_Gone (Observed_False : Boolean) return Boolean
++     with Global => null,
++       Post => Reconciled_Gone'Result = Observed_False;
+    function Reconciled_Gone (Observed_False : Boolean) return Boolean is
+      (Existing.Remove_Row
+        (Data => (1 .. 0 => 0),
+@@ -32,6 +35,9 @@
+       then return; end if;
+       if B ("requireBuiltinStrings") then
+          for K in 1 .. Mask'Length loop
++            pragma Loop_Invariant (Builtin_Prefix (Data, K - 1));
++            pragma Loop_Invariant (Code = 0 and then Position = 0);
++            pragma Loop_Invariant (for all I in Mask'Range => Mask (I) = 0);
+             declare
+                Row : constant Node := Element (Data, Rows, K);
+                Identity : constant Node := Field (Data, Row, "left");
+@@ -45,7 +51,15 @@
+       end if;
+       if B ("requireUnique") then
+          for K in 1 .. Mask'Length loop
++            pragma Loop_Invariant (Unique_Prefix (Data, K - 1));
++            pragma Loop_Invariant (Code = 0 and then Position = 0);
++            pragma Loop_Invariant (for all I in Mask'Range => Mask (I) = 0);
+             for J in 1 .. K - 1 loop
++               pragma Loop_Invariant
++                 (for all H in 1 .. J - 1 => Distinct_Identity (Data, K, H));
++               pragma Loop_Invariant (Unique_Prefix (Data, K - 1));
++               pragma Loop_Invariant (Code = 0 and then Position = 0);
++               pragma Loop_Invariant (for all I in Mask'Range => Mask (I) = 0);
+                declare
+                   L : constant Node := Field (Data, Element (Data, Rows, K), "left");
+                   R : constant Node := Field (Data, Element (Data, Rows, J), "left");
+@@ -59,6 +73,7 @@
+             end loop;
+          end loop;
+       end if;
++      pragma Assert (Capture_Ready (Data, Mask'Length));
+       if Op = "gate" or else Op = "probe" then
+          if not Bool_Field (Root, "observation") then return; end if;
+          Code := (if B ("observation") then 2 else 1); return;
+@@ -112,8 +127,26 @@
+       -- Ordered, complete protocol observations. __ne__ is NOT replaced by
+       -- negated __eq__. Stateful equality is captured again for identity-update.
+       for K in 1 .. Mask'Length loop
++         --  The processed prefix is valid and exactly reflects each separate
++         --  captured protocol observation. The suffix is still untouched.
++         --  Match cardinality distinguishes none/unique/multiple without
++         --  equating equality and inequality or reusing an earlier capture.
++         pragma Loop_Invariant (Capture_Ready (Data, Mask'Length));
++         pragma Loop_Invariant (Valid_Prefix (Data, K - 1));
++         pragma Loop_Invariant (Code = 0);
+          pragma Loop_Invariant (Matches <= K - 1);
+-         pragma Loop_Invariant (Position <= Mask'Length);
++         pragma Loop_Invariant (for all I in Mask'Range => Mask (I) <= 2);
++         pragma Loop_Invariant
++           (for all J in 1 .. Mask'Length =>
++              Mask_At (Mask, J) = (if J < K then Row_Selection (Data, J) else 0));
++         pragma Loop_Invariant
++           ((Matches = 0) = not Selected_Prefix (Data, K - 1));
++         pragma Loop_Invariant
++           ((Matches = 1) = Unique_Selection_Prefix (Data, K - 1));
++         pragma Loop_Invariant (Position <= K - 1);
++         pragma Loop_Invariant
++           (if Equality_Operation (Op) then Last_Selected (Mask, Position)
++            else Position = 0);
+          declare
+             Row : constant Node := Element (Data, Rows, K);
+             I : constant Positive := Mask'First + (K - 1);
+--- a/tests/test_ordinary_reservation_lifecycle_v35.py
++++ b/tests/test_ordinary_reservation_lifecycle_v35.py
+@@ -1,4 +1,5 @@
+ """Source-authored UNRUN controls; real selected native library, temporary I/O only."""
++import ctypes
+ import json
+ import os
+ from pathlib import Path
+@@ -311,5 +312,214 @@
+         with patch.object(self.ledger, "_load", return_value=[row, row]):
+             self.assertEqual(self.ledger.reconcile(lambda item: False), [row, row])
+ 
++
++    def ordinary_capture(self, operation, rows=(), **facts):
++        return {"schema": "worldline.ordinary-reservation-v1",
++                "profile": "python-actual-protocol-v1", "operation": operation,
++                "rows": list(rows), **facts}
++
++    def ordinary_abi(self, capture, row_count=None, *, alias=None,
++                     output_overlap=False, misaligned_code=False):
++        """Invoke the selected production ABI with valid allocated storage.
++
++        Sentinel snapshots describe native publication, not direct Ada Plan's
++        partially updated local outputs. No model or replacement kernel runs.
++        """
++        raw = (capture if isinstance(capture, bytes) else
++               json.dumps(capture, ensure_ascii=True, separators=(",", ":"),
++                          allow_nan=False).encode("ascii"))
++        if row_count is None:
++            row_count = len(capture["rows"])
++        version = self.core._lib.wl_ordinary_reservation_lifecycle_abi_version
++        version.argtypes, version.restype = [], ctypes.c_uint32
++        self.assertEqual(version(), 1)
++        invoke = self.core._lib.wl_ordinary_reservation_lifecycle_plan
++        invoke.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_void_p,
++                           ctypes.c_size_t, ctypes.POINTER(ctypes.c_uint32),
++                           ctypes.POINTER(ctypes.c_size_t)]
++        invoke.restype = ctypes.c_int
++        arena = ctypes.create_string_buffer(raw)
++        mask_storage = ctypes.create_string_buffer(
++            max(row_count, ctypes.sizeof(ctypes.c_uint32)))
++        ctypes.memset(mask_storage, 0xA5, ctypes.sizeof(mask_storage))
++        code = ctypes.c_uint32(0xA5A5A5A5)
++        position = ctypes.c_size_t(0xA5A5)
++        if alias == "mask":
++            self.assertLessEqual(row_count, len(raw))
++            mask_storage = arena
++        elif alias == "code":
++            code = ctypes.c_uint32.from_buffer(arena)
++        elif alias == "position":
++            position = ctypes.c_size_t.from_buffer(arena)
++        elif alias is not None:
++            self.fail("unrecognized input alias control")
++        if output_overlap:
++            code = ctypes.c_uint32.from_buffer(mask_storage)
++        code_storage = None
++        if misaligned_code:
++            code_storage = ctypes.create_string_buffer(ctypes.sizeof(code) + 1)
++            ctypes.memset(code_storage, 0xA5, ctypes.sizeof(code_storage))
++            code = ctypes.c_uint32.from_buffer(code_storage, 1)
++        mask_before = bytes(mask_storage.raw[:row_count])
++        code_before, position_before = code.value, position.value
++        status = invoke(arena, len(raw), mask_storage, row_count,
++                        ctypes.byref(code), ctypes.byref(position))
++        return (status, tuple(mask_storage.raw[:row_count]), code.value, position.value,
++                (tuple(mask_before), code_before, position_before))
++
++    def assert_ordinary_refusal_unpublished(self, capture, *, row_count=None,
++                                           expected_status=0, **layout):
++        status, mask, code, position, before = self.ordinary_abi(
++            capture, row_count, **layout)
++        self.assertEqual(status, expected_status)
++        self.assertEqual((mask, code, position), before)
++
++    def test_direct_native_complete_row_masks_and_unique_position(self):
++        release = [native.comparison(value, "chosen", "ne")
++                   for value in ("chosen", "other", "chosen")]
++        equal = [native.comparison(value, "chosen", "eq")
++                 for value in ("other", "chosen", "chosen")]
++        reconcile = [{"literalFalse": value is False, "original": native.original(value)}
++                     for value in (False, 0, None, True)]
++        for op, rows, expected in (
++                ("release", release, (2, (1, 0, 1), 0)),
++                ("identity-match", equal[:2], (2, (0, 1), 2)),
++                ("identity-match", equal, (1, (0, 1, 1), 0)),
++                ("identity-update", equal, (2, (0, 1, 1), 0)),
++                ("reconcile", reconcile, (2, (1, 0, 0, 0), 0))):
++            with self.subTest(operation=op, expected=expected):
++                status, mask, code, position, _ = self.ordinary_abi(
++                    self.ordinary_capture(op, rows))
++                self.assertEqual(status, 1)
++                self.assertEqual((code, mask, position), expected)
++        for op in ("release", "reconcile", "attach-unit", "identity-match", "identity-update"):
++            with self.subTest(operation=op, rows="empty"):
++                status, mask, code, position, _ = self.ordinary_abi(self.ordinary_capture(op))
++                self.assertEqual((status, code, mask, position), (1, 1, (), 0))
++        for op in ("release", "identity-match", "identity-update"):
++            operator = "ne" if op == "release" else "eq"
++            row = native.comparison("absent", "chosen", operator)
++            status, mask, code, position, _ = self.ordinary_abi(self.ordinary_capture(op, [row]))
++            self.assertEqual((status, code, mask, position), (1, 1, (0,), 0))
++
++    def test_direct_native_attach_conditional_fields_and_full_mask(self):
++        rows = [dict(native.comparison("chosen", "chosen", "eq"), unitEq=True),
++                dict(native.comparison("chosen", "chosen", "eq"), unitEq=False),
++                dict(native.comparison("other", "chosen", "eq"), unitEq=None)]
++        status, mask, code, position, _ = self.ordinary_abi(self.ordinary_capture("attach-unit", rows))
++        self.assertEqual((status, code, mask, position), (1, 2, (2, 1, 0), 0))
++        for matched, unit_eq in ((True, None), (True, 0), (False, False), (False, "unused")):
++            row = native.comparison("chosen" if matched else "other", "chosen", "eq")
++            row["unitEq"] = unit_eq
++            with self.subTest(matched=matched, unitEq=unit_eq):
++                self.assert_ordinary_refusal_unpublished(
++                    self.ordinary_capture("attach-unit", rows[:1] + [row]))
++        missing = native.comparison("other", "chosen", "eq")
++        self.assert_ordinary_refusal_unpublished(self.ordinary_capture("attach-unit", [missing]))
++
++    def test_direct_native_malformed_capture_does_not_publish_partial_plan(self):
++        selected = native.comparison("chosen", "chosen", "ne")
++        malformed = dict(native.comparison("other", "chosen", "ne"), ne=None)
++        for capture in (
++                self.ordinary_capture("release", [None]),
++                self.ordinary_capture("release", [selected, malformed]),
++                self.ordinary_capture("identity-match", [native.comparison("chosen", "chosen", "eq"), None]),
++                self.ordinary_capture("reconcile", [{"literalFalse": True, "original": {}},
++                                                   {"literalFalse": True, "original": None}]),
++                self.ordinary_capture("probe", observation=True, profile="invalid"),
++                self.ordinary_capture("unknown-operation"),
++                self.ordinary_capture("failure", beforeOriginal={}, afterOriginal={}, resultOriginal=None),
++                self.ordinary_capture("identity-unit", unitObservation={"ne": None})):
++            with self.subTest(operation=capture["operation"]):
++                self.assert_ordinary_refusal_unpublished(capture)
++        self.assert_ordinary_refusal_unpublished(self.ordinary_capture("release", [selected]), row_count=0)
++        self.assert_ordinary_refusal_unpublished(b"{", row_count=0)
++
++    def test_direct_native_optional_flags_and_original_shape_domain(self):
++        rows = [native.comparison("chosen", "chosen", "ne") for _ in ("first", "second")]
++        for flag in (None, False, 0, "true", {}):
++            capture = self.ordinary_capture("release", rows, requireUnique=flag, requireBuiltinStrings=flag)
++            status, mask, code, position, _ = self.ordinary_abi(capture)
++            self.assertEqual((status, code, mask, position), (1, 2, (1, 1), 0))
++        self.assert_ordinary_refusal_unpublished(self.ordinary_capture("release", rows, requireUnique=True))
++        opaque = [{"ne": False, "left": {}, "right": {}, "operatorResult": {}}]
++        status, mask, code, position, _ = self.ordinary_abi(
++            self.ordinary_capture("release", opaque + opaque, requireUnique=True))
++        self.assertEqual((status, code, mask, position), (1, 2, (1, 1), 0))
++        self.assert_ordinary_refusal_unpublished(
++            self.ordinary_capture("release", rows, requireBuiltinStrings=True))
++        for row in rows:
++            row["builtinString"] = True
++        status, mask, code, position, _ = self.ordinary_abi(
++            self.ordinary_capture("release", rows, requireBuiltinStrings=True))
++        self.assertEqual((status, code, mask, position), (1, 2, (1, 1), 0))
++        # Ignored metadata is not turned into a new native reconstruction requirement.
++        row = {"eq": True, "left": {}, "right": {}, "operatorResult": {},
++               "unitEq": True, "unitComparison": "ignored original extra"}
++        status, mask, code, position, _ = self.ordinary_abi(self.ordinary_capture("attach-unit", [row]))
++        self.assertEqual((status, code, mask, position), (1, 2, (2,), 0))
++        raw = json.dumps(self.ordinary_capture("probe", observation=False), separators=(",", ":"))
++        raw = raw[:-1] + ',"observation":true}'
++        status, mask, code, position, _ = self.ordinary_abi(raw.encode("ascii"), row_count=0)
++        self.assertEqual((status, code, mask, position), (1, 2, (), 0))
++
++    def test_direct_native_control_codes_and_guard_short_circuit(self):
++        for op, facts, expected in (
++                ("gate", {"observation": False}, 1),
++                ("probe", {"observation": True}, 2),
++                ("failure", {"beforeOriginal": {}, "afterOriginal": {}, "resultOriginal": {}}, 2),
++                ("identity-unit", {"unitObservation": {"ne": True, "eq": True}}, 1),
++                ("identity-unit", {"unitObservation": {"ne": False, "eq": False}}, 2),
++                ("guard-release", {"decisionPresent": True, "deferred": False}, 2),
++                ("guard-release", {"decisionPresent": True, "deferred": True}, 1),
++                ("guard-release", {"decisionPresent": False, "deferred": False}, 1)):
++            status, mask, code, position, _ = self.ordinary_abi(self.ordinary_capture(op, **facts))
++            self.assertEqual((status, code, mask, position), (1, expected, (), 0))
++        joined = {"unitObservation": {"eq": True}, "codeObservation": {"eq": True},
++                  "originalState": {}, "stateMember": True}
++        for capture, expected in ((None, 2), ({}, 1)):
++            status, mask, code, position, _ = self.ordinary_abi(
++                self.ordinary_capture("guard-settled", managerCapture=capture, **joined))
++            self.assertEqual((status, code, mask, position), (1, expected, (), 0))
++        self.assert_ordinary_refusal_unpublished(
++            self.ordinary_capture("guard-settled", managerCapture="malformed", **joined))
++        for false_field in ("unitObservation", "codeObservation", "stateMember"):
++            facts = dict(joined)
++            facts[false_field] = False if false_field == "stateMember" else {"eq": False}
++            status, mask, code, position, _ = self.ordinary_abi(
++                self.ordinary_capture("guard-settled", managerCapture="ignored", **facts))
++            self.assertEqual((status, code, mask, position), (1, 1, (), 0))
++        invalid = dict(joined, unitObservation={"eq": False}, codeObservation={"eq": None})
++        self.assert_ordinary_refusal_unpublished(self.ordinary_capture("guard-settled", **invalid))
++
++    def test_direct_native_guard_delegates_authentic_manager_capture(self):
++        from worldline.manager_resource_lifecycle import pipe_capture, decide
++        unit = "worldline-11111111-1111-1111-1111-111111111111.service"
++        launcher = SimpleNamespace(returncode=0, args=["/usr/bin/systemd-run", "--user",
++            "--pipe", "--service-type=exec", "--property=KillMode=control-group",
++            "--unit=" + unit, "--", "/usr/bin/true"])
++        manager = SimpleNamespace(systemd_run="/usr/bin/systemd-run")
++        process = SystemdProcess(unit, launcher, manager, launched_at_us=1)
++        for after_failure in (False, True):
++            raw = pipe_capture(manager, process, after_failure=after_failure, returncode=launcher.returncode)
++            accepted = decide(raw)["accepted"]
++            self.assertIs(accepted, not after_failure)
++            capture = self.ordinary_capture("guard-settled", unitObservation={"eq": True},
++                codeObservation={"eq": True}, originalState=native.original("NORMAL_PIPE_COMPLETION"),
++                stateMember=True, managerCapture=raw)
++            status, mask, code, position, _ = self.ordinary_abi(capture)
++            self.assertEqual((status, code, mask, position), (1, 2 if accepted else 1, (), 0))
++
++    def test_direct_native_admitted_input_aliases_and_rejected_output_layouts(self):
++        rows = [native.comparison(value, "chosen", "ne") for value in ("chosen", "other")]
++        capture = self.ordinary_capture("release", rows)
++        baseline = self.ordinary_abi(capture)[:4]
++        self.assertEqual(baseline, (1, (1, 0), 2, 0))
++        for alias in ("mask", "code", "position"):
++            with self.subTest(alias=alias):
++                self.assertEqual(self.ordinary_abi(capture, alias=alias)[:4], baseline)
++        self.assert_ordinary_refusal_unpublished(capture, expected_status=-1, output_overlap=True)
++        self.assert_ordinary_refusal_unpublished(capture, expected_status=-1, misaligned_code=True)
++
+ if __name__ == "__main__":
+     unittest.main()

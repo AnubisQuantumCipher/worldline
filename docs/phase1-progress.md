@@ -723,3 +723,9 @@ the full mechanism qualification and independent result review. Replay model wor
 as a separate source-only proposal. Production integration, original full-value/implicit
 Old, significant-value arithmetic, complete custody/UTF8/authority proof, original full
 acquisition, frozen-source qualification and commissioned F7 remain open.
+
+D152 adds a separately reviewed, unintegrated replay row-model proposal. Two private
+models and two exact Posts preserve the existing operational branch bodies and public
+domain. Textual formation checks passed; all twenty-four proposed case oracles remain
+UNRUN. No Ada legality, totality, semantic proof, checked cost or Plan bridge is claimed.
+The retained original declarative iff target and all dependency/final gates remain binding.

@@ -1,0 +1,9 @@
+{
+  "schema": "worldline.replay-row-model-formation-failure.v1",
+  "status": "FAILED_METADATA_CHECK_ONLY",
+  "command": "python3 -S -B author-side textual formation checker",
+  "error": "ValueError: substring not found",
+  "cause": "Checker searched for literal 'function Replay_Rows ' although declaration splits after its name onto a new line.",
+  "boundary": "No Ada source was executed or compiled. No source change resulted from this failed check; before/after files and patch remained unchanged. No successful static-verification receipt was written by that attempt.",
+  "correction": "Use function-name marker without a trailing-space assumption, then rerun only the bounded textual checker."
+}

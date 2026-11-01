@@ -1,0 +1,84 @@
+--- before/worldline-ordinary_reservation_replay.adb
++++ after/worldline-ordinary_reservation_replay.adb
+@@ -143,8 +143,70 @@
+       end if;
+    end Control_Code;
+ 
++   --  Independent pointwise models over the already selected row. No input
++   --  parse, row selection, prefix traversal or mask query is performed here.
++   --  Equality_Model also covers arbitrary Op strings, as Equality_Row does.
++   function Equality_Model (Data : String; Row : Node; Op : String)
++      return Row_Result is
++     (declare
++         Eq_Node : constant Node := Field (Data, Row, "eq");
++         Matched : constant Boolean := Eq_Node.Form = Boolean_Value and then
++           Is_True (Data, Eq_Node);
++         Unit_Node : constant Node :=
++           (if Op = "attach-unit" and then Eq_Node.Form = Boolean_Value
++            then Field (Data, Row, "unitEq") else No_Node);
++      begin
++         (Valid => Eq_Node.Form = Boolean_Value and then
++            (Op /= "attach-unit" or else
++               (if Matched then Unit_Node.Form = Boolean_Value
++                else Unit_Node.Form = Null_Value)),
++          Selection =>
++            (if not Matched then 0
++             elsif Op = "attach-unit" and then Unit_Node.Form = Boolean_Value
++               and then Is_True (Data, Unit_Node) then 2
++             else 1)))
++   with Ghost, Global => null;
++
++   function Row_Model (Data : String; Row : Node; Op : String)
++      return Row_Result is
++     (if Row.Form /= Object_Value then (Valid => False, Selection => 0)
++      else
++        (declare
++            Shape_Ready : constant Boolean := Op = "reconcile" or else
++              (Field (Data, Row, "left").Form = Object_Value and then
++               Field (Data, Row, "right").Form = Object_Value and then
++               Field (Data, Row, "operatorResult").Form = Object_Value);
++            Ne_Node : constant Node :=
++              (if Shape_Ready and then Op = "release"
++               then Field (Data, Row, "ne") else No_Node);
++            Literal_Node : constant Node :=
++              (if Shape_Ready and then Op = "reconcile"
++               then Field (Data, Row, "literalFalse") else No_Node);
++            Original_Node : constant Node :=
++              (if Literal_Node.Form = Boolean_Value
++               then Field (Data, Row, "original") else No_Node);
++            Reconcile_Ready : constant Boolean :=
++              Literal_Node.Form = Boolean_Value and then
++              Original_Node.Form = Object_Value;
++         begin
++            (if not Shape_Ready then (Valid => False, Selection => 0)
++             elsif Op = "release" then
++               (Valid => Ne_Node.Form = Boolean_Value,
++                Selection =>
++                  (if Ne_Node.Form = Boolean_Value and then
++                     Is_False (Data, Ne_Node) then 1 else 0))
++             elsif Op = "reconcile" then
++               (Valid => Reconcile_Ready,
++                Selection =>
++                  (if Reconcile_Ready and then Is_True (Data, Literal_Node)
++                   then 1 else 0))
++             elsif Equality_Operation (Op) then Equality_Model (Data, Row, Op)
++             else (Valid => False, Selection => 0))))
++   with Ghost, Global => null;
++
+    function Equality_Row (Data : String; Row : Node; Op : String)
+-      return Row_Result with Global => null
++      return Row_Result with Global => null,
++        Post => Equality_Row'Result = Equality_Model (Data, Row, Op)
+    is
+    begin
+       if not Boolean_Field (Data, Row, "eq") then return (False, 0); end if;
+@@ -159,7 +221,8 @@
+    end Equality_Row;
+ 
+    function Inspect_Row (Data : String; Row : Node; Op : String)
+-      return Row_Result with Global => null
++      return Row_Result with Global => null,
++        Post => Inspect_Row'Result = Row_Model (Data, Row, Op)
+    is
+    begin
+       if Row.Form /= Object_Value then return (False, 0); end if;

@@ -2792,3 +2792,40 @@ interface and will hand over after it terminates, before the next batch. Root la
 no job and does not take between-item lock gaps. Continue independent source work.
 No Phase One gate, proof or F7 state is promoted. Reversal is ceasing use of the new
 unintegrated profile while preserving its source, tests, reviews and earlier failures.
+
+## D152 — Add pointwise replay models in an isolated source proposal
+
+Choose the first semantic increment from replay-semantic-next-step-v1.json: two
+private cached-row expression models and exact record-equality Posts for Equality_Row
+and Inspect_Row. Keep this increment separate from production and from the existing
+replay proof package. The alternative of repeated full-prefix predicates inside the
+checked loop remains rejected by the retained cost evidence; local helper Posts also
+cannot substitute for the original bidirectional declarative target or Plan bridge.
+
+Root read the exact patch, design and manifest, and verified all twelve payload hashes.
+Fresh nonauthor review76968607a69b496d161a4bd194ce3271ce90c389d998972cfdb6e11f8b767f15
+approves source eligibility only. The proposal manifest is98c97fd6d465584e4a7906a62b01dc647bee4dbe13caa25691e7e3735ae20a6a;
+after-body isb04f6bcc39f8045da65aaef4d48ee4aaa5b1c7a71172878b109f64e719c64104.
+The public spec, operational branches, replay fold and Conforms remain byte-identical
+after removing only the two models and two Posts. No new input restriction, assumption,
+justified check, cap, suppression or dependency replacement is introduced.
+
+The exact models preserve the malformed matched-attach pair (False,1), explicit-null
+distinction, independent release ne and reconcile literalFalse observations, and the
+equality helper's arbitrary Op domain. Their fixed local call structure avoids new
+explicit prefix/uniqueness/mask traversals. Field may still transitively scan/parse;
+this is neither a constant-time claim nor a proved bound on checked cost or allocations.
+
+The twenty-four case oracles are source-derived and UNRUN. Textual reconstruction is
+TESTED only as a formation check; its initial declaration-matching checker failure is
+retained. Ada legality, model/selector totality, exact Post proofs, all caller/dependency
+bodies, checked runtime/cost, fold induction, both declarative-equivalence directions
+and production Plan establishment remain UNPROVEN. An initial reviewer hypothesis about
+Natural subtraction was withdrawn after checking Ada base-type evaluation; no concrete
+Field defect was demonstrated and none is asserted here.
+
+Next is a separately prepared whole-unit qualification package after the private IPC
+mechanism passes its real controls and current resource admission. Preserve all original
+range constraints, failure/partial-output effects, native/actor controls and final gates.
+No compiler or runtime job ran during this source package. Reversal is leaving the
+proposal unintegrated while retaining its exact sources, references, review and failures.

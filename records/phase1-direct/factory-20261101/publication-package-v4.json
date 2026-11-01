@@ -1,0 +1,128 @@
+{
+  "utc": "2026-11-01T09:18:22.497474+00:00",
+  "base_commit": "55ed413407ec4c1b6507f4b98cb5f9e0c6110b28",
+  "branch": "codex/phase1-direct-20261019",
+  "scope": "D152 source-only replay row-model proposal",
+  "files": [
+    {
+      "path": "docs/decisions.md",
+      "bytes": 541675,
+      "sha256": "067ad80614a09352d1ff254be1dcf51e2bdb04a5621a4a8aaa00ea0e2c954cb7",
+      "git_blob": "e42ff539802c905e5a982464283a3575a1a8de11"
+    },
+    {
+      "path": "docs/phase1-progress.md",
+      "bytes": 115538,
+      "sha256": "0d4bb89052408822bcecd4a867802c49a529d9393780dd16528f22a8b3776c54",
+      "git_blob": "bdf581594953903c103e8a983773e43ab61957c6"
+    },
+    {
+      "path": "records/phase1-direct/direct-continuation.json",
+      "bytes": 16126,
+      "sha256": "57ea930f6e42dab46f5bdb0dbff6417a0bd972127c8f3ca1b96321358f4542d7",
+      "git_blob": "1b555f9366ec0c3fb86694eba5bef763a7af51b4"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/manifest.json",
+      "bytes": 13269,
+      "sha256": "98c97fd6d465584e4a7906a62b01dc647bee4dbe13caa25691e7e3735ae20a6a",
+      "git_blob": "e461d895f54720ca069a7ecd116f9c99c635f05d"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/README.md",
+      "bytes": 3345,
+      "sha256": "300992884b8e844ba944621b89c2a55c5532e664e8f775039e56bcad4dae8034",
+      "git_blob": "67a036586324399843db4f40c0f64a42e5e393f7"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/after/worldline-ordinary_reservation_replay.adb",
+      "bytes": 13912,
+      "sha256": "b04f6bcc39f8045da65aaef4d48ee4aaa5b1c7a71172878b109f64e719c64104",
+      "git_blob": "d73ed04189b21ccd9265926246367183e9a95e93"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/after/worldline-ordinary_reservation_replay.ads",
+      "bytes": 840,
+      "sha256": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+      "git_blob": "438c5efd54b475e58e9a25c7ae6686942fcc9229"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/before/worldline-ordinary_reservation_replay.adb",
+      "bytes": 10787,
+      "sha256": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949",
+      "git_blob": "95e74e613c11844b11b0e2db0a67a56c58785ce3"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/before/worldline-ordinary_reservation_replay.ads",
+      "bytes": 840,
+      "sha256": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1",
+      "git_blob": "438c5efd54b475e58e9a25c7ae6686942fcc9229"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/formation-check-failure-v1.json",
+      "bytes": 702,
+      "sha256": "6a0bfbd76d1da35c98ba972d35d230bf140740d4bad88eb0e588234467c1033c",
+      "git_blob": "6044872570d36e9268aaf1a55825e74a201360d9"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/reference/checked-cost-rejection-v1.json",
+      "bytes": 1530,
+      "sha256": "1c51b57a12a126ff0725cde060daf3629529d50b1a509f2c8499976bd01b978b",
+      "git_blob": "fc9a2e487ffa68efce77e7d68cfe5fd470d5cbbb"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/reference/declarative-preimage.patch",
+      "bytes": 31856,
+      "sha256": "e6bedb4ebedd570e41e0626fe2709beea99c69f1befae9be7a7a99c51a426336",
+      "git_blob": "13a2e1154040860f89f9d9f99b5473d1183db1f3"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/reference/worldline-ordinary_reservation_lifecycle.ads",
+      "bytes": 832,
+      "sha256": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27",
+      "git_blob": "c91a6ef06266cb61affec68f0c00cde621d433cf"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/row-cases.json",
+      "bytes": 10548,
+      "sha256": "e69fa5ce5fb94222811157b2ea2c268ad2bba56c90eb983dafd323703f9b614f",
+      "git_blob": "56f5ea3159a858f8b1b80b629ab4bf2fc0bc0663"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/row-model.patch",
+      "bytes": 3889,
+      "sha256": "7ccf5c17d8a77e58ab7ec2ebc4fc12580c59b516af6d4385592f1ee90f10303a",
+      "git_blob": "751f376f64f372969154542dd696bc4834782bd3"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/static-verification.json",
+      "bytes": 768,
+      "sha256": "ff5ae8e5e9c4750d06ba9de1bd94a41333f78b810b1bf3e8795c4d3f515d82c2",
+      "git_blob": "5470d12942ef6ae3b894ae1aacea509b538dc778"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-row-model-review-v1.json",
+      "bytes": 17154,
+      "sha256": "76968607a69b496d161a4bd194ce3271ce90c389d998972cfdb6e11f8b767f15",
+      "git_blob": "f86585fd23d8d9081993f6e3902da099bc4903e6"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/checkpoint-v4.json",
+      "bytes": 4242,
+      "sha256": "951e917e16114cecb3b35bef0c7506b984404813fff5603a709261dad5b41689",
+      "git_blob": "e07227c6e1aefdbf9469221a120df1f73121e968"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/publication-whitespace-v4.json",
+      "bytes": 996,
+      "sha256": "c451b154ea46b5fb7f53ea82c2b6c4d9a880f37d290c8fb2321a023a0d03bbe3",
+      "git_blob": "36798252404c59591a98ff17a590588a4ba7dbd9"
+    }
+  ],
+  "phase_acceptance": false,
+  "actual_Ada_status": "UNCOMPILED_UNPROVED_UNRUN_UNINTEGRATED",
+  "product_source_checkpoint": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "manifest_self_rule": "Manifest additionally staged; payload does not recursively hash it",
+  "hygiene": "Explicit measured payload <=2MiB, UTF8/JSON and credential-pattern checks; exact raw-patch context whitespace handled in retained separate receipt",
+  "no_other_paths": "All prior historical untracked work excluded"
+}

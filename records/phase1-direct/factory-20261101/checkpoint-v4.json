@@ -1,0 +1,74 @@
+{
+  "utc": "2026-11-01T09:17:35.102653+00:00",
+  "owner": "01a19606-239f-7b43-8c88-4fc902372e80",
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "branch": "codex/phase1-direct-20261019",
+  "base_documentary_commit": "55ed413407ec4c1b6507f4b98cb5f9e0c6110b28",
+  "product_source_checkpoint": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "active_root_heavy_jobs": [],
+  "integration_changes": "No product integration. D151 diagnostic profile/test package published; D152 row-model proposal remains separate and uncompiled.",
+  "tested": [
+    "Seven grouped fake-libc semaphore ownership/error checks, exit0",
+    "Seven source/topology/injected-capacity-error checks, exit0",
+    "Replay proposal textual reconstruction only; no Ada execution"
+  ],
+  "observed": [
+    "17 predecessor definitions AST-identical",
+    "Six guard variants have only six literal substitutions each",
+    "Fresh nonauthor source review approves exact candidate conditionally",
+    "Current storage owner has a live frozen 30-item batch with no safe pause interface"
+  ],
+  "actual_mechanism_cases": {
+    "ipc-probe": "UNRUN",
+    "ipc-alias-mismatch": "UNRUN",
+    "ipc-namespace-mismatch": "UNRUN",
+    "ipc-leftover-socket": "UNRUN",
+    "ipc-cap-controls": "UNRUN",
+    "ipc-sigkill": "UNRUN"
+  },
+  "proved_this_package": [],
+  "mechanism_qualified": false,
+  "phase_acceptance": false,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "goal_turn_classification": "PROGRESS: published reviewed IPC source/tests and prepared independently reviewed replay model contracts; actual qualification still UNRUN",
+  "next": "After explicit storage terminal handoff, recheck exact identities/resource admission and execute all six fixed IPC controls separately, with independent raw/terminal readback. No proof retry before complete mechanism qualification. Then separately qualify whole-unit Chunk/replay source; row models and Plan bridge remain unproved.",
+  "storage_coordination": "External storage owner 01a195f9-dee5-7cb0-a440-777959511b7c will hand over after its frozen 30-item batch and before the next batch. No root lock acquisition or job is queued; between-item gaps remain reserved.",
+  "free_bytes_at_checkpoint": 18303664128,
+  "source_review": "private-ipc-review-v1.json",
+  "source_review_sha256": "b9b5011b3324fb94c1c859e36099b2c0e8930932db26fe21eb999dd89d44f4ef",
+  "evidence": [
+    "private-ipc-source-window-v1.json",
+    "private-ipc-profile-implementation-v1.json",
+    "private-ipc-profile-implementation-correction-v1.json",
+    "private-ipc-probe-v1/implementation.json",
+    "private-ipc-root-tests-v1.json",
+    "private-ipc-profile-source-tests-v1.json",
+    "publication-api-readback-v3.json",
+    "publication-receipt-v3.json",
+    "replay-row-model-proposal-v1/manifest.json",
+    "replay-row-model-review-v1.json"
+  ],
+  "unproved": [
+    "All six actual private IPC cases and real provider socket cleanup",
+    "Fresh whole-unit Chunk and replay proof",
+    "Replay models and production Plan-to-Conforms bridge",
+    "Original O1 automatic full-value/implicit Old retirement",
+    "Significant 805-byte value arithmetic",
+    "Full custody/UTF8/authority proof and original 1000s acquisition",
+    "Full frozen-source build/proof/runtime/protected/actor/manifests",
+    "Independently commissioned F7"
+  ],
+  "acceptance_evidence_required": "All original gates and seven workstreams, applicable 219-obligation closure on one frozen integrated source, and independent commissioned F7; no narrowed claim.",
+  "active_source_only_workers": {},
+  "published_ipc_checkpoint": "7e56da60f125d89edeadb8a4b1f180bc90b5e640",
+  "published_ipc_receipt_commit": "55ed413407ec4c1b6507f4b98cb5f9e0c6110b28",
+  "replay_proposal": {
+    "manifest": "replay-row-model-proposal-v1/manifest.json",
+    "manifest_sha256": "98c97fd6d465584e4a7906a62b01dc647bee4dbe13caa25691e7e3735ae20a6a",
+    "after_body_sha256": "b04f6bcc39f8045da65aaef4d48ee4aaa5b1c7a71172878b109f64e719c64104",
+    "review": "replay-row-model-review-v1.json",
+    "review_sha256": "76968607a69b496d161a4bd194ce3271ce90c389d998972cfdb6e11f8b767f15",
+    "actual_cases": "24_SOURCE_ORACLES_UNRUN",
+    "status": "SOURCE_ONLY_UNCOMPILED_UNPROVED_UNINTEGRATED"
+  }
+}

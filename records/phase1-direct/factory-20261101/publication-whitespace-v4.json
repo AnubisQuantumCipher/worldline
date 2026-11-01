@@ -1,0 +1,17 @@
+{
+  "full_check_exit": 2,
+  "full_stdout": "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/reference/declarative-preimage.patch:319: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/replay-row-model-proposal-v1/row-model.patch:6: trailing whitespace.\n+ \nrecords/phase1-direct/factory-20261101/replay-row-model-proposal-v1/row-model.patch:77: trailing whitespace.\n+ \n",
+  "full_stderr": "",
+  "scoped_check_exit": 0,
+  "excluded_exact_raw_patch_artifacts": {
+    "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/row-model.patch": [
+      6,
+      77
+    ],
+    "records/phase1-direct/factory-20261101/replay-row-model-proposal-v1/reference/declarative-preimage.patch": [
+      319
+    ]
+  },
+  "reason": "All excluded trailing bytes are exactly one ASCII space representing an empty unified-diff context line; preserve immutable historical/proposed patch bytes. No source whitespace failure is excluded.",
+  "phase_acceptance": false
+}

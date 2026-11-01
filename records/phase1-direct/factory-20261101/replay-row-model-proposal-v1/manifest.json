@@ -1,0 +1,177 @@
+{
+  "schema": "worldline.replay-row-model-proposal.v1",
+  "status": "SOURCE_ONLY_UNINTEGRATED_UNCOMPILED_UNPROVED_UNRUN",
+  "owner": "/root/closure_reconcile owns only this new proposal directory; root owns integration/launch",
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "phase_acceptance": false,
+  "source_basis": [
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-semantic-next-step-v1.json",
+      "sha256": "f74bb1b75630c66e1313f477cf0553314e9c9d9c82fe40649d647fb535bf1310"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-proof-proposal-v1/source-closure.json",
+      "sha256": "a64cbc54d0e7a9582d80e603f5c2ef1328937f1d4c6de579bca3c1dc97522daf"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/replay-proof-proposal-v1/proposal.json",
+      "sha256": "3901b6d28997f72ae547c99f2f16987995fa36cee1b4d4fcea5dabfc13323e3c"
+    },
+    {
+      "path": "core/worldline-ordinary_reservation_lifecycle.adb",
+      "sha256": "87aa67b6034e884abb5581ca92c5162056f5d8c57dc5b18b8ca64abd0ff403bf"
+    },
+    {
+      "path": "core/worldline-ordinary_reservation_lifecycle.ads",
+      "sha256": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27"
+    }
+  ],
+  "files": {
+    "README.md": {
+      "bytes": 3345,
+      "sha256": "300992884b8e844ba944621b89c2a55c5532e664e8f775039e56bcad4dae8034"
+    },
+    "after/worldline-ordinary_reservation_replay.adb": {
+      "bytes": 13912,
+      "sha256": "b04f6bcc39f8045da65aaef4d48ee4aaa5b1c7a71172878b109f64e719c64104"
+    },
+    "after/worldline-ordinary_reservation_replay.ads": {
+      "bytes": 840,
+      "sha256": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1"
+    },
+    "before/worldline-ordinary_reservation_replay.adb": {
+      "bytes": 10787,
+      "sha256": "07f9f5da68938adb255d621b95a363e57dbf59a7c3e0ce2451bfcced95992949"
+    },
+    "before/worldline-ordinary_reservation_replay.ads": {
+      "bytes": 840,
+      "sha256": "48f36d6824c98f1647ef0c550222905a5363d4cae64137e6f842cd8ec046e6a1"
+    },
+    "formation-check-failure-v1.json": {
+      "bytes": 702,
+      "sha256": "6a0bfbd76d1da35c98ba972d35d230bf140740d4bad88eb0e588234467c1033c"
+    },
+    "reference/checked-cost-rejection-v1.json": {
+      "bytes": 1530,
+      "sha256": "1c51b57a12a126ff0725cde060daf3629529d50b1a509f2c8499976bd01b978b"
+    },
+    "reference/declarative-preimage.patch": {
+      "bytes": 31856,
+      "sha256": "e6bedb4ebedd570e41e0626fe2709beea99c69f1befae9be7a7a99c51a426336"
+    },
+    "reference/worldline-ordinary_reservation_lifecycle.ads": {
+      "bytes": 832,
+      "sha256": "ecb01e4d2fa726ad62d1a41b67a906609ffda77bb7792a69f944eed291851c27"
+    },
+    "row-cases.json": {
+      "bytes": 10548,
+      "sha256": "e69fa5ce5fb94222811157b2ea2c268ad2bba56c90eb983dafd323703f9b614f"
+    },
+    "row-model.patch": {
+      "bytes": 3889,
+      "sha256": "7ccf5c17d8a77e58ab7ec2ebc4fc12580c59b516af6d4385592f1ee90f10303a"
+    },
+    "static-verification.json": {
+      "bytes": 768,
+      "sha256": "ff5ae8e5e9c4750d06ba9de1bd94a41333f78b810b1bf3e8795c4d3f515d82c2"
+    }
+  },
+  "manifest_hash_rule": "This file excludes its own hash; root pins the final manifest externally. Snapshots are hash-bound, not OS-immutable.",
+  "exact_delta": {
+    "new_private_declarations": [
+      "Equality_Model(Data:String;Row:Node;Op:String) return Row_Result",
+      "Row_Model(Data:String;Row:Node;Op:String) return Row_Result"
+    ],
+    "new_Posts": [
+      "Equality_Row'Result = Equality_Model (Data, Row, Op)",
+      "Inspect_Row'Result = Row_Model (Data, Row, Op)"
+    ],
+    "scope": "Only shadow replay body changes. Existing Global=>null contracts and full Node/Op domain remain; public replay spec, every operational branch and folded loop remain byte-identical.",
+    "new_Pre_or_cap": false,
+    "new_assumption_import_justification_exclusion_or_suppressed_check": false,
+    "new_Always_Terminates_aspect": false,
+    "dependency_change": false,
+    "original_range_Post": "Parent lifecycle explicit Code<=2, Position<=MaskLength and each mask byte<=2 remains untouched; copied reference parent spec identifies exact text."
+  },
+  "model_design": {
+    "Equality_Model": "One cached eq node, Boolean matched observation, conditional cached unitEq node. Validity and Selection are distinct record equations. Conditional unit lookup mirrors the admitted branch demand without imposing a new restriction.",
+    "Row_Model": "Object/shape guard, branch-local cached ne/literalFalse/original nodes, then declarative validity/selection records or Equality_Model. No call to Equality_Row or Inspect_Row defines either model.",
+    "total_domain_intent": "Every Node record and every Op string admitted by current helpers remains admitted with no Pre. Every syntactic case has a result branch. This is a total specification intent, NOT proof that underlying selectors and model evaluation cannot raise or fail termination.",
+    "inherited_totality_gate": "Producer_Values.Field/Is_True/Is_False and their actual bodies/Raw/parser callbacks remain relevant proof obligations. No unexecuted malformed-node exception is asserted as observed or demonstrated.",
+    "partial_attach": "Boolean eq=true and malformed/missing/nonboolean unitEq yields ValidFalse Selection1, including null unitEq. Boolean eq=false requires explicit unitEq Null_Value; missing is not null.",
+    "independent_observations": "Release uses Is_False on captured ne, never negated eq/Is_True. Reconcile uses literalFalse plus original object shape without coercing original truth.",
+    "unknown_op": "Equality_Model retains Equality_Row behavior for arbitrary Op; Row_Model rejects unsupported operations after original shape checks.",
+    "selectors": "All direct Field queries refer only to supplied Row; last-key-wins selector behavior remains. Capture schema, decoded uniqueness/builtin validation and manager delegation are not redefined here."
+  },
+  "source_cost_argument": {
+    "new_control_flow": "Expression functions only; no new explicit loop, recursion, access type, allocator, Parse, Element, prefix/uniqueness/mask traversal, or dynamically sized result.",
+    "Equality_path": "Equality_Model queries eq and conditionally unitEq and performs their existing Boolean tests. Row_Model adds the original left/right/operatorResult shape checks before this same independent model.",
+    "release_path": "Row_Model queries the structural shape and captured ne only; malformed ne cannot select.",
+    "reconcile_path": "Row_Model queries captured literalFalse and conditionally original only, without requiring equality structural fields.",
+    "checked_execution": "Added Posts evaluate row-local definitions; an equality Inspect call may evaluate both added Posts. This adds a fixed call-structure factor per already selected row, not repeated prefixes or uniqueness passes.",
+    "not_a_numeric_bound": "Field may transitively scan/parse a row; arbitrary supplied Row spans and Op/JSON processing retain original costs. No constant-time, ABI allocation, peak-memory, whole-replay linearity or acceptance-deadline guarantee is proved by this source argument.",
+    "unchanged_existing_costs": "Replay_Rows Element scans, optional one full uniqueness pass and all capture/control/manager behavior remain unchanged. Prior rejected prefix-check technique remains rejected.",
+    "resource_policy": "Any future job retains unchanged original reserve, admitted output/archive/recovery budgets, shared lock, post-lock memory,8GiB/swap0,solver bounds and original deadlines. This directory supplies no launcher/GPR/admission or changed budget."
+  },
+  "required_semantic_boundaries": [
+    "First malformed matched attach selection1 is counted and retains row ordinal Position before Code0; later suffix remains0 and later rows are not inspected. Local pair equality is only the first ingredient, not a fold proof.",
+    "Original capture flags are literaltrue only; optional builtin/decoded-string uniqueness, duplicate-key last-value and manager-control distinctions remain unchanged.",
+    "Every mask positive lower bound, maximal original positional arithmetic, and null masks including unusual null bounds remain admitted; this increment changes no index arithmetic.",
+    "No partial native publication on Code0; original ABI input/output alias, overlap,alignment,exception and production-caller controls remain separate."
+  ],
+  "original_declarative_iff": {
+    "retained": "reference/declarative-preimage.patch byte-identical to original current-preimage.patch; Expected_Code/Expected_Selection/Last_Selected/Only_Selected/Plan_Conforms target retained.",
+    "not_adopted": "Historical repeated-prefix checked execution is not applied; its rejection receipt is copied unchanged.",
+    "still_required": "Replay.Conforms iff the complete original declarative Plan_Conforms for every original Data/Mask/Code/Position, with no assumed direction. Equality/Row Posts do not prove this."
+  },
+  "remaining_gates": [
+    {
+      "gate": "Fresh source review",
+      "required": "Independent nonauthor checks exact new source, before/after, model independence, branch/domain preservation, partial attach and original target; root records chosen source and reversal. Internal source eligibility is not execution or acceptance."
+    },
+    {
+      "gate": "Legality and selected whole-unit proof",
+      "required": "Separately admitted fresh complete replay unit must include Equality_Model,Row_Model,Equality_Row,Inspect_Row,all callers and original safety/flow/termination obligations at unchanged configured strict settings, zero warnings/unproved/justified/Assume. No success inferred from source closure or old focused results."
+    },
+    {
+      "gate": "Transitive selector contracts/bodies",
+      "required": "Prove/qualify full relevant Field,Is_True,Is_False,Raw and parser callbacks on original admitted domain. No imported axioms, silent narrowing or branch avoidance to hide missing body coverage."
+    },
+    {
+      "gate": "Checked behavior and negative controls",
+      "required": "Admitted checked runtime/native harness must exercise source-oracle boundaries, malformed first attach, lower/null mask bounds and every original roster. Mutant mask bytes,Valid/Selection,Code,Position and malformed-prefix cutoffs must be rejected. Measure lowering/copy/resource/cost; preserve failure evidence."
+    },
+    {
+      "gate": "Capture/control semantics",
+      "required": "Exact Capture_Ready vs original schema/profile/count,builtin/uniqueness/literal-true capture and all Control_Code/manager cases, including zero-output refusal, remain unproved by this increment."
+    },
+    {
+      "gate": "Fold induction",
+      "required": "Relate Failed to first malformed row, Matches to all nonzero expected selections including partial malformed attach, Last_Match to correct ordinal, Same to iff equality of every byte, suffix0 and terminal Code/Position. Avoid repeated prefix/uniqueness checks in inner invariants."
+    },
+    {
+      "gate": "Independent declarative equivalence",
+      "required": "Prove both directions Replay.Conforms iff retained original Plan_Conforms including malformed partial outputs, codes and last/only-selected conditions. Separate proof/reference package may use declarative definitions without adding expensive repeated production checks."
+    },
+    {
+      "gate": "Production Plan bridge",
+      "required": "Parent spec may later declare a Ghost Global-null Plan_Conforms predicate; parent body delegates to Replay.Conforms without a spec cycle. Every actual Plan return must establish it AND the unchanged explicit range conjunction, including capture/control/malformed exits. No bridge is implemented here."
+    },
+    {
+      "gate": "Same-source integration and final acceptance",
+      "required": "Root integrates only after separate source/proof/runtime qualification; complete relevant module/dependency/caller and original final build/proof/runtime/protected/actor gates remain. Full-value O1 OPEN; independent F7 NOT_PERFORMED."
+    }
+  ],
+  "evidence": {
+    "OBSERVED_TESTED": "static-verification.json proves only textual formation/preservation checks. Before/after/spec/reference hashes and24 source-derived boundary oracles retained. Initial textual checker failure retained.",
+    "UNRUN_UNPROVEN": "Ada legality, model totality, new Post proof, dependency bodies/callers, actual runtime/cost/native lowering, declarative iff, production bridge and every acceptance gate.",
+    "no_jobs": "No compiler/proof/runtime/mount/systemd/heavy job or target source execution; external storage window left untouched.",
+    "reversal": "Leave this new proposal unintegrated and unexecuted; retain original files and failure/reference evidence. No product change exists to undo."
+  },
+  "skills_applied": [
+    "ada hub",
+    "ada-omarchy",
+    "spark-users-guide chapters06 and09"
+  ],
+  "power_ten_adaptation": "New assurance source uses simple bounded expression flow, fixed scalar/Node caches, short local functions, explicit pure contracts and no new pointer/heap/metaprogramming/assumption boundary. Strict analysis/proof remains a required later gate, not an achieved result."
+}

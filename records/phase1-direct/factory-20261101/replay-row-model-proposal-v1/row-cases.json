@@ -1,0 +1,334 @@
+{
+  "schema": "worldline.replay-row-model-source-oracles.v1",
+  "status": "SOURCE_DERIVED_UNRUN_NOT_EXECUTABLE_TEST_RECEIPTS",
+  "interpretation": "A future admitted harness may parse each row once outside the model to obtain Row. These expected values do not establish parser/model execution, arbitrary Node-span totality, folded code/mask/position or original declarative iff. No helper visibility was widened for testing.",
+  "cases": [
+    {
+      "name": "release-ne-false-eq-false",
+      "operation": "release",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"ne\":false,\"eq\":false}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 0
+      },
+      "boundary": "ne independently captured; no replacement by eq"
+    },
+    {
+      "name": "release-ne-true-eq-true",
+      "operation": "release",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"ne\":true,\"eq\":true}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 1
+      }
+    },
+    {
+      "name": "release-ne-string",
+      "operation": "release",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"ne\":\"false\"}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN"
+    },
+    {
+      "name": "release-structural-shape-missing",
+      "operation": "release",
+      "row_json": "{\"left\":{},\"operatorResult\":{},\"ne\":false}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN"
+    },
+    {
+      "name": "reconcile-captured-true",
+      "operation": "reconcile",
+      "row_json": "{\"literalFalse\":true,\"original\":{\"truth\":true}}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "boundary": "original truth payload is not coerced; only object shape is required"
+    },
+    {
+      "name": "reconcile-captured-false",
+      "operation": "reconcile",
+      "row_json": "{\"literalFalse\":false,\"original\":{}}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN"
+    },
+    {
+      "name": "reconcile-original-missing",
+      "operation": "reconcile",
+      "row_json": "{\"literalFalse\":true}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN"
+    },
+    {
+      "name": "reconcile-observation-missing",
+      "operation": "reconcile",
+      "row_json": "{\"original\":{}}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN"
+    },
+    {
+      "name": "matched-attach-unit-null",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true,\"unitEq\":null}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 1
+      }
+    },
+    {
+      "name": "matched-attach-unit-false",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true,\"unitEq\":false}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 1
+      }
+    },
+    {
+      "name": "matched-attach-unit-true",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true,\"unitEq\":true}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 2
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 2
+      }
+    },
+    {
+      "name": "matched-attach-unit-nonboolean",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true,\"unitEq\":17}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 1
+      }
+    },
+    {
+      "name": "matched-attach-unit-missing",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 1
+      },
+      "boundary": "first malformed matched attach still selects; fold must count it and retain its ordinal before refusing"
+    },
+    {
+      "name": "unmatched-attach-unit-null",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":false,\"unitEq\":null}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 0
+      }
+    },
+    {
+      "name": "unmatched-attach-unit-missing",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":false}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 0
+      }
+    },
+    {
+      "name": "unmatched-attach-unit-boolean",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":false,\"unitEq\":false}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 0
+      }
+    },
+    {
+      "name": "attach-eq-missing",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"unitEq\":true}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 0
+      }
+    },
+    {
+      "name": "attach-eq-string",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":\"true\",\"unitEq\":true}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 0
+      }
+    },
+    {
+      "name": "identity-match-true",
+      "operation": "identity-match",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 1
+      }
+    },
+    {
+      "name": "identity-update-false",
+      "operation": "identity-update",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":false,\"unitEq\":false}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 0
+      }
+    },
+    {
+      "name": "unknown-op-helper-domain",
+      "operation": "unknown",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true}",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 1
+      },
+      "boundary": "Equality_Row admits arbitrary Op; Row_Model rejects unsupported operation"
+    },
+    {
+      "name": "nonobject-row",
+      "operation": "attach-unit",
+      "row_json": "false",
+      "expected_Row_Model": {
+        "Valid": false,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": false,
+        "Selection": 0
+      }
+    },
+    {
+      "name": "duplicate-eq-last-false",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true,\"eq\":false,\"unitEq\":null}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 0
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 0
+      },
+      "boundary": "last-key-wins selector is retained; not duplicate-free admission"
+    },
+    {
+      "name": "duplicate-unit-last-false",
+      "operation": "attach-unit",
+      "row_json": "{\"left\":{},\"right\":{},\"operatorResult\":{},\"eq\":true,\"unitEq\":true,\"unitEq\":false}",
+      "expected_Row_Model": {
+        "Valid": true,
+        "Selection": 1
+      },
+      "status": "SOURCE_DERIVED_ORACLE_UNRUN",
+      "expected_Equality_Model": {
+        "Valid": true,
+        "Selection": 1
+      }
+    }
+  ],
+  "fold_boundary_not_yet_proved": {
+    "Data": "first row is matched attach with missing unitEq; later rows could match",
+    "required_Ada_partial_outputs": "first row mask1, Matches includes this row, Position equals this row ordinal, Code0, later suffix stays0; native Code0 publication still exposes no partial outputs",
+    "pointwise_result": {
+      "Valid": false,
+      "Selection": 1
+    },
+    "status": "REQUIRED_ORIGINAL_TARGET_NOT_ESTABLISHED_BY_THIS_INCREMENT"
+  },
+  "raw_node_domain": "All Node records/Op strings remain admitted without Pre; malformed/noncanonical spans retain inherited selector/AoRTE/termination proof obligations. No speculative exception is recorded as an observed result."
+}
