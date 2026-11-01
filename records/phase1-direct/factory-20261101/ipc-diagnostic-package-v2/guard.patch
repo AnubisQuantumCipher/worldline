@@ -1,0 +1,32 @@
+--- records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v2.py
++++ records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v3.py
+@@ -18,9 +18,9 @@
+ 
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parents[2]
+-JOB = HERE / "private-ipc-diagnostic-job-v2"
++JOB = HERE / "private-ipc-diagnostic-job-v3"
+ INNER = ROOT / "records/phase1-direct/completion-20261026"
+-LOG = HERE / "ipc_diagnostic_guard_v2.jsonl"
++LOG = HERE / "ipc_diagnostic_guard_v3.jsonl"
+ RESERVE = 10_000_000_000
+ UNIT_PATTERN = r"wl-phase1-[0-9a-f]{32}\.scope"
+ 
+@@ -219,7 +219,7 @@
+ 
+ 
+ def preflight():
+-    if os.path.lexists(JOB) or os.path.lexists(INNER / "ram-qualification-ipc-probe-v5"):
++    if os.path.lexists(JOB) or os.path.lexists(INNER / "ram-qualification-ipc-probe-v6"):
+         raise RuntimeError("fresh exact output paths required")
+     fs = os.statvfs(ROOT)
+     if fs.f_bavail * fs.f_frsize < RESERVE + 60_000_000:
+@@ -228,7 +228,7 @@
+         raise RuntimeError("Python assertions must be enabled")
+     return [sys.executable, str(ROOT / "scripts/phase1_heavy.py"),
+             "--out", str(JOB), "--timeout", "240s", "--swap-max", "0", "--",
+-            sys.executable, str(INNER / "ram_qualification_v5.py"), "ipc-probe"]
++            sys.executable, str(INNER / "ram_qualification_v6.py"), "ipc-probe"]
+ 
+ 
+ def wrapper_terminal(stream):

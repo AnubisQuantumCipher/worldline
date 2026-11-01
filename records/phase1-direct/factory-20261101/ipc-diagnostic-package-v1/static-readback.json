@@ -1,0 +1,351 @@
+{
+  "all_function_lengths_at_most60": true,
+  "formation_evidence": "source-tests.json/structure",
+  "functions": {
+    "records/phase1-direct/completion-20261026/ram_qualification_v5.py": [
+      {
+        "lines": 6,
+        "name": "digest"
+      },
+      {
+        "lines": 7,
+        "name": "save"
+      },
+      {
+        "lines": 7,
+        "name": "cgroup"
+      },
+      {
+        "lines": 23,
+        "name": "entry_details"
+      },
+      {
+        "lines": 7,
+        "name": "receipt_bytes"
+      },
+      {
+        "lines": 35,
+        "name": "failure_log"
+      },
+      {
+        "lines": 5,
+        "name": "failure_record"
+      },
+      {
+        "lines": 16,
+        "name": "retain_failure"
+      },
+      {
+        "lines": 22,
+        "name": "inventory"
+      },
+      {
+        "lines": 31,
+        "name": "retain"
+      },
+      {
+        "lines": 19,
+        "name": "sandbox"
+      },
+      {
+        "lines": 8,
+        "name": "chunk_command"
+      },
+      {
+        "lines": 19,
+        "name": "probe_command"
+      },
+      {
+        "lines": 9,
+        "name": "mount_ram"
+      },
+      {
+        "lines": 40,
+        "name": "inside"
+      },
+      {
+        "lines": 14,
+        "name": "negative_writer"
+      },
+      {
+        "lines": 18,
+        "name": "source_state"
+      },
+      {
+        "lines": 16,
+        "name": "check_retained"
+      },
+      {
+        "lines": 55,
+        "name": "parent"
+      },
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 2,
+        "name": "identity"
+      },
+      {
+        "lines": 16,
+        "name": "host_boundary"
+      },
+      {
+        "lines": 7,
+        "name": "ipc_environment"
+      },
+      {
+        "lines": 8,
+        "name": "ipc_command"
+      },
+      {
+        "lines": 11,
+        "name": "owned_remove"
+      },
+      {
+        "lines": 31,
+        "name": "byte_cap"
+      },
+      {
+        "lines": 26,
+        "name": "cleanup_inode_fixtures"
+      },
+      {
+        "lines": 26,
+        "name": "inode_cap"
+      },
+      {
+        "lines": 5,
+        "name": "bounded_text"
+      },
+      {
+        "lines": 32,
+        "name": "quota_context"
+      },
+      {
+        "lines": 16,
+        "name": "cap_controls"
+      },
+      {
+        "lines": 8,
+        "name": "archived_json"
+      },
+      {
+        "lines": 38,
+        "name": "check_ipc_retained"
+      },
+      {
+        "lines": 35,
+        "name": "check_positive_ipc"
+      },
+      {
+        "lines": 7,
+        "name": "diagnostic_object"
+      },
+      {
+        "lines": 2,
+        "name": "diagnostic_constant"
+      },
+      {
+        "lines": 6,
+        "name": "diagnostic_json"
+      },
+      {
+        "lines": 15,
+        "name": "diagnostic_archive"
+      },
+      {
+        "lines": 16,
+        "name": "diagnostic_member"
+      },
+      {
+        "lines": 16,
+        "name": "diagnostic_row"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_rows"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_complete"
+      },
+      {
+        "lines": 14,
+        "name": "diagnostic_fd_join"
+      },
+      {
+        "lines": 6,
+        "name": "diagnostic_optional"
+      },
+      {
+        "lines": 36,
+        "name": "mount_diagnostic"
+      },
+      {
+        "lines": 3,
+        "name": "__init__"
+      },
+      {
+        "lines": 5,
+        "name": "snapshot"
+      },
+      {
+        "lines": 2,
+        "name": "__init__"
+      },
+      {
+        "lines": 8,
+        "name": "write"
+      },
+      {
+        "lines": 2,
+        "name": "tell"
+      },
+      {
+        "lines": 2,
+        "name": "flush"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/nominal_zero_tests.py": [
+      {
+        "lines": 33,
+        "name": "main"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/source_tests.py": [
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 5,
+        "name": "load"
+      },
+      {
+        "lines": 34,
+        "name": "formation"
+      },
+      {
+        "lines": 13,
+        "name": "synthetic_reports"
+      },
+      {
+        "lines": 21,
+        "name": "fixture"
+      },
+      {
+        "lines": 9,
+        "name": "evaluate"
+      },
+      {
+        "lines": 8,
+        "name": "outcome"
+      },
+      {
+        "lines": 27,
+        "name": "core_cases"
+      },
+      {
+        "lines": 27,
+        "name": "tamper_cases"
+      },
+      {
+        "lines": 15,
+        "name": "archive_cases"
+      },
+      {
+        "lines": 23,
+        "name": "encoding_cases"
+      },
+      {
+        "lines": 27,
+        "name": "main"
+      },
+      {
+        "lines": 3,
+        "name": "open_archive"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v2.py": [
+      {
+        "lines": 8,
+        "name": "record"
+      },
+      {
+        "lines": 7,
+        "name": "best_effort_record"
+      },
+      {
+        "lines": 12,
+        "name": "read_small"
+      },
+      {
+        "lines": 22,
+        "name": "metadata_bytes"
+      },
+      {
+        "lines": 2,
+        "name": "command_limits"
+      },
+      {
+        "lines": 17,
+        "name": "systemctl"
+      },
+      {
+        "lines": 24,
+        "name": "cancel_launch_group"
+      },
+      {
+        "lines": 13,
+        "name": "owned_scope"
+      },
+      {
+        "lines": 18,
+        "name": "scope_observation"
+      },
+      {
+        "lines": 21,
+        "name": "stop_scope"
+      },
+      {
+        "lines": 27,
+        "name": "cleanup_owned"
+      },
+      {
+        "lines": 11,
+        "name": "preflight"
+      },
+      {
+        "lines": 15,
+        "name": "wrapper_terminal"
+      },
+      {
+        "lines": 23,
+        "name": "monitor"
+      },
+      {
+        "lines": 24,
+        "name": "run"
+      }
+    ]
+  },
+  "phase_acceptance": false,
+  "schema": "worldline.ipc-diagnostic-package-v1.static-readback.v1",
+  "static_only": true,
+  "unchanged_preimages": {
+    "collector_v4": {
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716"
+    },
+    "guard_v1": {
+      "path": "records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.py",
+      "sha256": "b82daae76209bb40acc6898bde0043fb9e41e0658bdd34f957e8052a3bedb50e"
+    },
+    "probe_v3": {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v3/probe.py",
+      "sha256": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260"
+    }
+  }
+}

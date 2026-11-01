@@ -1,0 +1,54 @@
+{
+  "schema": "worldline.storage-coordination-readback.v2",
+  "utc": "2026-11-01T12:04:53.688484+00:00",
+  "storage_owner": "01a195f9-dee5-7cb0-a440-777959511b7c",
+  "worldline_window": "NOT_REQUESTED_OR_GRANTED",
+  "root_release": "Existing explicit b release remains in force for separately reviewed remainder122 batch",
+  "references": [
+    {
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/independent-reviewed145-terminal-reconciliation.json",
+      "bytes": 35175,
+      "sha256": "c04fe9258e9e3c040ca858acce6359a49acc767bf418cab74b788c50a44b7f57"
+    },
+    {
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/worldline-successor-remainder122-window-release.json",
+      "bytes": 1472,
+      "sha256": "0021b19a21ee2c6b16a73ce570d21d6a9d7c42a0459844ac766856f719d0be0d"
+    },
+    {
+      "path": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/reviewed-remainder-worker-launch-readback.json",
+      "bytes": 1554,
+      "sha256": "26cbaa26d4e211539437a4d58df538a6cb079b125dfd15c52bc9a2bebb3ce3b2"
+    }
+  ],
+  "audit_limit": "Root matched terminal audit bytes and selected assertions; did not independently rerun all22 archive/restore audits.",
+  "service_command": [
+    "systemctl",
+    "--user",
+    "show",
+    "duat-reviewed-remainder-20261101.service",
+    "--property=ActiveState,SubState,MainPID,ControlGroup,ExecMainStatus"
+  ],
+  "service_readback": "ActiveState=active\nSubState=running\nMainPID=1038879\nExecMainStatus=0\nControlGroup=/user.slice/user-1000.slice/user@1000.service/app.slice/duat-reviewed-remainder-20261101.service\n",
+  "service_stderr": "",
+  "state_sha256": "c9f45e48b11b5fbb10ebdac0e9745d339ca5c4a8f6b45091444991b91ada493a",
+  "state_snapshot": {
+    "started": "2026-11-01T11:37:18.582205+00:00",
+    "pid": 1038879,
+    "state": "NATIVE_RUNNING",
+    "available_bytes": 90034671616,
+    "remaining_count": 114,
+    "path": "/home/sicarii/.cache/anubis-wt/target-crash10/debug/build",
+    "package": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/remaining-build-support",
+    "worker_pid": 1154408,
+    "worker_terminal": false,
+    "worker_exit": null,
+    "diagnostics": null,
+    "operation": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/remaining-build-support/recursive-operations/bdf584f9ad17068b6b9e47d2fdf9ad2522451e548ed158f88a37d89bd13675a6.json"
+  },
+  "completed_count_observed": 8,
+  "available_bytes": 90033709056,
+  "pause_marker": "/home/sicarii/.local/state/project-vault/archive-retrieve-300gb-20261101/pause-reviewed-remainder-archives",
+  "handoff_required": "Request only after exact reviewed package and fresh resource plan; owner drains at completed-folder boundary, reconciles terminal descendants/pins/guards, then explicitly transfers window.",
+  "archive_backlog": "New WORLDLINE packets remain local under existing carrier pin; no retirement or archive performed by root."
+}

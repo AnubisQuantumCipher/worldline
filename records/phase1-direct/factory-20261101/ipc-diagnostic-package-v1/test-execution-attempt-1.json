@@ -1,0 +1,23 @@
+{
+  "actual_runtime_entry_executed": false,
+  "author_tests_not_independent_review": true,
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "-W",
+    "error",
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/source_tests.py"
+  ],
+  "elapsed_seconds": 0.29840460210107267,
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONOPTIMIZE": "0"
+  },
+  "exit_code": 0,
+  "phase_acceptance": false,
+  "stderr": "",
+  "stdout": "{\"cases\": 42, \"receipt_bytes\": 36459, \"status\": \"TESTED_AUTHOR_SYNTHETIC_ONLY_NOT_INDEPENDENT_REVIEW\", \"structure\": {\"changed_inherited_functions\": [\"parent\"], \"guard_four_literals_only\": true, \"maximum_collector_function_lines\": 55, \"new_consumer_functions\": [\"diagnostic_archive\", \"diagnostic_complete\", \"diagnostic_constant\", \"diagnostic_fd_join\", \"diagnostic_json\", \"diagnostic_member\", \"diagnostic_object\", \"diagnostic_optional\", \"diagnostic_row\", \"diagnostic_rows\", \"mount_diagnostic\"], \"unchanged_parent_exit_AST\": true}}\n",
+  "streams_within_bound": true,
+  "test_sha256": "efc91df1c6b7cae7e60a26bce8cc4a953da110f1c5c97799f48ae2464ee37b5f",
+  "total_budget_seconds": 60
+}

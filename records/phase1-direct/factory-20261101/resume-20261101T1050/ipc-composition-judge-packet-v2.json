@@ -1,0 +1,55 @@
+{
+  "schema": "worldline.composition-revision2-judge.v1",
+  "dossier": "IPC-DIAGNOSTIC-COMPOSITION",
+  "revision": 2,
+  "question": "Adjudicate both fresh reports against the same immutable packet and preserved required unique FD-row correlation. Does leading-zero numeric mount-ID ambiguity leave a mandatory defect? Do not relabel/weaken the correlation guarantee or reset the exhausted revision budget.",
+  "files": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-review-packet-v2.json",
+      "bytes": 19683,
+      "sha256": "1454c038af90a356ba46761520c7d4469b4ae260ba6232a0e076dada4c9e6deb"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-independent-report.md",
+      "bytes": 5139,
+      "sha256": "d1196d54bd31d31c263221e393313976ea6c7a4175d56fff378f5667e322e5e1"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-independent-provenance.json",
+      "bytes": 517,
+      "sha256": "aa6f91b24c319e458342490b35bd695b47822975e36a73ebf69a2cd37948e3c8"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-independent-tool-evidence.json",
+      "bytes": 230787,
+      "sha256": "da0dbe71da3dc3745562be415a7d9923b512072f3febab8f3ef57757fbd68b24"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-adversary-report.md",
+      "bytes": 4526,
+      "sha256": "794b3b2ff2de85e8b1bddb13aebe98b340c0bf117924b789b525e349673d2957"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-adversary-provenance.json",
+      "bytes": 532,
+      "sha256": "0bcdb133d1b6cf9d80d775cc0cab75148b71aa6c8f372fafcb78b287f78dd66b"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-adversary-tool-evidence.json",
+      "bytes": 313480,
+      "sha256": "6325e387731e8c7bd57d0ec7a1883a633188c8cd0833d9e92ba3105bc9b8decb"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-decision-v1.json",
+      "bytes": 2253,
+      "sha256": "54b9818e62ce6d17f2b7262476066c236b4d0e92f2f08639d51d62e3048afcb4"
+    }
+  ],
+  "disagreement": "Astra APPROVE preparation-only, Sol REJECT/BLOCK on03/3 and0003/3 numeric ID ambiguity; both preserve authentic producer reachability caveat.",
+  "scope": "Read-only review and bounded pure reproduction <=60s, no writes or operational/IPC/mount/compiler/network/storage action.",
+  "revision_allowance_remaining": 0,
+  "actual_execution": "UNRUN",
+  "storage_window": "NOT_GRANTED",
+  "phase_acceptance": false,
+  "F7": "NOT PERFORMED"
+}

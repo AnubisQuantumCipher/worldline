@@ -1,0 +1,224 @@
+--- records/phase1-direct/completion-20261026/ram_qualification_v4.py
++++ records/phase1-direct/completion-20261026/ram_qualification_v5.py
+@@ -20,8 +20,8 @@
+ RECEIPT_BUDGET = 4 * 1024**2
+ RESERVE = 10_000_000_000
+ ENTRY_LIMIT = 1024
+-PROBE_SOURCE = ROOT / "records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py"
+-PROBE_SHA256 = "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693"
++PROBE_SOURCE = ROOT / "records/phase1-direct/factory-20261101/private-ipc-probe-v3/probe.py"
++PROBE_SHA256 = "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260"
+ IPC_MODES = {"ipc-probe": "normal", "ipc-alias-mismatch": "alias-mismatch",
+              "ipc-namespace-mismatch": "namespace-mismatch",
+              "ipc-leftover-socket": "leftover-socket", "ipc-sigkill": "sigkill"}
+@@ -397,7 +397,7 @@
+ 
+ 
+ def parent(mode):
+-    base = HERE / ("ram-qualification-" + mode + "-v4")
++    base = HERE / ("ram-qualification-" + mode + "-v5")
+     if shutil.disk_usage(ROOT).free < RESERVE + ARCHIVE_LIMIT + RECEIPT_BUDGET:
+         raise RuntimeError("insufficient bounded qualification disk budget")
+     base.mkdir(exist_ok=False)
+@@ -438,11 +438,14 @@
+     except Exception as error:
+         control = dict(observed=False, error=str(error)[:4096])
+     save(base / "ipc-profile-check.json", control)
++    if mode == "ipc-probe":
++        save(base / "mount-diagnostic-check.json", mount_diagnostic(base, complete, tool))
+     save(base / "result.json", {"child_exit": code, "stop": stop, "private_mounts": private,
+          "retention": "COMPLETE_VERIFIED" if complete else "LOST_EPHEMERAL_OUTPUTS",
+          "sources_and_original_objects_unchanged": unchanged, "tool": tool,
+          "host_boundary_unchanged_and_owned_names_absent": host_ok,
+          "private_ipc_control": control,
++         "mount_diagnostic_receipt": "mount-diagnostic-check.json" if mode == "ipc-probe" else None,
+          "phase_acceptance": False, "argv": argv})
+     tool_ok = tool is not None and (tool["exit_code"] == 0 or
+               (mode == "ipc-sigkill" and tool["exit_code"] in (-9, 137)))
+@@ -744,6 +747,186 @@
+     return dict(observed=True, report=facts, proof_credit=False)
+ 
+ 
++def diagnostic_object(pairs):
++    require(len(pairs) <= 512, "diagnostic object member bound")
++    result = {}
++    for key, value in pairs:
++        require(key not in result, "diagnostic duplicate JSON key")
++        result[key] = value
++    return result
++
++
++def diagnostic_constant(value):
++    raise ValueError("nonfinite diagnostic JSON constant: " + value)
++
++
++def diagnostic_json(raw, limit):
++    require(isinstance(raw, bytes) and len(raw) <= limit, "diagnostic JSON byte bound")
++    result = json.loads(raw.decode("ascii"), object_pairs_hook=diagnostic_object,
++                        parse_constant=diagnostic_constant)
++    require(type(result) is dict, "diagnostic JSON object required")
++    return result
++
++
++def diagnostic_archive(base, complete, tool):
++    require(complete is True, "diagnostic complete archive absent")
++    raw = bounded_text(base / "inside-result.json", 512 * 1024).encode("ascii")
++    result = diagnostic_json(raw, 512 * 1024)
++    archive = result["archive"]
++    size = (base / "complete-output.tar.gz").stat().st_size
++    require(type(archive["bytes"]) is int and 0 < size == archive["bytes"] <= ARCHIVE_LIMIT,
++            "diagnostic archive byte bound/mismatch")
++    require(archive["full_content_and_metadata_comparison"] is True and
++            digest(base / "complete-output.tar.gz") == archive["sha256"],
++            "diagnostic archive identity/restore mismatch")
++    require(tool is not None and result["tool"] == tool, "diagnostic tool receipt mismatch")
++    require(type(result["files"]) is dict and len(result["files"]) < ENTRY_LIMIT,
++            "diagnostic inventory bound")
++    return result["files"]
++
++
++def diagnostic_member(base, name, files, limit):
++    item = files[name]
++    require(item["kind"] == "file" and type(item["bytes"]) is int and
++            0 <= item["bytes"] <= limit, "diagnostic stream inventory byte bound")
++    with tarfile.open(base / "complete-output.tar.gz", "r:gz") as tar:
++        members = tar.getmembers()
++        require(len(members) < ENTRY_LIMIT, "diagnostic archive entry bound")
++        selected = [m for m in members if m.name == name]
++        require(len(selected) == 1 and selected[0].isfile() and
++                selected[0].size == item["bytes"], "diagnostic member absent/duplicate/mismatch")
++        with tar.extractfile(selected[0]) as stream:
++            raw = stream.read(limit + 1)
++    require(len(raw) == item["bytes"] and len(raw) <= limit and
++            hashlib.sha256(raw).hexdigest() == item["sha256"],
++            "diagnostic stream digest mismatch")
++    return raw
++
++
++def diagnostic_row(item, previous):
++    require(type(item) is dict and type(item["line_index"]) is int and
++            previous < item["line_index"] < 512, "diagnostic row index/order")
++    raw = item["raw"]
++    require(type(raw) is str and raw.isascii() and len(raw) <= 2048,
++            "diagnostic raw row bound")
++    fields = raw.split()
++    require(len(fields) >= 10 and "-" in fields[6:], "diagnostic mount row malformed")
++    sep = fields.index("-", 6)
++    require(len(fields) >= sep + 4 and re.fullmatch(r"[0-9]{1,64}", fields[0]) is not None,
++            "diagnostic mount row ID/filesystem")
++    target = fields[4]
++    require(target == "/dev/shm" or "/dev/shm".startswith(target.rstrip("/") + "/"),
++            "diagnostic retained row does not cover shm")
++    return dict(mount_id=fields[0], device=fields[2], root=fields[3], mountpoint=target,
++                options=fields[5], filesystem=fields[sep + 1], super_options=fields[sep + 3])
++
++
++def diagnostic_rows(evidence):
++    require(type(evidence) is dict and len(json.dumps(evidence, sort_keys=True).encode("ascii"))
++            <= 3072, "diagnostic evidence byte bound")
++    rows, count = evidence["rows"], evidence["candidate_count"]
++    require(type(rows) is list and type(count) is int and 0 < count <= 512,
++            "diagnostic candidate count/type")
++    kept, omitted = evidence["retained_rows"], evidence["omitted_rows"]
++    require(type(kept) is int and type(omitted) is int and
++            0 <= kept == len(rows) <= count and omitted == count - kept,
++            "diagnostic candidate accounting")
++    require(type(evidence["complete"]) is bool and type(evidence["selected_id_exact"]) is bool
++            and evidence["complete"] == (kept == count and evidence["selected_id_exact"]),
++            "diagnostic completeness accounting")
++    require(re.fullmatch(r"[0-9a-f]{64}", evidence["candidate_lines_joined_LF_sha256"])
++            is not None, "diagnostic candidate digest format")
++    parsed, previous = [], -1
++    for row in rows:
++        parsed.append(diagnostic_row(row, previous))
++        previous = row["line_index"]
++    return rows, parsed
++
++
++def diagnostic_complete(facts, evidence, rows, parsed):
++    require(evidence["complete"] is True, "diagnostic candidates incomplete: hash/join UNPROVEN")
++    joined = "\n".join(item["raw"] for item in rows).encode("ascii")
++    require(hashlib.sha256(joined).hexdigest() == evidence["candidate_lines_joined_LF_sha256"],
++            "diagnostic complete candidate digest mismatch")
++    require(evidence["selection_rule"] == "first_longest_covering_row_in_file_order",
++            "diagnostic selector identity mismatch")
++    longest = max(len(item["mountpoint"]) for item in parsed)
++    best = [i for i, item in enumerate(parsed) if len(item["mountpoint"]) == longest]
++    selected = best[0]
++    require(type(evidence["selected_line_index"]) is int and
++            evidence["selected_line_index"] == rows[selected]["line_index"] and
++            evidence["selected_mount_id"] == parsed[selected]["mount_id"] and
++            facts["mounts"]["shm"] == parsed[selected], "diagnostic selected row mismatch")
++    require(type(evidence["equal_longest_count"]) is int and
++            evidence["equal_longest_count"] == len(best) and
++            type(evidence["ambiguous"]) is bool and evidence["ambiguous"] == (len(best) > 1),
++            "diagnostic tie accounting")
++    require(hashlib.sha256(evidence["selected_mount_id"].encode("ascii")).hexdigest() ==
++            evidence["selected_mount_id_sha256"], "diagnostic selected ID digest mismatch")
++
++
++def diagnostic_fd_join(facts, evidence, rows, parsed):
++    fdinfo = facts["shm_fdinfo"]
++    require(type(fdinfo) is str and fdinfo.isascii() and len(fdinfo) <= 1024,
++            "diagnostic fdinfo bound/type")
++    ids = [line.split(":", 1)[1].strip() for line in fdinfo.splitlines()
++           if line.startswith("mnt_id:")]
++    require(len(ids) == 1 and re.fullmatch(r"[0-9]{1,20}", ids[0]) is not None and
++            evidence["opened_fd_mount_id"] == ids[0], "diagnostic opened FD ID mismatch")
++    matches = [i for i, item in enumerate(parsed) if item["mount_id"] == ids[0]]
++    require(len(matches) == 1, "diagnostic opened FD ID missing/ambiguous among complete candidates")
++    selected = matches[0]
++    return dict(opened_fd_mount_id=ids[0], retained_line_index=rows[selected]["line_index"],
++                retained_row=parsed[selected], selected_matches_opened=
++                evidence["selected_line_index"] == rows[selected]["line_index"])
++
++
++def diagnostic_optional(base, files, facts):
++    name = "tmp/private-ipc-probe.json"
++    if name not in files:
++        return "ABSENT"
++    raw = diagnostic_member(base, name, files, 8192)
++    return "IDENTICAL" if diagnostic_json(raw, 8192) == facts else "DIFFERENT"
++
++
++def mount_diagnostic(base, complete, tool):
++    summary = dict(schema="worldline.private-ipc-mount-diagnostic.v1",
++                   interpretation="UNPROVEN", candidate_digest_verified=False,
++                   fd_join="UNPROVEN", tool_exit=tool.get("exit_code") if tool else None,
++                   tool_stop=tool.get("stop") if tool else None,
++                   terminal_tool_failure=tool is None or tool.get("exit_code") != 0 or
++                   tool.get("stop") is not None, optional_result="NOT_CHECKED",
++                   mechanism_qualified=False, proof_credit=False, phase_acceptance=False)
++    try:
++        files = diagnostic_archive(base, complete, tool)
++        raw = diagnostic_member(base, "tool.stdout", files, 8193)
++        facts = diagnostic_json(raw, 8193)
++        require(len(raw.rstrip(b"\n")) <= 8192, "diagnostic compact stdout bound")
++        require(facts["schema"] == "worldline.private-ipc-probe.v1" and
++                facts["mode"] == "normal" and facts["status"] in ("PASSED", "FAILED"),
++                "diagnostic nominal report identity")
++        summary.update(stdout_sha256=hashlib.sha256(raw).hexdigest(),
++                       stdout_status=facts["status"], stdout_stage=facts.get("stage"),
++                       stdout_error=facts.get("error"),
++                       optional_result=diagnostic_optional(base, files, facts))
++        evidence = facts["mount_evidence"]
++        rows, parsed = diagnostic_rows(evidence)
++        summary.update(candidate_count=evidence["candidate_count"],
++                       retained_rows=evidence["retained_rows"],
++                       candidate_digest_declared=evidence["candidate_lines_joined_LF_sha256"])
++        diagnostic_complete(facts, evidence, rows, parsed)
++        summary["candidate_digest_verified"] = True
++        summary["fd_join"] = diagnostic_fd_join(facts, evidence, rows, parsed)
++        require(summary["optional_result"] != "DIFFERENT", "diagnostic result/stdout disagreement")
++        summary["interpretation"] = "UNIQUE_RETAINED_FD_JOIN_ONLY_NOT_QUALIFICATION"
++    except Exception as error:
++        summary["error_type"] = type(error).__name__
++        summary["error"] = str(error)[:512]
++    require(len(json.dumps(summary, sort_keys=True).encode("ascii")) <= 8192,
++            "diagnostic summary byte bound")
++    return summary
++
++
+ if __name__ == "__main__":
+     if len(sys.argv) == 2 and sys.argv[1] == "--cap-controls":
+         sys.exit(cap_controls())

@@ -1,0 +1,9 @@
+This packet records read-only O1 source inventory observations. It grants no build, proof, implementation or acceptance credit. Source-to-installed correspondence is UNKNOWN.
+
+The first turn observed seven full immutable tree JSON results, but functions.store was cleared at the final/followup boundary. That FAILED persistence boundary lost four full serializations and the complete candidate inventory. Three complete serializations recovered from the native session log match their previously observed SHA256 values. Four stdout excerpts are explicitly truncated; candidate-inventory-PARTIAL.json is incomplete. Prior full-candidate counts are historical observations, not a complete retained artifact.
+
+The complete interface input cut was recovered: 70 pinned paths, 873083 source bytes. Five exact local xgen inputs are reusable, leaving next-source-cut.json with 65 missing files, 811179 bytes, each carrying repository, exact ref, path, Git blob SHA1 and size. No source bodies were acquired. The original five translator interfaces remain retained at their existing paths. Four older SIA interfaces mismatch the selected source pin and must not substitute for it.
+
+Individual HTTP request timestamps and original HTTP-body hashes are UNKNOWN. requests.json distinguishes recovered command timestamps and hashes of JSON serializations. Original eight-request history is consumed; this persistence turn made zero network requests.
+
+Next sound package: separately register durable source capture for the exact 65-file cut, its finite request/byte/time/storage limits and failure handling. Acquire and verify each immutable body before generator/API review. Generator execution and an unmodified translator build need later independent admission, checked flags, PROCS=2, explicit bounded xgen jobs and complete object/temporary/output/recovery budgets. Preserve O1/full-value/implicit Old targets, original leak VCs and negative controls.

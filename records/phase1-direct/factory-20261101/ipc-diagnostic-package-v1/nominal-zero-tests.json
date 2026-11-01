@@ -1,0 +1,69 @@
+{
+  "boundary": "Terminal0/PASSED tuples are synthetic inputs to diagnostic consumer only. No original positive checker, parent, guard, sandbox or actual IPC ran. A separately observed parent0 would still require independent diagnostic readback and the unchanged six-case mechanism qualification conjunction.",
+  "cases": [
+    {
+      "name": "unique",
+      "result": {
+        "candidate_count": 3,
+        "candidate_digest_declared": "f634d51abf29e862c5bce99325445ca92d007f152ef876014912b3797d26fa43",
+        "candidate_digest_verified": true,
+        "fd_join": {
+          "opened_fd_mount_id": "3",
+          "retained_line_index": 2,
+          "retained_row": {
+            "device": "0:3",
+            "filesystem": "tmpfs",
+            "mount_id": "3",
+            "mountpoint": "/dev/shm",
+            "options": "ro",
+            "root": "/ipc",
+            "super_options": "rw"
+          },
+          "selected_matches_opened": true
+        },
+        "interpretation": "UNIQUE_RETAINED_FD_JOIN_ONLY_NOT_QUALIFICATION",
+        "mechanism_qualified": false,
+        "optional_result": "IDENTICAL",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "retained_rows": 3,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "stdout_error": null,
+        "stdout_sha256": "ab153bb58c087cc2cedde18afc10df72bff2a2bf3279c2992fa6dcfd7c2c8d56",
+        "stdout_stage": "completed",
+        "stdout_status": "PASSED",
+        "terminal_tool_failure": false,
+        "tool_exit": 0,
+        "tool_stop": null
+      }
+    },
+    {
+      "name": "unknown999",
+      "result": {
+        "candidate_count": 3,
+        "candidate_digest_declared": "f634d51abf29e862c5bce99325445ca92d007f152ef876014912b3797d26fa43",
+        "candidate_digest_verified": true,
+        "error": "diagnostic opened FD ID missing/ambiguous among complete candidates",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "IDENTICAL",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "retained_rows": 3,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "stdout_error": null,
+        "stdout_sha256": "b01f0e2ab2890ec0d506b922afbab63ce79d4eea15bdff2d40333bdfd2f37240",
+        "stdout_stage": "completed",
+        "stdout_status": "PASSED",
+        "terminal_tool_failure": false,
+        "tool_exit": 0,
+        "tool_stop": null
+      }
+    }
+  ],
+  "phase_acceptance": false,
+  "source_sha256": "0e3be7b480ebb81aa89e2259ed3f45292aa3026887f77a27d01f353d6dd869d6",
+  "status": "TESTED_SYNTHETIC_ZERO_EXIT_NOT_CONTROL_EXECUTION"
+}

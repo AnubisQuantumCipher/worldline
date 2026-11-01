@@ -1,0 +1,348 @@
+{
+  "schema": "worldline.ipc-diagnostic-composition-review.v2",
+  "dossier": "IPC-DIAGNOSTIC-COMPOSITION",
+  "revision": 2,
+  "source_head": "82b319f9497303bb91c8af8454c69e159f2ea92a",
+  "question": "Does this exact sole revision resolve all four r1 defects and preserve original operational behavior sufficiently for ONE nominal diagnostic, subject to separate fresh owner handoff and source/resource admission?",
+  "requirements": [
+    "D154 actual failure must remain; exact cause unknown until observation",
+    "D155 approved v3 counter-fit source; its review budget remains consumed",
+    "Unique complete candidate FD-row join before correlation; no selector/topology changes",
+    "Original predicates/tool outcomes/full archive and restore/terminal cleanup/resource limits preserved",
+    "Current source/tool/runtime/original-output pins and storage-owner handoff required before launch"
+  ],
+  "review_scope": "Read-only immutable packet, source and preserved raw synthetic evidence. Up to60s aggregate bounded pure/in-memory checks per reviewer, no filesystem writes/pycache/receipt-writing mains, no actual IPC/mount/probe/guard/compiler/proof/storage/network operation. Inspect test entrypoints before reusing them.",
+  "review_points": [
+    "Counter/count/index/hash/FD/join correctness and ambiguity/incompleteness refusals",
+    "Bounded parser/archive/summary behavior and malformed input errors",
+    "Preserved parent terminal exit and failure precedence; optional result cannot override final stdout",
+    "Literal-only guard changes and inherited scope/lock cancellation and limits",
+    "Complete-retention evidence is conditional on actual independently read-back receipt chain; no same-UID authenticity or formal proof claim",
+    "Retain old archive compatibility and distinguish authenticated fixed producer reachability from malformed consumer counterexamples",
+    "Check short single-purpose new functions, finite loops and resource caps; inherited trusted runtime/OS limits remain explicit"
+  ],
+  "revision_policy": "This is the one allowed evidence-driven revision. No further repair/review reset if mandatory defects remain. D155 v3 independent revision budget stays zero.",
+  "prior_current_peer_verdicts": "NONE; both fresh reviewers receive this same packet before any current peer report",
+  "actual_execution": "UNRUN",
+  "phase_acceptance": false,
+  "F7": "NOT PERFORMED",
+  "files": [
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/docs/phase1-acceptance.md",
+      "bytes": 11255,
+      "sha256": "17d20c7f9c0f81d1377cd10adce609492268e18d165a40c47e4e89bba864a6f3"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v4/complete-output.tar.gz",
+      "bytes": 485,
+      "sha256": "5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "bytes": 35034,
+      "sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v5.py",
+      "bytes": 44941,
+      "sha256": "0e3be7b480ebb81aa89e2259ed3f45292aa3026887f77a27d01f353d6dd869d6"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/completion-20261026/ram_qualification_v6.py",
+      "bytes": 53224,
+      "sha256": "5156ec3f54621b4b1eefb68de2e059f1ddf1da5e0c8247becffba26c300723db"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/README.md",
+      "bytes": 8142,
+      "sha256": "f7863c2bb3fd7386469a2d7b0dcf9e01bbae56a29d0785416ab8745679d43de5"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/collector.patch",
+      "bytes": 12194,
+      "sha256": "60892ceab1bee987bc5cf31f57f370ae10cd87c55af03f09abb2eb164abe448d"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/guard.patch",
+      "bytes": 1340,
+      "sha256": "d5e75238fc1035e3dc0ff652670ddc629dc4acff27076098600695596416946e"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/handoff.json",
+      "bytes": 1367,
+      "sha256": "a506ee91b000ecf600c2e8b45fc1d3fa186d06f33aed3c86adfc0a0856b284e0"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/manifest.json",
+      "bytes": 7689,
+      "sha256": "3864642045326d48f2d6ba13b2756fb1702e217c5596af247f46e985bcb238a4"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/nominal-zero-tests.json",
+      "bytes": 2716,
+      "sha256": "0eb1ad596fa05338ea1ad5eda34fdbb1c5d0dca70a6ccf3d6bd555ebd3b9df40"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/nominal_zero_tests.py",
+      "bytes": 2472,
+      "sha256": "d5f5f26bbf6ddcca6c289a9c570b0189a757609d613aa803f8108fa9e025ca0c"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/source-tests.json",
+      "bytes": 36459,
+      "sha256": "0a99d0e6f540ac027fe3d44d35474aa5510cf080909131c81a2bc0b3b7a35702"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/source_tests.py",
+      "bytes": 14970,
+      "sha256": "efc91df1c6b7cae7e60a26bce8cc4a953da110f1c5c97799f48ae2464ee37b5f"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/static-readback.json",
+      "bytes": 6652,
+      "sha256": "a99d5adb71f3c3b42b81a0058ea9cfafd4a2dc0ef52e2cc35768c277b9b8bb49"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/test-execution-attempt-1.json",
+      "bytes": 1184,
+      "sha256": "4174e00743daaa417597c416935136fd874c727fc63b7827ecaa5d9152420ba3"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/test-execution-attempt-2.json",
+      "bytes": 746,
+      "sha256": "73f9a11f34e98be34a25e822bda13c4eeea43b002f1639bde269b8f10d151fc4"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/README.md",
+      "bytes": 8524,
+      "sha256": "b1f6a81658805f7ce042376407f44c02f533d8a316c252b5434d358737af0d91"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/collector-before-row-closure.py",
+      "bytes": 53256,
+      "sha256": "a3fb057ec60841ded57b3611662336974285bb7ca13e4ef2c6611aa80b0dbb77"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/collector.patch",
+      "bytes": 17317,
+      "sha256": "c56b6ee6312a0e83f9ec7f17aad1fa9c3cbb7bf79b0c69b73e86cf05a37296cc"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/final-tests.json",
+      "bytes": 69279,
+      "sha256": "14084d86502ad97a96cd979d5df51e12043fc94b5da34ac5932c6f8bfb1f2b6a"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/final_tests.py",
+      "bytes": 3692,
+      "sha256": "e3e22d49951d937aa6b62dc785ed796269e9debf10e546ed5e72c6d7d4bd5cb7"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/guard.patch",
+      "bytes": 1349,
+      "sha256": "c16b4b15e13075f54a1f981a0484ac35b98c695104b1717edc87acb04895cc4b"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/handoff.json",
+      "bytes": 1458,
+      "sha256": "d1d69d916aa7eabe8eeb82415d6f96951ea923791787460a06ae320dc3575b14"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/manifest.json",
+      "bytes": 11614,
+      "sha256": "3f84b679b13c0d1d9c739e2f2cbcab793aad7e424dff772f094c0d50208744a6"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/nominal-zero-tests.json",
+      "bytes": 2716,
+      "sha256": "37a80e6902527a0ad898c1f9bb9f8ad1d8734053a2a7402560bb37ec8fc65eb8"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/nominal_zero_tests.py",
+      "bytes": 2472,
+      "sha256": "d5f5f26bbf6ddcca6c289a9c570b0189a757609d613aa803f8108fa9e025ca0c"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision-tests.json",
+      "bytes": 25912,
+      "sha256": "91445ac9870c04ef311a8384b246924c83c1f73b011cf51e8938c964d0b1bd93"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests-attempt-1.py",
+      "bytes": 12576,
+      "sha256": "88200f3413895d3237d1dee2b34974478fbd007d0b921e9f1ee4b942e46fb4ae"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests.py",
+      "bytes": 12585,
+      "sha256": "58ff5f5e8886df82d9630e60a591ccf627ab071b32a01c69bcad70be7354418b"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/source-tests.json",
+      "bytes": 36732,
+      "sha256": "e5b39fcdc1e00fd7c2bd4fba3c99f840979873034f9d091c6d363de9c95eb64d"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/source_tests-before-row-closure.py",
+      "bytes": 14948,
+      "sha256": "943a062538cbef85499727a55b16b07974dbfe8718f2c665fb0ee0f174978fa2"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/source_tests.py",
+      "bytes": 14948,
+      "sha256": "da0554795e1f8c034f46a02f927358007fbc3f97640e6f774c5cbcd4da62c369"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/static-readback.json",
+      "bytes": 15658,
+      "sha256": "64e90ca106a317facd49ed96c7778faa382e42907ae1d591216f0476aca28663"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/test-execution-attempt-1.json",
+      "bytes": 3516,
+      "sha256": "7695fb5b002eaf56f86dc590ed00550ee35ad5f082ec27fb14b9395dc19112b4"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/test-execution-attempt-2.json",
+      "bytes": 805,
+      "sha256": "402e0b94c53af6fbcb01e57bd187eee586734b63fd267aa6b7506b575e126ec2"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/test-execution-attempt-3.json",
+      "bytes": 845,
+      "sha256": "d50101c546c991f9aa65c71d2fbef79dad8685f904d7d12c06011965f6432b63"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-mechanism-preflight-v1.json",
+      "bytes": 10278,
+      "sha256": "67ab8b28832de2341c0111722302ac0a0c04efc4ecabf843e68d3dcc625bfeff"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-mechanism-result-review-v1.json",
+      "bytes": 12736,
+      "sha256": "509f7f698071e7a798529a5526460f1abf31ac4bc77008d0a1ca029db0f2257e"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-probe-root-readback-v1.json",
+      "bytes": 10685,
+      "sha256": "dd6f8428cf0b4e87a91d283b4c499af41230047d7b3b628f3eb42b06d3a749b3"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.py",
+      "bytes": 12690,
+      "sha256": "b82daae76209bb40acc6898bde0043fb9e41e0658bdd34f957e8052a3bedb50e"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v2.py",
+      "bytes": 12697,
+      "sha256": "7b1fa664510893af48fe876fe079475ca58a003caaf0ffdda397334cde6d2e55"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v3.py",
+      "bytes": 12697,
+      "sha256": "a3ac95a4228f1b4ba7be02349e5963d877a251bfe169880c8c88cd3bf3201ec2"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v3/manifest.json",
+      "bytes": 10358,
+      "sha256": "9642acf6d1e60ef12209a16ec82a9c89df5ebc66228892edc91fd3f2ce69b324"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/private-ipc-probe-v3/probe.py",
+      "bytes": 20742,
+      "sha256": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/collector-source-registration.json",
+      "bytes": 1128,
+      "sha256": "d21b3b0cee0912ef677af783d935ee24c659e949765931fea5293cd934da2496"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/collector-writer-lease-v1.json",
+      "bytes": 826,
+      "sha256": "075f06b3e29539de22588221390591bff2b3a9f9ec510773c69e90422ab3ab4d"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-author-provenance.json",
+      "bytes": 572,
+      "sha256": "de34e53bc81483d93bbd8528d9bab446ebae90b05007d9848ec1c3fe51e0e5f3"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-author-report.md",
+      "bytes": 1419,
+      "sha256": "32a59460221ffe34b4f9d007d90bf78ae86d56bf7b25180c8941a011d58aa977"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-author-provenance.json",
+      "bytes": 513,
+      "sha256": "96ff0473c74dbcc4712a87ffb3d1ffe08025ef602183af64b9d9b61bd71ed7eb"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-author-report.md",
+      "bytes": 1078,
+      "sha256": "02b6fb6be43abac217f29c8dcf3fd34c406cf25fedccbe25035b6313277e2fd1"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-author-tool-evidence.json",
+      "bytes": 101354,
+      "sha256": "904cbf6e3a768f418020619c77fadd8865dfa497c05e7490afd08a2b3864d3eb"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-root-payload-readback.json",
+      "bytes": 324,
+      "sha256": "e507a814f57c1b86277d86fe5c188d9c2311b2deeb6db592cee39e16b7809623"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/composition-revision-writer-registration.json",
+      "bytes": 1186,
+      "sha256": "c3eb0a1739e87c47cd153dce2081bcb746eeae02aab8cba28776907c55b3d6dd"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-adversary-report.md",
+      "bytes": 4132,
+      "sha256": "cfedcbbd258b375b155f8daa235b25fdb40e0f722b9aafb99bc7afc5567b9a78"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-adversary-tool-evidence.json",
+      "bytes": 226601,
+      "sha256": "bb7b9cd992e3f44d9bbf7c33a08811ce49c7432eb8c10dd37da1a4f1c6adb4d1"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-decision-v1.json",
+      "bytes": 2253,
+      "sha256": "54b9818e62ce6d17f2b7262476066c236b4d0e92f2f08639d51d62e3048afcb4"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-independent-report.md",
+      "bytes": 3473,
+      "sha256": "f8e5eb8a405b5626fb35b594f796ba7c82f9333c99faaf553c45182818f73a6b"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-judge-report.md",
+      "bytes": 3285,
+      "sha256": "7471b48b8972289e2c4f1c166a5d43162a8a22961ee33353b21eea4beba9f820"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-review-packet-v1.json",
+      "bytes": 9633,
+      "sha256": "1f8193365c4f4482e3ff57175f5224cd0281e7c5524c782855ff2d0068a01ae0"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-decision.json",
+      "bytes": 2029,
+      "sha256": "1aa6c27b5993d61b1fe942a406baa13ed959de6b0e6eb869ed98975ce89c6fb9"
+    },
+    {
+      "path": "/home/sicarii/Work/worldline-phase1-direct-20261019/scripts/phase1_heavy.py",
+      "bytes": 9619,
+      "sha256": "c3c7fcc84bb509668d0136606449486d1179d67d7c89bf68f6f5db79a4ece61a"
+    }
+  ],
+  "mandatory_revision_findings": [
+    "Exactly one printable mount record per retained row before candidate hashing and unique FD join",
+    "Bounded malformed input/error summary and ordinary diagnostic exception containment so mandatory parent finalization is attempted",
+    "Bounded fixed-header single-gzip USTAR scanning before expansion, complete normalized inventory correspondence and all file hashes",
+    "Finite and type-sensitive JSON comparison; integer/float/boolean distinctions"
+  ],
+  "storage_window": "NOT_GRANTED"
+}

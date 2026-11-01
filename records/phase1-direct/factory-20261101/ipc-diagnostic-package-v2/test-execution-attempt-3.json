@@ -1,0 +1,24 @@
+{
+  "actual_runtime_entrypoints": false,
+  "aggregate_budget_seconds": 60,
+  "author_tests": true,
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "-W",
+    "error",
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/final_tests.py"
+  ],
+  "elapsed_seconds": 0.9188931179232895,
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONOPTIMIZE": "0"
+  },
+  "exit_code": 0,
+  "phase_acceptance": false,
+  "prior_elapsed_seconds": 0.820420527132228,
+  "stderr": "",
+  "stdout": "{\"delimiter_cases\": 6, \"exact_regressions\": 4, \"historical_archive\": \"485B_COMPATIBLE\", \"prior_cases\": 44, \"scanner_cases\": 13, \"status\": \"TESTED_FINAL_SOURCE_AUTHOR_ONLY_NOT_INDEPENDENT_REVIEW\"}\n",
+  "streams_within_bound": true,
+  "test_sha256": "e3e22d49951d937aa6b62dc785ed796269e9debf10e546ed5e72c6d7d4bd5cb7"
+}

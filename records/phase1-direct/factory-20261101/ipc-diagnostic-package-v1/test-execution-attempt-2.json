@@ -1,0 +1,24 @@
+{
+  "actual_runtime_entry_executed": false,
+  "author_tests_not_independent_review": true,
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "-W",
+    "error",
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/nominal_zero_tests.py"
+  ],
+  "elapsed_seconds": 0.32308405893854797,
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONOPTIMIZE": "0"
+  },
+  "exit_code": 0,
+  "phase_acceptance": false,
+  "prior_elapsed_seconds": 0.29840460210107267,
+  "stderr": "",
+  "stdout": "{\"cases\": 2, \"status\": \"TESTED_SYNTHETIC_ZERO_EXIT_NOT_CONTROL_EXECUTION\"}\n",
+  "streams_within_bound": true,
+  "test_sha256": "d5f5f26bbf6ddcca6c289a9c570b0189a757609d613aa803f8108fa9e025ca0c",
+  "total_budget_seconds": 60
+}

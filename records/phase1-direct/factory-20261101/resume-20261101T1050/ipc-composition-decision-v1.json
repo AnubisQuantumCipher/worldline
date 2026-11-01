@@ -1,0 +1,51 @@
+{
+  "schema": "worldline.composition-decision.v1",
+  "dossier": "IPC-DIAGNOSTIC-COMPOSITION",
+  "revision": 1,
+  "decision": "D156",
+  "state": "REJECTED_RETURN_FOR_SOLE_REVISION",
+  "references": [
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-review-packet-v1.json",
+      "bytes": 9633,
+      "sha256": "1f8193365c4f4482e3ff57175f5224cd0281e7c5524c782855ff2d0068a01ae0"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-independent-report.md",
+      "bytes": 3473,
+      "sha256": "f8e5eb8a405b5626fb35b594f796ba7c82f9333c99faaf553c45182818f73a6b"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-adversary-report.md",
+      "bytes": 4132,
+      "sha256": "cfedcbbd258b375b155f8daa235b25fdb40e0f722b9aafb99bc7afc5567b9a78"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-judge-packet-v1.json",
+      "bytes": 2534,
+      "sha256": "e3e4c1f914cbff98be58b152d80350fb13e9d6bf7c983fc8033e874f56c6a182"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-judge-report.md",
+      "bytes": 3285,
+      "sha256": "7471b48b8972289e2c4f1c166a5d43162a8a22961ee33353b21eea4beba9f820"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-judge-provenance.json",
+      "bytes": 513,
+      "sha256": "77877905e8a89413bf52f6a7d1471ada98f694ba053495132d052e70a3324de3"
+    }
+  ],
+  "mandatory_findings": [
+    "Embedded row delimiters permit false complete unique join",
+    "Malformed bounded stdout can escape summary bound and prevent parent finalization",
+    "Tar member expansion/count/inventory checks are late or incomplete",
+    "Optional JSON comparison conflates integer and floating values"
+  ],
+  "reachability": "Synthetic malformed-input evidence; no actual fixed producer failure/receipt forgery established",
+  "prior_approval": "Retained; no-blocking-finding conclusion superseded for packet requirements",
+  "revision_allowance_remaining": 1,
+  "actual_execution": "UNRUN",
+  "phase_acceptance": false,
+  "F7": "NOT PERFORMED"
+}

@@ -62,3 +62,68 @@ remain; no budget resets, mandatory-check waiver or runtime qualification follow
 Unique FD-row correlation, serialization failure precedence, separate collector/
 guard review and fresh actual-job admission remain required. Two retained adversary
 harness expectation failures are not implementation failures or extra disputes.
+
+## D156-r1-Sol-REJECT — consumer framing, resource and finalization defects
+
+- Dossier IPC-DIAGNOSTIC-COMPOSITION revision1; packet SHA256
+  1f8193365c4f4482e3ff57175f5224cd0281e7c5524c782855ff2d0068a01ae0.
+- Origin gpt-6.1-sol/high session01a196d6-0442-7290-b17e-03eae91e7410;
+  raw report cfedcbbd258b375b155f8daa235b25fdb40e0f722b9aafb99bc7afc5567b9a78.
+- REJECT: embedded LF false unique join; malformed bounded summary aborts parent
+  finalization; archive limits/inventory checks late or incomplete; int/float optional
+  equality. Reproduced synthetic fixtures, not live producer failure or receipt forgery.
+- Resolution/state: judge upheld rejection; sole revision2 pending. No actual launch.
+- Sources: same resume directory, ipc-composition-adversary-report.md, provenance
+  and tool-evidence.json. The original failed IPC archive remains unchanged.
+
+## D156-r1-judge-REJECT — consumer requirements cannot be waived
+
+- Origin gpt-6-astra/medium session01a196da-4e85-7330-965e-dccbef5f9dce;
+  raw report7471b48b8972289e2c4f1c166a5d43162a8a22961ee33353b21eea4beba9f820.
+- Judge packet e3e4c1f914cbff98be58b152d80350fb13e9d6bf7c983fc8033e874f56c6a182
+  binds both reports and public tool evidence. Judge verified source/evidence, without
+  claiming independent execution of the synthetic counterexamples.
+- Fixed authentic producer assumptions limit reachability, but do not discharge this
+  packet's malformed-input, parsing-bound, correlation and finalization requirements.
+  State REJECTED_RETURN_FOR_SOLE_REVISION; one revision remains, no history reset.
+
+## D156-r1-STALE-correction — conditional approval superseded
+
+Preserve the original gpt-6-astra/medium report from
+session01a196d5-ea77-7361-b337-2c82e603477f, SHA256
+f8e5eb8a405b5626fb35b594f796ba7c82f9333c99faaf553c45182818f73a6b.
+Its no-blocking-finding conclusion is STALE for the packet's required malformed-input
+behavior under D156-r1-judge-REJECT. Its authentic-producer reachability limitation
+remains valid and explicit. No model reliability trend or actual hostile execution
+is inferred. D155's independently repaired probe and consumed allowance stay separate.
+
+## D156-r2-Sol-REJECT — numeric mount identity ambiguity
+
+- Packet1454c038af90a356ba46761520c7d4469b4ae260ba6232a0e076dada4c9e6deb;
+  gpt-6.1-sol/high session01a196f0-6802-7422-9cfe-b95b89d6412d.
+- Raw report794b3b2ff2de85e8b1bddb13aebe98b340c0bf117924b789b525e349673d2957;
+  retained in resume-20261101T1050/composition-r2-adversary-report.md, with provenance
+  and public tool evidence. Original four regressions pass; an additional mandatory
+  defect remains: `03,2,3` and `0003,2,3` falsely yield unique numeric FD identity3.
+- Synthetic malformed input, not demonstrated authentic producer output, forgery or
+  operational authority bypass. Mandatory uniqueness remains unsatisfied.
+- State: judge reproduced and BLOCKED; zero revisions remain, no launch or review reset.
+
+## D156-r2-judge-BLOCK — sole revision exhausted
+
+- gpt-6-astra/medium session01a196f5-f4d7-7dc1-a0a3-228e8189dfd5;
+  report7a4fa63f1b81eb219cea8cfea48baa0fcef9df7b5e22cb781b3c2026dbb47c0a;
+  judge packet6699bdddba34f2d8b3e82e9cd04a22da25bc8e3feaef5e89f441420c827c12d9.
+- Independently TESTED four in-memory cases in0.062s under timeout15s; candidate
+  digests verified. Canonical duplicate refused; leading-zero duplicates falsely
+  accepted. Numeric identity cannot be weakened to textual matching.
+- BLOCKED_REVISION_ALLOWANCE_EXHAUSTED. Preserve evidence and continue independent
+  O1 work. Actual diagnostic UNRUN; storage window NOT_GRANTED; F7 NOT PERFORMED.
+
+## D156-r2-STALE-correction — preparation approval superseded
+
+Preserve composition-r2-independent-report.md and its exact provenance/tool evidence.
+Its no-blocking-finding conclusion is STALE for the packet's mandatory malformed-input
+uniqueness requirement. The passing four original repairs and authentic-producer
+reachability limitation remain valid bounded observations. This is a requirements
+decision supported by reproduction, not reviewer voting or a model reliability claim.

@@ -1,0 +1,52 @@
+{
+  "schema": "worldline.checkpoint-publication-readback.v1",
+  "utc": "2026-11-01T11:08:37.846810+00:00",
+  "commit": "82b319f9497303bb91c8af8454c69e159f2ea92a",
+  "branch": "codex/phase1-direct-20261019",
+  "remote_head": "82b319f9497303bb91c8af8454c69e159f2ea92a",
+  "remote_ref_matches": true,
+  "files": [
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v3/probe.py",
+      "bytes": 20742,
+      "sha256": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260",
+      "exact_remote_bytes_match": true
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v3/manifest.json",
+      "bytes": 10358,
+      "sha256": "9642acf6d1e60ef12209a16ec82a9c89df5ebc66228892edc91fd3f2ce69b324",
+      "exact_remote_bytes_match": true
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-review-packet.json",
+      "bytes": 13284,
+      "sha256": "09689e1fd544ea1c6f2bb99b1dbc267974f619acf88e1852ccae1ea2c1b68623",
+      "exact_remote_bytes_match": true
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-decision.json",
+      "bytes": 2029,
+      "sha256": "1aa6c27b5993d61b1fe942a406baa13ed959de6b0e6eb869ed98975ce89c6fb9",
+      "exact_remote_bytes_match": true
+    },
+    {
+      "path": "factory/dissent/DISSENT-LOG.md",
+      "bytes": 3961,
+      "sha256": "fa798428328ec2e8c6b02ed1b62ac4d6d1047049a83325fc0f8e7aedb02e0b3d",
+      "exact_remote_bytes_match": true
+    },
+    {
+      "path": "docs/phase1-progress.md",
+      "bytes": 117535,
+      "sha256": "58cfec71e2685e685c73168492b7b753e15b7b05eb4ff967afe71e6126cd52b1",
+      "exact_remote_bytes_match": true
+    }
+  ],
+  "kind": "NON_FINAL_SOURCE_DIAGNOSTIC_CHECKPOINT",
+  "actual_IPC": "UNRUN",
+  "mechanism": "UNQUALIFIED",
+  "F7": "NOT PERFORMED",
+  "phase_acceptance": false,
+  "method": "git push and ls-remote exact commit; authenticated GitHub contents raw-byte readback for six key artifacts"
+}

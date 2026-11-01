@@ -756,3 +756,20 @@ remain UNPROVEN. Repeating the old missing-file claim or an unchanged failed run
 would be unsound. DUAT continues under its existing owner; no runtime window has
 been taken. Next is separate exact-source review of the diagnostic collector/guard
 and unique FD-row consumer, followed by fresh owner/capacity admission.
+
+D156's initial composition was rejected on four synthetic consumer defects. Its sole
+revision repairs those cases but remains BLOCKED: a fresh adversary and separate judge
+reproduced false unique numeric FD-row correlation with leading-zero mount IDs. All
+evidence is retained; zero revisions remain and the diagnostic must not launch. This
+does not establish authentic-producer reachability or an authority bypass. Actual
+diagnostic UNRUN, mechanism UNQUALIFIED, all product and F7 gates unchanged.
+
+D157 continues independent O1 preparation. Root independently verified the exact
+279-file GNATcoll/xgen prerequisite source cut (3364573B), including269 successful
+bounded network acquisitions and10 local reuses. The earlier70-interface cut also
+remains verified. No generator, compiler, proof or fetched source executed. Complete
+translator source closure and correspondence to the installed binary remain unproved.
+The next steps are separately registered remaining metadata recovery and reviewed,
+bounded disk generator preparation. Actual build admission requires a fresh storage
+handoff and unchanged resource gates. DUAT's separately reviewed queue remains live;
+WORLDLINE has taken no runtime window. Phase One is ACTIVE and INCOMPLETE.

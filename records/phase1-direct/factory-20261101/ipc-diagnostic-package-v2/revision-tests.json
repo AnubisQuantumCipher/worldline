@@ -1,0 +1,661 @@
+{
+  "actual_v4_archive_compatibility": {
+    "archive_sha256": "5b8c8a2dcb245c2dbc474e64e5a0c72fce625d757690b11870b58b3dc164cb61",
+    "bytes": 485,
+    "original_failure": "private shm mount mismatch",
+    "scope": "Read-only existing raw archive and inventory, not a new mount/IPC run or restore",
+    "status": "SCANNER_COMPATIBLE_ONLY_NOT_DIAGNOSTIC_QUALIFICATION",
+    "stdout_sha256": "5cbae8de9c3d5f28a20645a57f6ab04cfd1aade4fb6754aba486eec643a1752a"
+  },
+  "collector_sha256": "a3fb057ec60841ded57b3611662336974285bb7ca13e4ef2c6611aa80b0dbb77",
+  "exact_r1_counterexamples": [
+    {
+      "name": "exact-embedded-newline-false-join",
+      "previous": {
+        "candidate_count": 3,
+        "candidate_digest_declared": "8e65059288263bab9297e5bdd8c8f088dc60fd705ff6f26e448bf2a3163877d7",
+        "candidate_digest_verified": true,
+        "fd_join": {
+          "opened_fd_mount_id": "3",
+          "retained_line_index": 2,
+          "retained_row": {
+            "device": "0:3",
+            "filesystem": "tmpfs",
+            "mount_id": "3",
+            "mountpoint": "/dev/shm",
+            "options": "ro",
+            "root": "/ipc",
+            "super_options": "rw"
+          },
+          "selected_matches_opened": true
+        },
+        "interpretation": "UNIQUE_RETAINED_FD_JOIN_ONLY_NOT_QUALIFICATION",
+        "mechanism_qualified": false,
+        "optional_result": "ABSENT",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "retained_rows": 3,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "stdout_error": "private shm mount mismatch",
+        "stdout_sha256": "cbeb61a970d0b53295107fda0ce23906deb4bcb3c26455a09ebe515013d6decf",
+        "stdout_stage": "private identity",
+        "stdout_status": "FAILED",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      },
+      "revised": {
+        "compressed_bytes": 802,
+        "expanded_before_refusal": 10240,
+        "name": "embedded-newline",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "diagnostic raw row bound",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "ABSENT",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "stdout_error": "private shm mount mismatch",
+          "stdout_sha256": "cbeb61a970d0b53295107fda0ce23906deb4bcb3c26455a09ebe515013d6decf",
+          "stdout_stage": "private identity",
+          "stdout_status": "FAILED",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        }
+      }
+    },
+    {
+      "name": "exact7996-byte-summary-escape",
+      "previous_error": "diagnostic summary byte bound",
+      "revised": {
+        "compressed_bytes": 212,
+        "expanded_before_refusal": 10240,
+        "name": "large-error",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "diagnostic copied field type/length: error",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        }
+      }
+    },
+    {
+      "name": "exact-int3-float3.0-equality",
+      "previous": {
+        "candidate_count": 3,
+        "candidate_digest_declared": "f634d51abf29e862c5bce99325445ca92d007f152ef876014912b3797d26fa43",
+        "candidate_digest_verified": true,
+        "fd_join": {
+          "opened_fd_mount_id": "3",
+          "retained_line_index": 2,
+          "retained_row": {
+            "device": "0:3",
+            "filesystem": "tmpfs",
+            "mount_id": "3",
+            "mountpoint": "/dev/shm",
+            "options": "ro",
+            "root": "/ipc",
+            "super_options": "rw"
+          },
+          "selected_matches_opened": true
+        },
+        "interpretation": "UNIQUE_RETAINED_FD_JOIN_ONLY_NOT_QUALIFICATION",
+        "mechanism_qualified": false,
+        "optional_result": "IDENTICAL",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "retained_rows": 3,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "stdout_error": "private shm mount mismatch",
+        "stdout_sha256": "c09741bfe513ad5b0e6c4aec90de2c0534f6e94c9426304d026ddc088e0cd3eb",
+        "stdout_stage": "private identity",
+        "stdout_status": "FAILED",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      },
+      "revised": {
+        "compressed_bytes": 1078,
+        "expanded_before_refusal": 10240,
+        "name": "type-sensitive",
+        "result": {
+          "candidate_count": 3,
+          "candidate_digest_declared": "f634d51abf29e862c5bce99325445ca92d007f152ef876014912b3797d26fa43",
+          "candidate_digest_verified": true,
+          "error": "diagnostic result/stdout disagreement",
+          "error_type": "RuntimeError",
+          "fd_join": {
+            "opened_fd_mount_id": "3",
+            "retained_line_index": 2,
+            "retained_row": {
+              "device": "0:3",
+              "filesystem": "tmpfs",
+              "mount_id": "3",
+              "mountpoint": "/dev/shm",
+              "options": "ro",
+              "root": "/ipc",
+              "super_options": "rw"
+            },
+            "selected_matches_opened": true
+          },
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "DIFFERENT",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "retained_rows": 3,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "stdout_error": "private shm mount mismatch",
+          "stdout_sha256": "c09741bfe513ad5b0e6c4aec90de2c0534f6e94c9426304d026ddc088e0cd3eb",
+          "stdout_stage": "private identity",
+          "stdout_status": "FAILED",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        }
+      }
+    },
+    {
+      "name": "exact-unlisted33MiB-archive",
+      "previous": {
+        "candidate_count": 3,
+        "candidate_digest_declared": "f634d51abf29e862c5bce99325445ca92d007f152ef876014912b3797d26fa43",
+        "candidate_digest_verified": true,
+        "fd_join": {
+          "opened_fd_mount_id": "3",
+          "retained_line_index": 2,
+          "retained_row": {
+            "device": "0:3",
+            "filesystem": "tmpfs",
+            "mount_id": "3",
+            "mountpoint": "/dev/shm",
+            "options": "ro",
+            "root": "/ipc",
+            "super_options": "rw"
+          },
+          "selected_matches_opened": true
+        },
+        "interpretation": "UNIQUE_RETAINED_FD_JOIN_ONLY_NOT_QUALIFICATION",
+        "mechanism_qualified": false,
+        "optional_result": "ABSENT",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "retained_rows": 3,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "stdout_error": "private shm mount mismatch",
+        "stdout_sha256": "c09741bfe513ad5b0e6c4aec90de2c0534f6e94c9426304d026ddc088e0cd3eb",
+        "stdout_stage": "private identity",
+        "stdout_status": "FAILED",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      },
+      "revised": {
+        "compressed_bytes": 34535,
+        "expanded_before_refusal": 3584,
+        "name": "unlisted33MiB",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "diagnostic duplicate/unlisted archive member",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        }
+      }
+    }
+  ],
+  "fields_containment": {
+    "boundary": "Helper injection tests and parent AST sequencing; parent/runtime itself not executed",
+    "fields": [
+      {
+        "field": "stage",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "diagnostic copied field type/length: stage",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        },
+        "value_type": "list"
+      },
+      {
+        "field": "error",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "diagnostic copied field type/length: error",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        },
+        "value_type": "dict"
+      },
+      {
+        "field": "stage",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "diagnostic copied field type/length: stage",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        },
+        "value_type": "str"
+      },
+      {
+        "field": "error",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "diagnostic captured stream byte bound",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        },
+        "value_type": "str"
+      },
+      {
+        "field": "error",
+        "result": {
+          "candidate_count": 3,
+          "candidate_digest_declared": "f634d51abf29e862c5bce99325445ca92d007f152ef876014912b3797d26fa43",
+          "candidate_digest_verified": true,
+          "fd_join": {
+            "opened_fd_mount_id": "3",
+            "retained_line_index": 2,
+            "retained_row": {
+              "device": "0:3",
+              "filesystem": "tmpfs",
+              "mount_id": "3",
+              "mountpoint": "/dev/shm",
+              "options": "ro",
+              "root": "/ipc",
+              "super_options": "rw"
+            },
+            "selected_matches_opened": true
+          },
+          "interpretation": "UNIQUE_RETAINED_FD_JOIN_ONLY_NOT_QUALIFICATION",
+          "mechanism_qualified": false,
+          "optional_result": "ABSENT",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "retained_rows": 3,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "stdout_error": "\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603\u2603",
+          "stdout_sha256": "4dbf14990ce61492cf303e44361de344c976b1ea9f1071a298a181dc0960524a",
+          "stdout_stage": "private identity",
+          "stdout_status": "FAILED",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        },
+        "value_type": "str"
+      },
+      {
+        "finite_token": "1e10000",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "nonfinite diagnostic JSON float",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        }
+      },
+      {
+        "finite_token": "-1e10000",
+        "result": {
+          "candidate_digest_verified": false,
+          "error": "nonfinite diagnostic JSON float",
+          "error_type": "RuntimeError",
+          "fd_join": "UNPROVEN",
+          "interpretation": "UNPROVEN",
+          "mechanism_qualified": false,
+          "optional_result": "NOT_CHECKED",
+          "phase_acceptance": false,
+          "proof_credit": false,
+          "schema": "worldline.private-ipc-mount-diagnostic.v1",
+          "terminal_tool_failure": true,
+          "tool_exit": 2,
+          "tool_stop": null
+        }
+      }
+    ],
+    "injected_generation": {
+      "interpretation": "UNPROVEN",
+      "path": "mount-diagnostic-check.json",
+      "written": true
+    },
+    "injected_receipt_IO": {
+      "error_type": "OSError",
+      "interpretation": "UNPROVEN",
+      "path": "mount-diagnostic-check.json",
+      "qualification": false,
+      "written": false
+    }
+  },
+  "phase_acceptance": false,
+  "runtime_entrypoints_executed": false,
+  "scanner_cases": [
+    {
+      "compressed_bytes": 7460,
+      "expanded_before_refusal": 3584,
+      "name": "1025-unlisted-headers",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic duplicate/unlisted archive member",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 34534,
+      "expanded_before_refusal": 3584,
+      "name": "listed-payload-over32MiB",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic logical payload bound/mismatch",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 817,
+      "expanded_before_refusal": 3584,
+      "name": "unsupported-type-x",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic unsupported archive entry/extension",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 814,
+      "expanded_before_refusal": 3584,
+      "name": "unsupported-type-g",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic unsupported archive entry/extension",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 817,
+      "expanded_before_refusal": 3584,
+      "name": "unsupported-type-L",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic unsupported archive entry/extension",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 814,
+      "expanded_before_refusal": 3584,
+      "name": "unsupported-type-2",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic unsupported archive entry/extension",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 814,
+      "expanded_before_refusal": 3584,
+      "name": "unsupported-type-1",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic unsupported archive entry/extension",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 800,
+      "expanded_before_refusal": 512,
+      "name": "bad-header-checksum",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic USTAR checksum",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 800,
+      "expanded_before_refusal": 2171,
+      "name": "payload-hash-mismatch",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic stream digest mismatch",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 805,
+      "expanded_before_refusal": 512,
+      "name": "mode-metadata-mismatch",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic normalized archive metadata mismatch",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 62,
+      "expanded_before_refusal": 200,
+      "name": "truncated-header",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic truncated USTAR header",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 820,
+      "expanded_before_refusal": 10240,
+      "name": "concatenated-gzip",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic gzip trailing/concatenated data",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    },
+    {
+      "compressed_bytes": 800,
+      "expanded_before_refusal": 10240,
+      "name": "listed-but-missing-member",
+      "result": {
+        "candidate_digest_verified": false,
+        "error": "diagnostic EOF/inventory mismatch",
+        "error_type": "RuntimeError",
+        "fd_join": "UNPROVEN",
+        "interpretation": "UNPROVEN",
+        "mechanism_qualified": false,
+        "optional_result": "NOT_CHECKED",
+        "phase_acceptance": false,
+        "proof_credit": false,
+        "schema": "worldline.private-ipc-mount-diagnostic.v1",
+        "terminal_tool_failure": true,
+        "tool_exit": 2,
+        "tool_stop": null
+      }
+    }
+  ],
+  "schema": "worldline.ipc-diagnostic-composition-r2.regressions.v1",
+  "status": "TESTED_AUTHOR_REGRESSIONS_ONLY_NOT_INDEPENDENT_REVIEW"
+}

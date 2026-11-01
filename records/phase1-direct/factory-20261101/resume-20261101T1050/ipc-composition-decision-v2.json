@@ -1,0 +1,69 @@
+{
+  "schema": "worldline.composition-decision.v1",
+  "utc": "2026-11-01T12:04:53.688484+00:00",
+  "dossier": "IPC-DIAGNOSTIC-COMPOSITION",
+  "revision": 2,
+  "decision": "D156",
+  "state": "BLOCKED_REVISION_ALLOWANCE_EXHAUSTED",
+  "references": [
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-review-packet-v2.json",
+      "bytes": 19683,
+      "sha256": "1454c038af90a356ba46761520c7d4469b4ae260ba6232a0e076dada4c9e6deb"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-independent-report.md",
+      "bytes": 5139,
+      "sha256": "d1196d54bd31d31c263221e393313976ea6c7a4175d56fff378f5667e322e5e1"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-adversary-report.md",
+      "bytes": 4526,
+      "sha256": "794b3b2ff2de85e8b1bddb13aebe98b340c0bf117924b789b525e349673d2957"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-judge-report.md",
+      "bytes": 2767,
+      "sha256": "7a4fa63f1b81eb219cea8cfea48baa0fcef9df7b5e22cb781b3c2026dbb47c0a"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-composition-judge-packet-v2.json",
+      "bytes": 3170,
+      "sha256": "6699bdddba34f2d8b3e82e9cd04a22da25bc8e3feaef5e89f441420c827c12d9"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-judge-provenance.json",
+      "bytes": 552,
+      "sha256": "f4e1875314bfcf90af2d3bbb1d847365bf863ba1e8e07f40d3cf9c675c5b6a29"
+    },
+    {
+      "path": "records/phase1-direct/factory-20261101/resume-20261101T1050/composition-r2-judge-tool-evidence.json",
+      "bytes": 88491,
+      "sha256": "fe3e085f783b27d803e9ddacafc0659ba494908b4341f5190d65de9e0cc2ebb4"
+    }
+  ],
+  "mandatory_findings": [
+    "Leading-zero decimal candidate mount IDs pass grammar then raw-string comparison falsely asserts unique numeric opened-FD correlation."
+  ],
+  "independent_judge_reproduction": {
+    "elapsed_seconds": 0.062,
+    "cases": {
+      "1,2,3": "unique",
+      "03,2,3": "incorrectly unique",
+      "0003,2,3": "incorrectly unique",
+      "3,2,3": "UNPROVEN ambiguous"
+    },
+    "candidate_digests": "verified"
+  },
+  "original_four_findings": "bounded regressions pass; additional mandatory uniqueness defect remains",
+  "reachability": "Synthetic malformed-consumer evidence; authentic producer reachability, forgery and authority bypass not demonstrated",
+  "prior_approval": "Retained; no-blocking-finding conclusion STALE for required malformed-input behavior",
+  "revision_allowance_remaining": 0,
+  "review_reset_allowed": false,
+  "launch_permitted": false,
+  "actual_execution": "UNRUN",
+  "storage_window": "NOT_GRANTED",
+  "phase_acceptance": false,
+  "F7": "NOT PERFORMED",
+  "next": "Preserve block and all evidence; continue separately authorized independent O1 compiler-source and bounded disk preparation."
+}

@@ -1,0 +1,818 @@
+{
+  "USTAR_framing_limit": 34612224,
+  "all_functions_at_most60_lines": true,
+  "final_formation": {
+    "changed_inherited_functions": [
+      "parent"
+    ],
+    "guard_four_literals_only": true,
+    "maximum_collector_function_lines": 54,
+    "new_consumer_functions": [
+      "diagnostic_archive",
+      "diagnostic_complete",
+      "diagnostic_constant",
+      "diagnostic_fd_join",
+      "diagnostic_float",
+      "diagnostic_header",
+      "diagnostic_header_text",
+      "diagnostic_inventory_member",
+      "diagnostic_json",
+      "diagnostic_object",
+      "diagnostic_octal",
+      "diagnostic_optional",
+      "diagnostic_payload",
+      "diagnostic_row",
+      "diagnostic_rows",
+      "diagnostic_scan",
+      "diagnostic_scan_stream",
+      "diagnostic_summary",
+      "diagnostic_text",
+      "diagnostic_write",
+      "mount_diagnostic"
+    ],
+    "unchanged_parent_exit_AST": true
+  },
+  "framing_equation": "33554432+1023*(512+511)+1024+10239",
+  "functions": {
+    "records/phase1-direct/completion-20261026/ram_qualification_v6.py": [
+      {
+        "lines": 6,
+        "name": "digest"
+      },
+      {
+        "lines": 7,
+        "name": "save"
+      },
+      {
+        "lines": 7,
+        "name": "cgroup"
+      },
+      {
+        "lines": 23,
+        "name": "entry_details"
+      },
+      {
+        "lines": 7,
+        "name": "receipt_bytes"
+      },
+      {
+        "lines": 35,
+        "name": "failure_log"
+      },
+      {
+        "lines": 5,
+        "name": "failure_record"
+      },
+      {
+        "lines": 16,
+        "name": "retain_failure"
+      },
+      {
+        "lines": 22,
+        "name": "inventory"
+      },
+      {
+        "lines": 31,
+        "name": "retain"
+      },
+      {
+        "lines": 19,
+        "name": "sandbox"
+      },
+      {
+        "lines": 8,
+        "name": "chunk_command"
+      },
+      {
+        "lines": 19,
+        "name": "probe_command"
+      },
+      {
+        "lines": 9,
+        "name": "mount_ram"
+      },
+      {
+        "lines": 40,
+        "name": "inside"
+      },
+      {
+        "lines": 14,
+        "name": "negative_writer"
+      },
+      {
+        "lines": 18,
+        "name": "source_state"
+      },
+      {
+        "lines": 16,
+        "name": "check_retained"
+      },
+      {
+        "lines": 54,
+        "name": "parent"
+      },
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 2,
+        "name": "identity"
+      },
+      {
+        "lines": 16,
+        "name": "host_boundary"
+      },
+      {
+        "lines": 7,
+        "name": "ipc_environment"
+      },
+      {
+        "lines": 8,
+        "name": "ipc_command"
+      },
+      {
+        "lines": 11,
+        "name": "owned_remove"
+      },
+      {
+        "lines": 31,
+        "name": "byte_cap"
+      },
+      {
+        "lines": 26,
+        "name": "cleanup_inode_fixtures"
+      },
+      {
+        "lines": 26,
+        "name": "inode_cap"
+      },
+      {
+        "lines": 5,
+        "name": "bounded_text"
+      },
+      {
+        "lines": 32,
+        "name": "quota_context"
+      },
+      {
+        "lines": 16,
+        "name": "cap_controls"
+      },
+      {
+        "lines": 8,
+        "name": "archived_json"
+      },
+      {
+        "lines": 38,
+        "name": "check_ipc_retained"
+      },
+      {
+        "lines": 35,
+        "name": "check_positive_ipc"
+      },
+      {
+        "lines": 7,
+        "name": "diagnostic_object"
+      },
+      {
+        "lines": 2,
+        "name": "diagnostic_constant"
+      },
+      {
+        "lines": 4,
+        "name": "diagnostic_float"
+      },
+      {
+        "lines": 6,
+        "name": "diagnostic_json"
+      },
+      {
+        "lines": 15,
+        "name": "diagnostic_archive"
+      },
+      {
+        "lines": 5,
+        "name": "diagnostic_octal"
+      },
+      {
+        "lines": 5,
+        "name": "diagnostic_header_text"
+      },
+      {
+        "lines": 22,
+        "name": "diagnostic_header"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_inventory_member"
+      },
+      {
+        "lines": 21,
+        "name": "diagnostic_payload"
+      },
+      {
+        "lines": 22,
+        "name": "diagnostic_scan_stream"
+      },
+      {
+        "lines": 3,
+        "name": "diagnostic_scan"
+      },
+      {
+        "lines": 17,
+        "name": "diagnostic_row"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_rows"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_complete"
+      },
+      {
+        "lines": 14,
+        "name": "diagnostic_fd_join"
+      },
+      {
+        "lines": 8,
+        "name": "diagnostic_optional"
+      },
+      {
+        "lines": 11,
+        "name": "diagnostic_summary"
+      },
+      {
+        "lines": 5,
+        "name": "diagnostic_text"
+      },
+      {
+        "lines": 32,
+        "name": "mount_diagnostic"
+      },
+      {
+        "lines": 14,
+        "name": "diagnostic_write"
+      },
+      {
+        "lines": 3,
+        "name": "__init__"
+      },
+      {
+        "lines": 5,
+        "name": "snapshot"
+      },
+      {
+        "lines": 2,
+        "name": "__init__"
+      },
+      {
+        "lines": 8,
+        "name": "write"
+      },
+      {
+        "lines": 2,
+        "name": "tell"
+      },
+      {
+        "lines": 2,
+        "name": "flush"
+      },
+      {
+        "lines": 4,
+        "name": "__init__"
+      },
+      {
+        "lines": 25,
+        "name": "read"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/collector-before-row-closure.py": [
+      {
+        "lines": 6,
+        "name": "digest"
+      },
+      {
+        "lines": 7,
+        "name": "save"
+      },
+      {
+        "lines": 7,
+        "name": "cgroup"
+      },
+      {
+        "lines": 23,
+        "name": "entry_details"
+      },
+      {
+        "lines": 7,
+        "name": "receipt_bytes"
+      },
+      {
+        "lines": 35,
+        "name": "failure_log"
+      },
+      {
+        "lines": 5,
+        "name": "failure_record"
+      },
+      {
+        "lines": 16,
+        "name": "retain_failure"
+      },
+      {
+        "lines": 22,
+        "name": "inventory"
+      },
+      {
+        "lines": 31,
+        "name": "retain"
+      },
+      {
+        "lines": 19,
+        "name": "sandbox"
+      },
+      {
+        "lines": 8,
+        "name": "chunk_command"
+      },
+      {
+        "lines": 19,
+        "name": "probe_command"
+      },
+      {
+        "lines": 9,
+        "name": "mount_ram"
+      },
+      {
+        "lines": 40,
+        "name": "inside"
+      },
+      {
+        "lines": 14,
+        "name": "negative_writer"
+      },
+      {
+        "lines": 18,
+        "name": "source_state"
+      },
+      {
+        "lines": 16,
+        "name": "check_retained"
+      },
+      {
+        "lines": 54,
+        "name": "parent"
+      },
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 2,
+        "name": "identity"
+      },
+      {
+        "lines": 16,
+        "name": "host_boundary"
+      },
+      {
+        "lines": 7,
+        "name": "ipc_environment"
+      },
+      {
+        "lines": 8,
+        "name": "ipc_command"
+      },
+      {
+        "lines": 11,
+        "name": "owned_remove"
+      },
+      {
+        "lines": 31,
+        "name": "byte_cap"
+      },
+      {
+        "lines": 26,
+        "name": "cleanup_inode_fixtures"
+      },
+      {
+        "lines": 26,
+        "name": "inode_cap"
+      },
+      {
+        "lines": 5,
+        "name": "bounded_text"
+      },
+      {
+        "lines": 32,
+        "name": "quota_context"
+      },
+      {
+        "lines": 16,
+        "name": "cap_controls"
+      },
+      {
+        "lines": 8,
+        "name": "archived_json"
+      },
+      {
+        "lines": 38,
+        "name": "check_ipc_retained"
+      },
+      {
+        "lines": 35,
+        "name": "check_positive_ipc"
+      },
+      {
+        "lines": 7,
+        "name": "diagnostic_object"
+      },
+      {
+        "lines": 2,
+        "name": "diagnostic_constant"
+      },
+      {
+        "lines": 4,
+        "name": "diagnostic_float"
+      },
+      {
+        "lines": 6,
+        "name": "diagnostic_json"
+      },
+      {
+        "lines": 15,
+        "name": "diagnostic_archive"
+      },
+      {
+        "lines": 5,
+        "name": "diagnostic_octal"
+      },
+      {
+        "lines": 5,
+        "name": "diagnostic_header_text"
+      },
+      {
+        "lines": 22,
+        "name": "diagnostic_header"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_inventory_member"
+      },
+      {
+        "lines": 21,
+        "name": "diagnostic_payload"
+      },
+      {
+        "lines": 22,
+        "name": "diagnostic_scan_stream"
+      },
+      {
+        "lines": 3,
+        "name": "diagnostic_scan"
+      },
+      {
+        "lines": 17,
+        "name": "diagnostic_row"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_rows"
+      },
+      {
+        "lines": 20,
+        "name": "diagnostic_complete"
+      },
+      {
+        "lines": 14,
+        "name": "diagnostic_fd_join"
+      },
+      {
+        "lines": 8,
+        "name": "diagnostic_optional"
+      },
+      {
+        "lines": 11,
+        "name": "diagnostic_summary"
+      },
+      {
+        "lines": 5,
+        "name": "diagnostic_text"
+      },
+      {
+        "lines": 32,
+        "name": "mount_diagnostic"
+      },
+      {
+        "lines": 14,
+        "name": "diagnostic_write"
+      },
+      {
+        "lines": 3,
+        "name": "__init__"
+      },
+      {
+        "lines": 5,
+        "name": "snapshot"
+      },
+      {
+        "lines": 2,
+        "name": "__init__"
+      },
+      {
+        "lines": 8,
+        "name": "write"
+      },
+      {
+        "lines": 2,
+        "name": "tell"
+      },
+      {
+        "lines": 2,
+        "name": "flush"
+      },
+      {
+        "lines": 4,
+        "name": "__init__"
+      },
+      {
+        "lines": 25,
+        "name": "read"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/final_tests.py": [
+      {
+        "lines": 11,
+        "name": "delimiter_cases"
+      },
+      {
+        "lines": 43,
+        "name": "main"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/nominal_zero_tests.py": [
+      {
+        "lines": 33,
+        "name": "main"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests-attempt-1.py": [
+      {
+        "lines": 17,
+        "name": "rebuild"
+      },
+      {
+        "lines": 4,
+        "name": "set_archive"
+      },
+      {
+        "lines": 13,
+        "name": "recorded_failure"
+      },
+      {
+        "lines": 41,
+        "name": "exact_counterexamples"
+      },
+      {
+        "lines": 43,
+        "name": "scanner_cases"
+      },
+      {
+        "lines": 29,
+        "name": "field_and_containment_cases"
+      },
+      {
+        "lines": 15,
+        "name": "historical_compatibility"
+      },
+      {
+        "lines": 20,
+        "name": "main"
+      },
+      {
+        "lines": 3,
+        "name": "read"
+      },
+      {
+        "lines": 5,
+        "name": "traced"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests.py": [
+      {
+        "lines": 17,
+        "name": "rebuild"
+      },
+      {
+        "lines": 4,
+        "name": "set_archive"
+      },
+      {
+        "lines": 13,
+        "name": "recorded_failure"
+      },
+      {
+        "lines": 41,
+        "name": "exact_counterexamples"
+      },
+      {
+        "lines": 43,
+        "name": "scanner_cases"
+      },
+      {
+        "lines": 29,
+        "name": "field_and_containment_cases"
+      },
+      {
+        "lines": 15,
+        "name": "historical_compatibility"
+      },
+      {
+        "lines": 20,
+        "name": "main"
+      },
+      {
+        "lines": 3,
+        "name": "read"
+      },
+      {
+        "lines": 5,
+        "name": "traced"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/source_tests-before-row-closure.py": [
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 5,
+        "name": "load"
+      },
+      {
+        "lines": 36,
+        "name": "formation"
+      },
+      {
+        "lines": 13,
+        "name": "synthetic_reports"
+      },
+      {
+        "lines": 21,
+        "name": "fixture"
+      },
+      {
+        "lines": 6,
+        "name": "evaluate"
+      },
+      {
+        "lines": 8,
+        "name": "outcome"
+      },
+      {
+        "lines": 27,
+        "name": "core_cases"
+      },
+      {
+        "lines": 27,
+        "name": "tamper_cases"
+      },
+      {
+        "lines": 15,
+        "name": "archive_cases"
+      },
+      {
+        "lines": 23,
+        "name": "encoding_cases"
+      },
+      {
+        "lines": 27,
+        "name": "main"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/source_tests.py": [
+      {
+        "lines": 3,
+        "name": "require"
+      },
+      {
+        "lines": 5,
+        "name": "load"
+      },
+      {
+        "lines": 36,
+        "name": "formation"
+      },
+      {
+        "lines": 13,
+        "name": "synthetic_reports"
+      },
+      {
+        "lines": 21,
+        "name": "fixture"
+      },
+      {
+        "lines": 6,
+        "name": "evaluate"
+      },
+      {
+        "lines": 8,
+        "name": "outcome"
+      },
+      {
+        "lines": 27,
+        "name": "core_cases"
+      },
+      {
+        "lines": 27,
+        "name": "tamper_cases"
+      },
+      {
+        "lines": 15,
+        "name": "archive_cases"
+      },
+      {
+        "lines": 23,
+        "name": "encoding_cases"
+      },
+      {
+        "lines": 27,
+        "name": "main"
+      }
+    ],
+    "records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v3.py": [
+      {
+        "lines": 8,
+        "name": "record"
+      },
+      {
+        "lines": 7,
+        "name": "best_effort_record"
+      },
+      {
+        "lines": 12,
+        "name": "read_small"
+      },
+      {
+        "lines": 22,
+        "name": "metadata_bytes"
+      },
+      {
+        "lines": 2,
+        "name": "command_limits"
+      },
+      {
+        "lines": 17,
+        "name": "systemctl"
+      },
+      {
+        "lines": 24,
+        "name": "cancel_launch_group"
+      },
+      {
+        "lines": 13,
+        "name": "owned_scope"
+      },
+      {
+        "lines": 18,
+        "name": "scope_observation"
+      },
+      {
+        "lines": 21,
+        "name": "stop_scope"
+      },
+      {
+        "lines": 27,
+        "name": "cleanup_owned"
+      },
+      {
+        "lines": 11,
+        "name": "preflight"
+      },
+      {
+        "lines": 15,
+        "name": "wrapper_terminal"
+      },
+      {
+        "lines": 23,
+        "name": "monitor"
+      },
+      {
+        "lines": 24,
+        "name": "run"
+      }
+    ]
+  },
+  "no_proof_claim": true,
+  "phase_acceptance": false,
+  "preimages": {
+    "records/phase1-direct/completion-20261026/ram_qualification_v4.py": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716",
+    "records/phase1-direct/completion-20261026/ram_qualification_v5.py": "0e3be7b480ebb81aa89e2259ed3f45292aa3026887f77a27d01f353d6dd869d6",
+    "records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.py": "b82daae76209bb40acc6898bde0043fb9e41e0658bdd34f957e8052a3bedb50e",
+    "records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v2.py": "7b1fa664510893af48fe876fe079475ca58a003caaf0ffdda397334cde6d2e55",
+    "records/phase1-direct/factory-20261101/private-ipc-probe-v3/probe.py": "8d7816d6a37ed353c6682dd27b97c4b7cbbc95f7e20282cb84a4c10177b16260"
+  },
+  "schema": "worldline.ipc-composition-r2.static-readback.v1"
+}

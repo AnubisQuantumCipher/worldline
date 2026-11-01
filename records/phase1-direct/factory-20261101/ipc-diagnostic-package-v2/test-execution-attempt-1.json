@@ -1,0 +1,56 @@
+{
+  "actual_runtime_entrypoints": false,
+  "aggregate_budget_seconds": 60,
+  "author_tests": true,
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/source_tests.py"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"cases\": 42, \"receipt_bytes\": 36732, \"status\": \"TESTED_AUTHOR_SYNTHETIC_ONLY_NOT_INDEPENDENT_REVIEW\", \"structure\": {\"changed_inherited_functions\": [\"parent\"], \"guard_four_literals_only\": true, \"maximum_collector_function_lines\": 54, \"new_consumer_functions\": [\"diagnostic_archive\", \"diagnostic_complete\", \"diagnostic_constant\", \"diagnostic_fd_join\", \"diagnostic_float\", \"diagnostic_header\", \"diagnostic_header_text\", \"diagnostic_inventory_member\", \"diagnostic_json\", \"diagnostic_object\", \"diagnostic_octal\", \"diagnostic_optional\", \"diagnostic_payload\", \"diagnostic_row\", \"diagnostic_rows\", \"diagnostic_scan\", \"diagnostic_scan_stream\", \"diagnostic_summary\", \"diagnostic_text\", \"diagnostic_write\", \"mount_diagnostic\"], \"unchanged_parent_exit_AST\": true}}\n",
+      "streams_within_bound": true,
+      "test_sha256": "943a062538cbef85499727a55b16b07974dbfe8718f2c665fb0ee0f174978fa2"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/nominal_zero_tests.py"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "{\"cases\": 2, \"status\": \"TESTED_SYNTHETIC_ZERO_EXIT_NOT_CONTROL_EXECUTION\"}\n",
+      "streams_within_bound": true,
+      "test_sha256": "d5f5f26bbf6ddcca6c289a9c570b0189a757609d613aa803f8108fa9e025ca0c"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests.py"
+      ],
+      "exit_code": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests.py\", line 220, in <module>\n    main()\n    ~~~~^^\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests.py\", line 205, in main\n    exact_r1_counterexamples=exact_counterexamples(collector, normal),\n                             ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/revision_tests.py\", line 76, in exact_counterexamples\n    tests.require(len(raw) == 7996, \"exact7996-byte regression\")\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-diagnostic-package-v2/source_tests.py\", line 26, in require\n    raise RuntimeError(message)\nRuntimeError: exact7996-byte regression\n",
+      "stdout": "",
+      "streams_within_bound": true,
+      "test_sha256": "88200f3413895d3237d1dee2b34974478fbd007d0b921e9f1ee4b942e46fb4ae"
+    }
+  ],
+  "elapsed_seconds": 0.45904905814677477,
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONOPTIMIZE": "0"
+  },
+  "phase_acceptance": false,
+  "schema": "worldline.ipc-composition-r2.test-execution.v1"
+}

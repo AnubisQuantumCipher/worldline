@@ -1,0 +1,17 @@
+{
+  "scope": "Interim read-only check; not runtime admission",
+  "evidence": "Root native tool command chunk e6e73d, exit0,2026-11-01; full command/output retained by native session",
+  "counts": {
+    "source_pins": 168,
+    "driver_inputs": 161,
+    "tools": 16,
+    "runtime_sources": 1573,
+    "objects": 348,
+    "attest": 355,
+    "sparklib": 281,
+    "sparklib_lib": 71
+  },
+  "mismatches": [],
+  "reference_sha256": "47714e59f0f6f5407e7ba6bf0c09d8897978b717ff5cf267986b979205fa5e01",
+  "limitations": "Runtime-source byte pins checked, not extra runtime directory roster; no lock or admission obtained"
+}

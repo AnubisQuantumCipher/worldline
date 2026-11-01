@@ -2949,3 +2949,115 @@ revision is consumed, with no reset. Native tool requests/results are retained a
 supplementary evidence, excluding hidden reasoning. Two adversary harness expectation
 failures are explicitly retained; they were not source failures. No actual IPC run,
 mechanism qualification, production integration, proof or F7 credit is added.
+
+## D156 — Reject diagnostic composition before runtime admission
+
+The new composition decision is separate from D155's consumed probe revision.
+Packet1f8193365c4f4482e3ff57175f5224cd0281e7c5524c782855ff2d0068a01ae0
+binds v5 collector0e3be7b480ebb81aa89e2259ed3f45292aa3026887f77a27d01f353d6dd869d6
+and literal-only guard7b1fa664510893af48fe876fe079475ca58a003caaf0ffdda397334cde6d2e55.
+Forty-four author synthetic cases passed. Fresh Astra-medium review conditionally
+approved the fixed authentic-producer scope; fresh Sol-high review REJECTED four
+consumer counterexamples. Separate fresh Astra-medium judge7471b48b8972289e2c4f1c166a5d43162a8a22961ee33353b21eea4beba9f820
+REJECTED revision1 against the packet's explicit malformed-input and bound requirements.
+The judge inspected retained source/tests; it did not rerun the counterexamples.
+
+Embedded LF can hide a duplicate FD-ID row behind a false unique join. A7996-byte
+malformed stdout can escape the final summary-size check and prevent parent result
+writing. Tar entry-count checking follows full parsing and an unlisted33MiB member
+can be ignored by selected-member interpretation. Python equality treats optional
+integer3 and float3.0 as identical. These are reproduced synthetic consumer defects,
+not observed malformed output from the pinned producer or a receipt-forgery claim.
+The authentic bounded-producer assumption limits reachability but does not discharge
+the consumer requirements. Preserve the conditional approval and correcting REJECTs.
+
+Choose the sole evidence-driven revision: new v6 collector, fixed guardv3 with fresh
+paths, and packagev2; retain v5/packagev1 unchanged. Repair row framing, bounded summary
+and finalization containment, bounded complete USTAR/inventory scanning, and type-sensitive
+JSON comparison. Preserve v3 probe, topology, original operational predicates/exits,
+resource ceilings, full retention/recovery and cleanup. No larger payload cap, automatic
+retry or new runtime admission follows. Fresh paired review and separate judgment of
+the exact revision are required. Reversal is ceasing use of this unexecuted composition
+while retaining every source/review/failure. All actual diagnostics remain UNRUN here;
+the earlier D154 failure remains and the storage owner still holds its window.
+
+Independent O1 work acquired the previously selected exact compiler interfaces under
+the existing pin; it adopts no compiler or semantic patch. The inventory worker lost
+its in-memory state across a turn boundary. That FAILED persistence boundary and its
+incorrect retention claim are preserved. Three full source-tree responses and four
+partial excerpts were recovered from existing tool logs; the full3108-file inventory
+is unavailable. The complete70-file interface cut was recoverable without more queries.
+Registered acquisition then fetched65 missing bodies (811179B) and reused5 freshly
+matched local files. All70 files total873083B. Root independently matched every source
+size, Git blob, SHA256 and receipt; all74 manifest payloads match. No generator, build,
+proof or fetched script executed. Installed correspondence is UNKNOWN and complete
+build closure/full-value/implicit Old semantics remain UNPROVEN. Exact records are in
+old-retirement-source-inventory-v1 and old-retirement-interface-source-cut-v1 beneath
+completion-20261026; root readback is in the resume directory. Original five acquired
+frontend interfaces and mismatching older donor files remain unchanged.
+
+### D156 final disposition — revision2 BLOCKED, allowance exhausted
+
+Revision2 packet1454c038af90a356ba46761520c7d4469b4ae260ba6232a0e076dada4c9e6deb
+binds collector5156ec3f54621b4b1eefb68de2e059f1ddf1da5e0c8247becffba26c300723db
+and guarda3ac95a4228f1b4ba7be02349e5963d877a251bfe169880c8c88cd3bf3201ec2.
+The four original counterexamples are repaired in bounded synthetic regressions.
+Fresh Astra-medium review conditionally approved preparation; fresh Sol-high review
+REJECTED a further mandatory numeric-identity ambiguity. Leading-zero IDs `03` or
+`0003` pass decimal grammar but raw-string matching treats them as distinct from `3`.
+Consequently two rows with numeric identity3 can be reported as a unique FD-row join.
+
+Separate fresh Astra-medium judge7a4fa63f1b81eb219cea8cfea48baa0fcef9df7b5e22cb781b3c2026dbb47c0a
+independently reproduced both false-unique cases and canonical positive/ambiguous controls
+in0.062s. All candidate hashes verified. It BLOCKED the exact revision against the
+unchanged uniqueness requirement. This is a synthetic malformed-consumer defect; actual
+fixed-producer reachability, receipt forgery and operational authority bypass are not
+demonstrated. That limitation cannot waive the required malformed-input guarantee.
+
+Choose BLOCKED_REVISION_ALLOWANCE_EXHAUSTED. Zero revisions remain; no renamed retry,
+review reset, narrowed uniqueness guarantee or launch follows. Preserve both packages,
+all approvals and rejections, pure test evidence and correcting STALE entries. The
+machine-readable decision is resume-20261101T1050/ipc-composition-decision-v2.json,
+SHA2569b2a3166e20a6805e5cf14e11f1ca32dec7170d813fa68ed62863e10c7390220.
+Reversal requires separately authorized work with independent evidence satisfying the
+original obligation; this decision grants none. Diagnostic UNRUN, mechanism UNQUALIFIED,
+no product/Phase One credit, F7 NOT PERFORMED. Continue independent O1 work.
+
+## D157 — Acquire pinned generator prerequisites; prepare independent disk baseline
+
+Choose exact source acquisition and bounded disk-build preparation over repeating the
+blocked IPC composition or treating historical disk runs as current qualification.
+The source inventory's lost complete mapping remains unavailable. One explicitly
+registered GNATcoll metadata recovery preserved the full immutable tree response,
+then selected279 prerequisite paths at the existing GNATcoll/SPARK pins. Acquisition
+made269 GETs, all200, for3308281B;10 exact local reuses complete3364573B. No retries or
+redirects occurred. The complete285-file packet is3635972B; its manifest is
+e9782379dbf8bc7d3aeeeaa22dc59cac8464353bfbdc0b1acdc46f80f687268d.
+Root independently verified all284 manifest payloads and every279 source size, Git
+blob, SHA256, receipt and materialized0644 mode. Two upstream executable modes remain
+recorded separately; no fetched wrapper or source was executed.
+
+Records: completion-20261026/old-retirement-xgen-prerequisites-v1 and
+old-retirement-xgen-source-cut-v1; root readback in the resume directory is
+o1-xgen-source-root-readback.json, SHA256
+1b5f2d5b93d4c5152d2f3c3d662953afd62802aec072481c96242eda01538df3.
+Metadata and recipes may be published; third-party source bodies stay local/pinned
+with explicit publication exclusions. The source-formation assertion before any
+network call and both root metadata/capture harness failures remain recorded.
+
+Sol-medium disk planning and Sol-high compiler-closure analysis are preparation, not
+approval or execution evidence. A fresh isolated DEBUG/static GNATcoll plus xtree
+build needs exact copied/read-only inputs, explicit bounded commands and writable
+paths, finite growth/archive/full-restore budgets, fresh paired review and separate
+judgment, storage-owner handoff, post-lock admission and unchanged8GiB/zero-swap limits.
+The existing RAM probe envelope is not a qualified generator-build envelope. No build
+deadline or disk quota is inferred from a source plan. Two separately registered
+metadata recoveries can establish the remaining SPARK/GCC candidate source mapping;
+historical aggregate counts cannot substitute for that durable manifest.
+
+Installed correspondence remains UNKNOWN; executable source closure, generator output,
+full-value/implicit Old ownership and semantic proof remain UNPROVEN. First baseline
+acceptance requires an unmodified translator build and reproduction of unchanged D47
+static-leak failures before semantic changes. Generator success alone cannot discharge
+that chain. Reversal is ceasing preparation while preserving all pinned evidence.
+DUAT's remainder122 service retains the storage window; WORLDLINE has no active job.

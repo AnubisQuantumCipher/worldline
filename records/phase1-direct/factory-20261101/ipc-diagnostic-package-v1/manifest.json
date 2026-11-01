@@ -1,0 +1,151 @@
+{
+  "F7": "NOT PERFORMED",
+  "actual_probe_executed": false,
+  "author": "/root/disk_path_investigator",
+  "budgets": {
+    "diagnostic_summary_bytes": 8192,
+    "measured_synthetic_seconds": 0.6214886610396206,
+    "mount_evidence_bytes": 3072,
+    "new_bytes_limit": 1048576,
+    "new_file_limit": 20,
+    "other": "Original32MiB/1024inode output and separate restore,8MiB archive,4MiB receipts,4MiB outer metadata,512KiB guard log,8GiB/swap0,postlock14GiB,reserve10GB,+60MB/+30MB,180/220/240/270s deadlines unchanged",
+    "recovery_bytes_registered": 1048576,
+    "stdout_bytes": 8192,
+    "stdout_printed_newline_bytes": 1,
+    "total_synthetic_seconds_limit": 60
+  },
+  "files": {
+    "records/phase1-direct/completion-20261026/ram_qualification_v5.py": {
+      "bytes": 44941,
+      "sha256": "0e3be7b480ebb81aa89e2259ed3f45292aa3026887f77a27d01f353d6dd869d6"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/README.md": {
+      "bytes": 8142,
+      "sha256": "f7863c2bb3fd7386469a2d7b0dcf9e01bbae56a29d0785416ab8745679d43de5"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/collector.patch": {
+      "bytes": 12194,
+      "sha256": "60892ceab1bee987bc5cf31f57f370ae10cd87c55af03f09abb2eb164abe448d"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/guard.patch": {
+      "bytes": 1340,
+      "sha256": "d5e75238fc1035e3dc0ff652670ddc629dc4acff27076098600695596416946e"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/handoff.json": {
+      "bytes": 1367,
+      "sha256": "a506ee91b000ecf600c2e8b45fc1d3fa186d06f33aed3c86adfc0a0856b284e0"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/nominal-zero-tests.json": {
+      "bytes": 2716,
+      "sha256": "0eb1ad596fa05338ea1ad5eda34fdbb1c5d0dca70a6ccf3d6bd555ebd3b9df40"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/nominal_zero_tests.py": {
+      "bytes": 2472,
+      "sha256": "d5f5f26bbf6ddcca6c289a9c570b0189a757609d613aa803f8108fa9e025ca0c"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/source-tests.json": {
+      "bytes": 36459,
+      "sha256": "0a99d0e6f540ac027fe3d44d35474aa5510cf080909131c81a2bc0b3b7a35702"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/source_tests.py": {
+      "bytes": 14970,
+      "sha256": "efc91df1c6b7cae7e60a26bce8cc4a953da110f1c5c97799f48ae2464ee37b5f"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/static-readback.json": {
+      "bytes": 6652,
+      "sha256": "a99d5adb71f3c3b42b81a0058ea9cfafd4a2dc0ef52e2cc35768c277b9b8bb49"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/test-execution-attempt-1.json": {
+      "bytes": 1184,
+      "sha256": "4174e00743daaa417597c416935136fd874c727fc63b7827ecaa5d9152420ba3"
+    },
+    "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/test-execution-attempt-2.json": {
+      "bytes": 746,
+      "sha256": "73f9a11f34e98be34a25e822bda13c4eeea43b002f1639bde269b8f10d151fc4"
+    },
+    "records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v2.py": {
+      "bytes": 12697,
+      "sha256": "7b1fa664510893af48fe876fe079475ca58a003caaf0ffdda397334cde6d2e55"
+    }
+  },
+  "future_fixed_launch": {
+    "authorized_now": false,
+    "fresh_inner_output": "records/phase1-direct/completion-20261026/ram-qualification-ipc-probe-v5",
+    "fresh_job": "records/phase1-direct/factory-20261101/private-ipc-diagnostic-job-v2",
+    "fresh_monitor_log": "records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v2.jsonl",
+    "guard": "records/phase1-direct/factory-20261101/ipc_diagnostic_guard_v2.py",
+    "mode": "ipc-probe -> normal ONLY",
+    "prerequisites": "Separate composition review pair/judge,registered outputs/full budgets,current explicit storage-owner window,fresh admission/source/tool/runtime/original-output pins,core0;none performed by this package"
+  },
+  "independent_review": false,
+  "interpretation_limits": [
+    "Archived full tool.stdout is observation source;optional result cannot override nonzero tool or failed terminal stdout.",
+    "Complete evidence means retention only;global hash/unique FD join require all candidate rows. Incomplete declared hash is never recomputed from prefix.",
+    "Unknown999/duplicate/malformed/unmatched IDs imply UNPROVEN interpretation,not a selector/topology fix.",
+    "Actual tool failure remains explicit. Even an original nominal parent0 plus successful join grants no mechanism/product acceptance.",
+    "Pretty result8192 versus compact stdout8192 and receipt-before-final-close caveats remain.",
+    "Archive receipt chain/OS/tool execution authenticity and actual full recovery require separate independent raw-result readback;no universal parser/Python/toolchain/system proof.",
+    "Guardsource pins remain external root pre/postlaunch gates;mode dispatcher inheritance grants no other launch authority."
+  ],
+  "manifest_hash_rule": "This manifest excludes itself; root must pin its final hash externally. Files are hash-bound,not OS-immutable.",
+  "mechanism_qualified": false,
+  "phase_acceptance": false,
+  "proof_credit": false,
+  "references": {
+    "records/phase1-direct/factory-20261101/resume-20261101T1050/collector-source-registration.json": {
+      "bytes": 1128,
+      "sha256": "d21b3b0cee0912ef677af783d935ee24c659e949765931fea5293cd934da2496"
+    },
+    "records/phase1-direct/factory-20261101/resume-20261101T1050/collector-writer-lease-v1.json": {
+      "bytes": 826,
+      "sha256": "075f06b3e29539de22588221390591bff2b3a9f9ec510773c69e90422ab3ab4d"
+    },
+    "records/phase1-direct/factory-20261101/resume-20261101T1050/ipc-v3-decision.json": {
+      "bytes": 2029,
+      "sha256": "1aa6c27b5993d61b1fe942a406baa13ed959de6b0e6eb869ed98975ce89c6fb9"
+    }
+  },
+  "schema": "worldline.ipc-diagnostic-composition-preparation.v1",
+  "source_delta": {
+    "collector": "v4 copy:probe v3 exact path/pin,fresh-v5 output literal,parent gains separate nominal diagnostic receipt only; inherited operational checks and parent exit unchanged",
+    "consumer": "11 local transparent helpers; separate observational receipt; archive+stdout inventory identity,bounded strict JSON,final counters/indices,complete-only hash and unique FD-to-row join,optional receipt consistency",
+    "guard": "Exact4literal copy:JOB,LOG,inner fresh-path check,collector filename; no new pin enforcement"
+  },
+  "source_head": "82b319f9497303bb91c8af8454c69e159f2ea92a",
+  "status": "SOURCE_ONLY_IMPLEMENTED_AUTHOR_SYNTHETIC_TESTED_ACTUAL_UNRUN",
+  "storage_window_requested": false,
+  "tests": {
+    "boundary": "Pure synthetic report fixtures and genuine in-memory tar member extraction;outer inside-receipt/stat/archive-hash/open boundaries mocked;no actual restoration/OS FD/mount/IPC/runtime entrypoints;author tests,not independent review",
+    "cases": 44,
+    "commands": [
+      [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/source_tests.py"
+      ],
+      [
+        "/usr/bin/python3",
+        "-B",
+        "-W",
+        "error",
+        "records/phase1-direct/factory-20261101/ipc-diagnostic-package-v1/nominal_zero_tests.py"
+      ]
+    ],
+    "exit_codes": [
+      0,
+      0
+    ],
+    "failures": 0,
+    "strict_environment": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONOPTIMIZE": "0"
+    },
+    "test_execution_receipts": [
+      "test-execution-attempt-1.json",
+      "test-execution-attempt-2.json"
+    ]
+  },
+  "utc": "2026-11-01T11:17:24.871973+00:00"
+}
