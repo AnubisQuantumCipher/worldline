@@ -156,7 +156,10 @@
     "factory-20261101/publication-api-readback-v3.json",
     "factory-20261101/publication-receipt-v3.json",
     "factory-20261101/replay-row-model-proposal-v1/manifest.json",
-    "factory-20261101/replay-row-model-review-v1.json"
+    "factory-20261101/replay-row-model-review-v1.json",
+    "factory-20261101/publication-api-readback-v4.json",
+    "factory-20261101/publication-receipt-v4.json",
+    "factory-20261101/storage-window-checkpoint-v4.json"
   ],
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
@@ -190,9 +193,9 @@
   ],
   "previous_source_head": "c6c06746dcef4bbb7d987d0f78abc5fd4ce19bec",
   "head_class": "d34c9b9 was HEAD at checkpoint formation. Following documentary commits carry this evidence; product source remains1d148820. Read publication receipt/live Git for current documentary HEAD.",
-  "publication_receipt": "factory-20261101/publication-receipt-v3.json",
+  "publication_receipt": "factory-20261101/publication-receipt-v4.json",
   "latest_continuation": "factory-20261101/checkpoint-v4.json",
-  "pending_publication": "D151 checkpoint and receipts published at55ed413. D152 separate source-only proposal checkpoint being prepared; read live Git/publication receipt for documentary HEAD.",
+  "pending_publication": "D151 and D152 source/test checkpoints published; latest source-only package9a1cb0f remote/API bytes verified. Following receipt-only commit may advance documentary HEAD; use live Git.",
   "remote_checkpoint": {
     "utc": "2026-10-26T16:50:15.173164+00:00",
     "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",

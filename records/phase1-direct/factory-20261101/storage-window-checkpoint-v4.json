@@ -1,0 +1,39 @@
+{
+  "utc": "2026-11-01T09:20:08.071247+00:00",
+  "batch": {
+    "started": "2026-11-01T09:19:10.961976+00:00",
+    "path": "/home/sicarii/.cache/anubis-wt/target-pathprec/release/vault-retained-binaries-c2486a990b6c4b988cab7fbabd2d5311",
+    "state": "NATIVE_OFFLOAD_RUNNING",
+    "available_before": 18643324928,
+    "worker_pid": 388313,
+    "worker_terminal": false
+  },
+  "operation_summary": {
+    "phase": "backup",
+    "owner_pid": 388313,
+    "pid": 388373,
+    "state": "running",
+    "updated": "2026-11-01T09:20:06.607216+00:00"
+  },
+  "completed_item_receipt_count": 12,
+  "free_bytes": 18641854464,
+  "root_has_no_heavy_job": true,
+  "root_attempted_lock_acquisition": false,
+  "window": "No terminal handoff received; remain source-only and do not acquire between-item gaps",
+  "phase_acceptance": false,
+  "batch_worker": {
+    "pid": 388313,
+    "exists": true,
+    "comm": "python3"
+  },
+  "operation_owner": {
+    "pid": 388313,
+    "exists": true,
+    "comm": "python3"
+  },
+  "operation_child": {
+    "pid": 388373,
+    "exists": true,
+    "comm": "restic"
+  }
+}
