@@ -1,0 +1,61 @@
+{
+  "utc": "2026-11-01T09:08:12.232164+00:00",
+  "owner": "01a19606-239f-7b43-8c88-4fc902372e80",
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "branch": "codex/phase1-direct-20261019",
+  "base_documentary_commit": "b15b6d921ecc95634b9233a6c2fc6719f346cdb4",
+  "product_source_checkpoint": "1d1488207b5df63dd18df0bc7c8e313f2847371e",
+  "active_root_heavy_jobs": [],
+  "integration_changes": "None; new diagnostic profile, probe, fixed guards, synthetic tests and documentary receipts only.",
+  "tested": [
+    "Seven grouped fake-libc semaphore ownership/error checks, exit0",
+    "Seven source/topology/injected-capacity-error checks, exit0"
+  ],
+  "observed": [
+    "17 predecessor definitions AST-identical",
+    "Six guard variants have only six literal substitutions each",
+    "Fresh nonauthor source review approves exact candidate conditionally",
+    "Current storage owner has a live frozen 30-item batch with no safe pause interface"
+  ],
+  "actual_mechanism_cases": {
+    "ipc-probe": "UNRUN",
+    "ipc-alias-mismatch": "UNRUN",
+    "ipc-namespace-mismatch": "UNRUN",
+    "ipc-leftover-socket": "UNRUN",
+    "ipc-cap-controls": "UNRUN",
+    "ipc-sigkill": "UNRUN"
+  },
+  "proved_this_package": [],
+  "mechanism_qualified": false,
+  "phase_acceptance": false,
+  "goal_status": "ACTIVE_INCOMPLETE",
+  "goal_turn_classification": "PROGRESS: reviewed private IPC source package and tested failure contracts; no runtime qualification or proof",
+  "next": "After the storage owner terminal handoff, fresh exact admission and six separately guarded mechanism cases, then independent raw/terminal review. No Chunk proof retry before complete mechanism qualification. In parallel finish and review the isolated replay row-model proposal.",
+  "storage_coordination": "External storage owner 01a195f9-dee5-7cb0-a440-777959511b7c will hand over after its frozen 30-item batch and before the next batch. No root lock acquisition or job is queued; between-item gaps remain reserved.",
+  "free_bytes_at_checkpoint": 15999377408,
+  "source_review": "private-ipc-review-v1.json",
+  "source_review_sha256": "b9b5011b3324fb94c1c859e36099b2c0e8930932db26fe21eb999dd89d44f4ef",
+  "evidence": [
+    "private-ipc-source-window-v1.json",
+    "private-ipc-profile-implementation-v1.json",
+    "private-ipc-profile-implementation-correction-v1.json",
+    "private-ipc-probe-v1/implementation.json",
+    "private-ipc-root-tests-v1.json",
+    "private-ipc-profile-source-tests-v1.json"
+  ],
+  "unproved": [
+    "All six actual private IPC cases and real provider socket cleanup",
+    "Fresh whole-unit Chunk and replay proof",
+    "Replay models and production Plan-to-Conforms bridge",
+    "Original O1 automatic full-value/implicit Old retirement",
+    "Significant 805-byte value arithmetic",
+    "Full custody/UTF8/authority proof and original 1000s acquisition",
+    "Full frozen-source build/proof/runtime/protected/actor/manifests",
+    "Independently commissioned F7"
+  ],
+  "acceptance_evidence_required": "All original gates and seven workstreams, applicable 219-obligation closure on one frozen integrated source, and independent commissioned F7; no narrowed claim.",
+  "active_source_only_workers": {
+    "closure_reconcile": "Author replay-row-model-proposal-v1 only",
+    "verification_path": "Nonauthor review replay-row-model-review-v1 only"
+  }
+}

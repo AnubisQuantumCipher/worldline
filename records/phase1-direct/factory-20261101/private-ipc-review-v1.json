@@ -1,0 +1,293 @@
+{
+  "documentary_correction": {
+    "path": "records/phase1-direct/factory-20261101/private-ipc-profile-implementation-correction-v1.json",
+    "tool_provenance": "Preparer gnatprove PATH wrapper observation is not a future selected prover pin or invocation. Fresh diagnostic must record actual toolchain closure.",
+    "verified_against_guards": "All six guard preflights mechanically check PYTHONOPTIMIZE exactly0 and sys.flags.optimize0. PYTHONDONTWRITEBYTECODE exactly1 is a required external launch/environment evidence gate, not a predicate in these guard sources. Original unset statement is preserved as incorrect and superseded by correction."
+  },
+  "expected_actual_case_matrix": [
+    {
+      "actual_status": "UNRUN",
+      "collector": 0,
+      "mode": "ipc-probe",
+      "retention": "COMPLETE_VERIFIED",
+      "tool": [
+        0
+      ]
+    },
+    {
+      "actual_status": "UNRUN",
+      "collector": 1,
+      "mode": "ipc-alias-mismatch",
+      "retention": "COMPLETE_VERIFIED",
+      "tool": [
+        2
+      ]
+    },
+    {
+      "actual_status": "UNRUN",
+      "collector": 1,
+      "mode": "ipc-namespace-mismatch",
+      "retention": "COMPLETE_VERIFIED",
+      "tool": [
+        2
+      ]
+    },
+    {
+      "actual_status": "UNRUN",
+      "collector": 1,
+      "mode": "ipc-leftover-socket",
+      "retention": "LOST_EPHEMERAL_OUTPUTS",
+      "tool": [
+        0
+      ]
+    },
+    {
+      "actual_status": "UNRUN",
+      "collector": 0,
+      "mode": "ipc-cap-controls",
+      "retention": "COMPLETE_VERIFIED",
+      "tool": [
+        0
+      ]
+    },
+    {
+      "actual_status": "UNRUN",
+      "collector": 0,
+      "mode": "ipc-sigkill",
+      "retention": "COMPLETE_VERIFIED",
+      "tool": [
+        -9,
+        137
+      ]
+    }
+  ],
+  "mandatory_remaining_gates": [
+    "Root final control-correspondence decision; exact sources and reviewed test receipts frozen. Any change requires repin/review. Preserve corrected exact launch environment and actual runtime evidence.",
+    "External active storage owner terminal handoff, fresh current capacity/owner/source admission, no concurrent heavy job; no reserve/cap exception.",
+    "Execute each of all six fixed cases separately with complete exact source/private/tool/runtime/library inventories and actual command/environment evidence.",
+    "Independently read raw host/uid/maps/mountinfo/ns/filesystem/cgroup limits, peak/noOOM, readonly-root/device, own sem and quota outcomes, exact exit matrix and source equality.",
+    "Verify full archive member payloads/restored inventory for positive,identity-negative,cap,SIGKILL cases; socket case must preserve exact S_IFSOCK failure/logs and LOST status, never complete/proof credit.",
+    "Verify current exact-owned terminal scope, absent live descendants, empty outer mounts, released lock/storage ownership before any successor.",
+    "Only after all mechanism cases are accepted may a separately admitted strict Chunk diagnostic be considered. Real Why3 socket cleanup remains unobserved and unsupported-entry rejection remains mandatory. No proof/F7/PhaseOne credit from this package."
+  ],
+  "model_provenance": {
+    "provider_attestation": "UNAVAILABLE",
+    "requested_effort": "high",
+    "requested_model": "gpt-6.1-sol",
+    "review_label_is_not_attestation": true,
+    "runtime_model_identity": "NOT_INDEPENDENTLY_ATTESTED"
+  },
+  "review_boundary": {
+    "compiler_or_proof_credit": false,
+    "independent_of_authorship": true,
+    "jobs_or_ipc_or_mounts_or_systemd_launched_by_reviewer": false,
+    "launch_authorized": false,
+    "mechanism_qualified": false,
+    "new_source_functions_imported_or_executed_by_reviewer": false,
+    "only_written_path": "records/phase1-direct/factory-20261101/private-ipc-review-v1.json",
+    "phase_acceptance": false,
+    "source_only": true,
+    "source_review_is_F7": false
+  },
+  "reviewed_root_collector_evidence": {
+    "narrow_limit": "Ordinary tiny disk fixtures and patched calls only. No actual IPC/namespace/mount/quota/resource or archive qualification, no synthetic coverage claim beyond these exact checks.",
+    "receipt": "records/phase1-direct/factory-20261101/private-ipc-profile-source-tests-v1.json",
+    "receipt_status": "TESTED_SOURCE_AND_INJECTED_ERRORS_ONLY",
+    "reviewer_action": "Read exact test source and receipt; no rerun or target-module import",
+    "seven_checks": [
+      "17 predecessor definitions unchanged",
+      "mocked Popen emitted mandatory IPC/private bind before dev RO, no extra tmpfs,180s wait",
+      "wrong owned fixture inode preserved",
+      "byte injected ENOSPC accepted with owned cleanup",
+      "byte injected EACCES rejected with owned cleanup",
+      "inode injected ENOSPC accepted with bounded attempts and owned cleanup",
+      "inode injected EACCES rejected with owned cleanup"
+    ],
+    "test_source": "records/phase1-direct/factory-20261101/private-ipc-profile-source-tests-v1.py"
+  },
+  "reviewed_root_unit_evidence": {
+    "claimed_result": "exit0;7 grouped checks/10 paths",
+    "narrow_evidence": [
+      "unowned/firstNULL-EEXIST grants no cleanup",
+      "owned close+unlink",
+      "close failure does not skip owned unlink",
+      "identity change forbids unlink",
+      "unlink failure forbids pass",
+      "four exact single-call trywait outcomes"
+    ],
+    "not_evidence_for": [
+      "actual libc ABI execution",
+      "real semaphore",
+      "mount/ns/resource topology",
+      "complete archive after actual failure",
+      "mechanism qualification"
+    ],
+    "receipt": "records/phase1-direct/factory-20261101/private-ipc-root-tests-v1.json",
+    "reviewer_action": "Read exact source and receipt only; did not rerun tests",
+    "test_source": "records/phase1-direct/factory-20261101/private-ipc-root-tests-v1.py"
+  },
+  "reviewer": "/root/probe_result_review",
+  "schema": "worldline.phase1.private-ipc-independent-source-review.v1",
+  "source_pins": [
+    {
+      "bytes": 19090,
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v3.py",
+      "sha256": "6d65314d267d8845357487d931bb6c1819b3d81b2a9646ffefd9d19fab722095"
+    },
+    {
+      "bytes": 35034,
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716"
+    },
+    {
+      "bytes": 12684,
+      "path": "records/phase1-direct/factory-20261101/chunk_capacity_guard_v5.py",
+      "sha256": "f5850499903a25985f477ba3b593b452bae8223bae5c970da2a515f9d6bfda18"
+    },
+    {
+      "bytes": 17080,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+      "sha256": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693"
+    },
+    {
+      "bytes": 12331,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v1/implementation.json",
+      "sha256": "036d1867d0edfec31927d0bb87f18d0ad243ea5722593e9069382ba4a9113db1"
+    },
+    {
+      "bytes": 12668,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-profile-implementation-v1.json",
+      "sha256": "9f477319a6bd7d954e853d62bd4d74f4a0b4379bb52dbc73633b33907ead2fe0"
+    },
+    {
+      "bytes": 18174,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-next-package-v1.json",
+      "sha256": "1b4e7e035e6b73659916f2387f0b0d94f95cb8b1e0bd821e3bd7354f29f58313"
+    },
+    {
+      "bytes": 13160,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-policy-review-v1.json",
+      "sha256": "df5c7f452147eaf39cca6fba8727126c3f2e852438efd96e60e2d803baa4ac48"
+    },
+    {
+      "bytes": 5613,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-root-tests-v1.py",
+      "sha256": "43fb6bba59eea284a804efe8b1db64a18d154580bdae905be578dfe0f692709b"
+    },
+    {
+      "bytes": 2310,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-root-tests-v1.json",
+      "sha256": "698d655d2910b03a8ab9c19a906caaf5c6104d4d7ebb3a243a8559227b098df5"
+    },
+    {
+      "bytes": 12690,
+      "path": "records/phase1-direct/factory-20261101/ipc_capacity_guard_v1.py",
+      "sha256": "b82daae76209bb40acc6898bde0043fb9e41e0658bdd34f957e8052a3bedb50e"
+    },
+    {
+      "bytes": 12732,
+      "path": "records/phase1-direct/factory-20261101/ipc_alias_mismatch_guard_v1.py",
+      "sha256": "2f3885dc379b37033f5da7ca7bf99800c3ebf97ba3a7b5f327a1a40b22baff44"
+    },
+    {
+      "bytes": 12752,
+      "path": "records/phase1-direct/factory-20261101/ipc_namespace_mismatch_guard_v1.py",
+      "sha256": "7dfeb0af3b97b20d911c01872ecd325cb0d4d9ae43d679ee94b00649821cde31"
+    },
+    {
+      "bytes": 12737,
+      "path": "records/phase1-direct/factory-20261101/ipc_leftover_socket_guard_v1.py",
+      "sha256": "f127aad83071e879abdcd23f5401773bb930b99babcf6ba492f92b9bfa910e76"
+    },
+    {
+      "bytes": 12724,
+      "path": "records/phase1-direct/factory-20261101/ipc_cap_controls_guard_v1.py",
+      "sha256": "45a52dcff7e191e1c4bf27b9bc6a9b6cb21cc9a96add126fca654d121333f2fd"
+    },
+    {
+      "bytes": 12699,
+      "path": "records/phase1-direct/factory-20261101/ipc_sigkill_guard_v1.py",
+      "sha256": "2621a835fdaa2d4341761154648b02c651a0e27764b4a873a4a09050685681c6"
+    },
+    {
+      "bytes": 6286,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-profile-source-tests-v1.py",
+      "sha256": "35b295a328f57bdd1bebf4b730b3ed21aab0d13e14c09ffb407f859001ec3bfd"
+    },
+    {
+      "bytes": 3979,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-profile-source-tests-v1.json",
+      "sha256": "d49d4646196e42442509cde01b65fc3c080c897da7718725321ccfe95b4aebaa"
+    },
+    {
+      "bytes": 2855,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-profile-implementation-correction-v1.json",
+      "sha256": "2bda1a22e803c8e5de7109e9d0a0014729291638f3df42132b0ec3420b68c62e"
+    }
+  ],
+  "status": "SOURCE_REVIEW_APPROVE_CONDITIONAL_NO_EXECUTION_CREDIT",
+  "verdict": "No remaining concrete source blocker in these exact frozen sources. Source-only support for six separately admitted mechanism cases after root control-correspondence decision and storage-owner handoff. Root synthetic source/error and fake-libc checks reviewed as bounded test evidence. This receipt is not launch authorization.",
+  "verification": {
+    "abi": "Installed glibc SEM_FAILED NULL sentinel, typed fixed and variadic sem_open arguments, pinned libc digest; bounded exclusive create/reopen EEXIST and exactly four nonblocking trywait/post sequence observations. No retry or blocking sem wait.",
+    "cap_fixtures": "Same output filesystem aggregate32MiB/<=1024inodes. <=8193 writes of4096B; requires ENOSPC and written<=cap plus owned regular-file cleanup. <=1024 exclusive inode attempts inside fresh0700 directory; identity-checked own files and empty directory only removed; no recursive/provider artifact cleanup. Unexpected failure is not success.",
+    "collector_delta": {
+      "ast_identical_predecessor_definitions": [
+        "digest",
+        "save",
+        "cgroup",
+        "UnsupportedArchiveEntry",
+        "entry_details",
+        "receipt_bytes",
+        "failure_log",
+        "failure_record",
+        "retain_failure",
+        "inventory",
+        "LimitedWriter",
+        "retain",
+        "chunk_command",
+        "probe_command",
+        "mount_ram",
+        "negative_writer",
+        "check_retained"
+      ],
+      "changed_predecessor_definitions": [
+        "sandbox",
+        "inside",
+        "source_state",
+        "parent"
+      ],
+      "removed_predecessor_definitions": [],
+      "scope": "AST parsed directly from current source text; target modules not imported"
+    },
+    "controls": "Positive root/device write refusal and actual /dev/null write retained. Legacy literal /dev/shm forbidden-write fixture remains untouched in v3/old unreachable helper; old-layout result is not relabeled under writable private shm. New private alias/host/ns checks, quota checks and readonly-root/device controls have separate explicit correspondence.",
+    "guards": {
+      "all_have_exactly_six_constant_only_ast_changes": true,
+      "all_other_ast_equal_to_reviewed_v5": true,
+      "changes": [
+        "docstring",
+        "fixed JOB leaf",
+        "fixed LOG leaf",
+        "fixed inner output leaf",
+        "v4 helper basename",
+        "fixed final mode"
+      ],
+      "files": [
+        "ipc_capacity_guard_v1.py",
+        "ipc_alias_mismatch_guard_v1.py",
+        "ipc_namespace_mismatch_guard_v1.py",
+        "ipc_leftover_socket_guard_v1.py",
+        "ipc_cap_controls_guard_v1.py",
+        "ipc_sigkill_guard_v1.py"
+      ],
+      "inherited_limitation": "Ambiguous/already-reaped cancellation may conservatively remain UNVERIFIED; it grants no successor authority."
+    },
+    "host_observation": "Only read-only host /dev/shm directory dev/ino and exact deterministic witness/semaphore basenames checked before/after. Host is never a writable bind source. This does not prove arbitrary concurrent host contents unchanged or all IPC allocations charged to tmpfs.",
+    "limits": "Unchanged32MiB output+32MiB restore tmpfs,1024inodes each,8MiB archive,4MiB receipt allowance,10GB reserve,8GiB memory/swap0,180s tool/220s collector; inherited guard admission, capacity, owned scope terminal and no-successor-on-unknown rules retained. External exact wrapper/runtime/source/tool/library admission remains required.",
+    "negative_admission": "Probe injects wrong expected alias or parent IPC before ordinary open_context. Failure occurs at private identity before semaphore/witness/result-file creation. Collector demands exact FAILED/stdout error, tool2, no private probe report or ipc file. This addresses earlier direct-validator-only concern.",
+    "ownership": "Exclusive semaphore create establishes cleanup authority only after success. NULL/EEXIST gives no cleanup authority. Backing object is constrained to regular/euid-owned/one-link/32-byte/mode0600 and saved dev+ino; close and unlink errors are independently preserved, identity mismatch forbids unlink, missing/failed cleanup forbids success. Private0700 namespace and no hostile concurrent same-UID writer remain assumptions; no global race freedom proof.",
+    "sigkill": "Prepared SIGKILL requires positive operations, own semaphore close/unlink, result fsync, directory closes and stdout flush before self-kill. Intended failure retention must still be freshly executed under new topology.",
+    "source_binding": "Probe is one fixed resolved nonsymlink file with exact digest checked before tool and in parent source state afterward; no dynamic collector/probe import cycle. Read/launch race assumes reviewed host source remains unchanged. No provider attestation follows.",
+    "strict_retention": "inventory, unsupported-entry rejection, archive ceiling, complete archive/restore identity comparison, immediate tool result and bounded nofollow failure logs unchanged. Private ipc tree is fully inventoried/archived; no special-type skipping, socket deletion, partial-as-complete or cap relaxation.",
+    "topology": "Mandatory --unshare-ipc. Private --dev /dev, --dir /dev/shm, --bind existing capped ram/ipc /dev/shm, then --remount-ro /dev. Existing readonly-root, pid/net isolation, TMPDIR/cache/object binds retained. Actual pinned bwrap ordering, target shape and nested mount flags remain UNRUN and must fail closed without fallback."
+  }
+}

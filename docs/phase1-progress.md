@@ -702,3 +702,24 @@ Production stays at published engineering source 1d14882 (documentary HEAD08e951
 No proposal is a full-domain/runtime/Old repair or a passed Phase One gate. The next
 sound step is resource admission, corrected wrapper probe, then strict single-unit
 legality/proof and original checked controls before production integration.
+
+2026-11-01 continuation, D144-D151: the current factory goal again directs verified
+iPad tiering and retains the original Phase One exit. The external storage owner is
+running its authorized inactive-history batch; WORLDLINE and current dependencies
+remain protected. The earlier "forget the ipad" paragraph records historical steering,
+not the current active storage instruction.
+
+The corrected old RAM mechanism was exercised, and private reservation replay legality
+passed strict compiler checks. Two later strict Chunk diagnostics failed: the second
+retained a read-only semaphore error and an unsupported Why3 socket. Both failures remain;
+neither earns fresh proof credit. Root and independent review confirmed bounded resources,
+unchanged inputs and terminal owned scopes for those diagnostics.
+
+D151 prepares a new private IPC profile using the same existing output RAM budget.
+Fresh independent source review and two synthetic suites pass. All six real qualification
+cases remain UNRUN, and the profile is not qualified. Its actual probes wait for the
+storage owner's terminal handoff and fresh admission. Strict proof may follow only after
+the full mechanism qualification and independent result review. Replay model work proceeds
+as a separate source-only proposal. Production integration, original full-value/implicit
+Old, significant-value arithmetic, complete custody/UTF8/authority proof, original full
+acquisition, frozen-source qualification and commissioned F7 remain open.

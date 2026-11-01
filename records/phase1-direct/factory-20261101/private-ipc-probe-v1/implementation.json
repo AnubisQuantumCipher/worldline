@@ -1,0 +1,201 @@
+{
+  "schema": "worldline.private-ipc-probe-source-implementation.v1",
+  "status": "SOURCE_ONLY_UNRUN_PENDING_ROOT_AND_FRESH_REVIEW",
+  "source_base": "b15b6d9 (parent-provided carrier identity)",
+  "owner": "/root/closure_reconcile",
+  "owned_directory": "records/phase1-direct/factory-20261101/private-ipc-probe-v1",
+  "files": [
+    {
+      "path": "probe.py",
+      "sha256": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693",
+      "bytes": 17080
+    },
+    {
+      "path": "implementation.json",
+      "role": "This source-only manifest"
+    }
+  ],
+  "executed": {
+    "probe_source": false,
+    "libc_loaded": false,
+    "semaphore_API": false,
+    "socket_created": false,
+    "compiler": false,
+    "mount": false,
+    "systemd": false,
+    "heavy_job": false
+  },
+  "authorization": "No launch authority. External storage owner remains live. Root and fresh nonauthor reviewer must review exact composed source and controls before any separately admitted invocation.",
+  "purpose": "Exercise exactly one fresh, private filesystem-backed POSIX named semaphore with bounded nonblocking operations and own-only normal cleanup. No Boolean here grants WORLDLINE product authority.",
+  "interface": {
+    "argv_template": [
+      "<pinned-python>",
+      "-S",
+      "-B",
+      "<carrier>/records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+      "<mode>"
+    ],
+    "required_environment": {
+      "PROBE_TOKEN": "Exactly 32 lowercase hexadecimal characters, fresh per invocation",
+      "PROBE_READONLY": "Absolute read-only durable diagnostic base; path at most1024characters",
+      "PROBE_RAM_IPC": "Absolute read-only alias of the exact already-capped private ram/ipc",
+      "TMPDIR": "Absolute private writable tmp directory on the same output filesystem",
+      "PROBE_PARENT_IPC_NS": "Actual parent namespace spelling ipc:[decimal] captured before private child",
+      "PROBE_PARENT_MOUNT_NS": "Actual parent namespace spelling mnt:[decimal] captured before private child",
+      "PROBE_HOST_SHM_DEV": "Decimal st_dev from outer host /dev/shm before launch",
+      "PROBE_HOST_SHM_INO": "Decimal st_ino from outer host /dev/shm before launch",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHONOPTIMIZE": "0"
+    },
+    "forbidden_use": "Never invoke directly on the host or outside the exact reviewed collector namespace. No fallback if --unshare-ipc, private mount or any gate fails.",
+    "modes": [
+      {
+        "name": "normal",
+        "expected_tool_exit": 0,
+        "status": "PASSED",
+        "result_file": "tmp/private-ipc-probe.json",
+        "expected_archive": "COMPLETE_VERIFIED after independent full restore check"
+      },
+      {
+        "name": "alias-mismatch",
+        "expected_tool_exit": 2,
+        "status": "FAILED",
+        "stage": "private identity",
+        "error": "alias mismatch",
+        "injection": "Changes expected alias to /dev BEFORE ordinary open_context; actual topology unchanged",
+        "result_file": "ABSENT; bounded JSON in regular tool.stdout",
+        "semaphore_and_witness": "MUST BE ABSENT"
+      },
+      {
+        "name": "host-mismatch",
+        "expected_tool_exit": 2,
+        "status": "FAILED",
+        "stage": "private identity",
+        "error": "host shm alias",
+        "injection": "Changes expected host identity to actual private identity BEFORE ordinary open_context",
+        "result_file": "ABSENT; bounded JSON in regular tool.stdout",
+        "semaphore_and_witness": "MUST BE ABSENT"
+      },
+      {
+        "name": "namespace-mismatch",
+        "expected_tool_exit": 2,
+        "status": "FAILED",
+        "stage": "private identity",
+        "error": "namespace shared",
+        "injection": "Changes expected parent IPC ID to child ID BEFORE ordinary open_context",
+        "result_file": "ABSENT; bounded JSON in regular tool.stdout",
+        "semaphore_and_witness": "MUST BE ABSENT"
+      },
+      {
+        "name": "leftover-socket",
+        "expected_tool_exit": 0,
+        "status": "LEFTOVER_SOCKET_CONTROL",
+        "result_file": "tmp/private-ipc-probe.json",
+        "fixture": "tmp/leftover-<token>.sock; socket explicitly closed, pathname intentionally retained",
+        "expected_archive": "NO_COMPLETE_ARCHIVE; unchanged collector inventory must reject S_IFSOCK and retain exact entry metadata. Tool exit0 is not collector success."
+      },
+      {
+        "name": "sigkill",
+        "expected_tool_exit": "-SIGKILL or128+SIGKILL, as actually reported through bwrap",
+        "status": "SIGKILL_PREPARED",
+        "result_file": "tmp/private-ipc-probe.json",
+        "sequence": "Complete normal own semaphore cleanup, save/fsync result, close directory descriptors, flush bounded JSON stdout, then SIGKILL os.getpid() only. Failure in finalization or logging must prevent intentional kill and reject this control.",
+        "expected_archive": "COMPLETE_VERIFIED only after exact prepared result/witness/stdout and full restore. This is a new-profile failure-retention control, not a relabeled legacy test."
+      }
+    ],
+    "result_schema": "worldline.private-ipc-probe.v1",
+    "normal_required_fields": {
+      "stage": "completed",
+      "semaphore_cleanup": {
+        "created": true,
+        "close": "OK",
+        "unlink": "OK",
+        "errors": [],
+        "backing_absent": true
+      },
+      "directory_close_errors": [],
+      "semaphore": {
+        "name": "/wl-ipc-<token>",
+        "backing": "sem.wl-ipc-<token>",
+        "exclusive_reopen_errno": "EEXIST",
+        "operations": [
+          "empty-EAGAIN",
+          "post",
+          "consume",
+          "empty-EAGAIN"
+        ]
+      },
+      "witness": {
+        "basename": "wl-ipc-<token>.witness",
+        "bytes": 20,
+        "sha256": "8bd7eab41a2347b6049c83ccf7b5cf3b69161a664a1778f135e19cd9aa0879cc"
+      },
+      "os_evidence": "Actual uid/euid/uid_map/gid_map, child IPC/mount namespace IDs, private and expected-host dev/ino, quota and longest-covering mount records for dev/shm/alias/tmp",
+      "phase_acceptance": false
+    },
+    "negative_required_fields": "FAILED at exact admission stage/error, semaphore_cleanup.created false, close/unlink NOT_OWNED, directory_close_errors empty. No private result/witness/sem creation; stdout is retained separately by collector.",
+    "parsing": "Require exact actual tool exit plus expected mode/status/cleanup and complete collector archive where applicable. A saved PASSED report alone cannot override a nonzero exit or finalization error."
+  },
+  "isolation_and_bounds": {
+    "before_creation": "Validate namespace difference, real directory descriptors opened O_DIRECTORY|O_NOFOLLOW, private/alias dev+ino equality, private/host inequality, directory0700/effective-UID ownership, TMPDIR device equality and existing output quota. Record mount evidence and require /dev ro, exact /dev/shm rw/tmpfs and alias ro.",
+    "host_absence": "Collector/root must read-only check wl-ipc-<token>.witness and sem.wl-ipc-<token> ABSENT on actual host /dev/shm before and after, bind host dev/ino into environment and preserve source/object readbacks. Probe cannot independently see hidden host backing. A preexisting host basename refuses admission; never delete it.",
+    "exclusive_creation": "First sem_open uses O_CREAT|O_EXCL,mode0600,value0. First NULL/EEXIST records failure without ownership and never unlinks. Second exclusive open of this probe's own existing semaphore must fail EEXIST; a returned handle is checked-close then fails the run.",
+    "nonblocking": "Exactly three sem_trywait calls and one sem_post. No sem_wait, timed/blocking wait, recursion, shell, subprocess, retries or service loop. Every unexpected return/errno fails.",
+    "cleanup": "Only a handle created by successful first exclusive open can be closed/unlinked. After close return failure or exception, unlink is attempted independently, conditioned on saved backing dev/ino, regular type, effective UID and single link. Missing/unproved identity or changed backing means no unlink and FAILED. No provider artifact cleanup.",
+    "cleanup_assumption": "Fresh private0700 filesystem, fresh token and no concurrent untrusted writer for this single-process probe are required. libc sem_unlink is name-based; the lstat-to-unlink identity check is not a whole-system race-proof claim against a malicious same-UID host actor.",
+    "footprint": "Existing output32MiB/1024inode budget is shared; no new mount or quota. One semaphore backing32bytes on pinned ABI, one20byte regular witness, one result<=8192bytes, bounded tool stdout<=8192bytes. Deliberate socket mode adds only its own closed socket pathname.",
+    "source_bounds": "libc hash at most16MiB+1read byte; mountinfo<=65536bytes/512lines/2048characters per line; UID/GID maps<=256bytes each; paths<=1024characters; error strings<=512characters; all loops over constants or admitted bounded data.",
+    "deadline": "Collector owns original180second tool/220second collector/240second outer limits, own scope, original memory/swap/reserve/admission and cleanup. Probe itself has no wait or deadline extension.",
+    "quota_controls": "verification_path owns separate ipc-cap-controls child entry point in ram_qualification_v4.py. No import/exec of collector source from this probe and no circular source hash."
+  },
+  "abi": {
+    "installed_libc": {
+      "path": "/usr/lib/libc.so.6",
+      "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+    },
+    "installed_headers": [
+      {
+        "path": "/usr/include/semaphore.h",
+        "sha256": "73e4216ba86feb346645ced5623e8de2c7b604f210f95f43ca832c929ed8879c",
+        "evidence": "line42 sem_open(const char*,int,...); close/unlink/post/trywait declarations"
+      },
+      {
+        "path": "/usr/include/bits/semaphore.h",
+        "sha256": "25dffadf3ee8deed4d1aac434f43ce468479c68ac3601d4aafa77f5db72a2115",
+        "evidence": "line26 SEM_FAILED ((sem_t*)0); __SIZEOF_SEM_T32"
+      },
+      {
+        "path": "/usr/include/bits/typesizes.h",
+        "sha256": "bc1bd0286ad232605bd7a48e516714ffd20a03c7fdfd8808ad96620449759342",
+        "evidence": "line54 __MODE_T_TYPE __U32_TYPE"
+      },
+      {
+        "path": "/usr/include/bits/types.h",
+        "sha256": "3fcf066dbf9fac9c5a15ff6327ca6a437e955e9aa571de1c3347cd0f4da4f93d",
+        "evidence": "line112 __U32_TYPE unsigned int; line150 __mode_t"
+      }
+    ],
+    "prototypes": "CDLL fixed absolute libc path,use_errno=True. sem_open.argtypes=[c_char_p,c_int], restype=c_void_p; explicit c_uint(mode),c_uint(value) for variadic arguments; NULL/None is the installed SEM_FAILED. sem_trywait/post/close(c_void_p)->c_int and sem_unlink(c_char_p)->c_int. errno captured immediately after meaningful failure returns.",
+    "rationale": "ctypes avoids an additional compiled helper/build and limits the native boundary to five declared libc APIs. Explicit types and pinned ABI reduce calling-convention uncertainty; they do not prove Python,libffi,libc or the kernel.",
+    "primary_documents": [
+      {
+        "url": "https://man7.org/linux/man-pages/man3/sem_open.3.html",
+        "evidence": "Variadic mode_t and unsigned int parameters; exclusive-create and errno semantics"
+      },
+      {
+        "url": "https://docs.python.org/3/library/ctypes.html",
+        "evidence": "Explicit fixed argument types for variadic calls and native signature correctness"
+      }
+    ]
+  },
+  "verification": {
+    "observed": "Static ast.parse only; no import or execution of probe.py",
+    "source_bytes": 17080,
+    "maximum_function_lines": 41,
+    "while_nodes": 0,
+    "witness_measurement": "len and SHA256 computed from literal during source-only inspection; corrects earlier coordination message's mistaken19byte hand-count",
+    "unproved": "All runtime results, actual native-call behavior, isolation/control success, cleanup and complete archive remain UNRUN/UNPROVEN. Independent source review and root synthetic failure checks pending.",
+    "next": "Root exact-source fake-libc checks; fresh nonauthor composed source review; only then explicit admitted mechanism package after storage terminal handoff. Retain old fixtures and every failure.",
+    "acceptance": "No product proof or Phase One/F7 credit from this source, static parse or mechanism-only probe."
+  }
+}

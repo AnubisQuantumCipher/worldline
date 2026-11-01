@@ -1,0 +1,9 @@
+{
+  "status": "REFUSED_BEFORE_STAGING",
+  "reason": "Root candidate publication helper used provisional400000byte per-file screen; preexisting decisions ledger exceeds it",
+  "path": "docs/decisions.md",
+  "observed_bytes": 539025,
+  "scope": "Publication packaging only; no mechanism resource limit or target guarantee changed",
+  "action": "Measure all explicit file sizes first and enforce an explicit aggregate publication allocation; retain original ledger whole",
+  "phase_acceptance": false
+}

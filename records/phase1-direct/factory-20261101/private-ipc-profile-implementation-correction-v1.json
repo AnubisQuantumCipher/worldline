@@ -1,0 +1,38 @@
+{
+  "author": "/root/verification_path",
+  "correction": "The six fixed mechanism guards require PYTHONOPTIMIZE exactly 0, not unset; retain PYTHONDONTWRITEBYTECODE exactly 1 and verify sys.flags.optimize == 0. The original recipe.environment statement that PYTHONOPTIMIZE must be unset is incorrect. This receipt supersedes only that documentary statement; it does not rewrite any earlier source, receipt or run.",
+  "corrects": {
+    "field": "recipe.environment",
+    "original_text": "Retain reviewed TMPDIR/XDG_CACHE_HOME, MemoryMax8GiB/swap0, lock/admission/stop/terminal-scope rules and source closure. v4 injects fixed PROBE_READONLY, PROBE_RAM_IPC, token, host dev/ino and parent ipc/mnt values into bwrap argv. PYTHONOPTIMIZE must be unset under existing strict launch evidence; all new checks are explicit require calls.",
+    "path": "records/phase1-direct/factory-20261101/private-ipc-profile-implementation-v1.json",
+    "sha256": "9f477319a6bd7d954e853d62bd4d74f4a0b4379bb52dbc73633b33907ead2fe0"
+  },
+  "exact_launch_environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONOPTIMIZE": "0",
+    "required_runtime_readback": "sys.flags.optimize == 0"
+  },
+  "launch_authorized": false,
+  "phase_acceptance": false,
+  "preserved": [
+    "private-ipc-profile-implementation-v1.json exact bytes",
+    "ram_qualification_v4.py exact bytes",
+    "All existing guards, runs, source files and receipts"
+  ],
+  "proof_credit": false,
+  "remaining_unproved": "Mechanism runtime qualification, proof and production acceptance are not established by this documentary correction.",
+  "schema": "worldline.phase1.private-ipc-profile-implementation-correction.v1",
+  "smallest_sound_next_step": "Root and independent reviewer read back this correction against the exact six guard environment predicates; retain separately required execution/result gates.",
+  "status": "DOCUMENTARY_CORRECTION_SOURCE_AND_RUNS_UNCHANGED",
+  "tool_provenance_correction": {
+    "field": "read_only_tool_preimages.gnatprove",
+    "original_readback": {
+      "bytes": 914,
+      "path": "/home/sicarii/.local/bin/ada-alire-wrapper",
+      "sha256": "3e1933fcd75c7889d4b89dcbef4cef8eb2f820d13a32d554d2abb4ad2de825c3"
+    },
+    "required_future_evidence": "A separately admitted proof diagnostic must record and review the actual selected toolchain executable/wrapper closure and exact source pins before execution; this preparer observation supplies no compiler/proof execution or qualification credit.",
+    "scope": "Read-only preparer PATH resolution/hash observation only. This gnatprove entry is the preparer PATH wrapper, not an actual future selected compiler/prover source or execution pin."
+  },
+  "verification": "Original receipt read and new correction JSON encoded/parsed; no source functions imported/executed, no launch, mount, compiler or proof job."
+}

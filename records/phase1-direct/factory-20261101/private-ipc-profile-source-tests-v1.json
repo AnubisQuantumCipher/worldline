@@ -1,0 +1,161 @@
+{
+  "utc": "2026-11-01T09:05:16.219299+00:00",
+  "source_sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716",
+  "tests": [
+    {
+      "case": "unchanged_17_definitions",
+      "changed": [
+        "inside",
+        "parent",
+        "sandbox",
+        "source_state"
+      ],
+      "unchanged": [
+        "LimitedWriter",
+        "UnsupportedArchiveEntry",
+        "cgroup",
+        "check_retained",
+        "chunk_command",
+        "digest",
+        "entry_details",
+        "failure_log",
+        "failure_record",
+        "inventory",
+        "mount_ram",
+        "negative_writer",
+        "probe_command",
+        "receipt_bytes",
+        "retain",
+        "retain_failure",
+        "save"
+      ],
+      "passed": true
+    },
+    {
+      "case": "emitted_sandbox_topology_and_deadline",
+      "argv": [
+        "bwrap",
+        "--die-with-parent",
+        "--unshare-pid",
+        "--unshare-net",
+        "--unshare-ipc",
+        "--ro-bind",
+        "/",
+        "/",
+        "--proc",
+        "/proc",
+        "--dev",
+        "/dev",
+        "--dir",
+        "/dev/shm",
+        "--bind",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-source-test-_p4q2nvz/ram/ipc",
+        "/dev/shm",
+        "--remount-ro",
+        "/dev",
+        "--setenv",
+        "PROBE_READONLY",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-source-test-_p4q2nvz",
+        "--setenv",
+        "PROBE_RAM_IPC",
+        "/home/sicarii/Work/worldline-phase1-direct-20261019/records/phase1-direct/factory-20261101/ipc-source-test-_p4q2nvz/ram/ipc",
+        "--setenv",
+        "PROBE_TOKEN",
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "--setenv",
+        "PROBE_HOST_SHM_DEV",
+        "1",
+        "--setenv",
+        "PROBE_HOST_SHM_INO",
+        "2",
+        "--setenv",
+        "PROBE_PARENT_IPC_NS",
+        "ipc:[3]",
+        "--setenv",
+        "PROBE_PARENT_MOUNT_NS",
+        "mnt:[4]",
+        "--",
+        "fixed-no-execution-command"
+      ],
+      "actual_subprocess": false,
+      "passed": true
+    },
+    {
+      "case": "mismatched_fixture_identity_preserved",
+      "passed": true
+    },
+    {
+      "case": "injected_byte_error_28",
+      "result": {
+        "passed": true,
+        "written_bytes": 4096,
+        "attempts": 2,
+        "attempt_bytes": 4096,
+        "refusal_errno": 28,
+        "cleanup_ok": true,
+        "errors": [],
+        "maximum_attempts": 3
+      },
+      "actual_quota_test": false,
+      "passed": true
+    },
+    {
+      "case": "injected_inode_error_28",
+      "result": {
+        "passed": true,
+        "created_files": 2,
+        "attempts": 3,
+        "refusal_errno": 28,
+        "directory_inodes": 1,
+        "maximum_file_attempts": 4,
+        "cleanup": {
+          "ok": true,
+          "error_count": 0,
+          "errors": []
+        },
+        "errors": []
+      },
+      "actual_quota_test": false,
+      "passed": true
+    },
+    {
+      "case": "injected_byte_error_13",
+      "result": {
+        "passed": false,
+        "written_bytes": 4096,
+        "attempts": 2,
+        "attempt_bytes": 4096,
+        "refusal_errno": 13,
+        "cleanup_ok": true,
+        "errors": [],
+        "maximum_attempts": 3
+      },
+      "actual_quota_test": false,
+      "passed": true
+    },
+    {
+      "case": "injected_inode_error_13",
+      "result": {
+        "passed": false,
+        "created_files": 2,
+        "attempts": 3,
+        "refusal_errno": 13,
+        "directory_inodes": 1,
+        "maximum_file_attempts": 4,
+        "cleanup": {
+          "ok": true,
+          "error_count": 0,
+          "errors": []
+        },
+        "errors": []
+      },
+      "actual_quota_test": false,
+      "passed": true
+    }
+  ],
+  "actual_IPC": false,
+  "actual_namespace": false,
+  "actual_quota": false,
+  "phase_acceptance": false,
+  "status": "TESTED_SOURCE_AND_INJECTED_ERRORS_ONLY"
+}

@@ -1,0 +1,45 @@
+{
+  "utc": "2026-11-01T08:53:21.844740+00:00",
+  "carrier": "/home/sicarii/Work/worldline-phase1-direct-20261019",
+  "head": "b15b6d921ecc95634b9233a6c2fc6719f346cdb4",
+  "tracked_changes": [],
+  "free_bytes": 12532080640,
+  "batch": {
+    "started": "2026-11-01T08:51:47.671495+00:00",
+    "path": "/home/sicarii/.cache/anubis-wt/target-esc/debug/vault-retained-binaries-05f1e52a2e6e49d1912dfb8a9d8832ef",
+    "state": "NATIVE_OFFLOAD_RUNNING",
+    "available_before": 12546711552,
+    "worker_pid": 245169,
+    "worker_terminal": false,
+    "worker_pid_exists": true,
+    "worker_pid_comm": "python3"
+  },
+  "operation": {
+    "started": "2026-11-01T08:52:59.072399+00:00",
+    "phase": "snapshots",
+    "arguments": [
+      "--no-cache",
+      "--tag",
+      "cold-a2c6ac88b15f4936a77ba41804783007",
+      "--json"
+    ],
+    "owner_pid": 245169,
+    "state": "running",
+    "pid": 253129,
+    "updated": "2026-11-01T08:53:19.118031+00:00",
+    "process_io": {
+      "rchar": "893594",
+      "wchar": "194",
+      "syscr": "3977",
+      "syscw": "3",
+      "read_bytes": "413696",
+      "write_bytes": "178",
+      "cancelled_write_bytes": "0"
+    },
+    "owner_pid_exists": true,
+    "owner_pid_comm": "python3",
+    "pid_exists": true,
+    "pid_comm": "restic"
+  },
+  "lock_observation": "HELD_NO_JOB_QUEUED"
+}

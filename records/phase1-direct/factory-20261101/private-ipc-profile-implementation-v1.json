@@ -1,0 +1,241 @@
+{
+  "acceptance_required": [
+    "Root completed-source review and control correspondence decision; fresh exact-source independent review",
+    "Root static/mocked argv/negative/error-contract checks including underlying semaphore probe failure and cleanup paths",
+    "Separate currently admitted mechanism executions for all six cases; exact expected tool/collector exit, cap controls, ordinary admission-refusal controls and leftover rejection",
+    "Host/source equality, no host shm artifacts, actual namespace/UID/mount/filesystem readback, full archive+restore for positive/identity-negative/sigkill cases, explicit LOST for deliberate socket case",
+    "Terminal owned-scope teardown, no live descendants/OOM/resource leak and unchanged caps; independent raw result readback"
+  ],
+  "author": "/root/verification_path",
+  "base_commit": "b15b6d921ecc95634b9233a6c2fc6719f346cdb4",
+  "control_correspondence": [
+    {
+      "expected_collector_exit": 0,
+      "expected_retention": "COMPLETE_VERIFIED",
+      "expected_tool_exit": [
+        0
+      ],
+      "mode": "ipc-probe",
+      "probe_mode": "normal",
+      "requires": "root/device writes denied; devnull write; private witness+alias identity; named sem exclusive create/post/consume/EAGAIN; independently checked close+owned unlink; no host witness/backing; uid/mount/ns readback"
+    },
+    {
+      "expected_collector_exit": 1,
+      "expected_retention": "COMPLETE_VERIFIED",
+      "expected_tool_exit": [
+        2
+      ],
+      "mode": "ipc-alias-mismatch",
+      "probe_mode": "alias-mismatch",
+      "requires": "Injected expected alias /dev enters same open_context and refuses at private identity before semaphore/witness/result-file creation. Retained bounded tool.stdout JSON error alias mismatch; exact fixed control receipt observed=true."
+    },
+    {
+      "expected_collector_exit": 1,
+      "expected_retention": "COMPLETE_VERIFIED",
+      "expected_tool_exit": [
+        2
+      ],
+      "mode": "ipc-namespace-mismatch",
+      "probe_mode": "namespace-mismatch",
+      "requires": "Injected expected parent IPC equals child enters same open_context and refuses at private identity before IPC creation. Bounded stdout error namespace shared; no report/witness/semaphore artifact."
+    },
+    {
+      "expected_collector_exit": 1,
+      "expected_retention": "LOST_EPHEMERAL_OUTPUTS",
+      "expected_tool_exit": [
+        0
+      ],
+      "mode": "ipc-leftover-socket",
+      "probe_mode": "leftover-socket",
+      "requires": "Exact tmp/leftover-<token>.sock initial lstat S_IFSOCK rejected by unchanged inventory; no complete archive claim, no deletion/type allowance/provider cleanup."
+    },
+    {
+      "expected_collector_exit": 0,
+      "expected_retention": "COMPLETE_VERIFIED",
+      "expected_tool_exit": [
+        0
+      ],
+      "mode": "ipc-cap-controls",
+      "probe_mode": "fixed v4 --cap-controls child",
+      "requires": "Independent context guard before writes; bounded byte ENOSPC and inode ENOSPC; exact owned regular fixture identity/removal checked; no ipc artifacts remain. No arbitrary external module import."
+    },
+    {
+      "expected_collector_exit": 0,
+      "expected_retention": "COMPLETE_VERIFIED",
+      "expected_tool_exit": [
+        -9,
+        137
+      ],
+      "mode": "ipc-sigkill",
+      "probe_mode": "sigkill",
+      "requires": "Same positive operations, cleaned semaphore and closed directories, fsynced exact SIGKILL_PREPARED report and witness retained/restored after intentional child SIGKILL. Root/device/host controls still required."
+    }
+  ],
+  "delta": {
+    "ast_identical_predecessor_definitions": [
+      "digest",
+      "save",
+      "cgroup",
+      "UnsupportedArchiveEntry",
+      "entry_details",
+      "receipt_bytes",
+      "failure_log",
+      "failure_record",
+      "retain_failure",
+      "inventory",
+      "LimitedWriter",
+      "retain",
+      "chunk_command",
+      "probe_command",
+      "mount_ram",
+      "negative_writer",
+      "check_retained"
+    ],
+    "changed_predecessor_definitions": [
+      "sandbox",
+      "inside",
+      "source_state",
+      "parent"
+    ],
+    "host_boundary": "Read-only host /dev/shm lstat identity and per-case token witness/semaphore basename absence saved before/after. Host path is never a writable bind source. Parent namespace identities, private probe uid/gid maps, mountinfo and filesystem identities retained in complete archive.",
+    "legacy_control": "Legacy probe_command including literal /dev/shm forbidden-write test remains AST-identical and unreachable from v4 CLI; its old-layout evidence remains scoped to that layout.",
+    "logging": "Immediate tool-result before post-tool inventory and all v3 bounded failure/log retention helpers are AST-identical.",
+    "new_topology": [
+      "Create ram/ipc mode0700 inside existing output tmpfs; same aggregate byte/inode quotas as tmp/cache/object output",
+      "bwrap adds mandatory --unshare-ipc with no fallback",
+      "Within private bwrap /dev: --dev /dev --dir /dev/shm --bind <ram>/ipc /dev/shm --remount-ro /dev; remount parent only, child alias must qualify as rw",
+      "Original --ro-bind / /, pid/net isolation, private outer user+mount namespace, tmp/cache/object overlays and all strict compiler flags retained"
+    ],
+    "output_names": "Each accepted mode uses new ram-qualification-<mode>-v4 leaf with exist_ok=False; legacy v2/v3 paths remain untouched.",
+    "source_binding": "External probe uses one fixed absolute repository-derived path, rejects a symlink/changed resolved path, checks exact SHA256 before launch and again in parent source_state after collection. No dynamic import/discovery."
+  },
+  "execution_not_performed": [
+    "No namespace, tmpfs, systemd, compiler, prover, semaphore, socket, quota fixture or probe launch",
+    "No mountpoints created; no existing file changed; no commit; no heavy lane acquisition"
+  ],
+  "execution_performed": [
+    "Python AST parsing and literal/source comparisons in preparer process; none of the v4 or probe source functions imported or executed",
+    "Read-only hashes/metadata of specified sources and installed executable files"
+  ],
+  "launch_authorized": false,
+  "mechanism_qualified": false,
+  "model_provenance": {
+    "boundary": "Requested reviewer/model label is not runtime or provider identity evidence",
+    "provider_attestation": "UNAVAILABLE",
+    "requested_effort": "high",
+    "requested_model": "gpt-6.1-sol",
+    "runtime_observed_model": "NOT_READ_BACK_IN_THIS_SOURCE_PREPARATION"
+  },
+  "ownership": [
+    "records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+    "records/phase1-direct/factory-20261101/private-ipc-profile-implementation-v1.json"
+  ],
+  "phase_acceptance": false,
+  "proof_credit": false,
+  "quota_fixture_bounds": {
+    "bytes": "4096-byte fixed writes, at most RAM_LIMIT//4096+1 attempts; maximum requested data is 32MiB plus one attempted block; accepts only actual ENOSPC, written<=RAM_LIMIT and checked own regular cleanup. Existing shared filesystem enforces aggregate cap, so earlier RAM/log allocations reduce available fixture space.",
+    "failure": "A byte-cap or cleanup failure refuses before inode fixtures. No provider artifact is removed. Unexpected errors, wrong errno, missing refusal or cleanup mismatch fail; outputs may remain for strict inventory/retention or explicit failure.",
+    "inodes": "One exclusive0700 fixture directory plus <=1024 exclusive regular file creation attempts; at most1025 requested inodes including failed final attempt, created-file identities list bounded1024. Accepts only ENOSPC plus all checked own file/directory cleanup. No recursive removal."
+  },
+  "read_only_tool_preimages": {
+    "bwrap": {
+      "bytes": 133648,
+      "path": "/usr/bin/bwrap",
+      "sha256": "3016d82c88481eeb15c1145ea82a591b11890faa6e957635b75bc148a1701e45"
+    },
+    "gnatprove": {
+      "bytes": 914,
+      "path": "/home/sicarii/.local/bin/ada-alire-wrapper",
+      "sha256": "3e1933fcd75c7889d4b89dcbef4cef8eb2f820d13a32d554d2abb4ad2de825c3"
+    },
+    "mount": {
+      "bytes": 133336,
+      "path": "/usr/bin/mount",
+      "sha256": "9f6eb9ecf4daed8fd3a4134a748eb10c695c909d438ceadbf18e8b3e15b82be2"
+    },
+    "preparer_python": {
+      "bytes": 67720,
+      "path": "/usr/bin/python3.14",
+      "sha256": "c6bc1ef497b896b7575c546b13f9bafe52e2066f184fdd3fec6af4b5b6349947"
+    },
+    "unshare": {
+      "bytes": 133560,
+      "path": "/usr/bin/unshare",
+      "sha256": "42578868785842e688633143b40a95f79a490aeab4af018571d359f8fe132009"
+    }
+  },
+  "recipe": {
+    "chunk": "chunk remains a separately admitted diagnostic after all mechanism cases accepted; unchanged strict GNATprove argv, fresh -v4 output; semaphore success does not establish Why3 socket cleanup.",
+    "entrypoint": "After root source review, fresh independent review and external storage terminal handoff ONLY: existing reviewed heavy wrapper/scope invokes python -B records/phase1-direct/completion-20261026/ram_qualification_v4.py <one fixed mode> with current exact environment/source closure. Root owns six fixed guards and scheduling; no new runner/policy supplied.",
+    "environment": "Retain reviewed TMPDIR/XDG_CACHE_HOME, MemoryMax8GiB/swap0, lock/admission/stop/terminal-scope rules and source closure. v4 injects fixed PROBE_READONLY, PROBE_RAM_IPC, token, host dev/ino and parent ipc/mnt values into bwrap argv. PYTHONOPTIMIZE must be unset under existing strict launch evidence; all new checks are explicit require calls.",
+    "required_mechanism_modes": [
+      "ipc-probe",
+      "ipc-alias-mismatch",
+      "ipc-namespace-mismatch",
+      "ipc-leftover-socket",
+      "ipc-cap-controls",
+      "ipc-sigkill"
+    ]
+  },
+  "remaining_limits": [
+    "Actual bwrap target/order/private alias behavior UNRUN and must fail closed if kernel/tool rejects it",
+    "New IPC namespace plus capped filesystem is not proof that every IPC allocation is tmpfs-accounted or whole-system noninterfering; cgroup boundary remains mandatory",
+    "Source pin checks have normal read/launch race assumptions of reviewed readonly host source; no provider identity attestation or production authorization is conferred",
+    "Normal Why3 socket removal remains unobserved; surviving sockets/links/FIFOs/special files still invalidate complete archive",
+    "Parent220s timeout retains existing external owned-scope descendant cleanup obligation; wrapper itself is not a replacement for that gate",
+    "No PhaseOne/F7/proof/runtime functional acceptance, production integration, or policy waiver from this source package"
+  ],
+  "schema": "worldline.phase1.private-ipc-profile-implementation.v1",
+  "source_pins": [
+    {
+      "bytes": 19090,
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v3.py",
+      "sha256": "6d65314d267d8845357487d931bb6c1819b3d81b2a9646ffefd9d19fab722095"
+    },
+    {
+      "bytes": 35034,
+      "path": "records/phase1-direct/completion-20261026/ram_qualification_v4.py",
+      "sha256": "2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716"
+    },
+    {
+      "bytes": 17080,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-probe-v1/probe.py",
+      "sha256": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693"
+    },
+    {
+      "bytes": 18174,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-next-package-v1.json",
+      "sha256": "1b4e7e035e6b73659916f2387f0b0d94f95cb8b1e0bd821e3bd7354f29f58313"
+    },
+    {
+      "bytes": 13160,
+      "path": "records/phase1-direct/factory-20261101/private-ipc-policy-review-v1.json",
+      "sha256": "df5c7f452147eaf39cca6fba8727126c3f2e852438efd96e60e2d803baa4ac48"
+    }
+  ],
+  "static_validation": {
+    "ast_parse": "PASSED",
+    "max_function_lines": 52,
+    "predecessor_required_definitions_ast_identical": true,
+    "probe_sha_matches_fixed_pin": true,
+    "runtime_import_or_mock_tests": "NOT_PERFORMED_BY_AUTHOR",
+    "while_nodes": 0,
+    "witness_literal_matches_probe": true
+  },
+  "status": "SOURCE_ONLY_IMPLEMENTED_RUNTIME_UNRUN_NOT_QUALIFIED",
+  "unchanged_budgets": {
+    "archive_limit_negative_fixture_bytes": 1024,
+    "archive_preallocated_ceiling_bytes": 8388608,
+    "collector_deadline_seconds": 220,
+    "disk_reserve_bytes": 10000000000,
+    "memory_max_bytes": 8589934592,
+    "memory_swap_max_bytes": 0,
+    "other_receipt_budget_bytes": 4194304,
+    "output_tmpfs_bytes": 33554432,
+    "output_tmpfs_inode_ceiling": 1024,
+    "restore_tmpfs_bytes": 33554432,
+    "restore_tmpfs_inode_ceiling": 1024,
+    "tool_deadline_seconds": 180,
+    "tool_kill_wait_seconds": 10
+  }
+}

@@ -2744,3 +2744,51 @@ mechanism-only qualification and independent raw-result review. No proof retry b
 prerequisites. Retained sockets still reject; normal provider unlink is unproved and no silent
 cleanup/type omission is allowed. The external storage owner has the next coordinated window.
 Reversal: abandon the unintegrated new profile and preserve all historical source/evidence.
+
+## D151 — Prepare and source-test the new private IPC qualification package
+
+Choose the minimal v3-derived collector v4 and a separate pinned semaphore probe.
+The alternatives were an unchanged failed compiler retry, namespace isolation alone,
+or widening host writes/omitting socket outputs. Those alternatives do not satisfy the
+original isolation and retention guarantees. The selected profile declares ram/ipc
+inside the existing 32MiB/1024-inode output filesystem, binds it into private /dev/shm,
+adds mandatory IPC namespace isolation, and keeps the recreated /dev parent read-only.
+No additional filesystem allowance, fallback, provider-artifact removal or type exception
+is introduced. The old source and old-layout shm-denial observation remain unchanged.
+
+Exact collector 2cb4bdc25dfec576c5117d303406193f1d8ad4b083946f7f5df874f0ca165716
+and probe 692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693
+have fresh nonauthor source approval b9b5011b3324fb94c1c859e36099b2c0e8930932db26fe21eb999dd89d44f4ef.
+Seventeen predecessor definitions, including archive/restore, inventory, failure capture,
+strict Chunk argv and old probe helpers, remain AST-identical. Six fixed guards differ
+from the reviewed guard v5 only in six literals each. These are source observations,
+not a proof of the new topology or permission to inherit old mechanism qualification.
+
+Root executed two bounded synthetic suites with explicit PYTHONOPTIMIZE=0 and
+PYTHONDONTWRITEBYTECODE=1, -B and -W error; both exit0. Fourteen grouped checks cover
+semaphore ownership/error contracts, emitted sandbox argv, fixture identity preservation,
+and injected ENOSPC versus EACCES with checked owned cleanup. No real libc semaphore,
+IPC socket, namespace, mount, quota exhaustion, compiler or prover ran. Source review
+found and corrected direct-validator-only negative fixtures: wrong expected identities
+now enter the same admission path as the positive case, before private writes.
+
+The required real cases are normal semaphore, wrong alias, wrong namespace, deliberately
+retained socket, shared byte/inode exhaustion, and cleaned-probe SIGKILL retention.
+All six are UNRUN. Their exact collector/tool/retention outcomes are fixed in the
+implementation and independent review receipts. A retained socket must still produce
+LOST_EPHEMERAL_OUTPUTS. A negative collector exit is not a positive mechanism pass.
+Each case requires fresh source/resource admission, current scope cleanup and independent
+raw readback; only their complete conjunction can qualify this new mechanism. A subsequent
+strict compiler diagnostic still requires separate admission and complete retained proof.
+
+The author preserved an incorrect documentary statement about unset PYTHONOPTIMIZE;
+private-ipc-profile-implementation-correction-v1.json explicitly corrects it to "0".
+The guards enforce optimization=0. Bytecode suppression=1 is an external launch evidence
+gate, also set by the existing heavy wrapper; do not claim a guard check that is absent.
+The preparer's PATH wrapper observation is not the future actual compiler pin.
+
+The external storage owner reports that its frozen 30-item batch has no safe pause
+interface and will hand over after it terminates, before the next batch. Root launches
+no job and does not take between-item lock gaps. Continue independent source work.
+No Phase One gate, proof or F7 state is promoted. Reversal is ceasing use of the new
+unintegrated profile while preserving its source, tests, reviews and earlier failures.

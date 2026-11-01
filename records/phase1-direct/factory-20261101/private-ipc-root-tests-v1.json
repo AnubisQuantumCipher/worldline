@@ -1,0 +1,111 @@
+{
+  "utc": "2026-11-01T09:01:26.838385+00:00",
+  "source_sha256": "692c99dd98d2da06087346b641236307fc1512aa7dd95a981cac48e2f7cc1693",
+  "tests": [
+    {
+      "case": "no_ownership_no_cleanup",
+      "passed": true
+    },
+    {
+      "case": "first_open_EEXIST_never_grants_cleanup",
+      "passed": true
+    },
+    {
+      "case": "normal_owned_cleanup",
+      "calls": [
+        "close",
+        "unlink"
+      ],
+      "result": {
+        "created": true,
+        "close": "OK",
+        "unlink": "OK",
+        "errors": [],
+        "backing_absent": true
+      },
+      "passed": true
+    },
+    {
+      "case": "close_failure_still_checks_unlink",
+      "calls": [
+        "close",
+        "unlink"
+      ],
+      "result": {
+        "created": true,
+        "close": "FAILED",
+        "unlink": "OK",
+        "errors": [
+          "sem_close errno=22"
+        ],
+        "backing_absent": true
+      },
+      "passed": true
+    },
+    {
+      "case": "identity_change_never_unlinks",
+      "calls": [
+        "close"
+      ],
+      "result": {
+        "created": true,
+        "close": "OK",
+        "unlink": "FAILED_OR_UNVERIFIED",
+        "errors": [
+          "owned semaphore identity changed; no unlink"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "case": "unlink_failure_is_not_success",
+      "calls": [
+        "close",
+        "unlink"
+      ],
+      "result": {
+        "created": true,
+        "close": "OK",
+        "unlink": "FAILED_OR_UNVERIFIED",
+        "errors": [
+          "sem_unlink errno=13"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "case": "trywait_exact_result_no_retry",
+      "outcomes": [
+        {
+          "result": -1,
+          "errno": 11,
+          "empty": true,
+          "accepted": true
+        },
+        {
+          "result": 0,
+          "errno": 0,
+          "empty": false,
+          "accepted": true
+        },
+        {
+          "result": -1,
+          "errno": 4,
+          "empty": true,
+          "accepted": false
+        },
+        {
+          "result": 0,
+          "errno": 0,
+          "empty": true,
+          "accepted": false
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "actual_IPC": false,
+  "mechanism_qualification": false,
+  "phase_acceptance": false,
+  "status": "TESTED_FAKE_LIBC_CONTRACTS_ONLY"
+}

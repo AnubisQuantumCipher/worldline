@@ -1,0 +1,10 @@
+{
+  "stage": "Update continuation after writing checkpoint-v3.json",
+  "error_type": "KeyError",
+  "key": "done",
+  "checkpoint_written": true,
+  "continuation_written": false,
+  "cause": "Root used a nonexistent continuation key without first verifying schema",
+  "proof_or_runtime_job": false,
+  "phase_acceptance": false
+}
