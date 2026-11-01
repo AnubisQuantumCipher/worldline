@@ -164,7 +164,9 @@
     "factory-20261101/ipc-mechanism-preflight-v1.json",
     "factory-20261101/ipc-probe-root-readback-v1.json",
     "factory-20261101/ipc-mechanism-result-review-v1.json",
-    "factory-20261101/ipc-storage-window-release-v1.json"
+    "factory-20261101/ipc-storage-window-release-v1.json",
+    "factory-20261101/publication-api-readback-v5.json",
+    "factory-20261101/publication-receipt-v5.json"
   ],
   "open": [
     "Raw decoder whole-unit strict proof completed in D130 and custody whole-unit flow completed in D132. Remaining whole-source inventory requires fresh reconciliation; whole custody numeric DecodeInto proof remains open.",
@@ -200,7 +202,7 @@
   "head_class": "d34c9b9 was HEAD at checkpoint formation. Following documentary commits carry this evidence; product source remains1d148820. Read publication receipt/live Git for current documentary HEAD.",
   "publication_receipt": "factory-20261101/publication-receipt-v4.json",
   "latest_continuation": "factory-20261101/checkpoint-v5.json",
-  "pending_publication": "D153-D154 actual failure/readback checkpoint preparing publication; prior e21db96 remains published HEAD.",
+  "pending_publication": "D153-D154 actual failed IPC checkpoint765158c6633b492aed564a414886d8d8d3510a75 published; remote/API exact bytes verified. Receipt-only followup may advance documentary HEAD; use live Git.",
   "remote_checkpoint": {
     "utc": "2026-10-26T16:50:15.173164+00:00",
     "commit": "70d3db9491b78df45a9f312305f4a69c65f6a3c4",
